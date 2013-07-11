@@ -19,3 +19,6 @@ tmp
 *.o
 *.so
 mkmf.log
+ext/types/*.c
+ext/narray_config.h
+ext/Makefile
