@@ -1,0 +1,26 @@
+define_type  "DFloat", "double"
+define_alias "Float64"
+define_real  "DFloat", "double"
+
+has_math    true
+is_bit      false
+is_int      false
+is_float    true
+is_complex  false
+is_object   false
+is_real     true
+is_comparable  true
+
+upcast "DComplex", "DComplex"
+upcast "SComplex", "DComplex"
+upcast "DFloat",   "DFloat"
+upcast "SFloat",   "DFloat"
+upcast "Int64",    "DFloat"
+upcast "Int32",    "DFloat"
+upcast "Int16",    "DFloat"
+upcast "Int8",     "DFloat"
+upcast "UInt64",   "DFloat"
+upcast "UInt32",   "DFloat"
+upcast "UInt16",   "DFloat"
+upcast "UInt8",    "DFloat"
+upcast "Complex",  "DComplex"

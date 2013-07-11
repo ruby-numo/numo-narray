@@ -1,0 +1,1 @@
+CLEANOBJS = *.o */*.o *.bak
