@@ -964,7 +964,7 @@ VALUE na_host_order_p( VALUE self )
 }
 
 
-VALUE na_in_place( VALUE self )
+VALUE na_inplace( VALUE self )
 {
     VALUE view = self;
     //view = na_clone(self);
@@ -972,13 +972,13 @@ VALUE na_in_place( VALUE self )
     return view;
 }
 
-VALUE na_in_place_bang( VALUE self )
+VALUE na_inplace_bang( VALUE self )
 {
     SET_INPLACE(self);
     return self;
 }
 
-VALUE na_in_place_store( VALUE self, VALUE val )
+VALUE na_inplace_store( VALUE self, VALUE val )
 {
     if (self==val)
         return self;
@@ -986,7 +986,7 @@ VALUE na_in_place_store( VALUE self, VALUE val )
         return na_store( self, val );
 }
 
-VALUE na_in_place_p( VALUE self )
+VALUE na_inplace_p( VALUE self )
 {
     if (TEST_INPLACE(self))
         return Qtrue;
@@ -1076,16 +1076,11 @@ Init_narray()
     rb_define_method(cNArray, "byte_swapped?", na_byte_swapped_p, 0);
     rb_define_method(cNArray, "host_order?", na_host_order_p, 0);
 
-    rb_define_method(cNArray, "in_place", na_in_place, 0);
-    rb_define_alias (cNArray, "inplace","in_place");
-    rb_define_method(cNArray, "in_place?", na_in_place_p, 0);
-    rb_define_alias (cNArray, "inplace?","in_place?");
-    rb_define_method(cNArray, "in_place!", na_in_place_bang, 0);
-    rb_define_alias (cNArray, "inplace!","in_place!");
+    rb_define_method(cNArray, "inplace", na_inplace, 0);
+    rb_define_method(cNArray, "inplace?", na_inplace_p, 0);
+    rb_define_method(cNArray, "inplace!", na_inplace_bang, 0);
     rb_define_method(cNArray, "out_of_place!", na_out_of_place_bang, 0);
-    rb_define_alias (cNArray, "not_in_place!", "out_of_place!");
     rb_define_alias (cNArray, "not_inplace!", "out_of_place!");
-
 
     rb_define_method(cNArray, "==", na_equal, 1);
 
