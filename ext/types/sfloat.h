@@ -5,6 +5,9 @@ typedef float rtype;
 
 #define m_min_init nary_sfloat_new_dim0(0.0/0.0)
 #define m_max_init nary_sfloat_new_dim0(0.0/0.0)
+
+#define m_extract(x) rb_float_new(*(float*)x)
+
 /*
 EXTERN double round(double);
 EXTERN double log2(double);

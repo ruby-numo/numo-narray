@@ -16,8 +16,6 @@ EXTERN double exp10(double);
 #define m_from_double(x) (x)
 #define m_from_real(x) (x)
 
-#define m_extract(x) rb_float_new(*(double*)x)
-
 #define m_add(x,y) ((x)+(y))
 #define m_sub(x,y) ((x)-(y))
 #define m_mul(x,y) ((x)*(y))
