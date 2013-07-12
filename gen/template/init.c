@@ -23,10 +23,6 @@ Init_nary_<%=tp%>()
     hCast = rb_hash_new();
     rb_define_const(cT, "UPCAST", hCast);
     rb_hash_aset(hCast, rb_cArray,   cT);
-    rb_hash_aset(hCast, rb_cFixnum,  cT);
-    rb_hash_aset(hCast, rb_cBignum,  cT);
-    rb_hash_aset(hCast, rb_cInteger, cT);
-    rb_hash_aset(hCast, rb_cFloat,   cT);
     <% for x in upcast %>
     <%=x%><% end %>
 }

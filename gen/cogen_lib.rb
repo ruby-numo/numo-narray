@@ -227,6 +227,15 @@ class Cogen
     end
   end
 
+  def upcast_rb(c,t="T")
+    if c=="Integer"
+      @upcast << "rb_hash_aset(hCast, rb_cFixnum, c#{t});"
+      @upcast << "rb_hash_aset(hCast, rb_cBignum, c#{t});"
+    else
+      @upcast << "rb_hash_aset(hCast, rb_c#{c}, c#{t});"
+    end
+  end
+
   def def_singleton(ope,n=0)
     Template.new(ope,ope).def_singleton(n)
   end

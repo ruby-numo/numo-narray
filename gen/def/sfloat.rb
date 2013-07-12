@@ -11,6 +11,10 @@ is_object   false
 is_real     true
 is_comparable  true
 
+upcast_rb "Integer"
+upcast_rb "Float"
+upcast_rb "Complex", "SComplex"
+
 upcast "DComplex", "DComplex"
 upcast "SComplex", "SComplex"
 upcast "DFloat",   "DFloat"
