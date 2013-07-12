@@ -14,6 +14,7 @@ step
 index
 ndloop
 data
+types/bit
 types/int8
 types/int16
 types/int32
@@ -26,7 +27,6 @@ types/sfloat
 types/dfloat
 types/scomplex
 types/dcomplex
-struct
 math
 SFMT
 rand

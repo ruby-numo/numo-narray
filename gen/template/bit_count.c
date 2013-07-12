@@ -12,7 +12,6 @@ static void
     size_t *idx1, *idx2;
     BIT_DIGIT x=0;
     int_t   y;
-    int_t  *p;
 
     INIT_COUNTER(lp, i);
     INIT_PTR_BIT(lp, 0, a1, p1, s1, idx1);

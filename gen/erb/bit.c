@@ -158,7 +158,7 @@ iter_bit_format(na_loop_t *const lp)
     size_t     p1;
     char      *p2;
     ssize_t    s1, s2;
-    ssize_t   *idx1, *idx2;
+    size_t    *idx1, *idx2;
     VALUE y;
     VALUE fmt = *(VALUE*)(lp->opt_ptr);
 
@@ -192,9 +192,9 @@ iter_bit_format_to_a(na_loop_t *const lp)
     size_t  i;
     BIT_DIGIT *a1, x=0;
     size_t     p1;
-    char      *p2;
-    ssize_t    s1, s2;
-    ssize_t   *idx1, *idx2;
+    //char      *p2;
+    ssize_t    s1; //, s2;
+    size_t   *idx1; //, *idx2;
     VALUE y;
     VALUE fmt = *(VALUE*)(lp->opt_ptr);
     volatile VALUE a;
@@ -289,11 +289,11 @@ void
 bit_cast_to_robj(na_loop_t *const lp)
 {
     size_t     i;
-    ssize_t    s1, s2;
-    size_t    *idx1, *idx2;
+    ssize_t    s1; //, s2;
+    size_t    *idx1; //, *idx2;
     BIT_DIGIT *a1;
     size_t     p1;
-    char      *p2;
+    //char      *p2;
     BIT_DIGIT  x=0;
     VALUE      y;
     volatile VALUE a;
@@ -532,7 +532,7 @@ iter_bit_where(na_loop_t *const lp)
 static VALUE
  nary_bit_where(VALUE self)
 {
-    volatile VALUE idx_1, opt;
+    volatile VALUE idx_1;
     ndfunc_t *func;
     size_t size, n_1;
     where_opt_t *g;
@@ -647,8 +647,7 @@ iter_bit_mask(na_loop_t *const lp)
 static VALUE
  nary_bit_mask(VALUE mask, VALUE val)
 {
-    VALUE result, opt;
-    VALUE vfalse = Qfalse;
+    VALUE result;
     ndfunc_t *func;
     size_t size;
     void **g;
