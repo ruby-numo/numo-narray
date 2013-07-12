@@ -32,7 +32,9 @@ static inline dtype c_set_imag(dtype x, rtype i) {
 
 static inline VALUE COMP2NUM(dtype x) {
     VALUE v;
-    v = rb_funcall(cComplex, rb_intern("new"), 2, rb_float_new(REAL(x)), rb_float_new(IMAG(x)));
+    //v = rb_funcall(cComplex, rb_intern("new"), 2, rb_float_new(REAL(x)), rb_float_new(IMAG(x)));
+    v = rb_funcall(rb_intern("Kernel"), rb_intern("Complex"), 2,
+                   rb_float_new(REAL(x)), rb_float_new(IMAG(x)));
     return v;
 }
 
