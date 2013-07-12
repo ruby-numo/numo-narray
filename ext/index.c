@@ -615,7 +615,7 @@ na_index_parse_each(volatile VALUE a, ssize_t size, int i, na_index_arg_t *q)
             n = end-beg+1;
             if (n<0) n=0;
 
-            puts("pass");
+            //puts("pass");
 
             na_index_set_step(q,i,n,beg,step);
         }

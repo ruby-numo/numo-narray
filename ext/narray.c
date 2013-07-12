@@ -1101,19 +1101,20 @@ Init_narray()
 
     Init_nary_data();
 
-    Init_nary_bit();
-    Init_nary_int8();
-    Init_nary_int16();
-    Init_nary_int32();
-    Init_nary_int64();
-    Init_nary_uint8();
-    Init_nary_uint16();
-    Init_nary_uint32();
-    Init_nary_uint64();
-    Init_nary_sfloat();
-    Init_nary_scomplex();
-    Init_nary_dfloat();
     Init_nary_dcomplex();
+    Init_nary_dfloat();
+    Init_nary_scomplex();
+    Init_nary_sfloat();
+
+    Init_nary_int64();
+    Init_nary_uint64();
+    Init_nary_int32();
+    Init_nary_uint32();
+    Init_nary_int16();
+    Init_nary_uint16();
+    Init_nary_int8();
+    Init_nary_uint8();
+    Init_nary_bit();
 
     Init_nary_math();
 
