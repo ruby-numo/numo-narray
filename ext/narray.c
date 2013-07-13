@@ -75,6 +75,86 @@ void Init_nary_dcomplex();
 void Init_nary_math();
 void Init_nary_rand();
 
+
+static void
+rb_narray_debug_info_nadata(VALUE self)
+{
+    narray_data_t *na;
+    GetNArrayData(self,na);
+
+    printf("  ptr    = 0x%"SZF"x\n", (size_t)(na->ptr));
+}
+
+
+static VALUE
+rb_narray_debug_info_naview(VALUE self)
+{
+    int i;
+    narray_view_t *na;
+    size_t *idx;
+    size_t j;
+    GetNArrayView(self,na);
+
+    printf("  data   = 0x%"SZF"x\n", (size_t)na->data);
+    printf("  offset = %"SZF"d\n", (size_t)na->offset);
+    printf("  stridx = 0x%"SZF"x\n", (size_t)na->stridx);
+
+    if (na->stridx) {
+        printf("  stridx = [");
+        for (i=0; i<na->base.ndim; i++) {
+            if (SDX_IS_INDEX(na->stridx[i])) {
+
+                idx = SDX_GET_INDEX(na->stridx[i]);
+                printf("  index[%d]=[", i);
+                for (j=0; j<na->base.shape[i]; j++) {
+                    printf(" %"SZF"d", idx[j]);
+                }
+                printf(" ] ");
+
+            } else {
+                printf(" %"SZF"d", SDX_GET_STRIDE(na->stridx[i]));
+            }
+        }
+        printf(" ]\n");
+    }
+    return Qnil;
+}
+
+
+VALUE
+rb_narray_debug_info(VALUE self)
+{
+    int i;
+    narray_t *na;
+    GetNArray(self,na);
+
+    printf("%s:\n",rb_class2name(CLASS_OF(self)));
+    printf("  id     = 0x%"SZF"x\n", self);
+    printf("  type   = %d\n", na->type);
+    printf("  flag   = [%d,%d]\n", na->flag[0], na->flag[1]);
+    printf("  size   = %"SZF"d\n", na->size);
+    printf("  ndim   = %d\n", na->ndim);
+    printf("  shape  = 0x%"SZF"x\n", (size_t)na->shape);
+    if (na->shape) {
+        printf("  shape  = [");
+        for (i=0;i<na->ndim;i++)
+            printf(" %"SZF"d", na->shape[i]);
+        printf(" ]\n");
+    }
+
+    switch(na->type) {
+    case NARRAY_DATA_T:
+    case NARRAY_FILEMAP_T:
+        rb_narray_debug_info_nadata(self);
+        break;
+    case NARRAY_VIEW_T:
+        rb_narray_debug_info_naview(self);
+        break;
+    }
+    return Qnil;
+}
+
+
 static void
 na_free(narray_data_t* na)
 {
@@ -103,6 +183,12 @@ na_free_view(narray_view_t* na)
             xfree(na->base.shape);
     }
     xfree(na);
+}
+
+static void
+na_mark_view(narray_view_t* na)
+{
+    rb_gc_mark(na->data);
 }
 
 VALUE
@@ -137,7 +223,7 @@ na_s_allocate_view(VALUE klass)
     na->data = Qnil;
     na->offset = 0;
     na->stridx = NULL;
-    return Data_Wrap_Struct(klass, 0, na_free_view, na);
+    return Data_Wrap_Struct(klass, na_mark_view, na_free_view, na);
 }
 
 
@@ -332,6 +418,7 @@ na_get_pointer_for_write(VALUE self)
     size_t bytesz;
     char *ptr=NULL;
     narray_t *na;
+
     GetNArray(self,na);
 
     if (OBJ_FROZEN(self)) {
@@ -675,83 +762,6 @@ na_make_view(VALUE self)
 
 
 
-static void
-rb_narray_debug_info_nadata(VALUE self)
-{
-    narray_data_t *na;
-    GetNArrayData(self,na);
-
-    printf("  ptr    = 0x%"SZF"x\n", (size_t)(na->ptr));
-}
-
-
-static VALUE
-rb_narray_debug_info_naview(VALUE self)
-{
-    int i;
-    narray_view_t *na;
-    size_t *idx;
-    size_t j;
-    GetNArrayView(self,na);
-
-    printf("  data   = 0x%"SZF"x\n", (size_t)na->data);
-    printf("  offset = %"SZF"d\n", (size_t)na->offset);
-    printf("  stridx = 0x%"SZF"x\n", (size_t)na->stridx);
-
-    if (na->stridx) {
-        printf("  stridx = [");
-        for (i=0; i<na->base.ndim; i++) {
-            if (SDX_IS_INDEX(na->stridx[i])) {
-
-                idx = SDX_GET_INDEX(na->stridx[i]);
-                printf("  index[%d]=[", i);
-                for (j=0; j<na->base.shape[i]; j++) {
-                    printf(" %"SZF"d", idx[j]);
-                }
-                printf(" ] ");
-
-            } else {
-                printf(" %"SZF"d", SDX_GET_STRIDE(na->stridx[i]));
-            }
-        }
-        printf(" ]\n");
-    }
-    return Qnil;
-}
-
-
-VALUE
-rb_narray_debug_info(VALUE self)
-{
-    int i;
-    narray_t *na;
-    GetNArray(self,na);
-
-    printf("%s:\n",rb_class2name(CLASS_OF(self)));
-    printf("  id     = 0x%"SZF"x\n", self);
-    printf("  type   = %d\n", na->type);
-    printf("  flag   = [%d,%d]\n", na->flag[0], na->flag[1]);
-    printf("  size   = %"SZF"d\n", na->size);
-    printf("  ndim   = %d\n", na->ndim);
-    printf("  shape  = 0x%"SZF"x\n", (size_t)na->shape);
-    if (na->shape) {
-        printf("  shape  = [");
-        for (i=0;i<na->ndim;i++)
-            printf(" %"SZF"d", na->shape[i]);
-        printf(" ]\n");
-    }
-
-    switch(na->type) {
-    case NARRAY_DATA_T:
-    case NARRAY_FILEMAP_T:
-        rb_narray_debug_info_nadata(self);
-        break;
-    case NARRAY_VIEW_T:
-        rb_narray_debug_info_naview(self);
-        break;
-    }
-    return Qnil;
-}
 
 
 VALUE
