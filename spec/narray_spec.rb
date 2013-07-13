@@ -124,6 +124,8 @@ types.each do |dtype|
       it{expect(@a[1,:*]).to eq @src[1]}
       it{expect(@a[:*,1]).to eq [@src[0][1],@src[1][1]]}
       it{expect(@a.sum).to eq 29}
+      it{expect(@a.sum(0)).to eq [6, 9, 14]}
+      it{expect(@a.sum(1)).to eq [6, 23]}
       #it{expect(@a.min).to eq 1}
       #it{expect(@a.max).to eq 11}
       it{expect(@a.copy.fill(12)).to eq [[12]*3]*2}
