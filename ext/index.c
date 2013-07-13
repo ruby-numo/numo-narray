@@ -39,7 +39,7 @@ print_index_arg(na_index_arg_t *q, int n)
         printf("  q[%d].beg=%"SZF"d\n",i,q[i].beg);
         printf("  q[%d].step=%"SZF"d\n",i,q[i].step);
         printf("  q[%d].idx=0x%"SZF"x\n",i,(size_t)q[i].idx);
-        printf("  q[%d].idx=0x%x\n",i,q[i].mark);
+        printf("  q[%d].mark=0x%x\n",i,q[i].mark);
         printf("  q[%d].orig_dim=%d\n",i,q[i].orig_dim);
     }
     printf("}\n");
@@ -718,6 +718,7 @@ na_index_aref_nadata(narray_data_t *na1, narray_view_t *na2,
 
         // numeric index -- trim dimension
         if (!keep_dim && q[i].n==1 && q[i].step==0) {
+            beg  = q[i].beg;
             na2->offset += stride1 * beg;
             continue;
         }
