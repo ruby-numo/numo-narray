@@ -384,7 +384,7 @@ na_alloc_data(VALUE self)
     GetNArray(self,na);
 
     if (NA_TYPE(na)==NARRAY_DATA_T) {
-        if (NA_DATA_PTR(na)==NULL) {
+        if (na->size>0 && NA_DATA_PTR(na)==NULL) {
             NA_DATA_PTR(na) = xmalloc(na->size*na_get_elmsz(self));
         }
     }

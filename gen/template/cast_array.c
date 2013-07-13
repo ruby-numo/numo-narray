@@ -57,15 +57,18 @@ static VALUE
     size_t *shape;
     VALUE tp, nary;
     ndfunc_t *func;
+    narray_t *na;
 
     shape = na_mdarray_investigate(rary, &nd, &tp);
     nary = rb_narray_new(cT, nd, shape);
-    na_alloc_data(nary);
     xfree(shape);
-    func = ndfunc_alloc(<%=c_iterator%>, FULL_LOOP,
-                        2, 0, Qnil, rb_cArray);
-    ndloop_cast_rarray_to_narray(func, rary, nary);
-    ndfunc_free(func);
+    GetNArray(nary,na);
+    if (na->size>0) {
+        na_alloc_data(nary);
+        func = ndfunc_alloc(<%=c_iterator%>, FULL_LOOP,
+                            2, 0, Qnil, rb_cArray);
+        ndloop_cast_rarray_to_narray(func, rary, nary);
+        ndfunc_free(func);
+    }
     return nary;
 }
-
