@@ -22,99 +22,57 @@ types = [
   NArray::UInt16,
   NArray::UInt8,
 ]
+#types = [NArray::DFloat]
+
 types.each do |dtype|
 
-  #describe dtype do
-  #  it{should be_kind_of Class}
-  #end
+  describe dtype  do
+    it{expect(dtype).to be < NArray}
+  end
 
   procs = [
-    [proc{|tp| tp.cast([1,2,3,5,7,11]) },""],
-    [proc{|tp| tp.cast([1,2,3,5,7,11])[true] },"[true]"],
-    [proc{|tp| tp.cast([1,2,3,5,7,11])[0..-1] },"[0..-1]"]
+    [proc{|tp| tp[1,2,3,5,7,11] },""],
+    [proc{|tp| tp[1,2,3,5,7,11][true] },"[true]"],
+    [proc{|tp| tp[1,2,3,5,7,11][0..-1] },"[0..-1]"]
   ]
   procs.each do |init,ref|
 
-    describe init.call(dtype) do
-      it{should be_kind_of dtype}
-      its(:size){should == 6}
-      its(:ndim){should == 1}
-      its(:shape){should == [6]}
-
-      it{should_not be_inplace}
-      it{should     be_row_major}
-      it{should_not be_column_major}
-      it{should     be_host_order}
-      it{should_not be_byte_swapped}
-
-      its(:to_a){should == [1,2,3,5,7,11]}
-      its(:to_a){should be_kind_of Array}
-      it{should == [1,2,3,5,7,11]}
-    end
-
-    #it "should be inspect ..." do
-    #  s = "#{dtype.to_s}( #shape=[6]\n[1, 2, 3, 5, 7, 11]\n)"
-    #  @a.inspect.should == s
-    #end
-
-    describe dtype,".cast([1,2,3,5,7,11])"+ref do
-      before do
+    describe dtype,"[1,2,3,5,7,11]"+ref do
+      before(:all) do
         @a = init.call(dtype)
       end
 
-      it "eq [1,1,3,3,7,7]" do
-        @a.eq([1,1,3,3,7,7]).should == [1,0,1,0,1,0]
-      end
+      it{expect(@a).to be_kind_of dtype}
+      it{expect(@a.size).to eq 6}
+      it{expect(@a.ndim).to eq 1}
+      it{expect(@a.shape).to eq [6]}
+      it{expect(@a).not_to be_inplace}
+      it{expect(@a).to     be_row_major}
+      it{expect(@a).not_to be_column_major}
+      it{expect(@a).to     be_host_order}
+      it{expect(@a).not_to be_byte_swapped}
+      it{expect(@a).to eq [1,2,3,5,7,11]}
+      it{expect(@a.to_a).to eq [1,2,3,5,7,11]}
+      it{expect(@a.to_a).to be_kind_of Array}
 
-      it "[3..4]" do
-        @a[3..4].should == [5,7]
-      end
+      it{expect(@a.eq([1,1,3,3,7,7])).to eq [1,0,1,0,1,0]}
+      it{expect(@a[3..4]).to eq [5,7]}
+      it{expect(@a['1::2']).to eq [2,5,11]}
+      it{expect(@a[5]).to eq 11}
+      it{expect(@a[-1]).to eq 11}
+      it{expect(@a.sum).to eq 29}
+      #it{expect(@a.min).to eq 1}
+      #it{expect(@a.max).to eq 11}
+      it{expect(@a.copy.fill(12)).to eq [12]*6}
+      it{expect((@a + 1)).to eq [2,3,4,6,8,12]}
+      it{expect((@a - 1)).to eq [0,1,2,4,6,10]}
+      it{expect((@a * 3)).to eq [3,6,9,15,21,33]}
+      it{expect((@a / 0.5)).to eq [2,4,6,10,14,22]}
+      it{expect((-@a)).to eq [-1,-2,-3,-5,-7,-11]}
+      it{expect((@a ** 2)).to eq [1,4,9,25,49,121]}
+      it{expect(@a.swap_byte.swap_byte).to eq [1,2,3,5,7,11]}
 
-      it "['1::2']" do
-        @a['1::2'].should == [2,5,11]
-      end
-
-      it "[5]" do
-        @a[5].should == 11
-      end
-
-      it "[-1]" do
-        @a[-1].should == 11
-      end
-
-      it ".sum" do
-        @a.sum.should == 29
-      end
-
-      it ".fill(12)" do
-        @a.fill(12).should == [12]*6
-      end
-
-      it "+ 1" do
-        (@a + 1).should == [2,3,4,6,8,12]
-      end
-
-      it "- 1" do
-        (@a - 1).should == [0,1,2,4,6,10]
-      end
-
-      it "* 3" do
-        (@a * 3).should == [3,6,9,15,21,33]
-      end
-
-      it "/ 0.5" do
-        (@a / 0.5).should == [2,4,6,10,14,22]
-      end
-
-      it "unary minus" do
-        (-@a).should == [-1,-2,-3,-5,-7,-11]
-      end
-
-      it "** 2" do
-        (@a ** 2).should == [1,4,9,25,49,121]
-      end
-
-      after do
+      after(:all) do
         @a = nil
       end
     end
@@ -125,4 +83,63 @@ types.each do |dtype|
   #    dtype.seq(5).should == [0,1,2,3,4]
   #  end
   #end
+
+  procs2 = [
+    [proc{|tp,src| tp[*src] },""],
+    [proc{|tp,src| tp[*src][true,true] },"[true,true]"],
+    [proc{|tp,src| tp[*src][0..-1,0..-1] },"[0..-1,0..-1]"]
+  ]
+  procs2.each do |init,ref|
+
+    describe dtype,'[[1,2,3],[5,7,11]]'+ref do
+      before(:all) do
+        @src = [[1,2,3],[5,7,11]]
+        @a = init.call(dtype,@src)
+      end
+
+      it{expect(@a).to be_kind_of dtype}
+      it{expect(@a.size).to eq 6}
+      it{expect(@a.ndim).to eq 2}
+      it{expect(@a.shape).to eq [2,3]}
+      it{expect(@a).not_to be_inplace}
+      it{expect(@a).to     be_row_major}
+      it{expect(@a).not_to be_column_major}
+      it{expect(@a).to     be_host_order}
+      it{expect(@a).not_to be_byte_swapped}
+      it{expect(@a).to eq @src}
+      it{expect(@a.to_a).to eq @src}
+      it{expect(@a.to_a).to be_kind_of Array}
+
+      it{expect(@a.eq([[1,1,3],[3,7,7]])).to eq [[1,0,1],[0,1,0]]}
+      it{expect(@a[5]).to eq 11}
+      it{expect(@a[-1]).to eq 11}
+      it{expect(@a[1,0]).to eq @src[1][0]}
+      it{expect(@a[1,1]).to eq @src[1][1]}
+      it{expect(@a[1,2]).to eq @src[1][2]}
+      it{expect(@a['1::2']).to eq [2,5,11]}
+      it{expect(@a[3..4]).to eq [5,7]}
+      it{expect(@a[0,1..2]).to eq [2,3]}
+      it{expect(@a['1,0::2']).to eq [5,11]}
+      it{expect(@a[0,:*]).to eq @src[0]}
+      it{expect(@a[1,:*]).to eq @src[1]}
+      it{expect(@a[:*,1]).to eq [@src[0][1],@src[1][1]]}
+      it{expect(@a.sum).to eq 29}
+      #it{expect(@a.min).to eq 1}
+      #it{expect(@a.max).to eq 11}
+      it{expect(@a.copy.fill(12)).to eq [[12]*3]*2}
+      it{expect((@a + 1)).to eq [[2,3,4],[6,8,12]]}
+      it{expect((@a - 1)).to eq [[0,1,2],[4,6,10]]}
+      it{expect((@a * 3)).to eq [[3,6,9],[15,21,33]]}
+      it{expect((@a / 0.5)).to eq [[2,4,6],[10,14,22]]}
+      it{expect((-@a)).to eq [[-1,-2,-3],[-5,-7,-11]]}
+      it{expect((@a ** 2)).to eq [[1,4,9],[25,49,121]]}
+      it{expect(@a.swap_byte.swap_byte).to eq @src}
+
+      after(:all) do
+        @a = nil
+      end
+    end
+
+  end
+
 end
