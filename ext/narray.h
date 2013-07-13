@@ -222,8 +222,8 @@ typedef union {
 typedef struct RNArrayView {
     narray_t base;
     VALUE    data;       // data object
-    size_t   offset;     // dataポインタから先頭データの位置へのオフセット
-                         // : elm.unit_bits を単位とする
+    size_t   offset;     // offset of start point from data pointer
+                         // :in units of elm.unit_bits
                          // address_unit  pointer_unit access_unit data_unit
                          // elm.step_unit = elm.bit_size / elm.access_unit
                          // elm.step_unit = elm.size_bits / elm.unit_bits
