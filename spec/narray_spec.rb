@@ -31,16 +31,18 @@ types.each do |dtype|
   end
 
   procs = [
-    [proc{|tp| tp[1,2,3,5,7,11] },""],
-    [proc{|tp| tp[1,2,3,5,7,11][true] },"[true]"],
-    [proc{|tp| tp[1,2,3,5,7,11][0..-1] },"[0..-1]"]
+    [proc{|tp,a| tp[*a] },""],
+    [proc{|tp,a| tp[*a][true] },"[true]"],
+    [proc{|tp,a| tp[*a][0..-1] },"[0..-1]"]
   ]
   procs.each do |init,ref|
 
     describe dtype,"[1,2,3,5,7,11]"+ref do
       before(:all) do
-        @a = init.call(dtype)
+        @src = [1,2,3,5,7,11]
+        @a = init.call(dtype,@src)
       end
+      #context :focus=>true do
 
       it{expect(@a).to be_kind_of dtype}
       it{expect(@a.size).to eq 6}
@@ -60,9 +62,8 @@ types.each do |dtype|
       it{expect(@a['1::2']).to eq [2,5,11]}
       it{expect(@a[5]).to eq 11}
       it{expect(@a[-1]).to eq 11}
+      it{expect(@a[[4,3,0,1,5,2]]).to eq [7,5,1,2,11,3]}
       it{expect(@a.sum).to eq 29}
-      #it{expect(@a.min).to eq 1}
-      #it{expect(@a.max).to eq 11}
       it{expect(@a.copy.fill(12)).to eq [12]*6}
       it{expect((@a + 1)).to eq [2,3,4,6,8,12]}
       it{expect((@a - 1)).to eq [0,1,2,4,6,10]}
@@ -71,11 +72,27 @@ types.each do |dtype|
       it{expect((-@a)).to eq [-1,-2,-3,-5,-7,-11]}
       it{expect((@a ** 2)).to eq [1,4,9,25,49,121]}
       it{expect(@a.swap_byte.swap_byte).to eq [1,2,3,5,7,11]}
-
-      after(:all) do
-        @a = nil
+      if dtype == NArray::DComplex || dtype == NArray::SComplex
+        it{expect(@a.real).to eq @src}
+        it{expect(@a.imag).to eq [0]*6}
+        it{expect(@a.conj).to eq @src}
+        it{expect(@a.angle).to eq [0]*6}
+      else
+        it{expect(@a.min).to eq 1}
+        it{expect(@a.max).to eq 11}
+        it{expect((@a >= 3)).to eq [0,0,1,1,1,1]}
+        it{expect((@a >  3)).to eq [0,0,0,1,1,1]}
+        it{expect((@a <= 3)).to eq [1,1,1,0,0,0]}
+        it{expect((@a <  3)).to eq [1,1,0,0,0,0]}
+        it{expect((@a.eq 3)).to eq [0,0,1,0,0,0]}
+        it{expect(@a.sort).to eq @src}
+        it{expect(@a.sort_index).to eq (0..5).to_a}
       end
     end
+  end
+
+  describe dtype, '[1..4]' do
+    it{expect(dtype[1..4]).to eq [1,2,3,4]}
   end
 
   #describe dtype, ".seq(5)" do
@@ -96,6 +113,7 @@ types.each do |dtype|
         @src = [[1,2,3],[5,7,11]]
         @a = init.call(dtype,@src)
       end
+      #context :focus=>true do
 
       it{expect(@a).to be_kind_of dtype}
       it{expect(@a.size).to eq 6}
@@ -123,6 +141,7 @@ types.each do |dtype|
       it{expect(@a[0,:*]).to eq @src[0]}
       it{expect(@a[1,:*]).to eq @src[1]}
       it{expect(@a[:*,1]).to eq [@src[0][1],@src[1][1]]}
+      it{expect(@a[true,[2,0,1]]).to eq [[3,1,2],[11,5,7]]}
       it{expect(@a.reshape(3,2)).to eq [[1,2],[3,5],[7,11]]}
       it{expect(@a.reshape(3,nil)).to eq [[1,2],[3,5],[7,11]]}
       it{expect(@a.reshape(nil,2)).to eq [[1,2],[3,5],[7,11]]}
@@ -132,8 +151,22 @@ types.each do |dtype|
       it{expect(@a.sum).to eq 29}
       it{expect(@a.sum(0)).to eq [6, 9, 14]}
       it{expect(@a.sum(1)).to eq [6, 23]}
-      #it{expect(@a.min).to eq 1}
-      #it{expect(@a.max).to eq 11}
+      if dtype == NArray::DComplex || dtype == NArray::SComplex
+        it{expect(@a.real).to eq @src}
+        it{expect(@a.imag).to eq [[0]*3]*2}
+        it{expect(@a.conj).to eq @src}
+        it{expect(@a.angle).to eq [[0]*3]*2}
+      else
+        it{expect(@a.min).to eq 1}
+        it{expect(@a.max).to eq 11}
+        it{expect((@a >= 3)).to eq [[0,0,1],[1,1,1]]}
+        it{expect((@a >  3)).to eq [[0,0,0],[1,1,1]]}
+        it{expect((@a <= 3)).to eq [[1,1,1],[0,0,0]]}
+        it{expect((@a <  3)).to eq [[1,1,0],[0,0,0]]}
+        it{expect((@a.eq 3)).to eq [[0,0,1],[0,0,0]]}
+        it{expect(@a.sort).to eq @src}
+        it{expect(@a.sort_index).to eq [[0,1,2],[3,4,5]]}
+      end
       it{expect(@a.copy.fill(12)).to eq [[12]*3]*2}
       it{expect((@a + 1)).to eq [[2,3,4],[6,8,12]]}
       it{expect((@a - 1)).to eq [[0,1,2],[4,6,10]]}
@@ -142,10 +175,6 @@ types.each do |dtype|
       it{expect((-@a)).to eq [[-1,-2,-3],[-5,-7,-11]]}
       it{expect((@a ** 2)).to eq [[1,4,9],[25,49,121]]}
       it{expect(@a.swap_byte.swap_byte).to eq @src}
-
-      after(:all) do
-        @a = nil
-      end
     end
 
   end
