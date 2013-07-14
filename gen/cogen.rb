@@ -81,6 +81,8 @@ if is_float
 else
   def_alias "nearly_eq", "eq"
 end
+def_alias "close_to", "nearly_eq"
+
 
 # int
 if is_int
