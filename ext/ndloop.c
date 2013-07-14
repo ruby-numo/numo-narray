@@ -410,7 +410,7 @@ ndloop_set_stepidx(na_md_loop_t *lp, int j, narray_t *na, int *dim_map)
 
     switch(NA_TYPE(na)) {
     case NARRAY_DATA_T:
-        if (NA_DATA_PTR(na)==NULL) {
+        if (NA_DATA_PTR(na)==NULL && NA_SIZE(na)>0) {
             rb_bug("cannot read no-data NArray");
             rb_raise(rb_eRuntimeError,"cannot read no-data NArray");
         }
