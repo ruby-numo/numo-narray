@@ -14,34 +14,6 @@
 
 #include "template.h"
 
-/*
-VALUE cDFloat, cDComplex;
-VALUE cInt32, cInt24, cInt16, cInt8;
-VALUE cUInt32, cUInt24, cUInt16, cUInt8;
-VALUE cInt64, cInt48;
-VALUE cUInt64, cUInt48;
-VALUE cBit, cRObject;
-VALUE cPointer;
-
-VALUE cComplex;
-
-ID id_add;
-ID id_sub;
-ID id_mul;
-ID id_div;
-ID id_mod;
-ID id_pow;
-ID id_bit_and;
-ID id_bit_or;
-ID id_bit_xor;
-ID id_eq;
-ID id_ne;
-ID id_gt;
-ID id_ge;
-ID id_lt;
-ID id_le;
-
-*/
 
 
 VALUE
@@ -84,110 +56,8 @@ nary_coerce(VALUE x, VALUE y)
 }
 
 
-/*
-VALUE
-na_dispatch_operation(VALUE self, VALUE other, ID opid)
-{
-    VALUE type;
-    type = nary_s_upcast(CLASS_OF(self), CLASS_OF(other));
-    if (rb_obj_is_kind_of(type, rb_cClass)) {
-        if (RTEST(rb_class_inherited_p(type, cNArray))) {
-	    return rb_funcall(type, opid, 2, self, other);
-	}
-    }
-    rb_raise(nary_eCastError, "upcast failed for %s and %s",
-	     rb_class2name(CLASS_OF(self)),rb_class2name(CLASS_OF(other)));
-    return Qnil;
-}
-
-#define DISPATCH_FUNC(opname)				\
- VALUE na_##opname(VALUE self, VALUE other)		\
- {  na_dispatch_operation(self, other, id_##opname); }\
-
-DISPATCH_FUNC(add)
-DISPATCH_FUNC(sub)
-DISPATCH_FUNC(mul)
-DISPATCH_FUNC(div)
-DISPATCH_FUNC(mod)
-//DISPATCH_FUNC(pow)
-DISPATCH_FUNC(eq)
-DISPATCH_FUNC(ne)
-DISPATCH_FUNC(gt)
-DISPATCH_FUNC(ge)
-DISPATCH_FUNC(lt)
-DISPATCH_FUNC(le)
-DISPATCH_FUNC(bit_and)
-DISPATCH_FUNC(bit_or)
-DISPATCH_FUNC(bit_xor)
-
-
-VALUE
-na_pow(VALUE self, VALUE other)
-{
-    VALUE type;
-    if (rb_obj_is_kind_of(other,cInt32)) {
-        return rb_funcall(CLASS_OF(self), id_pow, 2, self, other);
-    } else {
-        type = nary_s_upcast(CLASS_OF(self), CLASS_OF(other));
-	if (rb_obj_is_kind_of(type, rb_cClass)) {
-	    if (RTEST(rb_class_inherited_p(type, cNArray))) {
-	      return rb_funcall(type, id_pow, 2, self, other);
-	    }
-	}
-    }
-    rb_raise(nary_eCastError, "upcast failed for %s and %s",
-	     rb_class2name(CLASS_OF(self)),rb_class2name(CLASS_OF(other)));
-    return Qnil;
-}
-*/
 
 // ---------------------------------------------------------------------
-
-#if 0
-#define UNITDATA ssize_t
-
-void
-iter_copy_bytes(na_loop_t *const lp)
-{
-    size_t  i, s1, s2;
-    char   *p1, *p2;
-    char   *q1, *q2;
-    size_t *idx1, *idx2;
-    size_t  j, e;
-
-    INIT_COUNTER(lp, i);
-    INIT_PTR(lp, 0, p1, s1, idx1);
-    INIT_PTR(lp, 1, p2, s2, idx2);
-    e = lp->args[0].elmsz;
-    for (; i--;) {
-        if (idx1) {
-            q1 = p1 + *idx1;
-            idx1++;
-        } else {
-            q1 = p1;
-            p1 += s1;
-        }
-        if (idx2) {
-            q2 = p2 + *idx2;
-            idx2++;
-        } else {
-            q2 = p2;
-            p2 += s2;
-        }
-        for (j=e; j>=sizeof(UNITDATA); j-=sizeof(UNITDATA)) {
-            *(UNITDATA*)q2 = *(UNITDATA*)q1;
-            //*(UNITDATA*)q1 = *(UNITDATA*)q2;
-            q1 += sizeof(UNITDATA);
-            q2 += sizeof(UNITDATA);
-        }
-        for (; j--;) {
-            *q2++ = *q1++;
-            //*q1++ = *q2++;
-        }
-    }
-}
-#endif
-
 
 void
 iter_copy_bytes(na_loop_t *const lp)
@@ -235,8 +105,6 @@ na_copy(VALUE self)
 }
 
 
-
-
 VALUE
 na_store(VALUE self, VALUE src)
 {
@@ -254,55 +122,6 @@ na_store(VALUE self, VALUE src)
     ndfunc_free(func);
     return self;
 }
-
-// ---------------------------------------------------------------------
-
-/*
-VALUE
-na_flatten(VALUE self)
-{
-    volatile VALUE v;
-    size_t *shape;
-    narray_t *na;
-
-    v = na_copy(self);
-    GetNArray(v,na);
-
-    if (na->ndim > 1) {
-        shape = na->shape;
-        na->shape = &(na->size);
-        na->ndim = 1;
-        if (shape && shape!=&(na->size)) {
-            xfree(shape);
-        }
-    }
-    return v;
-}
-*/
-
-// ---------------------------------------------------------------------
-
- /*
-static VALUE
-nary_byte_size(VALUE self)
-{
-    VALUE velmsz;
-    narray_t *na;
-    size_t sz;
-
-    GetNArray(self,na);
-    velmsz = rb_const_get(CLASS_OF(self), rb_intern(ELEMENT_BYTE_SIZE));
-    sz = SIZE2NUM(NUM2SIZE(velmsz) * na->size);
-    return sz;
-}
-
-
-static VALUE
-nary_s_byte_size(VALUE type)
-{
-    return rb_const_get(type, rb_intern(ELEMENT_BYTE_SIZE));
-}
- */
 
 // ---------------------------------------------------------------------
 
@@ -406,9 +225,6 @@ nary_to_swapped(VALUE self)
 //----------------------------------------------------------------------
 
 
-
-
-
 VALUE
 na_transpose_map(VALUE self, int *map)
 {
@@ -503,6 +319,62 @@ na_transpose(int argc, VALUE *argv, VALUE self)
     xfree(map);
     return view;
 }
+
+//----------------------------------------------------------------------
+
+/* private function for reshape */
+static VALUE
+na_reshape(int argc, VALUE *argv, VALUE self)
+{
+    int    i, unfixed=-1;
+    size_t total=1;
+    size_t *shape, *shape_save;
+    narray_t *na;
+    VALUE    copy;
+
+    if (argc == 0) {
+        rb_raise(rb_eRuntimeError, "No argrument");
+    }
+    GetNArray(self,na);
+    if (NA_SIZE(na) == 0) {
+        rb_raise(rb_eRuntimeError, "cannot reshape empty array");
+    }
+
+    /* get shape from argument */
+    shape = ALLOCA_N(size_t,argc);
+    for (i=0; i<argc; ++i) {
+        switch(TYPE(argv[i])) {
+        case T_FIXNUM:
+            total *= shape[i] = NUM2INT(argv[i]);
+            break;
+        case T_NIL:
+        case T_TRUE:
+            unfixed = i;
+            break;
+        default:
+            rb_raise(rb_eArgError,"illegal type");
+        }
+    }
+
+    if (unfixed>=0) {
+        if (NA_SIZE(na) % total != 0)
+            rb_raise(rb_eArgError, "Total size size must be divisor");
+        shape[unfixed] = NA_SIZE(na) / total;
+    }
+    else if (total !=  NA_SIZE(na)) {
+        rb_raise(rb_eArgError, "Total size must be same");
+    }
+
+    copy = na_copy(self);
+    GetNArray(copy,na);
+    shape_save = NA_SHAPE(na);
+    na_setup_shape(na,argc,shape);
+    if (NA_SHAPE(na) != shape_save) {
+        xfree(shape_save);
+    }
+    return copy;
+}
+
 
 //----------------------------------------------------------------------
 
@@ -850,7 +722,6 @@ na_median_main(int argc, VALUE *argv, volatile VALUE self, na_iter_func_t iter_f
 }
 
 
-
 //----------------------------------------------------------------------
 
 static void
@@ -1017,24 +888,6 @@ na_sort_index_main(int argc, VALUE *argv, VALUE self,
 void
 Init_nary_data()
 {
-    /*
-    //cDataTypeClassMethod = rb_define_module_under(mNum, "DataTypeClassMethod");
-
-    rb_define_const(cNArray, "UPCAST", rb_hash_new());
-
-    //rb_define_singleton_method(cNArray, "bit_step", nary_s_bit_step, 0);
-    //rb_define_singleton_method(cNArray, "bit_size", nary_s_bit_size, 0);
-    //rb_define_singleton_method(cNArray, "byte_size", nary_s_byte_size, 0);
-    rb_define_singleton_method(cNArray, "cast", nary_s_cast, 1);
-    rb_define_singleton_method(cNArray, "_cast", nary_s__cast, 1);
-    rb_define_singleton_method(cNArray, "upcast", nary_s_upcast, 1);
-    rb_define_singleton_method(cNArray, "cast_type", nary_s_upcast, 1);
-    */
-
-  /*
-    rb_define_singleton_method(cNArray, "byte_size", nary_s_byte_size, 0);
-  */
-
     rb_define_method(cNArray, "coerce", nary_coerce, 1);
 
     rb_define_method(cNArray, "copy", na_copy, 0);
@@ -1043,40 +896,10 @@ Init_nary_data()
     rb_define_method(cNArray, "flatten", na_flatten, 0);
     rb_define_method(cNArray, "transpose", na_transpose, -1);
 
-    /*
     rb_define_method(cNArray, "reshape", na_reshape,-1);
+    /*
     rb_define_method(cNArray, "reshape!", na_reshape_bang,-1);
     rb_define_alias(cNArray,  "shape=","reshape!");
-    */
-
-    /*
-    rb_define_method(cNArray, "cast_to", nary_cast_to, 1);
-    rb_define_method(cNArray, "_cast_to", nary__cast_to, 1);
-
-    rb_define_method(cNArray, "+",  na_add, 1);
-    rb_define_method(cNArray, "-",  na_sub, 1);
-    rb_define_method(cNArray, "*",  na_mul, 1);
-    rb_define_method(cNArray, "/",  na_div, 1);
-    rb_define_method(cNArray, "%",  na_mod, 1);
-    rb_define_method(cNArray, "**", na_pow, 1);
-    rb_define_method(cNArray, "&",  na_bit_and, 1);
-    rb_define_method(cNArray, "|",  na_bit_or,  1);
-    rb_define_method(cNArray, "^",  na_bit_xor, 1);
-    rb_define_method(cNArray, "and",na_bit_and, 1);
-    rb_define_method(cNArray, "or", na_bit_or,  1);
-    rb_define_method(cNArray, "xor",na_bit_xor, 1);
-    rb_define_method(cNArray, "eq", na_eq, 1);
-    rb_define_method(cNArray, "ne", na_ne, 1);
-    rb_define_method(cNArray, "gt", na_gt, 1);
-    rb_define_method(cNArray, "ge", na_ge, 1);
-    rb_define_method(cNArray, "lt", na_lt, 1);
-    rb_define_method(cNArray, "le", na_le, 1);
-    rb_define_method(cNArray, ">",  na_gt, 1);
-    rb_define_method(cNArray, ">=", na_ge, 1);
-    rb_define_method(cNArray, "<",  na_lt, 1);
-    rb_define_method(cNArray, "<=", na_le, 1);
-
-    rb_define_method(cNArray, "byte_size",  nary_byte_size, 0);
     */
 
     rb_define_method(cNArray, "swap_byte", nary_swap_byte, 0);
@@ -1119,46 +942,4 @@ Init_nary_data()
     id_mark = rb_intern("mark");
     id_info = rb_intern("info");
 
-    /*
-    cDFloat = rb_define_class_under(mNum, "DFloat", cNArray);
-    rb_define_const(mNum, "Float64", cDFloat);
-
-    cDComplex = rb_define_class_under(mNum, "DComplex", cNArray);
-    rb_define_const(mNum, "Complex128", cDComplex);
-
-    cInt32 = rb_define_class_under(mNum, "Int32", cNArray);
-    cInt24 = rb_define_class_under(mNum, "Int24", cInt32);
-    cInt16 = rb_define_class_under(mNum, "Int16", cInt32);
-    cInt8  = rb_define_class_under(mNum, "Int8",  cInt32);
-
-    cUInt32 = rb_define_class_under(mNum, "UInt32", cInt32);
-    cUInt24 = rb_define_class_under(mNum, "UInt24", cUInt32);
-    cUInt16 = rb_define_class_under(mNum, "UInt16", cUInt32);
-    cUInt8  = rb_define_class_under(mNum, "UInt8",  cUInt32);
-
-    cInt64  = rb_define_class_under(mNum, "Int64", cNArray);
-    cInt48  = rb_define_class_under(mNum, "Int48", cInt64);
-    cUInt64 = rb_define_class_under(mNum, "UInt64", cInt64);
-    cUInt48 = rb_define_class_under(mNum, "UInt48", cUInt64);
-
-    cBit     = rb_define_class_under(mNum, "Bit",   cNArray);
-    cRObject = rb_define_class_under(mNum, "RObject", cNArray);
-
-    cPointer = rb_define_class_under(mNum, "Pointer", cNArray);
-
-    rb_require("complex");
-    cComplex = rb_const_get(rb_cObject, rb_intern("Complex"));
-
-    Init_math();
-
-    Init_dfloat();
-    Init_bit();
-    Init_int32();
-    Init_uint32();
-    Init_int64();
-    Init_dcomplex();
-    Init_robject();
-    Init_nstruct();
-    Init_pointer();
-    */
 }

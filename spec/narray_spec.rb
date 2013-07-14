@@ -123,6 +123,12 @@ types.each do |dtype|
       it{expect(@a[0,:*]).to eq @src[0]}
       it{expect(@a[1,:*]).to eq @src[1]}
       it{expect(@a[:*,1]).to eq [@src[0][1],@src[1][1]]}
+      it{expect(@a.reshape(3,2)).to eq [[1,2],[3,5],[7,11]]}
+      it{expect(@a.reshape(3,nil)).to eq [[1,2],[3,5],[7,11]]}
+      it{expect(@a.reshape(nil,2)).to eq [[1,2],[3,5],[7,11]]}
+      it{expect(@a.transpose).to eq [[1,5],[2,7],[3,11]]}
+      it{expect(@a.transpose(1,0)).to eq [[1,5],[2,7],[3,11]]}
+
       it{expect(@a.sum).to eq 29}
       it{expect(@a.sum(0)).to eq [6, 9, 14]}
       it{expect(@a.sum(1)).to eq [6, 23]}
