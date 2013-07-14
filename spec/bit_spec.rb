@@ -35,7 +35,16 @@ procs.each do |init,ref|
     it{expect(@a | 1).to eq [1]*@n}
     it{expect(@a ^ 0).to eq @src.map{|x| x^0}}
     it{expect(@a ^ 1).to eq @src.map{|x| x^1}}
-    #it{expect(~@a).to be eq @src.map{|x| ~x}}
+    it{expect(~@a).to eq @src.map{|x| 1-x}}
+
+    it{expect(@a.count_true).to eq 4}
+    it{expect(@a.count_false).to eq 4}
+    it{expect(@a.where).to eq [1,2,4,7]}
+    #it{expect(@a.where2).to eq [[1,2,4,7],[0,3,5,6]]}
+    it{expect(@a.mask(NArray::DFloat[1,2,3,4,5,6,7,8])).to eq [2,3,5,8]}
+    it{expect(@a).not_to be_all}
+    it{expect(@a).to     be_any}
+    it{expect(@a).not_to be_none}
 
     after(:all) do
       @a = nil
@@ -69,6 +78,15 @@ procs.each do |init,ref|
     it{expect(@a[0,:*]).to eq @src[0]}
     it{expect(@a[1,:*]).to eq @src[1]}
     it{expect(@a[:*,1]).to eq [@src[0][1],@src[1][1]]}
+
+    it{expect(@a.count_true).to eq 4}
+    it{expect(@a.count_false).to eq 4}
+    it{expect(@a.where).to eq [1,2,4,7]}
+    #it{expect(@a.where2).to eq [[1,2,4,7],[0,3,5,6]]}
+    it{expect(@a.mask(NArray::DFloat[[1,2,3,4],[5,6,7,8]])).to eq [2,3,5,8]}
+    it{expect(@a).not_to be_all}
+    it{expect(@a).to     be_any}
+    it{expect(@a).not_to be_none}
 
     after(:all) do
       @a = nil
