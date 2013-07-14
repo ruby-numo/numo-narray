@@ -1,7 +1,7 @@
 require "rake/clean"
 DEFS = FileList["def/*.rb"]
 ERBS = FileList["erb/*.c"]
-TMPL = FileList["tmplate/*.c"]
+TMPL = FileList["template/*.c"]
 SCRIPT = FileList["cogen*.rb"]
 TARGETS = []
 DSTDIR = "../ext/types/"

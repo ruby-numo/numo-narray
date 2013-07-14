@@ -59,6 +59,11 @@ static void
     }
 }
 
+/*
+  <%=op%>.
+  @overload <%=op%>
+  @return [NArray::Int64] the number of true bits.
+*/
 static VALUE
 <%=c_instance_method%>(int argc, VALUE *argv, VALUE self)
 {

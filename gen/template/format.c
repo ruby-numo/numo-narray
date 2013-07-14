@@ -32,6 +32,12 @@ static void
     }
 }
 
+/*
+  Format elements into strings.
+  @overload <%=op_map%> format
+  @param [String] format
+  @return [NArray::RObject] array of formated strings.
+*/
 static VALUE
 <%=c_instance_method%>(int argc, VALUE *argv, VALUE self)
 {

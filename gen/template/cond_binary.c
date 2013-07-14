@@ -33,6 +33,13 @@ static void
     }
 }
 
+/*
+  Class method <%=op%>.
+  @overload <%=op%>(a1,a2)
+  @param [NArray,Numeric] a1
+  @param [NArray,Numeric] a2
+  @return [NArray::Bit] <%=op%> of a1 and a2.
+*/
 static VALUE
 <%=c_singleton_method%>(VALUE mod, VALUE a1, VALUE a2)
 {
@@ -45,6 +52,12 @@ static VALUE
     return v;
 }
 
+/*
+  Condition <%=op%>.
+  @overload <%=op_map%> other
+  @param [NArray,Numeric] other
+  @return [NArray::Bit] result of self <%=op%> other.
+*/
 static VALUE
 <%=c_instance_method%>(VALUE a1, VALUE a2)
 {

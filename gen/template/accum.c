@@ -49,6 +49,12 @@ static void
     }
 }
 
+/*
+  <%=op.capitalize%> of self.
+  @overload <%=op%>(*args)
+  @param [Array of Numeric,Range] args  Affected dimensions.
+  @return [NArray::<%=class_name%>] <%=op%> of self.
+*/
 static VALUE
 <%=c_instance_method%>(int argc, VALUE *argv, VALUE self)
 {

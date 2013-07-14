@@ -26,6 +26,11 @@ static void
     }
 }
 
+/*
+  <%=op%> of self.
+  @overload <%=op_map%>
+  @return [NArray::<%=class_name%>] <%=op%> of self.
+*/
 static VALUE
 <%=c_singleton_method%>(VALUE mod, VALUE a1)
 {

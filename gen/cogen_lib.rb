@@ -80,7 +80,11 @@ class Template
     "and"=>"&",
     "or"=>"|",
     "xor"=>"^",
-    "not"=>"~"
+    "not"=>"~",
+    "bit_and"=>"&",
+    "bit_or"=>"|",
+    "bit_xor"=>"^",
+    "bit_not"=>"~"
   }
 
   def self.alias(dst,src)

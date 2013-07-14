@@ -1,4 +1,10 @@
 
+/*
+  Cast object to NArray::<%=class_name%>.
+  @overload <%=op%>(object)
+  @param [Object] object
+  @return [NArray::<%=class_name%>]
+*/
 static VALUE
 <%=Cast.c_instance_method%>(VALUE type, VALUE obj)
 {

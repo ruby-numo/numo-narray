@@ -17,6 +17,12 @@ static void
     }
 }
 
+/*
+  Fill elements with other.
+  @overload <%=op_map%> other
+  @param [Numeric] other
+  @return [NArray::<%=class_name%>] self.
+*/
 static VALUE
 <%=c_instance_method%>(VALUE self, VALUE val)
 {

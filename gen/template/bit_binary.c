@@ -77,6 +77,12 @@ static void
     }
 }
 
+/*
+  Binary <%=op%>.
+  @overload <%=op_map%> other
+  @param [NArray,Numeric] other
+  @return [NArray] <%=op%> of self and other.
+*/
 static VALUE
 <%=c_instance_method%>(VALUE a1, VALUE a2)
 {

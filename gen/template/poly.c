@@ -16,6 +16,13 @@ static void
     *(dtype*)(lp->args[i].ptr + lp->iter[i].pos) = y;
 }
 
+
+/*
+  Polinominal.
+  @overload <%=op_map%> a0, a1, ...
+  @param [NArray,Numeric] a0, a1, ...
+  @return [NArray::<%=class_name%>] a0 + a1*x + a2*x**2 + a3*x**3 + ... + an*x**n
+*/
 static VALUE
 <%=c_instance_method%>(VALUE self, VALUE args)
 {

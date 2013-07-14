@@ -18,6 +18,11 @@ void
     }
 }
 
+/*
+  Convert self to Array.
+  @overload <%=op%>
+  @return [Array]
+*/
 static VALUE
 <%=c_instance_method%>(VALUE self)
 {

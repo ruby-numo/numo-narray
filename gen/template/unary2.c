@@ -27,6 +27,12 @@ static void
     }
 }
 
+
+/*
+  <%=op%> of self.
+  @overload <%=op_map%>
+  @return [NArray::<%=real_class_name%>] <%=op%> of self.
+*/
 static VALUE
 <%=c_instance_method%>(VALUE a1)
 {
