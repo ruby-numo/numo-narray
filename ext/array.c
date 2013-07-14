@@ -320,38 +320,6 @@ na_mdai_free(na_mdai_t *mdai, int *ndim, VALUE *type)
 }
 
 
-#define EXCL(r) (RTEST(rb_funcall((r),rb_intern("exclude_end?"),0)))
-
-/* Range as a Sequence of numbers */
-static void
-na_range_to_sequence(VALUE obj, size_t *n, size_t *beg, size_t *step)
-{
-    int end,len;
-
-    *beg = NUM2INT(rb_ivar_get(obj, rb_intern("begin")));
-    end = NUM2INT(rb_ivar_get(obj, rb_intern("end")));
-    len = end - *beg;
-
-    /* direction */
-    if (len>0) {
-	*step = 1;
-	if (EXCL(obj)) end--; else len++;
-    }
-    else if (len<0) {
-	len   = -len;
-	*step = -1;
-	if (EXCL(obj)) end++; else len++;
-    }
-    else /*if(len==0)*/ {
-	*step = 0;
-	if (!EXCL(obj)) {
-	    len++;
-	}
-    }
-    *n = len;
-}
-
-
 /* investigate ndim, shape, type of Array */
 static int
 na_mdai_investigate(na_mdai_t *mdai, int ndim)
