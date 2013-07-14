@@ -694,8 +694,9 @@ Init_nary_bit()
     rb_define_const(cBit, "ELEMENT_BYTE_SIZE", rb_float_new(1.0/8));
     rb_define_const(cBit, "CONTIGUOUS_STRIDE", INT2FIX(1));
 
-    rb_define_singleton_method(cNArray, "Bit", nary_bit_s_cast, 1);
+    //rb_define_singleton_method(cNArray, "Bit", nary_bit_s_cast, 1);
     rb_define_singleton_method(cBit, "cast", nary_bit_s_cast, 1);
+    rb_define_singleton_method(cBit, "[]", nary_bit_s_cast, -2);
     rb_define_method(cBit, "coerce_cast", nary_bit_coerce_cast, 1);
 
     <% Template::INIT.each do |x| %>

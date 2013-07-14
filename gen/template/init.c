@@ -14,7 +14,7 @@ Init_nary_<%=tp%>()
     rb_define_const(cT, ELEMENT_BYTE_SIZE, INT2FIX(sizeof(dtype)));
     rb_define_const(cT, CONTIGUOUS_STRIDE, INT2FIX(sizeof(dtype)));
 
-    rb_define_singleton_method(cNArray, "<%=class_name%>", <%=Cast.c_instance_method%>, 1);
+    //rb_define_singleton_method(cNArray, "<%=class_name%>", <%=Cast.c_instance_method%>, 1);
     rb_define_singleton_method(cT, "[]", <%=Cast.c_instance_method%>, -2);
 
     <% Template::INIT.each do |x| %>
