@@ -56,6 +56,10 @@ types.each do |dtype|
       it{expect(@a).to eq [1,2,3,5,7,11]}
       it{expect(@a.to_a).to eq [1,2,3,5,7,11]}
       it{expect(@a.to_a).to be_kind_of Array}
+      it{expect(@a.dup).to eq @a}
+      it{expect(@a.clone).to eq @a}
+      it{expect(@a.dup.object_id).not_to eq @a.object_id}
+      it{expect(@a.clone.object_id).not_to eq @a.object_id}
 
       it{expect(@a.eq([1,1,3,3,7,7])).to eq [1,0,1,0,1,0]}
       it{expect(@a[3..4]).to eq [5,7]}
