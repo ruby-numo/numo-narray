@@ -164,17 +164,9 @@ class Cogen
 
   attrs = %w[
     class_name
-    class_alias
     ctype
-    type_var
-    type_name
-
-    math_var
-
     real_class_name
     real_ctype
-    real_type_var
-    real_type_name
 
     has_math
     is_bit
@@ -185,6 +177,7 @@ class Cogen
     is_object
     is_comparable
   ]
+
   attrs.each do |attr|
     ivar = ("@"+attr).to_sym
     define_method(attr){|*a| attr_def(ivar,*a)}
@@ -198,25 +191,45 @@ class Cogen
     end
   end
 
+  def type_name
+    @type_name ||= class_name.downcase
+  end
   alias tp type_name
 
-  def define_type(name,ctype)
-    @class_name = name
-    @type_name = name.downcase
-    @ctype = ctype
-    @type_var = "c"+name
-    @math_var = "m"+name+"Math"
+  def type_var
+    @type_var ||= "c"+class_name
   end
 
-  def define_real(name,ctype)
-    @real_class_name = name
-    @real_ctype = ctype
-    @real_type_var = "c"+name
-    @real_type_name = name.downcase
+  def math_var
+    @math_var ||= "m"+class_name+"Math"
   end
 
-  def define_alias(*names)
-    @class_alias.concat(names)
+  def real_class_name(arg=nil)
+    if arg.nil?
+      @real_class_name ||= class_name
+    else
+      @real_class_name = arg
+    end
+  end
+
+  def real_ctype(arg=nil)
+    if arg.nil?
+      @real_ctype ||= ctype
+    else
+      @real_ctype = arg
+    end
+  end
+
+  def real_type_var
+    @real_type_var ||= "c"+real_class_name
+  end
+
+  def real_type_name
+    @real_type_name ||= real_class_name.downcase
+  end
+
+  def class_alias(*args)
+    @class_alias.concat(args)
   end
 
   def upcast(c=nil,t="T")

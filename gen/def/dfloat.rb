@@ -1,15 +1,15 @@
-define_type  "DFloat", "double"
-define_alias "Float64"
-define_real  "DFloat", "double"
+class_name      "DFloat"
+class_alias     "Float64"
+ctype           "double"
 
-has_math    true
-is_bit      false
-is_int      false
-is_float    true
-is_complex  false
-is_object   false
-is_real     true
-is_comparable  true
+has_math      true
+is_bit        false
+is_int        false
+is_float      true
+is_complex    false
+is_object     false
+is_real       true
+is_comparable true
 
 upcast_rb "Integer"
 upcast_rb "Float"

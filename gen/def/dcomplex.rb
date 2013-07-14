@@ -1,6 +1,8 @@
-define_type  "DComplex", "dcomplex"
-define_alias "Complex128"
-define_real  "DFloat", "double"
+class_name      "DComplex"
+class_alias     "Complex128"
+ctype           "dcomplex"
+real_class_name "DFloat"
+real_ctype      "double"
 
 has_math      true
 is_bit        false

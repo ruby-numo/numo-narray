@@ -15,7 +15,7 @@
 <%
 require "./cogen_lib"
 $embed = true
-define_type  "Bit", "xxxxx"
+class_name "Bit"
 %>
 
 #define cT <%=type_var%>

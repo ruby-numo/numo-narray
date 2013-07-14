@@ -1,15 +1,15 @@
-define_type  "SFloat", "float"
-define_alias "Float32"
-define_real  "SFloat", "float"
+class_name      "SFloat"
+class_alias     "Float32"
+ctype           "float"
 
-has_math    true
-is_bit      false
-is_int      false
-is_float    true
-is_complex  false
-is_object   false
-is_real     true
-is_comparable  true
+has_math      true
+is_bit        false
+is_int        false
+is_float      true
+is_complex    false
+is_object     false
+is_real       true
+is_comparable true
 
 upcast_rb "Integer"
 upcast_rb "Float"

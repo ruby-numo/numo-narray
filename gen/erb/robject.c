@@ -16,7 +16,7 @@
 <%
 require "./cogen_lib"
 $embed = true
-define_type  "RObject", "VALUE"
+class_name "RObject"
 %>
 
 #define cT <%=type_var%>
