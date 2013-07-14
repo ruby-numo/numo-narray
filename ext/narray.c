@@ -365,7 +365,6 @@ na_initialize(int argc, VALUE *argv, VALUE self)
 }
 
 
-
 VALUE
 rb_narray_new(VALUE klass, int ndim, size_t *shape)
 {
@@ -391,6 +390,19 @@ na_alloc_data(VALUE self)
     else {
         rb_bug("invalid narray type : %d",NA_TYPE(na));
     }
+}
+
+
+static VALUE
+na_init_copy(VALUE self, VALUE orig)
+{
+    narray_t *na;
+    GetNArray(orig,na);
+
+    na_setup(self,NA_NDIM(na),NA_SHAPE(na));
+    na_store(self,orig);
+    na_copy_flags(orig,self);
+    return self;
 }
 
 
@@ -1062,6 +1074,7 @@ Init_narray()
     /* Ruby allocation framework  */
     rb_define_alloc_func(cNArray, na_s_allocate);
     rb_define_method(cNArray, "initialize", na_initialize, -1);
+    rb_define_method(cNArray, "initialize_copy", na_init_copy, 1);
 
     rb_define_method(cNArray, "size", na_size, 0);
     rb_define_alias (cNArray, "length","size");
