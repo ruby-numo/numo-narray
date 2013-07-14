@@ -553,7 +553,6 @@ static VALUE
     }
     g->idx1 = na_get_pointer_for_write(idx_1);
     g->idx0 = NULL;
-    //opt = Data_Wrap_Struct(rb_cData,0,0,g);
     ndloop_do3(func, g, 1, self);
     na_release_lock(idx_1);
     ndfunc_free(func);
@@ -565,17 +564,16 @@ static VALUE
 static VALUE
  nary_bit_where2(VALUE self)
 {
-    VALUE idx_1, idx_0, opt;
+    VALUE idx_1, idx_0;
     ndfunc_t *func;
     size_t size, n_1;
     where_opt_t *g;
 
     func = ndfunc_alloc(iter_bit_where, FULL_LOOP, 1, 0, cBit);
 
-    //self = na_flatten(self);
     size = RNARRAY_SIZE(self);
     n_1 = NUM2SIZE(nary_bit_count_true(0, NULL, self));
-    g = ALLOC(where_opt_t);
+    g = ALLOCA_N(where_opt_t,1);
     g->count = 0;
     if (size>4294967295ul) {
         idx_1 = rb_narray_new(cInt64, 1, &n_1);
@@ -588,8 +586,7 @@ static VALUE
     }
     g->idx1 = na_get_pointer_for_write(idx_1);
     g->idx0 = na_get_pointer_for_write(idx_0);
-    opt = Data_Wrap_Struct(rb_cData,0,0,g);
-    ndloop_do(func, 2, self, opt);
+    ndloop_do3(func, g, 1, self);
     na_release_lock(idx_0);
     na_release_lock(idx_1);
     ndfunc_free(func);

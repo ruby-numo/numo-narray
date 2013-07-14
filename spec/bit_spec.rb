@@ -40,7 +40,7 @@ procs.each do |init,ref|
     it{expect(@a.count_true).to eq 4}
     it{expect(@a.count_false).to eq 4}
     it{expect(@a.where).to eq [1,2,4,7]}
-    #it{expect(@a.where2).to eq [[1,2,4,7],[0,3,5,6]]}
+    it{expect(@a.where2).to eq [[1,2,4,7],[0,3,5,6]]}
     it{expect(@a.mask(NArray::DFloat[1,2,3,4,5,6,7,8])).to eq [2,3,5,8]}
     it{expect(@a).not_to be_all}
     it{expect(@a).to     be_any}
@@ -82,7 +82,7 @@ procs.each do |init,ref|
     it{expect(@a.count_true).to eq 4}
     it{expect(@a.count_false).to eq 4}
     it{expect(@a.where).to eq [1,2,4,7]}
-    #it{expect(@a.where2).to eq [[1,2,4,7],[0,3,5,6]]}
+    it{expect(@a.where2).to eq [[1,2,4,7],[0,3,5,6]]}
     it{expect(@a.mask(NArray::DFloat[[1,2,3,4],[5,6,7,8]])).to eq [2,3,5,8]}
     it{expect(@a).not_to be_all}
     it{expect(@a).to     be_any}
