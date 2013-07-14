@@ -80,7 +80,7 @@ class Template
     "and"=>"&",
     "or"=>"|",
     "xor"=>"^",
-    "not"=>"~@"
+    "not"=>"~"
   }
 
   def self.alias(dst,src)
