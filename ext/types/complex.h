@@ -32,7 +32,6 @@ static inline dtype c_set_imag(dtype x, rtype i) {
 
 static inline VALUE COMP2NUM(dtype x) {
     VALUE v;
-    //v = rb_funcall(cComplex, rb_intern("new"), 2, rb_float_new(REAL(x)), rb_float_new(IMAG(x)));
     v = rb_funcall(rb_intern("Kernel"), rb_intern("Complex"), 2,
                    rb_float_new(REAL(x)), rb_float_new(IMAG(x)));
     return v;
@@ -399,10 +398,6 @@ static inline dtype c_cbrt(dtype x) {
 
 static inline rtype c_abs(dtype x) {
     return r_hypot(REAL(x),IMAG(x));
-}
-
-static inline boolean c_nearly_eq(dtype x, dtype y) {
-    return c_abs(c_sub(x,y)) <= (c_abs(x)+c_abs(y))*DBL_EPSILON*2;
 }
 
 

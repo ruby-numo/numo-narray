@@ -1,6 +1,4 @@
-#ifndef DBL_EPSILON
-#define DBL_EPSILON 2.2204460492503131e-16
-#endif
+#include "float_def.h"
 
 EXTERN double round(double);
 EXTERN double log2(double);
@@ -39,8 +37,6 @@ EXTERN double exp10(double);
 #define m_lt(x,y) ((x)<(y))
 #define m_le(x,y) ((x)<=(y))
 
-#define m_nearly_eq(x,y) (fabs(x-y)<=(fabs(x)+fabs(y))*DBL_EPSILON*2)
-
 #define m_isnan(x) isnan(x)
 #define m_isinf(x) isinf(x)
 #define m_isfinite(x) isfinite(x)
@@ -64,7 +60,6 @@ EXTERN double exp10(double);
 #define cmpgt(a,b)                                            \
     ((isnan(qsort_cast(a)) && !isnan(qsort_cast(b))) ||       \
      (qsort_cast(a) > qsort_cast(b)))
-
 
 #define m_sqrt(x)    sqrt(x)
 #define m_cbrt(x)    cbrt(x)
@@ -93,7 +88,6 @@ EXTERN double exp10(double);
 #define m_erfc(x)    erfc(x)
 #define m_ldexp(x,y) ldexp(x,y)
 #define m_frexp(x,exp) frexp(x,exp)
-
 
 static dtype pow_int(dtype x, int p)
 {
