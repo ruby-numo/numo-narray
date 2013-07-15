@@ -31,11 +31,11 @@ static void
 }
 
 /*
-  Class method <%=op%>.
-  @overload <%=op%>(a1,a2)
-  @param [NArray,Numeric] a1
-  @param [NArray,Numeric] a2
-  @return [NArray::<%=class_name%>] <%=op%> of a1 and a2.
+  Calculate <%=op%>(x,y).
+  @overload <%=op%>(x,y)
+  @param [NArray,Numeric] x  first value
+  @param [NArray,Numeric] y  second value
+  @return [NArray::<%=class_name%>] <%=op%>(x,y).
 */
 static VALUE
 <%=c_singleton_method%>(VALUE mod, VALUE a1, VALUE a2)

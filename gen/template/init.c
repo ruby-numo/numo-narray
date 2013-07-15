@@ -5,7 +5,8 @@ Init_nary_<%=tp%>()
 
     cT = rb_define_class_under(cNArray, "<%=class_name%>", cNArray);
     <% for x in class_alias %>
-    rb_define_const(cNArray, "<%=x%>", cT);
+    // alias of <%=class_name%>
+    rb_define_const(cNArray, "<%=x%>", <%=type_var%>);
     <% end %>
     <% if has_math %>
     mTM = rb_define_module_under(cT, "Math"); <%end%>

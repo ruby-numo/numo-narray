@@ -16,12 +16,11 @@
 #include "template.h"
 #include "<%=type_name%>.h"
 
-VALUE <%=type_var%>;
-
 #define cT  <%=type_var%>
+VALUE cT;
 #define cRT <%=real_type_var%>
 
 <% if has_math %>
-VALUE <%=math_var%>;
 #define mTM <%=math_var%>
+VALUE mTM;
 <% end %>

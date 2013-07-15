@@ -55,7 +55,7 @@ class CastNum < Cast
     @tpname="numeric"
   end
   def condition
-    "FIXNUM_P(obj) || TYPE(obj)==T_FLOAT || TYPE(obj)==T_BIGNUM || rb_obj_is_kind_of(obj,cComplex)"
+    "FIXNUM_P(obj) || TYPE(obj)==T_FLOAT || TYPE(obj)==T_BIGNUM || rb_obj_is_kind_of(obj,rb_cComplex)"
   end
 end
 

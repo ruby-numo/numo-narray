@@ -26,7 +26,6 @@ ID id_element_byte_size;
 VALUE cBit;
 VALUE cRObject;
 VALUE cPointer;
-VALUE cComplex;
 
 ID id_add;
 ID id_sub;
@@ -952,7 +951,7 @@ na_index_array_to_internal_order( VALUE args, VALUE self )
 */
 
 
-
+// --
 VALUE na_column_major_p( VALUE self )
 {
     if (TEST_COLUMN_MAJOR(self))
@@ -1116,8 +1115,6 @@ Init_narray()
     id_info = rb_intern("info");
     sym_mark = ID2SYM(id_mark);
     sym_info = ID2SYM(id_info);
-
-    cComplex = rb_const_get(rb_cObject, rb_intern("Complex"));
 
     Init_nary_step();
     Init_nary_index();

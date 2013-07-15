@@ -46,9 +46,9 @@ VALUE nary_math_cast2(VALUE type1, VALUE type2)
     }
     if ( RTEST(rb_class_inherited_p( type1, rb_cNumeric )) &&
 	 RTEST(rb_class_inherited_p( type2, rb_cNumeric )) ){
-	if ( RTEST(rb_class_inherited_p( type1, cComplex)) ||
-	     RTEST(rb_class_inherited_p( type2, cComplex )) ){
-	    return cComplex;
+	if ( RTEST(rb_class_inherited_p( type1, rb_cComplex)) ||
+	     RTEST(rb_class_inherited_p( type2, rb_cComplex )) ){
+	    return rb_cComplex;
 	}
 	return rb_cFloat;
     }
@@ -74,6 +74,14 @@ VALUE nary_mathcast(int argc, VALUE *argv)
 }
 
 
+/*
+  Dispatches method to Math module of upcasted type,
+  eg, NArray::DFloat::Math.
+  @overload method_missing(name,x,...)
+  @param [Symbol] name  method name.
+  @param [NArray,Numeric] x  input array.
+  @return [NArray] result.
+*/
 VALUE nary_math_method_missing(int argc, VALUE *argv, VALUE mod)
 {
     VALUE type, ans, typemod, hash;
@@ -128,7 +136,7 @@ Init_nary_math()
     rb_hash_aset(hCast, rb_cBignum,  rb_mMath);
     rb_hash_aset(hCast, rb_cInteger, rb_mMath);
     rb_hash_aset(hCast, rb_cFloat,   rb_mMath);
-    rb_hash_aset(hCast, cComplex,    mDComplexMath);
+    rb_hash_aset(hCast, rb_cComplex, mDComplexMath);
 
     id_send = rb_intern("send");
 }

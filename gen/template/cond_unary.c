@@ -29,6 +29,11 @@ static void
     }
 }
 
+/*
+  Condition of <%=op%>.
+  @overload <%=op%>
+  @return [NArray::Bit] Condition of <%=op%>.
+*/
 static VALUE
 <%=c_instance_method%>(VALUE a1)
 {

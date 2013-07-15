@@ -1,7 +1,7 @@
 /*
   step.c
   Numerical Array Extension for Ruby
-    (C) Copyright 2007 by Masahiro TANAKA
+    (C) Copyright 2007,2013 by Masahiro TANAKA
 
   This program is free software.
   You can distribute/modify this program
@@ -476,10 +476,7 @@ nary_is_sequence( VALUE arg )
 void
 Init_nary_step()
 {
-    VALUE mNum;
-    mNum = rb_define_module("Num");
-
-    na_cStep = rb_define_class_under(mNum, "Step", rb_cObject);
+    na_cStep = rb_define_class_under(cNArray, "Step", rb_cObject);
     rb_include_module(na_cStep, rb_mEnumerable);
     rb_define_method(na_cStep, "initialize", step_initialize, -1);
 
@@ -500,7 +497,7 @@ Init_nary_step()
     rb_define_method(rb_cRange, "%", range_with_step, 1);
     rb_define_method(rb_cRange, "*", range_with_length, 1);
 
-    rb_define_singleton_method(mNum, "step", nary_s_step, -1);
+    rb_define_singleton_method(cNArray, "step", nary_s_step, -1);
 
     id_beg  = rb_intern("begin");
     id_end  = rb_intern("end");
