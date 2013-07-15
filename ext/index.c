@@ -932,8 +932,8 @@ VALUE na_aref(int argc, VALUE *argv, VALUE self)
 {
     VALUE view;
     view = na_aref_main(argc, argv, self, 0);
-    return view;
-    //return rb_funcall(view, rb_intern("extract"), 0);
+    //return view;
+    return rb_funcall(view, rb_intern("extract"), 0);
 }
 
 
