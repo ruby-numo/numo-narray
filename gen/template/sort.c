@@ -23,6 +23,11 @@ static void
     }
 }
 
+/*
+  Returns sorted narray.
+  @overload sort
+  @return [NArray::<%=class_name%>] sorted narray.
+*/
 static VALUE
 <%=c_instance_method%>(int argc, VALUE *argv, VALUE self)
 {

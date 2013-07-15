@@ -141,6 +141,7 @@ end
 # cumprod
 
 def_method "seq",-1
+def_alias  "indgen", "seq"
 def_method "rand"
 
 # y = a[0] + a[1]*x + a[2]*x^2 + a[3]*x^3 + ... + a[n]*x^n

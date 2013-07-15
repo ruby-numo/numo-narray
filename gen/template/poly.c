@@ -18,10 +18,11 @@ static void
 
 
 /*
-  Polinominal.
+  Polynomial.: a0 + a1*x + a2*x**2 + a3*x**3 + ... + an*x**n
   @overload <%=op_map%> a0, a1, ...
-  @param [NArray,Numeric] a0, a1, ...
-  @return [NArray::<%=class_name%>] a0 + a1*x + a2*x**2 + a3*x**3 + ... + an*x**n
+  @param [NArray,Numeric] a0
+  @param [NArray,Numeric] a1 , ...
+  @return [NArray::<%=class_name%>]
 */
 static VALUE
 <%=c_instance_method%>(VALUE self, VALUE args)

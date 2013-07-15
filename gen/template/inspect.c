@@ -4,6 +4,11 @@ static VALUE
     return format_<%=tp%>(fmt, ptr+pos);
 }
 
+/*
+  Returns a string containing a human-readable representation of NArray.
+  @overload inspect
+  @return [String]
+*/
 VALUE
 <%=c_instance_method%>(VALUE ary)
 {

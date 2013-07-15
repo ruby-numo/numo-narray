@@ -34,11 +34,11 @@ static void
 }
 
 /*
-  Class method <%=op%>.
+  Comparison of a1 <%=op_map%> a2.
   @overload <%=op%>(a1,a2)
   @param [NArray,Numeric] a1
   @param [NArray,Numeric] a2
-  @return [NArray::Bit] <%=op%> of a1 and a2.
+  @return [NArray::Bit] Result of a1 <%=op%> a2.
 */
 static VALUE
 <%=c_singleton_method%>(VALUE mod, VALUE a1, VALUE a2)
@@ -53,7 +53,7 @@ static VALUE
 }
 
 /*
-  Condition <%=op%>.
+  Comparison <%=op%> other.
   @overload <%=op_map%> other
   @param [NArray,Numeric] other
   @return [NArray::Bit] result of self <%=op%> other.

@@ -392,9 +392,15 @@ na_alloc_data(VALUE self)
     }
 }
 
-
+/*
+  Replaces the contents of self with the contents of other narray.
+  Used in dup and clone method.
+  @overload initialize_copy(other)
+  @param [NArray] other
+  @return [NArray] self
+ */
 static VALUE
-na_init_copy(VALUE self, VALUE orig)
+na_initialize_copy(VALUE self, VALUE orig)
 {
     narray_t *na;
     GetNArray(orig,na);
@@ -798,21 +804,30 @@ na_upcast(VALUE type1, VALUE type2)
     return result_type;
 }
 
-
+/*
+  Returns an array containing other and self,
+  both are converted to upcasted type of NArray.
+  Note that NArray has distinct UPCAST mechanism.
+  Coerce is used for operation between non-NArray and NArray.
+  @overload coerce(other)
+  @param [Object] other  numeric object.
+  @return [Array]  NArray-casted [other,self]
+*/
 static VALUE
 nary_coerce(VALUE x, VALUE y)
 {
     VALUE type;
 
     type = nary_s_upcast(CLASS_OF(x), CLASS_OF(y));
-    //puts("pass1");
-    //y = nary_s_cast(type,y);
     y = rb_funcall(type,rb_intern("cast"),1,y);
-    //puts("pass2");
     return rb_assoc_new(y , x);
 }
 
 
+/*
+  Returns total byte size of NArray.
+  @return [Integer] byte size.
+ */
 static VALUE
 nary_byte_size(VALUE self)
 {
@@ -826,7 +841,10 @@ nary_byte_size(VALUE self)
     return sz;
 }
 
-
+/*
+  Returns byte size of one element of NArray.
+  @return [Numeric] byte size.
+ */
 static VALUE
 nary_s_byte_size(VALUE type)
 {
@@ -834,6 +852,12 @@ nary_s_byte_size(VALUE type)
 }
 
 
+/*
+  Cast self to another NArray datatype.
+  @overload cast_to(datatype)
+  @param [Class] datatype NArray datatype.
+  @return [NArray]
+ */
 static VALUE
 nary_cast_to(VALUE obj, VALUE type)
 {
@@ -952,7 +976,9 @@ na_index_array_to_internal_order( VALUE args, VALUE self )
 */
 
 
-// --
+/*
+  Return true if column major.
+*/
 VALUE na_column_major_p( VALUE self )
 {
     if (TEST_COLUMN_MAJOR(self))
@@ -961,6 +987,9 @@ VALUE na_column_major_p( VALUE self )
 	return Qfalse;
 }
 
+/*
+  Return true if row major.
+*/
 VALUE na_row_major_p( VALUE self )
 {
     if (TEST_ROW_MAJOR(self))
@@ -970,7 +999,9 @@ VALUE na_row_major_p( VALUE self )
 }
 
 
-
+/*
+  Return true if byte swapped.
+*/
 VALUE na_byte_swapped_p( VALUE self )
 {
     if (TEST_BYTE_SWAPPED(self))
@@ -978,6 +1009,9 @@ VALUE na_byte_swapped_p( VALUE self )
     return Qfalse;
 }
 
+/*
+  Return true if not byte swapped.
+*/
 VALUE na_host_order_p( VALUE self )
 {
     if (TEST_BYTE_SWAPPED(self))
@@ -986,6 +1020,10 @@ VALUE na_host_order_p( VALUE self )
 }
 
 
+/*
+  Returns view of narray with inplace flagged.
+  @return [NArray] view of narray with inplace flag.
+*/
 VALUE na_inplace( VALUE self )
 {
     VALUE view = self;
@@ -994,6 +1032,10 @@ VALUE na_inplace( VALUE self )
     return view;
 }
 
+/*
+  Set inplace flag to self.
+  @return [NArray] self
+*/
 VALUE na_inplace_bang( VALUE self )
 {
     SET_INPLACE(self);
@@ -1008,6 +1050,9 @@ VALUE na_inplace_store( VALUE self, VALUE val )
         return na_store( self, val );
 }
 
+/*
+  Return true if inplace flagged.
+*/
 VALUE na_inplace_p( VALUE self )
 {
     if (TEST_INPLACE(self))
@@ -1016,6 +1061,10 @@ VALUE na_inplace_p( VALUE self )
         return Qfalse;
 }
 
+/*
+  Unset inplace flag to self.
+  @return [NArray] self
+*/
 VALUE na_out_of_place_bang( VALUE self )
 {
     UNSET_INPLACE(self);
@@ -1031,6 +1080,13 @@ VALUE na_debug_set(VALUE mod, VALUE flag)
 }
 
 
+/*
+  Equality of self and other in view of numerical array.
+  i.e., both arrays have same shape and corresponding elements are equal.
+  @overload == other
+  @param [Object] other
+  @return [Boolean] true if self and other is equal.
+*/
 VALUE
 na_equal(VALUE self, volatile VALUE other)
 {
@@ -1074,7 +1130,7 @@ Init_narray()
     /* Ruby allocation framework  */
     rb_define_alloc_func(cNArray, na_s_allocate);
     rb_define_method(cNArray, "initialize", na_initialize, -1);
-    rb_define_method(cNArray, "initialize_copy", na_init_copy, 1);
+    rb_define_method(cNArray, "initialize_copy", na_initialize_copy, 1);
 
     rb_define_method(cNArray, "size", na_size, 0);
     rb_define_alias (cNArray, "length","size");

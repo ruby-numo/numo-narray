@@ -22,8 +22,6 @@
 #define va_init_list(a,b) va_start(a)
 #endif
 
-VALUE na_store(VALUE self, VALUE src);
-
 
 static void
 print_ndfunc(ndfunc_t *nf) {

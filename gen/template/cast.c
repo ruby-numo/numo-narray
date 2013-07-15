@@ -1,8 +1,10 @@
 
 /*
   Cast object to NArray::<%=class_name%>.
-  @overload <%=op%>(object)
-  @param [Object] object
+  @overload [](elements)
+  @overload <%=op%>(array)
+  @param [Numeric,Array] elements
+  @param [Array] array
   @return [NArray::<%=class_name%>]
 */
 static VALUE

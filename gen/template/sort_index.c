@@ -1,3 +1,8 @@
+/*
+  Returns index narray of sort.
+  @overload sort_index
+  @return [NArray::<%=class_name%>] index narray of sort.
+*/
 static VALUE
 <%=c_instance_method%>(int argc, VALUE *argv, VALUE self)
 {

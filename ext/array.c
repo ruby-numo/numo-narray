@@ -396,6 +396,12 @@ na_mdarray_investigate(VALUE ary, int *ndim, VALUE *type)
     return shape;
 }
 
+/*
+  Generate NArray object. NArray datatype is automatically selected.
+  @overload [](elements)
+  @param [Numeric,Array] elements
+  @return [NArray]
+*/
 static VALUE
 nary_s_bracket(VALUE klass, VALUE ary)
 {
