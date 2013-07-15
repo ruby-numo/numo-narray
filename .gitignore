@@ -22,3 +22,4 @@ mkmf.log
 ext/types/*.c
 ext/narray_config.h
 ext/Makefile
+TAGS
