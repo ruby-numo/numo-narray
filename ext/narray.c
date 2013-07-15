@@ -73,6 +73,7 @@ void Init_nary_dfloat();
 void Init_nary_dcomplex();
 void Init_nary_math();
 void Init_nary_rand();
+void Init_nary_array();
 
 
 static void
@@ -1139,4 +1140,5 @@ Init_narray()
     Init_nary_math();
 
     Init_nary_rand();
+    Init_nary_array();
 }
