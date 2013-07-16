@@ -13,8 +13,10 @@
 
 typedef struct NA_LOOP_ARGS {
     VALUE    value;
-    char    *ptr;
     ssize_t  elmsz;
+    char    *ptr;
+    char    *ptr_obj;       // to be used
+    int      has_work_area; // to be used
 } na_loop_args_t;
 
 typedef struct NA_LOOP_ITER {
