@@ -15,7 +15,7 @@
 #include "template.h"
 
 
-
+// to be defined as singleton method
 VALUE
 nary_s_upcast(VALUE type1, VALUE type2)
 {
@@ -105,6 +105,7 @@ na_copy(VALUE self)
 }
 
 
+// to be implemented as cast
 VALUE
 na_store(VALUE self, VALUE src)
 {

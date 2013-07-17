@@ -746,15 +746,30 @@ loop_narray(ndfunc_t *nf, na_md_loop_t *lp)
             }
         }
         //for (j=0; j<nargs; j++) printf("LITER(lp,i,j).pos=%d i=%d j=%d\n",LITER(lp,i,j).pos,i,j);
-        //for (j=0; j<nargs; j++) {
-        //    //if (lp->args[j].ptr_obj != lp->args[j].ptr) {
-        //    if (lp->args[j].has_work_area) {
-        //        copy(lp->args[j].ptr_obj+LITER(lp,i,j).pos to lp->args[j].ptr);
-        //    } else {
+
+        //for (j=0; j<nf->narg; j++) {
+        //  if (lp->args[j].has_work_area) {
+        //    copy = lp->args[j].copy_func;
+        //    (*copy)(lp->args[j].ptr_obj+LITER(lp,i,j).pos, lp->args[j].ptr);
+        //    (*copy)(lp->user, j, lp->args[j].ptr);
+        //  } else {
+        //    lp->args[j].ptr = lp->args[j].ptr_obj + LITER(lp,i,j).pos;
+        //  }
+        //}
+        //for (j=nf->narg; j<nf->narg+nf->nres; j++) {
+        //    if ( ! lp->args[j].has_work_area) {
         //        lp->args[j].ptr = lp->args[j].ptr_obj + LITER(lp,i,j).pos;
         //    }
         //}
+
         (*(nf->func))(&(lp->user));
+
+        //for (j=nf->narg; j<nf->narg+nf->nres; j++) {
+        //    if (lp->args[j].has_work_area) {
+        //      copy(lp->args[j].ptr to lp->args[j].ptr_obj+LITER(lp,i,j).pos);
+        //      (*copy_from)(lp->user, j, lp->args[j].ptr);
+        //    }
+        //}
 
         for (;;) {
             if (i<=0) goto loop_end;
