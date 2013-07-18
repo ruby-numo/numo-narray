@@ -18,7 +18,7 @@ class Cast
   include PutERB
   INIT = []
 
-  def self.c_instance_method
+  def self.c_function
     "nary_#{tp}_s_cast"
   end
 
@@ -28,15 +28,16 @@ class Cast
     @dtype=dtype
     @tpclass=tpclass
     @macro=macro
+    T[tmpl] = self
   end
   attr_reader :tmpl, :tpname, :dtype, :tpclass, :macro
 
   def c_function
-    "nary_#{tp}_cast_#{tpname}"
+    "nary_#{tp}_store_#{tpname}"
   end
 
   def c_iterator
-    "iter_#{tp}_cast_#{tpname}"
+    "iter_#{tp}_store_#{tpname}"
   end
 
   def result
@@ -53,6 +54,7 @@ class CastNum < Cast
   def initialize(tmpl)
     @tmpl=tmpl
     @tpname="numeric"
+    T[tmpl] = self
   end
   def condition
     "FIXNUM_P(obj) || TYPE(obj)==T_FLOAT || TYPE(obj)==T_BIGNUM || rb_obj_is_kind_of(obj,rb_cComplex)"
@@ -63,9 +65,16 @@ class CastArray < Cast
   def initialize(tmpl)
     @tmpl=tmpl
     @tpname="array"
+    T[tmpl] = self
+  end
+  def c_function
+    "nary_#{tp}_#{tmpl}"
   end
   def condition
     "TYPE(obj)==T_ARRAY"
+  end
+  def result2
+    erb
   end
 end
 
@@ -100,6 +109,7 @@ class Template
       instance_variable_set(ivar,v)
       define_singleton_method(name){instance_variable_get(ivar)}
     end
+    T[tmpl] = self
   end
   attr_reader :op
 
@@ -115,35 +125,23 @@ class Template
     "iter_#{tp}_#{op}"
   end
 
-  def rb_define_singleton_method(n)
-    "rb_define_singleton_method(cT, \"#{op}\", #{c_singleton_method}, #{n});"
-  end
-
-  def rb_define_method(n)
-    "rb_define_method(cT, \"#{op_map}\", #{c_instance_method}, #{n});"
-  end
-
-  def rb_define_math(n)
-    "rb_define_singleton_method(mTM, \"#{op}\", #{c_singleton_method}, #{n});"
-  end
-
   def op_map
     OPMAP[op] || op
   end
 
   def def_singleton(n=0)
-    INIT << rb_define_singleton_method(n)
+    INIT << "rb_define_singleton_method(cT, \"#{op}\", #{c_singleton_method}, #{n});"
     erb
   end
 
   def def_binary
-    INIT << rb_define_singleton_method(2)
-    INIT << rb_define_method(1)
+    INIT << "rb_define_singleton_method(cT, \"#{op}\", #{c_singleton_method}, 2);"
+    INIT << "rb_define_method(cT, \"#{op_map}\", #{c_instance_method}, 1);"
     erb
   end
 
   def def_method(n=0)
-    INIT << rb_define_method(n)
+    INIT << "rb_define_method(cT, \"#{op_map}\", #{c_instance_method}, #{n});"
     erb
   end
 
@@ -152,7 +150,7 @@ class Template
   end
 
   def def_math(n=1)
-    INIT << rb_define_math(n)
+    INIT << "rb_define_singleton_method(mTM, \"#{op}\", #{c_singleton_method}, #{n});"
     erb
   end
 end
@@ -324,13 +322,8 @@ class Cogen
     Template.alias(dst,src)
   end
 
-
-  def put_head
-    Template.new("head",nil).erb
-  end
-
-  def put_init
-    Template.new("init",nil).erb
+  def put_erb(name)
+    Template.new(name,nil).erb
   end
 
   def math(ope,n=1)
@@ -346,28 +339,32 @@ class Cogen
     end
   end
 
-  def cast_numeric
-    CastNum.new("cast_numeric").result
+  def store_numeric
+    CastNum.new("store_numeric").result
+  end
+
+  def store_array
+    CastArray.new("store_array").result
   end
 
   def cast_array
-    CastArray.new("cast_array").result
+    CastArray.new("cast_array").result2
   end
 
-  def cast_from(cname,dtype,macro)
-    if type_name != cname.downcase
-      Cast.new("cast_from",cname.downcase,dtype,"c"+cname,macro).result
-    end
+  def store_from(cname,dtype,macro)
+    Cast.new("store_from",cname.downcase,dtype,"c"+cname,macro).result
   end
 
-  #def cast_from_real(cname,dtype)
-  #  Cast.new("cast_from_real",cname.downcase,dtype,"c"+cname).result
-  #end
+  def store
+    Cast::HASH["store"] = t = Template.new("store","store")
+    t.def_method(1)
+  end
 end
 
 # ----------------------------------------------------------------------
 
 module Delegate
+  T = {}
   @@cogen = Cogen.new
   module_function
   alias method_missing_alias method_missing

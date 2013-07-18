@@ -2,28 +2,32 @@ require './cogen_lib.rb'
 
 load ARGV[0]
 
-put_head
+put_erb "head"
 
 def_method "extract"
 
-cast_numeric
+puts "
+static VALUE #{Template.new('store','store').c_instance_method}(VALUE self, VALUE obj);
+"
+store_numeric
 cast_array
-
+store_array
 if is_complex
-  cast_from "DComplex","dcomplex","m_from_dcomplex"
-  cast_from "SComplex","scomplex","m_from_scomplex"
+  store_from "DComplex","dcomplex","m_from_dcomplex"
+  store_from "SComplex","scomplex","m_from_scomplex"
 end
-cast_from "DFloat","double","m_from_real"
-cast_from "SFloat","float","m_from_real"
-cast_from "Int64","int64_t","m_from_real"
-cast_from "Int32","int32_t","m_from_real"
-cast_from "Int16","int16_t","m_from_real"
-cast_from "Int8", "int8_t","m_from_real"
-cast_from "UInt64","u_int64_t","m_from_real"
-cast_from "UInt32","u_int32_t","m_from_real"
-cast_from "UInt16","u_int16_t","m_from_real"
-cast_from "UInt8", "u_int8_t","m_from_real"
+store_from "DFloat","double",   "m_from_real"
+store_from "SFloat","float",    "m_from_real"
+store_from "Int64", "int64_t",  "m_from_real"
+store_from "Int32", "int32_t",  "m_from_real"
+store_from "Int16", "int16_t",  "m_from_real"
+store_from "Int8",  "int8_t",   "m_from_real"
+store_from "UInt64","u_int64_t","m_from_real"
+store_from "UInt32","u_int32_t","m_from_real"
+store_from "UInt16","u_int16_t","m_from_real"
+store_from "UInt8", "u_int8_t", "m_from_real"
 
+def_method "store", 1
 def_singleton "cast", 1
 
 def_method "coerce_cast",1
@@ -188,4 +192,4 @@ if has_math
   end
 end
 
-put_init
+put_erb "init"

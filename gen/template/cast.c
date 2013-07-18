@@ -1,4 +1,3 @@
-
 /*
   Cast object to NArray::<%=class_name%>.
   @overload [](elements)
@@ -8,27 +7,31 @@
   @return [NArray::<%=class_name%>]
 */
 static VALUE
-<%=Cast.c_instance_method%>(VALUE type, VALUE obj)
+<%=c_singleton_method%>(VALUE type, VALUE obj)
 {
-    VALUE r;
+    VALUE v;
+    narray_t *na;
+    dtype x;
 
     if (CLASS_OF(obj)==cT) {
         return obj;
     }
-    <% Cast::INIT.each do |x| %>
-    if (<%=x.condition%>) {
-        return <%=x.c_function%>(obj);
+    if (RTEST(rb_obj_is_kind_of(obj,rb_cNumeric))) {
+        x = m_num_to_data(obj);
+        return nary_<%=tp%>_new_dim0(x);
     }
-    <% end %>
-
+    if (RTEST(rb_obj_is_kind_of(obj,rb_cArray))) {
+        return <%=T["cast_array"].c_function%>(obj);
+    }
     if (IsNArray(obj)) {
-        r = rb_funcall(obj, rb_intern("coerce_cast"), 1, cT);
-        if (RTEST(r)) {
-            return r;
+        GetNArray(obj,na);
+        v = rb_narray_new(cT, NA_NDIM(na), NA_SHAPE(na));
+        if (NA_SIZE(na)>0) {
+            na_alloc_data(v);
+            <%=T["store"].c_instance_method%>(v,obj);
         }
+        return v;
     }
-    rb_raise(nary_eCastError, "unknown conversion from %s to %s",
-             rb_class2name(CLASS_OF(obj)),
-             rb_class2name(type));
-    return r;
+    rb_raise(nary_eCastError,"cannot cast to %s",rb_class2name(type));
+    return Qnil;
 }

@@ -1,7 +1,7 @@
 /*
   <%=type_name%>.c
   Numerical Array Extension for Ruby
-    (C) Copyright 1999-2011 by Masahiro TANAKA
+    (C) Copyright 1999-2011,2013 by Masahiro TANAKA
 
   This program is free software.
   You can distribute/modify this program

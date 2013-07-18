@@ -8,7 +8,7 @@ static void
     size_t s2, *idx2;
     VALUE  x;
     double y;
-    dtype   z;
+    dtype  z;
     size_t len, c;
     double beg, step;
 

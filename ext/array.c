@@ -372,7 +372,7 @@ na_mdai(VALUE mod, VALUE ary)
     return Qnil;
 }
 
-
+/*
 size_t *
 na_mdarray_investigate(VALUE ary, int *ndim, VALUE *type)
 {
@@ -394,6 +394,41 @@ na_mdarray_investigate(VALUE ary, int *ndim, VALUE *type)
 	shape[0] = 0;
     }
     return shape;
+}
+*/
+
+size_t *
+na_mdarray_investigate(VALUE obj, int *ndim, VALUE *type)
+{
+    int i;
+    size_t *shape;
+    na_mdai_t *mdai;
+    narray_t *na;
+
+    switch(TYPE(obj)) {
+    case T_ARRAY:
+        mdai = na_mdai_alloc(obj);
+        i = na_mdai_investigate(mdai,1);
+        shape = na_mdai_free(mdai,ndim,type);
+        if (i) {
+            *ndim = 1;
+            shape = ALLOC(size_t);
+            shape[0] = 0;
+        }
+        return shape;
+    case T_DATA:
+        if (rb_obj_is_kind_of(obj,cNArray)==Qtrue) {
+            GetNArray(obj,na);
+            *ndim = NA_NDIM(na);
+            shape = ALLOC_N(size_t,*ndim);
+            for (i=0; i<*ndim; i++) {
+                shape[i] = NA_SHAPE(na)[i];
+            }
+            return shape;
+        }
+    }
+    *ndim = 0;
+    return NULL;
 }
 
 /*
