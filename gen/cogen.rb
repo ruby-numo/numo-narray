@@ -7,7 +7,7 @@ put_erb "head"
 def_method "extract"
 
 puts "
-static VALUE #{Template.new('store','store').c_instance_method}(VALUE self, VALUE obj);
+static VALUE #{Template.new('store','store').c_instance_method}(VALUE,VALUE);
 "
 store_numeric
 cast_array

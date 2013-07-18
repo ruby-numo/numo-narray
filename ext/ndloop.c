@@ -362,9 +362,6 @@ ndloop_free(na_md_loop_t* lp)
         if (IsNArray(v)) {
             na_release_lock(v);
         }
-        if (lp->args[j].has_work_area) {
-            xfree(lp->args[j].ptr);
-        }
     }
     xfree(lp->iter);
     xfree(lp->args);
@@ -531,8 +528,6 @@ ndloop_set_narray_result(ndfunc_t *nf, na_md_loop_t *lp, int j,
     GetNArray(v,na);
     lp->args[j].value = v;
     lp->args[j].elmsz = na_get_elmsz(v);
-    lp->args[j].has_work_area = 0;
-    lp->args[j].ptr_obj =
     lp->args[j].ptr   = na_get_pointer_for_write(v);
 
     ndloop_set_stepidx(lp, j, na, dim_map);
@@ -572,8 +567,6 @@ ndloop_init_args(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
             GetNArray(v,na);
             lp->args[j].value = v;
             lp->args[j].elmsz = na_get_elmsz(v);
-            lp->args[j].has_work_area = 0;
-            lp->args[j].ptr_obj =
             lp->args[j].ptr   = na_get_pointer_for_write(v); // read
             // OK during reading, BLOCK during writing
             nf_dim = nf->args[j].dim;
@@ -589,8 +582,6 @@ ndloop_init_args(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
         } else if (TYPE(v)==T_ARRAY) {
             lp->args[j].value = v;
             lp->args[j].elmsz = sizeof(VALUE);
-            lp->args[j].has_work_area = 0;
-            lp->args[j].ptr_obj =
             lp->args[j].ptr   = NULL;
             for (i=0; i<=max_nd; i++) {
                 //printf("i=%d, j=%d\n",i,j);
@@ -627,7 +618,6 @@ ndloop_init_args(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
                 }
                 lp->args[j].value = t;
                 lp->args[j].elmsz = sizeof(VALUE);
-                lp->args[j].has_work_area = 0;
             } else {
                 rb_raise(rb_eRuntimeError,"ndloop_init_args: invalid for type");
             }
@@ -747,29 +737,7 @@ loop_narray(ndfunc_t *nf, na_md_loop_t *lp)
         }
         //for (j=0; j<nargs; j++) printf("LITER(lp,i,j).pos=%d i=%d j=%d\n",LITER(lp,i,j).pos,i,j);
 
-        //for (j=0; j<nf->narg; j++) {
-        //  if (lp->args[j].has_work_area) {
-        //    copy = lp->args[j].copy_func;
-        //    (*copy)(lp->args[j].ptr_obj+LITER(lp,i,j).pos, lp->args[j].ptr);
-        //    (*copy)(lp->user, j, lp->args[j].ptr);
-        //  } else {
-        //    lp->args[j].ptr = lp->args[j].ptr_obj + LITER(lp,i,j).pos;
-        //  }
-        //}
-        //for (j=nf->narg; j<nf->narg+nf->nres; j++) {
-        //    if ( ! lp->args[j].has_work_area) {
-        //        lp->args[j].ptr = lp->args[j].ptr_obj + LITER(lp,i,j).pos;
-        //    }
-        //}
-
         (*(nf->func))(&(lp->user));
-
-        //for (j=nf->narg; j<nf->narg+nf->nres; j++) {
-        //    if (lp->args[j].has_work_area) {
-        //      copy(lp->args[j].ptr to lp->args[j].ptr_obj+LITER(lp,i,j).pos);
-        //      (*copy_from)(lp->user, j, lp->args[j].ptr);
-        //    }
-        //}
 
         for (;;) {
             if (i<=0) goto loop_end;
