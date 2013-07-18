@@ -452,10 +452,13 @@ nary_s_bracket(VALUE klass, VALUE ary)
     na_mdai_investigate(mdai,1);
     shape = na_mdai_free(mdai,&ndim,&type);
     xfree(shape);
-    if (RTEST(rb_funcall(type, rb_intern("<="), 1, cNArray))) {
-        rb_raise(nary_eCastError, "cannot convert to NArray");
+    if (RTEST(rb_obj_is_kind_of(type,rb_cClass))) {
+        if (RTEST(rb_funcall(type,rb_intern("<="),1,cNArray))) {
+            return rb_funcall(type,rb_intern("cast"),1,ary);
+        }
     }
-    return rb_funcall(type,rb_intern("cast"),1,ary);
+    rb_raise(nary_eCastError, "cannot convert to NArray");
+    return Qnil;
 }
 
 
