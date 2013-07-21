@@ -544,7 +544,7 @@ TRANSFORM.</p>
         <div class='inline'>
 <p>&gt;=3-dimentional REAL NArray.</p>
 
-<pre class="code"><code class="">NArray::DFloat(.., NY, NX)
+<pre class="code"><code class="">NArray::DFloat(.., NZ, NY, NX)
  NX = (2**IP) * (3**IQ) * (5**IR)
  NY = (2**JP) * (3**JQ) * (5**JR)
  NZ = (2**KP) * (3**KQ) * (5**KR)</code></pre>
@@ -568,7 +568,7 @@ TRANSFORM.</p>
         <div class='inline'>
 <p>Result COMPLEX narray:</p>
 
-<pre class="code"><code class="">NArray::DComplex(.., NY, NX/2+1)</code></pre>
+<pre class="code"><code class="">NArray::DComplex(.., NZ, NY, NX/2+1)</code></pre>
 </div>
       
     </li>
@@ -991,7 +991,7 @@ TRANSFORM.</p>
         <div class='inline'>
 <p>&gt;=3-dimentional COMPLEX NArray.</p>
 
-<pre class="code"><code class="">NArray::DComplex(.., NY, NX/2+1)
+<pre class="code"><code class="">NArray::DComplex(.., NZ, NY, NX/2+1)
  NX = (2**IP) * (3**IQ) * (5**IR)
  NY = (2**JP) * (3**JQ) * (5**JR)
  NZ = (2**KP) * (3**KQ) * (5**KR)</code></pre>
@@ -1015,7 +1015,7 @@ TRANSFORM.</p>
         <div class='inline'>
 <p>Result REAL narray:</p>
 
-<pre class="code"><code class="">NArray::DFloat(.., NY, NX)</code></pre>
+<pre class="code"><code class="">NArray::DFloat(.., NZ, NY, NX)</code></pre>
 </div>
       
     </li>
@@ -1224,7 +1224,7 @@ FFT routine. Calculates on each last 1-dimention.</p>
         <div class='inline'>
 <p>&gt;=1-dimentional REAL NArray.</p>
 
-<pre class="code"><code class="">NArray::DComplex(.., NY, NX)
+<pre class="code"><code class="">NArray::DComplex(.., NX)
  NX = (2**IP) * (3**IQ) * (5**IR)</code></pre>
 </div>
       
@@ -1265,7 +1265,7 @@ FFT routine. Calculates on each last 1-dimention.</p>
         <div class='inline'>
 <p>Result COMPLEX narray:</p>
 
-<pre class="code"><code class="">NArray::DComplex(.., NY, NX)</code></pre>
+<pre class="code"><code class="">NArray::DComplex(.., NX)</code></pre>
 </div>
       
     </li>
@@ -1637,7 +1637,7 @@ FFT routine. Calculates on each last 3-dimention.</p>
         <div class='inline'>
 <p>&gt;=3-dimentional REAL NArray.</p>
 
-<pre class="code"><code class="">NArray::DComplex(.., NY, NX)
+<pre class="code"><code class="">NArray::DComplex(.., NZ, NY, NX)
  NX = (2**IP) * (3**IQ) * (5**IR)
  NY = (2**JP) * (3**JQ) * (5**JR)
  NZ = (2**KP) * (3**KQ) * (5**KR)</code></pre>
@@ -1680,7 +1680,7 @@ FFT routine. Calculates on each last 3-dimention.</p>
         <div class='inline'>
 <p>Result COMPLEX narray:</p>
 
-<pre class="code"><code class="">NArray::DComplex(.., NY, NX)</code></pre>
+<pre class="code"><code class="">NArray::DComplex(.., NZ, NY, NX)</code></pre>
 </div>
       
     </li>
@@ -1823,7 +1823,7 @@ nary_ffte_zfft3d(int argc, VALUE *args, VALUE mod)
 </div>
 
     <div id="footer">
-  Generated on Sun Jul 21 12:23:57 2013 by
+  Generated on Sun Jul 21 12:42:45 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.6.2 (ruby-2.0.0).
 </div>
