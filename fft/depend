@@ -1,0 +1,5 @@
+fft.c: fft.erb.c fft_tmpl.rb
+	erb -T- fft.erb.c > fft.c
+
+doc: fft.c README.md
+	yard -r README.md fft.c
