@@ -4,7 +4,7 @@ require 'rbconfig.rb'
 
 require 'mkmf'
 
-# $CFLAGS="-O0"
+$CFLAGS="-g -O0"
 $INCFLAGS = "-Itypes #$INCFLAGS"
 
 srcs = %w(
