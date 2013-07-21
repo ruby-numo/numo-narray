@@ -1,0 +1,130 @@
+C
+C     FFTE: A FAST FOURIER TRANSFORM PACKAGE
+C
+C     (C) COPYRIGHT SOFTWARE, 2000-2004, 2008-2011, ALL RIGHTS RESERVED
+C                BY
+C         DAISUKE TAKAHASHI
+C         FACULTY OF ENGINEERING, INFORMATION AND SYSTEMS
+C         UNIVERSITY OF TSUKUBA
+C         1-1-1 TENNODAI, TSUKUBA, IBARAKI 305-8573, JAPAN
+C         E-MAIL: daisuke@cs.tsukuba.ac.jp
+C
+C
+C     2-D COMPLEX-TO-REAL FFT ROUTINE
+C
+C     FORTRAN77 SOURCE PROGRAM
+C
+C     CALL ZDFFT2D(A,NX,NY,IOPT,B)
+C
+C     A(NX/2+1,NY) IS COMPLEX INPUT VECTOR (COMPLEX*16)
+C     A(NX,NY) IS REAL OUTPUT VECTOR (REAL*8)
+C     B(NX/2+1,NY) IS WORK VECTOR (COMPLEX*16)
+C     NX IS THE LENGTH OF THE TRANSFORMS IN THE X-DIRECTION (INTEGER*4)
+C     NY IS THE LENGTH OF THE TRANSFORMS IN THE Y-DIRECTION (INTEGER*4)
+C       ------------------------------------
+C         NX = (2**IP) * (3**IQ) * (5**IR)
+C         NY = (2**JP) * (3**JQ) * (5**JR)
+C       ------------------------------------
+C     IOPT = 0 FOR INITIALIZING THE COEFFICIENTS (INTEGER*4)
+C          = +1 FOR INVERSE TRANSFORM
+C
+C     WRITTEN BY DAISUKE TAKAHASHI
+C
+      SUBROUTINE ZDFFT2D(A,NX,NY,IOPT,B)
+      IMPLICIT REAL*8 (A-H,O-Z)
+      INCLUDE 'param.h'
+      COMPLEX*16 A(*),B(*)
+      COMPLEX*16 C((NDA2+NP)*NBLK),D(NDA2)
+      COMPLEX*16 WX(NDA2),WY(NDA2)
+      DIMENSION LNX(3),LNY(3)
+      SAVE WX,WY
+C
+      CALL FACTOR(NX,LNX)
+      CALL FACTOR(NY,LNY)
+C
+      IF (IOPT .EQ. 0) THEN
+        CALL SETTBL(WX,NX)
+        CALL SETTBL(WY,NY)
+        RETURN
+      END IF
+C
+!$OMP PARALLEL PRIVATE(C,D)
+      CALL ZDFFT2D0(A,A,B,C,C,D,WX,WY,NX,NY,LNX,LNY)
+!$OMP END PARALLEL
+      RETURN
+      END
+      SUBROUTINE ZDFFT2D0(A,DA,B,CX,CY,D,WX,WY,NX,NY,LNX,LNY)
+      IMPLICIT REAL*8 (A-H,O-Z)
+      INCLUDE 'param.h'
+      COMPLEX*16 A(NX/2+1,*),B(NX/2+1,*)
+      COMPLEX*16 CX(*),CY(NY+NP,*),D(*)
+      COMPLEX*16 WX(*),WY(*)
+      COMPLEX*16 TEMP
+      DIMENSION DA(NX,*)
+      DIMENSION LNX(*),LNY(*)
+C
+      DN=1.0D0/(DBLE(NX)*DBLE(NY))
+C
+!$OMP DO
+      DO 60 II=1,NX/2+1,NBLK
+        DO 20 I=II,MIN0(II+NBLK-1,NX/2+1)
+!DIR$ VECTOR ALIGNED
+          DO 10 J=1,NY
+            CY(J,I-II+1)=DCONJG(A(I,J))
+   10     CONTINUE
+   20   CONTINUE
+        DO 30 I=II,MIN0(II+NBLK-1,NX/2+1)
+          CALL FFT235(CY(1,I-II+1),D,WY,NY,LNY)
+   30   CONTINUE
+        DO 50 J=1,NY
+!DIR$ VECTOR ALIGNED
+          DO 40 I=II,MIN0(II+NBLK-1,NX/2+1)
+            B(I,J)=CY(J,I-II+1)
+   40     CONTINUE
+   50   CONTINUE
+   60 CONTINUE
+      IF (MOD(NY,2) .EQ. 0) THEN
+!$OMP DO PRIVATE(TEMP)
+        DO 90 J=1,NY,2
+          CX(1)=DCMPLX(DBLE(B(1,J)),DBLE(B(1,J+1)))
+!DIR$ VECTOR ALIGNED
+          DO 70 I=2,NX/2+1
+            TEMP=(0.0D0,1.0D0)*B(I,J+1)
+            CX(I)=B(I,J)+TEMP
+            CX(NX-I+2)=DCONJG(B(I,J)-TEMP)
+   70     CONTINUE
+          CALL FFT235(CX,D,WX,NX,LNX)
+          DO 80 I=1,NX
+            DA(I,J)=DBLE(CX(I))*DN
+            DA(I,J+1)=DIMAG(CX(I))*DN
+   80     CONTINUE
+   90   CONTINUE
+      ELSE
+!$OMP DO PRIVATE(TEMP)
+        DO 120 J=1,NY-1,2
+          CX(1)=DCMPLX(DBLE(B(1,J)),DBLE(B(1,J+1)))
+!DIR$ VECTOR ALIGNED
+          DO 100 I=2,NX/2+1
+            TEMP=(0.0D0,1.0D0)*B(I,J+1)
+            CX(I)=B(I,J)+TEMP
+            CX(NX-I+2)=DCONJG(B(I,J)-TEMP)
+  100     CONTINUE
+          CALL FFT235(CX,D,WX,NX,LNX)
+          DO 110 I=1,NX
+            DA(I,J)=DBLE(CX(I))*DN
+            DA(I,J+1)=DIMAG(CX(I))*DN
+  110     CONTINUE
+  120   CONTINUE
+        CX(1)=DCMPLX(DBLE(B(1,NY)),0.0D0)
+!DIR$ VECTOR ALIGNED
+        DO 130 I=2,NX/2+1
+          CX(I)=B(I,NY)
+          CX(NX-I+2)=DCONJG(B(I,NY))
+  130   CONTINUE
+        CALL FFT235(CX,D,WX,NX,LNX)
+        DO 140 I=1,NX
+          DA(I,NY)=DBLE(CX(I))*DN
+  140   CONTINUE
+      END IF
+      RETURN
+      END

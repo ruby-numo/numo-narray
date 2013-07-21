@@ -1,0 +1,9 @@
+CLEANOBJS = *.o */*.o *.bak *~
+
+ffte.c: ffte_beg.erb.c zfft.erb.c zdfft.erb.c dzfft.erb.c ffte_end.erb.c
+	cat ffte_beg.erb.c zfft.erb.c zdfft.erb.c dzfft.erb.c ffte_end.erb.c | erb -T- > ffte.c
+
+.SUFFIXES: .f
+
+.f.o:
+	$(F77) $(FFLAGS) -c -o $@ $<

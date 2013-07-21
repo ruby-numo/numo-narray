@@ -1,0 +1,63 @@
+FC = f90
+FCFLAGS = -O3 -I..
+#FC = ifort
+#FCFLAGS = -O3 -xHost -I..
+
+all: test1d test2d test3d speed1d speed2d speed3d
+
+test1d : test1d.o vzfft1d.o mfft235.o fft235.o kernel.o
+	$(FC) $(FCFLAGS) test1d.o vzfft1d.o mfft235.o fft235.o kernel.o -o test1d
+
+test2d : test2d.o vzfft2d.o mfft235.o fft235.o kernel.o
+	$(FC) $(FCFLAGS) test2d.o vzfft2d.o mfft235.o fft235.o kernel.o -o test2d
+
+test3d : test3d.o vzfft3d.o mfft235.o fft235.o kernel.o
+	$(FC) $(FCFLAGS) test3d.o vzfft3d.o mfft235.o fft235.o kernel.o -o test3d
+
+test1d.o : test1d.f ../param.h
+	$(FC) $(FCFLAGS) -c test1d.f -o test1d.o
+
+test2d.o : test2d.f ../param.h
+	$(FC) $(FCFLAGS) -c test2d.f -o test2d.o
+
+test3d.o : test3d.f ../param.h
+	$(FC) $(FCFLAGS) -c test3d.f -o test3d.o
+
+speed1d : speed1d.o vzfft1d.o mfft235.o fft235.o kernel.o
+	$(FC) $(FCFLAGS) speed1d.o vzfft1d.o mfft235.o fft235.o kernel.o -o speed1d
+
+speed2d : speed2d.o vzfft2d.o mfft235.o fft235.o kernel.o
+	$(FC) $(FCFLAGS) speed2d.o vzfft2d.o mfft235.o fft235.o kernel.o -o speed2d
+
+speed3d : speed3d.o vzfft3d.o mfft235.o fft235.o kernel.o
+	$(FC) $(FCFLAGS) speed3d.o vzfft3d.o mfft235.o fft235.o kernel.o -o speed3d
+
+speed1d.o : speed1d.f ../param.h
+	$(FC) $(FCFLAGS) -c speed1d.f -o speed1d.o
+
+speed2d.o : speed2d.f ../param.h
+	$(FC) $(FCFLAGS) -c speed2d.f -o speed2d.o
+
+speed3d.o : speed3d.f ../param.h
+	$(FC) $(FCFLAGS) -c speed3d.f -o speed3d.o
+
+vzfft1d.o : ../vzfft1d.f ../param.h
+	$(FC) $(FCFLAGS) -c ../vzfft1d.f -o vzfft1d.o
+
+vzfft2d.o : ../vzfft2d.f ../param.h
+	$(FC) $(FCFLAGS) -c ../vzfft2d.f -o vzfft2d.o
+
+vzfft3d.o : ../vzfft3d.f ../param.h
+	$(FC) $(FCFLAGS) -c ../vzfft3d.f -o vzfft3d.o
+
+mfft235.o : ../mfft235.f
+	$(FC) $(FCFLAGS) -c ../mfft235.f -o mfft235.o
+
+fft235.o : ../fft235.f
+	$(FC) $(FCFLAGS) -c ../fft235.f -o fft235.o
+
+kernel.o : ../kernel.f
+	$(FC) $(FCFLAGS) -c ../kernel.f -o kernel.o
+
+clean:
+	rm -f test1d test2d test3d speed1d speed2d speed3d *.o
