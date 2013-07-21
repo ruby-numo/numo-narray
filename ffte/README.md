@@ -8,4 +8,4 @@
 ## Ruby wrapper
 * [GitHub](https://github.com/masa16/narray-devel/tree/master/ffte)
   (in narray-devel)
-* [Tentative Document](http://masa16.github.io/narray-devel/ffte/frames.html)
+* [Tentative API Document](http://masa16.github.io/narray-devel/ffte/frames.html)

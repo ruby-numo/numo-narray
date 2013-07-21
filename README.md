@@ -8,6 +8,6 @@ under development
 * ffte: Sample Wrapper of [FFTE](http://www.ffte.jp/): A Fast Fourier Transform Package
   developed by Prof. Takahashi.
 
-## Tentative Doc
+## Tentative API Document
 * [NArray](http://masa16.github.io/narray-devel/narray/frames.html)
 * [FFTE](http://masa16.github.io/narray-devel/ffte/frames.html)
