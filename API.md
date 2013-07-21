@@ -16,6 +16,7 @@ under development
 
 ## NArrayメソッド定義の例
 イテレータとそのループタイプを与えれば、内部でループルールの処理・配列生成を自動的にを行う
+
     // 最も内側のループごとに呼ばれるイテレータ関数
     #define cT cDFloat
     static void
@@ -24,24 +25,24 @@ under development
         double *a = ...
         double *b = ...
         double *c = ...
-
         for (i=0; i<n; i++) {
            c[i] = a[i] + b[i];
         }
     }
+
     // Rubyメソッドに対応するC関数を定義
     static VALUE
     nary_dfloat_s_add(VALUE mod, VALUE a1, VALUE a2)
     {
         ndfunc_t *func;
         VALUE v;
-
         func = ndfunc_alloc(iter_dfloat_add, FULL_LOOP,
                             2, 1, cT, cT, cT);
         v = ndloop_do(func, 2, a1, a2);
         ndfunc_free(func);
         return v;
     }
+
     // RubyメソッドをC関数として定義
     void
     Init_nary_dfloat()
@@ -54,7 +55,7 @@ under development
 ndfunc_t 構造体をアロケートして初期化して返す
 
     ndfunc_t* ndfunc_alloc(na_iter_func_t func, int flag, int narg, int nres,
-       VALUE in_type1, ... VALUE out_type1, ...)
+                           VALUE in_type1, ... VALUE out_type1, ...)
 
 * func: イテレータ関数
 * flag: イテレータのタイプをフラグで指定 イテレータ内でループを持つか、stride/indexが可能か、etc.
