@@ -37,7 +37,7 @@ iter_fft_zfft<%=d%>d(na_loop_t *const lp)
   @overload zfft<%=d%>d(narray,[iopt])
   @param [NArray::DComplex] narray
     >=<%=d%>-dimentional REAL NArray.
-        NArray::DComplex(.., NY, NX)
+        NArray::DComplex(.., <%if d>2%>NZ, <%end;if d>1%>NY, <%end%>NX)
          NX = (2**IP) * (3**IQ) * (5**IR)<% if d>1 %>
          NY = (2**JP) * (3**JQ) * (5**JR)<% if d>2 %>
          NZ = (2**KP) * (3**KQ) * (5**KR)<% end; end %>
@@ -47,7 +47,7 @@ iter_fft_zfft<%=d%>d(na_loop_t *const lp)
          +1 FOR INVERSE TRANSFORM
   @return [NArray::DComplex]
     Result COMPLEX narray:
-        NArray::DComplex(.., NY, NX)
+        NArray::DComplex(.., <%if d>2%>NZ, <%end;if d>1%>NY, <%end%>NX)
   @raise  [FFTE::RadixError] if NX<%if d>1%>, NY<% if d>2%>, NZ<%end;end%>
     is not (2^p)*(3^q)*(5^r).
 */

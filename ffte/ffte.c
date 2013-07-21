@@ -70,7 +70,7 @@ iter_fft_zfft1d(na_loop_t *const lp)
   @overload zfft1d(narray,[iopt])
   @param [NArray::DComplex] narray
     >=1-dimentional REAL NArray.
-        NArray::DComplex(.., NY, NX)
+        NArray::DComplex(.., NX)
          NX = (2**IP) * (3**IQ) * (5**IR)
   @param [Numeric] iopt
     Transform direction.
@@ -78,7 +78,7 @@ iter_fft_zfft1d(na_loop_t *const lp)
          +1 FOR INVERSE TRANSFORM
   @return [NArray::DComplex]
     Result COMPLEX narray:
-        NArray::DComplex(.., NY, NX)
+        NArray::DComplex(.., NX)
   @raise  [FFTE::RadixError] if NX
     is not (2^p)*(3^q)*(5^r).
 */
@@ -249,7 +249,7 @@ iter_fft_zfft3d(na_loop_t *const lp)
   @overload zfft3d(narray,[iopt])
   @param [NArray::DComplex] narray
     >=3-dimentional REAL NArray.
-        NArray::DComplex(.., NY, NX)
+        NArray::DComplex(.., NZ, NY, NX)
          NX = (2**IP) * (3**IQ) * (5**IR)
          NY = (2**JP) * (3**JQ) * (5**JR)
          NZ = (2**KP) * (3**KQ) * (5**KR)
@@ -259,7 +259,7 @@ iter_fft_zfft3d(na_loop_t *const lp)
          +1 FOR INVERSE TRANSFORM
   @return [NArray::DComplex]
     Result COMPLEX narray:
-        NArray::DComplex(.., NY, NX)
+        NArray::DComplex(.., NZ, NY, NX)
   @raise  [FFTE::RadixError] if NX, NY, NZ
     is not (2^p)*(3^q)*(5^r).
 */
@@ -458,13 +458,13 @@ iter_fft_zdfft3d(na_loop_t *const lp)
   @overload zdfft3d(narray)
   @param [NArray::DComplex] narray
     >=3-dimentional COMPLEX NArray.
-        NArray::DComplex(.., NY, NX/2+1)
+        NArray::DComplex(.., NZ, NY, NX/2+1)
          NX = (2**IP) * (3**IQ) * (5**IR)
          NY = (2**JP) * (3**JQ) * (5**JR)
          NZ = (2**KP) * (3**KQ) * (5**KR)
   @return [NArray::DFloat]
     Result REAL narray:
-        NArray::DFloat(.., NY, NX)
+        NArray::DFloat(.., NZ, NY, NX)
   @raise  [FFTE::RadixError] if NX, NY, NZ
     is not (2^p)*(3^q)*(5^r).
 */
@@ -682,13 +682,13 @@ iter_fft_dzfft3d(na_loop_t *const lp)
   @overload dzfft3d(narray)
   @param [NArray::DFloat] narray
     >=3-dimentional REAL NArray.
-        NArray::DFloat(.., NY, NX)
+        NArray::DFloat(.., NZ, NY, NX)
          NX = (2**IP) * (3**IQ) * (5**IR)
          NY = (2**JP) * (3**JQ) * (5**JR)
          NZ = (2**KP) * (3**KQ) * (5**KR)
   @return [NArray::DComplex]
     Result COMPLEX narray:
-        NArray::DComplex(.., NY, NX/2+1)
+        NArray::DComplex(.., NZ, NY, NX/2+1)
   @raise  [FFTE::RadixError] if NX, NY, NZ
     is not (2^p)*(3^q)*(5^r).
 */

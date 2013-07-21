@@ -37,13 +37,13 @@ iter_fft_zdfft<%=d%>d(na_loop_t *const lp)
   @overload zdfft<%=d%>d(narray)
   @param [NArray::DComplex] narray
     >=<%=d%>-dimentional COMPLEX NArray.
-        NArray::DComplex(.., NY, NX/2+1)
+        NArray::DComplex(.., <%if d>2%>NZ, <%end;if d>1%>NY, <%end%>NX/2+1)
          NX = (2**IP) * (3**IQ) * (5**IR)
          NY = (2**JP) * (3**JQ) * (5**JR)<% if d==3 %>
          NZ = (2**KP) * (3**KQ) * (5**KR)<% end %>
   @return [NArray::DFloat]
     Result REAL narray:
-        NArray::DFloat(.., NY, NX)
+        NArray::DFloat(.., <%if d>2%>NZ, <%end;if d>1%>NY, <%end%>NX)
   @raise  [FFTE::RadixError] if NX, NY<%if d>2%>, NZ<%end%>
     is not (2^p)*(3^q)*(5^r).
 */
