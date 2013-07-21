@@ -370,9 +370,9 @@ na_reshape(int argc, VALUE *argv, VALUE self)
     GetNArray(copy,na);
     shape_save = NA_SHAPE(na);
     na_setup_shape(na,argc,shape);
-    if (NA_SHAPE(na) != shape_save) {
-        xfree(shape_save);
-    }
+    //if (NA_SHAPE(na) != shape_save) {
+    //    xfree(shape_save);
+    //}
     return copy;
 }
 
