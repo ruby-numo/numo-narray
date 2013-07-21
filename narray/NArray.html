@@ -1,0 +1,3807 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: NArray
+  
+    &mdash; Documentation by YARD 0.8.6.2
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (N)</a> &raquo;
+    
+    
+    <span class="title">NArray</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: NArray
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">NArray</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">ext/narray.c</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<div id="subclasses">
+  <h2>Direct Known Subclasses</h2>
+  <p class="children"><span class='object_link'><a href="NArray/Bit.html" title="NArray::Bit (class)">Bit</a></span>, <span class='object_link'><a href="NArray/DComplex.html" title="NArray::DComplex (class)">DComplex</a></span>, <span class='object_link'><a href="NArray/DFloat.html" title="NArray::DFloat (class)">DFloat</a></span>, <span class='object_link'><a href="NArray/Int16.html" title="NArray::Int16 (class)">Int16</a></span>, <span class='object_link'><a href="NArray/Int32.html" title="NArray::Int32 (class)">Int32</a></span>, <span class='object_link'><a href="NArray/Int64.html" title="NArray::Int64 (class)">Int64</a></span>, <span class='object_link'><a href="NArray/Int8.html" title="NArray::Int8 (class)">Int8</a></span>, <span class='object_link'><a href="NArray/SComplex.html" title="NArray::SComplex (class)">SComplex</a></span>, <span class='object_link'><a href="NArray/SFloat.html" title="NArray::SFloat (class)">SFloat</a></span>, <span class='object_link'><a href="NArray/UInt16.html" title="NArray::UInt16 (class)">UInt16</a></span>, <span class='object_link'><a href="NArray/UInt32.html" title="NArray::UInt32 (class)">UInt32</a></span>, <span class='object_link'><a href="NArray/UInt64.html" title="NArray::UInt64 (class)">UInt64</a></span>, <span class='object_link'><a href="NArray/UInt8.html" title="NArray::UInt8 (class)">UInt8</a></span></p>
+</div>
+<h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="NArray/Math.html" title="NArray::Math (module)">Math</a></span>
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="NArray/Bit.html" title="NArray::Bit (class)">Bit</a></span>, <span class='object_link'><a href="NArray/CastError.html" title="NArray::CastError (class)">CastError</a></span>, <span class='object_link'><a href="NArray/DComplex.html" title="NArray::DComplex (class)">DComplex</a></span>, <span class='object_link'><a href="NArray/DFloat.html" title="NArray::DFloat (class)">DFloat</a></span>, <span class='object_link'><a href="NArray/Int16.html" title="NArray::Int16 (class)">Int16</a></span>, <span class='object_link'><a href="NArray/Int32.html" title="NArray::Int32 (class)">Int32</a></span>, <span class='object_link'><a href="NArray/Int64.html" title="NArray::Int64 (class)">Int64</a></span>, <span class='object_link'><a href="NArray/Int8.html" title="NArray::Int8 (class)">Int8</a></span>, <span class='object_link'><a href="NArray/SComplex.html" title="NArray::SComplex (class)">SComplex</a></span>, <span class='object_link'><a href="NArray/SFloat.html" title="NArray::SFloat (class)">SFloat</a></span>, <span class='object_link'><a href="NArray/ShapeError.html" title="NArray::ShapeError (class)">ShapeError</a></span>, <span class='object_link'><a href="NArray/Step.html" title="NArray::Step (class)">Step</a></span>, <span class='object_link'><a href="NArray/UInt16.html" title="NArray::UInt16 (class)">UInt16</a></span>, <span class='object_link'><a href="NArray/UInt32.html" title="NArray::UInt32 (class)">UInt32</a></span>, <span class='object_link'><a href="NArray/UInt64.html" title="NArray::UInt64 (class)">UInt64</a></span>, <span class='object_link'><a href="NArray/UInt8.html" title="NArray::UInt8 (class)">UInt8</a></span>
+    
+  
+</p>
+
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="Float64-constant" class="">Float64 =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>alias of DFloat</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='id identifier rubyid_cDFloat'>cDFloat</span></pre></dd>
+      
+        <dt id="Float32-constant" class="">Float32 =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>alias of SFloat</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='id identifier rubyid_cSFloat'>cSFloat</span></pre></dd>
+      
+        <dt id="Complex128-constant" class="">Complex128 =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>alias of DComplex</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='id identifier rubyid_cDComplex'>cDComplex</span></pre></dd>
+      
+        <dt id="Complex64-constant" class="">Complex64 =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>alias of SComplex</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='id identifier rubyid_cSComplex'>cSComplex</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#%5B%5D-class_method" title="[] (class method)">+ (NArray) <strong>[]</strong>(elements) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Generate NArray object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#array_shape-class_method" title="array_shape (class method)">+ (Object) <strong>array_shape</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#array_type-class_method" title="array_type (class method)">+ (Object) <strong>array_type</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#byte_size-class_method" title="byte_size (class method)">+ (Numeric) <strong>byte_size</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns byte size of one element of NArray.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#debug%3D-class_method" title="debug= (class method)">+ (Object) <strong>debug=</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mdai-class_method" title="mdai (class method)">+ (Object) <strong>mdai</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#srand-class_method" title="srand (class method)">+ (Object) <strong>srand</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#step-class_method" title="step (class method)">+ (Object) <strong>step</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#%3D%3D-instance_method" title="#== (instance method)">- (Boolean) <strong>==</strong>(other) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Equality of self and other in view of numerical array.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#%5B%5D-instance_method" title="#[] (instance method)">- (Object) <strong>[]</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#%5B%5D%3D-instance_method" title="#[]= (instance method)">- (Object) <strong>[]=</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>method: []=(idx1,idx2,…,idxN,val).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#byte_size-instance_method" title="#byte_size (instance method)">- (Integer) <strong>byte_size</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns total byte size of NArray.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#byte_swapped%3F-instance_method" title="#byte_swapped? (instance method)">- (Boolean) <strong>byte_swapped?</strong> </a>
+    
+
+    
+      (also: #network_order?)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Return true if byte swapped.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#cast_to-instance_method" title="#cast_to (instance method)">- (NArray) <strong>cast_to</strong>(datatype) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Cast self to another NArray datatype.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#coerce-instance_method" title="#coerce (instance method)">- (Array) <strong>coerce</strong>(other) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns an array containing other and self, both are converted to upcasted
+type of NArray.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#column_major%3F-instance_method" title="#column_major? (instance method)">- (Boolean) <strong>column_major?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Return true if column major.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#copy-instance_method" title="#copy (instance method)">- (Object) <strong>copy</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#debug_info-instance_method" title="#debug_info (instance method)">- (Object) <strong>debug_info</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#flatten-instance_method" title="#flatten (instance method)">- (Object) <strong>flatten</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#host_order%3F-instance_method" title="#host_order? (instance method)">- (Boolean) <strong>host_order?</strong> </a>
+    
+
+    
+      (also: #little_endian?, #vacs_order?)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Return true if not byte swapped.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Object) <strong>initialize</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Constructs a narray using the given datatype and shape or .</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize_copy-instance_method" title="#initialize_copy (instance method)">- (NArray) <strong>initialize_copy</strong>(other) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Replaces the contents of self with the contents of other narray.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#inplace-instance_method" title="#inplace (instance method)">- (NArray) <strong>inplace</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns view of narray with inplace flagged.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#inplace%21-instance_method" title="#inplace! (instance method)">- (NArray) <strong>inplace!</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Set inplace flag to self.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#inplace%3F-instance_method" title="#inplace? (instance method)">- (Boolean) <strong>inplace?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Return true if inplace flagged.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ndim-instance_method" title="#ndim (instance method)">- (Object) <strong>ndim</strong> </a>
+    
+
+    
+      (also: #rank)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>method: size() – returns the total number of typeents.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#out_of_place%21-instance_method" title="#out_of_place! (instance method)">- (NArray) <strong>out_of_place!</strong> </a>
+    
+
+    
+      (also: #not_inplace!)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Unset inplace flag to self.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#reshape-instance_method" title="#reshape (instance method)">- (Object) <strong>reshape</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>private function for reshape.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#row_major%3F-instance_method" title="#row_major? (instance method)">- (Boolean) <strong>row_major?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Return true if row major.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#shape-instance_method" title="#shape (instance method)">- (Object) <strong>shape</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>method: shape() – returns shape, array of the size of dimensions.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#size-instance_method" title="#size (instance method)">- (Object) <strong>size</strong> </a>
+    
+
+    
+      (also: #length, #total)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>method: size() – returns the total number of typeents.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#slice-instance_method" title="#slice (instance method)">- (Object) <strong>slice</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>method: slice(idx1,idx2,…,idxN).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#store-instance_method" title="#store (instance method)">- (Object) <strong>store</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>to be implemented as cast.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#swap_byte-instance_method" title="#swap_byte (instance method)">- (Object) <strong>swap_byte</strong> </a>
+    
+
+    
+      (also: #hton)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>rb_define_method(cNArray, “reshape!”, na_reshape_bang,-1);
+rb_define_alias(cNArray,  “shape=”,“reshape!”);.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_host-instance_method" title="#to_host (instance method)">- (Object) <strong>to_host</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_network-instance_method" title="#to_network (instance method)">- (Object) <strong>to_network</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_swapped-instance_method" title="#to_swapped (instance method)">- (Object) <strong>to_swapped</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_vacs-instance_method" title="#to_vacs (instance method)">- (Object) <strong>to_vacs</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#transpose-instance_method" title="#transpose (instance method)">- (Object) <strong>transpose</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    
+      <span class="overload">- (<tt>Object</tt>) <strong>new</strong>(shape) </span>
+    
+      <span class="overload">- (<tt>Object</tt>) <strong>new</strong>(type, shape) </span>
+    
+      <span class="overload">- (<tt>Object</tt>) <strong>new</strong>(type, size1, size2, ...) </span>
+    
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Constructs a narray using the given <em>datatype</em> and <em>shape</em> or
+. <em>size</em>.  If the second argument is an integer, returns 1-d array.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/narray.c', line 336</span>
+
+static VALUE
+na_initialize(int argc, VALUE *argv, VALUE self)
+{
+    //VALUE vtype;
+    //VALUE vshape;
+    VALUE v;
+    size_t *shape=NULL;
+    //size_t size;
+    int ndim;
+    //int i;
+
+    v = argv[0];
+
+    if (TYPE(v) == T_ARRAY) {
+        ndim = RARRAY_LEN(v);
+        //printf(&quot;ndim=%d\n&quot;,ndim);
+        if (ndim &gt; 255) {
+            rb_raise(rb_eArgError,&quot;too large number of dimensions&quot;);
+        }
+        shape = ALLOCA_N(size_t, ndim);
+        // setup size_t shape[] from VALUE shape argument
+        na_array_to_internal_shape(self, v, shape);
+    } else {
+        rb_raise(rb_eArgError,&quot;argument is not an Array&quot;);
+    }
+    //printf(&quot;ndim=%d\n&quot;,ndim);
+    na_setup(self, ndim, shape);
+
+    return self;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="[]-class_method">
+  
+    + (<tt><span class='object_link'><a href="" title="NArray (class)">NArray</a></span></tt>) <strong>[]</strong>(elements) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Generate NArray object. NArray datatype is automatically selected.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>elements</span>
+      
+      
+        <span class='type'>(<tt>Numeric</tt>, <tt>Array</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="NArray (class)">NArray</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/array.c', line 440</span>
+
+static VALUE
+nary_s_bracket(VALUE klass, VALUE ary)
+{
+    int ndim;
+    VALUE type=Qnil;
+    size_t *shape;
+    na_mdai_t *mdai;
+
+    if (TYPE(ary)!=T_ARRAY) {
+        rb_bug(&quot;Argument is not array&quot;);
+    }
+    mdai = na_mdai_alloc(ary);
+    na_mdai_investigate(mdai,1);
+    shape = na_mdai_free(mdai,&amp;ndim,&amp;type);
+    xfree(shape);
+    if (RTEST(rb_obj_is_kind_of(type,rb_cClass))) {
+        if (RTEST(rb_funcall(type,rb_intern(&quot;&lt;=&quot;),1,cNArray))) {
+            return rb_funcall(type,rb_intern(&quot;cast&quot;),1,ary);
+        }
+    }
+    rb_raise(nary_eCastError, &quot;cannot convert to NArray&quot;);
+    return Qnil;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="array_shape-class_method">
+  
+    + (<tt>Object</tt>) <strong>array_shape</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/array.c', line 299</span>
+
+static VALUE
+na_s_array_shape(VALUE mod, VALUE ary)
+{
+    int  i, ndim;
+    VALUE type=Qnil;
+    size_t *shape;
+    na_mdai_t *mdai;
+    VALUE vshape;
+
+    if (TYPE(ary)!=T_ARRAY) {
+	// 0-dimension
+	return rb_ary_new();
+    }
+    // investigate MD-Array
+    mdai = na_mdai_alloc(ary);
+    na_mdai_investigate(mdai,1);
+    // obtain properties
+    shape = na_mdai_free(mdai,&amp;ndim,&amp;type);
+    // make shape object
+    vshape = rb_ary_new();
+    for (i=0; i&lt;ndim; i++) {
+	rb_ary_push( vshape, SIZE2NUM(shape[i]) );
+    }
+    xfree(shape);
+    return vshape;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="array_type-class_method">
+  
+    + (<tt>Object</tt>) <strong>array_type</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+346
+347
+348
+349
+350</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/array.c', line 346</span>
+
+static VALUE
+na_s_array_type(VALUE mod, VALUE ary)
+{
+    return na_array_type(ary);
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="byte_size-class_method">
+  
+    + (<tt>Numeric</tt>) <strong>byte_size</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns byte size of one element of NArray.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Numeric</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>byte size.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+848
+849
+850
+851
+852</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/narray.c', line 848</span>
+
+static VALUE
+nary_s_byte_size(VALUE type)
+{
+    return rb_const_get(type, rb_intern(ELEMENT_BYTE_SIZE));
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="debug=-class_method">
+  
+    + (<tt>Object</tt>) <strong>debug=</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1076
+1077
+1078
+1079
+1080</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/narray.c', line 1076</span>
+
+VALUE na_debug_set(VALUE mod, VALUE flag)
+{
+    na_debug_flag = RTEST(flag);
+    return Qnil;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="mdai-class_method">
+  
+    + (<tt>Object</tt>) <strong>mdai</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/array.c', line 353</span>
+
+static VALUE
+na_mdai(VALUE mod, VALUE ary)
+{
+    int  i, ndim;
+    VALUE type=Qnil;
+    size_t *shape;
+    na_mdai_t *mdai;
+    if (TYPE(ary)!=T_ARRAY) {
+	printf(&quot;ndim=%d\n&quot;,0);
+	return Qnil;
+    }
+    mdai  = na_mdai_alloc(ary);
+    na_mdai_investigate(mdai,1);
+    shape = na_mdai_free(mdai,&amp;ndim,&amp;type);
+    printf(&quot;\ntype=%lx\n&quot;,type);
+    printf(&quot;ndim=%d\n&quot;,ndim);
+    for (i=0; i&lt;ndim; i++) {
+	printf(&quot; shape[%d]=%ld\n&quot;,i,shape[i]);
+    }
+    return Qnil;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="srand-class_method">
+  
+    + (<tt>Object</tt>) <strong>srand</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/rand.c', line 65</span>
+
+static VALUE
+ nary_s_srand(int argc, VALUE *argv, VALUE obj)
+{
+    VALUE vseed;
+    u_int64_t seed;
+
+    rb_secure(4);
+    if (rb_scan_args(argc, argv, &quot;01&quot;, &amp;vseed) == 0) {
+        seed = random_seed();
+    }
+    else {
+        seed = NUM2UINT64(vseed);
+    }
+    init_gen_rand(seed);
+
+    return Qnil;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="step-class_method">
+  
+    + (<tt>Object</tt>) <strong>step</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+455
+456
+457
+458
+459
+460
+461</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/step.c', line 455</span>
+
+static VALUE
+nary_s_step( int argc, VALUE *argv, VALUE mod )
+{
+    VALUE self = rb_obj_alloc(na_cStep);
+    step_initialize(argc, argv, self);
+    return self;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="==-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>==</strong>(other) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Equality of self and other in view of numerical array. i.e., both arrays
+have same shape and corresponding elements are equal.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>other</span>
+      
+      
+        <span class='type'>(<tt>Object</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>true if self and other is equal.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1090
+1091
+1092
+1093
+1094
+1095
+1096
+1097
+1098
+1099
+1100
+1101
+1102
+1103
+1104
+1105
+1106
+1107
+1108
+1109
+1110
+1111
+1112
+1113
+1114</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/narray.c', line 1090</span>
+
+VALUE
+na_equal(VALUE self, volatile VALUE other)
+{
+    volatile VALUE bool;
+    narray_t *na1, *na2;
+    int i;
+
+    GetNArray(self,na1);
+
+    if (!rb_obj_is_kind_of(other,cNArray)) {
+        other = rb_funcall(CLASS_OF(self), rb_intern(&quot;cast&quot;), 1, other);
+    }
+
+    GetNArray(other,na2);
+    if (na1-&gt;ndim != na2-&gt;ndim) {
+        return Qfalse;
+    }
+    for (i=0; i&lt;na1-&gt;ndim; i++) {
+        if (na1-&gt;shape[i] != na2-&gt;shape[i]) {
+            return Qfalse;
+        }
+    }
+    bool = rb_funcall(self, rb_intern(&quot;eq&quot;), 1, other);
+    return (rb_funcall(bool, rb_intern(&quot;count_false&quot;), 0)==INT2FIX(0)) ? Qtrue : Qfalse;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="[]-instance_method">
+  
+    - (<tt>Object</tt>) <strong>[]</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1149</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/types/bit.c', line 1149</span>
+
+VALUE na_aref(int argc, VALUE *argv, VALUE self);</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="[]=-instance_method">
+  
+    - (<tt>Object</tt>) <strong>[]=</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>method: []=(idx1,idx2,…,idxN,val)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+950
+951
+952
+953
+954
+955
+956
+957
+958
+959
+960
+961
+962
+963
+964</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/index.c', line 950</span>
+
+static VALUE
+na_aset(int argc, VALUE *argv, VALUE self)
+{
+    VALUE a;
+    argc--;
+
+    if (argc==0)
+        na_store(self, argv[argc]);
+    else {
+        a = na_aref_main(argc, argv, self, 0);
+        //a = na_aref(argc, argv, self);
+        na_store(a, argv[argc]);
+    }
+    return argv[argc];
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="byte_size-instance_method">
+  
+    - (<tt>Integer</tt>) <strong>byte_size</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns total byte size of NArray.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>byte size.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+831
+832
+833
+834
+835
+836
+837
+838
+839
+840
+841
+842</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/narray.c', line 831</span>
+
+static VALUE
+nary_byte_size(VALUE self)
+{
+    VALUE velmsz; //klass,
+    narray_t *na;
+    size_t sz;
+
+    GetNArray(self,na);
+    velmsz = rb_const_get(CLASS_OF(self), rb_intern(ELEMENT_BYTE_SIZE));
+    sz = SIZE2NUM(NUM2SIZE(velmsz) * na-&gt;size);
+    return sz;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="byte_swapped?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>byte_swapped?</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='network_order?-instance_method'>network_order?</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Return true if byte swapped.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1005
+1006
+1007
+1008
+1009
+1010</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/narray.c', line 1005</span>
+
+VALUE na_byte_swapped_p( VALUE self )
+{
+    if (TEST_BYTE_SWAPPED(self))
+      return Qtrue;
+    return Qfalse;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="cast_to-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="NArray (class)">NArray</a></span></tt>) <strong>cast_to</strong>(datatype) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Cast self to another NArray datatype.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>datatype</span>
+      
+      
+        <span class='type'>(<tt>Class</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>NArray datatype.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="NArray (class)">NArray</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+861
+862
+863
+864
+865</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/narray.c', line 861</span>
+
+static VALUE
+nary_cast_to(VALUE obj, VALUE type)
+{
+    return rb_funcall(type, rb_intern(&quot;cast&quot;), 1, obj);
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="coerce-instance_method">
+  
+    - (<tt>Array</tt>) <strong>coerce</strong>(other) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns an array containing other and self, both are converted to upcasted
+type of NArray. Note that NArray has distinct UPCAST mechanism. Coerce is
+used for operation between non-NArray and NArray.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>other</span>
+      
+      
+        <span class='type'>(<tt>Object</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>numeric object.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>NArray-casted [other,self]</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+816
+817
+818
+819
+820
+821
+822
+823
+824</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/narray.c', line 816</span>
+
+static VALUE
+nary_coerce(VALUE x, VALUE y)
+{
+    VALUE type;
+
+    type = nary_s_upcast(CLASS_OF(x), CLASS_OF(y));
+    y = rb_funcall(type,rb_intern(&quot;cast&quot;),1,y);
+    return rb_assoc_new(y , x);
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="column_major?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>column_major?</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Return true if column major.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+982
+983
+984
+985
+986
+987
+988</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/narray.c', line 982</span>
+
+VALUE na_column_major_p( VALUE self )
+{
+    if (TEST_COLUMN_MAJOR(self))
+	return Qtrue;
+    else
+	return Qfalse;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="copy-instance_method">
+  
+    - (<tt>Object</tt>) <strong>copy</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/data.c', line 95</span>
+
+VALUE
+na_copy(VALUE self)
+{
+    ndfunc_t *func;
+    volatile VALUE v;
+
+    func = ndfunc_alloc(iter_copy_bytes, HAS_LOOP, 1, 1, Qnil, INT2FIX(0));
+    v = ndloop_do(func, 1, self);
+    ndfunc_free(func);
+    return v;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="debug_info-instance_method">
+  
+    - (<tt>Object</tt>) <strong>debug_info</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/narray.c', line 124</span>
+
+VALUE
+rb_narray_debug_info(VALUE self)
+{
+    int i;
+    narray_t *na;
+    GetNArray(self,na);
+
+    printf(&quot;%s:\n&quot;,rb_class2name(CLASS_OF(self)));
+    printf(&quot;  id     = 0x%&quot;SZF&quot;x\n&quot;, self);
+    printf(&quot;  type   = %d\n&quot;, na-&gt;type);
+    printf(&quot;  flag   = [%d,%d]\n&quot;, na-&gt;flag[0], na-&gt;flag[1]);
+    printf(&quot;  size   = %&quot;SZF&quot;d\n&quot;, na-&gt;size);
+    printf(&quot;  ndim   = %d\n&quot;, na-&gt;ndim);
+    printf(&quot;  shape  = 0x%&quot;SZF&quot;x\n&quot;, (size_t)na-&gt;shape);
+    if (na-&gt;shape) {
+        printf(&quot;  shape  = [&quot;);
+        for (i=0;i&lt;na-&gt;ndim;i++)
+            printf(&quot; %&quot;SZF&quot;d&quot;, na-&gt;shape[i]);
+        printf(&quot; ]\n&quot;);
+    }
+
+    switch(na-&gt;type) {
+    case NARRAY_DATA_T:
+    case NARRAY_FILEMAP_T:
+        rb_narray_debug_info_nadata(self);
+        break;
+    case NARRAY_VIEW_T:
+        rb_narray_debug_info_naview(self);
+        break;
+    }
+    return Qnil;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="flatten-instance_method">
+  
+    - (<tt>Object</tt>) <strong>flatten</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+493
+494
+495
+496
+497</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/data.c', line 493</span>
+
+VALUE
+na_flatten(VALUE self)
+{
+    return na_flatten_dim(self,0);
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="host_order?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>host_order?</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='little_endian?-instance_method'>little_endian?</span>, <span id='vacs_order?-instance_method'>vacs_order?</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Return true if not byte swapped.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1015
+1016
+1017
+1018
+1019
+1020</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/narray.c', line 1015</span>
+
+VALUE na_host_order_p( VALUE self )
+{
+    if (TEST_BYTE_SWAPPED(self))
+      return Qfalse;
+    return Qtrue;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="initialize_copy-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="NArray (class)">NArray</a></span></tt>) <strong>initialize_copy</strong>(other) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Replaces the contents of self with the contents of other narray. Used in
+dup and clone method.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>other</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="NArray (class)">NArray</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="NArray (class)">NArray</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>self</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/narray.c', line 402</span>
+
+static VALUE
+na_initialize_copy(VALUE self, VALUE orig)
+{
+    narray_t *na;
+    GetNArray(orig,na);
+
+    na_setup(self,NA_NDIM(na),NA_SHAPE(na));
+    na_store(self,orig);
+    na_copy_flags(orig,self);
+    return self;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="inplace-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="NArray (class)">NArray</a></span></tt>) <strong>inplace</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns view of narray with inplace flagged.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="NArray (class)">NArray</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>view of narray with inplace flag.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1027
+1028
+1029
+1030
+1031
+1032
+1033</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/narray.c', line 1027</span>
+
+VALUE na_inplace( VALUE self )
+{
+    VALUE view = self;
+    //view = na_clone(self);
+    SET_INPLACE(view);
+    return view;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="inplace!-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="NArray (class)">NArray</a></span></tt>) <strong>inplace!</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Set inplace flag to self.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="NArray (class)">NArray</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>self</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1039
+1040
+1041
+1042
+1043</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/narray.c', line 1039</span>
+
+VALUE na_inplace_bang( VALUE self )
+{
+    SET_INPLACE(self);
+    return self;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="inplace?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>inplace?</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Return true if inplace flagged.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1056
+1057
+1058
+1059
+1060
+1061
+1062</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/narray.c', line 1056</span>
+
+VALUE na_inplace_p( VALUE self )
+{
+    if (TEST_INPLACE(self))
+        return Qtrue;
+    else
+        return Qfalse;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="ndim-instance_method">
+  
+    - (<tt>Object</tt>) <strong>ndim</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='rank-instance_method'>rank</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>method: size() – returns the total number of typeents</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+635
+636
+637
+638
+639
+640
+641</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/narray.c', line 635</span>
+
+static VALUE
+na_ndim(VALUE self)
+{
+    narray_t *na;
+    GetNArray(self,na);
+    return INT2NUM(na-&gt;ndim);
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="out_of_place!-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="NArray (class)">NArray</a></span></tt>) <strong>out_of_place!</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='not_inplace!-instance_method'>not_inplace!</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Unset inplace flag to self.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="NArray (class)">NArray</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>self</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1068
+1069
+1070
+1071
+1072</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/narray.c', line 1068</span>
+
+VALUE na_out_of_place_bang( VALUE self )
+{
+    UNSET_INPLACE(self);
+    return self;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="reshape-instance_method">
+  
+    - (<tt>Object</tt>) <strong>reshape</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>private function for reshape</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/data.c', line 327</span>
+
+static VALUE
+na_reshape(int argc, VALUE *argv, VALUE self)
+{
+    int    i, unfixed=-1;
+    size_t total=1;
+    size_t *shape, *shape_save;
+    narray_t *na;
+    VALUE    copy;
+
+    if (argc == 0) {
+        rb_raise(rb_eRuntimeError, &quot;No argrument&quot;);
+    }
+    GetNArray(self,na);
+    if (NA_SIZE(na) == 0) {
+        rb_raise(rb_eRuntimeError, &quot;cannot reshape empty array&quot;);
+    }
+
+    /* get shape from argument */
+    shape = ALLOCA_N(size_t,argc);
+    for (i=0; i&lt;argc; ++i) {
+        switch(TYPE(argv[i])) {
+        case T_FIXNUM:
+            total *= shape[i] = NUM2INT(argv[i]);
+            break;
+        case T_NIL:
+        case T_TRUE:
+            unfixed = i;
+            break;
+        default:
+            rb_raise(rb_eArgError,&quot;illegal type&quot;);
+        }
+    }
+
+    if (unfixed&gt;=0) {
+        if (NA_SIZE(na) % total != 0)
+            rb_raise(rb_eArgError, &quot;Total size size must be divisor&quot;);
+        shape[unfixed] = NA_SIZE(na) / total;
+    }
+    else if (total !=  NA_SIZE(na)) {
+        rb_raise(rb_eArgError, &quot;Total size must be same&quot;);
+    }
+
+    copy = na_copy(self);
+    GetNArray(copy,na);
+    shape_save = NA_SHAPE(na);
+    na_setup_shape(na,argc,shape);
+    //if (NA_SHAPE(na) != shape_save) {
+    //    xfree(shape_save);
+    //}
+    return copy;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="row_major?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>row_major?</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Return true if row major.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+993
+994
+995
+996
+997
+998
+999</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/narray.c', line 993</span>
+
+VALUE na_row_major_p( VALUE self )
+{
+    if (TEST_ROW_MAJOR(self))
+	return Qtrue;
+    else
+	return Qfalse;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="shape-instance_method">
+  
+    - (<tt>Object</tt>) <strong>shape</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>method: shape() – returns shape, array of the size of dimensions</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+645
+646
+647
+648
+649
+650
+651
+652
+653
+654
+655
+656
+657
+658
+659
+660
+661
+662
+663
+664
+665
+666
+667</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/narray.c', line 645</span>
+
+static VALUE
+ na_shape(VALUE self)
+{
+    volatile VALUE v;
+    narray_t *na;
+    size_t i, n, c, s;
+
+    GetNArray(self,na);
+    n = NA_NDIM(na);
+    if (TEST_COLUMN_MAJOR(na)) {
+        c = n-1;
+        s = -1;
+    } else {
+        c = 0;
+        s = 1;
+    }
+    v = rb_ary_new2(n);
+    for (i=0; i&lt;n; i++) {
+        rb_ary_push(v, SIZE2NUM(na-&gt;shape[c]));
+        c += s;
+    }
+    return v;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="size-instance_method">
+  
+    - (<tt>Object</tt>) <strong>size</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='length-instance_method'>length</span>, <span id='total-instance_method'>total</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>method: size() – returns the total number of typeents</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+625
+626
+627
+628
+629
+630
+631</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/narray.c', line 625</span>
+
+static VALUE
+na_size(VALUE self)
+{
+    narray_t *na;
+    GetNArray(self,na);
+    return SIZE2NUM(na-&gt;size);
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="slice-instance_method">
+  
+    - (<tt>Object</tt>) <strong>slice</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>method: slice(idx1,idx2,…,idxN)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+941
+942
+943
+944</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/index.c', line 941</span>
+
+VALUE na_slice(int argc, VALUE *argv, VALUE self)
+{
+    return na_aref_main(argc, argv, self, 1);
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="store-instance_method">
+  
+    - (<tt>Object</tt>) <strong>store</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>to be implemented as cast</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/data.c', line 109</span>
+
+VALUE
+na_store(VALUE self, VALUE src)
+{
+    ndfunc_t *func;
+
+    //if (na_debug_flag) rb_p(dst);
+    //if (na_debug_flag) rb_p(src);
+
+    // note that order of argument is inverted.
+
+    func = ndfunc_alloc(iter_copy_bytes, HAS_LOOP, 2, 0, INT2FIX(1), Qnil);
+    //func = ndfunc_alloc(iter_copy_bytes, HAS_LOOP, 2, 0, Qnil, INT2FIX(0));
+    //ndloop_do(func, 2, dst, src);
+    ndloop_do(func, 2, src, self);
+    ndfunc_free(func);
+    return self;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="swap_byte-instance_method">
+  
+    - (<tt>Object</tt>) <strong>swap_byte</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='hton-instance_method'>hton</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>rb_define_method(cNArray, “reshape!”, na_reshape_bang,-1);
+rb_define_alias(cNArray,  “shape=”,“reshape!”);</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/data.c', line 169</span>
+
+static VALUE
+nary_swap_byte(VALUE self)
+{
+    ndfunc_t *func;
+    VALUE v;
+
+    func = ndfunc_alloc(iter_swap_byte, FULL_LOOP|NDF_ACCEPT_SWAP,
+                        1, 1, Qnil, CLASS_OF(self));
+    v = ndloop_do(func, 1, self);
+    if (self!=v) {
+        na_copy_flags(self, v);
+    }
+    REVERSE_BYTE_SWAPPED(v);
+    ndfunc_free(func);
+    return v;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_host-instance_method">
+  
+    - (<tt>Object</tt>) <strong>to_host</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/data.c', line 205</span>
+
+static VALUE
+nary_to_host(VALUE self)
+{
+    if (TEST_HOST_ORDER(self)) {
+        //puts(&quot;pass1&quot;);
+        return self;
+    }
+    //puts(&quot;pass2&quot;);
+    return rb_funcall(self, rb_intern(&quot;swap_byte&quot;), 0);
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_network-instance_method">
+  
+    - (<tt>Object</tt>) <strong>to_network</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+187
+188
+189
+190
+191
+192
+193
+194</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/data.c', line 187</span>
+
+static VALUE
+nary_to_network(VALUE self)
+{
+    if (TEST_NETWORK_ORDER(self)) {
+        return self;
+    }
+    return rb_funcall(self, rb_intern(&quot;swap_byte&quot;), 0);
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_swapped-instance_method">
+  
+    - (<tt>Object</tt>) <strong>to_swapped</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+216
+217
+218
+219
+220
+221
+222
+223</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/data.c', line 216</span>
+
+static VALUE
+nary_to_swapped(VALUE self)
+{
+    if (TEST_BYTE_SWAPPED(self)) {
+        return self;
+    }
+    return rb_funcall(self, rb_intern(&quot;swap_byte&quot;), 0);
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_vacs-instance_method">
+  
+    - (<tt>Object</tt>) <strong>to_vacs</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+196
+197
+198
+199
+200
+201
+202
+203</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/data.c', line 196</span>
+
+static VALUE
+nary_to_vacs(VALUE self)
+{
+    if (TEST_VACS_ORDER(self)) {
+        return self;
+    }
+    return rb_funcall(self, rb_intern(&quot;swap_byte&quot;), 0);
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="transpose-instance_method">
+  
+    - (<tt>Object</tt>) <strong>transpose</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/data.c', line 259</span>
+
+VALUE
+na_transpose(int argc, VALUE *argv, VALUE self)
+{
+    int ndim, *map, tmp;
+    int row_major;
+    int i, j, c, r;
+    size_t len;
+    ssize_t beg, step;
+    volatile VALUE v, view;
+    narray_t *na1;
+
+    GetNArray(self,na1);
+    ndim = na1-&gt;ndim;
+    row_major = TEST_COLUMN_MAJOR( self );
+
+    map = ALLOC_N(int,ndim);
+    for (i=0;i&lt;ndim;i++) {
+	map[i] = i;
+    }
+    if (argc==0) {
+	SWAP(map[ndim-1], map[ndim-2], tmp);
+	goto new_object;
+    }
+    if (argc==2) {
+	if (TYPE(argv[0])==T_FIXNUM &amp;&amp; TYPE(argv[1])==T_FIXNUM) {
+	    i = FIX2INT(argv[0]);
+	    j = FIX2INT(argv[1]);
+	    if (row_major) {
+		i = ndim-1-i;
+		j = ndim-1-j;
+	    }
+	    SWAP( map[i], map[j], tmp );
+	    goto new_object;
+	}
+    }
+    for (i=argc,c=ndim-1; i;) {
+	v = argv[--i];
+	if (TYPE(v)==T_FIXNUM) {
+	    beg = FIX2INT(v);
+	    len = 1;
+	    step = 0;
+	} else if (rb_obj_is_kind_of(v,rb_cRange) || rb_obj_is_kind_of(v,na_cStep)) {
+            // write me
+	    nary_step_array_index(v, ndim, &amp;len, &amp;beg, &amp;step);
+            //printf(&quot;len=%d beg=%d step=%d\n&quot;,len,beg,step);
+	}
+	for (j=len; j; ) {
+	    r = beg + step*(--j);
+	    if (row_major) {
+		r = ndim-1-r;
+            }
+	    if ( c &lt; 0 ) {
+		rb_raise(rb_eArgError, &quot;too many dims&quot;);
+            }
+	    map[c--] = r;
+	    //printf(&quot;r=%d\n&quot;,r);
+	}
+    }
+
+ new_object:
+    view = na_transpose_map(self,map);
+    xfree(map);
+    return view;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Sun Jul 21 11:28:50 2013 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.6.2 (ruby-2.0.0).
+</div>
+
+  </body>
+</html>
