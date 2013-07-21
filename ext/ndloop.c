@@ -177,10 +177,10 @@ ndfunc_free(ndfunc_t* nf)
     int i, n;
     n = nf->narg + nf->nres;
     //printf("n=%d\n",n);
-    for (i=0; i<n; i++)
-        if (nf->args[i].dim>1)
-            if (nf->args[i].aux.shape_p)
-                xfree(nf->args[i].aux.shape_p);
+    //for (i=0; i<n; i++)
+    //    if (nf->args[i].dim>1)
+    //        if (nf->args[i].aux.shape_p)
+    //            xfree(nf->args[i].aux.shape_p);
     xfree(nf);
 }
 
@@ -485,7 +485,7 @@ ndloop_set_narray_result(ndfunc_t *nf, na_md_loop_t *lp, int j,
         dim_map[na_ndim++] = lp->ndim;
     } else if (nf->args[j].dim>1) {
         for (i=0; i<nf->args[j].dim; i++) {
-            na_shape[na_ndim++] = nf->args[j].aux.shape_p[i];
+            na_shape[na_ndim] = nf->args[j].aux.shape_p[i];
             dim_map[na_ndim++] = i + lp->ndim;
         }
     }
