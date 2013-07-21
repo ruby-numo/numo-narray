@@ -1,0 +1,1832 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: FFTE
+  
+    &mdash; Documentation by YARD 0.8.6.2
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (F)</a> &raquo;
+    
+    
+    <span class="title">FFTE</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Module: FFTE
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">ffte.c</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="FFTE/RadixError.html" title="FFTE::RadixError (class)">RadixError</a></span>
+    
+  
+</p>
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#dzfft2d-class_method" title="dzfft2d (class method)">+ (NArray::DComplex) <strong>dzfft2d</strong>(narray) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>2-dimentional REAL-TO-COMPLEX FFT (Fast Fourier Transform) using
+Radix-2,3,4,5,8 FFT routine.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#dzfft3d-class_method" title="dzfft3d (class method)">+ (NArray::DComplex) <strong>dzfft3d</strong>(narray) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>3-dimentional REAL-TO-COMPLEX FFT (Fast Fourier Transform) using
+Radix-2,3,4,5,8 FFT routine.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#zdfft2d-class_method" title="zdfft2d (class method)">+ (NArray::DFloat) <strong>zdfft2d</strong>(narray) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>2-dimentional COMPLEX-TO-REAL FFT (Fast Fourier Transform) using
+Radix-2,3,4,5,8 FFT routine.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#zdfft3d-class_method" title="zdfft3d (class method)">+ (NArray::DFloat) <strong>zdfft3d</strong>(narray) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>3-dimentional COMPLEX-TO-REAL FFT (Fast Fourier Transform) using
+Radix-2,3,4,5,8 FFT routine.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#zfft1d-class_method" title="zfft1d (class method)">+ (NArray::DComplex) <strong>zfft1d</strong>(narray, [iopt]) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>1-dimentional COMPLEX FFT (Fast Fourier Transform) using Radix-2,3,4,5,8
+FFT routine.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#zfft2d-class_method" title="zfft2d (class method)">+ (NArray::DComplex) <strong>zfft2d</strong>(narray, [iopt]) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>2-dimentional COMPLEX FFT (Fast Fourier Transform) using Radix-2,3,4,5,8
+FFT routine.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#zfft3d-class_method" title="zfft3d (class method)">+ (NArray::DComplex) <strong>zfft3d</strong>(narray, [iopt]) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>3-dimentional COMPLEX FFT (Fast Fourier Transform) using Radix-2,3,4,5,8
+FFT routine.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="dzfft2d-class_method">
+  
+    + (<tt>NArray::DComplex</tt>) <strong>dzfft2d</strong>(narray) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>2-dimentional REAL-TO-COMPLEX FFT (Fast Fourier Transform) using
+Radix-2,3,4,5,8 FFT routine. Calculates on each last 2-dimention. FORWARD
+TRANSFORM.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>narray</span>
+      
+      
+        <span class='type'>(<tt>NArray::DFloat</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>&gt;=2-dimentional REAL NArray.</p>
+
+<pre class="code"><code class="">NArray::DFloat(.., NY, NX)
+ NX = (2**IP) * (3**IQ) * (5**IR)
+ NY = (2**JP) * (3**JQ) * (5**JR)</code></pre>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>NArray::DComplex</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Result COMPLEX narray:</p>
+
+<pre class="code"><code class="">NArray::DComplex(.., NY, NX/2+1)</code></pre>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="FFTE/RadixError.html" title="FFTE::RadixError (class)">FFTE::RadixError</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>if NX, NY is not (2^p)*(3^q)*(5^r).</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+629
+630
+631
+632
+633
+634
+635
+636
+637
+638
+639
+640
+641
+642
+643
+644</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ffte.c', line 589</span>
+
+static VALUE
+nary_ffte_dzfft2d(int argc, VALUE *args, VALUE mod)
+{
+    ndfunc_t *func;
+    narray_t *na;
+    volatile VALUE vres, vna;
+    int ndim;
+    integer iopt=0;
+    dcomplex *b;
+    integer n1,n2;
+    size_t n=1;
+    size_t shape[2];
+
+    rb_scan_args(argc, args, &quot;10&quot;, &amp;vna);
+    GetNArray(vna,na);
+    ndim = NA_NDIM(na);
+    if (ndim&lt;2) {
+        rb_raise(eRadixError,&quot;ndim(=%d) should &gt;= 2&quot;,ndim);
+    }
+
+    n1 = NA_SHAPE(na)[NA_NDIM(na)-1];
+    n *= n1;
+
+    shape[1] = n1/2+1;
+
+    if (!is235radix(n1)) {
+        rb_raise(eRadixError,&quot;%d-th dim length(=%ld) is not 2,3,5-radix&quot;,
+                 NA_NDIM(na)-1,shape[1]);
+    }
+
+    n2 = NA_SHAPE(na)[NA_NDIM(na)-2];
+    n *= n2;
+
+    shape[0] = n2;
+
+    if (!is235radix(n2)) {
+        rb_raise(eRadixError,&quot;%d-th dim length(=%ld) is not 2,3,5-radix&quot;,
+                 NA_NDIM(na)-2,shape[0]);
+    }
+
+
+    func = ndfunc_alloc(iter_fft_dzfft2d, NO_LOOP, 1, 1, cDFloat, cDComplex);
+    func-&gt;args[0].dim = 2;
+    func-&gt;args[1].dim = 2;
+    func-&gt;args[1].aux.shape_p = shape;
+
+    vna = na_copy(vna);
+    b = ALLOC_N(dcomplex,n);
+
+    dzfft2d_(NULL, &amp;n1,&amp;n2, &amp;iopt, b);
+    vres = ndloop_do3(func, b, 1, vna);
+    ndfunc_free(func);
+    xfree(b);
+
+    return vres;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="dzfft3d-class_method">
+  
+    + (<tt>NArray::DComplex</tt>) <strong>dzfft3d</strong>(narray) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>3-dimentional REAL-TO-COMPLEX FFT (Fast Fourier Transform) using
+Radix-2,3,4,5,8 FFT routine. Calculates on each last 3-dimention. FORWARD
+TRANSFORM.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>narray</span>
+      
+      
+        <span class='type'>(<tt>NArray::DFloat</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>&gt;=3-dimentional REAL NArray.</p>
+
+<pre class="code"><code class="">NArray::DFloat(.., NY, NX)
+ NX = (2**IP) * (3**IQ) * (5**IR)
+ NY = (2**JP) * (3**JQ) * (5**JR)
+ NZ = (2**KP) * (3**KQ) * (5**KR)</code></pre>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>NArray::DComplex</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Result COMPLEX narray:</p>
+
+<pre class="code"><code class="">NArray::DComplex(.., NY, NX/2+1)</code></pre>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="FFTE/RadixError.html" title="FFTE::RadixError (class)">FFTE::RadixError</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>if NX, NY, NZ is not (2^p)*(3^q)*(5^r).</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+696
+697
+698
+699
+700
+701
+702
+703
+704
+705
+706
+707
+708
+709
+710
+711
+712
+713
+714
+715
+716
+717
+718
+719
+720
+721
+722
+723
+724
+725
+726
+727
+728
+729
+730
+731
+732
+733
+734
+735
+736
+737
+738
+739
+740
+741
+742
+743
+744
+745
+746
+747
+748
+749
+750
+751
+752
+753
+754
+755
+756
+757
+758
+759
+760
+761</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ffte.c', line 696</span>
+
+static VALUE
+nary_ffte_dzfft3d(int argc, VALUE *args, VALUE mod)
+{
+    ndfunc_t *func;
+    narray_t *na;
+    volatile VALUE vres, vna;
+    int ndim;
+    integer iopt=0;
+    dcomplex *b;
+    integer n1,n2,n3;
+    size_t n=1;
+    size_t shape[3];
+
+    rb_scan_args(argc, args, &quot;10&quot;, &amp;vna);
+    GetNArray(vna,na);
+    ndim = NA_NDIM(na);
+    if (ndim&lt;3) {
+        rb_raise(eRadixError,&quot;ndim(=%d) should &gt;= 3&quot;,ndim);
+    }
+
+    n1 = NA_SHAPE(na)[NA_NDIM(na)-1];
+    n *= n1;
+
+    shape[2] = n1/2+1;
+
+    if (!is235radix(n1)) {
+        rb_raise(eRadixError,&quot;%d-th dim length(=%ld) is not 2,3,5-radix&quot;,
+                 NA_NDIM(na)-1,shape[2]);
+    }
+
+    n2 = NA_SHAPE(na)[NA_NDIM(na)-2];
+    n *= n2;
+
+    shape[1] = n2;
+
+    if (!is235radix(n2)) {
+        rb_raise(eRadixError,&quot;%d-th dim length(=%ld) is not 2,3,5-radix&quot;,
+                 NA_NDIM(na)-2,shape[1]);
+    }
+
+    n3 = NA_SHAPE(na)[NA_NDIM(na)-3];
+    n *= n3;
+
+    shape[0] = n3;
+
+    if (!is235radix(n3)) {
+        rb_raise(eRadixError,&quot;%d-th dim length(=%ld) is not 2,3,5-radix&quot;,
+                 NA_NDIM(na)-3,shape[0]);
+    }
+
+
+    func = ndfunc_alloc(iter_fft_dzfft3d, NO_LOOP, 1, 1, cDFloat, cDComplex);
+    func-&gt;args[0].dim = 3;
+    func-&gt;args[1].dim = 3;
+    func-&gt;args[1].aux.shape_p = shape;
+
+    vna = na_copy(vna);
+    b = ALLOC_N(dcomplex,n);
+
+    dzfft3d_(NULL, &amp;n1,&amp;n2,&amp;n3, &amp;iopt, b);
+    vres = ndloop_do3(func, b, 1, vna);
+    ndfunc_free(func);
+    xfree(b);
+
+    return vres;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="zdfft2d-class_method">
+  
+    + (<tt>NArray::DFloat</tt>) <strong>zdfft2d</strong>(narray) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>2-dimentional COMPLEX-TO-REAL FFT (Fast Fourier Transform) using
+Radix-2,3,4,5,8 FFT routine. Calculates on each last 2-dimention. INVERSE
+TRANSFORM.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>narray</span>
+      
+      
+        <span class='type'>(<tt>NArray::DComplex</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>&gt;=2-dimentional COMPLEX NArray.</p>
+
+<pre class="code"><code class="">NArray::DComplex(.., NY, NX/2+1)
+ NX = (2**IP) * (3**IQ) * (5**IR)
+ NY = (2**JP) * (3**JQ) * (5**JR)</code></pre>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>NArray::DFloat</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Result REAL narray:</p>
+
+<pre class="code"><code class="">NArray::DFloat(.., NY, NX)</code></pre>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="FFTE/RadixError.html" title="FFTE::RadixError (class)">FFTE::RadixError</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>if NX, NY is not (2^p)*(3^q)*(5^r).</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ffte.c', line 366</span>
+
+static VALUE
+nary_ffte_zdfft2d(int argc, VALUE *args, VALUE mod)
+{
+    ndfunc_t *func;
+    narray_t *na;
+    volatile VALUE vres, vna;
+    int ndim;
+    integer iopt=0;
+    dcomplex *b;
+    integer n1,n2;
+    size_t n=1;
+    size_t shape[2];
+
+    rb_scan_args(argc, args, &quot;10&quot;, &amp;vna);
+    GetNArray(vna,na);
+    ndim = NA_NDIM(na);
+    if (ndim&lt;2) {
+        rb_raise(eRadixError,&quot;ndim(=%d) should &gt;= 2&quot;,ndim);
+    }
+
+    n1 = NA_SHAPE(na)[NA_NDIM(na)-1];
+    n *= n1;
+
+    shape[1] = (n1-1)*2;
+
+    if (!is235radix(shape[1])) {
+        rb_raise(eRadixError,&quot;%d-th dim length(=%ld) is not 2,3,5-radix&quot;,
+                 NA_NDIM(na)-1,shape[1]);
+    }
+
+    n2 = NA_SHAPE(na)[NA_NDIM(na)-2];
+    n *= n2;
+
+    shape[0] =  n2;
+
+    if (!is235radix(shape[0])) {
+        rb_raise(eRadixError,&quot;%d-th dim length(=%ld) is not 2,3,5-radix&quot;,
+                 NA_NDIM(na)-2,shape[0]);
+    }
+
+
+    func = ndfunc_alloc(iter_fft_zdfft2d, NO_LOOP, 1, 1, cDComplex, cDFloat);
+    func-&gt;args[0].dim = 2;
+    func-&gt;args[1].dim = 2;
+    func-&gt;args[1].aux.shape_p = shape;
+
+    vna = na_copy(vna);
+    b = ALLOC_N(dcomplex,n);
+
+    zdfft2d_(NULL, &amp;n1,&amp;n2, &amp;iopt, b);
+    vres = ndloop_do3(func, b, 1, vna);
+    ndfunc_free(func);
+    xfree(b);
+
+    return vres;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="zdfft3d-class_method">
+  
+    + (<tt>NArray::DFloat</tt>) <strong>zdfft3d</strong>(narray) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>3-dimentional COMPLEX-TO-REAL FFT (Fast Fourier Transform) using
+Radix-2,3,4,5,8 FFT routine. Calculates on each last 3-dimention. INVERSE
+TRANSFORM.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>narray</span>
+      
+      
+        <span class='type'>(<tt>NArray::DComplex</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>&gt;=3-dimentional COMPLEX NArray.</p>
+
+<pre class="code"><code class="">NArray::DComplex(.., NY, NX/2+1)
+ NX = (2**IP) * (3**IQ) * (5**IR)
+ NY = (2**JP) * (3**JQ) * (5**JR)
+ NZ = (2**KP) * (3**KQ) * (5**KR)</code></pre>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>NArray::DFloat</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Result REAL narray:</p>
+
+<pre class="code"><code class="">NArray::DFloat(.., NY, NX)</code></pre>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="FFTE/RadixError.html" title="FFTE::RadixError (class)">FFTE::RadixError</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>if NX, NY, NZ is not (2^p)*(3^q)*(5^r).</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ffte.c', line 472</span>
+
+static VALUE
+nary_ffte_zdfft3d(int argc, VALUE *args, VALUE mod)
+{
+    ndfunc_t *func;
+    narray_t *na;
+    volatile VALUE vres, vna;
+    int ndim;
+    integer iopt=0;
+    dcomplex *b;
+    integer n1,n2,n3;
+    size_t n=1;
+    size_t shape[3];
+
+    rb_scan_args(argc, args, &quot;10&quot;, &amp;vna);
+    GetNArray(vna,na);
+    ndim = NA_NDIM(na);
+    if (ndim&lt;3) {
+        rb_raise(eRadixError,&quot;ndim(=%d) should &gt;= 3&quot;,ndim);
+    }
+
+    n1 = NA_SHAPE(na)[NA_NDIM(na)-1];
+    n *= n1;
+
+    shape[2] = (n1-1)*2;
+
+    if (!is235radix(shape[2])) {
+        rb_raise(eRadixError,&quot;%d-th dim length(=%ld) is not 2,3,5-radix&quot;,
+                 NA_NDIM(na)-1,shape[2]);
+    }
+
+    n2 = NA_SHAPE(na)[NA_NDIM(na)-2];
+    n *= n2;
+
+    shape[1] =  n2;
+
+    if (!is235radix(shape[1])) {
+        rb_raise(eRadixError,&quot;%d-th dim length(=%ld) is not 2,3,5-radix&quot;,
+                 NA_NDIM(na)-2,shape[1]);
+    }
+
+    n3 = NA_SHAPE(na)[NA_NDIM(na)-3];
+    n *= n3;
+
+    shape[0] =  n3;
+
+    if (!is235radix(shape[0])) {
+        rb_raise(eRadixError,&quot;%d-th dim length(=%ld) is not 2,3,5-radix&quot;,
+                 NA_NDIM(na)-3,shape[0]);
+    }
+
+
+    func = ndfunc_alloc(iter_fft_zdfft3d, NO_LOOP, 1, 1, cDComplex, cDFloat);
+    func-&gt;args[0].dim = 3;
+    func-&gt;args[1].dim = 3;
+    func-&gt;args[1].aux.shape_p = shape;
+
+    vna = na_copy(vna);
+    b = ALLOC_N(dcomplex,n);
+
+    zdfft3d_(NULL, &amp;n1,&amp;n2,&amp;n3, &amp;iopt, b);
+    vres = ndloop_do3(func, b, 1, vna);
+    ndfunc_free(func);
+    xfree(b);
+
+    return vres;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="zfft1d-class_method">
+  
+    + (<tt>NArray::DComplex</tt>) <strong>zfft1d</strong>(narray, [iopt]) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>1-dimentional COMPLEX FFT (Fast Fourier Transform) using Radix-2,3,4,5,8
+FFT routine. Calculates on each last 1-dimention.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>narray</span>
+      
+      
+        <span class='type'>(<tt>NArray::DComplex</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>&gt;=1-dimentional REAL NArray.</p>
+
+<pre class="code"><code class="">NArray::DComplex(.., NY, NX)
+ NX = (2**IP) * (3**IQ) * (5**IR)</code></pre>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>iopt</span>
+      
+      
+        <span class='type'>(<tt>Numeric</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Transform direction.</p>
+
+<pre class="code"><code class="">-1 FOR FORWARD TRANSFORM
++1 FOR INVERSE TRANSFORM</code></pre>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>NArray::DComplex</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Result COMPLEX narray:</p>
+
+<pre class="code"><code class="">NArray::DComplex(.., NY, NX)</code></pre>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="FFTE/RadixError.html" title="FFTE::RadixError (class)">FFTE::RadixError</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>if NX is not (2^p)*(3^q)*(5^r).</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ffte.c', line 86</span>
+
+static VALUE
+nary_ffte_zfft1d(int argc, VALUE *args, VALUE mod)
+{
+    ndfunc_t *func;
+    narray_t *na;
+    VALUE vres, vna, viopt=INT2NUM(1);
+    int ndim;
+    integer iopt=0;
+
+    fft_opt_t *g;
+
+    integer n1;
+
+    rb_scan_args(argc, args, &quot;11&quot;, &amp;vna, &amp;viopt);
+    GetNArray(vna,na);
+    ndim = NA_NDIM(na);
+    if (ndim&lt;1) {
+        rb_raise(eRadixError,&quot;ndim(=%d) should &gt;= 1&quot;,ndim);
+    }
+
+    n1 = NA_SHAPE(na)[NA_NDIM(na)-1];
+    if (!is235radix(n1)) {
+        rb_raise(eRadixError,&quot;%d-th dim length(=%ld) is not 2,3,5-radix&quot;,NA_NDIM(na)-1,n1);
+    }
+
+
+    func = ndfunc_alloc(iter_fft_zfft1d, NO_LOOP, 1, 0, cDComplex);
+    func-&gt;args[0].dim = 1;
+
+    vres = na_copy(vna);
+
+
+    g = ALLOCA_N(fft_opt_t,1);
+    g-&gt;b = ALLOC_N(dcomplex,n1*2);
+    zfft1d_(NULL, &amp;n1, &amp;iopt, g-&gt;b);
+    g-&gt;iopt = NUM2INT(viopt);
+    ndloop_do3(func, g, 1, vres);
+    xfree(g-&gt;b);
+
+
+    ndfunc_free(func);
+
+    return vres;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="zfft2d-class_method">
+  
+    + (<tt>NArray::DComplex</tt>) <strong>zfft2d</strong>(narray, [iopt]) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>2-dimentional COMPLEX FFT (Fast Fourier Transform) using Radix-2,3,4,5,8
+FFT routine. Calculates on each last 2-dimention.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>narray</span>
+      
+      
+        <span class='type'>(<tt>NArray::DComplex</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>&gt;=2-dimentional REAL NArray.</p>
+
+<pre class="code"><code class="">NArray::DComplex(.., NY, NX)
+ NX = (2**IP) * (3**IQ) * (5**IR)
+ NY = (2**JP) * (3**JQ) * (5**JR)</code></pre>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>iopt</span>
+      
+      
+        <span class='type'>(<tt>Numeric</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Transform direction.</p>
+
+<pre class="code"><code class="">-1 FOR FORWARD TRANSFORM
++1 FOR INVERSE TRANSFORM</code></pre>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>NArray::DComplex</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Result COMPLEX narray:</p>
+
+<pre class="code"><code class="">NArray::DComplex(.., NY, NX)</code></pre>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="FFTE/RadixError.html" title="FFTE::RadixError (class)">FFTE::RadixError</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>if NX, NY is not (2^p)*(3^q)*(5^r).</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ffte.c', line 175</span>
+
+static VALUE
+nary_ffte_zfft2d(int argc, VALUE *args, VALUE mod)
+{
+    ndfunc_t *func;
+    narray_t *na;
+    VALUE vres, vna, viopt=INT2NUM(1);
+    int ndim;
+    integer iopt=0;
+
+    integer n1,n2;
+
+    rb_scan_args(argc, args, &quot;11&quot;, &amp;vna, &amp;viopt);
+    GetNArray(vna,na);
+    ndim = NA_NDIM(na);
+    if (ndim&lt;2) {
+        rb_raise(eRadixError,&quot;ndim(=%d) should &gt;= 2&quot;,ndim);
+    }
+
+    n1 = NA_SHAPE(na)[NA_NDIM(na)-1];
+    if (!is235radix(n1)) {
+        rb_raise(eRadixError,&quot;%d-th dim length(=%ld) is not 2,3,5-radix&quot;,NA_NDIM(na)-1,n1);
+    }
+
+    n2 = NA_SHAPE(na)[NA_NDIM(na)-2];
+    if (!is235radix(n2)) {
+        rb_raise(eRadixError,&quot;%d-th dim length(=%ld) is not 2,3,5-radix&quot;,NA_NDIM(na)-2,n2);
+    }
+
+
+    func = ndfunc_alloc(iter_fft_zfft2d, NO_LOOP, 1, 0, cDComplex);
+    func-&gt;args[0].dim = 2;
+
+    vres = na_copy(vna);
+
+
+    zfft2d_(NULL,  &amp;n1,&amp;n2, &amp;iopt);
+    iopt = NUM2INT(viopt);
+    ndloop_do3(func, &amp;iopt, 1, vres);
+
+
+    ndfunc_free(func);
+
+    return vres;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="zfft3d-class_method">
+  
+    + (<tt>NArray::DComplex</tt>) <strong>zfft3d</strong>(narray, [iopt]) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>3-dimentional COMPLEX FFT (Fast Fourier Transform) using Radix-2,3,4,5,8
+FFT routine. Calculates on each last 3-dimention.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>narray</span>
+      
+      
+        <span class='type'>(<tt>NArray::DComplex</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>&gt;=3-dimentional REAL NArray.</p>
+
+<pre class="code"><code class="">NArray::DComplex(.., NY, NX)
+ NX = (2**IP) * (3**IQ) * (5**IR)
+ NY = (2**JP) * (3**JQ) * (5**JR)
+ NZ = (2**KP) * (3**KQ) * (5**KR)</code></pre>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>iopt</span>
+      
+      
+        <span class='type'>(<tt>Numeric</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Transform direction.</p>
+
+<pre class="code"><code class="">-1 FOR FORWARD TRANSFORM
++1 FOR INVERSE TRANSFORM</code></pre>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>NArray::DComplex</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Result COMPLEX narray:</p>
+
+<pre class="code"><code class="">NArray::DComplex(.., NY, NX)</code></pre>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="FFTE/RadixError.html" title="FFTE::RadixError (class)">FFTE::RadixError</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>if NX, NY, NZ is not (2^p)*(3^q)*(5^r).</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ffte.c', line 267</span>
+
+static VALUE
+nary_ffte_zfft3d(int argc, VALUE *args, VALUE mod)
+{
+    ndfunc_t *func;
+    narray_t *na;
+    VALUE vres, vna, viopt=INT2NUM(1);
+    int ndim;
+    integer iopt=0;
+
+    integer n1,n2,n3;
+
+    rb_scan_args(argc, args, &quot;11&quot;, &amp;vna, &amp;viopt);
+    GetNArray(vna,na);
+    ndim = NA_NDIM(na);
+    if (ndim&lt;3) {
+        rb_raise(eRadixError,&quot;ndim(=%d) should &gt;= 3&quot;,ndim);
+    }
+
+    n1 = NA_SHAPE(na)[NA_NDIM(na)-1];
+    if (!is235radix(n1)) {
+        rb_raise(eRadixError,&quot;%d-th dim length(=%ld) is not 2,3,5-radix&quot;,NA_NDIM(na)-1,n1);
+    }
+
+    n2 = NA_SHAPE(na)[NA_NDIM(na)-2];
+    if (!is235radix(n2)) {
+        rb_raise(eRadixError,&quot;%d-th dim length(=%ld) is not 2,3,5-radix&quot;,NA_NDIM(na)-2,n2);
+    }
+
+    n3 = NA_SHAPE(na)[NA_NDIM(na)-3];
+    if (!is235radix(n3)) {
+        rb_raise(eRadixError,&quot;%d-th dim length(=%ld) is not 2,3,5-radix&quot;,NA_NDIM(na)-3,n3);
+    }
+
+
+    func = ndfunc_alloc(iter_fft_zfft3d, NO_LOOP, 1, 0, cDComplex);
+    func-&gt;args[0].dim = 3;
+
+    vres = na_copy(vna);
+
+
+    zfft3d_(NULL,  &amp;n1,&amp;n2,&amp;n3, &amp;iopt);
+    iopt = NUM2INT(viopt);
+    ndloop_do3(func, &amp;iopt, 1, vres);
+
+
+    ndfunc_free(func);
+
+    return vres;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Sun Jul 21 11:23:48 2013 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.6.2 (ruby-2.0.0).
+</div>
+
+  </body>
+</html>
