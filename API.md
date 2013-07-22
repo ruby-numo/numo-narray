@@ -1,6 +1,8 @@
 # API of Next NArray
 under development
-## NArrayの前提
+
+## NArray演算の仕様
+
 ### NArray Types
     #define NARRAY_DATA_T 0x1       // データを保持する。contiguousアクセスのみ可能。
     #define NARRAY_VIEW_T 0x2       // データを保持しない。他のNArrayを参照。stride/index アクセスが可能
@@ -15,16 +17,23 @@ under development
     a.inplace + b => a に結果が保存される
 
 ## NArrayメソッド定義の例
-イテレータとそのループタイプを与えれば、内部でループルールの処理・配列生成を自動的にを行う
+
+単純なループ演算を行うイテレータ関数を定義し、
+ndfunc_alloc関数で ndfunc_t構造体に登録し、
+ndfunc_do関数で多次元ループ処理を行う。
+配列のキャスト、出力配列の準備、および多次元ループ処理については、内部で自動的に行う。
 
     // 最も内側のループごとに呼ばれるイテレータ関数
     #define cT cDFloat
     static void
     iter_dfloat_add(na_loop_t *const lp)
     {
-        double *a = ...
-        double *b = ...
-        double *c = ...
+        size_t  n = lp->n[0];
+        double *a = (double*)(lp->args[0].ptr + lp->iter[0].pos);
+        double *b = (double*)(lp->args[1].ptr + lp->iter[1].pos);
+        double *c = (double*)(lp->args[2].ptr + lp->iter[2].pos);
+        size_t  i;
+
         for (i=0; i<n; i++) {
            c[i] = a[i] + b[i];
         }
@@ -36,7 +45,8 @@ under development
     {
         ndfunc_t *func;
         VALUE v;
-        func = ndfunc_alloc(iter_dfloat_add, FULL_LOOP,
+
+        func = ndfunc_alloc(iter_dfloat_add, NDF_CONTIGUOUS_LOOP,
                             2, 1, cT, cT, cT);
         v = ndloop_do(func, 2, a1, a2);
         ndfunc_free(func);
@@ -50,23 +60,36 @@ under development
         rb_define_method(cT, "+", nary_dfloat_add, 1);
     }
 
+
 ## 関数説明
+
 ### ndfunc_alloc関数
-ndfunc_t 構造体をアロケートして初期化して返す
+ndfunc_alloc関数は、ndfunc_t 構造体をアロケート・初期化して返す
 
     ndfunc_t* ndfunc_alloc(na_iter_func_t func, int flag, int narg, int nres,
-                           VALUE in_type1, ... VALUE out_type1, ...)
+       　　　　　　　　　　　　VALUE in_type1, ... VALUE out_type1, ...)
 
 * func: イテレータ関数
-* flag: イテレータのタイプをフラグで指定 イテレータ内でループを持つか、stride/indexが可能か、etc.
+* flag: イテレータのタイプをフラグで指定
+
+            #define NDF_CONTIGUOUS_LOOP     (1<<0) // x[i]
+            #define NDF_STRIDE_LOOP         (1<<1) // *(x+stride*i)
+            #define NDF_INDEX_LOOP          (1<<2) // *(x+idx[i])
+            #define NDF_KEEP_DIM            (1<<3)
+            #define NDF_ACCEPT_SWAP         (1<<4)
+            #define NDF_HAS_MARK_DIM        (1<<5)
+            (#define NDF_INPLACE)
+            #define NDF_FULL_LOOP (NDF_CONTIGUOUS_LOOP|NDF_STRIDE_LOOP|NDF_INDEX_LOOP)
+
 * narg: 引数として渡す入力NArrayの数
 * nres: 結果として戻る出力NArrayの数
 * 以降: narg個の入力データ型とnres個の出力データ型を与える
-    * 入力データはここで指定した入力データ型にキャストされる。キャストしない場合はQnil
+    * 入力データはここで指定した入力データ型にキャストされる。キャストしない場合はQnil。
     * 出力データ型はここで指定した出力データ型でNArrayが作られる。
-      Fixnumのときは、n番目の入力データ型と同じデータ型のNArrayが作られる
+      Fixnumのときは、n番目の引数と同じデータ型のNArrayが作られる。
 
 ### ndfunc_t 構造体
+ndfunc_t 構造体は、ndfunc_alloc関数を用いてアロケートする。
 
     typedef struct NDFUNCTION {
         na_iter_func_t func; // user function
@@ -90,25 +113,29 @@ ndfunc_t 構造体をアロケートして初期化して返す
         } aux;         // shape
     } ndfunc_arg_t;
 
-* 内側ループの次元とサイズをコントロールしたい場合は、dim と shape に値をセットする
+* ndfunc_alloc関数で初期化されたときは、ユーザー次元 dim が 0 にセットされている。
+* イテレータ関数がループをサポートする場合、次のいずれかの方法で指示。
+    * flag にループ可能であることを指定。
+    * dim を 1 以上にセットし、shape にループ回数をセットする。
+* 内側ループの次元とサイズをコントロールしたい場合は、dim と shape に値をセットする。
 
 ### ndloop_do関数
-イテレータ関数を呼んで多次元ループを行う
+多次元ループのメイン処理を行う。イテレータ関数を呼んで多次元ループを行う。
 
     ndloop_do(ndfunc_t *nf, int argc, ...)
 
-* ndfunc_t 構造体に指定した戻り値を返す
+* 戻り値は、ndfunc_t 構造体で指定した戻り値を返す
 
 ### イテレータ関数
-na_loop_t 構造体を引数として渡されて呼ばれる。
+配列情報を格納した na_loop_t 構造体へのポインタが引数として渡される。
 
     iter_dfloat_add(na_loop_t *const lp)
 
 ### na_loop_t 構造体
-引数の配列と、配列へのアクセス方法の情報を格納
+引数の配列と、配列へのアクセス方法の情報を格納する。
 
     typedef struct NA_LOOP {
-        int  narg;
+        int  narg;             // nf->narg + nf->nres
         int  ndim;             // n of user dimention
         size_t *n;             // n of elements for each dim
         na_loop_args_t *args;  // for each arg
