@@ -23,8 +23,8 @@ ndfunc_alloc関数で ndfunc_t構造体に登録し、
 ndfunc_do関数で多次元ループ処理を行う。
 配列のキャスト、出力配列の準備、および多次元ループ処理については、内部で自動的に行う。
 
-    // 最も内側のループごとに呼ばれるイテレータ関数
     #define cT cDFloat
+    // 最も内側のループごとに呼ばれるイテレータ関数
     static void
     iter_dfloat_add(na_loop_t *const lp)
     {
