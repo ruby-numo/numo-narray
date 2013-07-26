@@ -1,11 +1,10 @@
-
 - 処理の途中で raise された場合、処理が戻ってこない場合がある。
 - その場合、 malloc で確保したメモリーが開放されない可能性があり、メモリーリークになる。
 - メモリーリークを防ぐには、次のいずれかの方法を採る。
     - スタックにメモリを確保する
     - ruby object としてラップする
 
-
+現状のコード
 
     // Rubyメソッドに対応するC関数を定義
     static VALUE
@@ -21,7 +20,6 @@
         return v;
     }
 
-
     typedef struct NDFUNCTION {
         na_iter_func_t func; // user function
         unsigned int flag;   // what kind of loop user function supports
@@ -31,7 +29,6 @@
         ndfunc_arg_t *args;  // spec of arguments
         VALUE *opt_types;    // option types
     } ndfunc_t;
-
 
     typedef struct NDFUNC_ARG {
         VALUE type;    // argument types
@@ -75,6 +72,7 @@ ndfunc_t をスタックで確保するには
         return v;
     }
 
+こうしたい：
 
     // Rubyメソッドに対応するC関数を定義
     static VALUE
