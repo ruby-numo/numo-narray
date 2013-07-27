@@ -23,6 +23,15 @@ typedef struct NA_LOOP_ITER {
     size_t    *idx;
 } na_loop_iter_t;
 
+/*
+typedef struct NA_LOOP_ITER2 {
+    union {
+        na_loop_iter_t i;
+        VALUE a;
+    };
+} na_loop_iter2_t;
+*/
+
 typedef struct NA_LOOP {
     int  narg;
     int  ndim;             // n of user dimention
@@ -34,6 +43,15 @@ typedef struct NA_LOOP {
     void  *opt_ptr;
 } na_loop_t;
 
+typedef struct NA_MD_LOOP {
+    int  narg;
+    int  ndim;             // n of total dimention
+    size_t *n;             // n of elements for each dim
+    na_loop_args_t *args;  // for each arg
+    na_loop_iter_t *iter;  // for each dim, each arg
+    na_loop_t  user;       // loop in user function
+    VALUE  reduce;
+} na_md_loop_t;
 
 
 #define LITER(lp,idim,iarg) ((lp)->iter[(idim)*((lp)->narg)+(iarg)])
@@ -65,47 +83,32 @@ typedef struct NA_LOOP {
 typedef void (*na_iter_func_t) _((na_loop_t *const));
 typedef VALUE (*na_text_func_t) _((char *ptr, size_t pos, VALUE opt));
 
-
-typedef struct NDF_ARG_IN {
-    VALUE   type;    // argument types
-    int     dim;     // # of dimension of argument handled by user function
-} ndf_arg_in_t;
-
-typedef struct NDF_ARG_OUT {
-    VALUE   type;    // argument types
-    VALUE   init;
-    int     dim;     // # of dimension of argument handled by user function
-    size_t *shape;
-} ndf_arg_out_t;
+// spec of arguments passed to user function
+typedef struct NDFUNC_ARG {
+    VALUE type;    // argument types
+    VALUE init;    // initial value
+    int dim;       // # of dimension of argument handled by user function
+    //int flag;    // flag for read/write
+    union {
+        size_t shape[1];
+        size_t *shape_p;
+    } aux;         // shape
+} ndfunc_arg_t;
 
 // spec of user function
 typedef struct NDFUNCTION {
+    //char *name;
     na_iter_func_t func; // user function
     unsigned int flag;   // what kind of loop user function supports
-    int nin;             // # of arguments
-    int nout;            // # of results
-    ndf_arg_in_t *ain;   // spec of input arguments
-    ndf_arg_out_t *aout; // spec of output result
-    void *option;        // option types
+    int narg;            // # of arguments
+    int nopt;            // # of options
+    int nres;            // # of results
+    ndfunc_arg_t *args;  // spec of arguments
+    VALUE *opt_types;    // option types
 } ndfunc_t;
 
 
 #define NDF_TEST(nf,fl)  ((nf)->flag&(fl))
 #define NDF_SET(nf,fl)  {(nf)->flag |= (fl);}
-
-
-// ------------------ na_md_loop_t ----------------------------------------
-
-typedef struct NA_MD_LOOP {
-    int  narg;
-    int  ndim;             // n of total dimention
-    size_t  *n;            // n of elements for each dim
-    na_loop_args_t *args;  // for each arg
-    na_loop_iter_t *iter;  // for each dim, each arg
-    na_loop_t  user;       // loop in user function
-    VALUE  reduce;
-    VALUE  vargs;
-    ndfunc_t  *ndfunc;
-} na_md_loop_t;
 
 #endif /* NDLOOP_H */

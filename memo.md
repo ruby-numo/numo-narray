@@ -78,10 +78,23 @@ ndfunc_t をスタックで確保するには
     static VALUE
     nary_dfloat_s_add(VALUE mod, int argc, VALUE *argv)
     {
-        VALUE types[3] = {cT,cT,INT2FIX(3)};
-        size_t usr_dims[3] = {0,0,0};
-        ndfunc_t ndf = { init_func, itr_func, flags, 2, 1, types, usr_dims };
+        nanika_t opts;
+        ndfunc_arg_t args[3] = {{cT,0,NULL},{cT,0,NULL},{INT2FIX(3),0,NULL}};
+        ndfunc_t ndf = { init_func, itr_func, flags, 2, 1, args, &opts };
 
         return na_ndloop(&ndf, argc, argv);
+    }
+
+
+
+    // Rubyメソッドに対応するC関数を定義
+    static VALUE
+    nary_dfloat_s_add(VALUE mod, int argc, VALUE *argv)
+    {
+        nanika_t opts;
+        ndfunc_arg_t argt[3] = {{cT,0,NULL},{cT,0,NULL},{INT2FIX(3),0,NULL}};
+        ndfunc_t ndf = { init_func, itr_func, flags, 2, 1, argt, &opts };
+
+        return na_vndloop(&ndf, argc, argv);
     }
 
