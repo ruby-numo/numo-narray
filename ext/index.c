@@ -24,7 +24,7 @@ typedef struct {
     size_t  beg;
     ssize_t step;
     size_t *idx;
-    int     mark;
+    int     reduce;
     int     orig_dim;
 } na_index_arg_t;
 
@@ -39,7 +39,7 @@ print_index_arg(na_index_arg_t *q, int n)
         printf("  q[%d].beg=%"SZF"d\n",i,q[i].beg);
         printf("  q[%d].step=%"SZF"d\n",i,q[i].step);
         printf("  q[%d].idx=0x%"SZF"x\n",i,(size_t)q[i].idx);
-        printf("  q[%d].mark=0x%x\n",i,q[i].mark);
+        printf("  q[%d].reduce=0x%x\n",i,q[i].reduce);
         printf("  q[%d].orig_dim=%d\n",i,q[i].orig_dim);
     }
     printf("}\n");
@@ -235,7 +235,7 @@ match_rest(const char *s, long n)
 }
 
 static int
-match_mark(const char *s, long n)
+match_reduce(const char *s, long n)
 {
     str_trim(&s, &n);
     switch(n) {
@@ -246,7 +246,7 @@ match_mark(const char *s, long n)
         if (strncmp(s,"sum",3)==0) return 1;
         break;
     case 4:
-        if (strncmp(s,"mark",4)==0) return 1;
+        if (strncmp(s,"reduce",4)==0) return 1;
         break;
     }
     return 0;
@@ -344,7 +344,7 @@ na_index_set_step(na_index_arg_t *q, int i, size_t n, size_t beg, ssize_t step)
     q->beg  = beg;
     q->step = step;
     q->idx  = NULL;
-    q->mark = 0;
+    q->reduce = 0;
     q->orig_dim = i;
 }
 
@@ -362,7 +362,7 @@ na_index_set_scalar(na_index_arg_t *q, int i, ssize_t size, ssize_t x)
     q->beg  = x;
     q->step = 0;
     q->idx  = NULL;
-    q->mark = 0;
+    q->reduce = 0;
     q->orig_dim = i;
 }
 
@@ -417,9 +417,9 @@ na_index_parse_each(volatile VALUE a, ssize_t size, int i, na_index_arg_t *q)
         else if (id==id_new) {
             na_index_set_step(q,i,1,0,1);
         }
-        else if (id==id_mark || id==id_sum || id==id_plus) {
+        else if (id==id_reduce || id==id_sum || id==id_plus) {
             na_index_set_step(q,i,size,0,1);
-            q->mark = 1;
+            q->reduce = 1;
         }
         break;
 
@@ -442,7 +442,7 @@ na_index_parse_each(volatile VALUE a, ssize_t size, int i, na_index_arg_t *q)
         q->beg  = 0;
         q->step = 1;
         q->idx  = idx;
-        q->mark = 0;
+        q->reduce = 0;
         q->orig_dim = i;
         break;
 
@@ -547,9 +547,9 @@ na_index_parse_each(volatile VALUE a, ssize_t size, int i, na_index_arg_t *q)
             if (match_all(s,l)) {
                 na_index_set_step(q,i,size,0,1);
             }
-            else if (match_mark(s,l)) {
+            else if (match_reduce(s,l)) {
                 na_index_set_step(q,i,size,0,1);
-                q->mark = 1;
+                q->reduce = 1;
             }
             else if (match_rev(s,l)) {
                 na_index_set_step(q,i,size,size-1,-1);
@@ -725,9 +725,9 @@ na_index_aref_nadata(narray_data_t *na1, narray_view_t *na2,
 
         na2->base.shape[j] = size = q[i].n;
 
-        if (q[i].mark != 0) {
+        if (q[i].reduce != 0) {
             m = rb_funcall(INT2FIX(1),rb_intern("<<"),1,INT2FIX(j));
-            na2->base.mark = rb_funcall(m,rb_intern("|"),1,na2->base.mark);
+            na2->base.reduce = rb_funcall(m,rb_intern("|"),1,na2->base.reduce);
         }
 
         // array index
@@ -781,9 +781,9 @@ na_index_aref_naview(narray_view_t *na1, narray_view_t *na2,
 
         na2->base.shape[j] = size = q[i].n;
 
-        if (q[i].mark != 0) {
+        if (q[i].reduce != 0) {
             m = rb_funcall(INT2FIX(1),rb_intern("<<"),1,INT2FIX(j));
-            na2->base.mark = rb_funcall(m,rb_intern("|"),1,na2->base.mark);
+            na2->base.reduce = rb_funcall(m,rb_intern("|"),1,na2->base.reduce);
         }
 
         // array index
@@ -964,10 +964,10 @@ na_aset(int argc, VALUE *argv, VALUE self)
 }
 
 
-// convert mark dims to 0-th element
+// convert reduce dims to 0-th element
 // for initialization of min/max func
 // ['*,+,*'] -> [true,0,true]
-VALUE nary_init_accum_aref0(VALUE self, VALUE mark)
+VALUE nary_init_accum_aref0(VALUE self, VALUE reduce)
 {
     narray_t *na;
     VALUE a;
@@ -978,8 +978,8 @@ VALUE nary_init_accum_aref0(VALUE self, VALUE mark)
     GetNArray(self,na);
     ndim = na->ndim;
     a = rb_ary_new();
-    if (FIXNUM_P(mark)) {
-        m = NUM2ULONG(mark);
+    if (FIXNUM_P(reduce)) {
+        m = NUM2ULONG(reduce);
         if (m==0)
             for (i=0; i<ndim; i++)
                 rb_ary_push(a,INT2FIX(0));
@@ -992,7 +992,7 @@ VALUE nary_init_accum_aref0(VALUE self, VALUE mark)
     } else {
         id_bra = rb_intern("[]");
         for (i=0; i<ndim; i++)
-            if (rb_funcall(mark,id_bra,1,INT2FIX(i)) == INT2FIX(1))
+            if (rb_funcall(reduce,id_bra,1,INT2FIX(i)) == INT2FIX(1))
                 rb_ary_push(a,INT2FIX(0));
             else
                 rb_ary_push(a,Qtrue);
@@ -1015,7 +1015,7 @@ Init_nary_index()
     id_new = rb_intern("new");
     id_reverse = rb_intern("reverse");
     id_plus = rb_intern("+");
-    //id_mark = rb_intern("mark");
+    //id_reduce = rb_intern("reduce");
     id_sum = rb_intern("sum");
     id_tilde = rb_intern("~");
     id_rest = rb_intern("rest");

@@ -16,14 +16,14 @@ VALUE rb_narray_new(VALUE elem, int ndim, size_t *shape);
 VALUE rb_narray_debug_info(VALUE);
 
 VALUE na_make_view(VALUE self);
-VALUE na_mark_dimension(int argc, VALUE *argv, VALUE self);
+VALUE na_reduce_dimension(int argc, VALUE *argv, VALUE self);
 
 VALUE na_check_ladder(VALUE self, int start_dim);
 void na_setup_shape(narray_t *na, int ndim, size_t *shape);
 
 VALUE na_transpose_map(VALUE self, int *map);
 VALUE na_flatten_dim(VALUE self, int sd);
-VALUE na_flatten_by_mark(int argc, VALUE *argv, VALUE self);
+VALUE na_flatten_by_reduce(int argc, VALUE *argv, VALUE self);
 
 //VALUE na_sort_main(int argc, VALUE *argv, volatile VALUE self, void (*func_qsort)());
 VALUE na_sort_main(int argc, VALUE *argv, volatile VALUE self, na_iter_func_t iter_func);
@@ -73,7 +73,7 @@ VALUE ndloop_do3(ndfunc_t *nf, void *ptr, int argc, ...);
 VALUE ndloop_do4(ndfunc_t *nf, void *ptr, VALUE args);
 
 /*
-VALUE ndfunc_execute_reduce(ndfunc_t *nf, VALUE mark, int argc, ...);
+VALUE ndfunc_execute_reduce(ndfunc_t *nf, VALUE reduce, int argc, ...);
 VALUE ndfunc_execute_to_rarray(ndfunc_t *nf, VALUE arg, VALUE info);
 //VALUE ndfunc_execute_from_rarray(ndfunc_t *nf, VALUE arg);
 void ndloop_execute_store_array(ndfunc_t *nf, VALUE rary, VALUE nary);
@@ -91,7 +91,7 @@ VALUE na_info_str(VALUE);
 
 size_t na_get_elmsz(VALUE);
 
-boolean na_test_mark(VALUE mark, int dim);
+boolean na_test_reduce(VALUE reduce, int dim);
 
 size_t *na_mdarray_investigate(VALUE ary, int *ndim, VALUE *type);
 
@@ -113,7 +113,7 @@ void ndloop_do_inspect(VALUE ary, VALUE buf, na_text_func_t func, VALUE opt);
 
 VALUE na_upcast(VALUE type1, VALUE type2);
 
-VALUE nary_init_accum_aref0(VALUE self, VALUE mark);
+VALUE nary_init_accum_aref0(VALUE self, VALUE reduce);
 
 
 
@@ -143,7 +143,7 @@ void rb_scan_kw_args __((VALUE, ...));
 
 VALUE na_aref(int argc, VALUE *argv, VALUE self);
 VALUE na_aref_md(int argc, VALUE *argv, VALUE self, int keep_dim);
-VALUE nary_init_accum_aref0(VALUE self, VALUE mark);
+VALUE nary_init_accum_aref0(VALUE self, VALUE reduce);
 
 int n_bits(u_int64_t a);
 

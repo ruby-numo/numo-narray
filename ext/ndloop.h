@@ -50,7 +50,7 @@ typedef struct NA_MD_LOOP {
     na_loop_args_t *args;  // for each arg
     na_loop_iter_t *iter;  // for each dim, each arg
     na_loop_t  user;       // loop in user function
-    VALUE  mark;
+    VALUE  reduce;
 } na_md_loop_t;
 
 
@@ -65,12 +65,12 @@ typedef struct NA_MD_LOOP {
 #define NDF_KEEP_DIM            (1<<3)
 #define NDF_ACCEPT_SWAP         (1<<4)
 
-#define NDF_HAS_MARK_DIM        (1<<5)
+#define NDF_HAS_REDUCE_DIM        (1<<5)
 
 #define HAS_LOOP       NDF_FULL_LOOP
 #define FULL_LOOP      NDF_FULL_LOOP
 #define NO_LOOP        0
-#define HAS_MARK       NDF_HAS_MARK_DIM
+#define HAS_REDUCE       NDF_HAS_REDUCE_DIM
 
 #define NDF_TEST(nf,fl)  ((nf)->flag&(fl))
 #define NDF_SET(nf,fl)  {(nf)->flag |= (fl);}

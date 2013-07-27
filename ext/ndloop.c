@@ -59,10 +59,10 @@ print_ndloop(na_md_loop_t *lp) {
     printf("  user.iter = 0x%"SZF"x\n", (size_t)lp->user.iter);
     printf("  user.info = 0x%"SZF"x\n", (size_t)lp->user.info);
     printf("  user.opt_ptr = 0x%"SZF"x\n", (size_t)lp->user.opt_ptr);
-    if (lp->mark==Qnil) {
-        printf("  mark  = nil\n");
+    if (lp->reduce==Qnil) {
+        printf("  reduce  = nil\n");
     } else {
-        printf("  mark  = 0x%x\n", NUM2INT(lp->mark));
+        printf("  reduce  = 0x%x\n", NUM2INT(lp->reduce));
     }
     nd = lp->ndim + lp->user.ndim;
     for (i=0; i<=nd; i++) {
@@ -275,8 +275,6 @@ ndloop_alloc(ndfunc_t *nf, VALUE args, void *opt_ptr)
     narray_t *na;
 
     if (RARRAY_LEN(args) != nf->narg + nf->nopt) {
-        //rb_raise(rb_eArgError, "wrong number of arguments for ndfunc (%d for %d)",
-        //         RARRAY_LEN(args), nf->narg + nf->nopt);
         rb_bug("wrong number of arguments for ndfunc (%"SZF"u for %d)",
                RARRAY_LEN(args), nf->narg + nf->nopt);
     }
@@ -325,14 +323,14 @@ ndloop_alloc(ndfunc_t *nf, VALUE args, void *opt_ptr)
     }
 
     // options
-    lp->mark = Qnil;
+    lp->reduce = Qnil;
     lp->user.info = Qnil;
     lp->user.opt_ptr = opt_ptr;
 
     for (i=0; i<nf->nopt; i++) {
         t = nf->opt_types[i];
-        if (t==sym_mark) {
-            lp->mark = RARRAY_PTR(args)[i+nf->narg];
+        if (t==sym_reduce) {
+            lp->reduce = RARRAY_PTR(args)[i+nf->narg];
         }
         /*
         else if (t==sym_transpose) {
@@ -467,7 +465,7 @@ ndloop_set_narray_result(ndfunc_t *nf, na_md_loop_t *lp, int j,
     // md-loop shape
     na_ndim = 0;
     for (i=0; i<lp->ndim; i++) {
-        if (na_test_mark(lp->mark,i)) {        // accumulate dimension
+        if (na_test_reduce(lp->reduce,i)) {        // accumulate dimension
             if (NDF_TEST(nf,NDF_KEEP_DIM)) {
                 na_shape[na_ndim] = 1;         // leave it
             } else {

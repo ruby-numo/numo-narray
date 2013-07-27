@@ -67,14 +67,14 @@ static void
 static VALUE
 <%=c_instance_method%>(int argc, VALUE *argv, VALUE self)
 {
-    VALUE v, mark;
+    VALUE v, reduce;
     ndfunc_t *func;
 
-    mark = na_mark_dimension(argc, argv, self);
+    reduce = na_reduce_dimension(argc, argv, self);
     func = ndfunc_alloc(<%=c_iterator%>, FULL_LOOP,
-                        2, 1, cBit, sym_mark, cInt64);
+                        2, 1, cBit, sym_reduce, cInt64);
     func->args[1].init = INT2FIX(0);
-    v = ndloop_do(func, 2, self, mark);
+    v = ndloop_do(func, 2, self, reduce);
     v = rb_funcall(v,rb_intern("extract"),0);
     ndfunc_free(func);
     return v;

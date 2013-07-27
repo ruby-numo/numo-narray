@@ -498,24 +498,24 @@ na_flatten(VALUE self)
 
 
 VALUE
- na_flatten_by_mark(int argc, VALUE *argv, volatile VALUE self)
+ na_flatten_by_reduce(int argc, VALUE *argv, volatile VALUE self)
 {
-    size_t  sz_mark=1;
+    size_t  sz_reduce=1;
     int     i, j, ndim;
-    int     nd_mark=0, nd_rest=0;
-    int    *dim_mark, *dim_rest;
+    int     nd_reduce=0, nd_rest=0;
+    int    *dim_reduce, *dim_rest;
     int    *map;
-    volatile VALUE view, mark;
+    volatile VALUE view, reduce;
     narray_t *na;
 
     //puts("pass1");
     //rb_p(self);
-    mark = na_mark_dimension(argc, argv, self);
-    //mark = INT2FIX(1);
+    reduce = na_reduce_dimension(argc, argv, self);
+    //reduce = INT2FIX(1);
     //rb_p(self);
     //puts("pass2");
 
-    if (mark==INT2FIX(0)) {
+    if (reduce==INT2FIX(0)) {
 	//puts("pass flatten_dim");
         //rb_funcall(self,rb_intern("debug_info"),0);
         //rb_p(self);
@@ -523,7 +523,7 @@ VALUE
         //rb_funcall(view,rb_intern("debug_info"),0);
         //rb_p(view);
     } else {
-        //printf("mark=0x%x\n",NUM2INT(mark));
+        //printf("reduce=0x%x\n",NUM2INT(reduce));
 	GetNArray(self,na);
 	ndim = na->ndim;
 	if (ndim==0) {
@@ -531,13 +531,13 @@ VALUE
 	    return Qnil;
 	}
 	map = ALLOC_N(int,ndim);
-	dim_mark = ALLOC_N(int,ndim);
+	dim_reduce = ALLOC_N(int,ndim);
 	dim_rest = ALLOC_N(int,ndim);
 	for (i=0; i<ndim; i++) {
-	    if (na_test_mark( mark, i )) {
-		sz_mark *= na->shape[i];
-		//printf("i=%d, nd_mark=%d, na->shape[i]=%ld\n", i, nd_mark, na->shape[i]);
-		dim_mark[nd_mark++] = i;
+	    if (na_test_reduce( reduce, i )) {
+		sz_reduce *= na->shape[i];
+		//printf("i=%d, nd_reduce=%d, na->shape[i]=%ld\n", i, nd_reduce, na->shape[i]);
+		dim_reduce[nd_reduce++] = i;
 	    } else {
 		//shape[nd_rest] = na->shape[i];
 		//sz_rest *= na->shape[i];
@@ -550,12 +550,12 @@ VALUE
 	    //printf("dim_rest[i=%d]=%d\n",i,dim_rest[i]);
 	    //printf("map[i=%d]=%d\n",i,map[i]);
 	}
-	for (j=0; j<nd_mark; j++,i++) {
-	    map[i] = dim_mark[j];
-	    //printf("dim_mark[j=%d]=%d\n",j,dim_mark[j]);
+	for (j=0; j<nd_reduce; j++,i++) {
+	    map[i] = dim_reduce[j];
+	    //printf("dim_reduce[j=%d]=%d\n",j,dim_reduce[j]);
 	    //printf("map[i=%d]=%d\n",i,map[i]);
 	}
-	xfree(dim_mark);
+	xfree(dim_reduce);
 	xfree(dim_rest);
         //for (i=0; i<ndim; i++) {
         //    printf("map[%d]=%d\n",i,map[i]);
@@ -940,7 +940,7 @@ Init_nary_data()
     id_real = rb_intern("real");
     id_imag = rb_intern("imag");
 
-    id_mark = rb_intern("mark");
+    id_reduce = rb_intern("reduce");
     id_info = rb_intern("info");
 
 }

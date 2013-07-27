@@ -47,10 +47,10 @@ ID id_nearly_eq;
 ID id_real;
 ID id_imag;
 
-ID id_mark;
+ID id_reduce;
 ID id_info;
 
-VALUE sym_mark;
+VALUE sym_reduce;
 VALUE sym_info;
 
 VALUE na_cStep;
@@ -186,7 +186,7 @@ na_free_view(narray_view_t* na)
 }
 
 static void
-na_mark_view(narray_view_t* na)
+na_gc_mark_view(narray_view_t* na)
 {
     rb_gc_mark(na->data);
 }
@@ -202,7 +202,7 @@ na_s_allocate(VALUE klass)
     na->base.flag[1] = 0;
     na->base.size = 0;
     na->base.shape = NULL;
-    na->base.mark = INT2FIX(0);
+    na->base.reduce = INT2FIX(0);
     na->ptr = NULL;
     return Data_Wrap_Struct(klass, 0, na_free, na);
 }
@@ -219,11 +219,11 @@ na_s_allocate_view(VALUE klass)
     na->base.flag[1] = 0;
     na->base.size = 0;
     na->base.shape = NULL;
-    na->base.mark = INT2FIX(0);
+    na->base.reduce = INT2FIX(0);
     na->data = Qnil;
     na->offset = 0;
     na->stridx = NULL;
-    return Data_Wrap_Struct(klass, na_mark_view, na_free_view, na);
+    return Data_Wrap_Struct(klass, na_gc_mark_view, na_free_view, na);
 }
 
 
@@ -867,25 +867,25 @@ nary_cast_to(VALUE obj, VALUE type)
 
 
 boolean
-na_test_mark(VALUE mark, int dim)
+na_test_reduce(VALUE reduce, int dim)
 {
     size_t m;
 
-    if (!RTEST(mark))
+    if (!RTEST(reduce))
         return 0;
-    if (FIXNUM_P(mark)) {
-        m = FIX2LONG(mark);
+    if (FIXNUM_P(reduce)) {
+        m = FIX2LONG(reduce);
         if (m==0) return 1;
         return (m & (1u<<dim)) ? 1 : 0;
     } else {
-        return (rb_funcall(mark,rb_intern("[]"),1,INT2FIX(dim))==INT2FIX(1)) ?
+        return (rb_funcall(reduce,rb_intern("[]"),1,INT2FIX(dim))==INT2FIX(1)) ?
             1 : 0 ;
     }
 }
 
 
 VALUE
-na_mark_dimension(int argc, VALUE *argv, VALUE self)
+na_reduce_dimension(int argc, VALUE *argv, VALUE self)
 {
     int ndim;
     int row_major;
@@ -896,22 +896,22 @@ na_mark_dimension(int argc, VALUE *argv, VALUE self)
     VALUE v;
     narray_t *na;
     size_t m;
-    volatile VALUE mark;
+    volatile VALUE reduce;
 
     GetNArray(self,na);
     ndim = na->ndim;
-    mark = na->mark;
+    reduce = na->reduce;
 
     row_major = TEST_COLUMN_MAJOR(self);
 
     if (argc==0) {
-        //printf("pass argc=0 mark=%d\n",NUM2INT(mark));
-        return mark;
+        //printf("pass argc=0 reduce=%d\n",NUM2INT(reduce));
+        return reduce;
     }
     //printf("argc=%d\n",argc);
 
     m = 0;
-    mark = Qnil;
+    reduce = Qnil;
     for (i=0; i<argc; i++) {
         v = argv[i];
         //printf("argv[%d]=",i);rb_p(v);
@@ -930,19 +930,19 @@ na_mark_dimension(int argc, VALUE *argv, VALUE self)
             r = beg + step*j;
             if (row_major)
                 r = ndim-1-r;
-            if (mark==Qnil)
+            if (reduce==Qnil)
               if ( r < (ssize_t)sizeof(size_t) ) {
                     m |= ((size_t)1) << r;
                     continue;
                 } else {
-                    mark = SIZE2NUM(m);
+                    reduce = SIZE2NUM(m);
                 }
             v = rb_funcall( INT2FIX(1), rb_intern("<<"), 1, INT2FIX(r) );
-            mark = rb_funcall( mark, rb_intern("|"), 1, v );
+            reduce = rb_funcall( reduce, rb_intern("|"), 1, v );
         }
     }
-    if (mark==Qnil) mark = SIZE2NUM(m);
-    return mark;
+    if (reduce==Qnil) reduce = SIZE2NUM(m);
+    return reduce;
 }
 
 //--------------------------------------
@@ -1168,9 +1168,9 @@ Init_narray()
     id_element_bit_size = rb_intern(ELEMENT_BIT_SIZE);
     id_element_byte_size = rb_intern(ELEMENT_BYTE_SIZE);
 
-    id_mark = rb_intern("mark");
+    id_reduce = rb_intern("reduce");
     id_info = rb_intern("info");
-    sym_mark = ID2SYM(id_mark);
+    sym_reduce = ID2SYM(id_reduce);
     sym_info = ID2SYM(id_info);
 
     Init_nary_step();

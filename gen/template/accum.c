@@ -61,8 +61,8 @@ static VALUE
     VALUE v, accum;
     ndfunc_t *func;
     func = ndfunc_alloc(<%=c_iterator%>, FULL_LOOP,
-                        2, 1, cT, sym_mark, cT);
-    accum = na_mark_dimension(argc, argv, self);
+                        2, 1, cT, sym_reduce, cT);
+    accum = na_reduce_dimension(argc, argv, self);
     func->args[1].init = m_<%=op%>_init;
     v = ndloop_do(func, 2, self, accum);
     ndfunc_free(func);

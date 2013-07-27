@@ -189,9 +189,9 @@ extern ID id_le;
 extern ID id_real;
 extern ID id_imag;
 
-extern ID id_mark;
+extern ID id_reduce;
 extern ID id_info;
-extern VALUE sym_mark;
+extern VALUE sym_reduce;
 extern VALUE sym_info;
 
 #define NARRAY_DATA_T     0x1
@@ -204,7 +204,7 @@ typedef struct RNArray {
     unsigned char flag[2];  // flags
     size_t   size;          // # of total elements
     size_t  *shape;         // # of elements for each dimension
-    VALUE    mark;
+    VALUE    reduce;
 } narray_t;
 
 
@@ -293,7 +293,7 @@ _na_get_narray_t(VALUE obj, unsigned char na_type)
 #define RNARRAY_FLAG(val)	(RNARRAY(val)->flag)
 #define RNARRAY_SIZE(val)	(RNARRAY(val)->size)
 #define RNARRAY_SHAPE(val)	(RNARRAY(val)->shape)
-#define RNARRAY_MARK(val)	(RNARRAY(val)->mark)
+#define RNARRAY_REDUCE(val)	(RNARRAY(val)->reduce)
 
 #define RNARRAY_DATA_PTR(val)	 (RNARRAY_DATA(val)->ptr)
 #define RNARRAY_VIEW_DATA(val)	 (RNARRAY_VIEW(val)->data)
@@ -307,7 +307,7 @@ _na_get_narray_t(VALUE obj, unsigned char na_type)
 #define NA_FLAG1(na)	(((narray_t*)na)->flag[1])
 #define NA_SIZE(na)	(((narray_t*)na)->size)
 #define NA_SHAPE(na)	(((narray_t*)na)->shape)
-#define NA_MARK(na)	(((narray_t*)na)->mark)
+#define NA_REDUCE(na)	(((narray_t*)na)->reduce)
 
 #define NA_DATA_PTR(na)         (((narray_data_t*)na)->ptr)
 #define NA_VIEW_DATA(na)	(((narray_view_t*)na)->data)
