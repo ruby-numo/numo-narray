@@ -29,8 +29,7 @@ typedef struct NA_LOOP {
     size_t *n;             // n of elements for each dim
     na_loop_args_t *args;  // for each arg
     na_loop_iter_t *iter;  // for each dim, each arg
-    //VALUE  opt_val;
-    VALUE  info;
+    VALUE  option;
     void  *opt_ptr;
 } na_loop_t;
 
@@ -51,6 +50,7 @@ typedef struct NA_LOOP {
 
 #define HAS_LOOP       NDF_FULL_LOOP
 #define FULL_LOOP      NDF_FULL_LOOP
+#define STRIDE_LOOP    (NDF_STRIDE_LOOP|NDF_INDEX_LOOP)
 #define NO_LOOP        0
 #define HAS_REDUCE       NDF_HAS_REDUCE_DIM
 
@@ -64,19 +64,20 @@ typedef struct NA_LOOP {
 // type of user function
 typedef void (*na_iter_func_t) _((na_loop_t *const));
 typedef VALUE (*na_text_func_t) _((char *ptr, size_t pos, VALUE opt));
+//typedef void (*) void (*loop_func)(ndfunc_t*, na_md_loop_t*))
 
 
 typedef struct NDF_ARG_IN {
     VALUE   type;    // argument types
     int     dim;     // # of dimension of argument handled by user function
-} ndf_arg_in_t;
+} ndfunc_arg_in_t;
 
 typedef struct NDF_ARG_OUT {
     VALUE   type;    // argument types
-    VALUE   init;
+//  VALUE   init;
     int     dim;     // # of dimension of argument handled by user function
     size_t *shape;
-} ndf_arg_out_t;
+} ndfunc_arg_out_t;
 
 // spec of user function
 typedef struct NDFUNCTION {
@@ -84,8 +85,8 @@ typedef struct NDFUNCTION {
     unsigned int flag;   // what kind of loop user function supports
     int nin;             // # of arguments
     int nout;            // # of results
-    ndf_arg_in_t *ain;   // spec of input arguments
-    ndf_arg_out_t *aout; // spec of output result
+    ndfunc_arg_in_t *ain;   // spec of input arguments
+    ndfunc_arg_out_t *aout; // spec of output result
     void *option;        // option types
 } ndfunc_t;
 
@@ -98,14 +99,19 @@ typedef struct NDFUNCTION {
 
 typedef struct NA_MD_LOOP {
     int  narg;
+    int  nin;
+//    int  nopt;
+//    int  nout;
     int  ndim;             // n of total dimention
     size_t  *n;            // n of elements for each dim
     na_loop_args_t *args;  // for each arg
     na_loop_iter_t *iter;  // for each dim, each arg
     na_loop_t  user;       // loop in user function
-    VALUE  reduce;
     VALUE  vargs;
+    VALUE  reduce;
+    VALUE  loop_opt;
     ndfunc_t  *ndfunc;
+    void (*loop_func)();
 } na_md_loop_t;
 
 #endif /* NDLOOP_H */

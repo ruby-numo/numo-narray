@@ -64,28 +64,21 @@ static void
     }
 }
 
-/*
-  Class method <%=op%>.
-  @overload <%=op%>(a1,a2)
-  @param [NArray,Numeric] a1
-  @param [NArray,Numeric] a2
-  @return [NArray::Bit] a1 <%=op%> a2.
-*/
 static VALUE
-<%=c_singleton_method%>(VALUE mod, VALUE a1, VALUE a2)
+<%=c_instance_method%>_self(VALUE self, VALUE other)
 {
-    ndfunc_t *func;
-    VALUE v;
-    if (FIXNUM_P(a2) || rb_obj_is_kind_of(a2,cInt32)) {
-        func = ndfunc_alloc(<%=c_iterator%>_int32, FULL_LOOP,
-                            2, 1, cT, cInt32, cT);
+    ndfunc_arg_in_t ain[2] = {{cT,0},{cT,0}};
+    ndfunc_arg_in_t ain_i[2] = {{cT,0},{cInt32,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { <%=c_iterator%>, STRIDE_LOOP, 2, 1, ain, aout };
+    ndfunc_t ndf_i = { <%=c_iterator%>_int32, STRIDE_LOOP, 2, 1, ain_i, aout };
+
+    // fixme : use na.integer?
+    if (FIXNUM_P(other) || rb_obj_is_kind_of(other,cInt32)) {
+        return na_ndloop(&ndf_i, 2, self, other);
     } else {
-        func = ndfunc_alloc(<%=c_iterator%>, FULL_LOOP,
-                            2, 1, cT, cT, cT);
+        return na_ndloop(&ndf, 2, self, other);
     }
-    v = ndloop_do(func, 2, a1, a2);
-    ndfunc_free(func);
-    return v;
 }
 
 /*
@@ -95,13 +88,14 @@ static VALUE
   @return [NArray::Bit] self <%=op%> other.
 */
 static VALUE
-<%=c_instance_method%>(VALUE a1, VALUE a2)
+<%=c_instance_method%>(VALUE self, VALUE other)
 {
-    VALUE klass;
-    klass = na_upcast(CLASS_OF(a1),CLASS_OF(a2));
+    VALUE klass, v;
+    klass = na_upcast(CLASS_OF(self),CLASS_OF(other));
     if (klass==cT) {
-        return <%=c_singleton_method%>(cT,a1,a2);
+        return <%=c_instance_method%>_self(self,other);
     } else {
-        return rb_funcall(klass,id_pow,2,a1,a2);
+        v = rb_funcall(klass, id_cast, 1, self);
+        return rb_funcall(v, id_pow, 1, other);
     }
 }

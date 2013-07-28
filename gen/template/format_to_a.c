@@ -8,7 +8,7 @@ static void
     void *x;
     VALUE y;
     volatile VALUE a;
-    VALUE fmt = *(VALUE*)(lp->opt_ptr);
+    VALUE fmt = lp->option;
     INIT_COUNTER(lp, i);
     INIT_PTR(lp, 0, p1, s1, idx1);
     a = rb_ary_new2(i);
@@ -29,13 +29,11 @@ static void
 static VALUE
 <%=c_instance_method%>(int argc, VALUE *argv, VALUE self)
 {
-     ndfunc_t *func;
-     volatile VALUE v, fmt=Qnil;
+    volatile VALUE fmt=Qnil;
+    ndfunc_arg_in_t ain[3] = {{Qnil,0},{sym_loop_opt},{sym_option}};
+    ndfunc_arg_out_t aout[1] = {{rb_cArray,0}}; // dummy?
+    ndfunc_t ndf = { <%=c_iterator%>, FULL_LOOP, 3, 1, ain, aout };
 
-     rb_scan_args(argc, argv, "01", &fmt);
-     func = ndfunc_alloc(<%=c_iterator%>,FULL_LOOP,
-                         1, 1, Qnil, rb_cArray);
-     v = ndloop_cast_narray_to_rarray(func, self, fmt);
-     ndfunc_free(func);
-     return v;
+    rb_scan_args(argc, argv, "01", &fmt);
+    return na_ndloop_cast_narray_to_rarray(&ndf, self, fmt);
 }

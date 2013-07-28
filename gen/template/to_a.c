@@ -26,12 +26,8 @@ void
 static VALUE
 <%=c_instance_method%>(VALUE self)
 {
-    VALUE v;
-    ndfunc_t *func ;
-
-    func = ndfunc_alloc(<%=c_iterator%>, FULL_LOOP,
-                        1, 1, Qnil, rb_cArray);
-    v = ndloop_cast_narray_to_rarray(func, self, Qnil);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[3] = {{Qnil,0},{sym_loop_opt},{sym_option}};
+    ndfunc_arg_out_t aout[1] = {{rb_cArray,0}}; // dummy?
+    ndfunc_t ndf = { <%=c_iterator%>, FULL_LOOP, 3, 1, ain, aout };
+    return na_ndloop_cast_narray_to_rarray(&ndf, self, Qnil);
 }

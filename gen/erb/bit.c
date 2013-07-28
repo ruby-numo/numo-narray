@@ -145,7 +145,7 @@ static VALUE
  nary_bit_inspect(VALUE ary)
 {
     VALUE str = na_info_str(ary);
-    ndloop_do_inspect(ary, str, bit_inspect_element, Qnil);
+    na_ndloop_inspect(ary, str, bit_inspect_element, Qnil);
     return str;
 }
 
@@ -173,17 +173,15 @@ iter_bit_format(na_loop_t *const lp)
 }
 
 static VALUE
- nary_bit_format(int argc, VALUE *argv, VALUE self)
+nary_bit_format(int argc, VALUE *argv, VALUE self)
 {
-     ndfunc_t *func;
-     VALUE v, fmt=Qnil;
+    VALUE fmt=Qnil;
+    ndfunc_arg_in_t ain[2] = {{Qnil,0},{sym_option}};
+    ndfunc_arg_out_t aout[1] = {{cRObject,0}};
+    ndfunc_t ndf = { iter_bit_format, FULL_LOOP, 2, 1, ain, aout };
 
-     rb_scan_args(argc, argv, "01", &fmt);
-     func = ndfunc_alloc(iter_bit_format, FULL_LOOP,
-                         1, 1, Qnil, cRObject);
-     v = ndloop_do3(func, &fmt, 1, self);
-     ndfunc_free(func);
-     return v;
+    rb_scan_args(argc, argv, "01", &fmt);
+    return na_ndloop(&ndf, 2, self, fmt);
 }
 
 static void
@@ -214,15 +212,13 @@ iter_bit_format_to_a(na_loop_t *const lp)
 static VALUE
 nary_bit_format_to_a(int argc, VALUE *argv, VALUE self)
 {
-     ndfunc_t *func;
-     volatile VALUE v, fmt=Qnil;
+    volatile VALUE fmt=Qnil;
+    ndfunc_arg_in_t ain[3] = {{Qnil,0},{sym_loop_opt},{sym_option}};
+    ndfunc_arg_out_t aout[1] = {{rb_cArray,0}}; // dummy?
+    ndfunc_t ndf = { iter_bit_format_to_a, FULL_LOOP, 3, 1, ain, aout };
 
-     rb_scan_args(argc, argv, "01", &fmt);
-     func = ndfunc_alloc(iter_bit_format_to_a, FULL_LOOP,
-                         1, 1, Qnil, rb_cArray);
-     v = ndloop_cast_narray_to_rarray(func, self, fmt);
-     ndfunc_free(func);
-     return v;
+    rb_scan_args(argc, argv, "01", &fmt);
+    return na_ndloop_cast_narray_to_rarray(&ndf, self, fmt);
 }
 
 
@@ -277,11 +273,11 @@ iter_bit_fill(na_loop_t *const lp)
 static VALUE
 nary_bit_fill(VALUE self, VALUE val)
 {
-     ndfunc_t *func;
-     func = ndfunc_alloc(iter_bit_fill, FULL_LOOP, 1, 0, cBit);
-     ndloop_do3(func, &val, 1, self);
-     ndfunc_free(func);
-     return self;
+    ndfunc_arg_in_t ain[2] = {{cT,0},{sym_option}};
+    ndfunc_t ndf = { iter_bit_fill, FULL_LOOP, 2, 0, ain, 0 };
+
+    na_ndloop(&ndf, 2, self, val);
+    return self;
 }
 
 
@@ -315,14 +311,19 @@ bit_cast_to_robj(na_loop_t *const lp)
 static VALUE
 nary_bit_cast_to_rarray(VALUE self)
 {
-    VALUE v;
-    ndfunc_t *func;
-
-    func = ndfunc_alloc(bit_cast_to_robj, FULL_LOOP,
-                        1, 1, cBit, rb_cArray);
-    v = ndloop_cast_narray_to_rarray(func, self, Qnil);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[3] = {{Qnil,0},{sym_loop_opt},{sym_option}};
+    ndfunc_arg_out_t aout[1] = {{rb_cArray,0}}; // dummy?
+    ndfunc_t ndf = { bit_cast_to_robj, FULL_LOOP, 3, 1, ain, aout };
+    return na_ndloop_cast_narray_to_rarray(&ndf, self, Qnil);
+//
+//    VALUE v;
+//    ndfunc_t *func;
+//
+//    func = ndfunc_alloc(bit_cast_to_robj, FULL_LOOP,
+//                        1, 1, cBit, rb_cArray);
+//    v = ndloop_cast_narray_to_rarray(func, self, Qnil);
+//    ndfunc_free(func);
+//    return v;
 }
 
 
@@ -384,16 +385,18 @@ nary_cast_array_to_bit(VALUE rary)
     int nd;
     size_t *shape;
     VALUE tp, nary;
-    ndfunc_t *func;
+    ndfunc_arg_in_t ain[2] = {{Qnil,0},{rb_cArray,0}};
+    ndfunc_t ndf = { iter_cast_rarray_to_bit, FULL_LOOP, 2, 0, ain, 0 };
 
     shape = na_mdarray_investigate(rary, &nd, &tp);
     nary = rb_narray_new(cBit, nd, shape);
     na_alloc_data(nary);
     xfree(shape);
-    func = ndfunc_alloc(iter_cast_rarray_to_bit, FULL_LOOP,
-                        2, 0, Qnil, rb_cArray);
-    ndloop_cast_rarray_to_narray(func, rary, nary);
-    ndfunc_free(func);
+    //func = ndfunc_alloc(iter_cast_rarray_to_bit, FULL_LOOP,
+    //                    2, 0, Qnil, rb_cArray);
+    //ndloop_cast_rarray_to_narray(func, rary, nary);
+    na_ndloop_cast_rarray_to_narray(&ndf, rary, nary);
+    //ndfunc_free(func);
     return nary;
 }
 
@@ -430,11 +433,11 @@ nary_bit_extract(VALUE self)
 VALUE
 nary_bit_store(VALUE dst, VALUE src)
 {
-    ndfunc_t *func;
-    func = ndfunc_alloc(iter_bit_copy, FULL_LOOP,
-                         2, 0, INT2FIX(1), Qnil);
-    ndloop_do(func, 2, src, dst);
-    ndfunc_free(func);
+    // check and fix me
+    ndfunc_arg_in_t ain[2] = {{INT2FIX(1),0},{Qnil,0}};
+    ndfunc_t ndf = { iter_bit_copy, FULL_LOOP, 2, 0, ain, 0 };
+
+    na_ndloop(&ndf, 2, src, dst);
     return src;
 }
 
@@ -533,11 +536,12 @@ static VALUE
  nary_bit_where(VALUE self)
 {
     volatile VALUE idx_1;
-    ndfunc_t *func;
     size_t size, n_1;
     where_opt_t *g;
 
-    func = ndfunc_alloc(iter_bit_where, FULL_LOOP, 1, 0, cBit);
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_bit_where, FULL_LOOP, 1, 0, ain, 0 };
+    //func = ndfunc_alloc(iter_bit_where, FULL_LOOP, 1, 0, cBit);
 
     //self = na_flatten(self);
     size = RNARRAY_SIZE(self);
@@ -553,9 +557,9 @@ static VALUE
     }
     g->idx1 = na_get_pointer_for_write(idx_1);
     g->idx0 = NULL;
-    ndloop_do3(func, g, 1, self);
+    //ndloop_do3(func, g, 1, self);
+    na_ndloop3(&ndf, g, 1, self);
     na_release_lock(idx_1);
-    ndfunc_free(func);
     return idx_1;
 }
 
@@ -565,11 +569,12 @@ static VALUE
  nary_bit_where2(VALUE self)
 {
     VALUE idx_1, idx_0;
-    ndfunc_t *func;
     size_t size, n_1;
     where_opt_t *g;
 
-    func = ndfunc_alloc(iter_bit_where, FULL_LOOP, 1, 0, cBit);
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_bit_where, FULL_LOOP, 1, 0, ain, 0 };
+    //func = ndfunc_alloc(iter_bit_where, FULL_LOOP, 1, 0, cBit);
 
     size = RNARRAY_SIZE(self);
     n_1 = NUM2SIZE(nary_bit_count_true(0, NULL, self));
@@ -586,10 +591,10 @@ static VALUE
     }
     g->idx1 = na_get_pointer_for_write(idx_1);
     g->idx0 = na_get_pointer_for_write(idx_0);
-    ndloop_do3(func, g, 1, self);
+    //ndloop_do3(func, g, 1, self);
+    na_ndloop3(&ndf, g, 1, self);
     na_release_lock(idx_0);
     na_release_lock(idx_1);
-    ndfunc_free(func);
     return rb_assoc_new(idx_1,idx_0);
 }
 
@@ -645,19 +650,20 @@ static VALUE
  nary_bit_mask(VALUE mask, VALUE val)
 {
     VALUE result;
-    ndfunc_t *func;
     size_t size;
     void **g;
+    ndfunc_arg_in_t ain[2] = {{cT,0},{Qnil,0}};
+    ndfunc_t ndf = { iter_bit_mask, FULL_LOOP, 2, 0, ain, 0 };
 
     size = NUM2SIZE(nary_bit_count_true(0, NULL, mask));
     result = rb_narray_new(CLASS_OF(val), 1, &size);
     g = ALLOC(void *);
     *g = na_get_pointer_for_write(result);
     //opt = Data_Wrap_Struct(rb_cData,0,0,g);
-    func = ndfunc_alloc(iter_bit_mask, FULL_LOOP, 2, 0, cBit, Qnil);
-    ndloop_do3(func, g, 2, mask, val);
+    //func = ndfunc_alloc(iter_bit_mask, FULL_LOOP, 2, 0, cBit, Qnil);
+    //ndloop_do3(func, g, 2, mask, val);
+    na_ndloop3(&ndf, g, 2, mask, val);
     na_release_lock(result);
-    ndfunc_free(func);
     return result;
 }
 

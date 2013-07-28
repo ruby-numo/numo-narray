@@ -13,6 +13,6 @@ VALUE
 <%=c_instance_method%>(VALUE ary)
 {
     VALUE str = na_info_str(ary);
-    ndloop_do_inspect(ary, str, <%=c_iterator%>, Qnil);
+    na_ndloop_inspect(ary, str, <%=c_iterator%>, Qnil);
     return str;
 }

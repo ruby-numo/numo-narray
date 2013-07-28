@@ -16,7 +16,6 @@ static void
     *(dtype*)(lp->args[i].ptr + lp->iter[i].pos) = y;
 }
 
-
 /*
   Polynomial.: a0 + a1*x + a2*x**2 + a3*x**3 + ... + an*x**n
   @overload <%=op_map%> a0, a1, ...
@@ -28,15 +27,15 @@ static VALUE
 <%=c_instance_method%>(VALUE self, VALUE args)
 {
     int argc, i;
-    ndfunc_t *func;
-    VALUE *types;
     VALUE *argv;
     volatile VALUE v, a;
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { <%=c_iterator%>, NO_LOOP, argc+1, 1, 0, aout };
 
     argc = RARRAY_LEN(args);
-    types = ALLOCA_N(VALUE,argc+2);
-    for (i=0; i<argc+2; i++) {
-        types[i] = cT;
+    ndf.ain = ALLOCA_N(ndfunc_arg_in_t,argc+1);
+    for (i=0; i<argc+1; i++) {
+        ndf.ain[i].type = cT;
     }
     argv = ALLOCA_N(VALUE,argc+1);
     argv[0] = self;
@@ -44,10 +43,6 @@ static VALUE
         argv[i+1] = RARRAY_PTR(args)[i];
     }
     a = rb_ary_new4(argc+1, argv);
-
-    func = ndfunc_alloc2(<%=c_iterator%>, NO_LOOP,
-                         argc+1, 1, types);
-    v = ndloop_do2(func, a);
-    ndfunc_free(func);
+    v = na_ndloop2(&ndf, a);
     return nary_<%=tp%>_extract(v);
 }

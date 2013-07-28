@@ -30,10 +30,9 @@ static void
 static VALUE
 <%=c_function%>(VALUE self, VALUE obj)
 {
-    ndfunc_t *func;
-    func = ndfunc_alloc(<%=c_iterator%>, FULL_LOOP,
-                        2, 0, Qnil, cT);
-    ndloop_do(func, 2, obj, self);
-    ndfunc_free(func);
+    ndfunc_arg_in_t ain[2] = {{Qnil,0},{cT,0}};
+    ndfunc_t ndf = { <%=c_iterator%>, FULL_LOOP, 2, 0, ain, 0 };
+
+    na_ndloop(&ndf, 2, obj, self);
     return self;
 }

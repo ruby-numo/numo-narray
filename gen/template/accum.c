@@ -58,13 +58,12 @@ static void
 static VALUE
 <%=c_instance_method%>(int argc, VALUE *argv, VALUE self)
 {
-    VALUE v, accum;
-    ndfunc_t *func;
-    func = ndfunc_alloc(<%=c_iterator%>, FULL_LOOP,
-                        2, 1, cT, sym_reduce, cT);
-    accum = na_reduce_dimension(argc, argv, self);
-    func->args[1].init = m_<%=op%>_init;
-    v = ndloop_do(func, 2, self, accum);
-    ndfunc_free(func);
+    VALUE v, reduce;
+    ndfunc_arg_in_t ain[3] = {{cT,0},{sym_reduce,0},{sym_init,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,Qnil,0}};
+    ndfunc_t ndf = { <%=c_iterator%>, FULL_LOOP, 3, 1, ain, aout };
+
+    reduce = na_reduce_dimension(argc, argv, self);
+    v =  na_ndloop(&ndf, 3, self, reduce, m_<%=op%>_init);
     return nary_<%=tp%>_extract(v);
 }

@@ -135,7 +135,7 @@ class Template
   end
 
   def def_binary
-    INIT << "rb_define_singleton_method(cT, \"#{op}\", #{c_singleton_method}, 2);"
+    #INIT << "rb_define_singleton_method(cT, \"#{op}\", #{c_singleton_method}, 2);"
     INIT << "rb_define_method(cT, \"#{op_map}\", #{c_instance_method}, 1);"
     erb
   end

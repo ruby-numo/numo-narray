@@ -38,10 +38,9 @@ static void
 static VALUE
 <%=c_instance_method%>(VALUE self)
 {
-    ndfunc_t *func;
-    func = ndfunc_alloc(<%=c_iterator%>, FULL_LOOP,
-                        1, 0, Qnil);
-    ndloop_do(func, 1, self);
-    ndfunc_free(func);
-    return self;
+    ndfunc_arg_in_t ain[1] = {{Qnil,0}};
+    ndfunc_t ndf = { <%=c_iterator%>, FULL_LOOP, 1, 0, ain, 0 };
+
+    na_ndloop(&ndf, 1, self);
+    return self
 }

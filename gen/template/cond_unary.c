@@ -35,13 +35,11 @@ static void
   @return [NArray::Bit] Condition of <%=op%>.
 */
 static VALUE
-<%=c_instance_method%>(VALUE a1)
+<%=c_instance_method%>(VALUE self)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(<%=c_iterator%>, FULL_LOOP,
-                        1, 1, cT, cBit);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cBit,0}};
+    ndfunc_t ndf = { <%=c_iterator%>, STRIDE_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&ndf, 1, self);
 }

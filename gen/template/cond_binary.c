@@ -33,23 +33,14 @@ static void
     }
 }
 
-/*
-  Comparison of a1 <%=op_map%> a2.
-  @overload <%=op%>(a1,a2)
-  @param [NArray,Numeric] a1
-  @param [NArray,Numeric] a2
-  @return [NArray::Bit] Result of a1 <%=op%> a2.
-*/
 static VALUE
-<%=c_singleton_method%>(VALUE mod, VALUE a1, VALUE a2)
+<%=c_instance_method%>_self(VALUE self, VALUE other)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(<%=c_iterator%>, FULL_LOOP,
-                        2, 1, cT, cT, cBit);
-    v = ndloop_do(func, 2, a1, a2);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[2] = {{cT,0},{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cBit,0}};
+    ndfunc_t ndf = { <%=c_iterator%>, STRIDE_LOOP, 2, 1, ain, aout };
+
+    return na_ndloop(&ndf, 2, self, other);
 }
 
 /*
@@ -59,13 +50,14 @@ static VALUE
   @return [NArray::Bit] result of self <%=op%> other.
 */
 static VALUE
-<%=c_instance_method%>(VALUE a1, VALUE a2)
+<%=c_instance_method%>(VALUE self, VALUE other)
 {
-    VALUE klass;
-    klass = na_upcast(CLASS_OF(a1),CLASS_OF(a2));
+    VALUE klass, v;
+    klass = na_upcast(CLASS_OF(self),CLASS_OF(other));
     if (klass==cT) {
-        return <%=c_singleton_method%>(cT,a1,a2);
+        return <%=c_instance_method%>_self(self, other);
     } else {
-        return rb_funcall(klass,id_<%=op%>,2,a1,a2);
+        v = rb_funcall(klass, id_cast, 1, self);
+        return rb_funcall(v, id_<%=op%>, 1, other);
     }
 }

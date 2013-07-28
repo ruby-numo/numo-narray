@@ -84,13 +84,11 @@ static void
   @return [NArray] <%=op%> of self and other.
 */
 static VALUE
-<%=c_instance_method%>(VALUE a1, VALUE a2)
+<%=c_instance_method%>(VALUE self, VALUE other)
 {
-     ndfunc_t *func;
-     VALUE v;
-     func = ndfunc_alloc(<%=c_iterator%>, FULL_LOOP,
-                         2, 1, cBit, cBit, cBit);
-     v = ndloop_do(func, 2, a1, a2);
-     ndfunc_free(func);
-     return v;
+    ndfunc_arg_in_t ain[2] = {{cT,0},{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { <%=c_iterator%>, STRIDE_LOOP, 2, 1, ain, aout };
+
+    return na_ndloop(&ndf, 2, self, other);
 }

@@ -56,8 +56,9 @@ static VALUE
     int nd;
     size_t *shape;
     VALUE tp, nary;
-    ndfunc_t *func;
     narray_t *na;
+    ndfunc_arg_in_t ain[2] = {{rb_cArray,0},{Qnil,0}};
+    ndfunc_t ndf = { <%=c_iterator%>, FULL_LOOP, 2, 0, ain, 0 };
 
     shape = na_mdarray_investigate(rary, &nd, &tp);
     nary = rb_narray_new(cT, nd, shape);
@@ -65,10 +66,7 @@ static VALUE
     GetNArray(nary,na);
     if (na->size>0) {
         na_alloc_data(nary);
-        func = ndfunc_alloc(<%=c_iterator%>, FULL_LOOP,
-                            2, 0, Qnil, rb_cArray);
-        ndloop_cast_rarray_to_narray(func, rary, nary);
-        ndfunc_free(func);
+        na_ndloop_cast_rarray_to_narray(&ndf, rary, nary);
     }
     return nary;
 }

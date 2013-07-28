@@ -47,11 +47,17 @@ ID id_nearly_eq;
 ID id_real;
 ID id_imag;
 
+ID id_cast;
+
 ID id_reduce;
-ID id_info;
+ID id_option;
+ID id_loop_opt;
+ID id_init;
 
 VALUE sym_reduce;
-VALUE sym_info;
+VALUE sym_option;
+VALUE sym_loop_opt;
+VALUE sym_init;
 
 VALUE na_cStep;
 
@@ -1168,10 +1174,14 @@ Init_narray()
     id_element_bit_size = rb_intern(ELEMENT_BIT_SIZE);
     id_element_byte_size = rb_intern(ELEMENT_BYTE_SIZE);
 
-    id_reduce = rb_intern("reduce");
-    id_info = rb_intern("info");
-    sym_reduce = ID2SYM(id_reduce);
-    sym_info = ID2SYM(id_info);
+    id_reduce   = rb_intern("reduce");
+    id_option   = rb_intern("option");
+    id_loop_opt = rb_intern("loop_opt");
+    id_init     = rb_intern("init");
+    sym_reduce   = ID2SYM(id_reduce);
+    sym_option   = ID2SYM(id_option);
+    sym_loop_opt = ID2SYM(id_loop_opt);
+    sym_init     = ID2SYM(id_init);
 
     Init_nary_step();
     Init_nary_index();

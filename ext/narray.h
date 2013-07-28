@@ -189,10 +189,16 @@ extern ID id_le;
 extern ID id_real;
 extern ID id_imag;
 
+extern ID id_cast;
+
 extern ID id_reduce;
-extern ID id_info;
+extern ID id_option;
+extern ID id_loop_opt;
+extern ID id_init;
 extern VALUE sym_reduce;
-extern VALUE sym_info;
+extern VALUE sym_option;
+extern VALUE sym_loop_opt;
+extern VALUE sym_init;
 
 #define NARRAY_DATA_T     0x1
 #define NARRAY_VIEW_T     0x2

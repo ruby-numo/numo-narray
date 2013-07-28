@@ -46,18 +46,17 @@ static VALUE
 {
     seq_opt_t *g;
     VALUE vbeg=Qnil, vstep=Qnil;
-    ndfunc_t *func;
+    ndfunc_arg_in_t ain[2] = {{cT,0}};
+    ndfunc_t ndf = { <%=c_iterator%>, FULL_LOOP, 1, 0, ain, 0 };
 
-    rb_scan_args(argc, args, "02", &vbeg, &vstep);
-    func = ndfunc_alloc(<%=c_iterator%>, FULL_LOOP,
-                        1, 0, Qnil);
     g = ALLOCA_N(seq_opt_t,1);
     g->beg = 0;
     g->step = 1;
     g->count = 0;
+    rb_scan_args(argc, args, "02", &vbeg, &vstep);
     if (vbeg!=Qnil) {g->beg = NUM2DBL(vbeg);}
     if (vstep!=Qnil) {g->step = NUM2DBL(vstep);}
-    ndloop_do3(func, g, 1, self);
-    ndfunc_free(func);
+
+    na_ndloop3(&ndf, g, 1, self);
     return self;
 }

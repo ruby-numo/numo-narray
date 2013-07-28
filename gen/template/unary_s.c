@@ -35,11 +35,9 @@ static void
 static VALUE
 <%=c_singleton_method%>(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(<%=c_iterator%>, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { <%=c_iterator%>, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&ndf, 1, a1);
 }

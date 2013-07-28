@@ -95,13 +95,67 @@ iter_copy_bytes(na_loop_t *const lp)
 VALUE
 na_copy(VALUE self)
 {
-    ndfunc_t *func;
-    volatile VALUE v;
+    VALUE v;
+    ndfunc_arg_in_t ain[1] = {{Qnil,0}};
+    ndfunc_arg_out_t aout[1] = {{INT2FIX(0),0}};
+    ndfunc_t ndf = { iter_copy_bytes, FULL_LOOP, 1, 1, ain, aout };
 
-    func = ndfunc_alloc(iter_copy_bytes, HAS_LOOP, 1, 1, Qnil, INT2FIX(0));
-    v = ndloop_do(func, 1, self);
-    ndfunc_free(func);
+    v = na_ndloop(&ndf, 1, self);
     return v;
+}
+
+
+/*
+void
+iter_store_bytes(na_loop_t *const lp)
+{
+    size_t  i, s1, s2;
+    char   *p1, *p2;
+    char   *q1, *q2;
+    size_t *idx1, *idx2;
+    size_t  e;
+
+    INIT_COUNTER(lp, i);
+    INIT_PTR(lp, 0, p1, s1, idx1);
+    INIT_PTR(lp, 1, p2, s2, idx2);
+    e = lp->args[0].elmsz;
+    if (idx1) {
+        if (idx2) {
+            for (; i--;) {
+                q1 = p1 + *idx1;
+                idx1++;
+                q2 = p2 + *idx2;
+                idx2++;
+                memcpy(q1, q2, e);
+            }
+        } else {
+            for (; i--;) {
+                q1 = p1 + *idx1;
+                idx1++;
+                q2 = p2;
+                p2 += s2;
+                memcpy(q1, q2, e);
+            }
+        }
+    } else {
+        if (idx2) {
+            for (; i--;) {
+                q1 = p1;
+                p1 += s1;
+                q2 = p2 + *idx2;
+                idx2++;
+                memcpy(q1, q2, e);
+            }
+        } else {
+            for (; i--;) {
+                q1 = p1;
+                p1 += s1;
+                q2 = p2;
+                p2 += s2;
+                memcpy(q1, q2, e);
+            }
+        }
+    }
 }
 
 
@@ -109,20 +163,33 @@ na_copy(VALUE self)
 VALUE
 na_store(VALUE self, VALUE src)
 {
-    ndfunc_t *func;
+    ndfunc_arg_in_t ain[2] = {{Qnil,0},{INT2FIX(0),0}};
+    ndfunc_t ndf = { iter_store_bytes, FULL_LOOP, 2, 0, ain, 0 };
 
-    //if (na_debug_flag) rb_p(dst);
-    //if (na_debug_flag) rb_p(src);
-
-    // note that order of argument is inverted.
-
-    func = ndfunc_alloc(iter_copy_bytes, HAS_LOOP, 2, 0, INT2FIX(1), Qnil);
-    //func = ndfunc_alloc(iter_copy_bytes, HAS_LOOP, 2, 0, Qnil, INT2FIX(0));
-    //ndloop_do(func, 2, dst, src);
-    ndloop_do(func, 2, src, self);
-    ndfunc_free(func);
+    na_ndloop(&ndf, 2, self, src);
     return self;
 }
+*/
+VALUE
+na_store(VALUE self, VALUE src)
+{
+    return rb_funcall(self,rb_intern("store"),1,src);
+}
+
+//   ndfunc_t *func;
+//
+//    //if (na_debug_flag) rb_p(dst);
+//    //if (na_debug_flag) rb_p(src);
+//
+//    // note that order of argument is inverted.
+//
+//    func = ndfunc_alloc(iter_copy_bytes, HAS_LOOP, 2, 0, INT2FIX(1), Qnil);
+//    //func = ndfunc_alloc(iter_copy_bytes, HAS_LOOP, 2, 0, Qnil, INT2FIX(0));
+//    //ndloop_do(func, 2, dst, src);
+//    ndloop_do(func, 2, src, self);
+//    ndfunc_free(func);
+//    return self;
+//}
 
 // ---------------------------------------------------------------------
 
@@ -169,17 +236,17 @@ iter_swap_byte(na_loop_t *const lp)
 static VALUE
 nary_swap_byte(VALUE self)
 {
-    ndfunc_t *func;
     VALUE v;
+    ndfunc_arg_in_t ain[1] = {{Qnil,0}};
+    ndfunc_arg_out_t aout[1] = {{INT2FIX(0),0}};
+    ndfunc_t ndf = { iter_swap_byte, FULL_LOOP|NDF_ACCEPT_SWAP,
+                     1, 1, ain, aout };
 
-    func = ndfunc_alloc(iter_swap_byte, FULL_LOOP|NDF_ACCEPT_SWAP,
-                        1, 1, Qnil, CLASS_OF(self));
-    v = ndloop_do(func, 1, self);
+    v = na_ndloop(&ndf, 1, self);
     if (self!=v) {
         na_copy_flags(self, v);
     }
     REVERSE_BYTE_SWAPPED(v);
-    ndfunc_free(func);
     return v;
 }
 
@@ -652,8 +719,10 @@ na_sort_main(int argc, VALUE *argv, volatile VALUE self, na_iter_func_t iter_fun
     volatile VALUE view;
     int elmsz;
     char *buf;
-    //volatile VALUE info;
-    ndfunc_t *func;
+
+    ndfunc_arg_in_t ain[1] = {{Qnil,1}}; /* user.dim=1 */
+    ndfunc_t ndf = { iter_func, NO_LOOP, 1, 0, ain, 0 };
+
 
     if (!TEST_INPLACE(self)) {
         self = na_copy(self);
@@ -676,11 +745,12 @@ na_sort_main(int argc, VALUE *argv, volatile VALUE self, na_iter_func_t iter_fun
     } else {
         buf = NULL;
     }
-    func = ndfunc_alloc(iter_func, NO_LOOP, 1, 0, Qnil);
-    func->args[0].dim = 1;
-    ndloop_do3(func, buf, 1, view);
+    //func = ndfunc_alloc(iter_func, NO_LOOP, 1, 0, Qnil);
+    //func->args[0].dim = 1;
+    //ndloop_do3(func, buf, 1, view);
+    na_ndloop3(&ndf, buf, 1, view);
     if (buf) xfree(buf);
-    ndfunc_free(func);
+    //ndfunc_free(func);
 
     return self;
 }
@@ -697,6 +767,10 @@ na_median_main(int argc, VALUE *argv, volatile VALUE self, na_iter_func_t iter_f
     char *buf;
     ndfunc_t *func;
 
+    ndfunc_arg_in_t ain[1] = {{Qnil,1}}; /* user.dim=1 */
+    ndfunc_arg_out_t aout[1] = {{INT2FIX(0),0}};
+    ndfunc_t ndf = { iter_func, NO_LOOP, 1, 0, ain, 0 };
+
     GetNArray(self,na);
     ndim = na->ndim;
     if (ndim==0) {
@@ -712,12 +786,12 @@ na_median_main(int argc, VALUE *argv, volatile VALUE self, na_iter_func_t iter_f
     //       ndim, elmsz, nav->base.shape[ndim-1]);
     buf = ALLOC_N(char, elmsz * nav->base.shape[ndim-1]);
 
-    func = ndfunc_alloc(iter_func, NO_LOOP, 1, 1, Qnil, INT2FIX(0));
-    func->args[0].dim = 1;
-    result = ndloop_do3(func, buf, 1, view);
+    //func = ndfunc_alloc(iter_func, NO_LOOP, 1, 1, Qnil, INT2FIX(0));
+    //func->args[0].dim = 1;
+    //result = ndloop_do3(func, buf, 1, view);
+    result = na_ndloop3(&ndf, buf, 1, view);
 
     xfree(buf);
-    ndfunc_free(func);
 
     return result;
 }
@@ -844,7 +918,8 @@ na_sort_index_main(int argc, VALUE *argv, VALUE self,
     narray_view_t *nav;
     volatile VALUE idx, self_view, idx_view;
     char *buf;
-    ndfunc_t *func;
+    ndfunc_arg_in_t ain[2] = {{Qnil,1},{Qnil,1}}; /* user.dim=1 */
+    ndfunc_t ndf = { iter_sort_index, NO_LOOP, 2, 0, ain, 0 };
 
     GetNArray(self,na);
     if (na->ndim==0) {
@@ -877,12 +952,13 @@ na_sort_index_main(int argc, VALUE *argv, VALUE self,
     // pass the qsort function
     memcpy(buf, &func_qsort, sizeof(void (*)()));
 
-    func = ndfunc_alloc(iter_sort_index, NO_LOOP, 2, 0, Qnil, Qnil);
-    func->args[0].dim = 1;
-    func->args[1].dim = 1;
-    ndloop_do3(func, buf, 2, self_view, idx_view);
+    //func = ndfunc_alloc(iter_sort_index, NO_LOOP, 2, 0, Qnil, Qnil);
+    //func->args[0].dim = 1;
+    //func->args[1].dim = 1;
+    //ndloop_do3(func, buf, 2, self_view, idx_view);
+    na_ndloop3(&ndf, buf, 2, self_view, idx_view);
     xfree(buf);
-    ndfunc_free(func);
+    //ndfunc_free(func);
     return idx;
 }
 
@@ -892,7 +968,7 @@ Init_nary_data()
     rb_define_method(cNArray, "coerce", nary_coerce, 1);
 
     rb_define_method(cNArray, "copy", na_copy, 0);
-    rb_define_method(cNArray, "store", na_store, 1);
+    //rb_define_method(cNArray, "store", na_store, 1);
 
     rb_define_method(cNArray, "flatten", na_flatten, 0);
     rb_define_method(cNArray, "transpose", na_transpose, -1);
@@ -941,6 +1017,5 @@ Init_nary_data()
     id_imag = rb_intern("imag");
 
     id_reduce = rb_intern("reduce");
-    id_info = rb_intern("info");
-
+    id_cast   = rb_intern("cast");
 }
