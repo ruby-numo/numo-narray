@@ -74,7 +74,6 @@ typedef struct NDF_ARG_IN {
 
 typedef struct NDF_ARG_OUT {
     VALUE   type;    // argument types
-//  VALUE   init;
     int     dim;     // # of dimension of argument handled by user function
     size_t *shape;
 } ndfunc_arg_out_t;
@@ -87,7 +86,6 @@ typedef struct NDFUNCTION {
     int nout;            // # of results
     ndfunc_arg_in_t *ain;   // spec of input arguments
     ndfunc_arg_out_t *aout; // spec of output result
-    void *option;        // option types
 } ndfunc_t;
 
 
@@ -100,8 +98,6 @@ typedef struct NDFUNCTION {
 typedef struct NA_MD_LOOP {
     int  narg;
     int  nin;
-//    int  nopt;
-//    int  nout;
     int  ndim;             // n of total dimention
     size_t  *n;            // n of elements for each dim
     na_loop_args_t *args;  // for each arg

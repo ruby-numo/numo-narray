@@ -959,7 +959,7 @@ na_ndloop_inspect(VALUE nary, VALUE buf, na_text_func_t func, VALUE opt)
 {
     volatile VALUE vlp, args;
     ndfunc_arg_in_t ain[3] = {{Qnil,0},{sym_loop_opt},{sym_option}};
-    ndfunc_t nf = { (na_iter_func_t)func, NO_LOOP, 3, 0, ain, NULL, NULL };
+    ndfunc_t nf = { (na_iter_func_t)func, NO_LOOP, 3, 0, ain, 0 };
     //nf = ndfunc_alloc(NULL, NO_LOOP, 1, 0, Qnil);
 
     //rb_p(args);
