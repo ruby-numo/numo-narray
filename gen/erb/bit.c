@@ -38,7 +38,7 @@ static inline dtype load_data(void *ptr, size_t pos) {
     return (((BIT_DIGIT*)(ptr))[(pos)/NB]>>((pos)%NB)) & 1u;
 }
 
-VALUE cBit;
+VALUE <%=type_var%>;
 
 
 static VALUE nary_cast_array_to_bit(VALUE ary);
@@ -64,7 +64,7 @@ nary_bit_cast_numeric(VALUE val)
         rb_raise(rb_eArgError, "bit can be cast from 0 or 1 or true or false");
     }
 
-    v = rb_narray_new(cBit, 0, NULL);
+    v = rb_narray_new(cT, 0, NULL);
     GetNArray(v,na);
     //dig_ofs = na->offset / NB;
     //bit_ofs = na->offset % NB;
@@ -82,7 +82,7 @@ nary_bit_s_cast(VALUE type, VALUE obj)
 {
     VALUE r;
 
-    if (CLASS_OF(obj)==cBit) {
+    if (CLASS_OF(obj)==cT) {
         return obj;
     } else if (TYPE(obj)==T_ARRAY) {
         //shape = rb_funcall(cNArray,rb_intern("array_shape"),1,obj);
@@ -93,7 +93,7 @@ nary_bit_s_cast(VALUE type, VALUE obj)
     }
 
     if (IsNArray(obj)) {
-        r = rb_funcall(obj, rb_intern("coerce_cast"), 1, cBit);
+        r = rb_funcall(obj, rb_intern("coerce_cast"), 1, cT);
         if (RTEST(r)) {
             return r;
         }
@@ -320,7 +320,7 @@ nary_bit_cast_to_rarray(VALUE self)
 //    ndfunc_t *func;
 //
 //    func = ndfunc_alloc(bit_cast_to_robj, FULL_LOOP,
-//                        1, 1, cBit, rb_cArray);
+//                        1, 1, cT, rb_cArray);
 //    v = ndloop_cast_narray_to_rarray(func, self, Qnil);
 //    ndfunc_free(func);
 //    return v;
@@ -389,7 +389,7 @@ nary_cast_array_to_bit(VALUE rary)
     ndfunc_t ndf = { iter_cast_rarray_to_bit, FULL_LOOP, 2, 0, ain, 0 };
 
     shape = na_mdarray_investigate(rary, &nd, &tp);
-    nary = rb_narray_new(cBit, nd, shape);
+    nary = rb_narray_new(cT, nd, shape);
     na_alloc_data(nary);
     xfree(shape);
     //func = ndfunc_alloc(iter_cast_rarray_to_bit, FULL_LOOP,
@@ -541,7 +541,7 @@ static VALUE
 
     ndfunc_arg_in_t ain[1] = {{cT,0}};
     ndfunc_t ndf = { iter_bit_where, FULL_LOOP, 1, 0, ain, 0 };
-    //func = ndfunc_alloc(iter_bit_where, FULL_LOOP, 1, 0, cBit);
+    //func = ndfunc_alloc(iter_bit_where, FULL_LOOP, 1, 0, cT);
 
     //self = na_flatten(self);
     size = RNARRAY_SIZE(self);
@@ -574,7 +574,7 @@ static VALUE
 
     ndfunc_arg_in_t ain[1] = {{cT,0}};
     ndfunc_t ndf = { iter_bit_where, FULL_LOOP, 1, 0, ain, 0 };
-    //func = ndfunc_alloc(iter_bit_where, FULL_LOOP, 1, 0, cBit);
+    //func = ndfunc_alloc(iter_bit_where, FULL_LOOP, 1, 0, cT);
 
     size = RNARRAY_SIZE(self);
     n_1 = NUM2SIZE(nary_bit_count_true(0, NULL, self));
@@ -660,7 +660,7 @@ static VALUE
     g = ALLOC(void *);
     *g = na_get_pointer_for_write(result);
     //opt = Data_Wrap_Struct(rb_cData,0,0,g);
-    //func = ndfunc_alloc(iter_bit_mask, FULL_LOOP, 2, 0, cBit, Qnil);
+    //func = ndfunc_alloc(iter_bit_mask, FULL_LOOP, 2, 0, cT, Qnil);
     //ndloop_do3(func, g, 2, mask, val);
     na_ndloop3(&ndf, g, 2, mask, val);
     na_release_lock(result);
@@ -691,46 +691,46 @@ Init_nary_bit()
 {
     volatile VALUE hCast;
 
-    cBit = rb_define_class_under(cNArray, "Bit", cNArray);
+    cT = rb_define_class_under(cNArray, "Bit", cNArray);
 
-    rb_define_const(cBit, "ELEMENT_BIT_SIZE",  INT2FIX(1));
-    rb_define_const(cBit, "ELEMENT_BYTE_SIZE", rb_float_new(1.0/8));
-    rb_define_const(cBit, "CONTIGUOUS_STRIDE", INT2FIX(1));
+    rb_define_const(cT, "ELEMENT_BIT_SIZE",  INT2FIX(1));
+    rb_define_const(cT, "ELEMENT_BYTE_SIZE", rb_float_new(1.0/8));
+    rb_define_const(cT, "CONTIGUOUS_STRIDE", INT2FIX(1));
 
     //rb_define_singleton_method(cNArray, "Bit", nary_bit_s_cast, 1);
-    rb_define_singleton_method(cBit, "cast", nary_bit_s_cast, 1);
-    rb_define_singleton_method(cBit, "[]", nary_bit_s_cast, -2);
-    rb_define_method(cBit, "coerce_cast", nary_bit_coerce_cast, 1);
+    rb_define_singleton_method(cT, "cast", nary_bit_s_cast, 1);
+    rb_define_singleton_method(cT, "[]", nary_bit_s_cast, -2);
+    rb_define_method(cT, "coerce_cast", nary_bit_coerce_cast, 1);
 
     <% Template::INIT.each do |x| %>
     <%=x%><% end %>
 
-    rb_define_alias (cBit, "count_1","count_true");
-    rb_define_alias (cBit, "count_0","count_false");
-    rb_define_method(cBit, "where", nary_bit_where, 0);
-    rb_define_method(cBit, "where2", nary_bit_where2, 0);
-    rb_define_method(cBit, "mask", nary_bit_mask, 1);
+    rb_define_alias (cT, "count_1","count_true");
+    rb_define_alias (cT, "count_0","count_false");
+    rb_define_method(cT, "where", nary_bit_where, 0);
+    rb_define_method(cT, "where2", nary_bit_where2, 0);
+    rb_define_method(cT, "mask", nary_bit_mask, 1);
 
-    rb_define_method(cBit, "all?", nary_bit_all_p, 0);
-    rb_define_method(cBit, "any?", nary_bit_any_p, 0);
-    rb_define_method(cBit, "none?", nary_bit_none_p, 0);
+    rb_define_method(cT, "all?", nary_bit_all_p, 0);
+    rb_define_method(cT, "any?", nary_bit_any_p, 0);
+    rb_define_method(cT, "none?", nary_bit_none_p, 0);
 
-    rb_define_method(cBit, "inspect", nary_bit_inspect, 0);
-    rb_define_method(cBit, "format", nary_bit_format, -1);
-    rb_define_method(cBit, "format_to_a", nary_bit_format_to_a, -1);
+    rb_define_method(cT, "inspect", nary_bit_inspect, 0);
+    rb_define_method(cT, "format", nary_bit_format, -1);
+    rb_define_method(cT, "format_to_a", nary_bit_format_to_a, -1);
 
-    rb_define_method(cBit, "fill", nary_bit_fill, 1);
+    rb_define_method(cT, "fill", nary_bit_fill, 1);
 
-    rb_define_method(cBit, "to_a", nary_bit_cast_to_rarray, 0);
+    rb_define_method(cT, "to_a", nary_bit_cast_to_rarray, 0);
 
-    rb_define_method(cBit, "extract", nary_bit_extract, 0);
+    rb_define_method(cT, "extract", nary_bit_extract, 0);
 
-    rb_define_method(cBit, "copy",  nary_bit_copy, 0);
-    rb_define_method(cBit, "store", nary_bit_store, 1);
-    rb_define_method(cBit, "[]=",   nary_bit_aset, -1);
+    rb_define_method(cT, "copy",  nary_bit_copy, 0);
+    rb_define_method(cT, "store", nary_bit_store, 1);
+    rb_define_method(cT, "[]=",   nary_bit_aset, -1);
 
     hCast = rb_hash_new();
-    rb_define_const(cBit, "UPCAST", hCast);
+    rb_define_const(cT, "UPCAST", hCast);
     rb_hash_aset(hCast, cInt32, cInt32);
     rb_hash_aset(hCast, cInt16, cInt16);
     rb_hash_aset(hCast, cInt8,  cInt8);
