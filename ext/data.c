@@ -56,41 +56,56 @@ nary_coerce(VALUE x, VALUE y)
 }
 
 
-
 // ---------------------------------------------------------------------
 
+#define DEF_ITER_2PARAM(lp,proc)                   \
+{                                                  \
+    size_t  i, s1, s2;                             \
+    char   *p1, *p2;                               \
+    size_t *idx1, *idx2;                           \
+    INIT_COUNTER(lp, i);                           \
+    INIT_PTR(lp, 0, p1, s1, idx1);                 \
+    INIT_PTR(lp, 1, p2, s2, idx2);                 \
+    if (idx1) {                                    \
+        if (idx2) {                                \
+            for (; i--;) {                         \
+                proc(p1 + *idx1, p2 + *idx2);      \
+                idx1++;                            \
+                idx2++;                            \
+            }                                      \
+        } else {                                   \
+            for (; i--;) {                         \
+                proc(p1 + *idx1, p2);              \
+                idx1++;                            \
+                p2 += s2;                          \
+            }                                      \
+        }                                          \
+    } else {                                       \
+        if (idx2) {                                \
+            for (; i--;) {                         \
+                proc(p1, p2 + *idx2);              \
+                p1 += s1;                          \
+                idx2++;                            \
+            }                                      \
+        } else {                                   \
+            for (; i--;) {                         \
+                proc(p1, p2);                      \
+                p1 += s1;                          \
+                p2 += s2;                          \
+            }                                      \
+        }                                          \
+    }                                              \
+}
+
+
+#define m_memcpy(src,dst) memcpy(dst,src,e)
 void
 iter_copy_bytes(na_loop_t *const lp)
 {
-    size_t  i, s1, s2;
-    char   *p1, *p2;
-    char   *q1, *q2;
-    size_t *idx1, *idx2;
-    size_t  e;
-
-    INIT_COUNTER(lp, i);
-    INIT_PTR(lp, 0, p1, s1, idx1);
-    INIT_PTR(lp, 1, p2, s2, idx2);
+    size_t e;
     e = lp->args[0].elmsz;
-    for (; i--;) {
-        if (idx1) {
-            q1 = p1 + *idx1;
-            idx1++;
-        } else {
-            q1 = p1;
-            p1 += s1;
-        }
-        if (idx2) {
-            q2 = p2 + *idx2;
-            idx2++;
-        } else {
-            q2 = p2;
-            p2 += s2;
-        }
-        memcpy(q2, q1, e);
-    }
+    DEF_ITER_2PARAM(lp,m_memcpy);
 }
-
 
 VALUE
 na_copy(VALUE self)
@@ -105,133 +120,35 @@ na_copy(VALUE self)
 }
 
 
-/*
-void
-iter_store_bytes(na_loop_t *const lp)
-{
-    size_t  i, s1, s2;
-    char   *p1, *p2;
-    char   *q1, *q2;
-    size_t *idx1, *idx2;
-    size_t  e;
-
-    INIT_COUNTER(lp, i);
-    INIT_PTR(lp, 0, p1, s1, idx1);
-    INIT_PTR(lp, 1, p2, s2, idx2);
-    e = lp->args[0].elmsz;
-    if (idx1) {
-        if (idx2) {
-            for (; i--;) {
-                q1 = p1 + *idx1;
-                idx1++;
-                q2 = p2 + *idx2;
-                idx2++;
-                memcpy(q1, q2, e);
-            }
-        } else {
-            for (; i--;) {
-                q1 = p1 + *idx1;
-                idx1++;
-                q2 = p2;
-                p2 += s2;
-                memcpy(q1, q2, e);
-            }
-        }
-    } else {
-        if (idx2) {
-            for (; i--;) {
-                q1 = p1;
-                p1 += s1;
-                q2 = p2 + *idx2;
-                idx2++;
-                memcpy(q1, q2, e);
-            }
-        } else {
-            for (; i--;) {
-                q1 = p1;
-                p1 += s1;
-                q2 = p2;
-                p2 += s2;
-                memcpy(q1, q2, e);
-            }
-        }
-    }
-}
-
-
-// to be implemented as cast
-VALUE
-na_store(VALUE self, VALUE src)
-{
-    ndfunc_arg_in_t ain[2] = {{Qnil,0},{INT2FIX(0),0}};
-    ndfunc_t ndf = { iter_store_bytes, FULL_LOOP, 2, 0, ain, 0 };
-
-    na_ndloop(&ndf, 2, self, src);
-    return self;
-}
-*/
 VALUE
 na_store(VALUE self, VALUE src)
 {
     return rb_funcall(self,rb_intern("store"),1,src);
 }
 
-//   ndfunc_t *func;
-//
-//    //if (na_debug_flag) rb_p(dst);
-//    //if (na_debug_flag) rb_p(src);
-//
-//    // note that order of argument is inverted.
-//
-//    func = ndfunc_alloc(iter_copy_bytes, HAS_LOOP, 2, 0, INT2FIX(1), Qnil);
-//    //func = ndfunc_alloc(iter_copy_bytes, HAS_LOOP, 2, 0, Qnil, INT2FIX(0));
-//    //ndloop_do(func, 2, dst, src);
-//    ndloop_do(func, 2, src, self);
-//    ndfunc_free(func);
-//    return self;
-//}
-
 // ---------------------------------------------------------------------
+
+#define m_swap_byte(q1,q2)       \
+    {                            \
+        size_t j;                \
+        memcpy(b1,q1,e);         \
+        for (j=0; j<e; j++) {    \
+            b2[e-1-j] = b1[j];   \
+        }                        \
+        memcpy(q2,b2,e);         \
+    }
 
 static void
 iter_swap_byte(na_loop_t *const lp)
 {
-    size_t  i, s1, s2;
-    char   *p1, *p2;
-    char   *q1, *q2;
     char   *b1, *b2;
-    size_t *idx1, *idx2;
     size_t  e;
-    size_t  j;
 
-    INIT_COUNTER(lp, i);
-    INIT_PTR_ELM(lp, 0, p1, s1, idx1, e);
-    INIT_PTR(lp, 1, p2, s2, idx2);
+    e = lp->args[0].elmsz;
     b1 = ALLOCA_N(char, e);
     b2 = ALLOCA_N(char, e);
-    for (; i--;) {
-        if (idx1) {
-	    q1 = p1 + *idx1;
-	    idx1++;
-        } else {
-	    q1 = p1;
-	    p1 += s1;
-	}
-        if (idx2) {
-	    q2 = p2 + *idx2;
-	    idx2++;
-        } else {
-	    q2 = p2;
-	    p2 += s2;
-	}
-	memcpy(b1,q1,e);
-	for (j=0; j<e; j++) {
-	  b2[e-1-j] = b1[j];
-	}
-	memcpy(q2,b2,e);
-    }
+    DEF_ITER_2PARAM(lp,m_swap_byte);
 }
-
 
 static VALUE
 nary_swap_byte(VALUE self)

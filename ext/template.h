@@ -52,6 +52,31 @@
         id = ((lp)->iter[i]).idx;                       \
     }
 
+#define GET_DATA_STRIDE( ptr, step, type, val )    \
+    {                                              \
+        val = *(type*)(ptr);                       \
+        ptr += step;                               \
+    }
+
+#define GET_DATA_INDEX( ptr, idx, type, val )     \
+    {                                           \
+        val = *(type*)(ptr + *idx);             \
+        idx++;                                  \
+    }
+
+#define SET_DATA_STRIDE( ptr, step, type, val ) \
+    {                                           \
+        *(type*)(ptr) = val;                    \
+        ptr += step;                            \
+    }
+
+#define SET_DATA_INDEX( ptr, idx, type, val )   \
+    {                                           \
+        *(type*)(ptr + *idx) = val;             \
+        idx++;                                  \
+    }
+
+
 #define LOAD_PTR_STEP( ptr, step, idx, type, adr )      \
 {                                               \
     if (idx) {                                  \
