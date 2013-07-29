@@ -80,10 +80,10 @@ typedef struct NDF_ARG_OUT {
 
 // spec of user function
 typedef struct NDFUNCTION {
-    na_iter_func_t func; // user function
-    unsigned int flag;   // what kind of loop user function supports
-    int nin;             // # of arguments
-    int nout;            // # of results
+    na_iter_func_t func;    // user function
+    unsigned int flag;      // what kind of loop user function supports
+    int nin;                // # of arguments
+    int nout;               // # of results
     ndfunc_arg_in_t *ain;   // spec of input arguments
     ndfunc_arg_out_t *aout; // spec of output result
 } ndfunc_t;
@@ -109,5 +109,8 @@ typedef struct NA_MD_LOOP {
     ndfunc_t  *ndfunc;
     void (*loop_func)();
 } na_md_loop_t;
+
+#define OVERWRITE Qtrue
+#define CASTABLE(t) (RTEST(t) && (t)!=OVERWRITE)
 
 #endif /* NDLOOP_H */

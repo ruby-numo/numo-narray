@@ -105,7 +105,7 @@ ndloop_get_arg_type(ndfunc_t *nf, VALUE args, VALUE t)
         }
         t = nf->ain[i].type;
         // if i-th type is Qnil, get the type of i-th input value
-        if (t==Qnil) {
+        if (!CASTABLE(t)) {
             t = CLASS_OF(RARRAY_PTR(args)[i]);
         }
     }
@@ -130,7 +130,7 @@ ndloop_cast_args(ndfunc_t *nf, VALUE args)
             // argument
             v = RARRAY_PTR(args)[j];
             // skip cast if type is nil or same as input value
-            if (RTEST(t) && t != CLASS_OF(v)) {
+            if (CASTABLE(t) && t != CLASS_OF(v)) {
                 // else do cast
                 if (rb_obj_is_kind_of(t, rb_cClass)) {
                     if (RTEST(rb_class_inherited_p(t, cNArray))) {
@@ -476,7 +476,6 @@ ndloop_init_args(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
     // input arguments
     for (j=k=0; k<nf->nin; k++) {
         t = nf->ain[k].type;
-        t = ndloop_get_arg_type(nf,args,t);
         v = RARRAY_PTR(args)[k];
         if (TYPE(t)==T_SYMBOL) {
             if (t==sym_reduce) {
@@ -496,6 +495,7 @@ ndloop_init_args(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
             }
             continue;
         }
+        t = ndloop_get_arg_type(nf,args,t);
         if (IsNArray(v)) {
             // set lp->args[j] with v
             //ndloop_set_narray_arg(v,j,lp,nf);
