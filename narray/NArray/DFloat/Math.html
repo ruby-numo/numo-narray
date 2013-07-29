@@ -774,31 +774,27 @@
       <pre class="lines">
 
 
-3607
-3608
-3609
-3610
-3611
-3612
-3613
-3614
-3615
-3616
-3617</pre>
+3406
+3407
+3408
+3409
+3410
+3411
+3412
+3413
+3414</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3607</span>
+      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3406</span>
 
 static VALUE
 nary_dfloat_s_acos(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_dfloat_acos, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_dfloat_acos, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -871,31 +867,27 @@ nary_dfloat_s_acos(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-3889
-3890
-3891
-3892
-3893
-3894
-3895
-3896
-3897
-3898
-3899</pre>
+3676
+3677
+3678
+3679
+3680
+3681
+3682
+3683
+3684</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3889</span>
+      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3676</span>
 
 static VALUE
 nary_dfloat_s_acosh(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_dfloat_acosh, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_dfloat_acosh, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -968,31 +960,27 @@ nary_dfloat_s_acosh(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-3560
-3561
-3562
-3563
-3564
-3565
-3566
-3567
-3568
-3569
-3570</pre>
+3361
+3362
+3363
+3364
+3365
+3366
+3367
+3368
+3369</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3560</span>
+      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3361</span>
 
 static VALUE
 nary_dfloat_s_asin(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_dfloat_asin, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_dfloat_asin, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -1065,31 +1053,27 @@ nary_dfloat_s_asin(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-3842
-3843
-3844
-3845
-3846
-3847
-3848
-3849
-3850
-3851
-3852</pre>
+3631
+3632
+3633
+3634
+3635
+3636
+3637
+3638
+3639</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3842</span>
+      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3631</span>
 
 static VALUE
 nary_dfloat_s_asinh(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_dfloat_asinh, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_dfloat_asinh, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -1162,31 +1146,27 @@ nary_dfloat_s_asinh(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-3654
-3655
-3656
-3657
-3658
-3659
-3660
-3661
-3662
-3663
-3664</pre>
+3451
+3452
+3453
+3454
+3455
+3456
+3457
+3458
+3459</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3654</span>
+      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3451</span>
 
 static VALUE
 nary_dfloat_s_atan(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_dfloat_atan, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_dfloat_atan, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -1275,31 +1255,25 @@ nary_dfloat_s_atan(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-3988
-3989
-3990
-3991
-3992
-3993
-3994
-3995
-3996
-3997
-3998</pre>
+3762
+3763
+3764
+3765
+3766
+3767
+3768
+3769</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3988</span>
+      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3762</span>
 
 static VALUE
 nary_dfloat_s_atan2(VALUE mod, VALUE a1, VALUE a2)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_dfloat_atan2, FULL_LOOP,
-                        2, 1, cT, cT, cT);
-    v = ndloop_do(func, 2, a1, a2);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[2] = {{cT,0},{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_dfloat_atan2, STRIDE_LOOP, 2, 1, ain, aout, 0 };
+    return na_ndloop(&amp;ndf, 2, a1, a2);
 }</pre>
     </td>
   </tr>
@@ -1372,31 +1346,27 @@ nary_dfloat_s_atan2(VALUE mod, VALUE a1, VALUE a2)
       <pre class="lines">
 
 
-3936
-3937
-3938
-3939
-3940
-3941
-3942
-3943
-3944
-3945
-3946</pre>
+3721
+3722
+3723
+3724
+3725
+3726
+3727
+3728
+3729</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3936</span>
+      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3721</span>
 
 static VALUE
 nary_dfloat_s_atanh(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_dfloat_atanh, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_dfloat_atanh, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -1469,31 +1439,27 @@ nary_dfloat_s_atanh(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-3090
-3091
-3092
-3093
-3094
-3095
-3096
-3097
-3098
-3099
-3100</pre>
+2911
+2912
+2913
+2914
+2915
+2916
+2917
+2918
+2919</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3090</span>
+      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 2911</span>
 
 static VALUE
 nary_dfloat_s_cbrt(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_dfloat_cbrt, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_dfloat_cbrt, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -1566,31 +1532,27 @@ nary_dfloat_s_cbrt(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-3466
-3467
-3468
-3469
-3470
-3471
-3472
-3473
-3474
-3475
-3476</pre>
+3271
+3272
+3273
+3274
+3275
+3276
+3277
+3278
+3279</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3466</span>
+      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3271</span>
 
 static VALUE
 nary_dfloat_s_cos(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_dfloat_cos, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_dfloat_cos, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -1663,31 +1625,27 @@ nary_dfloat_s_cos(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-3748
-3749
-3750
-3751
-3752
-3753
-3754
-3755
-3756
-3757
-3758</pre>
+3541
+3542
+3543
+3544
+3545
+3546
+3547
+3548
+3549</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3748</span>
+      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3541</span>
 
 static VALUE
 nary_dfloat_s_cosh(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_dfloat_cosh, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_dfloat_cosh, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -1760,31 +1718,27 @@ nary_dfloat_s_cosh(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-4087
-4088
-4089
-4090
-4091
-4092
-4093
-4094
-4095
-4096
-4097</pre>
+3846
+3847
+3848
+3849
+3850
+3851
+3852
+3853
+3854</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 4087</span>
+      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3846</span>
 
 static VALUE
 nary_dfloat_s_erf(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_dfloat_erf, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_dfloat_erf, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -1857,31 +1811,27 @@ nary_dfloat_s_erf(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-4134
-4135
-4136
-4137
-4138
-4139
-4140
-4141
-4142
-4143
-4144</pre>
+3891
+3892
+3893
+3894
+3895
+3896
+3897
+3898
+3899</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 4134</span>
+      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3891</span>
 
 static VALUE
 nary_dfloat_s_erfc(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_dfloat_erfc, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_dfloat_erfc, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -1954,31 +1904,27 @@ nary_dfloat_s_erfc(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-3278
-3279
-3280
-3281
-3282
-3283
-3284
-3285
-3286
-3287
-3288</pre>
+3091
+3092
+3093
+3094
+3095
+3096
+3097
+3098
+3099</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3278</span>
+      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3091</span>
 
 static VALUE
 nary_dfloat_s_exp(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_dfloat_exp, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_dfloat_exp, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -2051,31 +1997,27 @@ nary_dfloat_s_exp(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-3372
-3373
-3374
-3375
-3376
-3377
-3378
-3379
-3380
-3381
-3382</pre>
+3181
+3182
+3183
+3184
+3185
+3186
+3187
+3188
+3189</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3372</span>
+      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3181</span>
 
 static VALUE
 nary_dfloat_s_exp10(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_dfloat_exp10, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_dfloat_exp10, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -2148,31 +2090,27 @@ nary_dfloat_s_exp10(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-3325
-3326
-3327
-3328
-3329
-3330
-3331
-3332
-3333
-3334
-3335</pre>
+3136
+3137
+3138
+3139
+3140
+3141
+3142
+3143
+3144</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3325</span>
+      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3136</span>
 
 static VALUE
 nary_dfloat_s_exp2(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_dfloat_exp2, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_dfloat_exp2, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -2261,31 +2199,25 @@ nary_dfloat_s_exp2(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-4040
-4041
-4042
-4043
-4044
-4045
-4046
-4047
-4048
-4049
-4050</pre>
+3802
+3803
+3804
+3805
+3806
+3807
+3808
+3809</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 4040</span>
+      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3802</span>
 
 static VALUE
 nary_dfloat_s_hypot(VALUE mod, VALUE a1, VALUE a2)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_dfloat_hypot, FULL_LOOP,
-                        2, 1, cT, cT, cT);
-    v = ndloop_do(func, 2, a1, a2);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[2] = {{cT,0},{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_dfloat_hypot, STRIDE_LOOP, 2, 1, ain, aout, 0 };
+    return na_ndloop(&amp;ndf, 2, a1, a2);
 }</pre>
     </td>
   </tr>
@@ -2374,31 +2306,25 @@ nary_dfloat_s_hypot(VALUE mod, VALUE a1, VALUE a2)
       <pre class="lines">
 
 
-4186
-4187
-4188
-4189
-4190
-4191
-4192
-4193
-4194
-4195
-4196</pre>
+3932
+3933
+3934
+3935
+3936
+3937
+3938
+3939</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 4186</span>
+      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3932</span>
 
 static VALUE
 nary_dfloat_s_ldexp(VALUE mod, VALUE a1, VALUE a2)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_dfloat_ldexp, FULL_LOOP,
-                        2, 1, cT, cT, cT);
-    v = ndloop_do(func, 2, a1, a2);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[2] = {{cT,0},{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_dfloat_ldexp, STRIDE_LOOP, 2, 1, ain, aout, 0 };
+    return na_ndloop(&amp;ndf, 2, a1, a2);
 }</pre>
     </td>
   </tr>
@@ -2471,31 +2397,27 @@ nary_dfloat_s_ldexp(VALUE mod, VALUE a1, VALUE a2)
       <pre class="lines">
 
 
-3137
-3138
-3139
-3140
-3141
-3142
-3143
-3144
-3145
-3146
-3147</pre>
+2956
+2957
+2958
+2959
+2960
+2961
+2962
+2963
+2964</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3137</span>
+      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 2956</span>
 
 static VALUE
 nary_dfloat_s_log(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_dfloat_log, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_dfloat_log, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -2568,31 +2490,27 @@ nary_dfloat_s_log(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-3231
-3232
-3233
-3234
-3235
-3236
-3237
-3238
-3239
-3240
-3241</pre>
+3046
+3047
+3048
+3049
+3050
+3051
+3052
+3053
+3054</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3231</span>
+      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3046</span>
 
 static VALUE
 nary_dfloat_s_log10(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_dfloat_log10, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_dfloat_log10, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -2665,31 +2583,27 @@ nary_dfloat_s_log10(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-3184
-3185
-3186
-3187
-3188
-3189
-3190
-3191
-3192
-3193
-3194</pre>
+3001
+3002
+3003
+3004
+3005
+3006
+3007
+3008
+3009</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3184</span>
+      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3001</span>
 
 static VALUE
 nary_dfloat_s_log2(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_dfloat_log2, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_dfloat_log2, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -2762,31 +2676,27 @@ nary_dfloat_s_log2(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-3419
-3420
-3421
-3422
-3423
-3424
-3425
-3426
-3427
-3428
-3429</pre>
+3226
+3227
+3228
+3229
+3230
+3231
+3232
+3233
+3234</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3419</span>
+      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3226</span>
 
 static VALUE
 nary_dfloat_s_sin(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_dfloat_sin, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_dfloat_sin, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -2859,31 +2769,27 @@ nary_dfloat_s_sin(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-3701
-3702
-3703
-3704
-3705
-3706
-3707
-3708
-3709
-3710
-3711</pre>
+3496
+3497
+3498
+3499
+3500
+3501
+3502
+3503
+3504</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3701</span>
+      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3496</span>
 
 static VALUE
 nary_dfloat_s_sinh(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_dfloat_sinh, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_dfloat_sinh, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -2956,31 +2862,27 @@ nary_dfloat_s_sinh(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-3043
-3044
-3045
-3046
-3047
-3048
-3049
-3050
-3051
-3052
-3053</pre>
+2866
+2867
+2868
+2869
+2870
+2871
+2872
+2873
+2874</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3043</span>
+      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 2866</span>
 
 static VALUE
 nary_dfloat_s_sqrt(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_dfloat_sqrt, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_dfloat_sqrt, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -3053,31 +2955,27 @@ nary_dfloat_s_sqrt(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-3513
-3514
-3515
-3516
-3517
-3518
-3519
-3520
-3521
-3522
-3523</pre>
+3316
+3317
+3318
+3319
+3320
+3321
+3322
+3323
+3324</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3513</span>
+      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3316</span>
 
 static VALUE
 nary_dfloat_s_tan(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_dfloat_tan, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_dfloat_tan, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -3150,31 +3048,27 @@ nary_dfloat_s_tan(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-3795
-3796
-3797
-3798
-3799
-3800
-3801
-3802
-3803
-3804
-3805</pre>
+3586
+3587
+3588
+3589
+3590
+3591
+3592
+3593
+3594</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3795</span>
+      <pre class="code"><span class="info file"># File 'ext/types/dfloat.c', line 3586</span>
 
 static VALUE
 nary_dfloat_s_tanh(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_dfloat_tanh, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_dfloat_tanh, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -3186,7 +3080,7 @@ nary_dfloat_s_tanh(VALUE mod, VALUE a1)
 </div>
 
     <div id="footer">
-  Generated on Sun Jul 21 11:28:49 2013 by
+  Generated on Mon Jul 29 12:14:16 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.6.2 (ruby-2.0.0).
 </div>

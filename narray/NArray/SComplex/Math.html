@@ -654,31 +654,27 @@
       <pre class="lines">
 
 
-3049
-3050
-3051
-3052
-3053
-3054
-3055
-3056
-3057
-3058
-3059</pre>
+2874
+2875
+2876
+2877
+2878
+2879
+2880
+2881
+2882</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 3049</span>
+      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 2874</span>
 
 static VALUE
 nary_scomplex_s_acos(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_scomplex_acos, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_scomplex_acos, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -751,31 +747,27 @@ nary_scomplex_s_acos(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-3331
-3332
-3333
-3334
-3335
-3336
-3337
-3338
-3339
-3340
-3341</pre>
+3144
+3145
+3146
+3147
+3148
+3149
+3150
+3151
+3152</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 3331</span>
+      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 3144</span>
 
 static VALUE
 nary_scomplex_s_acosh(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_scomplex_acosh, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_scomplex_acosh, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -848,31 +840,27 @@ nary_scomplex_s_acosh(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-3002
-3003
-3004
-3005
-3006
-3007
-3008
-3009
-3010
-3011
-3012</pre>
+2829
+2830
+2831
+2832
+2833
+2834
+2835
+2836
+2837</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 3002</span>
+      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 2829</span>
 
 static VALUE
 nary_scomplex_s_asin(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_scomplex_asin, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_scomplex_asin, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -945,31 +933,27 @@ nary_scomplex_s_asin(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-3284
-3285
-3286
-3287
-3288
-3289
-3290
-3291
-3292
-3293
-3294</pre>
+3099
+3100
+3101
+3102
+3103
+3104
+3105
+3106
+3107</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 3284</span>
+      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 3099</span>
 
 static VALUE
 nary_scomplex_s_asinh(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_scomplex_asinh, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_scomplex_asinh, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -1042,31 +1026,27 @@ nary_scomplex_s_asinh(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-3096
-3097
-3098
-3099
-3100
-3101
-3102
-3103
-3104
-3105
-3106</pre>
+2919
+2920
+2921
+2922
+2923
+2924
+2925
+2926
+2927</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 3096</span>
+      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 2919</span>
 
 static VALUE
 nary_scomplex_s_atan(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_scomplex_atan, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_scomplex_atan, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -1139,31 +1119,27 @@ nary_scomplex_s_atan(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-3378
-3379
-3380
-3381
-3382
-3383
-3384
-3385
-3386
-3387
-3388</pre>
+3189
+3190
+3191
+3192
+3193
+3194
+3195
+3196
+3197</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 3378</span>
+      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 3189</span>
 
 static VALUE
 nary_scomplex_s_atanh(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_scomplex_atanh, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_scomplex_atanh, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -1236,31 +1212,27 @@ nary_scomplex_s_atanh(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-2532
-2533
-2534
-2535
-2536
-2537
-2538
-2539
-2540
-2541
-2542</pre>
+2379
+2380
+2381
+2382
+2383
+2384
+2385
+2386
+2387</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 2532</span>
+      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 2379</span>
 
 static VALUE
 nary_scomplex_s_cbrt(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_scomplex_cbrt, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_scomplex_cbrt, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -1333,31 +1305,27 @@ nary_scomplex_s_cbrt(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-2908
-2909
-2910
-2911
-2912
-2913
-2914
-2915
-2916
-2917
-2918</pre>
+2739
+2740
+2741
+2742
+2743
+2744
+2745
+2746
+2747</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 2908</span>
+      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 2739</span>
 
 static VALUE
 nary_scomplex_s_cos(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_scomplex_cos, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_scomplex_cos, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -1430,31 +1398,27 @@ nary_scomplex_s_cos(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-3190
-3191
-3192
-3193
-3194
-3195
-3196
-3197
-3198
-3199
-3200</pre>
+3009
+3010
+3011
+3012
+3013
+3014
+3015
+3016
+3017</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 3190</span>
+      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 3009</span>
 
 static VALUE
 nary_scomplex_s_cosh(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_scomplex_cosh, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_scomplex_cosh, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -1527,31 +1491,27 @@ nary_scomplex_s_cosh(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-2720
-2721
-2722
-2723
-2724
-2725
-2726
-2727
-2728
-2729
-2730</pre>
+2559
+2560
+2561
+2562
+2563
+2564
+2565
+2566
+2567</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 2720</span>
+      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 2559</span>
 
 static VALUE
 nary_scomplex_s_exp(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_scomplex_exp, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_scomplex_exp, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -1624,31 +1584,27 @@ nary_scomplex_s_exp(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-2814
-2815
-2816
-2817
-2818
-2819
-2820
-2821
-2822
-2823
-2824</pre>
+2649
+2650
+2651
+2652
+2653
+2654
+2655
+2656
+2657</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 2814</span>
+      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 2649</span>
 
 static VALUE
 nary_scomplex_s_exp10(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_scomplex_exp10, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_scomplex_exp10, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -1721,31 +1677,27 @@ nary_scomplex_s_exp10(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-2767
-2768
-2769
-2770
-2771
-2772
-2773
-2774
-2775
-2776
-2777</pre>
+2604
+2605
+2606
+2607
+2608
+2609
+2610
+2611
+2612</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 2767</span>
+      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 2604</span>
 
 static VALUE
 nary_scomplex_s_exp2(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_scomplex_exp2, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_scomplex_exp2, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -1818,31 +1770,27 @@ nary_scomplex_s_exp2(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-2579
-2580
-2581
-2582
-2583
-2584
-2585
-2586
-2587
-2588
-2589</pre>
+2424
+2425
+2426
+2427
+2428
+2429
+2430
+2431
+2432</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 2579</span>
+      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 2424</span>
 
 static VALUE
 nary_scomplex_s_log(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_scomplex_log, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_scomplex_log, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -1915,31 +1863,27 @@ nary_scomplex_s_log(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-2673
-2674
-2675
-2676
-2677
-2678
-2679
-2680
-2681
-2682
-2683</pre>
+2514
+2515
+2516
+2517
+2518
+2519
+2520
+2521
+2522</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 2673</span>
+      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 2514</span>
 
 static VALUE
 nary_scomplex_s_log10(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_scomplex_log10, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_scomplex_log10, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -2012,31 +1956,27 @@ nary_scomplex_s_log10(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-2626
-2627
-2628
-2629
-2630
-2631
-2632
-2633
-2634
-2635
-2636</pre>
+2469
+2470
+2471
+2472
+2473
+2474
+2475
+2476
+2477</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 2626</span>
+      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 2469</span>
 
 static VALUE
 nary_scomplex_s_log2(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_scomplex_log2, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_scomplex_log2, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -2109,31 +2049,27 @@ nary_scomplex_s_log2(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-2861
-2862
-2863
-2864
-2865
-2866
-2867
-2868
-2869
-2870
-2871</pre>
+2694
+2695
+2696
+2697
+2698
+2699
+2700
+2701
+2702</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 2861</span>
+      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 2694</span>
 
 static VALUE
 nary_scomplex_s_sin(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_scomplex_sin, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_scomplex_sin, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -2206,31 +2142,27 @@ nary_scomplex_s_sin(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-3143
-3144
-3145
-3146
-3147
-3148
-3149
-3150
-3151
-3152
-3153</pre>
+2964
+2965
+2966
+2967
+2968
+2969
+2970
+2971
+2972</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 3143</span>
+      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 2964</span>
 
 static VALUE
 nary_scomplex_s_sinh(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_scomplex_sinh, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_scomplex_sinh, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -2303,31 +2235,27 @@ nary_scomplex_s_sinh(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-2485
-2486
-2487
-2488
-2489
-2490
-2491
-2492
-2493
-2494
-2495</pre>
+2334
+2335
+2336
+2337
+2338
+2339
+2340
+2341
+2342</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 2485</span>
+      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 2334</span>
 
 static VALUE
 nary_scomplex_s_sqrt(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_scomplex_sqrt, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_scomplex_sqrt, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -2400,31 +2328,27 @@ nary_scomplex_s_sqrt(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-2955
-2956
-2957
-2958
-2959
-2960
-2961
-2962
-2963
-2964
-2965</pre>
+2784
+2785
+2786
+2787
+2788
+2789
+2790
+2791
+2792</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 2955</span>
+      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 2784</span>
 
 static VALUE
 nary_scomplex_s_tan(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_scomplex_tan, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_scomplex_tan, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -2497,31 +2421,27 @@ nary_scomplex_s_tan(VALUE mod, VALUE a1)
       <pre class="lines">
 
 
-3237
-3238
-3239
-3240
-3241
-3242
-3243
-3244
-3245
-3246
-3247</pre>
+3054
+3055
+3056
+3057
+3058
+3059
+3060
+3061
+3062</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 3237</span>
+      <pre class="code"><span class="info file"># File 'ext/types/scomplex.c', line 3054</span>
 
 static VALUE
 nary_scomplex_s_tanh(VALUE mod, VALUE a1)
 {
-    ndfunc_t *func;
-    VALUE v;
-    func = ndfunc_alloc(iter_scomplex_tanh, FULL_LOOP,
-                        1, 1, cT, cT);
-    v = ndloop_do(func, 1, a1);
-    ndfunc_free(func);
-    return v;
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_scomplex_tanh, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, a1);
 }</pre>
     </td>
   </tr>
@@ -2533,7 +2453,7 @@ nary_scomplex_s_tanh(VALUE mod, VALUE a1)
 </div>
 
     <div id="footer">
-  Generated on Sun Jul 21 11:28:50 2013 by
+  Generated on Mon Jul 29 12:14:17 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.6.2 (ruby-2.0.0).
 </div>
