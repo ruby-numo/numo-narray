@@ -41,16 +41,26 @@ ndfunc_do関数で多次元ループ処理を行う。
 
     // Rubyメソッドに対応するC関数を定義
     static VALUE
-    nary_dfloat_s_add(VALUE mod, VALUE a1, VALUE a2)
+    nary_dfloat_add_self(VALUE self, VALUE other)
     {
-        ndfunc_t *func;
-        VALUE v;
+        ndfunc_arg_in_t ain[2] = {{cT,0},{cT,0}};
+        ndfunc_arg_out_t aout[1] = {{cT,0}};
+        ndfunc_t ndf = { iter_dfloat_add, STRIDE_LOOP, 2, 1, ain, aout };
 
-        func = ndfunc_alloc(iter_dfloat_add, NDF_CONTIGUOUS_LOOP,
-                            2, 1, cT, cT, cT);
-        v = ndloop_do(func, 2, a1, a2);
-        ndfunc_free(func);
-        return v;
+        return na_ndloop(&ndf, 2, self, other);
+    }
+
+    static VALUE
+    nary_dfloat_add(VALUE self, VALUE other)
+    {
+        VALUE klass, v;
+        klass = na_upcast(CLASS_OF(self),CLASS_OF(other));
+        if (klass==cT) {
+            return nary_dfloat_add_self(self, other);
+        } else {
+            v = rb_funcall(klass, id_cast, 1, self);
+            return rb_funcall(v, '+', 1, other);
+        }
     }
 
     // RubyメソッドをC関数として定義
@@ -63,11 +73,19 @@ ndfunc_do関数で多次元ループ処理を行う。
 
 ## 関数説明
 
-### ndfunc_alloc関数
-ndfunc_alloc関数は、ndfunc_t 構造体をアロケート・初期化して返す
+### ndfunc_t 構造体
 
-    ndfunc_t* ndfunc_alloc(na_iter_func_t func, int flag, int narg, int nres,
-       　　　　　　　　　　　　VALUE in_type1, ... VALUE out_type1, ...)
+ループのスペックを記録する構造体。na_ndloop 関数に渡す。
+malloc で確保すると例外が起きると回収されないので、スタックで確保する。
+
+    typedef struct NDFUNCTION {
+        na_iter_func_t func;    // user function
+        unsigned int flag;      // what kind of loop user function supports
+        int nin;                // # of arguments
+        int nout;               // # of results
+        ndfunc_arg_in_t *ain;   // spec of input arguments
+        ndfunc_arg_out_t *aout; // spec of output result
+    } ndfunc_t;
 
 * func: イテレータ関数
 * flag: イテレータのタイプをフラグで指定
@@ -81,48 +99,49 @@ ndfunc_alloc関数は、ndfunc_t 構造体をアロケート・初期化して�
             (#define NDF_INPLACE)
             #define NDF_FULL_LOOP (NDF_CONTIGUOUS_LOOP|NDF_STRIDE_LOOP|NDF_INDEX_LOOP)
 
-* narg: 引数として渡す入力NArrayの数
-* nres: 結果として戻る出力NArrayの数
-* 以降: narg個の入力データ型とnres個の出力データ型を与える
-    * 入力データはここで指定した入力データ型にキャストされる。キャストしない場合はQnil。
-    * 出力データ型はここで指定した出力データ型でNArrayが作られる。
-      Fixnumのときは、n番目の引数と同じデータ型のNArrayが作られる。
-      （todo: Arrayのとき、例えば [0,1] のときは、0番目と1番目の引数の型からUPCASTする。）
+* nin: 引数として渡す入力NArrayの数
+* nout: 結果として戻る出力NArrayの数
 
-### ndfunc_t 構造体
-ndfunc_t 構造体は、ndfunc_alloc関数を用いてアロケートする。
+### ndfunc_arg_in_t 構造体
 
-    typedef struct NDFUNCTION {
-        na_iter_func_t func; // user function
-        unsigned int flag;   // what kind of loop user function supports
-        int narg;            // # of arguments
-        int nopt;            // # of options
-        int nres;            // # of results
-        ndfunc_arg_t *args;  // spec of arguments
-        VALUE *opt_types;    // option types
-    } ndfunc_t;
+入力引数の引数のタイプとユーザ次元を指定する。
 
-### ndfunc_arg_t 構造体
+    typedef struct NDF_ARG_IN {
+        VALUE   type;    // argument types
+        int     dim;     // # of dimension of argument handled by user function
+    } ndfunc_arg_in_t;
 
-    typedef struct NDFUNC_ARG {
-        VALUE type;    // argument types
-        VALUE init;    // initial value
-        int dim;       // # of dimension of argument handled by user function
-        union {
-            size_t shape[1];
-            size_t *shape_p;
-        } aux;         // shape
-    } ndfunc_arg_t;
+* type が Qnil のとき、キャストは行われない。
+* type が NArray型クラスのとき、その型へキャストが行われる。
+* type が Symbol のとき、オプション変数とみなされる。次のいずれか
+    * :option のとき、loop->option に代入。
+    * :init のとき、dim番目の出力変数の初期化に用いられる。
+    * :reduce のとき、リデュース次元のビットを立てたFixnumを代入。
+    * :loop_opt 内部使用
 
-* ndfunc_alloc関数で初期化されたときは、ユーザー次元 dim が 0 にセットされている。
+### ndfunc_arg_out_t 構造体
+
+結果をストアするnarrayのタイプとユーザ次元を指定する。
+
+typedef struct NDF_ARG_OUT {
+    VALUE   type;    // argument types
+    int     dim;     // # of dimension of argument handled by user function
+    size_t *shape;
+} ndfunc_arg_out_t;
+
+* type が i (Fixnum) のとき、入力引数のi番目の型を使用する。
+
 * イテレータ関数がループをサポートする場合、次のいずれかの方法で指示。
     * flag にループ可能であることを指定。
     * dim を 1 以上にセットする。さらに出力配列の場合は shape に配列サイズをセットする。
 
-### ndloop_do関数
+### na_ndloop関数
 多次元ループのメイン処理を行う。イテレータ関数を呼んで多次元ループを行う。
 
-    ndloop_do(ndfunc_t *nf, int argc, ...)
+    VALUE na_ndloop(ndfunc_t *nf, int argc, ...)
+    VALUE na_ndloop2(ndfunc_t *nf, VALUE args)
+    VALUE na_ndloop3(ndfunc_t *nf, void *opt_ptr, int argc, ...)
+    VALUE na_ndloop4(ndfunc_t *nf, void *opt_ptr, VALUE args)
 
 * 戻り値は、ndfunc_t 構造体で指定した戻り値を返す
 
@@ -135,12 +154,12 @@ ndfunc_t 構造体は、ndfunc_alloc関数を用いてアロケートする。
 引数の配列と、配列へのアクセス方法の情報を格納する。
 
     typedef struct NA_LOOP {
-        int  narg;             // nf->narg + nf->nres
+        int  narg;
         int  ndim;             // n of user dimention
         size_t *n;             // n of elements for each dim
         na_loop_args_t *args;  // for each arg
         na_loop_iter_t *iter;  // for each dim, each arg
-        VALUE  info;
+        VALUE  option;
         void  *opt_ptr;
     } na_loop_t;
 
