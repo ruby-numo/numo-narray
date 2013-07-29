@@ -17,9 +17,9 @@
 typedef int integer;
 
 typedef struct {
-    dcomplex *a;
     dcomplex *b;
     integer iopt;
+    integer dummy;
 } fft_opt_t;
 
 static VALUE rb_mFFTE;
@@ -31,6 +31,23 @@ int is235radix(integer n) {
     while (n % 5 == 0) {n /= 5;}
     while (n % 3 == 0) {n /= 3;}
     return (n & (n-1)) ? 0 : 1;
+}
+
+static inline fft_opt_t *
+alloc_fft_opt(int nb, integer iopt, volatile VALUE *v)
+{
+    fft_opt_t *g;
+    size_t sz1,sz2;
+    char *ptr;
+    sz1 = sizeof(fft_opt_t);
+    sz2 = sizeof(dcomplex)*nb;
+    ptr = xmalloc(sz1+sz2);
+    g = (fft_opt_t*)ptr;
+    ptr += sz1;
+    g->b = (dcomplex*)ptr;
+    g->iopt = iopt;
+    *v = Data_Wrap_Struct(rb_cData,0,0,g);
+    return g;
 }
 
 <%

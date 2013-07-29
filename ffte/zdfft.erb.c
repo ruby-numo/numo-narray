@@ -51,15 +51,18 @@ iter_fft_zdfft<%=d%>d(na_loop_t *const lp)
 static VALUE
 nary_ffte_<%=func%>(int argc, VALUE *args, VALUE mod)
 {
-    ndfunc_t *func;
     narray_t *na;
-    volatile VALUE vres, vna;
+    VALUE vres;
+    volatile VALUE vb, vna;
     int ndim;
     integer iopt=0;
     dcomplex *b;
     integer <%=argmap(d){|i|"n#{i}"}%>;
     size_t n=1;
     size_t shape[<%=d%>];
+    ndfunc_arg_in_t ain[1] = {{cDComplex,<%=d%>}};
+    ndfunc_arg_out_t aout[1] = {{cDFloat,<%=d%>,shape}};
+    ndfunc_t ndf = { iter_fft_zdfft<%=d%>d, NO_LOOP, 1, 1, ain, aout };
 
     rb_scan_args(argc, args, "10", &vna);
     GetNArray(vna,na);
@@ -81,18 +84,12 @@ nary_ffte_<%=func%>(int argc, VALUE *args, VALUE mod)
     }
 <% end %>
 
-    func = ndfunc_alloc(iter_fft_zdfft<%=d%>d, NO_LOOP, 1, 1, cDComplex, cDFloat);
-    func->args[0].dim = <%=d%>;
-    func->args[1].dim = <%=d%>;
-    func->args[1].aux.shape_p = shape;
-
     vna = na_copy(vna);
     b = ALLOC_N(dcomplex,n);
+    vb = Data_Wrap_Struct(rb_cData,0,0,b);
 
     zdfft<%=d%>d_(NULL, <%=argmap(d){|i|"&n#{i}"}%>, &iopt, b);
-    vres = ndloop_do3(func, b, 1, vna);
-    ndfunc_free(func);
-    xfree(b);
+    vres = na_ndloop3(&ndf, b, 1, vna);
 
     return vres;
 }

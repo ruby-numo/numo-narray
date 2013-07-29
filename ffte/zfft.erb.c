@@ -55,13 +55,16 @@ iter_fft_zfft<%=d%>d(na_loop_t *const lp)
 static VALUE
 nary_ffte_<%=func%>(int argc, VALUE *args, VALUE mod)
 {
-    ndfunc_t *func;
     narray_t *na;
-    VALUE vres, vna, viopt=INT2NUM(1);
+    VALUE vres, viopt=INT2NUM(1);
+    volatile VALUE vna;
     int ndim;
     integer iopt=0;
+    ndfunc_arg_in_t ain[1] = {{cDComplex,<%=d%>}};
+    ndfunc_t ndf = { iter_fft_zfft<%=d%>d, NO_LOOP, 1, 0, ain, 0 };
 <% if d==1 %>
     fft_opt_t *g;
+    volatile VALUE vopt;
 <% end %>
     integer <%=argmap(d){|i|"n#{i}"}%>;
 
@@ -78,25 +81,17 @@ nary_ffte_<%=func%>(int argc, VALUE *args, VALUE mod)
     }
 <% end %>
 
-    func = ndfunc_alloc(iter_fft_zfft<%=d%>d, NO_LOOP, 1, 0, cDComplex);
-    func->args[0].dim = <%=d%>;
-
     vres = na_copy(vna);
 
 <% if d==1 %>
-    g = ALLOCA_N(fft_opt_t,1);
-    g->b = ALLOC_N(dcomplex,n1*2);
+    g = alloc_fft_opt(n1*2, NUM2INT(viopt), &vopt);
     zfft1d_(NULL, &n1, &iopt, g->b);
-    g->iopt = NUM2INT(viopt);
-    ndloop_do3(func, g, 1, vres);
-    xfree(g->b);
+    na_ndloop3(&ndf, g, 1, vres);
 <% else %>
     zfft<%=d%>d_(NULL,  <%=argmap(d){|i|"&n#{i}"}%>, &iopt);
     iopt = NUM2INT(viopt);
-    ndloop_do3(func, &iopt, 1, vres);
+    na_ndloop3(&ndf, &iopt, 1, vres);
 <% end %>
-
-    ndfunc_free(func);
 
     return vres;
 }

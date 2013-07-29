@@ -17,9 +17,9 @@
 typedef int integer;
 
 typedef struct {
-    dcomplex *a;
     dcomplex *b;
     integer iopt;
+    integer dummy;
 } fft_opt_t;
 
 static VALUE rb_mFFTE;
@@ -31,6 +31,23 @@ int is235radix(integer n) {
     while (n % 5 == 0) {n /= 5;}
     while (n % 3 == 0) {n /= 3;}
     return (n & (n-1)) ? 0 : 1;
+}
+
+static inline fft_opt_t *
+alloc_fft_opt(int nb, integer iopt, volatile VALUE *v)
+{
+    fft_opt_t *g;
+    size_t sz1,sz2;
+    char *ptr;
+    sz1 = sizeof(fft_opt_t);
+    sz2 = sizeof(dcomplex)*nb;
+    ptr = xmalloc(sz1+sz2);
+    g = (fft_opt_t*)ptr;
+    ptr += sz1;
+    g->b = (dcomplex*)ptr;
+    g->iopt = iopt;
+    *v = Data_Wrap_Struct(rb_cData,0,0,g);
+    return g;
 }
 
 
@@ -86,13 +103,16 @@ iter_fft_zfft1d(na_loop_t *const lp)
 static VALUE
 nary_ffte_zfft1d(int argc, VALUE *args, VALUE mod)
 {
-    ndfunc_t *func;
     narray_t *na;
-    VALUE vres, vna, viopt=INT2NUM(1);
+    VALUE vres, viopt=INT2NUM(1);
+    volatile VALUE vna;
     int ndim;
     integer iopt=0;
+    ndfunc_arg_in_t ain[1] = {{cDComplex,1}};
+    ndfunc_t ndf = { iter_fft_zfft1d, NO_LOOP, 1, 0, ain, 0 };
 
     fft_opt_t *g;
+    volatile VALUE vopt;
 
     integer n1;
 
@@ -109,21 +129,13 @@ nary_ffte_zfft1d(int argc, VALUE *args, VALUE mod)
     }
 
 
-    func = ndfunc_alloc(iter_fft_zfft1d, NO_LOOP, 1, 0, cDComplex);
-    func->args[0].dim = 1;
-
     vres = na_copy(vna);
 
 
-    g = ALLOCA_N(fft_opt_t,1);
-    g->b = ALLOC_N(dcomplex,n1*2);
+    g = alloc_fft_opt(n1*2, NUM2INT(viopt), &vopt);
     zfft1d_(NULL, &n1, &iopt, g->b);
-    g->iopt = NUM2INT(viopt);
-    ndloop_do3(func, g, 1, vres);
-    xfree(g->b);
+    na_ndloop3(&ndf, g, 1, vres);
 
-
-    ndfunc_free(func);
 
     return vres;
 }
@@ -175,11 +187,13 @@ iter_fft_zfft2d(na_loop_t *const lp)
 static VALUE
 nary_ffte_zfft2d(int argc, VALUE *args, VALUE mod)
 {
-    ndfunc_t *func;
     narray_t *na;
-    VALUE vres, vna, viopt=INT2NUM(1);
+    VALUE vres, viopt=INT2NUM(1);
+    volatile VALUE vna;
     int ndim;
     integer iopt=0;
+    ndfunc_arg_in_t ain[1] = {{cDComplex,2}};
+    ndfunc_t ndf = { iter_fft_zfft2d, NO_LOOP, 1, 0, ain, 0 };
 
     integer n1,n2;
 
@@ -201,18 +215,13 @@ nary_ffte_zfft2d(int argc, VALUE *args, VALUE mod)
     }
 
 
-    func = ndfunc_alloc(iter_fft_zfft2d, NO_LOOP, 1, 0, cDComplex);
-    func->args[0].dim = 2;
-
     vres = na_copy(vna);
 
 
     zfft2d_(NULL,  &n1,&n2, &iopt);
     iopt = NUM2INT(viopt);
-    ndloop_do3(func, &iopt, 1, vres);
+    na_ndloop3(&ndf, &iopt, 1, vres);
 
-
-    ndfunc_free(func);
 
     return vres;
 }
@@ -267,11 +276,13 @@ iter_fft_zfft3d(na_loop_t *const lp)
 static VALUE
 nary_ffte_zfft3d(int argc, VALUE *args, VALUE mod)
 {
-    ndfunc_t *func;
     narray_t *na;
-    VALUE vres, vna, viopt=INT2NUM(1);
+    VALUE vres, viopt=INT2NUM(1);
+    volatile VALUE vna;
     int ndim;
     integer iopt=0;
+    ndfunc_arg_in_t ain[1] = {{cDComplex,3}};
+    ndfunc_t ndf = { iter_fft_zfft3d, NO_LOOP, 1, 0, ain, 0 };
 
     integer n1,n2,n3;
 
@@ -298,18 +309,13 @@ nary_ffte_zfft3d(int argc, VALUE *args, VALUE mod)
     }
 
 
-    func = ndfunc_alloc(iter_fft_zfft3d, NO_LOOP, 1, 0, cDComplex);
-    func->args[0].dim = 3;
-
     vres = na_copy(vna);
 
 
     zfft3d_(NULL,  &n1,&n2,&n3, &iopt);
     iopt = NUM2INT(viopt);
-    ndloop_do3(func, &iopt, 1, vres);
+    na_ndloop3(&ndf, &iopt, 1, vres);
 
-
-    ndfunc_free(func);
 
     return vres;
 }
@@ -366,15 +372,18 @@ iter_fft_zdfft2d(na_loop_t *const lp)
 static VALUE
 nary_ffte_zdfft2d(int argc, VALUE *args, VALUE mod)
 {
-    ndfunc_t *func;
     narray_t *na;
-    volatile VALUE vres, vna;
+    VALUE vres;
+    volatile VALUE vb, vna;
     int ndim;
     integer iopt=0;
     dcomplex *b;
     integer n1,n2;
     size_t n=1;
     size_t shape[2];
+    ndfunc_arg_in_t ain[1] = {{cDComplex,2}};
+    ndfunc_arg_out_t aout[1] = {{cDFloat,2,shape}};
+    ndfunc_t ndf = { iter_fft_zdfft2d, NO_LOOP, 1, 1, ain, aout };
 
     rb_scan_args(argc, args, "10", &vna);
     GetNArray(vna,na);
@@ -404,18 +413,12 @@ nary_ffte_zdfft2d(int argc, VALUE *args, VALUE mod)
     }
 
 
-    func = ndfunc_alloc(iter_fft_zdfft2d, NO_LOOP, 1, 1, cDComplex, cDFloat);
-    func->args[0].dim = 2;
-    func->args[1].dim = 2;
-    func->args[1].aux.shape_p = shape;
-
     vna = na_copy(vna);
     b = ALLOC_N(dcomplex,n);
+    vb = Data_Wrap_Struct(rb_cData,0,0,b);
 
     zdfft2d_(NULL, &n1,&n2, &iopt, b);
-    vres = ndloop_do3(func, b, 1, vna);
-    ndfunc_free(func);
-    xfree(b);
+    vres = na_ndloop3(&ndf, b, 1, vna);
 
     return vres;
 }
@@ -472,15 +475,18 @@ iter_fft_zdfft3d(na_loop_t *const lp)
 static VALUE
 nary_ffte_zdfft3d(int argc, VALUE *args, VALUE mod)
 {
-    ndfunc_t *func;
     narray_t *na;
-    volatile VALUE vres, vna;
+    VALUE vres;
+    volatile VALUE vb, vna;
     int ndim;
     integer iopt=0;
     dcomplex *b;
     integer n1,n2,n3;
     size_t n=1;
     size_t shape[3];
+    ndfunc_arg_in_t ain[1] = {{cDComplex,3}};
+    ndfunc_arg_out_t aout[1] = {{cDFloat,3,shape}};
+    ndfunc_t ndf = { iter_fft_zdfft3d, NO_LOOP, 1, 1, ain, aout };
 
     rb_scan_args(argc, args, "10", &vna);
     GetNArray(vna,na);
@@ -520,18 +526,12 @@ nary_ffte_zdfft3d(int argc, VALUE *args, VALUE mod)
     }
 
 
-    func = ndfunc_alloc(iter_fft_zdfft3d, NO_LOOP, 1, 1, cDComplex, cDFloat);
-    func->args[0].dim = 3;
-    func->args[1].dim = 3;
-    func->args[1].aux.shape_p = shape;
-
     vna = na_copy(vna);
     b = ALLOC_N(dcomplex,n);
+    vb = Data_Wrap_Struct(rb_cData,0,0,b);
 
     zdfft3d_(NULL, &n1,&n2,&n3, &iopt, b);
-    vres = ndloop_do3(func, b, 1, vna);
-    ndfunc_free(func);
-    xfree(b);
+    vres = na_ndloop3(&ndf, b, 1, vna);
 
     return vres;
 }
@@ -589,15 +589,18 @@ iter_fft_dzfft2d(na_loop_t *const lp)
 static VALUE
 nary_ffte_dzfft2d(int argc, VALUE *args, VALUE mod)
 {
-    ndfunc_t *func;
     narray_t *na;
-    volatile VALUE vres, vna;
+    volatile VALUE vb, vna;
+    VALUE vres;
     int ndim;
     integer iopt=0;
     dcomplex *b;
     integer n1,n2;
     size_t n=1;
     size_t shape[2];
+    ndfunc_arg_in_t ain[1] = {{cDFloat,2}};
+    ndfunc_arg_out_t aout[1] = {{cDComplex,2,shape}};
+    ndfunc_t ndf = { iter_fft_dzfft2d, NO_LOOP, 1, 1, ain, aout };
 
     rb_scan_args(argc, args, "10", &vna);
     GetNArray(vna,na);
@@ -627,18 +630,12 @@ nary_ffte_dzfft2d(int argc, VALUE *args, VALUE mod)
     }
 
 
-    func = ndfunc_alloc(iter_fft_dzfft2d, NO_LOOP, 1, 1, cDFloat, cDComplex);
-    func->args[0].dim = 2;
-    func->args[1].dim = 2;
-    func->args[1].aux.shape_p = shape;
-
     vna = na_copy(vna);
     b = ALLOC_N(dcomplex,n);
+    vb = Data_Wrap_Struct(rb_cData,0,0,b);
 
     dzfft2d_(NULL, &n1,&n2, &iopt, b);
-    vres = ndloop_do3(func, b, 1, vna);
-    ndfunc_free(func);
-    xfree(b);
+    vres = na_ndloop3(&ndf, b, 1, vna);
 
     return vres;
 }
@@ -696,15 +693,18 @@ iter_fft_dzfft3d(na_loop_t *const lp)
 static VALUE
 nary_ffte_dzfft3d(int argc, VALUE *args, VALUE mod)
 {
-    ndfunc_t *func;
     narray_t *na;
-    volatile VALUE vres, vna;
+    volatile VALUE vb, vna;
+    VALUE vres;
     int ndim;
     integer iopt=0;
     dcomplex *b;
     integer n1,n2,n3;
     size_t n=1;
     size_t shape[3];
+    ndfunc_arg_in_t ain[1] = {{cDFloat,3}};
+    ndfunc_arg_out_t aout[1] = {{cDComplex,3,shape}};
+    ndfunc_t ndf = { iter_fft_dzfft3d, NO_LOOP, 1, 1, ain, aout };
 
     rb_scan_args(argc, args, "10", &vna);
     GetNArray(vna,na);
@@ -744,18 +744,12 @@ nary_ffte_dzfft3d(int argc, VALUE *args, VALUE mod)
     }
 
 
-    func = ndfunc_alloc(iter_fft_dzfft3d, NO_LOOP, 1, 1, cDFloat, cDComplex);
-    func->args[0].dim = 3;
-    func->args[1].dim = 3;
-    func->args[1].aux.shape_p = shape;
-
     vna = na_copy(vna);
     b = ALLOC_N(dcomplex,n);
+    vb = Data_Wrap_Struct(rb_cData,0,0,b);
 
     dzfft3d_(NULL, &n1,&n2,&n3, &iopt, b);
-    vres = ndloop_do3(func, b, 1, vna);
-    ndfunc_free(func);
-    xfree(b);
+    vres = na_ndloop3(&ndf, b, 1, vna);
 
     return vres;
 }
