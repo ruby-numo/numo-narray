@@ -129,6 +129,15 @@ class Template
     OPMAP[op] || op
   end
 
+  def id_op
+    x = OPMAP[op] || op
+    if x.size == 1
+      "'#{x}'"
+    else
+      "id_#{op}"
+    end
+  end
+
   def def_singleton(n=0)
     INIT << "rb_define_singleton_method(cT, \"#{op}\", #{c_singleton_method}, #{n});"
     erb

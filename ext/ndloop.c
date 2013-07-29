@@ -97,11 +97,6 @@ ndloop_get_arg_type(ndfunc_t *nf, VALUE args, VALUE t)
 {
     int i;
 
-    rb_p(t);
-    //VALUE t;
-
-    // type
-    //t = nf->aout[j].type;
     // if type is FIXNUM, get the type of i-th argument
     if (FIXNUM_P(t)) {
         i = FIX2INT(t);
@@ -123,7 +118,7 @@ ndloop_get_arg_type(ndfunc_t *nf, VALUE args, VALUE t)
 static void
 ndloop_cast_args(ndfunc_t *nf, VALUE args)
 {
-    int j;
+    int j,k;
     char *s;
     volatile VALUE v, t, x;
 
@@ -131,24 +126,25 @@ ndloop_cast_args(ndfunc_t *nf, VALUE args)
 
     for (j=0; j<nf->nin; j++) {
         t = nf->ain[j].type;
-
-        // argument
-        v = RARRAY_PTR(args)[j];
-        // skip cast if type is nil or same as input value
-        if (RTEST(t) && t != CLASS_OF(v)) {
-            // else do cast
-            if (rb_obj_is_kind_of(t, rb_cClass)) {
-                if (RTEST(rb_class_inherited_p(t, cNArray))) {
-                    v = nary_type_s_cast(t, v);
-                    RARRAY_PTR(args)[j] = v;
-                    continue;
+        if (TYPE(t)!=T_SYMBOL) {
+            // argument
+            v = RARRAY_PTR(args)[j];
+            // skip cast if type is nil or same as input value
+            if (RTEST(t) && t != CLASS_OF(v)) {
+                // else do cast
+                if (rb_obj_is_kind_of(t, rb_cClass)) {
+                    if (RTEST(rb_class_inherited_p(t, cNArray))) {
+                        v = nary_type_s_cast(t, v);
+                        RARRAY_PTR(args)[j] = v;
+                        continue;
+                    }
                 }
+                x = rb_inspect(t);
+                s = StringValueCStr(x);
+                rb_bug("fail cast from %s to %s", rb_obj_classname(v),s);
+                rb_raise(rb_eTypeError,"fail cast from %s to %s",
+                         rb_obj_classname(v), s);
             }
-            x = rb_inspect(t);
-            s = StringValueCStr(x);
-            //rb_bug("fail cast from %s to %s", rb_obj_classname(v),s);
-            rb_raise(rb_eTypeError,"fail cast from %s to %s",
-                     rb_obj_classname(v), s);
         }
     }
 }
@@ -164,7 +160,6 @@ ndloop_cast_args(ndfunc_t *nf, VALUE args)
     loop_nd
 */
 
-//static na_md_loop_t *
 static VALUE
 ndloop_alloc(ndfunc_t *nf, VALUE args, void *opt_ptr,
              void (*loop_func)(ndfunc_t*, na_md_loop_t*))
@@ -221,11 +216,6 @@ ndloop_alloc(ndfunc_t *nf, VALUE args, void *opt_ptr,
     narg = nin + nout;
     max_nd = loop_nd + user_nd;
 
-    //lp = ALLOC(na_md_loop_t);
-    //lp->n    = ALLOC_N(size_t,(max_nd+1));
-    //lp->args = ALLOC_N(na_loop_args_t,narg+1);
-    //lp->iter = ALLOC_N(na_loop_iter_t,narg*(max_nd+1));
-
     sz1 = sizeof(na_md_loop_t);
     sz2 = sizeof(size_t)*(max_nd+1);
     sz3 = sizeof(na_loop_args_t)*(narg+1);
@@ -258,13 +248,11 @@ ndloop_alloc(ndfunc_t *nf, VALUE args, void *opt_ptr,
 
     // options
     lp->reduce = Qnil;
-    //lp->user.info = Qnil;
     lp->user.option = Qnil;
     lp->user.opt_ptr = opt_ptr;
     lp->loop_opt = Qnil;
     lp->loop_func = loop_func;
 
-    //return lp;
     return Data_Wrap_Struct(rb_cData,0,0,lp);
 }
 
@@ -299,9 +287,6 @@ ndloop_free(na_md_loop_t* lp)
             na_release_lock(v);
         }
     }
-    //xfree(lp->iter);
-    //xfree(lp->args);
-    //xfree(lp->n);
     xfree(lp);
 }
 
@@ -386,10 +371,10 @@ ndloop_set_stepidx(na_md_loop_t *lp, int j, narray_t *na, int *dim_map)
 
 
 static VALUE
-ndloop_set_narray_result(ndfunc_t *nf, na_md_loop_t *lp, int j,
+ndloop_set_narray_result(ndfunc_t *nf, na_md_loop_t *lp, int k,
                          VALUE type, VALUE args, VALUE results)
 {
-    int i, jj;
+    int i, jj, j;
     int na_ndim;
     volatile VALUE v;
     size_t *na_shape;
@@ -417,36 +402,33 @@ ndloop_set_narray_result(ndfunc_t *nf, na_md_loop_t *lp, int j,
     }
 
     // user-specified shape
-//    if (nf->aout[j].dim==1) {
-//        na_shape[na_ndim] = nf->aout[j].shape[0];
-//        dim_map[na_ndim++] = lp->ndim;
-//    } else if (nf->aout[j].dim>1) {
-        for (i=0; i<nf->aout[j].dim; i++) {
-            na_shape[na_ndim] = nf->aout[j].shape[i];
-            dim_map[na_ndim++] = i + lp->ndim;
-        }
-//    }
+    for (i=0; i<nf->aout[k].dim; i++) {
+        na_shape[na_ndim] = nf->aout[k].shape[i];
+        dim_map[na_ndim++] = i + lp->ndim;
+    }
 
     // in-place check
     for (jj=0; jj<nf->nin; jj++) {
         v = RARRAY_PTR(args)[jj];
-        if (TEST_INPLACE(v)) {
-            // type check
-            if (type != CLASS_OF(v))
-                goto not_in_place;
-            // already used for result ?
-            for (i=0; i<RARRAY_LEN(results); i++) {
-                if (v == RARRAY_PTR(results)[i])
+        if (IsNArray(v)) {
+            if (TEST_INPLACE(v)) {
+                // type check
+                if (type != CLASS_OF(v))
                     goto not_in_place;
-            }
-            GetNArray(v,na);
-            // shape check
-            if (na->ndim == na_ndim) {
-                for (i=0; i<na_ndim; i++) {
-                    if (na_shape[i] != na->shape[i])
+                // already used for result ?
+                for (i=0; i<RARRAY_LEN(results); i++) {
+                    if (v == RARRAY_PTR(results)[i])
                         goto not_in_place;
                 }
-                goto in_place;
+                GetNArray(v,na);
+                // shape check
+                if (na->ndim == na_ndim) {
+                    for (i=0; i<na_ndim; i++) {
+                        if (na_shape[i] != na->shape[i])
+                            goto not_in_place;
+                    }
+                    goto in_place;
+                }
             }
         }
     not_in_place:
@@ -463,6 +445,7 @@ ndloop_set_narray_result(ndfunc_t *nf, na_md_loop_t *lp, int j,
     //}
 
     GetNArray(v,na);
+    j = lp->nin + k;
     lp->args[j].value = v;
     lp->args[j].elmsz = na_get_elmsz(v);
     lp->args[j].ptr   = na_get_pointer_for_write(v);
@@ -528,7 +511,6 @@ ndloop_init_args(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
                 dim_map[i] = i+dim_beg;
             }
             ndloop_set_stepidx(lp, j, na, dim_map);
-            //puts("pass313");
         } else if (TYPE(v)==T_ARRAY) {
             lp->args[j].value = v;
             lp->args[j].elmsz = sizeof(VALUE);
@@ -553,14 +535,14 @@ ndloop_init_args(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
         t = ndloop_get_arg_type(nf,args,t);
 
         if (rb_obj_is_kind_of(t, rb_cClass)) {
-            j = lp->nin + k;
             if (RTEST(rb_class_inherited_p(t, cNArray))) {
                 // NArray
-                v = ndloop_set_narray_result(nf,lp,j,t,args,results);
+                v = ndloop_set_narray_result(nf,lp,k,t,args,results);
                 rb_ary_push(results, v);
             }
             else if (RTEST(rb_class_inherited_p(t, rb_cArray))) {
                 // Ruby Array
+                j = lp->nin + k;
                 for (i=0; i<=max_nd; i++) {
                     //printf("i=%d, j=%d\n",i,j);
                     LITER(lp,i,j).pos = 0;
@@ -692,7 +674,6 @@ loop_narray(ndfunc_t *nf, na_md_loop_t *lp)
                 }
             }
         }
-        //for (j=0; j<nargs; j++) printf("LITER(lp,i,j).pos=%d i=%d j=%d\n",LITER(lp,i,j).pos,i,j);
 
         (*(nf->func))(&(lp->user));
 
@@ -705,7 +686,6 @@ loop_narray(ndfunc_t *nf, na_md_loop_t *lp)
     }
  loop_end:
     ;
-    //xfree(c);
 }
 
 
@@ -886,7 +866,6 @@ ndloop_inspect_get_width(int *ncol, int *nrow)
 }
 
 static void
-//loop_inspect(na_md_loop_t *lp, VALUE buf, VALUE opt)
 loop_inspect(ndfunc_t *nf, na_md_loop_t *lp)
 {
     int nd, i, ii;
@@ -973,11 +952,6 @@ loop_inspect(ndfunc_t *nf, na_md_loop_t *lp)
     }
     loop_end:
     ;
-    //rb_str_cat(buf,"\n)",2);
-    //WRITE_BUF(buf,"\n");
-    //xfree(pos);
-    //printf("c = 0x%"SZF"x\n",c);
-    //xfree(c);
 }
 
 void
@@ -1060,12 +1034,9 @@ loop_rarray_to_narray(ndfunc_t *nf, na_md_loop_t *lp)
     }
     loop_end:
     ;
-    //xfree(a);
-    //xfree(c);
 }
 
 VALUE
-//na_ndloop_main(ndfunc_t *nf, VALUE args, void *opt_ptr)
 na_ndloop_cast_rarray_to_narray(ndfunc_t *nf, VALUE rary, VALUE nary)
 {
     volatile VALUE vlp;
@@ -1132,14 +1103,10 @@ loop_narray_to_rarray(ndfunc_t *nf, na_md_loop_t *lp)
     }
  loop_end:
     ;
-    //xfree(a);
-    //xfree(c);
-    //return RARRAY_PTR(a0)[0];
 }
 
 VALUE
 na_ndloop_cast_narray_to_rarray(ndfunc_t *nf, VALUE nary, VALUE fmt)
-//na_ndloop_main(ndfunc_t *nf, VALUE args, void *opt_ptr)
 {
     volatile VALUE vlp;
     VALUE args, a0;

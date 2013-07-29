@@ -85,7 +85,7 @@ static VALUE
   <%=op%>.
   @overload <%=op_map%> other
   @param [NArray,Numeric] other
-  @return [NArray::Bit] self <%=op%> other.
+  @return [NArray] self <%=op%> other.
 */
 static VALUE
 <%=c_instance_method%>(VALUE self, VALUE other)

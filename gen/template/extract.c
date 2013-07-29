@@ -2,7 +2,7 @@
   Extract element value as Ruby Object if self is dimensionless NArray,
   otherwise returns self.
   @overload extract
-  @return [Object].
+  @return [Numeric,NArray]
 */
 VALUE
 nary_<%=tp%>_extract(VALUE self)

@@ -46,6 +46,6 @@ static VALUE
         return <%=c_instance_method%>_self(self, other);
     } else {
         v = rb_funcall(klass, id_cast, 1, self);
-        return rb_funcall(v, id_<%=op%>, 1, other);
+        return rb_funcall(v, <%=id_op%>, 1, other);
     }
 }

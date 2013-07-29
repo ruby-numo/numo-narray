@@ -32,7 +32,7 @@ static VALUE
 <%=c_singleton_method%>(VALUE mod, VALUE a1, VALUE a2)
 {
     ndfunc_arg_in_t ain[2] = {{cT,0},{cT,0}};
-    ndfunc_arg_out_t aout[1] = {{cT,Qnil,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
     ndfunc_t ndf = { <%=c_iterator%>, STRIDE_LOOP, 2, 1, ain, aout, 0 };
     return na_ndloop(&ndf, 2, a1, a2);
 }

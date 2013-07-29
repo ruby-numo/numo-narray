@@ -60,7 +60,7 @@ static VALUE
 {
     VALUE v, reduce;
     ndfunc_arg_in_t ain[3] = {{cT,0},{sym_reduce,0},{sym_init,0}};
-    ndfunc_arg_out_t aout[1] = {{cT,Qnil,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
     ndfunc_t ndf = { <%=c_iterator%>, FULL_LOOP, 3, 1, ain, aout };
 
     reduce = na_reduce_dimension(argc, argv, self);
