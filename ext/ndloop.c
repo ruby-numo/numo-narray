@@ -495,14 +495,18 @@ ndloop_init_args(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
             }
             continue;
         }
-        t = ndloop_get_arg_type(nf,args,t);
+        //t = ndloop_get_arg_type(nf,args,t);
         if (IsNArray(v)) {
             // set lp->args[j] with v
             //ndloop_set_narray_arg(v,j,lp,nf);
             GetNArray(v,na);
             lp->args[j].value = v;
             lp->args[j].elmsz = na_get_elmsz(v);
-            lp->args[j].ptr   = na_get_pointer_for_write(v); // read
+            //if (nf->ain[k].type == OVERWRITE) {
+            lp->args[j].ptr   = na_get_pointer_for_write(v);
+            //} else {
+            //    lp->args[j].ptr   = na_get_pointer_for_read(v);
+            //}
             // OK during reading, BLOCK during writing
             nf_dim = nf->ain[j].dim;
             ndloop_check_shape(lp, nf_dim, na);
