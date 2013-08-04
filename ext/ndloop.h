@@ -39,18 +39,18 @@ typedef struct NA_LOOP {
 
 // ------------------ ndfunc -------------------------------------------
 
-#define NDF_CONTIGUOUS_LOOP     (1<<0) // x[i]
+#define NDF_HAS_LOOP            (1<<0) // x[i]
 #define NDF_STRIDE_LOOP         (1<<1) // *(x+stride*i)
 #define NDF_INDEX_LOOP          (1<<2) // *(x+idx[i])
-#define NDF_FULL_LOOP (NDF_CONTIGUOUS_LOOP|NDF_STRIDE_LOOP|NDF_INDEX_LOOP)
 #define NDF_KEEP_DIM            (1<<3)
 #define NDF_ACCEPT_SWAP         (1<<4)
 
 #define NDF_HAS_REDUCE_DIM        (1<<5)
 
+#define NDF_FULL_LOOP  (NDF_HAS_LOOP|NDF_STRIDE_LOOP|NDF_INDEX_LOOP)
 #define HAS_LOOP       NDF_FULL_LOOP
 #define FULL_LOOP      NDF_FULL_LOOP
-#define STRIDE_LOOP    (NDF_STRIDE_LOOP|NDF_INDEX_LOOP)
+#define STRIDE_LOOP    (NDF_HAS_LOOP|NDF_STRIDE_LOOP)
 #define NO_LOOP        0
 #define HAS_REDUCE       NDF_HAS_REDUCE_DIM
 

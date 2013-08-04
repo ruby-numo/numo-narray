@@ -51,6 +51,8 @@
 - ループ関数内でループするかどうかの検出
 - user.ndim の調整
 
+## (次元の縮約)
+
 ## loop_narray
 演算　operate_narray
 

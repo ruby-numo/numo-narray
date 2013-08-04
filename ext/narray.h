@@ -374,76 +374,8 @@ _na_get_narray_t(VALUE obj, unsigned char na_type)
 #endif
 #endif
 
-/*
-#define FL_NA_readonly / writable
-#define FL_NA_resizable / extensible
-#define FL_NA_matrix?
-*/
-
-
-/*
-typedef struct NA_ITERATOR {
-    size_t   n;
-    size_t   pos;
-    size_t   step;
-    size_t   elmsz;
-    size_t  *idx;
-    char    *ptr;
-} na_iterator_t;
-
-//typedef void (*na_iter_func_t) _((na_iterator_t *const));
-typedef void (*na_iter_func_t) _((na_iterator_t *const, VALUE info));
-
-typedef void (*na_simple_func_t) _((char*ptr, size_t pos, VALUE opt));
-
-typedef VALUE (*na_text_func_t) _((char*ptr, size_t pos, VALUE opt));
-*/
-
-
-/*
-typedef struct NA_FUNC_ARG {
-    VALUE type;
-    VALUE init;
-    int   dim;
-    union {
-	size_t shape[1];
-	size_t *shape_p;
-    } aux;
-} na_func_arg_t;
-
-typedef struct NDFUNCTION {
-    //char *name;
-    na_iter_func_t func;
-    unsigned int flag;
-    int narg;
-    int nres;
-    na_func_arg_t *args;
-} ndfunc_t;
-
-
-#define NDF_CONTIGUOUS_LOOP	(1<<0) // x[i]
-#define NDF_STRIDE_LOOP		(1<<1) // *(x+stride*i)
-#define NDF_INDEX_LOOP		(1<<2) // *(x+idx[i])
-
-#define NDF_KEEP_DIM		(1<<3)
-#define NDF_ACCEPT_SWAP		(1<<4)
-
-#define NDF_FULL_LOOP (NDF_CONTIGUOUS_LOOP|NDF_STRIDE_LOOP|NDF_INDEX_LOOP)
-
-#define HAS_LOOP       NDF_FULL_LOOP
-//#define HAS_INDEX_LOOP 7
-//#define HAS_STEP_LOOP  3
-//#define HAS_CONTIGUOUS_LOOP 1
-#define NO_LOOP	       0
-
-#define NDF_TEST(nf,fl)  ((nf)->flag&(fl))
-#define NDF_SET(nf,fl)  {(nf)->flag |= (fl);}
-*/
-
 
 #define IsNArray(obj) (rb_obj_is_kind_of(obj,cNArray)==Qtrue)
-//#define IsNElement(obj) (rb_obj_is_kind_of(obj,cNElement)==Qtrue)
-//#define IsNdfunction(obj) (rb_obj_is_kind_of(obj,cNdfunction)==Qtrue)
 
 #define DEBUG_PRINT(v) puts(StringValueCStr(rb_funcall(v,rb_intern("inspect"),0)))
 
