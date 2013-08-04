@@ -27,6 +27,145 @@ nary_type_s_cast(VALUE type, VALUE obj)
     return rb_funcall(type,id_cast,1,obj);
 }
 
+static void
+print_ndfunc(ndfunc_t *nf) {
+    volatile VALUE t;
+    int i, k;
+    printf("ndfunc_t = 0x%"SZF"x {\n",(size_t)nf);
+    printf("  func  = 0x%"SZF"x\n", (size_t)nf->func);
+    printf("  flag  = 0x%"SZF"x\n", (size_t)nf->flag);
+    printf("  nin   = %d\n", nf->nin);
+    printf("  nout  = %d\n", nf->nout);
+    printf("  ain   = 0x%"SZF"x\n", (size_t)nf->ain);
+    for (i=0; i<nf->nin; i++) {
+        t = rb_inspect(nf->ain[i].type);
+        printf("  ain[%d].type = %s\n", i, StringValuePtr(t));
+        printf("  ain[%d].dim = %d\n", i, nf->ain[i].dim);
+    }
+    printf("  aout  = 0x%"SZF"x\n", (size_t)nf->aout);
+    for (i=0; i<nf->nout; i++) {
+        t = rb_inspect(nf->aout[i].type);
+        printf("  aout[%d].type = %s\n", i, StringValuePtr(t));
+        printf("  aout[%d].dim = %d\n", i, nf->aout[i].dim);
+        for (k=0; k<nf->aout[i].dim; k++) {
+            printf("  aout[%d].shape[%d] = %"SZF"u\n", i, k, nf->aout[i].shape[k]);
+        }
+    }
+    printf("}\n");
+}
+
+
+static void
+print_ndloop(na_md_loop_t *lp) {
+    int i,j,nd;
+    printf("na_md_loop_t = 0x%"SZF"x {\n",(size_t)lp);
+    printf("  narg = %d\n", lp->narg);
+    printf("  nin  = %d\n", lp->nin);
+    printf("  ndim = %d\n", lp->ndim);
+    printf("  n = 0x%"SZF"x\n", (size_t)lp->n);
+    printf("  args = 0x%"SZF"x\n", (size_t)lp->args);
+    printf("  iter = 0x%"SZF"x\n", (size_t)lp->iter);
+    printf("  user.narg = %d\n", lp->user.narg);
+    printf("  user.ndim = %d\n", lp->user.ndim);
+    printf("  user.n = 0x%"SZF"x\n", (size_t)lp->user.n);
+    printf("  user.args = 0x%"SZF"x\n", (size_t)lp->user.args);
+    printf("  user.iter = 0x%"SZF"x\n", (size_t)lp->user.iter);
+    printf("  user.opt_ptr = 0x%"SZF"x\n", (size_t)lp->user.opt_ptr);
+    if (lp->reduce==Qnil) {
+        printf("  reduce  = nil\n");
+    } else {
+        printf("  reduce  = 0x%x\n", NUM2INT(lp->reduce));
+    }
+    nd = lp->ndim + lp->user.ndim;
+    for (i=0; i<=nd; i++) {
+        printf("  n[%d] = %"SZF"u\n", i, lp->n[i]);
+    }
+    for (j=0; j<lp->narg; j++) {
+        printf("  args[%d].ptr = 0x%"SZF"x\n", j, (size_t)lp->args[j].ptr);
+        printf("  args[%d].elmsz = %"SZF"d\n", j, lp->args[j].elmsz);
+        printf("  args[%d].value = 0x%"SZF"x\n", j, lp->args[j].value);
+        for (i=0; i<=nd; i++) {
+            printf("  iter[%d,%d].pos = %"SZF"u\n", i,j, LITER(lp,i,j).pos);
+            printf("  iter[%d,%d].step = %"SZF"u\n", i,j, LITER(lp,i,j).step);
+            printf("  iter[%d,%d].idx = 0x%"SZF"x\n", i,j, (size_t)LITER(lp,i,j).idx);
+        }
+    }
+    printf("}\n");
+}
+
+
+static int
+ndloop_get_access_type(narray_t *na, size_t sz, int nd)
+{
+    int i, k, f=0;
+    size_t n;
+    stridx_t sdx;
+
+    for (i=0; i<nd; i++) {
+        k = na->ndim-1-i;
+        n = na->shape[k];
+        if (n > 1) {
+            sdx = NA_VIEW_STRIDX(na)[k];
+            if (SDX_IS_INDEX(sdx)) {
+                f |= 2;
+            } else {
+                if (SDX_GET_STRIDE(sdx)!=sz) {
+                    f |= 1;
+                }
+            }
+            sz *= n;
+        }
+    }
+    return f;
+}
+
+static void
+ndloop_copy_by_access_type(ndfunc_t *nf, VALUE args, int cond)
+{
+    int j, nd, f;
+    size_t sz;
+    VALUE v;
+    narray_t *na;
+
+    for (j=0; j<nf->nin; j++) {
+        v = RARRAY_PTR(args)[j];
+        if (IsNArray(v)) {
+            GetNArray(v,na);
+            if (NA_TYPE(na) == NARRAY_VIEW_T) {
+                sz = na_get_elmsz(v);
+                nd = nf->ain[j].dim;
+                if (NDF_TEST(nf,NDF_HAS_LOOP)) {
+                    nd++;
+                }
+                f = ndloop_get_access_type(na,sz,nd);
+                if (f>=cond) {
+                    RARRAY_PTR(args)[j] = na_copy(v);
+                }
+            }
+        }
+    }
+}
+
+static void
+ndloop_match_access_type(ndfunc_t *nf, VALUE args, int user_ndim)
+{
+    // If user function supports LOOP
+    if (user_ndim > 0 || NDF_TEST(nf,NDF_HAS_LOOP)) {
+        // If the user function supports STRIDE
+        if (NDF_TEST(nf,NDF_STRIDE_LOOP)) {
+            // If the user function supports STRIDE but not INDEX
+            if (!NDF_TEST(nf,NDF_INDEX_LOOP)) {
+                ndloop_copy_by_access_type(nf,args,2);
+            }
+            // else
+            // If the user function supports both STRIDE and INDEX
+        } else {
+            // If the user function supports only CONTIGUOUS loop
+            ndloop_copy_by_access_type(nf,args,1);
+        }
+    }
+}
+
 
 static VALUE
 ndloop_get_arg_type(ndfunc_t *nf, VALUE args, VALUE t)
@@ -277,9 +416,11 @@ ndloop_set_stepidx(na_md_loop_t *lp, int j, narray_t *na, int *dim_map)
             if (n > 1) {
                 i = dim_map[k];
                 LITER(lp,i,j).step = s;
+                LITER(lp,i,j).idx = NULL;
             }
             s *= n;
         }
+        LITER(lp,0,j).pos = 0;
         break;
     case NARRAY_VIEW_T:
         for (k=0; k<na->ndim; k++) {
@@ -288,16 +429,18 @@ ndloop_set_stepidx(na_md_loop_t *lp, int j, narray_t *na, int *dim_map)
                 i = dim_map[k];
                 sdx = NA_VIEW_STRIDX(na)[k];
                 if (SDX_IS_INDEX(sdx)) {
+                    LITER(lp,i,j).step = 0;
                     LITER(lp,i,j).idx = SDX_GET_INDEX(sdx);
                 } else {
                     LITER(lp,i,j).step = SDX_GET_STRIDE(sdx);
+                    LITER(lp,i,j).idx = NULL;
                 }
             }
         }
         LITER(lp,0,j).pos = NA_VIEW_OFFSET(na);
         break;
     default:
-        rb_raise(rb_eRuntimeError,"invalid narray internal type");
+        rb_bug("invalid narray internal type");
     }
 }
 
@@ -516,73 +659,14 @@ ndloop_set_output(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
 }
 
 
-static int
-ndfunc_check_contiguous(na_md_loop_t *lp)
-{
-    VALUE va;
-    size_t s;
-    int i, j;
-    va = lp->vargs;
-    for (j=0; j < lp->narg; j++) {
-        s = lp->args[j].elmsz;
-        for (i=0; i<lp->user.ndim; i++) {
-            if (LITER(lp,lp->ndim-i,j).idx ||            // index?
-                LITER(lp,lp->ndim-i,j).step != s) {      // not contiguous?
-                RARRAY_PTR(va)[j] = na_copy(RARRAY_PTR(va)[j]);
-                continue;
-            }
-            s *= lp->n[lp->ndim-i];
-        }
-    }
-}
-
-static void
-ndfunc_check_stride(na_md_loop_t *lp)
-{
-    VALUE va;
-    int i, j;
-    va = lp->vargs;
-    for (j=0; j < lp->narg; j++) {
-        for (i=0; i < lp->user.ndim; i++) {
-            if (LITER(lp,lp->ndim-i,j).idx) {            // index?
-                RARRAY_PTR(va)[j] = na_copy(RARRAY_PTR(va)[j]);
-                continue;
-            }
-        }
-    }
-}
-
-static void
-ndfunc_check_user_loop(ndfunc_t *nf, na_md_loop_t *lp)
-{
-    // If user function supports LOOP
-    if (lp->user.ndim > 0 || NDF_TEST(nf,NDF_HAS_LOOP)) {
-        // If the user function supports STRIDE
-        if (NDF_TEST(nf,NDF_STRIDE_LOOP)) {
-            // If the user function supports STRIDE but not INDEX
-            if (!NDF_TEST(nf,NDF_INDEX_LOOP)) {
-                ndfunc_check_stride(lp);
-            }
-            // else
-            // If the user function supports both STRIDE and INDEX
-            // user function always does loop
-        } else {
-            // If the user function supports only CONTIGUOUS loop
-            ndfunc_check_contiguous(lp);
-        }
-    }
-}
-
-
 static void
 ndfunc_set_user_loop(ndfunc_t *nf, na_md_loop_t *lp)
 {
-    ndfunc_check_user_loop(nf, lp);
-
     if (lp->ndim > 0 && NDF_TEST(nf,NDF_HAS_LOOP)) {
         lp->user.ndim += 1;
         lp->ndim -= 1;
     }
+    //ndfunc_check_user_loop(nf, lp);
 
     lp->user.n = &(lp->n[lp->ndim]);
     lp->user.iter = &LITER(lp,lp->ndim,0);
@@ -599,6 +683,8 @@ ndloop_run(VALUE vlp)
     Data_Get_Struct(vlp,na_md_loop_t,lp);
     args = lp->vargs;
     nf = lp->ndfunc;
+
+    ndloop_match_access_type(nf, args, lp->user.ndim);
 
     // setup ndloop iterator with arguments
     ndloop_init_args(nf, lp, args);
@@ -916,7 +1002,7 @@ na_ndloop_inspect(VALUE nary, VALUE buf, na_text_func_t func, VALUE opt)
     //nf = ndfunc_alloc(NULL, NO_LOOP, 1, 0, Qnil);
 
     //rb_p(args);
-    if (na_debug_flag) print_ndfunc(nf);
+    if (na_debug_flag) print_ndfunc(&nf);
 
     args = rb_ary_new3(3,nary,buf,opt);
 
