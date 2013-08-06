@@ -99,10 +99,12 @@ typedef struct NA_MD_LOOP {
     int  narg;
     int  nin;
     int  ndim;             // n of total dimention
+    unsigned int copy_flag;
     size_t  *n;            // n of elements for each dim
     na_loop_args_t *args;  // for each arg
     na_loop_iter_t *iter;  // for each dim, each arg
     na_loop_t  user;       // loop in user function
+    int    writeback;
     VALUE  vargs;
     VALUE  reduce;
     VALUE  loop_opt;

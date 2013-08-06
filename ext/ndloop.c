@@ -62,6 +62,8 @@ print_ndloop(na_md_loop_t *lp) {
     printf("  narg = %d\n", lp->narg);
     printf("  nin  = %d\n", lp->nin);
     printf("  ndim = %d\n", lp->ndim);
+    printf("  copy_flag = %x\n", lp->copy_flag);
+    printf("  writeback = %d\n", lp->writeback);
     printf("  n = 0x%"SZF"x\n", (size_t)lp->n);
     printf("  args = 0x%"SZF"x\n", (size_t)lp->args);
     printf("  iter = 0x%"SZF"x\n", (size_t)lp->iter);
@@ -119,13 +121,14 @@ ndloop_get_access_type(narray_t *na, size_t sz, int nd)
     return f;
 }
 
-static void
+static unsigned int
 ndloop_copy_by_access_type(ndfunc_t *nf, VALUE args, int cond)
 {
     int j, nd, f;
     size_t sz;
     VALUE v;
     narray_t *na;
+    unsigned int flag=0;
 
     for (j=0; j<nf->nin; j++) {
         v = RARRAY_PTR(args)[j];
@@ -139,14 +142,18 @@ ndloop_copy_by_access_type(ndfunc_t *nf, VALUE args, int cond)
                 }
                 f = ndloop_get_access_type(na,sz,nd);
                 if (f>=cond) {
-                    RARRAY_PTR(args)[j] = na_copy(v);
+                    RARRAY_PTR(args)[j] = rb_obj_dup(v);
+                    //RARRAY_PTR(args)[j] = v = na_copy(v);
+                    //rb_funcall(v,rb_intern("debug_info"),0);
+                    flag |= 1<<j;
                 }
             }
         }
     }
+    return flag;
 }
 
-static void
+static unsigned int
 ndloop_match_access_type(ndfunc_t *nf, VALUE args, int user_ndim)
 {
     // If user function supports LOOP
@@ -155,49 +162,32 @@ ndloop_match_access_type(ndfunc_t *nf, VALUE args, int user_ndim)
         if (NDF_TEST(nf,NDF_STRIDE_LOOP)) {
             // If the user function supports STRIDE but not INDEX
             if (!NDF_TEST(nf,NDF_INDEX_LOOP)) {
-                ndloop_copy_by_access_type(nf,args,2);
+                return ndloop_copy_by_access_type(nf,args,2);
             }
             // else
             // If the user function supports both STRIDE and INDEX
         } else {
             // If the user function supports only CONTIGUOUS loop
-            ndloop_copy_by_access_type(nf,args,1);
+            return ndloop_copy_by_access_type(nf,args,1);
         }
     }
+    return 0;
 }
 
 
-static VALUE
-ndloop_get_arg_type(ndfunc_t *nf, VALUE args, VALUE t)
-{
-    int i;
-
-    // if type is FIXNUM, get the type of i-th argument
-    if (FIXNUM_P(t)) {
-        i = FIX2INT(t);
-        if (i<0 || i>=nf->nin) {
-            rb_bug("invalid type: index (%d) out of # of args",i);
-        }
-        t = nf->ain[i].type;
-        // if i-th type is Qnil, get the type of i-th input value
-        if (!CASTABLE(t)) {
-            t = CLASS_OF(RARRAY_PTR(args)[i]);
-        }
-    }
-    return t;
-}
 
 
 
 // cast argument : RARRAY_PTR(args)[j] to type : nf->args[j].type
-static void
+static unsigned int
 ndloop_cast_args(ndfunc_t *nf, VALUE args)
 {
     int j,k;
     char *s;
+    unsigned int flag=0;
     volatile VALUE v, t, x;
 
-    if (na_debug_flag) rb_p(args);
+    //if (na_debug_flag) rb_p(args);
 
     for (j=0; j<nf->nin; j++) {
         t = nf->ain[j].type;
@@ -211,6 +201,7 @@ ndloop_cast_args(ndfunc_t *nf, VALUE args)
                     if (RTEST(rb_class_inherited_p(t, cNArray))) {
                         v = nary_type_s_cast(t, v);
                         RARRAY_PTR(args)[j] = v;
+                        flag |= 1<<j;
                         continue;
                     }
                 }
@@ -222,6 +213,7 @@ ndloop_cast_args(ndfunc_t *nf, VALUE args)
             }
         }
     }
+    return flag;
 }
 
 
@@ -236,7 +228,7 @@ ndloop_cast_args(ndfunc_t *nf, VALUE args)
 */
 
 static VALUE
-ndloop_alloc(ndfunc_t *nf, VALUE args, void *opt_ptr,
+ndloop_alloc(ndfunc_t *nf, VALUE args, void *opt_ptr, unsigned int copy_flag,
              void (*loop_func)(ndfunc_t*, na_md_loop_t*))
 {
     int i,j;
@@ -308,6 +300,8 @@ ndloop_alloc(ndfunc_t *nf, VALUE args, void *opt_ptr,
 
     lp->narg = narg;
     lp->ndim = loop_nd;
+    lp->copy_flag = copy_flag;
+    lp->writeback = -1;
     lp->user.narg = narg;
     lp->user.ndim = user_nd;
     lp->user.args = lp->args;
@@ -396,11 +390,17 @@ ndloop_check_shape(na_md_loop_t *lp, int nf_dim, narray_t *na)
 na->shape[i] == lp->n[ dim_map[i] ]
  */
 static void
-ndloop_set_stepidx(na_md_loop_t *lp, int j, narray_t *na, int *dim_map)
+ndloop_set_stepidx(na_md_loop_t *lp, int j, VALUE vna, int *dim_map)
 {
     size_t n, s;
     int i, k;
     stridx_t sdx;
+    narray_t *na;
+
+    lp->args[j].value = vna;
+    lp->args[j].elmsz = na_get_elmsz(vna);
+    lp->args[j].ptr   = na_get_pointer_for_write(vna);
+    GetNArray(vna,na);
 
     switch(NA_TYPE(na)) {
     case NARRAY_DATA_T:
@@ -415,6 +415,7 @@ ndloop_set_stepidx(na_md_loop_t *lp, int j, narray_t *na, int *dim_map)
             n = na->shape[k];
             if (n > 1) {
                 i = dim_map[k];
+                //printf("i=%d j=%d s=%lu\n",i,j,s);
                 LITER(lp,i,j).step = s;
                 LITER(lp,i,j).idx = NULL;
             }
@@ -486,16 +487,13 @@ ndloop_init_args(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
         if (IsNArray(v)) {
             // set lp->args[j] with v
             GetNArray(v,na);
-            lp->args[j].value = v;
-            lp->args[j].elmsz = na_get_elmsz(v);
-            lp->args[j].ptr   = na_get_pointer_for_write(v);
             nf_dim = nf->ain[j].dim;
             ndloop_check_shape(lp, nf_dim, na);
             dim_beg = lp->ndim + nf->ain[j].dim - na->ndim;
             for (i=0; i<na->ndim; i++) {
                 dim_map[i] = i+dim_beg;
             }
-            ndloop_set_stepidx(lp, j, na, dim_map);
+            ndloop_set_stepidx(lp, j, v, dim_map);
         } else if (TYPE(v)==T_ARRAY) {
             lp->args[j].value = v;
             lp->args[j].elmsz = sizeof(VALUE);
@@ -509,56 +507,99 @@ ndloop_init_args(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
 }
 
 
+static int
+ndloop_check_inplace(VALUE type, int na_ndim, size_t *na_shape, VALUE v)
+{
+    int i;
+    narray_t *na;
+
+    // type check
+    if (type != CLASS_OF(v)) {
+        return 0;
+    }
+    GetNArray(v,na);
+    // shape check
+    if (na->ndim != na_ndim) {
+        return 0;
+    }
+    for (i=0; i<na_ndim; i++) {
+        if (na_shape[i] != na->shape[i]) {
+            return 0;
+        }
+    }
+    // v is selected as output
+    return 1;
+}
+
 static VALUE
-ndloop_find_inplace(ndfunc_t *nf, VALUE type, int na_ndim, size_t *na_shape, VALUE args)
+ndloop_find_inplace(ndfunc_t *nf, na_md_loop_t *lp, VALUE type, int na_ndim, size_t *na_shape, VALUE args)
 {
     int i, j;
     VALUE v;
     narray_t *na;
 
+    // find inplace
     for (j=0; j<nf->nin; j++) {
         v = RARRAY_PTR(args)[j];
         if (IsNArray(v)) {
             if (TEST_INPLACE(v)) {
-                // type check
-                if (type != CLASS_OF(v))
-                    goto not_in_place;
-                // already used for result ?
-                //for (i=0; i<RARRAY_LEN(results); i++) {
-                //    if (v == RARRAY_PTR(results)[i])
-                //        goto not_in_place;
-                //}
-                GetNArray(v,na);
-                // shape check
-                if (na->ndim == na_ndim) {
-                    for (i=0; i<na_ndim; i++) {
-                        if (na_shape[i] != na->shape[i])
-                            goto not_in_place;
+                if (ndloop_check_inplace(type,na_ndim,na_shape,v)) {
+                    // if already copied, create outary and write-back
+                    if (lp->copy_flag & (1<<j)) {
+                        lp->writeback = j;
+                        rb_p(v);
                     }
-                    // v is selected as output
                     return v;
                 }
             }
         }
-    not_in_place:
-        ;
+    }
+    // find casted or copied input array
+    for (j=0; j<nf->nin; j++) {
+        if (lp->copy_flag & (1<<j)) {
+            v = RARRAY_PTR(args)[j];
+            if (ndloop_check_inplace(type,na_ndim,na_shape,v)) {
+                return v;
+            }
+        }
     }
     return Qnil;
 }
 
 
+
+static VALUE
+ndloop_get_arg_type(ndfunc_t *nf, VALUE args, VALUE t)
+{
+    int i;
+
+    // if type is FIXNUM, get the type of i-th argument
+    if (FIXNUM_P(t)) {
+        i = FIX2INT(t);
+        if (i<0 || i>=nf->nin) {
+            rb_bug("invalid type: index (%d) out of # of args",i);
+        }
+        t = nf->ain[i].type;
+        // if i-th type is Qnil, get the type of i-th input value
+        if (!CASTABLE(t)) {
+            t = CLASS_OF(RARRAY_PTR(args)[i]);
+        }
+    }
+    return t;
+}
+
 static VALUE
 ndloop_set_output_narray(ndfunc_t *nf, na_md_loop_t *lp, int k,
-                         VALUE type, VALUE args, VALUE results)
+                         VALUE type, VALUE args)
 {
     int i, j;
     int na_ndim;
-    volatile VALUE v;
+    volatile VALUE v=Qnil;
     size_t *na_shape;
     int *dim_map;
     narray_t *na;
 
-    int max_nd = lp->ndim + lp->user.ndim;
+    int max_nd = lp->ndim + nf->aout[k].dim;
 
     na_shape = ALLOCA_N(size_t, max_nd);
     dim_map = ALLOCA_N(int, max_nd);
@@ -586,26 +627,18 @@ ndloop_set_output_narray(ndfunc_t *nf, na_md_loop_t *lp, int k,
 
     // find inplace from input arrays
     if (k==0) {
-        v = ndloop_find_inplace(nf,type,na_ndim,na_shape,args);
-    } else {
-        v = Qnil;
+        v = ndloop_find_inplace(nf,lp,type,na_ndim,na_shape,args);
     }
     if (!RTEST(v)) {
         // new object
         v = rb_narray_new(type, na_ndim, na_shape);
     }
 
-    GetNArray(v,na);
     j = lp->nin + k;
-    lp->args[j].value = v;
-    lp->args[j].elmsz = na_get_elmsz(v);
-    lp->args[j].ptr   = na_get_pointer_for_write(v);
-
-    ndloop_set_stepidx(lp, j, na, dim_map);
+    ndloop_set_stepidx(lp, j, v, dim_map);
 
     return v;
 }
-
 
 static VALUE
 ndloop_set_output(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
@@ -628,7 +661,7 @@ ndloop_set_output(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
         if (rb_obj_is_kind_of(t, rb_cClass)) {
             if (RTEST(rb_class_inherited_p(t, cNArray))) {
                 // NArray
-                v = ndloop_set_output_narray(nf,lp,k,t,args,results);
+                v = ndloop_set_output_narray(nf,lp,k,t,args);
                 rb_ary_push(results, v);
             }
             else if (RTEST(rb_class_inherited_p(t, rb_cArray))) {
@@ -673,18 +706,34 @@ ndfunc_set_user_loop(ndfunc_t *nf, na_md_loop_t *lp)
 }
 
 
+static void
+ndfunc_write_back(ndfunc_t *nf, na_md_loop_t *lp, VALUE orig_args, VALUE results)
+{
+    VALUE src, dst;
+
+    if (lp->writeback >= 0) {
+        dst = RARRAY_PTR(orig_args)[lp->writeback];
+        src = RARRAY_PTR(results)[0];
+        na_store(dst,src);
+        RARRAY_PTR(results)[0] = dst;
+    }
+}
+
+
 static VALUE
 ndloop_run(VALUE vlp)
 {
-    volatile VALUE args, results;
+    volatile VALUE args, orig_args, results;
     na_md_loop_t *lp;
     ndfunc_t *nf;
 
     Data_Get_Struct(vlp,na_md_loop_t,lp);
-    args = lp->vargs;
+    orig_args = lp->vargs;
     nf = lp->ndfunc;
 
-    ndloop_match_access_type(nf, args, lp->user.ndim);
+    args = rb_obj_dup(orig_args);
+
+    lp->copy_flag |= ndloop_match_access_type(nf, args, lp->user.ndim);
 
     // setup ndloop iterator with arguments
     ndloop_init_args(nf, lp, args);
@@ -698,6 +747,9 @@ ndloop_run(VALUE vlp)
     // loop
     (*(lp->loop_func))(nf, lp);
 
+    // write-back will be placed here
+    ndfunc_write_back(nf, lp, orig_args, results);
+
     // extract result objects
     switch(nf->nout) {
     case 0:
@@ -705,9 +757,6 @@ ndloop_run(VALUE vlp)
     case 1:
         return RARRAY_PTR(results)[0];
     }
-
-    // free ndloop structure
-    //ndloop_free(lp);
     return results;
 }
 
@@ -767,16 +816,16 @@ loop_narray(ndfunc_t *nf, na_md_loop_t *lp)
 VALUE
 na_ndloop_main(ndfunc_t *nf, VALUE args, void *opt_ptr)
 {
+    unsigned int copy_flag;
     volatile VALUE vlp;
 
-    //rb_p(args);
     if (na_debug_flag) print_ndfunc(nf);
 
     // cast arguments to NArray
-    ndloop_cast_args(nf, args);
+    copy_flag = ndloop_cast_args(nf, args);
 
     // allocate ndloop struct
-    vlp = ndloop_alloc(nf, args, opt_ptr, loop_narray);
+    vlp = ndloop_alloc(nf, args, opt_ptr, copy_flag, loop_narray);
 
     return rb_ensure(ndloop_run, vlp, ndloop_release, vlp);
 }
@@ -1002,7 +1051,7 @@ na_ndloop_inspect(VALUE nary, VALUE buf, na_text_func_t func, VALUE opt)
     //nf = ndfunc_alloc(NULL, NO_LOOP, 1, 0, Qnil);
 
     //rb_p(args);
-    if (na_debug_flag) print_ndfunc(&nf);
+    //if (na_debug_flag) print_ndfunc(&nf);
 
     args = rb_ary_new3(3,nary,buf,opt);
 
@@ -1010,7 +1059,7 @@ na_ndloop_inspect(VALUE nary, VALUE buf, na_text_func_t func, VALUE opt)
     //ndloop_cast_args(nf, args);
 
     // allocate ndloop struct
-    vlp = ndloop_alloc(&nf, args, NULL, loop_inspect);
+    vlp = ndloop_alloc(&nf, args, NULL, 0, loop_inspect);
 
     rb_ensure(ndloop_run, vlp, ndloop_release, vlp);
 }
@@ -1090,7 +1139,7 @@ na_ndloop_cast_rarray_to_narray(ndfunc_t *nf, VALUE rary, VALUE nary)
     //ndloop_cast_args(nf, args);
 
     // allocate ndloop struct
-    vlp = ndloop_alloc(nf, args, NULL, loop_rarray_to_narray);
+    vlp = ndloop_alloc(nf, args, NULL, 0, loop_rarray_to_narray);
 
     return rb_ensure(ndloop_run, vlp, ndloop_release, vlp);
 }
@@ -1160,7 +1209,7 @@ na_ndloop_cast_narray_to_rarray(ndfunc_t *nf, VALUE nary, VALUE fmt)
     //ndloop_cast_args(nf, args);
 
     // allocate ndloop struct
-    vlp = ndloop_alloc(nf, args, NULL, loop_narray_to_rarray);
+    vlp = ndloop_alloc(nf, args, NULL, 0, loop_narray_to_rarray);
 
     rb_ensure(ndloop_run, vlp, ndloop_release, vlp);
     return RARRAY_PTR(a0)[0];
