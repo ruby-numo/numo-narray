@@ -71,7 +71,7 @@ nary_bit_cast_numeric(VALUE val)
     dig_ofs = 0;
     bit_ofs = 0;
     ptr = (BIT_DIGIT*)na_get_pointer_for_write(v) + dig_ofs;
-    *ptr = *ptr & ~(1u<<bit_ofs) | (b<<bit_ofs);
+    *ptr = (*ptr & ~(1u<<bit_ofs)) | (b<<bit_ofs);
     na_release_lock(v);
     return v;
 }
@@ -256,7 +256,7 @@ iter_bit_fill(na_loop_t *const lp)
         if (p3>0 || n<NB) {
             len = NB - p3;
             if ((int)n<len) len=n;
-            *a3 = y & (SLB(len)<<p3) | *a3 & ~(SLB(len)<<p3);
+            *a3 = (y & (SLB(len)<<p3)) | (*a3 & ~(SLB(len)<<p3));
             a3++;
             n -= len;
         }
@@ -264,7 +264,7 @@ iter_bit_fill(na_loop_t *const lp)
             *(a3++) = y;
         }
         if (n>0) {
-            *a3 = y & SLB(n) | *a3 & BALL<<n;
+            *a3 = (y & SLB(n)) | (*a3 & BALL<<n);
         }
     }
 }

@@ -41,8 +41,6 @@ static void
 static VALUE
 <%=c_instance_method%>(int argc, VALUE *argv, VALUE self)
 {
-    ndfunc_t *func;
-    volatile VALUE v;
     VALUE fmt=Qnil;
 
     ndfunc_arg_in_t ain[2] = {{Qnil,0},{sym_option}};

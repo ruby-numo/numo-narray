@@ -163,7 +163,9 @@ extern VALUE cInt64, cInt32, cInt16, cInt8;
 extern VALUE cUInt64, cUInt32, cUInt16, cUInt8;
 extern VALUE cRObject;
 extern VALUE na_cStep;
-extern VALUE cComplex;
+#ifndef HAVE_RB_CCOMPLEX
+extern VALUE rb_cComplex;
+#endif
 extern ID id_contiguous_stride;
 extern ID id_element_bit_size;
 extern ID id_element_byte_size;
@@ -404,7 +406,6 @@ typedef struct {
     int64_t sign;
     int shift;
 } rand_opt_t;
-
 
 
 typedef unsigned int BIT_DIGIT;

@@ -226,8 +226,7 @@
         size_t dig = (pos) / NB;                \
         int    bit = (pos) % NB;                \
         ((BIT_DIGIT*)(adr))[dig] =              \
-            ((BIT_DIGIT*)(adr))[dig] &          \
-            ~(1u<<(bit)) | ((val)<<(bit));      \
+            (((BIT_DIGIT*)(adr))[dig] & ~(1u<<(bit))) | ((val)<<(bit)); \
     }
 // val -> val&1 ??
 
@@ -244,8 +243,7 @@
             pos += step;                        \
         }                                       \
         ((BIT_DIGIT*)(adr))[dig] =              \
-            ((BIT_DIGIT*)(adr))[dig] &          \
-            ~(1u<<(bit)) | ((val)<<(bit));      \
+            (((BIT_DIGIT*)(adr))[dig] & ~(1u<<(bit))) | ((val)<<(bit)); \
     }
 // val -> val&1 ??
 

@@ -97,7 +97,7 @@ print_ndloop(na_md_loop_t *lp) {
 
 
 static int
-ndloop_get_access_type(narray_t *na, size_t sz, int nd)
+ndloop_get_access_type(narray_t *na, ssize_t sz, int nd)
 {
     int i, k, f=0;
     size_t n;
@@ -125,7 +125,7 @@ static unsigned int
 ndloop_copy_by_access_type(ndfunc_t *nf, VALUE args, int cond)
 {
     int j, nd, f;
-    size_t sz;
+    ssize_t sz;
     VALUE v;
     narray_t *na;
     unsigned int flag=0;
@@ -182,7 +182,7 @@ ndloop_match_access_type(ndfunc_t *nf, VALUE args, int user_ndim)
 static unsigned int
 ndloop_cast_args(ndfunc_t *nf, VALUE args)
 {
-    int j,k;
+    int j;
     char *s;
     unsigned int flag=0;
     volatile VALUE v, t, x;
@@ -235,7 +235,7 @@ ndloop_alloc(ndfunc_t *nf, VALUE args, void *opt_ptr, unsigned int copy_flag,
     int narg;
     na_md_loop_t *lp;
     int user_nd, loop_nd, max_nd, tmp_nd;
-    VALUE v, t;
+    VALUE v;
     narray_t *na;
     size_t sz1, sz2, sz3, sz4;
     char *ptr;
@@ -322,7 +322,7 @@ ndloop_alloc(ndfunc_t *nf, VALUE args, void *opt_ptr, unsigned int copy_flag,
     lp->loop_opt = Qnil;
     lp->loop_func = loop_func;
 
-    return Data_Wrap_Struct(rb_cData,0,0,lp);
+    return Data_Wrap_Struct(rb_cData,0,-1,lp);
 }
 
 
@@ -534,9 +534,8 @@ ndloop_check_inplace(VALUE type, int na_ndim, size_t *na_shape, VALUE v)
 static VALUE
 ndloop_find_inplace(ndfunc_t *nf, na_md_loop_t *lp, VALUE type, int na_ndim, size_t *na_shape, VALUE args)
 {
-    int i, j;
+    int j;
     VALUE v;
-    narray_t *na;
 
     // find inplace
     for (j=0; j<nf->nin; j++) {
@@ -597,7 +596,6 @@ ndloop_set_output_narray(ndfunc_t *nf, na_md_loop_t *lp, int k,
     volatile VALUE v=Qnil;
     size_t *na_shape;
     int *dim_map;
-    narray_t *na;
 
     int max_nd = lp->ndim + nf->aout[k].dim;
 

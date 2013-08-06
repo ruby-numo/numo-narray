@@ -4,7 +4,10 @@ require 'rbconfig.rb'
 
 require 'mkmf'
 
-$CFLAGS="-g -O0"
+#$CFLAGS="-g -O0"
+$CFLAGS="-g -O3 -Wall -m64 -msse2"
+#$CFLAGS=" -Ofast -funroll-loops"
+#$CFLAGS=" $(cflags) -funroll-loops"
 $INCFLAGS = "-Itypes #$INCFLAGS"
 
 srcs = %w(
@@ -75,6 +78,8 @@ end
 #have_library("m")
 #have_func("sincos")
 #have_func("asinh")
+
+have_var("rb_cComplex")
 
 $objs = srcs.collect{|i| i+".o"}
 

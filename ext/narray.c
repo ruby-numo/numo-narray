@@ -60,6 +60,9 @@ VALUE sym_loop_opt;
 VALUE sym_init;
 
 VALUE na_cStep;
+#ifndef HAVE_RB_CCOMPLEX
+VALUE rb_cComplex;
+#endif
 
 void Init_nary_data();
 void Init_nary_step();
@@ -936,13 +939,14 @@ na_reduce_dimension(int argc, VALUE *argv, VALUE self)
             r = beg + step*j;
             if (row_major)
                 r = ndim-1-r;
-            if (reduce==Qnil)
+            if (reduce==Qnil) {
               if ( r < (ssize_t)sizeof(size_t) ) {
                     m |= ((size_t)1) << r;
                     continue;
                 } else {
                     reduce = SIZE2NUM(m);
                 }
+            }
             v = rb_funcall( INT2FIX(1), rb_intern("<<"), 1, INT2FIX(r) );
             reduce = rb_funcall( reduce, rb_intern("|"), 1, v );
         }
@@ -1085,6 +1089,19 @@ VALUE na_debug_set(VALUE mod, VALUE flag)
     return Qnil;
 }
 
+double na_profile_value=0;
+
+VALUE na_profile(VALUE mod)
+{
+    return rb_float_new(na_profile_value);
+}
+
+VALUE na_profile_set(VALUE mod, VALUE val)
+{
+    na_profile_value = NUM2DBL(val);
+    return val;
+}
+
 
 /*
   Equality of self and other in view of numerical array.
@@ -1128,10 +1145,17 @@ Init_narray()
     /* define NArray class */
     cNArray = rb_define_class("NArray", rb_cObject);
 
+#ifndef HAVE_RB_CCOMPLEX
+    rb_require("complex");
+    rb_cComplex = rb_const_get(rb_cObject, rb_intern("Complex"));
+#endif
+
     nary_eCastError = rb_define_class_under(cNArray, "CastError", rb_eStandardError);
     nary_eShapeError = rb_define_class_under(cNArray, "ShapeError", rb_eStandardError);
 
     rb_define_singleton_method(cNArray, "debug=", na_debug_set, 1);
+    rb_define_singleton_method(cNArray, "profile", na_profile, 0);
+    rb_define_singleton_method(cNArray, "profile=", na_profile_set, 1);
 
     /* Ruby allocation framework  */
     rb_define_alloc_func(cNArray, na_s_allocate);

@@ -32,7 +32,7 @@ static void
             if (p1+len>NB)  x |= *(a1+1)<<r1;
             a1++;
             y = m_<%=op%>(x);
-            *a3 = y & (SLB(len)<<p3) | *a3 & ~(SLB(len)<<p3);
+            *a3 = (y & (SLB(len)<<p3)) | (*a3 & ~(SLB(len)<<p3));
             a3++;
             n -= len;
         }
@@ -56,7 +56,7 @@ static void
             x = *a1>>o1;
             if (o1<0)  x |= *(a1-1)>>l1;
             y = m_<%=op%>(x);
-            *a3 = y & SLB(n) | *a3 & BALL<<n;
+            *a3 = (y & SLB(n)) | (*a3 & BALL<<n);
         }
     }
 }

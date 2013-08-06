@@ -41,7 +41,7 @@ static void
             if (p2+len>NB)  y |= *(a2+1)<<r2;
             a2++;
             x = m_<%=op%>(x,y);
-            *a3 = x & (SLB(len)<<p3) | *a3 & ~(SLB(len)<<p3);
+            *a3 = (x & (SLB(len)<<p3)) | (*a3 & ~(SLB(len)<<p3));
             a3++;
             n -= len;
         }
@@ -72,7 +72,7 @@ static void
             y = *a2>>o2;
             if (o2<0)  y |= *(a2-1)>>l2;
             x = m_<%=op%>(x,y);
-            *a3 = x & SLB(n) | *a3 & BALL<<n;
+            *a3 = (x & SLB(n)) | (*a3 & BALL<<n);
         }
     }
 }

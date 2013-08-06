@@ -30,9 +30,10 @@ static VALUE
     VALUE *argv;
     volatile VALUE v, a;
     ndfunc_arg_out_t aout[1] = {{cT,0}};
-    ndfunc_t ndf = { <%=c_iterator%>, NO_LOOP, argc+1, 1, 0, aout };
+    ndfunc_t ndf = { <%=c_iterator%>, NO_LOOP, 0, 1, 0, aout };
 
     argc = RARRAY_LEN(args);
+    ndf.nin = argc+1;
     ndf.ain = ALLOCA_N(ndfunc_arg_in_t,argc+1);
     for (i=0; i<argc+1; i++) {
         ndf.ain[i].type = cT;
