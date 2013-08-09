@@ -340,6 +340,8 @@ ndloop_release(VALUE vlp)
             na_release_lock(v);
         }
     }
+    //xfree(lp);
+    //rb_gc_force_recycle(vlp);
     return Qnil;
 }
 
