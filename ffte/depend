@@ -1,8 +1,9 @@
 CLEANOBJS = *.o */*.o *.bak *~
+ERB = erb -r ../gen/modify_erb
+ERB = erb -T-
 
-ffte.c: ffte_beg.erb.c zfft.erb.c zdfft.erb.c dzfft.erb.c ffte_end.erb.c
-	cat ffte_beg.erb.c zfft.erb.c zdfft.erb.c dzfft.erb.c ffte_end.erb.c | erb -T- > ffte.c
-#	cat ffte_beg.erb.c zfft.erb.c ffte_end.erb.c | erb -T- > ffte.c
+ffte.c: ffte.erb.c
+	$(ERB) ffte.erb.c > ffte.c
 
 .SUFFIXES: .f
 
