@@ -43,16 +43,17 @@ typedef struct NA_LOOP {
 #define NDF_STRIDE_LOOP         (1<<1) // *(x+stride*i)
 #define NDF_INDEX_LOOP          (1<<2) // *(x+idx[i])
 #define NDF_KEEP_DIM            (1<<3)
-#define NDF_ACCEPT_SWAP         (1<<4)
+#define NDF_INPLACE             (1<<4)
+#define NDF_ACCEPT_BYTESWAP     (1<<5)
 
-#define NDF_HAS_REDUCE_DIM        (1<<5)
+#define NDF_HAS_REDUCE_DIM      (1<<6)
 
-#define NDF_FULL_LOOP  (NDF_HAS_LOOP|NDF_STRIDE_LOOP|NDF_INDEX_LOOP)
-#define HAS_LOOP       NDF_FULL_LOOP
-#define FULL_LOOP      NDF_FULL_LOOP
-#define STRIDE_LOOP    (NDF_HAS_LOOP|NDF_STRIDE_LOOP)
-#define NO_LOOP        0
-#define HAS_REDUCE       NDF_HAS_REDUCE_DIM
+#define FULL_LOOP       (NDF_HAS_LOOP|NDF_STRIDE_LOOP|NDF_INDEX_LOOP|NDF_INPLACE)
+#define FULL_LOOP_NIP   (NDF_HAS_LOOP|NDF_STRIDE_LOOP|NDF_INDEX_LOOP)
+#define STRIDE_LOOP     (NDF_HAS_LOOP|NDF_STRIDE_LOOP|NDF_INPLACE)
+#define STRIDE_LOOP_NIP (NDF_HAS_LOOP|NDF_STRIDE_LOOP)
+#define NO_LOOP         0
+#define HAS_REDUCE      NDF_HAS_REDUCE_DIM
 
 #define NDF_TEST(nf,fl)  ((nf)->flag&(fl))
 #define NDF_SET(nf,fl)  {(nf)->flag |= (fl);}

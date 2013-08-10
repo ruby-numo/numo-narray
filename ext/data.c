@@ -115,7 +115,7 @@ nary_swap_byte(VALUE self)
     VALUE v;
     ndfunc_arg_in_t ain[1] = {{Qnil,0}};
     ndfunc_arg_out_t aout[1] = {{INT2FIX(0),0}};
-    ndfunc_t ndf = { iter_swap_byte, FULL_LOOP|NDF_ACCEPT_SWAP,
+    ndfunc_t ndf = { iter_swap_byte, FULL_LOOP|NDF_ACCEPT_BYTESWAP,
                      1, 1, ain, aout };
 
     v = na_ndloop(&ndf, 1, self);
@@ -688,8 +688,10 @@ iter_sort_index(na_loop_t *const lp)
     //printf("lp->iter[1].pos=%d\n",lp->iter[1].pos);
 
     INIT_COUNTER(lp, n);
-    INIT_PTR_ELM(lp, 0, d_ptr, d_step, d_idx, d_es);
-    INIT_PTR_ELM(lp, 1, i_ptr, i_step, i_idx, i_es);
+    INIT_PTR_IDX(lp, 0, d_ptr, d_step, d_idx);
+    INIT_ELMSIZE(lp, 0, d_es);
+    INIT_PTR_IDX(lp, 1, i_ptr, i_step, i_idx);
+    INIT_ELMSIZE(lp, 1, i_es);
     if (i_idx) {rb_bug("i_idx is not null");}
 
     j_ofs = (i_ptr - lp->args[1].ptr) / i_es;

@@ -27,17 +27,15 @@ static void
     INIT_PTR(lp, 1, p2, s2);
     if (idx1) {
         for (; i--;) {
-            x = (dtype*)(p1 + *idx1);  idx1++;
+            x = (dtype*)(p1+*idx1); idx1++;
             y = format_<%=tp%>(fmt, x);
-            *(VALUE*)(p2) = y;
-            p2 += s2;
+            SET_DATA_STRIDE(p2, s2, VALUE, y);
         }
     } else {
         for (; i--;) {
-            x = (dtype*)p1;  p1+=s1;
+            x = (dtype*)p1;         p1+=s1;
             y = format_<%=tp%>(fmt, x);
-            *(VALUE*)(p2) = y;
-            p2 += s2;
+            SET_DATA_STRIDE(p2, s2, VALUE, y);
         }
     }
 }
@@ -55,8 +53,7 @@ static VALUE
 
     ndfunc_arg_in_t ain[2] = {{Qnil,0},{sym_option}};
     ndfunc_arg_out_t aout[1] = {{cRObject,0}};
-    // inplace not allowd
-    ndfunc_t ndf = { <%=c_iterator%>, FULL_LOOP, 2, 1, ain, aout };
+    ndfunc_t ndf = { <%=c_iterator%>, FULL_LOOP_NIP, 2, 1, ain, aout };
 
     rb_scan_args(argc, argv, "01", &fmt);
     return na_ndloop(&ndf, 2, self, fmt);

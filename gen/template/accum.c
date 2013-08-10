@@ -1,17 +1,16 @@
 static void
 <%=c_iterator%>(na_loop_t *const lp)
 {
-    size_t  i;
+    size_t   i;
     char    *p1, *p2;
-    dtype   *q2;
-    ssize_t s1, s2;
-    size_t *idx1, *idx2;
-    dtype   x, y;
+    ssize_t  s1, s2;
+    size_t  *idx1;
+    dtype    x, y;
 
     INIT_COUNTER(lp, i);
     INIT_PTR_IDX(lp, 0, p1, s1, idx1);
-    INIT_PTR_IDX(lp, 1, p2, s2, idx2);
-    if (idx2==0 && s2==0) {
+    INIT_PTR(lp, 1, p2, s2);
+    if (s2==0) {
         // Reduce loop
         y = *(dtype*)p2;
         if (idx1) {
@@ -29,22 +28,19 @@ static void
         }
         *(dtype*)p2 = y;
     } else {
-        if (idx1||idx2) {
+        if (idx1) {
             for (; i--;) {
-                q2 = (dtype*)p2;
-                LOAD_DATA_STEP(p1, s1, idx1, dtype, x);
-                LOAD_DATA_STEP(p2, s2, idx2, dtype, y);
+                x = *(dtype*)(p1 + *idx1); idx1++;
+                y = *(dtype*)p2;
                 m_<%=op%>(x,y);
-                *q2 = y;
+                *(dtype*)p2 = y; p2+=s2;
             }
         } else {
             for (; i--;) {
-                x = *(dtype*)p1;
-                p1+=s1;
+                x = *(dtype*)p1; p1+=s1;
                 y = *(dtype*)p2;
                 m_<%=op%>(x,y);
-                *(dtype*)p2 = y;
-                p2+=s2;
+                *(dtype*)p2 = y; p2+=s2;
             }
         }
     }
@@ -62,7 +58,7 @@ static VALUE
     VALUE v, reduce;
     ndfunc_arg_in_t ain[3] = {{cT,0},{sym_reduce,0},{sym_init,0}};
     ndfunc_arg_out_t aout[1] = {{cT,0}};
-    ndfunc_t ndf = { <%=c_iterator%>, FULL_LOOP, 3, 1, ain, aout };
+    ndfunc_t ndf = { <%=c_iterator%>, FULL_LOOP_NIP, 3, 1, ain, aout };
 
     reduce = na_reduce_dimension(argc, argv, self);
     v =  na_ndloop(&ndf, 3, self, reduce, m_<%=op%>_init);

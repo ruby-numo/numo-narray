@@ -158,17 +158,26 @@ iter_bit_format(na_loop_t *const lp)
     size_t     p1;
     char      *p2;
     ssize_t    s1, s2;
-    size_t    *idx1, *idx2;
+    size_t    *idx1;
     VALUE y;
     VALUE fmt = *(VALUE*)(lp->opt_ptr);
 
     INIT_COUNTER(lp, i);
     INIT_PTR_BIT(lp, 0, a1, p1, s1, idx1);
-    INIT_PTR_IDX(lp, 1, p2, s2, idx2);
-    for (; i--;) {
-        LOAD_BIT_STEP(a1, p1, s1, idx1, x);
-        y = format_bit(fmt, x);
-        STORE_DATA_STEP(p2, s2, idx2, VALUE, y);
+    INIT_PTR(lp, 1, p2, s2);
+
+    if (idx1) {
+        for (; i--;) {
+            LOAD_BIT(a1, p1 + *idx1, x); idx1++;
+            y = format_<%=tp%>(fmt, x);
+            SET_DATA_STRIDE(p2, s2, VALUE, y);
+        }
+    } else {
+        for (; i--;) {
+            LOAD_BIT(a1, p1, x);         p1+=s1;
+            y = format_<%=tp%>(fmt, x);
+            SET_DATA_STRIDE(p2, s2, VALUE, y);
+        }
     }
 }
 
@@ -206,7 +215,6 @@ iter_bit_format_to_a(na_loop_t *const lp)
         LOAD_BIT_STEP(a1, p1, s1, idx1, x);
         y = format_bit(fmt, x);
         rb_ary_push(a,y);
-        //STORE_DATA_STEP(p2, s2, idx2, VALUE, y);
     }
 }
 static VALUE
@@ -303,7 +311,6 @@ bit_cast_to_robj(na_loop_t *const lp)
         LOAD_BIT_STEP(a1, p1, s1, idx1, x);
         y = INT2FIX(x);
         rb_ary_push(a,y);
-        //STORE_DATA_STEP(p2, s2, idx2, VALUE, y);
     }
 }
 
@@ -467,6 +474,7 @@ typedef struct {
     size_t elmsz;
 } where_opt_t;
 
+#define STORE_INT(ptr, esz, x) memcpy(ptr,&(x),esz)
 
 static void
 iter_bit_where(na_loop_t *const lp)
@@ -481,9 +489,7 @@ iter_bit_where(na_loop_t *const lp)
     size_t  count;
     size_t  e;
     where_opt_t *g;
-    //VALUE info = lp->info;
 
-    //Data_Get_Struct(info, where_opt_t, g);
     g = (where_opt_t*)(lp->opt_ptr);
     count = g->count;
     idx0  = g->idx0;
@@ -619,7 +625,8 @@ iter_bit_mask(na_loop_t *const lp)
     q3 = *(void**)(lp->opt_ptr);
     INIT_COUNTER(lp, i);
     INIT_PTR_BIT(lp, 0, a1, p1, s1, idx1);
-    INIT_PTR_ELM(lp, 1, p2, s2, idx2, e2);
+    INIT_PTR_IDX(lp, 1, p2, s2, idx2);
+    INIT_ELMSIZE(lp, 1, e2)
     for (; i--;) {
       if (idx1) {
         q1 = p1+*idx1;

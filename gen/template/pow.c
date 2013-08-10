@@ -26,18 +26,16 @@ static void
     size_t  i;
     char   *p1, *p2, *p3;
     ssize_t s1, s2, s3;
-    size_t  e2;
-    size_t *idx2;
-    dtype    x;
+    dtype   x;
     int32_t y;
     INIT_COUNTER(lp, i);
     INIT_PTR(lp, 0, p1, s1);
-    INIT_PTR_ELM(lp, 1, p2, s2, idx2, e2); // fix me
+    INIT_PTR(lp, 1, p2, s2);
     INIT_PTR(lp, 2, p3, s3);
     for (; i--;) {
         x = *(dtype*)p1;
         p1+=s1;
-        LOAD_INT(p2,e2,y);
+        y = *(int32_t*)p2;
         p2+=s2;
         x = m_pow_int(x,y);
         *(dtype*)p3 = x;
