@@ -47,12 +47,11 @@ void na_copy_flags(VALUE src, VALUE dst);
 VALUE na_flatten(VALUE);
 VALUE na_dup(VALUE);
 VALUE na_copy(VALUE);
+VALUE na_upcast(VALUE type1, VALUE type2);
 
 stridx_t *na_get_stride(VALUE v);
 
 void na_release_lock(VALUE);
-
-VALUE nary_s_upcast(VALUE type1, VALUE type2);
 
 void na_index_arg_to_internal_order(int argc, VALUE *argv, VALUE self);
 
@@ -77,22 +76,15 @@ boolean na_test_reduce(VALUE reduce, int dim);
 
 size_t *na_mdarray_investigate(VALUE ary, int *ndim, VALUE *type);
 
-
 //void na_copy_bytes(na_loop_t *const itr);
-
 
 VALUE na_debug_set(VALUE mod, VALUE flag);
 
-
 void nary_step_array_index(VALUE self, size_t ary_size, size_t *plen, ssize_t *pbeg, ssize_t *pstep);
-
 
 VALUE na_store(VALUE self, VALUE src);
 
 void nary_step_sequence(VALUE self, size_t *plen, double *pbeg, double *pstep);
-
-
-VALUE na_upcast(VALUE type1, VALUE type2);
 
 VALUE nary_init_accum_aref0(VALUE self, VALUE reduce);
 

@@ -1,7 +1,7 @@
 /*
   data.c
   Numerical Array Extension for Ruby
-    (C) Copyright 1999-201 by Masahiro TANAKA
+    (C) Copyright 1999-2011,2013 by Masahiro TANAKA
 
   This program is free software.
   You can distribute/modify this program
@@ -15,67 +15,27 @@
 #include "template.h"
 
 
-// to be defined as singleton method
-VALUE
-nary_s_upcast(VALUE type1, VALUE type2)
-{
-    VALUE upcast_hash;
-    VALUE result_type;
-
-    //if (TYPE(type2)==T_CLASS) {
-    //	if (RTEST(rb_class_inherited_p(type2,rb_cInteger))) {
-    //	    type2 = rb_cInteger;
-    //	}
-    //}
-    if (type1==type2) return type1;
-    upcast_hash = rb_const_get(type1, rb_intern("UPCAST"));
-    result_type = rb_hash_aref(upcast_hash, type2);
-    if (NIL_P(result_type)) {
-	if (TYPE(type2)==T_CLASS) {
-	    if (RTEST(rb_class_inherited_p(type2,cNArray))) {
-		upcast_hash = rb_const_get(type2, rb_intern("UPCAST"));
-		result_type = rb_hash_aref(upcast_hash, type1);
-	    }
-	}
-    }
-    return result_type;
-}
-
-
-static VALUE
-nary_coerce(VALUE x, VALUE y)
-{
-    VALUE type;
-
-    type = nary_s_upcast(CLASS_OF(x), CLASS_OF(y));
-    //puts("pass1");
-    //y = nary_s_cast(type,y);
-    y = rb_funcall(type,rb_intern("cast"),1,y);
-    //puts("pass2");
-    return rb_assoc_new(y, x);
-}
-
-
 // ---------------------------------------------------------------------
 
-#define DEF_ITER_2PARAM(lp,proc)                   \
+#define LOOP_UNARY_PTR(lp,proc)                    \
 {                                                  \
-    size_t  i, s1, s2;                             \
+    size_t  i;                                     \
+    ssize_t s1, s2;                                \
     char   *p1, *p2;                               \
     size_t *idx1, *idx2;                           \
     INIT_COUNTER(lp, i);                           \
-    INIT_PTR(lp, 0, p1, s1, idx1);                 \
-    INIT_PTR(lp, 1, p2, s2, idx2);                 \
+    INIT_PTR_IDX(lp, 0, p1, s1, idx1);             \
+    INIT_PTR_IDX(lp, 1, p2, s2, idx2);             \
     if (idx1) {                                    \
         if (idx2) {                                \
             for (; i--;) {                         \
-                proc(p1 + *idx1, p2 + *idx2);      \
+                proc((p1+*idx1), (p2+*idx2));      \
                 idx1++;                            \
                 idx2++;                            \
             }                                      \
         } else {                                   \
             for (; i--;) {                         \
-                proc(p1 + *idx1, p2);              \
+                proc((p1+*idx1), p2);              \
                 idx1++;                            \
                 p2 += s2;                          \
             }                                      \
@@ -83,7 +43,7 @@ nary_coerce(VALUE x, VALUE y)
     } else {                                       \
         if (idx2) {                                \
             for (; i--;) {                         \
-                proc(p1, p2 + *idx2);              \
+                proc(p1, (p1+*idx2));              \
                 p1 += s1;                          \
                 idx2++;                            \
             }                                      \
@@ -97,14 +57,13 @@ nary_coerce(VALUE x, VALUE y)
     }                                              \
 }
 
-
 #define m_memcpy(src,dst) memcpy(dst,src,e)
 void
 iter_copy_bytes(na_loop_t *const lp)
 {
     size_t e;
     e = lp->args[0].elmsz;
-    DEF_ITER_2PARAM(lp,m_memcpy);
+    LOOP_UNARY_PTR(lp,m_memcpy);
 }
 
 VALUE
@@ -147,7 +106,7 @@ iter_swap_byte(na_loop_t *const lp)
     e = lp->args[0].elmsz;
     b1 = ALLOCA_N(char, e);
     b2 = ALLOCA_N(char, e);
-    DEF_ITER_2PARAM(lp,m_swap_byte);
+    LOOP_UNARY_PTR(lp,m_swap_byte);
 }
 
 static VALUE
@@ -190,10 +149,8 @@ static VALUE
 nary_to_host(VALUE self)
 {
     if (TEST_HOST_ORDER(self)) {
-        //puts("pass1");
         return self;
     }
-    //puts("pass2");
     return rb_funcall(self, rb_intern("swap_byte"), 0);
 }
 
@@ -880,10 +837,7 @@ na_sort_index_main(int argc, VALUE *argv, VALUE self,
 void
 Init_nary_data()
 {
-    rb_define_method(cNArray, "coerce", nary_coerce, 1);
-
     rb_define_method(cNArray, "copy", na_copy, 0);
-    //rb_define_method(cNArray, "store", na_store, 1);
 
     rb_define_method(cNArray, "flatten", na_flatten, 0);
     rb_define_method(cNArray, "transpose", na_transpose, -1);
