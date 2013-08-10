@@ -385,8 +385,7 @@ iter_cast_rarray_to_bit(na_loop_t *const lp)
         }
         <% if i<1 %>
     } else {
-        <% end
-        end %>
+        <% end; end %>
     }
 }
 
@@ -433,8 +432,7 @@ nary_bit_extract(VALUE self)
 <%=bit_unary  "not" %>
 <%=bit_unary  "copy" %>
 <%=bit_count  "count_true" %>
-<%=bit_count  "count_false"
-%>
+<%=bit_count  "count_false" %>
 
 VALUE
 nary_bit_store(VALUE dst, VALUE src)

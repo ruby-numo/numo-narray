@@ -19,13 +19,17 @@ class ERB
     src_with_cpp_line
   end
 
+  RE_TRIM = /^; _erbout.concat "\s+";\s*/
+  RE_BREAK = /^; _erbout.concat "/ #"
+
   def src_with_cpp_line
     linebreak = false
     @src.each_line.with_index.map do |line, num|
+      trim = line.sub(RE_TRIM,"")
       if num==1
         s = "#line #{num} \"#{@filename}\"\n".dump
         line.sub!(/_erbout = '';/, "_erbout = #{s};")
-      elsif /^;/ =~ line
+      elsif RE_BREAK =~ trim
         if linebreak
           s = "#line #{num} \"#{@filename}\"\n".dump
           line = ";_erbout.concat(#{s})"+line
