@@ -85,10 +85,8 @@ nary_bit_s_cast(VALUE type, VALUE obj)
     if (CLASS_OF(obj)==cT) {
         return obj;
     } else if (TYPE(obj)==T_ARRAY) {
-        //shape = rb_funcall(cNArray,rb_intern("array_shape"),1,obj);
         return nary_cast_array_to_bit(obj);
     } else if (TYPE(obj)==T_FLOAT || FIXNUM_P(obj) || TYPE(obj)==T_BIGNUM) {
-        //printf("cast float\n");
         return nary_bit_cast_numeric(obj);
     }
 
@@ -112,15 +110,6 @@ nary_bit_coerce_cast(VALUE value, VALUE type)
 }
 
 //----------------------------------------------------------------------
-
-void iter_bit_print(char *ptr, size_t pos, VALUE opt)
-{
-    int x;
-    LOAD_BIT(ptr,pos,x);
-    //printf("%d", (((BIT_DIGIT*)ptr)[pos/NB] >> (pos%NB)) & 1u);
-    printf("%d", x);
-}
-
 
 static VALUE
 format_bit(VALUE fmt, int x)
@@ -193,15 +182,15 @@ nary_bit_format(int argc, VALUE *argv, VALUE self)
     return na_ndloop(&ndf, 2, self, fmt);
 }
 
+
 static void
 iter_bit_format_to_a(na_loop_t *const lp)
 {
     size_t  i;
     BIT_DIGIT *a1, x=0;
     size_t     p1;
-    //char      *p2;
-    ssize_t    s1; //, s2;
-    size_t   *idx1; //, *idx2;
+    ssize_t    s1;
+    size_t   *idx1;
     VALUE y;
     VALUE fmt = *(VALUE*)(lp->opt_ptr);
     volatile VALUE a;
@@ -210,13 +199,21 @@ iter_bit_format_to_a(na_loop_t *const lp)
     INIT_PTR_BIT(lp, 0, a1, p1, s1, idx1);
     a = rb_ary_new2(i);
     rb_ary_push(lp->args[1].value, a);
-    //INIT_PTR(lp, 1, p2, s2, idx2);
-    for (; i--;) {
-        LOAD_BIT_STEP(a1, p1, s1, idx1, x);
-        y = format_bit(fmt, x);
-        rb_ary_push(a,y);
+    if (idx1) {
+        for (; i--;) {
+            LOAD_BIT(a1, p1+*idx1, x); idx1++;
+            y = format_bit(fmt, x);
+            rb_ary_push(a,y);
+        }
+    } else {
+        for (; i--;) {
+            LOAD_BIT(a1, p1, x); p1+=s1;
+            y = format_bit(fmt, x);
+            rb_ary_push(a,y);
+        }
     }
 }
+
 static VALUE
 nary_bit_format_to_a(int argc, VALUE *argv, VALUE self)
 {
@@ -228,8 +225,6 @@ nary_bit_format_to_a(int argc, VALUE *argv, VALUE self)
     rb_scan_args(argc, argv, "01", &fmt);
     return na_ndloop_cast_narray_to_rarray(&ndf, self, fmt);
 }
-
-
 
 
 static void
@@ -255,10 +250,15 @@ iter_bit_fill(na_loop_t *const lp)
 
     INIT_COUNTER(lp, n);
     INIT_PTR_BIT(lp, 0, a3, p3, s3, idx3);
-    if (s3!=1 || idx3) {
+    if (idx3) {
         y = y&1;
         for (; n--;) {
-            STORE_BIT_STEP(a3, p3, s3, idx3, y);
+            STORE_BIT(a3, p3+*idx3, y); idx3++;
+        }
+    } else if (s3!=1) {
+        y = y&1;
+        for (; n--;) {
+            STORE_BIT(a3, p3, y); p3+=s3;
         }
     } else {
         if (p3>0 || n<NB) {
@@ -293,27 +293,32 @@ void
 bit_cast_to_robj(na_loop_t *const lp)
 {
     size_t     i;
-    ssize_t    s1; //, s2;
-    size_t    *idx1; //, *idx2;
+    ssize_t    s1;
+    size_t    *idx1;
     BIT_DIGIT *a1;
     size_t     p1;
-    //char      *p2;
     BIT_DIGIT  x=0;
     VALUE      y;
     volatile VALUE a;
 
     INIT_COUNTER(lp, i);
     INIT_PTR_BIT(lp, 0, a1, p1, s1, idx1);
-    //INIT_PTR    (lp, 1,     p2, s2, idx2);
     a = rb_ary_new2(i);
     rb_ary_push(lp->args[1].value, a);
-    for (; i--;) {
-        LOAD_BIT_STEP(a1, p1, s1, idx1, x);
-        y = INT2FIX(x);
-        rb_ary_push(a,y);
+    if (idx1) {
+        for (; i--;) {
+            LOAD_BIT(a1, p1+*idx1, x); idx1++;
+            y = INT2FIX(x);
+            rb_ary_push(a,y);
+        }
+    } else {
+        for (; i--;) {
+            LOAD_BIT(a1, p1, x); p1+=s1;
+            y = INT2FIX(x);
+            rb_ary_push(a,y);
+        }
     }
 }
-
 
 static VALUE
 nary_bit_cast_to_rarray(VALUE self)
@@ -322,15 +327,6 @@ nary_bit_cast_to_rarray(VALUE self)
     ndfunc_arg_out_t aout[1] = {{rb_cArray,0}}; // dummy?
     ndfunc_t ndf = { bit_cast_to_robj, FULL_LOOP, 3, 1, ain, aout };
     return na_ndloop_cast_narray_to_rarray(&ndf, self, Qnil);
-//
-//    VALUE v;
-//    ndfunc_t *func;
-//
-//    func = ndfunc_alloc(bit_cast_to_robj, FULL_LOOP,
-//                        1, 1, cT, rb_cArray);
-//    v = ndloop_cast_narray_to_rarray(func, self, Qnil);
-//    ndfunc_free(func);
-//    return v;
 }
 
 
@@ -346,8 +342,9 @@ iter_cast_rarray_to_bit(na_loop_t *const lp)
     BIT_DIGIT y;
 
     INIT_COUNTER(lp, n);
-    v1 = lp->args[0].value;
     INIT_PTR_BIT(lp, 1, a2, p2, s2, idx2);
+    v1 = lp->args[0].value;
+    ptr = &v1;
 
     switch(TYPE(v1)) {
     case T_ARRAY:
@@ -359,32 +356,38 @@ iter_cast_rarray_to_bit(na_loop_t *const lp)
         break;
     default:
         n1 = 1;
-        ptr = &v1;
     }
-    for (i=0; i<n1 && i<n; i++) {
-        x = ptr[i];
-        y = 2;
-        if (FIXNUM_P(x)) {
-            y = FIX2INT(x);
-        } else if (x==Qtrue) {
-            y = 1;
-        } else if (x==Qfalse) {
-            y = 0;
-        } else if (x==Qnil) {
-            y = 0;
+    if (idx2) {
+        <%
+        ["STORE_BIT(a2,p2+*idx2,y); idx2++;",
+         "STORE_BIT(a2,p2,y); p2+=s2;"].each_with_index do |s,i|
+        %>
+        for (i=0; i<n1 && i<n; i++) {
+            x = ptr[i];
+            y = 2;
+            if (FIXNUM_P(x)) {
+                y = FIX2INT(x);
+            } else if (x==Qtrue) {
+                y = 1;
+            } else if (x==Qfalse) {
+                y = 0;
+            } else if (x==Qnil) {
+                y = 0;
+            }
+            if (y!=0 && y!=1) {
+                rb_raise(rb_eArgError, "bit can be cast from 0 or 1 or true or false");
+            }
+            <%= s %>
         }
-        if (y!=0 && y!=1) {
-            rb_raise(rb_eArgError, "bit can be cast from 0 or 1 or true or false");
+        y = 0;
+        for (; i<n; i++) {
+            <%= s %>
         }
-        STORE_BIT_STEP(a2, p2, s2, idx2, y);
-    }
-    y = 0;
-    for (; i<n; i++) {
-        STORE_BIT_STEP(a2, p2, s2, idx2, y);
+        <% if i<1 %>
+    } else {
+        <% end; end %>
     }
 }
-
-
 
 static VALUE
 nary_cast_array_to_bit(VALUE rary)
@@ -399,14 +402,9 @@ nary_cast_array_to_bit(VALUE rary)
     nary = rb_narray_new(cT, nd, shape);
     na_alloc_data(nary);
     xfree(shape);
-    //func = ndfunc_alloc(iter_cast_rarray_to_bit, FULL_LOOP,
-    //                    2, 0, Qnil, rb_cArray);
-    //ndloop_cast_rarray_to_narray(func, rary, nary);
     na_ndloop_cast_rarray_to_narray(&ndf, rary, nary);
-    //ndfunc_free(func);
     return nary;
 }
-
 
 
 static VALUE
@@ -420,7 +418,6 @@ nary_bit_extract(VALUE self)
     if (na->ndim==0) {
         pos = na_get_offset(self);
         ptr = (BIT_DIGIT*)na_get_pointer_for_read(self);
-        //pos = na->offset;
         val = ((*((ptr)+(pos)/NB)) >> ((pos)%NB)) & 1u;
         na_release_lock(self);
         return INT2FIX(val);
@@ -547,9 +544,7 @@ static VALUE
 
     ndfunc_arg_in_t ain[1] = {{cT,0}};
     ndfunc_t ndf = { iter_bit_where, FULL_LOOP, 1, 0, ain, 0 };
-    //func = ndfunc_alloc(iter_bit_where, FULL_LOOP, 1, 0, cT);
 
-    //self = na_flatten(self);
     size = RNARRAY_SIZE(self);
     n_1 = NUM2SIZE(nary_bit_count_true(0, NULL, self));
     g = ALLOCA_N(where_opt_t,1);
@@ -563,12 +558,10 @@ static VALUE
     }
     g->idx1 = na_get_pointer_for_write(idx_1);
     g->idx0 = NULL;
-    //ndloop_do3(func, g, 1, self);
     na_ndloop3(&ndf, g, 1, self);
     na_release_lock(idx_1);
     return idx_1;
 }
-
 
 
 static VALUE
@@ -580,7 +573,6 @@ static VALUE
 
     ndfunc_arg_in_t ain[1] = {{cT,0}};
     ndfunc_t ndf = { iter_bit_where, FULL_LOOP, 1, 0, ain, 0 };
-    //func = ndfunc_alloc(iter_bit_where, FULL_LOOP, 1, 0, cT);
 
     size = RNARRAY_SIZE(self);
     n_1 = NUM2SIZE(nary_bit_count_true(0, NULL, self));
@@ -597,13 +589,11 @@ static VALUE
     }
     g->idx1 = na_get_pointer_for_write(idx_1);
     g->idx0 = na_get_pointer_for_write(idx_0);
-    //ndloop_do3(func, g, 1, self);
     na_ndloop3(&ndf, g, 1, self);
     na_release_lock(idx_0);
     na_release_lock(idx_1);
     return rb_assoc_new(idx_1,idx_0);
 }
-
 
 
 static void
@@ -617,11 +607,7 @@ iter_bit_mask(na_loop_t *const lp)
     BIT_DIGIT x=0;
     char    *p2, *q2, *q3;
     size_t  e2;
-    //void  **g;
-    //VALUE info = lp->info;
 
-    //Data_Get_Struct(info, void*, g);
-    //q3 = *g;
     q3 = *(void**)(lp->opt_ptr);
     INIT_COUNTER(lp, i);
     INIT_PTR_BIT(lp, 0, a1, p1, s1, idx1);
@@ -648,7 +634,6 @@ iter_bit_mask(na_loop_t *const lp)
         q3 += e2;
       }
     }
-    //*g = q3;
     *(void**)(lp->opt_ptr) = q3;
 }
 
@@ -666,9 +651,6 @@ static VALUE
     result = rb_narray_new(CLASS_OF(val), 1, &size);
     g = ALLOC(void *);
     *g = na_get_pointer_for_write(result);
-    //opt = Data_Wrap_Struct(rb_cData,0,0,g);
-    //func = ndfunc_alloc(iter_bit_mask, FULL_LOOP, 2, 0, cT, Qnil);
-    //ndloop_do3(func, g, 2, mask, val);
     na_ndloop3(&ndf, g, 2, mask, val);
     na_release_lock(result);
     return result;
@@ -704,7 +686,6 @@ Init_nary_bit()
     rb_define_const(cT, "ELEMENT_BYTE_SIZE", rb_float_new(1.0/8));
     rb_define_const(cT, "CONTIGUOUS_STRIDE", INT2FIX(1));
 
-    //rb_define_singleton_method(cNArray, "Bit", nary_bit_s_cast, 1);
     rb_define_singleton_method(cT, "cast", nary_bit_s_cast, 1);
     rb_define_singleton_method(cT, "[]", nary_bit_s_cast, -2);
     rb_define_method(cT, "coerce_cast", nary_bit_coerce_cast, 1);

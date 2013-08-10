@@ -29,6 +29,8 @@ static void
         n1 = 1;
     }
     if (idx2) {
+        <% ["SET_DATA_INDEX(p2, idx2, dtype, z)",
+            "SET_DATA_STRIDE(p2, s2, dtype, z)"].each_with_index do |x,i| %>
         for (i=i1=0; i1<n1 && i<n; i++,i1++) {
             x = ptr[i1];
             if (rb_obj_is_kind_of(x, rb_cRange) || rb_obj_is_kind_of(x, na_cStep)) {
@@ -36,40 +38,22 @@ static void
                 for (c=0; c<len && i<n; c++,i++) {
                     y = beg + step * c;
                     z = m_from_double(y);
-                    SET_DATA_INDEX(p2, idx2, dtype, z);
+                    <%= x %>
                 }
             }
             else if (TYPE(x) != T_ARRAY) {
                 if (x == Qnil) x = INT2FIX(0);
                 z = m_num_to_data(x);
-                SET_DATA_INDEX(p2, idx2, dtype, z);
+                <%= x %>
             }
         }
         z = m_zero;
         for (; i<n; i++) {
-            SET_DATA_INDEX(p2, idx2, dtype, z);
+            <%= x %>
         }
+        <% if i<1 %>
     } else {
-        for (i=i1=0; i1<n1 && i<n; i++,i1++) {
-            x = ptr[i1];
-            if (rb_obj_is_kind_of(x, rb_cRange) || rb_obj_is_kind_of(x, na_cStep)) {
-                nary_step_sequence(x,&len,&beg,&step);
-                for (c=0; c<len && i<n; c++,i++) {
-                    y = beg + step * c;
-                    z = m_from_double(y);
-                    SET_DATA_STRIDE(p2, s2, dtype, z);
-                }
-            }
-            else if (TYPE(x) != T_ARRAY) {
-                if (x == Qnil) x = INT2FIX(0);
-                z = m_num_to_data(x);
-                SET_DATA_STRIDE(p2, s2, dtype, z);
-            }
-        }
-        z = m_zero;
-        for (; i<n; i++) {
-            SET_DATA_STRIDE(p2, s2, dtype, z);
-        }
+        <% end; end %>
     }
 }
 
