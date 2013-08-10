@@ -1,7 +1,7 @@
 static VALUE
 <%=c_iterator%>(char *ptr, size_t pos, VALUE fmt)
 {
-    return format_<%=tp%>(fmt, ptr+pos);
+    return format_<%=tp%>(fmt, (dtype*)(ptr+pos));
 }
 
 /*

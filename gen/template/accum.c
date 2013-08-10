@@ -9,9 +9,10 @@ static void
     dtype   x, y;
 
     INIT_COUNTER(lp, i);
-    INIT_PTR(lp, 0, p1, s1, idx1);
-    INIT_PTR(lp, 1, p2, s2, idx2);
+    INIT_PTR_IDX(lp, 0, p1, s1, idx1);
+    INIT_PTR_IDX(lp, 1, p2, s2, idx2);
     if (idx2==0 && s2==0) {
+        // Reduce loop
         y = *(dtype*)p2;
         if (idx1) {
             for (; i--;) {
@@ -30,8 +31,8 @@ static void
     } else {
         if (idx1||idx2) {
             for (; i--;) {
-                LOAD_DATA_STEP(p1, s1, idx1, dtype, x);
                 q2 = (dtype*)p2;
+                LOAD_DATA_STEP(p1, s1, idx1, dtype, x);
                 LOAD_DATA_STEP(p2, s2, idx2, dtype, y);
                 m_<%=op%>(x,y);
                 *q2 = y;

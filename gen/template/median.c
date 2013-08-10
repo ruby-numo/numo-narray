@@ -8,8 +8,8 @@ static void
     dtype *buf;
 
     INIT_COUNTER(lp, n);
-    INIT_PTR(lp, 0, p1, s1, idx1);
-    INIT_PTR(lp, 1, p2, s2, idx2);
+    INIT_PTR_IDX(lp, 0, p1, s1, idx1);
+    INIT_PTR_IDX(lp, 1, p2, s2, idx2);
     buf = (dtype*)(lp->opt_ptr);
     if (idx1) {
         for (i=0; i<n; i++) {

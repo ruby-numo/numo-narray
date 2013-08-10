@@ -8,8 +8,8 @@ static void
     dtype y;
 
     INIT_COUNTER(lp, i);
-    INIT_PTR(lp, 0, p1, s1, idx1);
-    INIT_PTR(lp, 1, p2, s2, idx2);
+    INIT_PTR_IDX(lp, 0, p1, s1, idx1);
+    INIT_PTR_IDX(lp, 1, p2, s2, idx2);
     if (idx2) {
         if (idx1) {
             for (; i--;) {

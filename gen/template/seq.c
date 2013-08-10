@@ -11,7 +11,7 @@ static void
     seq_opt_t *g;
 
     INIT_COUNTER(lp, i);
-    INIT_PTR(lp, 0, p1, s1, idx1);
+    INIT_PTR_IDX(lp, 0, p1, s1, idx1);
     g = (seq_opt_t*)(lp->opt_ptr);
     beg  = g->beg;
     step = g->step;

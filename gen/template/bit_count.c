@@ -15,7 +15,7 @@ static void
 
     INIT_COUNTER(lp, i);
     INIT_PTR_BIT(lp, 0, a1, p1, s1, idx1);
-    INIT_PTR(lp, 1, p2, s2, idx2);
+    INIT_PTR_IDX(lp, 1, p2, s2, idx2);
     if (idx2==0 && s2==0) {
         y = *(int_t*)p2;
         if (idx1) {

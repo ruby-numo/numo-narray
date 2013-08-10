@@ -14,7 +14,7 @@ static void
 
     INIT_COUNTER(lp, n);
     v1 = lp->args[0].value;
-    INIT_PTR(lp, 1, p2, s2, idx2);
+    INIT_PTR_IDX(lp, 1, p2, s2, idx2);
 
     switch(TYPE(v1)) {
     case T_ARRAY:

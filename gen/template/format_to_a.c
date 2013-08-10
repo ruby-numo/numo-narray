@@ -5,18 +5,26 @@ static void
     char   *p1;
     ssize_t s1;
     size_t *idx1;
-    void *x;
+    dtype *x;
     VALUE y;
     volatile VALUE a;
     VALUE fmt = lp->option;
     INIT_COUNTER(lp, i);
-    INIT_PTR(lp, 0, p1, s1, idx1);
+    INIT_PTR_IDX(lp, 0, p1, s1, idx1);
     a = rb_ary_new2(i);
     rb_ary_push(lp->args[1].value, a);
-    for (; i--;) {
-        LOAD_PTR_STEP(p1, s1, idx1, void, x);
-        y = format_<%=tp%>(fmt, x);
-        rb_ary_push(a,y);
+    if (idx1) {
+        for (; i--;) {
+            x = (dtype*)(p1 + *idx1);  idx1++;
+            y = format_<%=tp%>(fmt, x);
+            rb_ary_push(a,y);
+        }
+    } else {
+        for (; i--;) {
+            x = (dtype*)p1;  p1+=s1;
+            y = format_<%=tp%>(fmt, x);
+            rb_ary_push(a,y);
+        }
     }
 }
 

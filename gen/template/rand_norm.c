@@ -9,7 +9,7 @@ static void
     dtype    a[2];
 
     INIT_COUNTER(lp, i);
-    INIT_PTR(lp, 0, p1, s1, idx1);
+    INIT_PTR_IDX(lp, 0, p1, s1, idx1);
     if (idx1) {
         for (; i>1; i-=2) {
             m_rand_norm(a);

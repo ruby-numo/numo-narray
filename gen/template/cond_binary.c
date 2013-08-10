@@ -6,30 +6,21 @@ static void
     BIT_DIGIT *a3;
     size_t  p3;
     ssize_t s1, s2, s3;
-    size_t *idx1, *idx2, *idx3;
+    size_t *idx3;
     dtype   x, y;
     BIT_DIGIT b;
     INIT_COUNTER(lp, i);
-    INIT_PTR(lp, 0, p1, s1, idx1);
-    INIT_PTR(lp, 1, p2, s2, idx2);
+    INIT_PTR(lp, 0, p1, s1);
+    INIT_PTR(lp, 1, p2, s2);
     INIT_PTR_BIT(lp, 2, a3, p3, s3, idx3);
-    if (idx1||idx2||idx3) {
-        for (; i--;) {
-            LOAD_DATA_STEP(p1, s1, idx1, dtype, x);
-            LOAD_DATA_STEP(p2, s2, idx2, dtype, y);
-            b = (m_<%=op%>(x,y)) ? 1:0;
-            STORE_BIT_STEP(a3, p3, s3, idx3, b);
-        }
-    } else {
-        for (; i--;) {
-            x = *(dtype*)p1;
-            p1+=s1;
-            y = *(dtype*)p2;
-            p2+=s2;
-            b = (m_<%=op%>(x,y)) ? 1:0;
-            STORE_BIT(a3,p3,b)
-            p3+=s3;
-        }
+    for (; i--;) {
+        x = *(dtype*)p1;
+        p1+=s1;
+        y = *(dtype*)p2;
+        p2+=s2;
+        b = (m_<%=op%>(x,y)) ? 1:0;
+        STORE_BIT(a3,p3,b);
+        p3+=s3;
     }
 }
 

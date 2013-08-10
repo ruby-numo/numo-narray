@@ -28,7 +28,13 @@
 #define INIT_COUNTER( lp, c )                   \
     {   c = (lp)->n[0]; }
 
-#define INIT_PTR( lp, i, pt, st, id )                           \
+#define INIT_PTR( lp, i, pt, st )                               \
+    {                                                           \
+        pt = ((lp)->args[i]).ptr + ((lp)->iter[i]).pos;         \
+        st = ((lp)->iter[i]).step;                              \
+    }
+
+#define INIT_PTR_IDX( lp, i, pt, st, id )                       \
     {                                                           \
         pt = ((lp)->args[i]).ptr + ((lp)->iter[i]).pos;         \
         st = ((lp)->iter[i]).step;                              \

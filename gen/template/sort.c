@@ -8,7 +8,7 @@ static void
     dtype *buf;
 
     INIT_COUNTER(lp, n);
-    INIT_PTR(lp, 0, ptr, step, idx);
+    INIT_PTR_IDX(lp, 0, ptr, step, idx);
     if (idx) {
         buf = (dtype*)(lp->opt_ptr);
         for (i=0; i<n; i++) {

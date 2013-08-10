@@ -164,7 +164,7 @@ iter_bit_format(na_loop_t *const lp)
 
     INIT_COUNTER(lp, i);
     INIT_PTR_BIT(lp, 0, a1, p1, s1, idx1);
-    INIT_PTR(lp, 1, p2, s2, idx2);
+    INIT_PTR_IDX(lp, 1, p2, s2, idx2);
     for (; i--;) {
         LOAD_BIT_STEP(a1, p1, s1, idx1, x);
         y = format_bit(fmt, x);
