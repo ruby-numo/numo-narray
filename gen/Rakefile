@@ -20,7 +20,7 @@ ERBS.each do |erb|
   TARGETS << c = DSTDIR+File.basename(erb)
   # generate C from ERB
   file c => [erb,DSTDIR]+TMPL+SCRIPT do |t|
-    sh "erb #{t.prerequisites[0]} > #{t.name}"
+    sh "erb -r ./modify_erb #{t.prerequisites[0]} > #{t.name}"
   end
 end
 

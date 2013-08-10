@@ -1,7 +1,7 @@
 /*
   bit.c
   Numerical Array Extension for Ruby
-    (C) Copyright 1999-2011 by Masahiro TANAKA
+    (C) Copyright 1999-2011,2013 by Masahiro TANAKA
 
   This program is free software.
   You can distribute/modify this program
@@ -385,7 +385,8 @@ iter_cast_rarray_to_bit(na_loop_t *const lp)
         }
         <% if i<1 %>
     } else {
-        <% end; end %>
+        <% end
+        end %>
     }
 }
 
@@ -432,7 +433,8 @@ nary_bit_extract(VALUE self)
 <%=bit_unary  "not" %>
 <%=bit_unary  "copy" %>
 <%=bit_count  "count_true" %>
-<%=bit_count  "count_false" %>
+<%=bit_count  "count_false"
+%>
 
 VALUE
 nary_bit_store(VALUE dst, VALUE src)
@@ -534,7 +536,6 @@ iter_bit_where(na_loop_t *const lp)
     g->idx1  = idx1;
 }
 
-
 static VALUE
  nary_bit_where(VALUE self)
 {
@@ -562,7 +563,6 @@ static VALUE
     na_release_lock(idx_1);
     return idx_1;
 }
-
 
 static VALUE
  nary_bit_where2(VALUE self)
@@ -636,7 +636,6 @@ iter_bit_mask(na_loop_t *const lp)
     }
     *(void**)(lp->opt_ptr) = q3;
 }
-
 
 static VALUE
  nary_bit_mask(VALUE mask, VALUE val)

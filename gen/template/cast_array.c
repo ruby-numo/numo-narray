@@ -53,7 +53,8 @@ static void
         }
         <% if i<1 %>
     } else {
-        <% end; end %>
+        <% end
+        end %>
     }
 }
 

@@ -1,4 +1,5 @@
 require './cogen_lib.rb'
+require './modify_erb.rb'
 
 load ARGV[0]
 

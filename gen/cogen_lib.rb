@@ -4,12 +4,15 @@ TMPL_DIR="template"
 
 module PutERB
   def erb
-    file = TMPL_DIR+"/#{@tmpl}.c"
+    @file = TMPL_DIR+"/#{@tmpl}.c"
+    safe_level = nil
+    trim_mode = '%<>'
+    er = ERB.new(File.read(@file),safe_level,trim_mode)
+    er.filename = @file
     if $embed
-      "\n"+ERB.new(File.read(file)).result(binding)
+      er.result(binding)
     else
-      puts "\n/* ERB from #{file} */"
-      ERB.new(File.read(file)).run(binding)
+      er.run(binding)
     end
   end
 end
