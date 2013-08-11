@@ -12,9 +12,14 @@
 #define INTERN_H
 
 VALUE rb_narray_new(VALUE elem, int ndim, size_t *shape);
+VALUE rb_narray_view_new(VALUE elem, int ndim, size_t *shape);
 VALUE rb_narray_debug_info(VALUE);
 
+VALUE na_original_data(VALUE self);
 VALUE na_make_view(VALUE self);
+VALUE na_make_view_struct(VALUE self, VALUE dtype, VALUE offset);
+void na_array_to_internal_shape(VALUE self, VALUE ary, size_t *shape);
+
 VALUE na_reduce_dimension(int argc, VALUE *argv, VALUE self);
 
 VALUE na_check_ladder(VALUE self, int start_dim);

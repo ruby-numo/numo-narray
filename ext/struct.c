@@ -1,7 +1,7 @@
 /*
   nstrut.c
   Numerical Array Extension for Ruby
-    (C) Copyright 1999-2007 by Masahiro TANAKA
+    (C) Copyright 1999-2007,2013 by Masahiro TANAKA
 
   This program is free software.
   You can distribute/modify this program
@@ -9,69 +9,10 @@
   NO WARRANTY.
 */
 #include <ruby.h>
-//#include <math.h>
-////#include <version.h>
 #include "narray.h"
-////#include "narray_local.h"
-//#include "bytedata.h"
-//
 #include "template.h"
-//#include "template_int.h"
-//#include "template_data.h"
-//#include "template_comp.h"
 
 VALUE cStruct;
-
-/*
-VALUE cNStMember;
-
-typedef struct {
-    VALUE type;
-    VALUE name;
-    size_t ofs;
-    size_t size;
-} nst_member_t;
-
-
-static void
-nst_member_mark(nst_member_t *m)
-{
-    rb_gc_mark(m->type);
-    rb_gc_mark(m->name);
-}
-
-static VALUE
-nst_member_s_allocate(VALUE klass)
-{
-    nst_member_t *m = ALLOC(nst_member_t);
-    m->type = Qnil;
-    m->name = Qnil;
-    m->ofs  = 0;
-    m->size = 0;
-    return Data_Wrap_Struct(klass, nst_member_mark, 0, m);
-}
-
-static VALUE
-nst_member_initialize(VALUE self, VALUE type, VALUE name, VALUE vofs, VALUE vsize)
-{
-    nst_member_t *m;
-    Data_Get_Struct(self, nst_member_t, m);
-    m->type = type;
-    m->name = name;
-    m->ofs  = NUM2SIZE(vofs);
-    m->size = NUM2SIZE(vsize);
-    return self;
-}
-
-static VALUE
-nst_member_new(VALUE klass, VALUE type, VALUE name, VALUE vofs, VALUE vsize){
-    VALUE mem = nst_member_s_allocate(klass);
-    nst_member_initialize(mem, type, name, vofs, vsize);
-    return mem;
-}
-*/
-
-
 
 VALUE
 nst_definition(VALUE nst, VALUE idx)
@@ -109,72 +50,33 @@ nst_definitions(VALUE nst)
 
 void na_copy_array_structure(VALUE self, VALUE view);
 
+
 VALUE
 nst_field(VALUE self, VALUE idx)
 {
-    int  ndim, i;
-    narray_t *na, *nv, *nt;
-    VALUE def, type, ofs, view;
-    ssize_t *stride1, *stride2, *stride3;
-    size_t *shape;
+    VALUE def, type, ofs;
 
     def  = nst_definition(self, idx);
     type = RARRAY_PTR(def)[1];
     ofs  = RARRAY_PTR(def)[2];
 
-    GetNArray(self,na);
-    if (NIL_P(na->data)) {
-	na_get_pointer_for_write(self);
-	//rb_raise(rb_eRuntimeError, "na->data not allocated");
-    }
-
-    stride1 = na_get_stride(self);
-
-    if (TYPE(type)==T_CLASS) {
-	if (RTEST(rb_class_inherited_p(type,cNArray))) {
-	    view = rb_narray_new(type, na->ndim, na->shape);
-	    na_copy_array_structure(self, view);
-	    GetNArray(view,na);
-	    na->offset += NUM2SIZE(ofs);
-	    na_copy_flags(self, view);
-	    return view;
-	}
-    } else if (rb_obj_is_kind_of(type,cNArray)) {
-	GetNArray(type,nt);
-	ndim = na->ndim + nt->ndim;
-	shape = ALLOCA_N(size_t,ndim);
-	for (i=0; i<na->ndim; i++) {
-	    shape[i] = na->shape[i];
-	}
-	for (; i<ndim; i++) {
-	    shape[i] = nt->shape[i-na->ndim];
-	}
-	view = rb_narray_new(CLASS_OF(type), ndim, shape);
-	//na_copy_array_structure(self, view);
-	GetNArray(view,nv);
-	nv->data = na->data;
-	nv->offset = na->offset + NUM2SIZE(ofs);
-	stride2 = na_get_stride(view);
-	//stride3 = na_get_stride(type);
-	for (i=0; i<na->ndim; i++) {
-	    stride2[i] = stride1[i];
-	}
-	//for (i=0; i<nt->ndim; i++) {
-	//    stride2[i+na->ndim] = stride3[i];
-	//}
-	na_copy_flags(type, view);
-	return view;
-    }
-    rb_raise(rb_eTypeError, "invalid type");
-    return Qnil;
+    return na_make_view_struct(self, type, ofs);
 }
 
 
+
+/*
+  Foo = NArray::Struct.new {
+    int8     :byte
+    float64  :float, [2,2]
+    dcomplex :compl
+  }
+
+ */
 static VALUE
 nst_s_new(int argc, VALUE *argv, VALUE klass)
 {
     VALUE name=Qnil, rest, size;
-    long i;
     VALUE st, members;
     ID id;
 
@@ -235,7 +137,7 @@ nst_s_new(int argc, VALUE *argv, VALUE klass)
 
     size = rb_iv_get(st, "__offset__");
     members = rb_iv_get(st, "__members__");
-    printf("size=%d\n",NUM2INT(size));
+    //printf("size=%d\n",NUM2INT(size));
     rb_define_const(st, CONTIGUOUS_STRIDE, size);
     rb_define_const(st, ELEMENT_BYTE_SIZE, size);
     rb_define_const(st, ELEMENT_BIT_SIZE,  rb_funcall(size,'*',1,INT2FIX(8)));
@@ -248,31 +150,6 @@ nst_s_new(int argc, VALUE *argv, VALUE klass)
 
     return st;
 }
-
-
-/*
-static VALUE
-nst_s_add_type(VALUE nst, VALUE type, VALUE name)
-{
-    VALUE ofs, size;
-    ID id;
-
-    id = rb_to_id(name);
-    name = ID2SYM(id);
-    if (rb_obj_is_kind_of(type,cNArray)) {
-	narray_t *na;
-	GetNArray(type,na);
-	type = rb_narray_new(CLASS_OF(type),na->ndim,na->shape);
-    }
-    size = rb_funcall(type, rb_intern("byte_size"), 0);
-    ofs  = rb_iv_get(nst, "__offset__");
-    //mem  = nst_member_new(cNStMember, type, name, ofs, size);
-    rb_iv_set(nst, "__offset__", rb_funcall(ofs,'+',1,size));
-    rb_ary_push(rb_iv_get(nst,"__members__"), rb_ary_new3(4,name,type,ofs,size));
-    return Qnil;
-}
-*/
-
 
 
 static VALUE
@@ -299,12 +176,12 @@ nstruct_add_type(VALUE type, int argc, VALUE *argv, VALUE nst)
 		rb_raise(rb_eArgError,"multiple shape in struct definition");
 	    }
 	    ndim = RARRAY_LEN(argv[i]);
-	    if (ndim > 128) {
+	    if (ndim > NA_MAX_DIMENSION) {
 		rb_raise(rb_eArgError,"too large number of dimensions");
 	    }
 	    if (ndim > 0) {
 		shape = ALLOCA_N(size_t, ndim);
-		na_to_internal_shape(Qnil, argv[i], shape);
+		na_array_to_internal_shape(Qnil, argv[i], shape);
 	    }
 	    break;
 	}
@@ -312,18 +189,18 @@ nstruct_add_type(VALUE type, int argc, VALUE *argv, VALUE nst)
 
     id = rb_to_id(name);
     name = ID2SYM(id);
-    if (shape) {
-	type = rb_narray_new(type,ndim,shape);
-    } else if (rb_obj_is_kind_of(type,cNArray)) {
+    if (rb_obj_is_kind_of(type,cNArray)) {
 	narray_t *na;
 	GetNArray(type,na);
-	type = rb_narray_new(CLASS_OF(type),na->ndim,na->shape);
+	type = rb_narray_view_new(CLASS_OF(type),na->ndim,na->shape);
+    } else {
+	type = rb_narray_view_new(type,ndim,shape);
     }
     size = rb_funcall(type, rb_intern("byte_size"), 0);
     ofs  = rb_iv_get(nst, "__offset__");
-    //mem  = nst_member_new(cNStMember, type, name, ofs, size);
     rb_iv_set(nst, "__offset__", rb_funcall(ofs,'+',1,size));
-    rb_ary_push(rb_iv_get(nst,"__members__"), rb_ary_new3(4,name,type,ofs,size));
+    rb_ary_push(rb_iv_get(nst,"__members__"),
+                rb_ary_new3(4,name,type,ofs,size));  // <- field definition
     return Qnil;
 }
 
@@ -337,59 +214,10 @@ nst_extract(VALUE self)
 }
 
 
+
+/*
 static VALUE
-nst_nstruct_to_object(VALUE vns)
-{
-    VALUE def, type, vofs, vsize, velm;
-    VALUE vne, vary;
-    VALUE defs = rb_const_get(CLASS_OF(vns), rb_intern("DEFINITIONS"));
-    long  i, len = RARRAY_LEN(defs);
-    size_t size, ofs;
-    narray_t *ns, *ne, *nt;
-
-    GetNArray(vns,ns);
-    if (ns->data==Qnil)
-	rb_raise(rb_eRuntimeError,"data not allocated");
-    if (ns->ndim!=0)
-	rb_raise(rb_eRuntimeError,"Struct dimention must be 0");
-    if (ns->size!=1)
-	rb_raise(rb_eRuntimeError,"Struct size must be 1");
-
-    vary = rb_ary_new2(len);
-
-    for (i=0; i<len; i++) {
-	def = RARRAY_PTR(defs)[i];
-	type  = RARRAY_PTR(def)[1];
-	vofs  = RARRAY_PTR(def)[2];
-	ofs   = NUM2SIZE(vofs);
-	vsize = RARRAY_PTR(def)[3];
-	size  = NUM2SIZE(vsize);
-	if (rb_obj_is_kind_of(type,cNArray)) {
-	    vne = type;
-	    //GetNArray(type,nt);
-	    //vne = rb_narray_new(CLASS_OF(type),nt->ndim,nt->shape);
-	    //GetNArray(vne,ne);
-	    //ne->data = ns->data;
-	    //ne->offset = ns->offset + ofs;
-	    //velm = rb_funcall(vne,rb_intern("to_a"),0);
-	    //rb_ary_push(vary, velm);
-	} else {
-	    vne = rb_narray_new(type,0,NULL);
-	}
-	GetNArray(vne,ne);
-	ne->data = ns->data;
-	ne->offset = ns->offset + ofs;
-	velm = rb_funcall(vne,rb_intern("to_a"),0);
-	ne->data = Qnil;
-	ne->offset = 0;
-	rb_ary_push(vary, velm);
-    }
-    return vary;
-}
-
-
-static VALUE
-nst_object_to_nstruct(VALUE val, VALUE nst_class)
+nst_object_to_records(VALUE val, VALUE nst_class)
 {
     VALUE def, type, vofs, vsize, velm;
     VALUE vns, vne;
@@ -458,6 +286,7 @@ iter_nstruct_fill(na_loop_t *const lp)
 }
 
 
+
 static VALUE
 nary_nstruct_fill(VALUE self, VALUE val)
 {
@@ -470,55 +299,82 @@ nary_nstruct_fill(VALUE self, VALUE val)
     ndfunc_free(func);
     return self;
 }
+*/
 
 
-void
-cast_nstruct_to_array(na_loop_t *const lp, VALUE self)
-{
-    size_t i, s1, s2;
-    size_t p1;
-    char  *p2;
-    size_t *idx1, *idx2;
-    volatile VALUE x, y;
-    narray_t *ns, *na;
-
-    GetNArray(self,ns);
-    x = rb_narray_new(CLASS_OF(self),0,NULL);
-    GetNArray(x,na);
-    na->data = ns->data;
-
-    INIT_COUNTER(lp, i);
-    p1 = lp[0].pos;
-    s1 = lp[0].step;
-    idx1 = lp[0].idx;
-    INIT_PTR(lp, 1, p2, s2, idx2);
-    for (; i--;) {
-	if (idx1) {
-	    na->offset = p1 + *idx1;
-	    idx1++;
-	} else {
-	    na->offset = p1;
-	    p1 += s1;
-	}
-	y = nst_nstruct_to_object(x);
-	STORE_DATA_STEP(p2, s2, idx2, VALUE, y);
-    }
-}
 
 static VALUE
-nary_cast_nstruct_to_array(VALUE self)
+nst_record_to_a(VALUE types, VALUE ofsts, size_t pos)
 {
-    VALUE v;
-    ndfunc_t *func;
+    long i, len;
+    VALUE elmt, velm, vary;
+    size_t ofs;
+    narray_view_t *ne;
 
-    func = ndfunc_alloc(cast_nstruct_to_array, FULL_LOOP,
-			 1, 1, Qnil, rb_cArray);
-    v = ndfunc_execute_to_rarray(func, self, self);
-    ndfunc_free(func);
-    return v;
+    len = RARRAY_LEN(types);
+    vary = rb_ary_new2(len);
+
+    for (i=0; i<len; i++) {
+        ofs  = NUM2SIZE(RARRAY_PTR(ofsts)[i]);
+        elmt = RARRAY_PTR(types)[i];
+	GetNArrayView(elmt,ne);
+	ne->offset = pos + ofs;
+        if (ne->base.ndim==0) {
+            velm = rb_funcall(elmt,rb_intern("extract"),0);
+        } else {
+            velm = rb_funcall(elmt,rb_intern("to_a"),0);
+        }
+	rb_ary_push(vary, velm);
+    }
+    return vary;
+}
+
+static void
+iter_nstruct_to_a(na_loop_t *const lp)
+{
+    VALUE   obj;
+    VALUE   opt, types, ofsts;
+
+    opt = lp->option;
+    types = RARRAY_PTR(opt)[0];
+    ofsts = RARRAY_PTR(opt)[1];
+
+    obj = nst_record_to_a(types,ofsts,lp->iter[0].pos);
+    rb_ary_push(lp->args[1].value,obj);
 }
 
 
+static VALUE
+nary_nstruct_to_a(VALUE self)
+{
+    volatile VALUE opt;
+    VALUE defs, def, types, type, ofsts, ofst, elmt;
+    long  i, len;
+    narray_view_t *ne;
+    ndfunc_arg_in_t ain[3] = {{Qnil,0},{sym_loop_opt},{sym_option}};
+    ndfunc_arg_out_t aout[1] = {{rb_cArray,0}}; // dummy?
+    ndfunc_t ndf = { iter_nstruct_to_a, NO_LOOP, 3, 1, ain, aout };
+
+    defs = rb_const_get(CLASS_OF(self), rb_intern("DEFINITIONS"));
+    len = RARRAY_LEN(defs);
+    types = rb_ary_new2(len);
+    ofsts = rb_ary_new2(len);
+    for (i=0; i<len; i++) {
+        def  = RARRAY_PTR(defs)[i];
+        type = RARRAY_PTR(def)[1];
+        ofst = RARRAY_PTR(def)[2];
+        elmt = na_make_view(type);
+        rb_ary_push(types, elmt);
+        rb_ary_push(ofsts, ofst);
+	GetNArrayView(elmt,ne);
+	ne->data = na_original_data(self);
+    }
+    opt = rb_assoc_new(types,ofsts);
+    return na_ndloop_cast_narray_to_rarray(&ndf, self, opt);
+}
+
+
+/*
 static void
 nstruct_print_loop(char *ptr, size_t pos, VALUE vne)
 {
@@ -558,6 +414,7 @@ nary_nstruct_debug_print(VALUE self)
     ndfunc_debug_print(self, nstruct_print_loop, vne);
     return Qnil;
 }
+*/
 
 
 static VALUE
@@ -569,8 +426,6 @@ nst_s_add_type(int argc, VALUE *argv, VALUE mod)
     nstruct_add_type(argv[0],argc-1,argv+1,mod);
     return Qnil;
 }
-
-
 
 #define NST_TYPEDEF(tpname,tpclass)                 \
 static VALUE                                        \
@@ -597,7 +452,7 @@ NST_TYPEDEF(scomplex,cSComplex)
     rb_define_alias(rb_singleton_class(klass),name1,name2)
 
 void
-Init_nstruct()
+Init_nary_struct()
 {
     cStruct = rb_define_class_under(cNArray, "Struct", cNArray);
     //cNStMember = rb_define_class_under(cStruct, "Member", rb_cObject);
@@ -629,11 +484,11 @@ Init_nstruct()
     rb_define_method(cStruct, "definitions", nst_definitions, 0);
     rb_define_method(cStruct, "field", nst_field, 1);
     rb_define_method(cStruct, "extract", nst_extract, 0);
-    rb_define_method(cStruct, "fill", nary_nstruct_fill, 1);
+    //rb_define_method(cStruct, "fill", nary_nstruct_fill, 1);
 
-    rb_define_method(cStruct, "debug_print", nary_nstruct_debug_print, 0);
+    //rb_define_method(cStruct, "debug_print", nary_nstruct_debug_print, 0);
 
-    rb_define_method(cStruct, "to_a", nary_cast_nstruct_to_array, 0);
+    rb_define_method(cStruct, "to_a", nary_nstruct_to_a, 0);
 
     //rb_define_method(cStruct, "initialize", rb_struct_initialize, -2);
     //rb_define_method(cStruct, "initialize_copy", rb_struct_init_copy, 1);

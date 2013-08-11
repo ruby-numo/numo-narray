@@ -32,6 +32,7 @@ types/scomplex
 types/dcomplex
 math
 SFMT
+struct
 rand
 )
 

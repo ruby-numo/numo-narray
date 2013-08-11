@@ -83,6 +83,7 @@ void Init_nary_dcomplex();
 void Init_nary_math();
 void Init_nary_rand();
 void Init_nary_array();
+void Init_nary_nstruct();
 
 
 static void
@@ -238,7 +239,7 @@ na_s_allocate_view(VALUE klass)
 
 //static const size_t zero=0;
 
-static void
+void
 na_array_to_internal_shape(VALUE self, VALUE ary, size_t *shape)
 {
     size_t i, n, c, s;
@@ -270,8 +271,6 @@ na_array_to_internal_shape(VALUE self, VALUE ary, size_t *shape)
 void
 na_alloc_shape(narray_t *na, int ndim)
 {
-    int i;
-
     na->ndim = ndim;
     na->size = 0;
     if (ndim == 0) {
@@ -280,16 +279,15 @@ na_alloc_shape(narray_t *na, int ndim)
     else if (ndim == 1) {
         na->shape = &(na->size);
     }
-    else if (ndim > 1 && ndim <= 1024) {
-        na->shape = ALLOC_N(size_t, ndim);
-        for (i=0; i<ndim; i++) {
-            na->shape[i] = 0;
-        }
+    else if (ndim < 0) {
+        rb_raise(rb_eRuntimeError,"ndim=%d is negative", ndim);
+    }
+    else if (ndim > NA_MAX_DIMENSION) {
+        rb_raise(rb_eRuntimeError,"ndim=%d is too many", ndim);
     } else {
-        rb_raise(rb_eRuntimeError,"negative or too large number of dimensions?");
+        na->shape = ALLOC_N(size_t, ndim);
     }
 }
-
 
 void
 na_setup_shape(narray_t *na, int ndim, size_t *shape)
@@ -305,31 +303,22 @@ na_setup_shape(narray_t *na, int ndim, size_t *shape)
     else if (ndim==1) {
         na->size = shape[0];
     }
-    else if (ndim > 1 && ndim <= 1024) {
+    else {
         for (i=0, size=1; i<ndim; i++) {
             na->shape[i] = shape[i];
             size *= shape[i];
         }
         na->size = size;
-    } else {
-        rb_raise(rb_eRuntimeError,"negative or too large number of dimensions?");
     }
 }
-
-
 
 void
 na_setup(VALUE self, int ndim, size_t *shape)
 {
     narray_t *na;
-    //VALUE velmsz;
-
     GetNArray(self,na);
-    // Shape
     na_setup_shape(na, ndim, shape);
-    //na->offset = 0;
 }
-
 
 
 /*
@@ -345,21 +334,16 @@ na_setup(VALUE self, int ndim, size_t *shape)
 static VALUE
 na_initialize(int argc, VALUE *argv, VALUE self)
 {
-    //VALUE vtype;
-    //VALUE vshape;
     VALUE v;
     size_t *shape=NULL;
-    //size_t size;
     int ndim;
-    //int i;
 
     v = argv[0];
 
     if (TYPE(v) == T_ARRAY) {
         ndim = RARRAY_LEN(v);
-        //printf("ndim=%d\n",ndim);
-        if (ndim > 255) {
-            rb_raise(rb_eArgError,"too large number of dimensions");
+        if (ndim > NA_MAX_DIMENSION) {
+            rb_raise(rb_eArgError,"ndim=%d exceeds maximum dimension",ndim);
         }
         shape = ALLOCA_N(size_t, ndim);
         // setup size_t shape[] from VALUE shape argument
@@ -367,7 +351,6 @@ na_initialize(int argc, VALUE *argv, VALUE self)
     } else {
         rb_raise(rb_eArgError,"argument is not an Array");
     }
-    //printf("ndim=%d\n",ndim);
     na_setup(self, ndim, shape);
 
     return self;
@@ -380,6 +363,17 @@ rb_narray_new(VALUE klass, int ndim, size_t *shape)
     volatile VALUE obj;
 
     obj = na_s_allocate(klass);
+    na_setup(obj, ndim, shape);
+    return obj;
+}
+
+
+VALUE
+rb_narray_view_new(VALUE klass, int ndim, size_t *shape)
+{
+    volatile VALUE obj;
+
+    obj = na_s_allocate_view(klass);
     na_setup(obj, ndim, shape);
     return obj;
 }
@@ -683,6 +677,12 @@ na_get_elmsz(VALUE vna)
 }
 
 size_t
+na_dtype_elmsz(VALUE klass)
+{
+    return NUM2SIZE(rb_const_get(klass, id_contiguous_stride));
+}
+
+size_t
 na_get_offset(VALUE self)
 {
     narray_t *na;
@@ -729,6 +729,21 @@ na_copy_flags(VALUE src, VALUE dst)
         (FL_USER1|FL_USER2|FL_USER3|FL_USER4|FL_USER5|FL_USER6|FL_USER7);
 }
 
+
+VALUE
+na_original_data(VALUE self)
+{
+    narray_t *na;
+    narray_view_t *nv;
+
+    GetNArray(self,na);
+    switch(na->type) {
+    case NARRAY_VIEW_T:
+        GetNArrayView(self, nv);
+        return nv->data;
+    }
+    return self;
+}
 
 
 VALUE
@@ -787,8 +802,99 @@ na_make_view(VALUE self)
 }
 
 
+VALUE
+na_make_view_struct(VALUE self, VALUE dtype, VALUE offset)
+{
+    size_t i, n;
+    int j, k, ndim;
+    size_t *shape;
+    size_t *idx1, *idx2;
+    ssize_t stride;
+    stridx_t *stridx;
+    narray_t *na, *nt;
+    narray_view_t *na1, *na2;
+    VALUE klass;
+    volatile VALUE view;
 
+    GetNArray(self,na);
 
+    // build from NArray::Struct
+    if (rb_obj_is_kind_of(dtype,cNArray)) {
+	GetNArray(dtype,nt);
+        ndim = na->ndim + nt->ndim;
+        shape = ALLOCA_N(size_t,ndim);
+        for (j=0; j<na->ndim; j++) {
+            shape[j] = na->shape[j];
+        }
+        for (j=na->ndim,k=0; j<ndim; j++,k++) {
+            shape[j] = nt->shape[k];
+        }
+        klass = CLASS_OF(dtype);
+        stridx = ALLOC_N(stridx_t,ndim);
+        stride = na_dtype_elmsz(klass);
+        for (j=ndim,k=nt->ndim; k; ) {
+            SDX_SET_STRIDE(stridx[--j],stride);
+            stride *= nt->shape[--k];
+        }
+    } else {
+        ndim = na->ndim;
+        shape = ALLOCA_N(size_t,ndim);
+        for (j=0; j<ndim; j++) {
+            shape[j] = na->shape[j];
+        }
+        klass = CLASS_OF(self);
+        if (TYPE(dtype)==T_CLASS) {
+            if (RTEST(rb_class_inherited_p(dtype,cNArray))) {
+                klass = dtype;
+            }
+        }
+        stridx = ALLOC_N(stridx_t,ndim);
+        stride = na_dtype_elmsz(klass);
+    }
+
+    view = na_s_allocate_view(klass);
+    na_copy_flags(self, view);
+    GetNArrayView(view, na2);
+    na_setup_shape((narray_t*)na2, ndim, shape);
+    na2->stridx = ALLOC_N(stridx_t,ndim);
+
+    switch(na->type) {
+    case NARRAY_DATA_T:
+    case NARRAY_FILEMAP_T:
+        stride = na_get_elmsz(self);
+        for (j=ndim; j--;) {
+            SDX_SET_STRIDE(na2->stridx[j],stride);
+            stride *= na->shape[j];
+        }
+        na2->offset = 0;
+        na2->data = self;
+        break;
+    case NARRAY_VIEW_T:
+        GetNArrayView(self, na1);
+        for (j=ndim; j--; ) {
+            if (SDX_IS_INDEX(na1->stridx[j])) {
+                n = na1->base.shape[j];
+                idx1 = SDX_GET_INDEX(na1->stridx[j]);
+                idx2 = ALLOC_N(size_t,na1->base.shape[j]);
+                for (i=0; i<n; i++) {
+                    idx2[i] = idx1[i];
+                }
+                SDX_SET_INDEX(na2->stridx[j],idx2);
+            } else {
+                na2->stridx[j] = na1->stridx[j];
+            }
+        }
+        na2->offset = na1->offset;
+        na2->data = na1->data;
+        break;
+    }
+
+    if (RTEST(offset)) {
+        na2->offset += NUM2SIZE(offset);
+    }
+
+    return view;
+}
 
 
 VALUE
@@ -1231,4 +1337,5 @@ Init_narray()
 
     Init_nary_rand();
     Init_nary_array();
+    Init_nary_struct();
 }

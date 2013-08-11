@@ -626,7 +626,7 @@ ndloop_set_output_narray(ndfunc_t *nf, na_md_loop_t *lp, int k,
     }
 
     // find inplace from input arrays
-    if (k==0) {
+    if (k==0 && NDF_TEST(nf,NDF_INPLACE)) {
         v = ndloop_find_inplace(nf,lp,type,na_ndim,na_shape,args);
     }
     if (!RTEST(v)) {
