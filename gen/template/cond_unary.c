@@ -14,16 +14,14 @@ static void
     INIT_PTR_BIT(lp, 1, a2, p2, s2, idx2);
     if (idx1) {
         for (; i--;) {
-            x = *(dtype*)(p1+*idx1);
-            idx1++;
+            GET_DATA_INDEX(p1,idx1,dtype,x);
             b = (m_<%=op%>(x)) ? 1:0;
             STORE_BIT(a2,p2,b);
             p2+=s2;
         }
     } else {
         for (; i--;) {
-            x = *(dtype*)p1;
-            p1+=s1;
+            GET_DATA_STRIDE(p1,s1,dtype,x);
             b = (m_<%=op%>(x)) ? 1:0;
             STORE_BIT(a2,p2,b);
             p2+=s2;

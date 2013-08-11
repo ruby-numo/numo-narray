@@ -10,13 +10,10 @@ static void
     INIT_PTR(lp, 1, p2, s2);
     INIT_PTR(lp, 2, p3, s3);
     for (; i--;) {
-        x = *(dtype*)p1;
-        p1+=s1;
-        y = *(dtype*)p2;
-        p2+=s2;
+        GET_DATA_STRIDE(p1,s1,dtype,x);
+        GET_DATA_STRIDE(p2,s2,dtype,y);
         x = m_pow(x,y);
-        *(dtype*)p3 = x;
-        p3+=s3;
+        SET_DATA_STRIDE(p3,s3,dtype,x);
     }
 }
 
@@ -33,13 +30,10 @@ static void
     INIT_PTR(lp, 1, p2, s2);
     INIT_PTR(lp, 2, p3, s3);
     for (; i--;) {
-        x = *(dtype*)p1;
-        p1+=s1;
-        y = *(int32_t*)p2;
-        p2+=s2;
+        GET_DATA_STRIDE(p1,s1,dtype,x);
+        GET_DATA_STRIDE(p2,s2,int32_t,y);
         x = m_pow_int(x,y);
-        *(dtype*)p3 = x;
-        p3+=s3;
+        SET_DATA_STRIDE(p3,s3,dtype,x);
     }
 }
 

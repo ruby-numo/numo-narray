@@ -11,9 +11,13 @@ static void
     INIT_PTR_IDX(lp, 0, p1, s1, idx1);
     y = m_num_to_data(x);
     if (idx1) {
-        for (; i--;) {*(dtype*)(p1+*(idx1++)) = y;}
+        for (; i--;) {
+            SET_DATA_INDEX(p1,idx1,dtype,y);
+        }
     } else {
-        for (; i--;) {*(dtype*)(p1) = y; p1+=s1;}
+        for (; i--;) {
+            SET_DATA_STRIDE(p1,s1,dtype,y);
+        }
     }
 }
 

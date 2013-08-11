@@ -44,7 +44,7 @@ static void
                 if (m_<%=op%>(x)) {
                     GET_DATA(p2, int_t, y);
                     y++;
-                    *(int_t*)p2 = y;
+                    SET_DATA(p2, int_t, y);
                 }
                 p2+=s2;
             }
@@ -55,7 +55,7 @@ static void
                 if (m_<%=op%>(x)) {
                     GET_DATA(p2, int_t, y);
                     y++;
-                    *(int_t*)p2 = y;
+                    SET_DATA(p2, int_t, y);
                 }
                 p2+=s2;
             }

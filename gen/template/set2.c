@@ -13,33 +13,33 @@ static void
     if (idx1) {
         if (idx2) {
             for (; i--;) {
-                x = *(dtype*)(p1 + *idx1);
-                y = *(<%=dtype%>*)(p2 + *idx2); idx2++;
+                GET_DATA_INDEX(p1,idx1,dtype,x);
+                GET_DATA_INDEX(p2,idx2,<%=dtype%>,y);
                 x = m_<%=op%>(x,y);
-                *(dtype*)(p1 + *idx1) = x;      idx1++;
+                SET_DATA_INDEX(p1,idx1,dtype,x);
             }
         } else {
             for (; i--;) {
-                x = *(dtype*)(p1 + *idx1);
-                y = *(<%=dtype%>*)p2;       p2+=s2;
+                GET_DATA_INDEX(p1,idx1,dtype,x);
+                GET_DATA_STRIDE(p2,s2,<%=dtype%>,y);
                 x = m_<%=op%>(x,y);
-                *(dtype*)(p1 + *idx1) = x;  idx1++;
+                SET_DATA_INDEX(p1,idx1,dtype,x);
             }
         }
     } else {
         if (idx2) {
             for (; i--;) {
-                x = *(dtype*)p1;
-                y = *(<%=dtype%>*)(p2 + *idx2); idx2++;
+                GET_DATA(p1,dtype,x);
+                GET_DATA_INDEX(p2,idx2,<%=dtype%>,y);
                 x = m_<%=op%>(x,y);
-                *(dtype*)p1 = x;                p1+=s1;
+                SET_DATA_STRIDE(p1,s1,dtype,x);
             }
         } else {
             for (; i--;) {
-                x = *(dtype*)p1;
-                y = *(<%=dtype%>*)p2;  p2+=s2;
+                GET_DATA(p1,dtype,x);
+                GET_DATA_STRIDE(p2,s2,<%=dtype%>,y);
                 x = m_<%=op%>(x,y);
-                *(dtype*)p1 = x;       p1+=s1;
+                SET_DATA_STRIDE(p1,s1,dtype,x);
             }
         }
     }

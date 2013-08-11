@@ -5,21 +5,19 @@ static void
     char    *p1;
     ssize_t  s1;
     size_t  *idx1;
-    dtype    y;
+    dtype    x;
 
     INIT_COUNTER(lp, i);
     INIT_PTR_IDX(lp, 0, p1, s1, idx1);
     if (idx1) {
         for (; i--;) {
-            y = m_rand;
-            *(dtype*)(p1+*idx1) = y;
-            idx1++;
+            x = m_rand;
+            SET_DATA_INDEX(p1,idx1,dtype,x);
         }
     } else {
         for (; i--;) {
-            y = m_rand;
-            *(dtype*)(p1) = y;
-            p1+=s1;
+            x = m_rand;
+            SET_DATA_INDEX(p1,idx1,dtype,x);
         }
     }
 }

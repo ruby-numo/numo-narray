@@ -10,10 +10,10 @@ static void
     INIT_PTR(lp, 1, p2, s2);
     INIT_PTR(lp, 2, p3, s3);
     for (i=n; i--;) {
-        x = *(dtype*)p1; p1+=s1;
-        y = *(dtype*)p2; p2+=s2;
+        GET_DATA_STRIDE(p1,s1,dtype,x);
+        GET_DATA_STRIDE(p2,s2,dtype,y);
         x = m_<%=op%>(x,y);
-        *(dtype*)p3 = x; p3+=s3;
+        SET_DATA_STRIDE(p3,s3,dtype,x);
     }
 }
 

@@ -13,13 +13,13 @@ void
     rb_ary_push(lp->args[1].value, a);
     if (idx1) {
         for (; i--;) {
-            x = *(dtype*)(p1 + *idx1);  idx1++;
+            GET_DATA_INDEX(p1,idx1,dtype,x);
             y = m_data_to_num(x);
             rb_ary_push(a,y);
         }
     } else {
         for (; i--;) {
-            x = *(dtype*)p1;  p1+=s1;
+            GET_DATA_STRIDE(p1,s1,dtype,x);
             y = m_data_to_num(x);
             rb_ary_push(a,y);
         }

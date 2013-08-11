@@ -14,10 +14,8 @@ static void
     INIT_PTR(lp, 1, p2, s2);
     INIT_PTR_BIT(lp, 2, a3, p3, s3, idx3);
     for (; i--;) {
-        x = *(dtype*)p1;
-        p1+=s1;
-        y = *(dtype*)p2;
-        p2+=s2;
+        GET_DATA_STRIDE(p1,s1,dtype,x);
+        GET_DATA_STRIDE(p2,s2,dtype,y);
         b = (m_<%=op%>(x,y)) ? 1:0;
         STORE_BIT(a3,p3,b);
         p3+=s3;

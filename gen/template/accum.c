@@ -12,35 +12,33 @@ static void
     INIT_PTR(lp, 1, p2, s2);
     if (s2==0) {
         // Reduce loop
-        y = *(dtype*)p2;
+        GET_DATA(p2,dtype,y);
         if (idx1) {
             for (; i--;) {
-                x = *(dtype*)(p1 + *idx1);
-                idx1++;
+                GET_DATA_INDEX(p1,idx1,dtype,x);
                 m_<%=op%>(x,y);
             }
         } else {
             for (; i--;) {
-                x = *(dtype*)p1;
-                p1+=s1;
+                GET_DATA_STRIDE(p1,s1,dtype,x);
                 m_<%=op%>(x,y);
             }
         }
-        *(dtype*)p2 = y;
+        SET_DATA(p2,dtype,y);
     } else {
         if (idx1) {
             for (; i--;) {
-                x = *(dtype*)(p1 + *idx1); idx1++;
-                y = *(dtype*)p2;
+                GET_DATA_INDEX(p1,idx1,dtype,x);
+                GET_DATA(p2,dtype,y);
                 m_<%=op%>(x,y);
-                *(dtype*)p2 = y; p2+=s2;
+                SET_DATA_STRIDE(p2,s2,dtype,y);
             }
         } else {
             for (; i--;) {
-                x = *(dtype*)p1; p1+=s1;
-                y = *(dtype*)p2;
+                GET_DATA_STRIDE(p1,s1,dtype,x);
+                GET_DATA(p2,dtype,y);
                 m_<%=op%>(x,y);
-                *(dtype*)p2 = y; p2+=s2;
+                SET_DATA_STRIDE(p2,s2,dtype,y);
             }
         }
     }
