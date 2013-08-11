@@ -36,6 +36,6 @@ static VALUE
 {
     ndfunc_arg_in_t ain[3] = {{Qnil,0},{sym_loop_opt},{sym_option}};
     ndfunc_arg_out_t aout[1] = {{rb_cArray,0}}; // dummy?
-    ndfunc_t ndf = { <%=c_iterator%>, FULL_LOOP, 3, 1, ain, aout };
+    ndfunc_t ndf = { <%=c_iterator%>, FULL_LOOP_NIP, 3, 1, ain, aout };
     return na_ndloop_cast_narray_to_rarray(&ndf, self, Qnil);
 }
