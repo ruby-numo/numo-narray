@@ -14,53 +14,95 @@
 
 VALUE cStruct;
 
-VALUE
-nst_definition(VALUE nst, VALUE idx)
-{
-    long i;
-    VALUE def = rb_const_get(CLASS_OF(nst), rb_intern("DEFINITIONS"));
-    long  len = RARRAY_LEN(def);
-
-    if (TYPE(idx) == T_STRING || TYPE(idx) == T_SYMBOL) {
-	ID    id  = rb_to_id(idx);
-	for (i=0; i<len; i++) {
-	    VALUE key = RARRAY_PTR(RARRAY_PTR(def)[i])[0];
-	    if (SYM2ID(key) == id) {
-		return RARRAY_PTR(def)[i];
-	    }
-	}
-	rb_name_error(id, "no member '%s' in struct", rb_id2name(id));
-	return Qnil;		/* not reached */
-	//return rb_struct_aref_id(s, rb_to_id(idx));
-    }
-
-    i = NUM2LONG(idx);
-    if (i<-len || i>=len)
-        rb_raise(rb_eIndexError,
-		 "offset %ld out of range of struct(size:%ld)", i, len);
-    return RARRAY_PTR(def)[i];
-}
-
-VALUE
+static inline VALUE
 nst_definitions(VALUE nst)
 {
     return rb_const_get(CLASS_OF(nst), rb_intern("DEFINITIONS"));
 }
+
+static VALUE
+nst_definition(VALUE nst, VALUE idx)
+{
+    long i;
+    VALUE def = nst_definitions(nst);
+    long  len = RARRAY_LEN(def);
+
+    if (TYPE(idx) == T_STRING || TYPE(idx) == T_SYMBOL) {
+        ID id  = rb_to_id(idx);
+        for (i=0; i<len; i++) {
+            VALUE key = RARRAY_PTR(RARRAY_PTR(def)[i])[0];
+            if (SYM2ID(key) == id) {
+                return RARRAY_PTR(def)[i];
+            }
+        }
+    } else if (rb_obj_is_kind_of(idx,rb_cNumeric)) {
+        i = NUM2LONG(idx);
+        if (i<-len || i>=len) {
+            rb_raise(rb_eIndexError,"offset %"SZF"u out of range of struct(size:%ld)", i, len);
+        }
+        return RARRAY_PTR(def)[i];
+    }
+    return Qnil;
+}
+
 
 
 void na_copy_array_structure(VALUE self, VALUE view);
 
 
 VALUE
-nst_field(VALUE self, VALUE idx)
+nst_field_view(VALUE self, VALUE idx)
 {
     VALUE def, type, ofs;
 
-    def  = nst_definition(self, idx);
+    def = nst_definition(self, idx);
+    if (!RTEST(def)) {
+        rb_raise(rb_eTypeError, "Invalid field: '%s' for struct %s",
+                 StringValuePtr(idx), rb_class2name(CLASS_OF(self)));
+    }
     type = RARRAY_PTR(def)[1];
     ofs  = RARRAY_PTR(def)[2];
-
     return na_make_view_struct(self, type, ofs);
+}
+
+VALUE
+nst_field(VALUE self, VALUE idx)
+{
+    VALUE obj;
+    narray_view_t *nv;
+
+    obj = nst_field_view(self,idx);
+    GetNArrayView(obj,nv);
+    if (nv->base.ndim==0) {
+        obj = rb_funcall(obj,rb_intern("extract"),0);
+    }
+    return obj;
+}
+
+VALUE
+nst_field_set(VALUE self, VALUE idx, VALUE other)
+{
+    VALUE obj;
+
+    obj = nst_field_view(self,idx);
+    rb_funcall(obj,rb_intern("store"),1,other);
+    return other;
+}
+
+
+static VALUE
+nst_method_missing(int argc, VALUE *argv, VALUE self)
+{
+    VALUE obj;
+
+    if (argc!=1) {
+        rb_raise(rb_eArgError,"wrong number of arguments (%d for 1)", argc);
+    }
+    obj = nst_field(self,argv[0]);
+    if (RTEST(obj)) {
+        return obj;
+    }
+    return rb_call_super(argc,argv);
 }
 
 
@@ -71,7 +113,6 @@ nst_field(VALUE self, VALUE idx)
     float64  :float, [2,2]
     dcomplex :compl
   }
-
  */
 static VALUE
 nst_s_new(int argc, VALUE *argv, VALUE klass)
@@ -82,15 +123,15 @@ nst_s_new(int argc, VALUE *argv, VALUE klass)
 
     rb_scan_args(argc, argv, "0*", &rest);
     if (RARRAY_LEN(rest)>0) {
-	name = RARRAY_PTR(rest)[0];
-	if (!NIL_P(name)) {
-	    VALUE tmp = rb_check_string_type(name);
-	    if (!NIL_P(tmp)) {
-		rb_ary_shift(rest);
-	    } else {
-		name = Qnil;
-	    }
-	}
+        name = RARRAY_PTR(rest)[0];
+        if (!NIL_P(name)) {
+            VALUE tmp = rb_check_string_type(name);
+            if (!NIL_P(tmp)) {
+                rb_ary_shift(rest);
+            } else {
+                name = Qnil;
+            }
+        }
     }
 
     /*
@@ -163,38 +204,38 @@ nstruct_add_type(VALUE type, int argc, VALUE *argv, VALUE nst)
     int ndim=0;
 
     for (i=0; i<argc; i++) {
-	switch(TYPE(argv[i])) {
-	case T_STRING:
-	case T_SYMBOL:
-	    if (NIL_P(name)) {
-		name = argv[i];
-		break;
-	    }
-	    rb_raise(rb_eArgError,"multiple name in struct definition");
-	case T_ARRAY:
-	    if (shape) {
-		rb_raise(rb_eArgError,"multiple shape in struct definition");
-	    }
-	    ndim = RARRAY_LEN(argv[i]);
-	    if (ndim > NA_MAX_DIMENSION) {
-		rb_raise(rb_eArgError,"too large number of dimensions");
-	    }
-	    if (ndim > 0) {
-		shape = ALLOCA_N(size_t, ndim);
-		na_array_to_internal_shape(Qnil, argv[i], shape);
-	    }
-	    break;
-	}
+        switch(TYPE(argv[i])) {
+        case T_STRING:
+        case T_SYMBOL:
+            if (NIL_P(name)) {
+                name = argv[i];
+                break;
+            }
+            rb_raise(rb_eArgError,"multiple name in struct definition");
+        case T_ARRAY:
+            if (shape) {
+                rb_raise(rb_eArgError,"multiple shape in struct definition");
+            }
+            ndim = RARRAY_LEN(argv[i]);
+            if (ndim > NA_MAX_DIMENSION) {
+                rb_raise(rb_eArgError,"too large number of dimensions");
+            }
+            if (ndim > 0) {
+                shape = ALLOCA_N(size_t, ndim);
+                na_array_to_internal_shape(Qnil, argv[i], shape);
+            }
+            break;
+        }
     }
 
     id = rb_to_id(name);
     name = ID2SYM(id);
     if (rb_obj_is_kind_of(type,cNArray)) {
-	narray_t *na;
-	GetNArray(type,na);
-	type = rb_narray_view_new(CLASS_OF(type),na->ndim,na->shape);
+        narray_t *na;
+        GetNArray(type,na);
+        type = rb_narray_view_new(CLASS_OF(type),na->ndim,na->shape);
     } else {
-	type = rb_narray_view_new(type,ndim,shape);
+        type = rb_narray_view_new(type,ndim,shape);
     }
     size = rb_funcall(type, rb_intern("byte_size"), 0);
     ofs  = rb_iv_get(nst, "__offset__");
@@ -229,36 +270,36 @@ nst_object_to_records(VALUE val, VALUE nst_class)
     narray_t *ns, *ne;
 
     if (TYPE(val)==T_ARRAY) {
-	if (len != RARRAY_LEN(val)) {
-	    rb_raise(rb_eArgError,"wrong Array size (%ld), expected %ld",
-		     RARRAY_LEN(val), len);
-	}
-	vns = rb_narray_new(nst_class,0,NULL);
-	na_alloc_data(vns);
-	GetNArray(vns,ns);
-	for (i=0; i<len; i++) {
-	    def = RARRAY_PTR(defs)[i];
-	    type  = RARRAY_PTR(def)[1];
-	    vofs  = RARRAY_PTR(def)[2];
-	    ofs   = NUM2SIZE(vofs);
-	    vsize = RARRAY_PTR(def)[3];
-	    size  = NUM2SIZE(vsize);
+        if (len != RARRAY_LEN(val)) {
+            rb_raise(rb_eArgError,"wrong Array size (%ld), expected %ld",
+                     RARRAY_LEN(val), len);
+        }
+        vns = rb_narray_new(nst_class,0,NULL);
+        na_alloc_data(vns);
+        GetNArray(vns,ns);
+        for (i=0; i<len; i++) {
+            def = RARRAY_PTR(defs)[i];
+            type  = RARRAY_PTR(def)[1];
+            vofs  = RARRAY_PTR(def)[2];
+            ofs   = NUM2SIZE(vofs);
+            vsize = RARRAY_PTR(def)[3];
+            size  = NUM2SIZE(vsize);
 
-	    velm = RARRAY_PTR(val)[i];
+            velm = RARRAY_PTR(val)[i];
 
-	    if (rb_obj_is_kind_of(type,cNArray)) {
-		vne = type;
-	    } else {
-		vne = rb_narray_new(type,0,NULL);
-	    }
-	    GetNArray(vne,ne);
-	    ne->data = ns->data;
-	    ne->offset = ns->offset + ofs;
-	    rb_funcall(vne,rb_intern("store"),1,velm);
-	    ne->data = Qnil;
-	    ne->offset = 0;
-	}
-	return vns;
+            if (rb_obj_is_kind_of(type,cNArray)) {
+                vne = type;
+            } else {
+                vne = rb_narray_new(type,0,NULL);
+            }
+            GetNArray(vne,ne);
+            ne->data = ns->data;
+            ne->offset = ns->offset + ofs;
+            rb_funcall(vne,rb_intern("store"),1,velm);
+            ne->data = Qnil;
+            ne->offset = 0;
+        }
+        return vns;
     }
     rb_raise(rb_eArgError,"wrong argument type");
     return Qnil;
@@ -279,9 +320,9 @@ iter_nstruct_fill(na_loop_t *const lp)
     INIT_PTR_ELM(lp, 0, p1, s1, idx1, e1);
     src = na_get_pointer_for_read(opt);
     if (idx1) {
-	for (; i--;) { memcpy(p1+*(idx1++), src, e1);}
+        for (; i--;) { memcpy(p1+*(idx1++), src, e1);}
     } else {
-	for (; i--;) { memcpy(p1, src, e1); p1+=s1; }
+        for (; i--;) { memcpy(p1, src, e1); p1+=s1; }
     }
 }
 
@@ -317,14 +358,14 @@ nst_record_to_a(VALUE types, VALUE ofsts, size_t pos)
     for (i=0; i<len; i++) {
         ofs  = NUM2SIZE(RARRAY_PTR(ofsts)[i]);
         elmt = RARRAY_PTR(types)[i];
-	GetNArrayView(elmt,ne);
-	ne->offset = pos + ofs;
+        GetNArrayView(elmt,ne);
+        ne->offset = pos + ofs;
         if (ne->base.ndim==0) {
             velm = rb_funcall(elmt,rb_intern("extract"),0);
         } else {
             velm = rb_funcall(elmt,rb_intern("to_a"),0);
         }
-	rb_ary_push(vary, velm);
+        rb_ary_push(vary, velm);
     }
     return vary;
 }
@@ -355,7 +396,7 @@ nary_nstruct_to_a(VALUE self)
     ndfunc_arg_out_t aout[1] = {{rb_cArray,0}}; // dummy?
     ndfunc_t ndf = { iter_nstruct_to_a, NO_LOOP, 3, 1, ain, aout };
 
-    defs = rb_const_get(CLASS_OF(self), rb_intern("DEFINITIONS"));
+    defs = nst_definitions(self);
     len = RARRAY_LEN(defs);
     types = rb_ary_new2(len);
     ofsts = rb_ary_new2(len);
@@ -366,13 +407,63 @@ nary_nstruct_to_a(VALUE self)
         elmt = na_make_view(type);
         rb_ary_push(types, elmt);
         rb_ary_push(ofsts, ofst);
-	GetNArrayView(elmt,ne);
-	ne->data = na_original_data(self);
+        GetNArrayView(elmt,ne);
+        ne->data = na_original_data(self);
     }
     opt = rb_assoc_new(types,ofsts);
     return na_ndloop_cast_narray_to_rarray(&ndf, self, opt);
 }
 
+static inline int
+na_is_array(VALUE item) {
+    narray_t *na;
+
+    if (TYPE(item) == T_ARRAY) {
+        return 1;
+    }
+    if (RTEST(rb_obj_is_kind_of(item, cNArray))) {
+        GetNArray(item,na);
+        if (na->ndim>0) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+static VALUE
+nst_array_match_struct(VALUE self, VALUE ary)
+{
+    VALUE defs, def, type, item;
+    long len, i;
+    narray_view_t *nt;
+
+    if (TYPE(ary) != T_ARRAY) {
+        return Qfalse;
+    }
+    defs = nst_definitions(self);
+    len = RARRAY_LEN(defs);
+
+    if (len != RARRAY_LEN(ary)) {
+        return Qfalse;
+    }
+    for (i=0; i<len; i++) {
+        def  = RARRAY_PTR(defs)[i];
+        type = RARRAY_PTR(def)[1];
+        GetNArrayView(type,nt);
+        item = RARRAY_PTR(ary)[i];
+        if (nt->base.ndim==0) {
+            if (na_is_array(item)) {
+                return Qfalse;
+            }
+        } else {
+            if (!na_is_array(item)) {
+                return Qfalse;
+            }
+        }
+    }
+}
 
 /*
 static void
@@ -407,8 +498,8 @@ nary_nstruct_debug_print(VALUE self)
     ne->offset = ns->offset;
 
     if (NIL_P(ne->data)) {
-	puts("(data not allocated)");
-	return Qnil;
+        puts("(data not allocated)");
+        return Qnil;
     }
 
     ndfunc_debug_print(self, nstruct_print_loop, vne);
@@ -421,11 +512,14 @@ static VALUE
 nst_s_add_type(int argc, VALUE *argv, VALUE mod)
 {
     if (argc==0)
-	rb_raise(rb_eArgError,
-		 "wrong number of arguments (%d for 1)", argc);
+        rb_raise(rb_eArgError,
+                 "wrong number of arguments (%d for 1)", argc);
     nstruct_add_type(argv[0],argc-1,argv+1,mod);
     return Qnil;
 }
+
+
+
 
 #define NST_TYPEDEF(tpname,tpclass)                 \
 static VALUE                                        \
@@ -483,7 +577,10 @@ Init_nary_struct()
     rb_define_method(cStruct, "definition", nst_definition, 1);
     rb_define_method(cStruct, "definitions", nst_definitions, 0);
     rb_define_method(cStruct, "field", nst_field, 1);
+    rb_define_method(cStruct, "field_set", nst_field_set, 2);
     rb_define_method(cStruct, "extract", nst_extract, 0);
+    rb_define_method(cStruct, "method_missing", nst_method_missing, -1);
+
     //rb_define_method(cStruct, "fill", nary_nstruct_fill, 1);
 
     //rb_define_method(cStruct, "debug_print", nary_nstruct_debug_print, 0);
