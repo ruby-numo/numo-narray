@@ -392,16 +392,15 @@ iter_cast_rarray_to_bit(na_loop_t *const lp)
 static VALUE
 nary_cast_array_to_bit(VALUE rary)
 {
-    int nd;
-    size_t *shape;
-    VALUE tp, nary;
+    volatile VALUE vnc, nary;
+    na_compose_t *nc;
     ndfunc_arg_in_t ain[2] = {{Qnil,0},{rb_cArray,0}};
     ndfunc_t ndf = { iter_cast_rarray_to_bit, FULL_LOOP, 2, 0, ain, 0 };
 
-    shape = na_mdarray_investigate(rary, &nd, &tp);
-    nary = rb_narray_new(cT, nd, shape);
+    vnc = na_ary_composition(rary);
+    Data_Get_Struct(vnc, na_compose_t, nc);
+    nary = rb_narray_new(cT, nc->ndim, nc->shape);
     na_alloc_data(nary);
-    xfree(shape);
     na_ndloop_cast_rarray_to_narray(&ndf, rary, nary);
     return nary;
 }

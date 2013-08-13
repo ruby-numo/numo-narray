@@ -1145,6 +1145,28 @@ na_ndloop_cast_rarray_to_narray(ndfunc_t *nf, VALUE rary, VALUE nary)
 }
 
 
+VALUE
+na_ndloop_cast_rarray_to_narray2(ndfunc_t *nf, VALUE rary, VALUE nary, VALUE opt)
+{
+    volatile VALUE vlp;
+    VALUE args;
+
+    //rb_p(args);
+    if (na_debug_flag) print_ndfunc(nf);
+
+    //args = rb_assoc_new(rary,nary);
+    args = rb_ary_new3(3,rary,nary,opt);
+
+    // cast arguments to NArray
+    //ndloop_cast_args(nf, args);
+
+    // allocate ndloop struct
+    vlp = ndloop_alloc(nf, args, NULL, 0, loop_rarray_to_narray);
+
+    return rb_ensure(ndloop_run, vlp, ndloop_release, vlp);
+}
+
+
 //----------------------------------------------------------------------
 
 static void
@@ -1160,6 +1182,8 @@ loop_narray_to_rarray(ndfunc_t *nf, na_md_loop_t *lp)
     // alloc counter
     c = ALLOCA_N(size_t, nd+1);
     for (i=0; i<=nd; i++) c[i]=0;
+    //c[i]=1; // for zero-dim
+    //fprintf(stderr,"in loop_narray_to_rarray, nd=%d\n",nd);
 
     a = ALLOCA_N(VALUE, nd+1);
     a[0] = a0 = lp->loop_opt;

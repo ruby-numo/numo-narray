@@ -61,16 +61,15 @@ static void
 static VALUE
 <%=c_function%>(VALUE rary)
 {
-    int nd;
-    size_t *shape;
-    VALUE tp, nary;
+    volatile VALUE vnc, nary;
     narray_t *na;
+    na_compose_t *nc;
     ndfunc_arg_in_t ain[2] = {{rb_cArray,0},{Qnil,0}};
     ndfunc_t ndf = { <%=c_iterator%>, FULL_LOOP, 2, 0, ain, 0 };
 
-    shape = na_mdarray_investigate(rary, &nd, &tp);
-    nary = rb_narray_new(cT, nd, shape);
-    xfree(shape);
+    vnc = na_ary_composition(rary);
+    Data_Get_Struct(vnc, na_compose_t, nc);
+    nary = rb_narray_new(cT, nc->ndim, nc->shape);
     GetNArray(nary,na);
     if (na->size>0) {
         na_alloc_data(nary);

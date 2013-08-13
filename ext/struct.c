@@ -17,14 +17,14 @@ VALUE cStruct;
 static inline VALUE
 nst_definitions(VALUE nst)
 {
-    return rb_const_get(CLASS_OF(nst), rb_intern("DEFINITIONS"));
+    return rb_const_get(nst, rb_intern("DEFINITIONS"));
 }
 
 static VALUE
 nst_definition(VALUE nst, VALUE idx)
 {
     long i;
-    VALUE def = nst_definitions(nst);
+    VALUE def = nst_definitions(CLASS_OF(nst));
     long  len = RARRAY_LEN(def);
 
     if (TYPE(idx) == T_STRING || TYPE(idx) == T_SYMBOL) {
@@ -187,7 +187,7 @@ nst_s_new(int argc, VALUE *argv, VALUE klass)
     rb_define_const(st, "DEFINITIONS", members);
 
     rb_define_singleton_method(st, "new", rb_class_new_instance, -1);
-    rb_define_singleton_method(st, "[]", rb_class_new_instance, -1);
+    //rb_define_singleton_method(st, "[]", rb_class_new_instance, -1);
 
     return st;
 }
@@ -244,8 +244,6 @@ nstruct_add_type(VALUE type, int argc, VALUE *argv, VALUE nst)
                 rb_ary_new3(4,name,type,ofs,size));  // <- field definition
     return Qnil;
 }
-
-
 
 
 static VALUE
@@ -343,7 +341,6 @@ nary_nstruct_fill(VALUE self, VALUE val)
 */
 
 
-
 static VALUE
 nst_record_to_a(VALUE types, VALUE ofsts, size_t pos)
 {
@@ -380,23 +377,20 @@ iter_nstruct_to_a(na_loop_t *const lp)
     types = RARRAY_PTR(opt)[0];
     ofsts = RARRAY_PTR(opt)[1];
 
+    //fprintf(stderr,"lp->iter[0].pos=%lu\n",lp->iter[0].pos);
+
     obj = nst_record_to_a(types,ofsts,lp->iter[0].pos);
     rb_ary_push(lp->args[1].value,obj);
 }
 
-
 static VALUE
-nary_nstruct_to_a(VALUE self)
+nst_create_member_views(VALUE self)
 {
-    volatile VALUE opt;
     VALUE defs, def, types, type, ofsts, ofst, elmt;
     long  i, len;
     narray_view_t *ne;
-    ndfunc_arg_in_t ain[3] = {{Qnil,0},{sym_loop_opt},{sym_option}};
-    ndfunc_arg_out_t aout[1] = {{rb_cArray,0}}; // dummy?
-    ndfunc_t ndf = { iter_nstruct_to_a, NO_LOOP, 3, 1, ain, aout };
 
-    defs = nst_definitions(self);
+    defs = nst_definitions(CLASS_OF(self));
     len = RARRAY_LEN(defs);
     types = rb_ary_new2(len);
     ofsts = rb_ary_new2(len);
@@ -410,12 +404,26 @@ nary_nstruct_to_a(VALUE self)
         GetNArrayView(elmt,ne);
         ne->data = na_original_data(self);
     }
-    opt = rb_assoc_new(types,ofsts);
+    return rb_assoc_new(types,ofsts);
+}
+
+static VALUE
+nary_struct_to_a(VALUE self)
+{
+    volatile VALUE opt;
+    ndfunc_arg_in_t ain[3] = {{Qnil,0},{sym_loop_opt},{sym_option}};
+    ndfunc_arg_out_t aout[1] = {{rb_cArray,0}}; // dummy?
+    ndfunc_t ndf = { iter_nstruct_to_a, NO_LOOP, 3, 1, ain, aout };
+
+    opt = nst_create_member_views(self);
     return na_ndloop_cast_narray_to_rarray(&ndf, self, opt);
 }
 
-static inline int
-na_is_array(VALUE item) {
+
+
+// ---
+static size_t
+check_array(VALUE item) {
     narray_t *na;
 
     if (TYPE(item) == T_ARRAY) {
@@ -423,47 +431,270 @@ na_is_array(VALUE item) {
     }
     if (RTEST(rb_obj_is_kind_of(item, cNArray))) {
         GetNArray(item,na);
-        if (na->ndim>0) {
+        if (na->ndim == 1) {
             return 1;
         } else {
             return 0;
         }
     }
-    return 1;
+    return 0;
 }
 
-static VALUE
-nst_array_match_struct(VALUE self, VALUE ary)
+static size_t
+check_array_1d(VALUE item, size_t size) {
+    narray_t *na;
+    size_t i, len;
+
+    if (TYPE(item) == T_ARRAY) {
+        len = RARRAY_LEN(item);
+        if (size != len) {
+            return 0;
+        }
+        for (i=0; i<len; i++) {
+            if (!check_array(RARRAY_PTR(item)[i])) {
+                return 0;
+            }
+        }
+        return 1;
+    }
+    if (RTEST(rb_obj_is_kind_of(item, cNArray))) {
+        GetNArray(item,na);
+        if (na->ndim == 1 && na->size == size) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+    return 0;
+}
+
+VALUE
+nst_check_compatibility(VALUE nst, VALUE ary)
 {
     VALUE defs, def, type, item;
     long len, i;
-    narray_view_t *nt;
+    narray_t *nt;
 
     if (TYPE(ary) != T_ARRAY) {
+        if (nst==CLASS_OF(ary)) { // same Struct
+            return Qtrue;
+        }
         return Qfalse;
     }
-    defs = nst_definitions(self);
+    defs = nst_definitions(nst);
     len = RARRAY_LEN(defs);
 
     if (len != RARRAY_LEN(ary)) {
+        //puts("pass2");
         return Qfalse;
     }
     for (i=0; i<len; i++) {
         def  = RARRAY_PTR(defs)[i];
         type = RARRAY_PTR(def)[1];
-        GetNArrayView(type,nt);
+        GetNArray(type,nt);
         item = RARRAY_PTR(ary)[i];
-        if (nt->base.ndim==0) {
-            if (na_is_array(item)) {
+        if (nt->ndim == 0) {
+            if (check_array(item)) {
+                //puts("pass3");
+                return Qfalse;
+            }
+        } else if (nt->ndim == 1) {
+            if (!check_array_1d(item, nt->size)) {
+                //puts("pass4");
                 return Qfalse;
             }
         } else {
-            if (!na_is_array(item)) {
+            // multi-dimension member
+            volatile VALUE vnc;
+            na_compose_t *nc;
+            int j;
+            vnc = na_ary_composition(item);
+            Data_Get_Struct(vnc, na_compose_t, nc);
+            if (nt->ndim != nc->ndim) {
                 return Qfalse;
+            }
+            for (j=0; j<nc->ndim; j++) {
+                if (nc->shape[j] != nt->shape[j]) {
+                    return Qfalse;
+                }
+            }
+            return Qtrue;
+        }
+    }
+    return Qtrue;
+}
+
+
+
+VALUE na_ary_composition_for_struct(VALUE nstruct, VALUE ary);
+
+// ------
+static void
+iter_nstruct_from_a(na_loop_t *const lp)
+{
+    long  i, len;
+    VALUE ary;
+    VALUE types, ofsts;
+    VALUE elmt, velm, item;
+    size_t ofs;
+    narray_view_t *ne;
+
+    types = RARRAY_PTR(lp->option)[0];
+    ofsts = RARRAY_PTR(lp->option)[1];
+
+    len = RARRAY_LEN(types);
+    ary = lp->args[0].value;
+    rb_p(CLASS_OF(ary));rb_p(ary);
+
+    for (i=0; i<len; i++) {
+        ofs  = NUM2SIZE(RARRAY_PTR(ofsts)[i]);
+        elmt = RARRAY_PTR(types)[i];
+        GetNArrayView(elmt,ne);
+        ne->offset = lp->iter[1].pos + ofs;
+        item = RARRAY_PTR(ary)[i];
+        velm = rb_funcall(elmt, rb_intern("store"), 1, item);
+    }
+}
+
+static VALUE
+nary_struct_cast_array(VALUE klass, VALUE rary)
+{
+    volatile VALUE vnc, nary;
+    narray_t *na;
+    na_compose_t *nc;
+    VALUE opt;
+    ndfunc_arg_in_t ain[3] = {{rb_cArray,0},{Qnil,0},{sym_option}};
+    ndfunc_t ndf = { iter_nstruct_from_a, NO_LOOP, 3, 0, ain, 0 };
+
+    //fprintf(stderr,"rary:");rb_p(rary);
+    //fprintf(stderr,"class_of(rary):");rb_p(CLASS_OF(rary));
+
+    vnc = na_ary_composition_for_struct(klass, rary);
+    Data_Get_Struct(vnc, na_compose_t, nc);
+    nary = rb_narray_new(klass, nc->ndim, nc->shape);
+    GetNArray(nary,na);
+    //fprintf(stderr,"na->size=%lu\n",na->size);
+    //fprintf(stderr,"na->ndim=%d\n",na->ndim);
+    if (na->size>0) {
+        opt = nst_create_member_views(nary);
+        na_alloc_data(nary);
+        na_ndloop_cast_rarray_to_narray2(&ndf, rary, nary, opt);
+    }
+    return nary;
+}
+
+static inline VALUE
+nary_struct_s_cast(VALUE klass, VALUE rary)
+{
+    return nary_struct_cast_array(klass, rary);
+}
+
+
+
+static void
+iter_struct_store_struct(na_loop_t *const lp)
+{
+    size_t  i, s1, s2;
+    char   *p1, *p2;
+    size_t *idx1, *idx2;
+    size_t  elmsz;
+    char   *x, *y;
+
+    INIT_COUNTER(lp, i);
+    INIT_PTR_IDX(lp, 0, p1, s1, idx1);
+    INIT_PTR_IDX(lp, 1, p2, s2, idx2);
+    INIT_ELMSIZE(lp, 0, elmsz);
+    if (idx2) {
+        if (idx1) {
+            for (; i--;) {
+                x = (char*)(p1+*idx1); idx1++;
+                y = (char*)(p2+*idx2); idx2++;
+                memcpy(x,y,elmsz);
+            }
+        } else {
+            for (; i--;) {
+                x = (char*)p1;         p1+=s1;
+                y = (char*)(p2+*idx2); idx2++;
+                memcpy(x,y,elmsz);
+            }
+        }
+    } else {
+        if (idx1) {
+            for (; i--;) {
+                x = (char*)(p1+*idx1); idx1++;
+                y = (char*)p2;         p2+=s2;
+                memcpy(x,y,elmsz);
+            }
+        } else {
+            for (; i--;) {
+                x = (char*)p1;         p1+=s1;
+                y = (char*)p2;         p2+=s2;
+                memcpy(x,y,elmsz);
             }
         }
     }
 }
+
+
+static VALUE
+nary_struct_store_struct(VALUE self, VALUE obj)
+{
+    ndfunc_arg_in_t ain[2] = {{OVERWRITE,0},{Qnil,0}};
+    ndfunc_t ndf = { iter_struct_store_struct, FULL_LOOP, 2, 0, ain, 0 };
+
+    na_ndloop(&ndf, 2, self, obj);
+    return self;
+}
+
+
+/*
+static VALUE
+nary_struct_store_struct(VALUE self, VALUE rary)
+{
+    VALUE opt;
+    ndfunc_arg_in_t ain[3] = {{rb_cArray,0},{Qnil,0},{sym_option}};
+    ndfunc_t ndf = { iter_nstruct_from_a, NO_LOOP, 3, 0, ain, 0 };
+
+    if (!RTEST(nst_check_compatibility(CLASS_OF(self),rary))) {
+        rb_raise(rb_eTypeError,"array is incompatible to struct");
+    }
+    opt = nst_create_member_views(self);
+    na_alloc_data(self);
+    na_ndloop_cast_rarray_to_narray2(&ndf, rary, self, opt);
+    return self;
+}
+*/
+
+
+static inline VALUE
+nary_struct_store_array(VALUE self, VALUE obj)
+{
+    return nary_struct_store_struct(self, nary_struct_cast_array(CLASS_OF(self),obj));
+}
+
+/*
+  Store elements to NArray::Struct from other.
+  @overload store(other)
+  @param [Object] other
+  @return [NArray::Struct] self
+*/
+static VALUE
+nary_struct_store(VALUE self, VALUE obj)
+{
+    if (TYPE(obj)==T_ARRAY) {
+        nary_struct_store_array(self,obj);
+        return self;
+    }
+    if (CLASS_OF(self) == CLASS_OF(obj)) {
+        nary_struct_store_struct(self,obj);
+        return self;
+    }
+    rb_raise(nary_eCastError, "unknown conversion from %s to %s",
+             rb_class2name(CLASS_OF(obj)),
+             rb_class2name(CLASS_OF(self)));
+    return self;
+}
+
 
 /*
 static void
@@ -585,7 +816,12 @@ Init_nary_struct()
 
     //rb_define_method(cStruct, "debug_print", nary_nstruct_debug_print, 0);
 
-    rb_define_method(cStruct, "to_a", nary_nstruct_to_a, 0);
+    rb_define_method(cStruct, "to_a", nary_struct_to_a, 0);
+
+    rb_define_method(cStruct, "store", nary_struct_store, 1);
+
+    rb_define_singleton_method(cStruct, "cast", nary_struct_s_cast, 1);
+    rb_define_singleton_method(cStruct, "[]", nary_struct_s_cast, -2);
 
     //rb_define_method(cStruct, "initialize", rb_struct_initialize, -2);
     //rb_define_method(cStruct, "initialize_copy", rb_struct_init_copy, 1);

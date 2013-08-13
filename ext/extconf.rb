@@ -4,10 +4,9 @@ require 'rbconfig.rb'
 
 require 'mkmf'
 
-#$CFLAGS="-g -O0"
-#$CFLAGS="-g -O3 -Wall -m64 -msse2"
-#$CFLAGS=" $(cflags) -m64 -msse2 -funroll-loops"
-$CFLAGS=" $(cflags) -O3"
+$CFLAGS="-g -O0 -Wall"
+##$CFLAGS=" $(cflags) -m64 -msse2 -funroll-loops"
+#$CFLAGS=" $(cflags) -O3"
 $INCFLAGS = "-Itypes #$INCFLAGS"
 
 srcs = %w(

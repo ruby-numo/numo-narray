@@ -71,6 +71,8 @@ VALUE na_ndloop4(ndfunc_t *nf, void *ptr, VALUE args);
 
 VALUE na_ndloop_cast_narray_to_rarray(ndfunc_t *nf, VALUE nary, VALUE fmt);
 VALUE na_ndloop_cast_rarray_to_narray(ndfunc_t *nf, VALUE rary, VALUE nary);
+VALUE na_ndloop_cast_rarray_to_narray2(ndfunc_t *nf, VALUE rary, VALUE nary, VALUE opt);
+
 void  na_ndloop_inspect(VALUE nary, VALUE buf, na_text_func_t func, VALUE opt);
 
 VALUE na_info_str(VALUE);
@@ -79,7 +81,8 @@ size_t na_get_elmsz(VALUE);
 
 boolean na_test_reduce(VALUE reduce, int dim);
 
-size_t *na_mdarray_investigate(VALUE ary, int *ndim, VALUE *type);
+//size_t *na_mdarray_investigate(VALUE ary, int *ndim, VALUE *type);
+VALUE na_ary_composition(VALUE ary);
 
 //void na_copy_bytes(na_loop_t *const itr);
 
