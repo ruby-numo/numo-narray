@@ -36,6 +36,7 @@ ID id_pow;
 ID id_bit_and;
 ID id_bit_or;
 ID id_bit_xor;
+ID id_bit_not;
 ID id_eq;
 ID id_ne;
 ID id_gt;
@@ -43,6 +44,17 @@ ID id_ge;
 ID id_lt;
 ID id_le;
 ID id_nearly_eq;
+
+ID id_abs;
+ID id_minus;
+ID id_inverse;
+ID id_square;
+ID id_floor;
+ID id_round;
+ID id_ceil;
+ID id_isnan;
+ID id_isinf;
+ID id_isfinite;
 
 ID id_real;
 ID id_imag;
@@ -83,7 +95,8 @@ void Init_nary_dcomplex();
 void Init_nary_math();
 void Init_nary_rand();
 void Init_nary_array();
-void Init_nary_nstruct();
+void Init_nary_struct();
+void Init_nary_robject();
 
 
 static void
@@ -242,15 +255,19 @@ na_s_allocate_view(VALUE klass)
 void
 na_array_to_internal_shape(VALUE self, VALUE ary, size_t *shape)
 {
-    size_t i, n, c, s;
-    VALUE *ptr;
+    size_t    i, n, c, s;
+    VALUE    *ptr;
     narray_t *na;
-    GetNArray(self, na);
+    int       flag = 0;
 
     n = RARRAY_LEN(ary);
     ptr = RARRAY_PTR(ary);
 
-    if (TEST_COLUMN_MAJOR(na)) {
+    if (RTEST(self)) {
+        GetNArray(self, na);
+        flag = TEST_COLUMN_MAJOR(na);
+    }
+    if (flag) {
         c = n-1;
         s = -1;
     } else {
@@ -1338,4 +1355,5 @@ Init_narray()
     Init_nary_rand();
     Init_nary_array();
     Init_nary_struct();
+    Init_nary_robject();
 }

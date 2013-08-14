@@ -120,8 +120,7 @@ void na_mdai_object_type(na_mdai_t *mdai, VALUE v)
 	if (NIL_P(mdai->na_type)) {
 	    mdai->na_type = CLASS_OF(v);
 	} else {
-	    mdai->na_type = rb_funcall(CLASS_OF(v),rb_intern("cast_type"),
-                                      1,mdai->na_type);
+            mdai->na_type = na_upcast(CLASS_OF(v), CLASS_OF(mdai->na_type));
 	}
     } else if (rb_obj_is_kind_of(v, rb_cRange)) {
         MDAI_ATTR_TYPE(mdai->type,v,"begin");
@@ -299,7 +298,7 @@ na_mdai_result(na_mdai_t *mdai, na_compose_t *nc)
 	    if (NIL_P(tp)) {
 		tp = mdai->na_type;
 	    } else {
-		tp = rb_funcall(mdai->na_type,rb_intern("cast_type"),1,tp);
+                tp = na_upcast(mdai->na_type,tp);
 	    }
 	}
 	nc->dtype = tp;
@@ -313,13 +312,27 @@ na_ary_composition(VALUE ary)
     volatile VALUE vmdai, vnc;
     na_mdai_t *mdai;
     na_compose_t *nc;
+    int j;
 
-    mdai = na_mdai_alloc(ary);
-    vmdai = Data_Wrap_Struct(rb_cData, 0, na_mdai_free, mdai);
-    na_mdai_investigate(mdai, 1);
     nc = ALLOC(na_compose_t);
     vnc = Data_Wrap_Struct(rb_cData, 0, -1, nc);
-    na_mdai_result(mdai, nc);
+    if (TYPE(ary) == T_ARRAY) {
+        mdai = na_mdai_alloc(ary);
+        vmdai = Data_Wrap_Struct(rb_cData, 0, na_mdai_free, mdai);
+        na_mdai_investigate(mdai, 1);
+        na_mdai_result(mdai, nc);
+    } else if (IsNArray(ary)) {
+        narray_t *na;
+        GetNArray(ary,na);
+        nc->ndim = na->ndim;
+        nc->shape = ALLOC_N(size_t, na->ndim);
+        for (j=0; j<na->ndim; j++) {
+            nc->shape[j] = na->shape[j];
+        }
+        nc->dtype = CLASS_OF(ary);
+    } else {
+        rb_bug("invalid type for md-array: %s", rb_class2name(CLASS_OF(ary)));
+    }
     return vnc;
 }
 
@@ -369,92 +382,6 @@ na_s_array_type(VALUE mod, VALUE ary)
 }
 
 
-/*
-static VALUE
-na_mdai(VALUE mod, VALUE ary)
-{
-    int  i, ndim;
-    VALUE type=Qnil;
-    size_t *shape;
-    na_mdai_t *mdai;
-    if (TYPE(ary)!=T_ARRAY) {
-	printf("ndim=%d\n",0);
-	return Qnil;
-    }
-    mdai  = na_mdai_alloc(ary);
-    na_mdai_investigate(mdai,1);
-    shape = na_mdai_free(mdai,&ndim,&type);
-    printf("\ntype=%lx\n",type);
-    printf("ndim=%d\n",ndim);
-    for (i=0; i<ndim; i++) {
-	printf(" shape[%d]=%ld\n",i,shape[i]);
-    }
-    return Qnil;
-}
-*/
-
-/*
-size_t *
-na_mdarray_investigate(VALUE ary, int *ndim, VALUE *type)
-{
-    int f;
-    size_t *shape;
-    na_mdai_t *mdai;
-
-    if (TYPE(ary) != T_ARRAY) {
-	puts("not Array");
-	*ndim = 0;
-	return NULL;
-    }
-    mdai = na_mdai_alloc(ary);
-    f = na_mdai_investigate(mdai,1);
-    shape = na_mdai_free(mdai,ndim,type);
-    if (f) {
-	*ndim = 1;
-	shape = ALLOC(size_t);
-	shape[0] = 0;
-    }
-    return shape;
-}
-*/
-
- /*
-size_t *
-na_mdarray_investigate(VALUE obj, int *ndim, VALUE *type)
-{
-    int i;
-    size_t *shape;
-    na_mdai_t *mdai;
-    narray_t *na;
-
-    switch(TYPE(obj)) {
-    case T_ARRAY:
-        na_check_mdarray(obj,&shape,&type);
-
-        mdai = na_mdai_alloc(obj);
-        i = na_mdai_investigate(mdai,1);
-        shape = na_mdai_free(mdai,ndim,type);
-        if (i) {
-            *ndim = 1;
-            shape = ALLOC(size_t);
-            shape[0] = 0;
-        }
-        return shape;
-    case T_DATA:
-        if (rb_obj_is_kind_of(obj,cNArray)==Qtrue) {
-            GetNArray(obj,na);
-            *ndim = NA_NDIM(na);
-            shape = ALLOC_N(size_t,*ndim);
-            for (i=0; i<*ndim; i++) {
-                shape[i] = NA_SHAPE(na)[i];
-            }
-            return shape;
-        }
-    }
-    *ndim = 0;
-    return NULL;
-}
- */
 
 /*
   Generate NArray object. NArray datatype is automatically selected.
