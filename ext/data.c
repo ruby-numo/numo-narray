@@ -872,7 +872,7 @@ Init_nary_data()
     id_mul = rb_intern("mul");
     id_div = rb_intern("div");
     id_mod = rb_intern("mod");
-    id_pow = rb_intern("pow");
+    id_pow = rb_intern("**");
     id_bit_and = rb_intern("bit_and");
     id_bit_or  = rb_intern("bit_or");
     id_bit_xor = rb_intern("bit_xor");

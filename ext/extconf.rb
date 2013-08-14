@@ -29,6 +29,7 @@ types/sfloat
 types/dfloat
 types/scomplex
 types/dcomplex
+types/robject
 math
 SFMT
 struct

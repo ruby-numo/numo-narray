@@ -180,13 +180,25 @@ extern ID id_pow;
 extern ID id_bit_and;
 extern ID id_bit_or;
 extern ID id_bit_xor;
+extern ID id_bit_not;
 extern ID id_eq;
-extern ID id_nearly_eq;
 extern ID id_ne;
 extern ID id_gt;
 extern ID id_ge;
 extern ID id_lt;
 extern ID id_le;
+extern ID id_nearly_eq;
+
+extern ID id_abs;
+extern ID id_minus;
+extern ID id_inverse;
+extern ID id_square;
+extern ID id_floor;
+extern ID id_round;
+extern ID id_ceil;
+extern ID id_isnan;
+extern ID id_isinf;
+extern ID id_isfinite;
 
 extern ID id_real;
 extern ID id_imag;

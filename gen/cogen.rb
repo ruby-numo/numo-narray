@@ -147,12 +147,15 @@ end
 
 def_method "seq",-1
 def_alias  "indgen", "seq"
-def_method "rand"
+
+if !is_object
+  def_method "rand"
+end
 
 # y = a[0] + a[1]*x + a[2]*x^2 + a[3]*x^3 + ... + a[n]*x^n
 def_method "poly",-2
 
-if is_comparable
+if is_comparable && !is_object
   qsort type_name,"dtype","*(dtype*)"
   def_method "sort",-1
   qsort type_name+"_index","dtype*","**(dtype**)"
