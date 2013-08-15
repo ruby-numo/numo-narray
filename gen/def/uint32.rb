@@ -14,6 +14,7 @@ upcast_rb "Integer"
 upcast_rb "Float", "DFloat"
 upcast_rb "Complex", "DComplex"
 
+upcast "RObject",  "RObject"
 upcast "DComplex", "DComplex"
 upcast "SComplex", "SComplex"
 upcast "DFloat", "DFloat"

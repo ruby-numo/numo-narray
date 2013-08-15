@@ -10,9 +10,10 @@ module PutERB
     er = ERB.new(File.read(@file),safe_level,trim_mode)
     er.filename = @file
     if $embed
-      er.result(binding)
+      er.result(binding)+"\n\n"
     else
       er.run(binding)
+      print "\n\n"
     end
   end
 end
