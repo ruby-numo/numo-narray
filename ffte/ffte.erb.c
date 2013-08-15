@@ -160,6 +160,8 @@ nary_ffte_<%=func%>(int argc, VALUE *args, VALUE mod)
     return vres;
 }
 <% end %>
+
+
 int zdfft2d_(dcomplex *a, integer *nx, integer *ny, integer *iopt, dcomplex *b);
 int zdfft3d_(dcomplex *a, integer *nx, integer *ny, integer *nz, integer *iopt, dcomplex *b);
 
@@ -256,6 +258,8 @@ nary_ffte_<%=func%>(int argc, VALUE *args, VALUE mod)
     return vres;
 }
 <% end %>
+
+
 int dzfft2d_(dcomplex *a, integer *nx, integer *ny, integer *iopt, dcomplex *b);
 int dzfft3d_(dcomplex *a, integer *nx, integer *ny, integer *nz, integer *iopt, dcomplex *b);
 
@@ -350,6 +354,8 @@ nary_ffte_<%=func%>(int argc, VALUE *args, VALUE mod)
     return vres;
 }
 <% end %>
+
+
 void
 Init_ffte()
 {

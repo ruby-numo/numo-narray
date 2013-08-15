@@ -1,5 +1,7 @@
 typedef int8_t dtype;
 typedef int8_t rtype;
+#define cT  cInt8
+#define cRT cT
 
 #define m_num_to_data(x) ((dtype)NUM2INT(x))
 #define m_data_to_num(x) INT2NUM((int)(x))

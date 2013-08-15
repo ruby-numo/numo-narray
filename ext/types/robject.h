@@ -1,5 +1,8 @@
 typedef VALUE dtype;
 typedef VALUE rtype;
+#define cT  cRObject
+#define cRT cT
+//#define mTM mRObjectMath
 
 #include "float_def.h"
 #include "robj_macro.h"

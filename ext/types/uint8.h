@@ -1,5 +1,7 @@
 typedef u_int8_t dtype;
 typedef u_int8_t rtype;
+#define cT  cUInt8
+#define cRT cT
 
 #define m_num_to_data(x) ((dtype)NUM2UINT(x))
 #define m_data_to_num(x) UINT2NUM((unsigned int)(x))

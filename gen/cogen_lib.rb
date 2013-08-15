@@ -376,7 +376,7 @@ end
 
 # ----------------------------------------------------------------------
 
-module Delegate
+module TopLevel
   T = {}
   @@cogen = Cogen.new
   module_function
@@ -390,4 +390,4 @@ module Delegate
   end
 end
 
-include Delegate
+include TopLevel

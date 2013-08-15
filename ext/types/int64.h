@@ -1,5 +1,7 @@
 typedef int64_t dtype;
 typedef int64_t rtype;
+#define cT  cInt64
+#define cRT cT
 
 #define m_num_to_data(x) ((dtype)NUM2INT64(x))
 #define m_data_to_num(x) INT642NUM((int64_t)(x))

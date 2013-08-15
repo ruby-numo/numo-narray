@@ -47,7 +47,7 @@ print_index_arg(na_index_arg_t *q, int n)
 
 static ID id_ast;
 static ID id_all;
-static ID id_minus;
+//static ID id_minus;
 static ID id_new;
 static ID id_reverse;
 static ID id_plus;
