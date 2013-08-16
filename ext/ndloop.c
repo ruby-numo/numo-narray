@@ -372,7 +372,8 @@ ndloop_check_shape(na_md_loop_t *lp, int nf_dim, narray_t *na)
 
     dim_beg = lp->ndim + nf_dim - na->ndim;
 
-    for (k=na->ndim-1; k>=0; k--) {
+    //for (k=na->ndim-1; k>=0; k--) {
+    for (k = na->ndim - nf_dim - 1; k>=0; k--) {
         i = k + dim_beg;
         n = na->shape[k];
         // if n==1 then repeat this dimension
@@ -417,7 +418,6 @@ ndloop_set_stepidx(na_md_loop_t *lp, int j, VALUE vna, int *dim_map)
             n = na->shape[k];
             if (n > 1) {
                 i = dim_map[k];
-                //printf("i=%d j=%d s=%lu\n",i,j,s);
                 LITER(lp,i,j).step = s;
                 LITER(lp,i,j).idx = NULL;
             }
@@ -446,8 +446,6 @@ ndloop_set_stepidx(na_md_loop_t *lp, int j, VALUE vna, int *dim_map)
         rb_bug("invalid narray internal type");
     }
 }
-
-
 
 
 
@@ -496,6 +494,7 @@ ndloop_init_args(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
                 dim_map[i] = i+dim_beg;
             }
             ndloop_set_stepidx(lp, j, v, dim_map);
+            lp->args[j].shape = na->shape + (na->ndim - nf_dim);
         } else if (TYPE(v)==T_ARRAY) {
             lp->args[j].value = v;
             lp->args[j].elmsz = sizeof(VALUE);
@@ -636,6 +635,7 @@ ndloop_set_output_narray(ndfunc_t *nf, na_md_loop_t *lp, int k,
 
     j = lp->nin + k;
     ndloop_set_stepidx(lp, j, v, dim_map);
+    lp->args[j].shape = nf->aout[k].shape;
 
     return v;
 }

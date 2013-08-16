@@ -15,6 +15,7 @@ typedef struct NA_LOOP_ARGS {
     VALUE    value;
     ssize_t  elmsz;
     char    *ptr;
+    size_t  *shape;
 } na_loop_args_t;
 
 typedef struct NA_LOOP_ITER {

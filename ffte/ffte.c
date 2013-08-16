@@ -68,7 +68,8 @@ iter_fft_zfft1d(na_loop_t *const lp)
 
 
 
-    n1 = lp->n[0];
+    //n1 = lp->n[0];
+    n1 = lp->args[0].shape[0];
 
     p1 = ((lp)->args[0]).ptr + ((lp)->iter[0]).pos;
 
@@ -150,9 +151,11 @@ iter_fft_zfft2d(na_loop_t *const lp)
 
 
 
-    n1 = lp->n[0];
+    //n1 = lp->n[0];
+    n1 = lp->args[0].shape[0];
 
-    n2 = lp->n[1];
+    //n2 = lp->n[1];
+    n2 = lp->args[0].shape[1];
 
     p1 = ((lp)->args[0]).ptr + ((lp)->iter[0]).pos;
 
@@ -236,11 +239,14 @@ iter_fft_zfft3d(na_loop_t *const lp)
 
 
 
-    n1 = lp->n[0];
+    //n1 = lp->n[0];
+    n1 = lp->args[0].shape[0];
 
-    n2 = lp->n[1];
+    //n2 = lp->n[1];
+    n2 = lp->args[0].shape[1];
 
-    n3 = lp->n[2];
+    //n3 = lp->n[2];
+    n3 = lp->args[0].shape[2];
 
     p1 = ((lp)->args[0]).ptr + ((lp)->iter[0]).pos;
 
@@ -320,6 +326,8 @@ nary_ffte_zfft3d(int argc, VALUE *args, VALUE mod)
     return vres;
 }
 
+
+
 int zdfft2d_(dcomplex *a, integer *nx, integer *ny, integer *iopt, dcomplex *b);
 int zdfft3d_(dcomplex *a, integer *nx, integer *ny, integer *nz, integer *iopt, dcomplex *b);
 
@@ -334,9 +342,11 @@ iter_fft_zdfft2d(na_loop_t *const lp)
     size_t i, n;
     dcomplex *b;
 
-    n1 = n = (lp->n[1]-1)*2;
+    //n1 = n = (lp->n[1]-1)*2;
+    n1 = n = (lp->args[0].shape[1]-1)*2;
 
-    n2 = lp->n[0];
+    //n2 = lp->n[0];
+    n2 = lp->args[0].shape[0];
     n *= n2;
 
     b = (dcomplex*)(lp->opt_ptr);
@@ -433,12 +443,15 @@ iter_fft_zdfft3d(na_loop_t *const lp)
     size_t i, n;
     dcomplex *b;
 
-    n1 = n = (lp->n[2]-1)*2;
+    //n1 = n = (lp->n[2]-1)*2;
+    n1 = n = (lp->args[0].shape[2]-1)*2;
 
-    n2 = lp->n[1];
+    //n2 = lp->n[1];
+    n2 = lp->args[0].shape[1];
     n *= n2;
 
-    n3 = lp->n[0];
+    //n3 = lp->n[0];
+    n3 = lp->args[0].shape[0];
     n *= n3;
 
     b = (dcomplex*)(lp->opt_ptr);
@@ -536,6 +549,8 @@ nary_ffte_zdfft3d(int argc, VALUE *args, VALUE mod)
     return vres;
 }
 
+
+
 int dzfft2d_(dcomplex *a, integer *nx, integer *ny, integer *iopt, dcomplex *b);
 int dzfft3d_(dcomplex *a, integer *nx, integer *ny, integer *nz, integer *iopt, dcomplex *b);
 
@@ -551,10 +566,12 @@ iter_fft_dzfft2d(na_loop_t *const lp)
     dcomplex *b;
 
 
-    n1 = lp->n[1];
+    //n1 = lp->n[1];
+    n1 = lp->args[0].shape[1];
     n *= n1;
 
-    n2 = lp->n[0];
+    //n2 = lp->n[0];
+    n2 = lp->args[0].shape[0];
     n *= n2;
 
     b = (dcomplex*)(lp->opt_ptr);
@@ -651,13 +668,16 @@ iter_fft_dzfft3d(na_loop_t *const lp)
     dcomplex *b;
 
 
-    n1 = lp->n[2];
+    //n1 = lp->n[2];
+    n1 = lp->args[0].shape[2];
     n *= n1;
 
-    n2 = lp->n[1];
+    //n2 = lp->n[1];
+    n2 = lp->args[0].shape[1];
     n *= n2;
 
-    n3 = lp->n[0];
+    //n3 = lp->n[0];
+    n3 = lp->args[0].shape[0];
     n *= n3;
 
     b = (dcomplex*)(lp->opt_ptr);
@@ -753,6 +773,8 @@ nary_ffte_dzfft3d(int argc, VALUE *args, VALUE mod)
 
     return vres;
 }
+
+
 
 void
 Init_ffte()

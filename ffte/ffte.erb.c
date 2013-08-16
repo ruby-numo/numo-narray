@@ -79,7 +79,8 @@ iter_fft_zfft<%=d%>d(na_loop_t *const lp)
 <% end %>
 
 <% (1..d).each do |i| %>
-    n<%=i%> = lp->n[<%=i-1%>];
+    //n<%=i%> = lp->n[<%=i-1%>];
+    n<%=i%> = lp->args[0].shape[<%=i-1%>];
 <% end %>
     p1 = ((lp)->args[0]).ptr + ((lp)->iter[0]).pos;
 
@@ -176,9 +177,11 @@ iter_fft_zdfft<%=d%>d(na_loop_t *const lp)
     size_t i, n;
     dcomplex *b;
 
-    n1 = n = (lp->n[<%=d-1%>]-1)*2;
+    //n1 = n = (lp->n[<%=d-1%>]-1)*2;
+    n1 = n = (lp->args[0].shape[<%=d-1%>]-1)*2;
 <% (2..d).each do |i| %>
-    n<%=i%> = lp->n[<%=d-i%>];
+    //n<%=i%> = lp->n[<%=d-i%>];
+    n<%=i%> = lp->args[0].shape[<%=d-i%>];
     n *= n<%=i%>;
 <% end %>
     b = (dcomplex*)(lp->opt_ptr);
@@ -275,7 +278,8 @@ iter_fft_dzfft<%=d%>d(na_loop_t *const lp)
     dcomplex *b;
 
 <% (1..d).each do |i| %>
-    n<%=i%> = lp->n[<%=d-i%>];
+    //n<%=i%> = lp->n[<%=d-i%>];
+    n<%=i%> = lp->args[0].shape[<%=d-i%>];
     n *= n<%=i%>;
 <% end %>
     b = (dcomplex*)(lp->opt_ptr);
