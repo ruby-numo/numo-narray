@@ -1,0 +1,7 @@
+COGEN=ruby -r erb -r../../gen/modify_erb.rb ../../gen/cogen.rb
+
+linalg_d.c: ../gen/linalg.erb.c
+	(cd ../gen; $(COGEN) linalg.erb.c def/dfloat.rb) > $@
+
+linalg_s.c: ../gen/linalg.erb.c
+	(cd ../gen; $(COGEN) linalg.erb.c def/sfloat.rb) > $@
