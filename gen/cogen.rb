@@ -98,18 +98,18 @@ end
 module DefMethod
 
   def def_method(meth, n_arg, tmpl=nil, opts={})
-    h = {:method => meth, :mod_var => 'cT', :n_arg => n_arg}
+    h = {:method => meth, :mod_var => mod_var, :n_arg => n_arg}
     h.merge!(opts)
     tmpl ||= meth
     Function.new(self, tmpl, h)
   end
 
-  def def_singleton(meth, n_arg, tmpl=nil)
+  def def_singleton(meth, n_arg, tmpl=nil, opts={})
     def_method(meth, n_arg, tmpl, :singleton => true)
   end
 
   def def_alias(dst, src)
-    Alias.new(dst, src)
+    Alias.new(self, dst, src)
   end
 
   def binary(meth, ope=nil)
@@ -220,6 +220,7 @@ class DataType < LoadERB
     super(nil, erb_path)
     @class_alias = []
     @upcast = []
+    @mod_var = "cT"
     load_type(type_file) if type_file
   end
 
@@ -242,6 +243,7 @@ class DataType < LoadERB
     is_complex
     is_object
     is_comparable
+    mod_var
   ]
 
   define_attrs attrs
@@ -386,7 +388,8 @@ class NodefFunction < Function
 end
 
 class Alias < LoadERB
-  def initialize(dst, src)
+  def initialize(parent, dst, src)
+    super(parent,nil)
     @dst = dst
     @src = src
     Function::DEFS.push(self)
@@ -397,7 +400,7 @@ class Alias < LoadERB
   end
 
   def definition
-    mod_var = 'cT'
+    #mod_var = 'cT'
     "rb_define_alias(#{mod_var}, \"#{dst}\", \"#{src}\");"
   end
 end
