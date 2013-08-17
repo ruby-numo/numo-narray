@@ -687,7 +687,8 @@ iter_sort_index(na_loop_t *const lp)
     //printf("lp->iter[0].pos=%d\n",lp->iter[0].pos);
     //printf("lp->iter[1].pos=%d\n",lp->iter[1].pos);
 
-    INIT_COUNTER(lp, n);
+    //INIT_COUNTER(lp, n);
+    n = lp->args[0].shape[0];
     INIT_PTR_IDX(lp, 0, d_ptr, d_step, d_idx);
     INIT_ELMSIZE(lp, 0, d_es);
     INIT_PTR_IDX(lp, 1, i_ptr, i_step, i_idx);
