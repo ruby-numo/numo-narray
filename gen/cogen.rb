@@ -1,199 +1,486 @@
-require './cogen_lib.rb'
-#require './modify_erb.rb'
+require "erb"
 
-load ARGV[0]
+class LoadERB
+  ATTRS = []
 
-put_erb "head"
+  def self.define_attrs(attrs)
+    attrs.each do |attr|
+      ivar = ("@"+attr).to_sym
+      define_method(attr){|*a| attr_method(ivar,*a)}
+    end
+  end
 
-def_method "extract"
+  def attr_method(ivar,arg=nil)
+    if arg.nil?
+      instance_variable_get(ivar)
+    else
+      instance_variable_set(ivar,arg)
+    end
+  end
 
-puts "
-static VALUE #{Template.new('store','store').c_instance_method}(VALUE,VALUE);
-"
-store_numeric
-cast_array
-store_array
-if is_complex
-  store_from "DComplex","dcomplex","m_from_dcomplex"
-  store_from "SComplex","scomplex","m_from_scomplex"
-end
-store_from "DFloat","double",   "m_from_real"
-store_from "SFloat","float",    "m_from_real"
-store_from "Int64", "int64_t",  "m_from_real"
-store_from "Int32", "int32_t",  "m_from_real"
-store_from "Int16", "int16_t",  "m_from_real"
-store_from "Int8",  "int8_t",   "m_from_real"
-store_from "UInt64","u_int64_t","m_from_real"
-store_from "UInt32","u_int32_t","m_from_real"
-store_from "UInt16","u_int16_t","m_from_real"
-store_from "UInt8", "u_int8_t", "m_from_real"
+  def initialize(parent,tmpl,opts={})
+    parents.push(parent) if parent
+    @tmpl = tmpl
+    @erb_path = @tmpl
 
-def_method "store", 1
-def_singleton "cast", 1
+    @opts = opts
+    if @opts.class != Hash
+      raise ArgumentError, "option is not Hash"
+    end
 
-def_method "coerce_cast",1
-def_method "to_a"
-def_method "fill",1
-def_method "format",-1
-def_method "format_to_a",-1
-def_method "inspect"
+    @opts.each do |k,v|
+      ivar = ("@"+k.to_s).to_sym
+      instance_variable_set(ivar,v)
+    end
+  end
 
-# arith
+  def load_erb
+    safe_level = nil
+    trim_mode = '%<>'
+    @erb = ERB.new(File.read(@erb_path),safe_level,trim_mode)
+    @erb.filename = @erb_path
+  end
 
-unary2 "abs", "rtype", "cRT"
+  def parents
+    @parents ||= []
+  end
 
-binary "add"
-binary "sub"
-binary "mul"
-binary "div"
+  def search_method_in_parents(_meth_id)
+    parents.each do |x|
+      if x.has_attr? _meth_id
+        return x
+      end
+    end
+    parents.each do |x|
+      if f = x.search_method_in_parents(_meth_id)
+        return f
+      end
+    end
+    nil
+  end
 
-#if is_int
-#  def_func "pow","powint"
-#end
-pow
+  def attrs
+    self.class::ATTRS
+  end
 
-unary "minus"
-unary "inverse"
+  def has_attr?(_meth_id)
+    respond_to?(_meth_id) or attrs.include?(_meth_id.to_s)
+  end
 
-# complex
+  alias method_missing_alias method_missing
 
-if is_complex
-  unary "conj"
-  unary "im"
-  unary2 "real", "rtype", "cRT"
-  unary2 "imag", "rtype", "cRT"
-  unary2 "arg",  "rtype", "cRT"
-  def_alias "angle","arg"
-  set2 "set_imag", "rtype", "cRT"
-  set2 "set_real", "rtype", "cRT"
-  def_alias "imag=","set_imag"
-  def_alias "real=","set_real"
-else
-  def_alias "conj", "copy"
-  def_alias "im", "copy"
-end
+  def method_missing(_meth_id, *args, &block)
+    ivar = "@"+_meth_id.to_s
+    if args.empty? and instance_variable_defined?(ivar)
+      instance_variable_get(ivar)
+    elsif args.size == 1 and attrs.include?(_meth_id.to_s)
+      instance_variable_set(ivar,args.first)
+    elsif x = search_method_in_parents(_meth_id)
+      x.send(_meth_id, *args, &block)
+    else
+      method_missing_alias(_meth_id, *args)
+    end
+  end
 
-def_alias "conjugate","conj"
+  def run
+    load_erb unless @erb
+    @erb.run(binding)
+  end
 
-# base_cond
-
-cond_binary "eq"
-cond_binary "ne"
-
-# nearly_eq  : x=~y is true if |x-y| <= (|x|+|y|)*epsilon
-if is_float
-  cond_binary "nearly_eq"
-else
-  def_alias "nearly_eq", "eq"
-end
-def_alias "close_to", "nearly_eq"
-
-
-# int
-if is_int
-  binary "bit_and"
-  binary "bit_or"
-  binary "bit_xor"
-  unary  "bit_not"
-  def_alias "floor", "copy"
-  def_alias "round", "copy"
-  def_alias "ceil",  "copy"
-end
-
-if is_float && is_real
-  unary "floor"
-  unary "round"
-  unary "ceil"
-end
-
-if is_comparable
-  cond_binary "gt"
-  cond_binary "ge"
-  cond_binary "lt"
-  cond_binary "le"
-  def_alias ">", "gt"
-  def_alias ">=","ge"
-  def_alias "<", "lt"
-  def_alias "<=","le"
-end
-
-# float
-
-if is_float
-  cond_unary "isnan"
-  cond_unary "isinf"
-  cond_unary "isfinite"
-end
-
-accum "sum"
-if is_comparable
-  accum "min"
-  accum "max"
-end
-
-# dot
-
-# min_index
-# max_index
-# minmax
-
-# mean
-# stddev
-# rms
-# rmsdev
-# cumsum
-# prod
-# cumprod
-
-def_method "seq",-1
-def_alias  "indgen", "seq"
-
-if !is_object
-  def_method "rand"
-end
-
-# y = a[0] + a[1]*x + a[2]*x^2 + a[3]*x^3 + ... + a[n]*x^n
-def_method "poly",-2
-
-if is_comparable && !is_object
-  qsort type_name,"dtype","*(dtype*)"
-  def_method "sort",-1
-  qsort type_name+"_index","dtype*","**(dtype**)"
-  def_method "sort_index",-1
-  def_method "median",-1
-end
-
-# Math
-# histogram
-
-if has_math
-  math "sqrt"
-  math "cbrt"
-  math "log"
-  math "log2"
-  math "log10"
-  math "exp"
-  math "exp2"
-  math "exp10"
-  math "sin"
-  math "cos"
-  math "tan"
-  math "asin"
-  math "acos"
-  math "atan"
-  math "sinh"
-  math "cosh"
-  math "tanh"
-  math "asinh"
-  math "acosh"
-  math "atanh"
-  if !is_complex
-    math "atan2",2
-    math "hypot",2
-    math "erf"
-    math "erfc"
-    math "ldexp",2
+  def result
+    load_erb unless @erb
+    @erb.result(binding)
   end
 end
 
-put_erb "init"
+# ----------------------------------------------------------------------
+
+module DefMethod
+
+  def def_method(meth, n_arg, tmpl=nil, opts={})
+    h = {:method => meth, :mod_var => 'cT', :n_arg => n_arg}
+    h.merge!(opts)
+    tmpl ||= meth
+    Function.new(self, tmpl, h)
+  end
+
+  def def_singleton(meth, n_arg, tmpl=nil)
+    def_method(meth, n_arg, tmpl, :singleton => true)
+  end
+
+  def def_alias(dst, src)
+    Alias.new(dst, src)
+  end
+
+  def binary(meth, ope=nil)
+    ope = meth if ope.nil?
+    def_method(meth, 1, "binary", :op => ope)
+  end
+
+  def unary(meth, ope=nil)
+    def_method(meth, 0, "unary", :op => ope)
+  end
+
+  def pow
+    def_method("pow", 1, "pow", :op => "**")
+  end
+
+  def unary2(meth, dtype, tpclass)
+    h = {:dtype => dtype, :tpclass => tpclass}
+    def_method(meth, 0, "unary2", h)
+  end
+
+  def set2(meth, dtype, tpclass)
+    h = {:dtype => dtype, :tpclass => tpclass}
+    def_method(meth, 1, "set2", h)
+  end
+
+  def cond_binary(meth,op=nil)
+    def_method(meth, 1, "cond_binary", :op => op)
+  end
+
+  def cond_unary(meth)
+    def_method(meth, 0, "cond_unary")
+  end
+
+  def bit_binary(meth, op=nil)
+    def_method(meth, 1, "bit_binary", :op => op)
+  end
+
+  def bit_unary(meth, op=nil)
+    def_method(meth, 0, "bit_unary", :op => op)
+  end
+
+  def bit_count(meth)
+    def_method(meth, -1, "bit_count")
+  end
+
+  def accum(meth)
+    def_method(meth, -1, "accum")
+  end
+
+  def qsort(tp, dtype, dcast)
+    h = {:tp => tp, :dtype => dtype, :dcast => dcast}
+    NodefFunction.new(self, "qsort", h)
+  end
+
+  def math(meth, n=1)
+    h = {:method => meth, :mod_var => 'mTM', :n_arg => n}
+    case n
+    when 1
+      Function.new(self, "unary_s", h)
+    when 2
+      Function.new(self, "binary_s", h)
+    when 3
+      Function.new(self, "ternary_s", h)
+    else
+      raise "invalid n=#{n}"
+    end
+  end
+
+  def store_numeric
+    StoreNum.new(self,"store_numeric")
+  end
+
+  def store_array
+    StoreArray.new(self,"store_array")
+  end
+
+  def cast_array
+    CastArray.new(self,"cast_array")
+  end
+
+  def store_from(cname,dtype,macro)
+    Store.new(self,"store_from",cname.downcase,dtype,"c"+cname,macro)
+  end
+
+  def store
+    Function.new(self,"store","store")
+  end
+
+  def find_method(meth)
+    Function::DEFS.find{|x| x.kind_of?(Function) and meth == x.method }
+  end
+
+  def find_tmpl(meth)
+    Function::DEFS.find{|x| x.kind_of?(Function) and meth == x.tmpl }
+  end
+
+  def cast_func
+    "nary_#{tp}_s_cast"
+  end
+end
+
+# ----------------------------------------------------------------------
+
+class DataType < LoadERB
+  include DefMethod
+
+  def initialize(erb_path, type_file)
+    super(nil, erb_path)
+    @class_alias = []
+    @upcast = []
+    load_type(type_file) if type_file
+  end
+
+  def load_type(file)
+    s = File.read(file)
+    eval(s)
+  end
+
+  attrs = %w[
+    class_name
+    ctype
+    blas_char
+    real_class_name
+    real_ctype
+    has_math
+    is_bit
+    is_int
+    is_float
+    is_real
+    is_complex
+    is_object
+    is_comparable
+  ]
+
+  define_attrs attrs
+
+  def type_name
+    @type_name ||= class_name.downcase
+  end
+  alias tp type_name
+
+  def type_var
+    @type_var ||= "c"+class_name
+  end
+
+  def math_var
+    @math_var ||= "m"+class_name+"Math"
+  end
+
+  def real_class_name(arg=nil)
+    if arg.nil?
+      @real_class_name ||= class_name
+    else
+      @real_class_name = arg
+    end
+  end
+
+  def real_ctype(arg=nil)
+    if arg.nil?
+      @real_ctype ||= ctype
+    else
+      @real_ctype = arg
+    end
+  end
+
+  def real_type_var
+    @real_type_var ||= "c"+real_class_name
+  end
+
+  def real_type_name
+    @real_type_name ||= real_class_name.downcase
+  end
+
+  def class_alias(*args)
+    @class_alias.concat(args)
+  end
+
+  def upcast(c=nil,t="T")
+    if c
+      @upcast << "rb_hash_aset(hCast, c#{c}, c#{t});"
+    else
+      @upcast
+    end
+  end
+
+  def upcast_rb(c,t="T")
+    if c=="Integer"
+      @upcast << "rb_hash_aset(hCast, rb_cFixnum, c#{t});"
+      @upcast << "rb_hash_aset(hCast, rb_cBignum, c#{t});"
+    else
+      @upcast << "rb_hash_aset(hCast, rb_c#{c}, c#{t});"
+    end
+  end
+end
+
+
+# ----------------------------------------------------------------------
+
+class Function < LoadERB
+  DEFS = []
+
+  attrs = %w[
+    singleton
+    method
+    mod_var
+    n_arg
+  ]
+  define_attrs attrs
+
+  def id_op
+    if op.size == 1
+      "'#{op}'"
+    else
+      "id_#{method}"
+    end
+  end
+
+  def initialize(parent,tmpl,*opts)
+    super
+    @aliases = []
+    @erb_path = File.join(TMPL_DIR, tmpl+".c")
+    DEFS.push(self)
+  end
+
+  def c_iter
+    "iter_#{type_name}_#{method}"
+  end
+  alias c_iterator c_iter
+
+  def c_func
+    s = singleton ? "_s" : ""
+    "nary_#{type_name}#{s}_#{method}"
+  end
+  alias c_function c_func
+  alias c_instance_method c_func
+
+  def op_map
+    @op || method
+  end
+
+  def code
+    result + "\n\n"
+  end
+
+  def definition
+    s = singleton ? "_singleton" : ""
+    m = op_map
+    "rb_define#{s}_method(#{mod_var}, \"#{m}\", #{c_func}, #{n_arg});"
+  end
+
+  def self.codes
+    a = []
+    DEFS.each do |i|
+      x = i.code
+      a.push(x) if x
+    end
+    a
+  end
+
+  def self.definitions
+    a = []
+    DEFS.each do |i|
+      x = i.definition
+      a.push(x) if x
+    end
+    a
+  end
+end
+
+class NodefFunction < Function
+  def definition
+    nil
+  end
+end
+
+class Alias < LoadERB
+  def initialize(dst, src)
+    @dst = dst
+    @src = src
+    Function::DEFS.push(self)
+  end
+
+  def code
+    nil
+  end
+
+  def definition
+    mod_var = 'cT'
+    "rb_define_alias(#{mod_var}, \"#{dst}\", \"#{src}\");"
+  end
+end
+
+# ----------------------------------------------------------------------
+
+class Store < Function #LoadERB
+  DEFS = []
+
+  def initialize(parent,tmpl,tpname,dtype,tpclass,macro)
+    super(parent,tmpl)
+    @tpname=tpname
+    @dtype=dtype
+    @tpclass=tpclass
+    @macro=macro
+    DEFS.push(self)
+  end
+  attr_reader :tmpl, :tpname, :dtype, :tpclass, :macro
+
+  def c_func
+    "nary_#{tp}_store_#{tpname}"
+  end
+
+  def c_iter
+    "iter_#{tp}_store_#{tpname}"
+  end
+
+  def definition
+    nil
+  end
+
+  def condition
+    "rb_obj_is_kind_of(obj,#{tpclass})"
+  end
+
+  def self.definitions
+    a = []
+    DEFS.each do |i|
+      a.push(i) if i.condition
+    end
+    a
+  end
+end
+
+class StoreNum < Store
+  def initialize(parent,tmpl)
+    super(parent,tmpl,"numeric",nil,nil,nil)
+  end
+
+  def condition
+    "FIXNUM_P(obj) || TYPE(obj)==T_FLOAT || TYPE(obj)==T_BIGNUM || rb_obj_is_kind_of(obj,rb_cComplex)"
+  end
+end
+
+class StoreArray < Store
+  def initialize(parent,tmpl)
+    super(parent,tmpl,"array",nil,nil,nil)
+  end
+
+  def c_func
+    "nary_#{tp}_#{tmpl}"
+  end
+
+  def condition
+    "TYPE(obj)==T_ARRAY"
+  end
+end
+
+class CastArray < StoreArray
+  def condition
+    nil
+  end
+end
+
+# ----------------------------------------------------------------------
+
+if !((1..2) === ARGV.size)
+  puts "usage:\n  ruby #{$0} erb_path [type_file]"
+  exit 1
+end
+
+erb_path = ARGV[0]
+type_file = ARGV[1]
+
+TMPL_DIR = "tmpl"
+DataType.new(erb_path, type_file).run

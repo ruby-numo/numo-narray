@@ -13,7 +13,6 @@
 #include "template.h"
 
 <%
-require "./cogen_lib"
 $embed = true
 class_name "Bit"
 %>
@@ -40,9 +39,7 @@ static inline dtype load_data(void *ptr, size_t pos) {
 
 VALUE <%=type_var%>;
 
-
 static VALUE nary_cast_array_to_bit(VALUE ary);
-
 
 static VALUE
 nary_bit_cast_numeric(VALUE val)
@@ -424,14 +421,20 @@ nary_bit_extract(VALUE self)
     return self;
 }
 
-<%=bit_binary "and" %>
-<%=bit_binary "or" %>
-<%=bit_binary "xor" %>
-<%=bit_binary "eq" %>
-<%=bit_unary  "not" %>
-<%=bit_unary  "copy" %>
-<%=bit_count  "count_true" %>
-<%=bit_count  "count_false" %>
+<%
+bit_binary "and", "&"
+bit_binary "or" , "|"
+bit_binary "xor", "^"
+bit_binary "eq"
+bit_unary  "not", "~"
+bit_unary  "copy"
+bit_count  "count_true"
+bit_count  "count_false"
+Function.codes.each do |x|
+%>
+<%= x %>
+<% end %>
+
 
 VALUE
 nary_bit_store(VALUE dst, VALUE src)
@@ -686,8 +689,8 @@ Init_nary_bit()
     rb_define_singleton_method(cT, "[]", nary_bit_s_cast, -2);
     rb_define_method(cT, "coerce_cast", nary_bit_coerce_cast, 1);
 
-    <% Template::INIT.each do |x| %>
-    <%=x%><% end %>
+    <% Function.definitions.each do |x| %>
+    <%= x %><% end %>
 
     rb_define_alias (cT, "count_1","count_true");
     rb_define_alias (cT, "count_0","count_false");
