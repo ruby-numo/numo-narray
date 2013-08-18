@@ -56,15 +56,16 @@ VALUE nary_math_cast2(VALUE type1, VALUE type2)
 }
 
 
-VALUE na_array_type(VALUE);
+VALUE na_ary_composition_dtype(VALUE);
 
 VALUE nary_mathcast(int argc, VALUE *argv)
 {
-    VALUE type;
+    VALUE type, type2;
     int i;
-    type = rb_cFixnum;
-    for (i=0; i<argc; i++) {
-	type = nary_math_cast2( type, na_array_type(argv[i]) );
+    type = na_ary_composition_dtype(argv[0]);
+    for (i=1; i<argc; i++) {
+        type2 = na_ary_composition_dtype(argv[i]);
+	type = nary_math_cast2(type, type2);
 	if (NIL_P(type)) {
 	    rb_raise(rb_eTypeError,"%s is unknown for NArray::Math",
 		     rb_class2name(argv[i]));

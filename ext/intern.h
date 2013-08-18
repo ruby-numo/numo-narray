@@ -96,5 +96,6 @@ void nary_step_sequence(VALUE self, size_t *plen, double *pbeg, double *pstep);
 
 VALUE nary_init_accum_aref0(VALUE self, VALUE reduce);
 
+VALUE nary_mathcast(int argc, VALUE *argv);
 
 #endif /* ifndef INTERN_H */

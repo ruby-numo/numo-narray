@@ -44,11 +44,12 @@ Function.codes.each do |x| %>
 <%= x %>
 <% end %>
 
-void
+VALUE
 Init_nary_<%=type_name%>_linalg()
 {
     mTL = rb_define_module_under(cT, "Linalg");
 
     <% Function.definitions.each do |x| %><%= x %>
     <% end %>
+    return mTL;
 }
