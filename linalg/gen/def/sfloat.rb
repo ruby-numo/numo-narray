@@ -1,3 +1,5 @@
 class_name  "SFloat"
 ctype       "float"
 blas_char   "s"
+complex_class_name "SComplex"
+complex_type "scomplex"

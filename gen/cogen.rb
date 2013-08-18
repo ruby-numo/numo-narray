@@ -233,6 +233,8 @@ class DataType < LoadERB
     class_name
     ctype
     blas_char
+    complex_class_name
+    complex_type
     real_class_name
     real_ctype
     has_math

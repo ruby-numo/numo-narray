@@ -1,7 +1,14 @@
 COGEN=ruby -r erb -r../../gen/modify_erb.rb ../../gen/cogen.rb
+DEPS=../gen/linalg.erb.c ../gen/tmpl/*.c
 
-linalg_d.c: ../gen/linalg.erb.c
+linalg_d.c: $(DEPS) ../gen/def/dfloat.rb
 	(cd ../gen; $(COGEN) linalg.erb.c def/dfloat.rb) > $@
 
-linalg_s.c: ../gen/linalg.erb.c
+linalg_s.c: $(DEPS) ../gen/def/sfloat.rb
 	(cd ../gen; $(COGEN) linalg.erb.c def/sfloat.rb) > $@
+
+linalg_z.c: $(DEPS) ../gen/def/dcomplex.rb
+	(cd ../gen; $(COGEN) linalg.erb.c def/dcomplex.rb) > $@
+
+linalg_c.c: $(DEPS) ./gen/def/scomplex.rb
+	(cd ../gen; $(COGEN) linalg.erb.c def/scomplex.rb) > $@

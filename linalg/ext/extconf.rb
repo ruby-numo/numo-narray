@@ -11,6 +11,8 @@ srcs = %w(
 linalg
 linalg_d
 linalg_s
+linalg_z
+linalg_c
 )
 $objs = srcs.collect{|i| i+".o"}
 fflags = ""
