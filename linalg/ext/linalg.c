@@ -1,10 +1,15 @@
 #include "ruby.h"
 #include "narray.h"
 
-extern VALUE Init_nary_dfloat_linalg();
-extern VALUE Init_nary_sfloat_linalg();
-extern VALUE Init_nary_dcomplex_linalg();
-extern VALUE Init_nary_scomplex_linalg();
+extern void Init_nary_dfloat_linalg();
+extern void Init_nary_sfloat_linalg();
+extern void Init_nary_dcomplex_linalg();
+extern void Init_nary_scomplex_linalg();
+
+VALUE mDFloatLinalg;
+VALUE mSFloatLinalg;
+VALUE mDComplexLinalg;
+VALUE mSComplexLinalg;
 
 /*
   Dispatches method to NArray::Linalg module of upcasted type,
@@ -43,8 +48,13 @@ Init_linalg()
     hCast = rb_hash_new();
     rb_define_const(mLinalg, "DISPATCH", hCast);
 
-    rb_hash_aset(hCast, cDFloat, Init_nary_dfloat_linalg());
-    rb_hash_aset(hCast, cSFloat, Init_nary_sfloat_linalg());
-    rb_hash_aset(hCast, cDComplex, Init_nary_dcomplex_linalg());
-    rb_hash_aset(hCast, cSComplex, Init_nary_scomplex_linalg());
+    Init_nary_dfloat_linalg();
+    Init_nary_sfloat_linalg();
+    Init_nary_dcomplex_linalg();
+    Init_nary_scomplex_linalg();
+
+    rb_hash_aset(hCast, cDFloat, mDFloatLinalg);
+    rb_hash_aset(hCast, cSFloat, mSFloatLinalg);
+    rb_hash_aset(hCast, cDComplex, mDComplexLinalg);
+    rb_hash_aset(hCast, cSComplex, mSComplexLinalg);
 }

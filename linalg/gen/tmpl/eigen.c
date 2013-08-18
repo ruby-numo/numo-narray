@@ -82,17 +82,14 @@ static void
 
 
 /*
-  <%=blas_char%>geev - computes for an N-by-N real nonsymmetric matrix A,
-  the eigenvalues and, optionally, the left and/or right eigenvectors
-
-  @overload eigen(narray,[iopt])
-  @param [NArray::<%=class_name%>] narray >=2-dimentional NArray.
-  @return [[NArray::<%=complex_class_name%>,NArray::<%=complex_class_name%>]] pair of eigenvalue and eigenvector
+  @overload eigen(a)
+  @param [NArray::<%=class_name%>] a >=2-dimentional NArray.
+  @return [[NArray::<%=complex_class_name%>,NArray::<%=complex_class_name%>]] pair of eigenvalue and right eigenvector
   @raise
 
-  <%=blas_char%>geev computes for an N-by-N real nonsymmetric matrix A,
-  the eigenvalues and, optionally, the left and/or right eigenvectors.
-  The  right eigenvector v(j) of A satisfies
+  <%=blas_char%>geev - computes the eigenvalues and the right eigenvectors
+  for an N-by-N real nonsymmetric matrix A.
+  The right eigenvector v(j) of A satisfies
                         A * v(j) = lambda(j) * v(j)
   where lambda(j) is its eigenvalue.
   The computed eigenvectors are normalized to have

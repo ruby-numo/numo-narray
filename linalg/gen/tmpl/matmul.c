@@ -40,18 +40,15 @@ static void
 
 
 /*
-  <%=blas_char%>gemm - performs one of the matrix-matrix operations
-  C := alpha*op( A )*op( B ) + beta*C,
-  @overload solve(narray,[iopt])
-  @param [NArray::<%=class_name%>] narray >=2-dimentional NArray.
+  @overload matmul(a, b)
+  @param [NArray::<%=class_name%>] a  >=2-dimentional NArray.
+  @param [NArray::<%=class_name%>] b  >=2-dimentional NArray.
   @return [NArray::<%=class_name%>]
   @raise
 
-  <%=blas_char%>gemm performs one of the matrix-matrix operations
-  where  op( X ) is one of
-    op( X ) = X   or   op( X ) = X',
-  alpha and beta are scalars, and A, B and C are matrices,
-  with op( A ) an m by k matrix, op( B ) a  k by n matrix and
+  <%=blas_char%>gemm - performs matrix-matrix multiplication : C = A B
+  where A, B and C are matrices,
+  with A an m by k matrix, B a k by n matrix and
   C an m by n matrix.
 */
 static VALUE
@@ -62,7 +59,7 @@ static VALUE
     size_t    shape[2];
     ndfunc_arg_in_t ain[2] = {{cT,2},{cT,2}};
     ndfunc_arg_out_t aout[1] = {{cT,2,shape}};
-    ndfunc_t  ndf = {<%=c_iter%>, NO_LOOP|NDF_STRIDE_LOOP, 2, 1, ain, aout};
+    ndfunc_t  ndf = {<%=c_iter%>, NO_LOOP, 2, 1, ain, aout};
 
     GetNArray(a1,na1);
     GetNArray(a2,na2);

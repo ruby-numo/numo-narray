@@ -16,6 +16,7 @@
 //#include <blas.h>
 
 #define cCT c<%=complex_class_name%>
+#define mTL m<%=class_name%>Linalg
 typedef <%=complex_type%> ctype;
 
 static VALUE mTL;
@@ -44,12 +45,14 @@ Function.codes.each do |x| %>
 <%= x %>
 <% end %>
 
-VALUE
+void
 Init_nary_<%=type_name%>_linalg()
 {
+    VALUE cN, cT;
+    cN = rb_define_class("NArray", rb_cObject);
+    cT = rb_define_class_under(cN, "<%=class_name%>", cN);
     mTL = rb_define_module_under(cT, "Linalg");
 
     <% Function.definitions.each do |x| %><%= x %>
     <% end %>
-    return mTL;
 }

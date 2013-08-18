@@ -42,13 +42,13 @@ static void
 }
 
 /*
-  <%=blas_char%>gesv - computes the solution to a complex system of linear equations  A * X = B,
-  @overload solve(narray,[iopt])
-  @param [NArray::<%=class_name%>] narray >=2-dimentional NArray.
+  @overload solve(a,b)
+  @param [NArray::<%=class_name%>] a  >=2-dimentional NArray.
+  @param [NArray::<%=class_name%>] b  >=2-dimentional NArray.
   @return [NArray::<%=class_name%>]
   @raise
 
-  <%=blas_char%>gesv computes the solution to a complex system of linear equations
+  <%=blas_char%>gesv - computes the solution to a complex system of linear equations
      A  *  X = B,
   where A is an N-by-N matrix and X and B are N-by-NRHS matrices.
   The LU decomposition with partial pivoting and row interchanges is used to factor A as
@@ -67,7 +67,7 @@ static VALUE
     size_t    shape2[1];
     ndfunc_arg_in_t ain[4] = {{cT,2},{cT,2},{sym_init,0},{sym_option}};
     ndfunc_arg_out_t aout[2] = {{cT,2,shape1},{cInt32,1,shape2}};
-    ndfunc_t  ndf = {<%=c_iter%>, NO_LOOP|NDF_STRIDE_LOOP, 4, 2, ain, aout};
+    ndfunc_t  ndf = {<%=c_iter%>, NO_LOOP, 4, 2, ain, aout};
 
     if (sizeof(fortran_integer)==8) {
         aout[1].type = cInt64;
@@ -86,10 +86,10 @@ static VALUE
     shape1[0] = n21; // n
     shape1[1] = n22; // nrhs
     shape2[0] = n11;
-    printf("n11=%ld\n",n11);
-    printf("n12=%ld\n",n12);
-    printf("n21=%ld\n",n21);
-    printf("n22=%ld\n",n22);
+    //printf("n11=%ld\n",n11);
+    //printf("n12=%ld\n",n12);
+    //printf("n21=%ld\n",n21);
+    //printf("n22=%ld\n",n22);
     // Work memory
     data = ALLOC_N(dtype, n11*n12);
     opt = Data_Wrap_Struct(rb_cData,0,0,data);
