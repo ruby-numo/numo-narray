@@ -38,6 +38,22 @@ static void
     <%=blas_char%>gemm_(trans,trans,&m,&n,&k,&alpha,a,&lda,b,&ldb,&beta,c,&ldc);
 }
 
+
+/*
+  <%=blas_char%>gemm - performs one of the matrix-matrix operations
+  C := alpha*op( A )*op( B ) + beta*C,
+  @overload solve(narray,[iopt])
+  @param [NArray::<%=class_name%>] narray >=2-dimentional NArray.
+  @return [NArray::<%=class_name%>]
+  @raise
+
+  <%=blas_char%>gemm performs one of the matrix-matrix operations
+  where  op( X ) is one of
+    op( X ) = X   or   op( X ) = X',
+  alpha and beta are scalars, and A, B and C are matrices,
+  with op( A ) an m by k matrix, op( B ) a  k by n matrix and
+  C an m by n matrix.
+*/
 static VALUE
 <%=c_func%>(VALUE mod, VALUE a1, VALUE a2)
 {
