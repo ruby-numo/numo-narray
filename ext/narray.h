@@ -142,6 +142,8 @@ typedef struct { float dat[2]; }  scomplex;
 typedef struct { double dat[2]; } dcomplex;
 typedef int fortran_integer;
 
+#define REAL(x) ((x).dat[0])
+#define IMAG(x) ((x).dat[1])
 
 extern int na_debug_flag;
 

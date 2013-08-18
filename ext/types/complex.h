@@ -10,9 +10,6 @@
 */
 
 
-#define REAL(x) ((x).dat[0])
-#define IMAG(x) ((x).dat[1])
-
 static inline dtype c_new(rtype r, rtype i) {
     dtype z;
     REAL(z) = r;
