@@ -82,7 +82,8 @@ static void
 
 
 /*
-  <%=blas_char%>geev - computes for an N-by-N real nonsymmetric matrix A, the eigenvalues and, optionally, the left and/or right eigenvectors
+  <%=blas_char%>geev - computes for an N-by-N real nonsymmetric matrix A,
+  the eigenvalues and, optionally, the left and/or right eigenvectors
 
   @overload eigen(narray,[iopt])
   @param [NArray::<%=class_name%>] narray >=2-dimentional NArray.
@@ -143,8 +144,8 @@ static VALUE
     opt->rwork = (rtype*)ptr;
     opt->lwork = lwork;
     <% else %>
-    <%=blas_char%>geev_(chr, chr, &m, dmy, &n, dmy, dmy,
-                        dmy, &n, dmy, &n, wk, &lwork, &info);
+    <%=blas_char%>geev_(chr, chr, &m, dmy, &m, dmy, dmy,
+                        dmy, &m, dmy, &m, wk, &lwork, &info);
     lwork = wk[0];
     sz[0] = ((sizeof(geev_work_t)-1)/16+1)*16;
     sz[1] = sizeof(dtype)*lwork; // work
