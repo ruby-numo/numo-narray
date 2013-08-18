@@ -15,6 +15,9 @@
 #include "<%=type_name%>.h"
 //#include <blas.h>
 
+#define cCT c<%=complex_class_name%>
+typedef <%=complex_type%> ctype;
+
 static VALUE mTL;
 
 // Error Class ??
@@ -31,7 +34,12 @@ mod_var "mTL"
   matmul
   solve
 ].map{|a| def_singleton(a,2,a,:mod_var=>"mTL")}
-def_alias "mmdot", "matmul"
+
+%w[
+  eigen
+].map{|a| def_singleton(a,1,a,:mod_var=>"mTL")}
+
+#def_alias "mmdot", "matmul"
 Function.codes.each do |x| %>
 <%= x %>
 <% end %>
