@@ -65,8 +65,8 @@ binary "mul", "*"
 binary "div", "/"
 
 if !is_complex
-  #binary "mod", "%"
-  #def_method "divmod", 0
+  binary "mod", "%"
+  binary2 "divmod"
 end
 
 pow

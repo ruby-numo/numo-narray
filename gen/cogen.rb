@@ -122,6 +122,11 @@ module DefMethod
     def_method(meth, 1, "binary", :op => ope)
   end
 
+  def binary2(meth, ope=nil)
+    ope = meth if ope.nil?
+    def_method(meth, 1, "binary2", :op =>ope)
+  end
+
   def unary(meth, ope=nil)
     def_method(meth, 0, "unary", :op => ope)
   end

@@ -319,6 +319,7 @@ ndloop_alloc(ndfunc_t *nf, VALUE args, void *opt_ptr, unsigned int copy_flag,
     lp->reduce = Qnil;
     lp->user.option = Qnil;
     lp->user.opt_ptr = opt_ptr;
+    lp->user.err_type = Qfalse;
     lp->loop_opt = Qnil;
     lp->loop_func = loop_func;
 
@@ -747,6 +748,10 @@ ndloop_run(VALUE vlp)
     // loop
     (*(lp->loop_func))(nf, lp);
 
+    if (RTEST(lp->user.err_type)) {
+        rb_raise(lp->user.err_type, "error in NArray operation");
+    }
+
     // write-back will be placed here
     ndfunc_write_back(nf, lp, orig_args, results);
 
@@ -800,6 +805,7 @@ loop_narray(ndfunc_t *nf, na_md_loop_t *lp)
         }
 
         (*(nf->func))(&(lp->user));
+        if (RTEST(lp->user.err_type)) {return;}
 
         for (;;) {
             if (i<=0) goto loop_end;

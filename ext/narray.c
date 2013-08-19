@@ -18,6 +18,7 @@
 VALUE cNArray;
 VALUE nary_eCastError;
 VALUE nary_eShapeError;
+VALUE nary_eOperationError;
 
 ID id_contiguous_stride;
 ID id_element_bit_size;
@@ -33,6 +34,7 @@ ID id_sub;
 ID id_mul;
 ID id_div;
 ID id_mod;
+ID id_divmod;
 ID id_pow;
 ID id_bit_and;
 ID id_bit_or;
@@ -1151,6 +1153,7 @@ Init_narray()
 
     nary_eCastError = rb_define_class_under(cNArray, "CastError", rb_eStandardError);
     nary_eShapeError = rb_define_class_under(cNArray, "ShapeError", rb_eStandardError);
+    nary_eOperationError = rb_define_class_under(cNArray, "OperationError", rb_eStandardError);
 
     rb_define_singleton_method(cNArray, "debug=", na_debug_set, 1);
     rb_define_singleton_method(cNArray, "profile", na_profile, 0);

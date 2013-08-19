@@ -151,6 +151,7 @@ extern int na_debug_flag;
 extern VALUE cNArray;
 extern VALUE nary_eCastError;
 extern VALUE nary_eShapeError;
+extern VALUE nary_eOperationError;
 
 //EXTERN const int na_sizeof[NA_NTYPES+1];
 #endif
@@ -180,6 +181,7 @@ extern ID id_sub;
 extern ID id_mul;
 extern ID id_div;
 extern ID id_mod;
+extern ID id_divmod;
 extern ID id_pow;
 extern ID id_bit_and;
 extern ID id_bit_or;

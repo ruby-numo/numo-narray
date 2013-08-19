@@ -18,7 +18,9 @@ EXTERN double exp10(double);
 #define m_sub(x,y) ((x)-(y))
 #define m_mul(x,y) ((x)*(y))
 #define m_div(x,y) ((x)/(y))
+#define m_div_check(x,y) ((y)==0)
 #define m_mod(x,y) fmod(x,y)
+#define m_divmod(x,y,a,b) {a=(x)/(y); b=m_mod(x,y);}
 #define m_pow(x,y) pow(x,y)
 #define m_pow_int(x,y) pow_int(x,y)
 

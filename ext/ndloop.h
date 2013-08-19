@@ -32,6 +32,7 @@ typedef struct NA_LOOP {
     na_loop_iter_t *iter;  // for each dim, each arg
     VALUE  option;
     void  *opt_ptr;
+    VALUE  err_type;
 } na_loop_t;
 
 
