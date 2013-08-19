@@ -112,6 +112,11 @@ module DefMethod
     Alias.new(self, dst, src)
   end
 
+  def def_allocate(tmpl)
+    h = {:mod_var => mod_var, :method => "allocate", :singleton => true}
+    Allocate.new(self, tmpl, h)
+  end
+
   def binary(meth, ope=nil)
     ope = meth if ope.nil?
     def_method(meth, 1, "binary", :op => ope)
@@ -404,6 +409,12 @@ class Alias < LoadERB
   def definition
     #mod_var = 'cT'
     "rb_define_alias(#{mod_var}, \"#{dst}\", \"#{src}\");"
+  end
+end
+
+class Allocate < Function
+  def definition
+    "rb_define_alloc_func(#{mod_var}, #{c_func});"
   end
 end
 

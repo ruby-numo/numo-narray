@@ -2,18 +2,19 @@ require "rake/clean"
 DEFS = FileList["def/*.rb"]
 ERBS = FileList["erb/*.c"]
 TMPL = FileList["tmpl/*.c"]
-SCRIPT = FileList["cogen*.rb"]
+SCRIPT = FileList["cogen.rb"]
 TARGETS = []
 DSTDIR = "../ext/types/"
+DTYPE_ERB = "dtype.erb.c"
 
 directory DSTDIR
 COGEN = "ruby -r erb cogen.rb"
 
-DEFS.each do |rb|
-  TARGETS << c = DSTDIR+File.basename(rb,".rb")+".c"
+DEFS.each do |df|
+  TARGETS << c = DSTDIR+File.basename(df,".rb")+".c"
   # generate C from templates
-  file c => [rb,DSTDIR]+TMPL+SCRIPT do |t|
-    sh "#{COGEN} dtype.erb.c #{t.prerequisites[0]} > #{t.name}"
+  file c => [df,DTYPE_ERB,DSTDIR,]+TMPL+SCRIPT do |t|
+    sh "#{COGEN} #{DTYPE_ERB} #{t.prerequisites[0]} > #{t.name}"
   end
 end
 

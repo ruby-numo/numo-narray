@@ -208,6 +208,10 @@ if has_math
     math "ldexp",2
   end
 end
+
+if is_object
+  def_allocate "robj_allocate"
+end
 %>
 static VALUE <%= find_tmpl('store').c_func %>(VALUE,VALUE);
 <%

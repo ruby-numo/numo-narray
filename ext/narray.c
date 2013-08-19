@@ -178,17 +178,20 @@ rb_narray_debug_info(VALUE self)
 }
 
 
-static void
+void
 na_free(narray_data_t* na)
 {
     assert(na->base.type==NARRAY_DATA_T);
 
     if (na->ptr != NULL) {
         xfree(na->ptr);
+        na->ptr = NULL;
     }
     if (na->base.size > 0) {
-        if (na->base.shape != NULL && na->base.shape != &(na->base.size))
+        if (na->base.shape != NULL && na->base.shape != &(na->base.size)) {
             xfree(na->base.shape);
+            na->base.shape = NULL;
+        }
     }
     xfree(na);
 }
@@ -200,10 +203,13 @@ na_free_view(narray_view_t* na)
 
     if (na->stridx != NULL) {
         xfree(na->stridx);
+        na->stridx = NULL;
     }
     if (na->base.size > 0) {
-        if (na->base.shape != NULL && na->base.shape != &(na->base.size))
+        if (na->base.shape != NULL && na->base.shape != &(na->base.size)) {
             xfree(na->base.shape);
+            na->base.shape = NULL;
+        }
     }
     xfree(na);
 }
@@ -379,7 +385,7 @@ rb_narray_new(VALUE klass, int ndim, size_t *shape)
 {
     volatile VALUE obj;
 
-    obj = na_s_allocate(klass);
+    obj = rb_funcall(klass, rb_intern("allocate"), 0);
     na_setup(obj, ndim, shape);
     return obj;
 }
