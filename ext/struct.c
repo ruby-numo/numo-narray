@@ -81,6 +81,101 @@ nst_definition(VALUE nst, VALUE idx)
 
 void na_copy_array_structure(VALUE self, VALUE view);
 
+VALUE
+na_make_view_struct(VALUE self, VALUE dtype, VALUE offset)
+{
+    size_t i, n;
+    int j, k, ndim;
+    size_t *shape;
+    size_t *idx1, *idx2;
+    ssize_t stride;
+    stridx_t *stridx;
+    narray_t *na, *nt;
+    narray_view_t *na1, *na2;
+    VALUE klass;
+    volatile VALUE view;
+
+    GetNArray(self,na);
+
+    // build from NArray::Struct
+    if (rb_obj_is_kind_of(dtype,cNArray)) {
+	GetNArray(dtype,nt);
+        ndim = na->ndim + nt->ndim;
+        shape = ALLOCA_N(size_t,ndim);
+        // struct dimensions
+        for (j=0; j<na->ndim; j++) {
+            shape[j] = na->shape[j];
+        }
+        // member dimension
+        for (j=na->ndim,k=0; j<ndim; j++,k++) {
+            shape[j] = nt->shape[k];
+        }
+        klass = CLASS_OF(dtype);
+        stridx = ALLOC_N(stridx_t, ndim);
+        stride = na_dtype_elmsz(klass);
+        for (j=ndim,k=nt->ndim; k; ) {
+            SDX_SET_STRIDE(stridx[--j],stride);
+            stride *= nt->shape[--k];
+        }
+    } else {
+        ndim = na->ndim;
+        shape = ALLOCA_N(size_t,ndim);
+        for (j=0; j<ndim; j++) {
+            shape[j] = na->shape[j];
+        }
+        klass = CLASS_OF(self);
+        if (TYPE(dtype)==T_CLASS) {
+            if (RTEST(rb_class_inherited_p(dtype,cNArray))) {
+                klass = dtype;
+            }
+        }
+        stridx = ALLOC_N(stridx_t, ndim);
+    }
+
+    view = na_s_allocate_view(klass);
+    na_copy_flags(self, view);
+    GetNArrayView(view, na2);
+    na_setup_shape((narray_t*)na2, ndim, shape);
+    na2->stridx = stridx;
+
+    switch(na->type) {
+    case NARRAY_DATA_T:
+    case NARRAY_FILEMAP_T:
+        stride = na_get_elmsz(self);
+        for (j=na->ndim; j--;) {
+            SDX_SET_STRIDE(na2->stridx[j], stride);
+            stride *= na->shape[j];
+        }
+        na2->offset = 0;
+        na2->data = self;
+        break;
+    case NARRAY_VIEW_T:
+        GetNArrayView(self, na1);
+        for (j=na1->base.ndim; j--; ) {
+            if (SDX_IS_INDEX(na1->stridx[j])) {
+                n = na1->base.shape[j];
+                idx1 = SDX_GET_INDEX(na1->stridx[j]);
+                idx2 = ALLOC_N(size_t, na1->base.shape[j]);
+                for (i=0; i<n; i++) {
+                    idx2[i] = idx1[i];
+                }
+                SDX_SET_INDEX(na2->stridx[j],idx2);
+            } else {
+                na2->stridx[j] = na1->stridx[j];
+            }
+        }
+        na2->offset = na1->offset;
+        na2->data = na1->data;
+        break;
+    }
+
+    if (RTEST(offset)) {
+        na2->offset += NUM2SIZE(offset);
+    }
+
+    return view;
+}
+
 
 VALUE
 nst_field_view(VALUE self, VALUE idx)
@@ -126,19 +221,28 @@ nst_field_set(VALUE self, VALUE idx, VALUE other)
 static VALUE
 nst_method_missing(int argc, VALUE *argv, VALUE self)
 {
-    VALUE obj;
+    VALUE s, tag, obj;
 
-    if (argc != 1) {
+    if (argc == 2) {
+        s = rb_sym_to_s(argv[0]);
+        if (RSTRING_PTR(s)[RSTRING_LEN(s)-1] == '=') {
+            tag = rb_str_intern(rb_str_new(RSTRING_PTR(s), RSTRING_LEN(s)-1));
+            obj = nst_field(self, tag);
+            if (RTEST(obj)) {
+                rb_funcall(obj, rb_intern("store"), 1, argv[1]);
+                return argv[1];
+            }
+        }
         return rb_call_super(argc,argv);
-        //rb_raise(rb_eArgError,"wrong number of arguments (%d for 1)", argc);
     }
-    obj = nst_field(self,argv[0]);
-    if (RTEST(obj)) {
-        return obj;
+    if (argc == 1) {
+        obj = nst_field(self,argv[0]);
+        if (RTEST(obj)) {
+            return obj;
+        }
     }
     return rb_call_super(argc,argv);
 }
-
 
 
 /*
