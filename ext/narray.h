@@ -173,6 +173,8 @@ extern ID id_element_bit_size;
 extern ID id_element_byte_size;
 extern ID id_contiguous_stride;
 
+extern ID id_allocate;
+
 extern ID id_add;
 extern ID id_sub;
 extern ID id_mul;

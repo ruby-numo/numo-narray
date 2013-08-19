@@ -39,6 +39,36 @@ static inline dtype load_data(void *ptr, size_t pos) {
 
 VALUE <%=type_var%>;
 
+static VALUE
+nary_bit_allocate(VALUE self)
+{
+    narray_t *na;
+    char *ptr;
+
+    GetNArray(self,na);
+
+    switch(NA_TYPE(na)) {
+    case NARRAY_DATA_T:
+        ptr = NA_DATA_PTR(na);
+        if (na->size > 0 && ptr == NULL) {
+            ptr = xmalloc(((na->size-1)/sizeof(BIT_DIGIT)+1)*sizeof(BIT_DIGIT)/8);
+            NA_DATA_PTR(na) = ptr;
+        }
+        break;
+    case NARRAY_FILEMAP_T:
+        //ptr = ((narray_filemap_t*)na)->ptr;
+        // to be implemented
+        break;
+    case NARRAY_VIEW_T:
+        rb_funcall(NA_VIEW_DATA(na), id_allocate, 0);
+        break;
+    default:
+        rb_raise(rb_eRuntimeError,"invalid narray type");
+    }
+    return self;
+}
+
+
 static VALUE nary_cast_array_to_bit(VALUE ary);
 
 static VALUE
@@ -397,7 +427,7 @@ nary_cast_array_to_bit(VALUE rary)
     vnc = na_ary_composition(rary);
     Data_Get_Struct(vnc, na_compose_t, nc);
     nary = rb_narray_new(cT, nc->ndim, nc->shape);
-    na_alloc_data(nary);
+    nary_bit_allocate(nary);
     na_ndloop_cast_rarray_to_narray(&ndf, rary, nary);
     return nary;
 }
@@ -684,6 +714,8 @@ Init_nary_bit()
     rb_define_const(cT, "ELEMENT_BIT_SIZE",  INT2FIX(1));
     rb_define_const(cT, "ELEMENT_BYTE_SIZE", rb_float_new(1.0/8));
     rb_define_const(cT, "CONTIGUOUS_STRIDE", INT2FIX(1));
+
+    rb_define_method(cT, "allocate", nary_bit_allocate, 0);
 
     rb_define_singleton_method(cT, "cast", nary_bit_s_cast, 1);
     rb_define_singleton_method(cT, "[]", nary_bit_s_cast, -2);

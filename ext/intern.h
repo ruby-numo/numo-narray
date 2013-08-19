@@ -45,7 +45,6 @@ VALUE na_s_allocate_view(VALUE klass);
 
 void na_alloc_shape(narray_t *na, int ndim);
 void na_alloc_index(narray_t *na);
-void na_alloc_data(VALUE self);
 
 void na_copy_flags(VALUE src, VALUE dst);
 
@@ -77,7 +76,8 @@ void  na_ndloop_inspect(VALUE nary, VALUE buf, na_text_func_t func, VALUE opt);
 
 VALUE na_info_str(VALUE);
 
-size_t na_get_elmsz(VALUE);
+size_t na_get_elmsz(VALUE nary);
+size_t na_dtype_elmsz(VALUE klass);
 
 boolean na_test_reduce(VALUE reduce, int dim);
 

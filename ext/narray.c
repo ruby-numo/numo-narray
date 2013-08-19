@@ -27,6 +27,7 @@ VALUE cBit;
 VALUE cRObject;
 VALUE cPointer;
 
+ID id_allocate;
 ID id_add;
 ID id_sub;
 ID id_mul;
@@ -385,7 +386,7 @@ rb_narray_new(VALUE klass, int ndim, size_t *shape)
 {
     volatile VALUE obj;
 
-    obj = rb_funcall(klass, rb_intern("allocate"), 0);
+    obj = rb_funcall(klass, id_allocate, 0);
     na_setup(obj, ndim, shape);
     return obj;
 }
@@ -401,22 +402,6 @@ rb_narray_view_new(VALUE klass, int ndim, size_t *shape)
     return obj;
 }
 
-
-void
-na_alloc_data(VALUE self)
-{
-    narray_t *na;
-    GetNArray(self,na);
-
-    if (NA_TYPE(na)==NARRAY_DATA_T) {
-        if (na->size>0 && NA_DATA_PTR(na)==NULL) {
-            NA_DATA_PTR(na) = xmalloc(na->size*na_get_elmsz(self));
-        }
-    }
-    else {
-        rb_bug("invalid narray type : %d",NA_TYPE(na));
-    }
-}
 
 /*
   Replaces the contents of self with the contents of other narray.
@@ -438,28 +423,9 @@ na_initialize_copy(VALUE self, VALUE orig)
 }
 
 
-static size_t
-na_bytesize(VALUE self)
-{
-    size_t bitsz, bytesz;
-    narray_t *na;
-    GetNArray(self,na);
-
-    bitsz = NUM2SIZE(rb_const_get(CLASS_OF(self), id_element_bit_size));
-    if (bitsz<8) {
-        bytesz = (bitsz * na->size - 1) / 8 + 1;
-    } else {
-        bytesz = (bitsz - 1) / 8 + 1;
-        bytesz *= na->size;
-    }
-    return bytesz;
-}
-
-
 char *
 na_get_pointer_for_write(VALUE self)
 {
-    size_t bytesz;
     char *ptr=NULL;
     narray_t *na;
 
@@ -480,9 +446,9 @@ na_get_pointer_for_write(VALUE self)
     switch(NA_TYPE(na)) {
     case NARRAY_DATA_T:
         ptr = NA_DATA_PTR(na);
-        if (ptr==NULL) {
-            bytesz = na_bytesize(self);
-            ptr = NA_DATA_PTR(na) = ALLOC_N(char,bytesz);
+        if (na->size > 0 && ptr == NULL) {
+            rb_funcall(self, id_allocate, 0);
+            ptr = NA_DATA_PTR(na);
         }
         break;
     case NARRAY_FILEMAP_T:
@@ -506,7 +472,6 @@ na_get_pointer_for_write(VALUE self)
 char *
 na_get_pointer_for_read(VALUE self)
 {
-  //size_t bytesz;
     char  *ptr=NULL;
     narray_t *na;
     GetNArray(self,na);
@@ -1322,7 +1287,7 @@ Init_narray()
 
     rb_define_method(cNArray, "==", na_equal, 1);
 
-
+    id_allocate = rb_intern("allocate");
     id_contiguous_stride = rb_intern(CONTIGUOUS_STRIDE);
     id_element_bit_size = rb_intern(ELEMENT_BIT_SIZE);
     id_element_byte_size = rb_intern(ELEMENT_BYTE_SIZE);

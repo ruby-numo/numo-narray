@@ -8,7 +8,8 @@ DSTDIR = "../ext/types/"
 DTYPE_ERB = "dtype.erb.c"
 
 directory DSTDIR
-COGEN = "ruby -r erb cogen.rb"
+#COGEN = "ruby -r erb cogen.rb"
+COGEN = "ruby -r erb -r./modify_erb.rb cogen.rb"
 
 DEFS.each do |df|
   TARGETS << c = DSTDIR+File.basename(df,".rb")+".c"

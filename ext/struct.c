@@ -14,6 +14,38 @@
 
 VALUE cStruct;
 
+
+static VALUE
+nst_allocate(VALUE self)
+{
+    narray_t *na;
+    char *ptr;
+    VALUE velmsz;
+
+    GetNArray(self,na);
+
+    switch(NA_TYPE(na)) {
+    case NARRAY_DATA_T:
+        ptr = NA_DATA_PTR(na);
+        if (na->size > 0 && ptr == NULL) {
+            velmsz = rb_const_get(CLASS_OF(self), id_element_byte_size);
+            ptr = xmalloc(NUM2SIZE(velmsz) * na->size);
+            NA_DATA_PTR(na) = ptr;
+        }
+        break;
+    case NARRAY_VIEW_T:
+        rb_funcall(NA_VIEW_DATA(na), id_allocate, 0);
+        break;
+    case NARRAY_FILEMAP_T:
+        //ptr = ((narray_filemap_t*)na)->ptr;
+        // to be implemented
+    default:
+        rb_bug("invalid narray type : %d",NA_TYPE(na));
+    }
+    return self;
+}
+
+
 static inline VALUE
 nst_definitions(VALUE nst)
 {
@@ -57,6 +89,7 @@ nst_field_view(VALUE self, VALUE idx)
 
     def = nst_definition(self, idx);
     if (!RTEST(def)) {
+        idx = rb_funcall(idx, rb_intern("to_s"), 0);
         rb_raise(rb_eTypeError, "Invalid field: '%s' for struct %s",
                  StringValuePtr(idx), rb_class2name(CLASS_OF(self)));
     }
@@ -95,8 +128,9 @@ nst_method_missing(int argc, VALUE *argv, VALUE self)
 {
     VALUE obj;
 
-    if (argc!=1) {
-        rb_raise(rb_eArgError,"wrong number of arguments (%d for 1)", argc);
+    if (argc != 1) {
+        return rb_call_super(argc,argv);
+        //rb_raise(rb_eArgError,"wrong number of arguments (%d for 1)", argc);
     }
     obj = nst_field(self,argv[0]);
     if (RTEST(obj)) {
@@ -171,6 +205,7 @@ nst_s_new(int argc, VALUE *argv, VALUE klass)
 
     rb_define_singleton_method(st, "new", rb_class_new_instance, -1);
     //rb_define_singleton_method(st, "[]", rb_class_new_instance, -1);
+    rb_define_method(st, "allocate", nst_allocate, 0);
 
     return st;
 }
@@ -488,7 +523,7 @@ nary_struct_cast_array(VALUE klass, VALUE rary)
     //fprintf(stderr,"na->ndim=%d\n",na->ndim);
     if (na->size>0) {
         opt = nst_create_member_views(nary);
-        na_alloc_data(nary);
+        rb_funcall(nary, id_allocate, 0);
         na_ndloop_cast_rarray_to_narray2(&ndf, rary, nary, opt);
     }
     return nary;

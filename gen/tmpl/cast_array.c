@@ -71,8 +71,8 @@ static VALUE
     Data_Get_Struct(vnc, na_compose_t, nc);
     nary = rb_narray_new(cT, nc->ndim, nc->shape);
     GetNArray(nary,na);
-    if (na->size>0) {
-        na_alloc_data(nary);
+    if (na->size > 0) {
+        <%=find_tmpl("allocate").c_func%>(nary);
         na_ndloop_cast_rarray_to_narray(&ndf, rary, nary);
     }
     return nary;

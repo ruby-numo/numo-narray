@@ -806,7 +806,7 @@ na_sort_index_main(int argc, VALUE *argv, VALUE self,
     } else {
         idx = rb_narray_new(cInt32, na->ndim, na->shape);
     }
-    na_alloc_data(idx);
+    rb_funcall(idx, id_allocate, 0);
 
     idx_view = na_sort_view(argc, argv, idx);
     self_view = na_sort_view(argc, argv, self);

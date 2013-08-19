@@ -21,6 +21,11 @@ VALUE cT;
 VALUE mTM;
 #endif
 <%
+if is_object
+  def_allocate "robj_allocate"
+end
+def_method "allocate", 0
+
 def_method "extract", 0
 store_numeric
 cast_array
@@ -207,10 +212,6 @@ if has_math
     math "erfc"
     math "ldexp",2
   end
-end
-
-if is_object
-  def_allocate "robj_allocate"
 end
 %>
 static VALUE <%= find_tmpl('store').c_func %>(VALUE,VALUE);
