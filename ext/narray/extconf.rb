@@ -86,4 +86,4 @@ $objs = srcs.collect{|i| i+".o"}
 
 create_conf_h("narray_config.h")
 
-create_makefile('narray')
+create_makefile('narray/narray')

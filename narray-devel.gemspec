@@ -1,15 +1,14 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'narray/devel/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "narray-devel"
-  spec.version       = Narray::Devel::VERSION
+  spec.name          = "narray"
+  spec.version       = "0.9.0.1"
   spec.authors       = ["Masahiro TANAKA"]
   spec.email         = ["masa16.tanaka@gmail.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.description   = "narray development version"
+  spec.summary       = "narray development version"
   spec.homepage      = ""
   spec.license       = "MIT"
 
@@ -20,4 +19,7 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
+  spec.add_development_dependency "rake-compiler"
+
+  spec.extensions = %w[ext/narray/extconf.rb]
 end
