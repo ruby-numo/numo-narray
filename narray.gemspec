@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = "narray"
-  spec.version       = "0.9.0.1"
+  spec.version       = "0.9.2"
   spec.authors       = ["Masahiro TANAKA"]
   spec.email         = ["masa16.tanaka@gmail.com"]
   spec.description   = "narray development version"
