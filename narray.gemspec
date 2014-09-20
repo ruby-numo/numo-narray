@@ -21,5 +21,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake"
   spec.add_development_dependency "rake-compiler"
 
-  spec.extensions = %w[ext/narray/extconf.rb ext/narray-types/extconf.rb]
+  spec.extensions = %w[ext/narray/extconf.rb]
 end
