@@ -1,6 +1,6 @@
 require 'mkmf'
 $CFLAGS="-g -O0 -Wall"
-$INCFLAGS += " -I../narray"
+$INCFLAGS += " -I#{$srcdir}/../narray"
 
 srcs = %w(
 bit
