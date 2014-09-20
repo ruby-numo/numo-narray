@@ -1,9 +1,6 @@
 require 'mkmf'
 
 $CFLAGS="-g -O0 -Wall"
-##$CFLAGS=" $(cflags) -m64 -msse2 -funroll-loops"
-#$CFLAGS=" $(cflags) -O3"
-$INCFLAGS += " -I../narray-types"
 
 srcs = %w(
 narray
