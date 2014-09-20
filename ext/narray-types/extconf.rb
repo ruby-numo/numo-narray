@@ -19,6 +19,6 @@ dcomplex
 robject
 )
 
-$objs = srcs.collect{|i| i+".o"}
+$objs = srcs.collect{|i| i + ".o"}
 
-create_makefile('narray/types')
+create_makefile('narray-types')

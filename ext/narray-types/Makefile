@@ -130,15 +130,15 @@ DISTCLEANDIRS =
 
 extout = 
 extout_prefix = 
-target_prefix = /narray
+target_prefix = 
 LOCAL_LIBS = 
 LIBS = $(LIBRUBYARG_SHARED)  -lpthread -ldl -lcrypt -lm   -lc
 ORIG_SRCS = sfloat.c bit.c dfloat.c int16.c int8.c robject.c int64.c uint32.c scomplex.c uint64.c int32.c dcomplex.c uint8.c uint16.c
 SRCS = $(ORIG_SRCS) bit.c int8.c int16.c int32.c int64.c uint8.c uint16.c uint32.c uint64.c sfloat.c dfloat.c scomplex.c dcomplex.c robject.c
 OBJS = bit.o int8.o int16.o int32.o int64.o uint8.o uint16.o uint32.o uint64.o sfloat.o dfloat.o scomplex.o dcomplex.o robject.o
 HDRS = $(srcdir)/uint_macro.h $(srcdir)/int_macro.h $(srcdir)/uint8.h $(srcdir)/int16.h $(srcdir)/dcomplex.h $(srcdir)/int64.h $(srcdir)/uint32.h $(srcdir)/float_macro.h $(srcdir)/sfloat.h $(srcdir)/bit.h $(srcdir)/scomplex.h $(srcdir)/robj_macro.h $(srcdir)/complex.h $(srcdir)/dfloat.h $(srcdir)/uint64.h $(srcdir)/xint_macro.h $(srcdir)/int32.h $(srcdir)/float_def.h $(srcdir)/complex_macro.h $(srcdir)/uint16.h $(srcdir)/int8.h $(srcdir)/robject.h
-TARGET = types
-TARGET_NAME = types
+TARGET = narray-types
+TARGET_NAME = narray
 TARGET_ENTRY = Init_$(TARGET_NAME)
 DLLIB = $(TARGET).so
 EXTSTATIC = 
@@ -180,7 +180,7 @@ distclean: clean distclean-so distclean-static distclean-rb-default distclean-rb
 realclean: distclean
 install: install-so install-rb
 
-install-so: $(DLLIB) $(TIMESTAMP_DIR)/.RUBYARCHDIR.-.narray.time
+install-so: $(DLLIB) $(TIMESTAMP_DIR)/.RUBYARCHDIR.time
 	$(INSTALL_PROG) $(DLLIB) $(RUBYARCHDIR)
 clean-static::
 	-$(Q)$(RM) $(STATIC_LIB)
@@ -189,8 +189,8 @@ install-rb-default: pre-install-rb-default
 pre-install-rb: Makefile
 pre-install-rb-default: Makefile
 pre-install-rb-default:
-	$(ECHO) installing default types libraries
-$(TIMESTAMP_DIR)/.RUBYARCHDIR.-.narray.time:
+	$(ECHO) installing default narray-types libraries
+$(TIMESTAMP_DIR)/.RUBYARCHDIR.time:
 	$(Q) $(MAKEDIRS) $(@D) $(RUBYARCHDIR)
 	$(Q) $(TOUCH) $@
 
@@ -229,7 +229,7 @@ site-install-rb: install-rb
 	$(Q) $(CC) $(INCFLAGS) $(CPPFLAGS) $(CFLAGS) $(COUTFLAG)$@ -c $<
 
 $(DLLIB): $(OBJS) Makefile
-	$(ECHO) linking shared-object narray/$(DLLIB)
+	$(ECHO) linking shared-object $(DLLIB)
 	-$(Q)$(RM) $(@)
 	$(Q) $(LDSHARED) -o $@ $(OBJS) $(LIBPATH) $(DLDFLAGS) $(LOCAL_LIBS) $(LIBS)
 
