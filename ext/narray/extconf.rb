@@ -1,13 +1,9 @@
-require 'rbconfig.rb'
-
-#RbConfig::MAKEFILE_CONFIG["optflags"] = "-g3 -gdwarf-2"
-
 require 'mkmf'
 
 $CFLAGS="-g -O0 -Wall"
 ##$CFLAGS=" $(cflags) -m64 -msse2 -funroll-loops"
 #$CFLAGS=" $(cflags) -O3"
-$INCFLAGS = "-Itypes #$INCFLAGS"
+$INCFLAGS += " -I../narray-types"
 
 srcs = %w(
 narray
@@ -16,20 +12,6 @@ step
 index
 ndloop
 data
-types/bit
-types/int8
-types/int16
-types/int32
-types/int64
-types/uint8
-types/uint16
-types/uint32
-types/uint64
-types/sfloat
-types/dfloat
-types/scomplex
-types/dcomplex
-types/robject
 math
 SFMT
 struct
@@ -47,20 +29,6 @@ def create_conf_h(file)
   hfile.close
 end
 
-=begin
-have_header("atlas/cblas.h")
-have_library("atlas")
-
-if have_library("blas")
-  if have_library("lapack")
-    srcs.push "linalg"
-    $defs.push "-DHAVE_LAPACK"
-  else
-    #$defs.delete "-DHAVE_LAPACK"
-  end
-end
-=end
-
 if have_header("sys/types.h")
   header = "sys/types.h"
 else
@@ -76,9 +44,6 @@ have_type("int64_t", header)
 unless have_type("u_int64_t", header)
  have_type("uint64_t", header)
 end
-#have_library("m")
-#have_func("sincos")
-#have_func("asinh")
 
 have_var("rb_cComplex")
 

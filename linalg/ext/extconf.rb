@@ -5,7 +5,7 @@ require 'rbconfig.rb'
 require 'mkmf'
 
 $CFLAGS="-g -O0"
-$INCFLAGS = "-I../../ext -I../../ext/types #$INCFLAGS"
+$INCFLAGS += " -I../narray -I../narray-types"
 
 srcs = %w(
 linalg
