@@ -1,5 +1,5 @@
 class NArray
-  VERSION = "0.99"
+  VERSION = `git describe --dirty --abbrev=4`
 end
 
 require 'narray/narray'
