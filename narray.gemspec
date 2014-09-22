@@ -1,10 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require "narray"
 
 Gem::Specification.new do |spec|
   spec.name          = "narray"
-  spec.version       = "0.9.4"
+  spec.version       = NArray::VERSION
   spec.authors       = ["Masahiro TANAKA"]
   spec.email         = ["masa16.tanaka@gmail.com"]
   spec.description   = "new narray"
