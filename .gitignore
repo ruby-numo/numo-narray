@@ -20,6 +20,6 @@ tmp
 *.so
 mkmf.log
 ext/types/*.c
-ext/narray_config.h
-ext/Makefile
+ext/narray/narray_config.h
+ext/narray/Makefile
 TAGS
