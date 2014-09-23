@@ -1,6 +1,6 @@
 # Development of Next NArray
 ## Install
-(Enucatl)[https://github.com/Enucatl/narray-devel] fixed the installation
+[Enucatl](https://github.com/Enucatl/narray-devel) fixed the installation
 procedure, making it standard:
 ```bash:
 gem build narray.gemspec
