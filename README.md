@@ -1,7 +1,8 @@
 # Development of Next NArray
 ## Install
+(Enucatl)[https://github.com/Enucatl/narray-devel] fixed the installation
+procedure, making it standard:
 ```bash:
-cd gen; rake; cd -
 gem build narray.gemspec
 gem install narray-VERSION.gem
 ```
