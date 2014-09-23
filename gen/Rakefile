@@ -1,4 +1,5 @@
 require "rake/clean"
+
 DEFS = FileList["def/*.rb"]
 ERBS = FileList["erb/*.c"]
 TMPL = FileList["tmpl/*.c"]
