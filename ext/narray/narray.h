@@ -20,9 +20,6 @@
 # include <sys/types.h>
 #endif
 
-#define NARRAY_VERSION "0.9.0.1"
-#define NARRAY_VERSION_CODE 901
-
 /*
   Data types used in NArray :
   Please modify these types if your system has any different type.
