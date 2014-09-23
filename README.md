@@ -1,5 +1,10 @@
 # Development of Next NArray
-under development
+## Install
+```bash:
+cd gen; rake; cd -
+gem build narray.gemspec
+gem install narray-VERSION.gem
+```
 
 ## Directories
 * ext: C-extension source code.
