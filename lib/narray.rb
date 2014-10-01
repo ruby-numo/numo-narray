@@ -1,4 +1,4 @@
 class NArray
 end
 
-require 'narray/narray'
+require 'narray'

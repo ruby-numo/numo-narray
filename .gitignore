@@ -37,4 +37,4 @@ ext/narray/uint16.c
 ext/narray/uint32.c
 ext/narray/uint64.c
 ext/narray/uint8.c
-
+.RUBYARCHDIR.time
