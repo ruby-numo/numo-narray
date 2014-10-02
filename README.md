@@ -1,5 +1,11 @@
 # Development of Next NArray
-under development
+## Install
+[Enucatl](https://github.com/Enucatl/narray-devel) fixed the installation
+procedure, making it standard:
+```bash:
+gem build narray.gemspec
+gem install narray-VERSION.gem
+```
 
 ## Directories
 * ext: C-extension source code.

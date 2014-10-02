@@ -1,13 +1,6 @@
-require 'rbconfig.rb'
-
-#RbConfig::MAKEFILE_CONFIG["optflags"] = "-g3 -gdwarf-2"
-
 require 'mkmf'
 
 $CFLAGS="-g -O0 -Wall"
-##$CFLAGS=" $(cflags) -m64 -msse2 -funroll-loops"
-#$CFLAGS=" $(cflags) -O3"
-$INCFLAGS = "-Itypes #$INCFLAGS"
 
 srcs = %w(
 narray
@@ -16,24 +9,24 @@ step
 index
 ndloop
 data
-types/bit
-types/int8
-types/int16
-types/int32
-types/int64
-types/uint8
-types/uint16
-types/uint32
-types/uint64
-types/sfloat
-types/dfloat
-types/scomplex
-types/dcomplex
-types/robject
 math
 SFMT
 struct
 rand
+bit
+int8
+int16
+int32
+int64
+uint8
+uint16
+uint32
+uint64
+sfloat
+dfloat
+scomplex
+dcomplex
+robject
 )
 
 # util method
@@ -82,8 +75,8 @@ end
 
 have_var("rb_cComplex")
 
-$objs = srcs.collect{|i| i+".o"}
+$objs = srcs.collect{|i| i + ".o"}
 
 create_conf_h("narray_config.h")
 
-create_makefile('narray')
+create_makefile('narray/narray')

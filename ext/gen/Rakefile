@@ -4,7 +4,7 @@ ERBS = FileList["erb/*.c"]
 TMPL = FileList["tmpl/*.c"]
 SCRIPT = FileList["cogen.rb"]
 TARGETS = []
-DSTDIR = "../ext/types/"
+DSTDIR = "../narray/"
 DTYPE_ERB = "dtype.erb.c"
 
 directory DSTDIR
@@ -12,17 +12,17 @@ directory DSTDIR
 COGEN = "ruby -r erb -r./modify_erb.rb cogen.rb"
 
 DEFS.each do |df|
-  TARGETS << c = DSTDIR+File.basename(df,".rb")+".c"
+  TARGETS << c = DSTDIR + File.basename(df, ".rb") + ".c"
   # generate C from templates
-  file c => [df,DTYPE_ERB,DSTDIR,]+TMPL+SCRIPT do |t|
+  file c => [df, DTYPE_ERB, DSTDIR] + TMPL + SCRIPT do |t|
     sh "#{COGEN} #{DTYPE_ERB} #{t.prerequisites[0]} > #{t.name}"
   end
 end
 
 ERBS.each do |erb|
-  TARGETS << c = DSTDIR+File.basename(erb)
+  TARGETS << c = DSTDIR + File.basename(erb)
   # generate C from ERB
-  file c => [erb,DSTDIR]+TMPL+SCRIPT do |t|
+  file c => [erb, DSTDIR] + TMPL + SCRIPT do |t|
     sh "#{COGEN} #{t.prerequisites[0]} > #{t.name}"
   end
 end
