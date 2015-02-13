@@ -24,8 +24,6 @@ ID id_contiguous_stride;
 ID id_element_bit_size;
 ID id_element_byte_size;
 
-VALUE cBit;
-VALUE cRObject;
 VALUE cPointer;
 
 ID id_allocate;

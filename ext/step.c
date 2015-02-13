@@ -29,7 +29,6 @@
 #define DBL_EPSILON 2.2204460492503131e-16
 #endif
 
-VALUE na_cStep;
 static ID id_beg, id_end, id_len, id_step, id_excl;
 
 //#define EXCL(r) RTEST(rb_ivar_get((r), id_excl))
