@@ -31,9 +31,9 @@
 
 #define m_sum(x,y) {{y+=x;}}
 #define m_sum_init INT2FIX(0)
-#define m_min(x,y) {if (!isnan(x) && (isnan(y) || y>x)) {y=x;}}
+#define m_min(x,y) {if (y>x) {y=x;}}
 #define m_min_init nary_init_accum_aref0(self,reduce)
-#define m_max(x,y) {if (!isnan(x) && (isnan(y) || y<x)) {y=x;}}
+#define m_max(x,y) {if (y<x) {y=x;}}
 #define m_max_init nary_init_accum_aref0(self,reduce)
 
 #define cmp(a,b)                                        \

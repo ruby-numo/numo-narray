@@ -641,7 +641,9 @@ na_median_main(int argc, VALUE *argv, volatile VALUE self, na_iter_func_t iter_f
     char *buf;
 
     ndfunc_arg_in_t ain[1] = {{Qnil,1}}; /* user.dim=1 */
-    ndfunc_t ndf = { iter_func, NO_LOOP, 1, 0, ain, 0 };
+    ndfunc_arg_out_t aout[1] = {{INT2FIX(0),0}};
+    //ndfunc_t ndf = { iter_func, NO_LOOP, 1, 0, ain, 0 };
+    ndfunc_t ndf = { iter_func, NO_LOOP, 1, 1, ain, aout };
 
     GetNArray(self,na);
     ndim = na->ndim;
