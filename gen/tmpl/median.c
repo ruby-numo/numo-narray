@@ -7,7 +7,8 @@ static void
     size_t *idx1, *idx2;
     dtype *buf;
 
-    INIT_COUNTER(lp, n);
+    //INIT_COUNTER(lp, n);
+    n = lp->args[0].shape[0];
     INIT_PTR_IDX(lp, 0, p1, s1, idx1);
     INIT_PTR_IDX(lp, 1, p2, s2, idx2);
     buf = (dtype*)(lp->opt_ptr);
@@ -21,9 +22,11 @@ static void
         }
     }
     <%=tp%>_qsort(buf, n, sizeof(dtype));
+    <% if is_float %>
     for (; n; n--) {
         if (!isnan(buf[n-1])) break;
     }
+    <% end %>
     if (n==0) {
         *(dtype*)p2 = buf[0];
     }

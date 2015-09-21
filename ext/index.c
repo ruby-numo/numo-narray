@@ -673,7 +673,7 @@ na_index_parse_args(VALUE args, narray_t *na, na_index_arg_t *q, int nd)
             }
         }
         // new dimension
-        else if (SYM2ID(idx[i])==id_new) {
+        else if ((TYPE(idx[i])==T_SYMBOL) && (SYM2ID(idx[i])==id_new)) {
             na_index_parse_each(idx[i], 1, k, &q[j]);
             j++;
         }
@@ -702,7 +702,7 @@ na_index_aref_nadata(narray_data_t *na1, narray_view_t *na2,
     size_t  *index;
     ssize_t beg, step;
     VALUE m;
-    stridx_t sdx2;
+    //stridx_t sdx2;
 
     stride = ALLOC_N(ssize_t, na1->base.ndim);
 
@@ -713,7 +713,7 @@ na_index_aref_nadata(narray_data_t *na1, narray_view_t *na2,
     }
 
     for (i=j=0; i<ndim; i++) {
-        sdx2 = na2->stridx[j];
+        //sdx2 = na2->stridx[j];
         stride1 = stride[q[i].orig_dim];
 
         // numeric index -- trim dimension
@@ -762,12 +762,12 @@ na_index_aref_naview(narray_view_t *na1, narray_view_t *na2,
     ssize_t beg, step;
     size_t *index;
     VALUE m;
-    stridx_t sdx1, sdx2;
+    stridx_t sdx1/*, sdx2*/;
 
     for (i=j=0; i<ndim; i++) {
 
         sdx1 = na1->stridx[q[i].orig_dim];
-        sdx2 = na2->stridx[j];
+        //sdx2 = na2->stridx[j];
 
         // numeric index -- trim dimension
         if (!keep_dim && q[i].n==1 && q[i].step==0) {
@@ -866,7 +866,7 @@ na_aref_md(int argc, VALUE *argv, VALUE self, int keep_dim)
         GetNArray(self,na1);
     }
     ndim = na1->ndim + count_new;
-    q = ALLOC_N(na_index_arg_t, ndim);
+    q = ALLOCA_N(na_index_arg_t, ndim);
     na_index_parse_args(args, na1, q, ndim);
 
     if (na_debug_flag) print_index_arg(q,ndim);
