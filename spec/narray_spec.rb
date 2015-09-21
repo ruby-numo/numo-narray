@@ -2,7 +2,6 @@ require File.join(File.dirname(__FILE__), "../ext/narray")
 #NArray.debug = true
 
 RSpec.configure do |config|
-  config.treat_symbols_as_metadata_keys_with_true_values = true
   config.filter_run :focus
   config.run_all_when_everything_filtered = true
 end
@@ -91,6 +90,7 @@ types.each do |dtype|
         it{expect((@a.eq 3)).to eq [0,0,1,0,0,0]}
         it{expect(@a.sort).to eq @src}
         it{expect(@a.sort_index).to eq (0..5).to_a}
+        it{expect(@a.median).to eq 4}
       end
     end
   end
