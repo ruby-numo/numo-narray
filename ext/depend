@@ -13,4 +13,4 @@ TAGS : $(TAGSRC)
 	etags $(TAGSRC)
 
 doc :
-	yard doc $(SRCS) types/*.c
+	yard doc *.c types/*.c
