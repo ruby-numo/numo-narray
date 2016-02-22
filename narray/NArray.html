@@ -320,7 +320,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#ones-class_method" title="ones (class method)">+ (Object) <strong>ones</strong>(shape) </a>
+      <a href="#ones-class_method" title="ones (class method)">+ (Object) <strong>ones</strong> </a>
     
 
     
@@ -454,7 +454,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#zeros-class_method" title="zeros (class method)">+ (Object) <strong>zeros</strong>(shape) </a>
+      <a href="#zeros-class_method" title="zeros (class method)">+ (Object) <strong>zeros</strong> </a>
     
 
     
@@ -525,9 +525,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>method: [](idx1,idx2,…,idxN).</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -791,7 +789,7 @@ type of NArray.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Constructs a narray using the given datatype and shape or .</p>
+<p>Constructs a narray using the given DataType and shape or sizes.</p>
 </div></span>
   
 </li>
@@ -1214,11 +1212,9 @@ rb_define_alias(cNArray,  “shape=”,“reshape!”);.</p>
   <h3 class="signature first" id="initialize-instance_method">
   
     
-      <span class="overload">- (<tt>Object</tt>) <strong>new</strong>(shape) </span>
+      <span class="overload">- (<tt>Object</tt>) <strong>NArray::DataType.new</strong>(shape) </span>
     
-      <span class="overload">- (<tt>Object</tt>) <strong>new</strong>(type, shape) </span>
-    
-      <span class="overload">- (<tt>Object</tt>) <strong>new</strong>(type, size1, size2, ...) </span>
+      <span class="overload">- (<tt>Object</tt>) <strong>NArray::DataType.new</strong>(size1, size2, ...) </span>
     
   
 
@@ -1228,8 +1224,8 @@ rb_define_alias(cNArray,  “shape=”,“reshape!”);.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Constructs a narray using the given <em>datatype</em> and <em>shape</em> or
-. <em>size</em>.  If the second argument is an integer, returns 1-d array.</p>
+<p>Constructs a narray using the given <em>DataType</em> and <em>shape</em> or
+<em>sizes</em>.</p>
 
 
   </div>
@@ -1243,7 +1239,6 @@ rb_define_alias(cNArray,  “shape=”,“reshape!”);.</p>
       <pre class="lines">
 
 
-358
 359
 360
 361
@@ -1266,21 +1261,29 @@ rb_define_alias(cNArray,  “shape=”,“reshape!”);.</p>
 378
 379
 380
-381</pre>
+381
+382
+383
+384</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 358</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 359</span>
 
 static VALUE
-na_initialize(int argc, VALUE *argv, VALUE self)
+na_initialize(VALUE self, VALUE args)
 {
     VALUE v;
     size_t *shape=NULL;
     int ndim;
 
-    v = argv[0];
-
-    if (TYPE(v) == T_ARRAY) {
+    if (RARRAY_LEN(args) == 1) {
+        v = RARRAY_AREF(args,0);
+        if (TYPE(v) != T_ARRAY) {
+            v = args;
+        }
+    } else {
+        v = args;
+    }
         ndim = RARRAY_LEN(v);
         if (ndim &gt; NA_MAX_DIMENSION) {
             rb_raise(rb_eArgError,&quot;ndim=%d exceeds maximum dimension&quot;,ndim);
@@ -1288,9 +1291,6 @@ na_initialize(int argc, VALUE *argv, VALUE self)
         shape = ALLOCA_N(size_t, ndim);
         // setup size_t shape[] from VALUE shape argument
         na_array_to_internal_shape(self, v, shape);
-    } else {
-        rb_raise(rb_eArgError,&quot;argument is not an Array&quot;);
-    }
     na_setup(self, ndim, shape);
 
     return self;
@@ -1565,14 +1565,14 @@ na_s_array_type(VALUE mod, VALUE ary)
       <pre class="lines">
 
 
-902
-903
-904
-905
-906</pre>
+907
+908
+909
+910
+911</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 902</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 907</span>
 
 static VALUE
 nary_s_byte_size(VALUE type)
@@ -1599,14 +1599,14 @@ nary_s_byte_size(VALUE type)
       <pre class="lines">
 
 
-1131
-1132
-1133
-1134
-1135</pre>
+1136
+1137
+1138
+1139
+1140</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1131</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1136</span>
 
 VALUE na_debug_set(VALUE mod, VALUE flag)
 {
@@ -1621,7 +1621,11 @@ VALUE na_debug_set(VALUE mod, VALUE flag)
       <div class="method_details ">
   <h3 class="signature " id="ones-class_method">
   
-    + (<tt>Object</tt>) <strong>ones</strong>(shape) 
+    
+      <span class="overload">+ (<tt>Object</tt>) <strong>ones</strong>(shape) </span>
+    
+      <span class="overload">+ (<tt>Object</tt>) <strong>ones</strong>(size1, size2, ...) </span>
+    
   
 
   
@@ -1643,15 +1647,13 @@ DFloat, Int64.</p>
     <p class="tag_title">Examples:</p>
     
       
-      <pre class="example code"><code>a = NArray::DFloat.ones([3,5])
+      <pre class="example code"><code>a = NArray::DFloat.ones(3,5)
 =&gt; NArray::DFloat#shape=[3,5]
 [[1, 1, 1, 1, 1],
  [1, 1, 1, 1, 1],
  [1, 1, 1, 1, 1]]</code></pre>
     
   </div>
-
-  
 
 
 </div><table class="source_code">
@@ -1660,16 +1662,16 @@ DFloat, Int64.</p>
       <pre class="lines">
 
 
-463
-464
-465
-466
-467
 468
-469</pre>
+469
+470
+471
+472
+473
+474</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 463</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 468</span>
 
 static VALUE
 na_s_ones(int argc, const VALUE *argv, VALUE klass)
@@ -1698,13 +1700,13 @@ na_s_ones(int argc, const VALUE *argv, VALUE klass)
       <pre class="lines">
 
 
-1139
-1140
-1141
-1142</pre>
+1144
+1145
+1146
+1147</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1139</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1144</span>
 
 VALUE na_profile(VALUE mod)
 {
@@ -1730,14 +1732,14 @@ VALUE na_profile(VALUE mod)
       <pre class="lines">
 
 
-1144
-1145
-1146
-1147
-1148</pre>
+1149
+1150
+1151
+1152
+1153</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1144</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1149</span>
 
 VALUE na_profile_set(VALUE mod, VALUE val)
 {
@@ -1860,11 +1862,6 @@ nary_s_step( int argc, VALUE *argv, VALUE mod )
       <pre class="lines">
 
 
-839
-840
-841
-842
-843
 844
 845
 846
@@ -1880,10 +1877,15 @@ nary_s_step( int argc, VALUE *argv, VALUE mod )
 856
 857
 858
-859</pre>
+859
+860
+861
+862
+863
+864</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 839</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 844</span>
 
 VALUE
 na_upcast(VALUE type1, VALUE type2)
@@ -1914,7 +1916,11 @@ na_upcast(VALUE type1, VALUE type2)
       <div class="method_details ">
   <h3 class="signature " id="zeros-class_method">
   
-    + (<tt>Object</tt>) <strong>zeros</strong>(shape) 
+    
+      <span class="overload">+ (<tt>Object</tt>) <strong>zeros</strong>(shape) </span>
+    
+      <span class="overload">+ (<tt>Object</tt>) <strong>zeros</strong>(size1, size2, ...) </span>
+    
   
 
   
@@ -1936,15 +1942,13 @@ DFloat, Int64.</p>
     <p class="tag_title">Examples:</p>
     
       
-      <pre class="example code"><code>a = NArray::DFloat.zeros([3,5])
+      <pre class="example code"><code>a = NArray::DFloat.zeros(3,5)
 =&gt; NArray::DFloat#shape=[3,5]
 [[0, 0, 0, 0, 0],
  [0, 0, 0, 0, 0],
  [0, 0, 0, 0, 0]]</code></pre>
     
   </div>
-
-  
 
 
 </div><table class="source_code">
@@ -1953,16 +1957,16 @@ DFloat, Int64.</p>
       <pre class="lines">
 
 
-440
-441
-442
-443
 444
 445
-446</pre>
+446
+447
+448
+449
+450</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 440</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 444</span>
 
 static VALUE
 na_s_zeros(int argc, const VALUE *argv, VALUE klass)
@@ -2044,11 +2048,6 @@ have same shape and corresponding elements are equal.</p>
       <pre class="lines">
 
 
-1158
-1159
-1160
-1161
-1162
 1163
 1164
 1165
@@ -2068,10 +2067,15 @@ have same shape and corresponding elements are equal.</p>
 1179
 1180
 1181
-1182</pre>
+1182
+1183
+1184
+1185
+1186
+1187</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1158</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1163</span>
 
 VALUE
 na_equal(VALUE self, volatile VALUE other)
@@ -2112,41 +2116,18 @@ na_equal(VALUE self, volatile VALUE other)
   
 
   
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>method: [](idx1,idx2,…,idxN)</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-931
-932
-933
-934
-935
-936
-937</pre>
+1238</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'index.c', line 931</span>
+      <pre class="code"><span class="info file"># File 'types/bit.c', line 1238</span>
 
-VALUE na_aref(int argc, VALUE *argv, VALUE self)
-{
-    VALUE view;
-    view = na_aref_main(argc, argv, self, 0);
-    //return view;
-    return rb_funcall(view, rb_intern(&quot;extract&quot;), 0);
-}</pre>
+VALUE na_aref(int argc, VALUE *argv, VALUE self);</pre>
     </td>
   </tr>
 </table>
@@ -2261,21 +2242,21 @@ na_aset(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-885
-886
-887
-888
-889
 890
 891
 892
 893
 894
 895
-896</pre>
+896
+897
+898
+899
+900
+901</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 885</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 890</span>
 
 static VALUE
 nary_byte_size(VALUE self)
@@ -2337,15 +2318,15 @@ nary_byte_size(VALUE self)
       <pre class="lines">
 
 
-1060
-1061
-1062
-1063
-1064
-1065</pre>
+1065
+1066
+1067
+1068
+1069
+1070</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1060</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1065</span>
 
 VALUE na_byte_swapped_p( VALUE self )
 {
@@ -2419,14 +2400,14 @@ VALUE na_byte_swapped_p( VALUE self )
       <pre class="lines">
 
 
-915
-916
-917
-918
-919</pre>
+920
+921
+922
+923
+924</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 915</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 920</span>
 
 static VALUE
 nary_cast_to(VALUE obj, VALUE type)
@@ -2506,18 +2487,18 @@ used for operation between non-NArray and NArray.</p>
       <pre class="lines">
 
 
-870
-871
-872
-873
-874
 875
 876
 877
-878</pre>
+878
+879
+880
+881
+882
+883</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 870</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 875</span>
 
 static VALUE
 nary_coerce(VALUE x, VALUE y)
@@ -2572,16 +2553,16 @@ nary_coerce(VALUE x, VALUE y)
       <pre class="lines">
 
 
-1037
-1038
-1039
-1040
-1041
 1042
-1043</pre>
+1043
+1044
+1045
+1046
+1047
+1048</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1037</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1042</span>
 
 VALUE na_column_major_p( VALUE self )
 {
@@ -2806,15 +2787,15 @@ na_flatten(VALUE self)
       <pre class="lines">
 
 
-1070
-1071
-1072
-1073
-1074
-1075</pre>
+1075
+1076
+1077
+1078
+1079
+1080</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1070</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1075</span>
 
 VALUE na_host_order_p( VALUE self )
 {
@@ -2889,9 +2870,6 @@ dup and clone method.</p>
       <pre class="lines">
 
 
-413
-414
-415
 416
 417
 418
@@ -2899,10 +2877,13 @@ dup and clone method.</p>
 420
 421
 422
-423</pre>
+423
+424
+425
+426</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 413</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 416</span>
 
 static VALUE
 na_initialize_copy(VALUE self, VALUE orig)
@@ -2964,16 +2945,16 @@ na_initialize_copy(VALUE self, VALUE orig)
       <pre class="lines">
 
 
-1082
-1083
-1084
-1085
-1086
 1087
-1088</pre>
+1088
+1089
+1090
+1091
+1092
+1093</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1082</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1087</span>
 
 VALUE na_inplace( VALUE self )
 {
@@ -3031,14 +3012,14 @@ VALUE na_inplace( VALUE self )
       <pre class="lines">
 
 
-1094
-1095
-1096
-1097
-1098</pre>
+1099
+1100
+1101
+1102
+1103</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1094</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1099</span>
 
 VALUE na_inplace_bang( VALUE self )
 {
@@ -3089,16 +3070,16 @@ VALUE na_inplace_bang( VALUE self )
       <pre class="lines">
 
 
-1111
-1112
-1113
-1114
-1115
 1116
-1117</pre>
+1117
+1118
+1119
+1120
+1121
+1122</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1111</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1116</span>
 
 VALUE na_inplace_p( VALUE self )
 {
@@ -3142,16 +3123,16 @@ VALUE na_inplace_p( VALUE self )
       <pre class="lines">
 
 
-672
-673
-674
-675
-676
 677
-678</pre>
+678
+679
+680
+681
+682
+683</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 672</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 677</span>
 
 static VALUE
 na_ndim(VALUE self)
@@ -3213,14 +3194,14 @@ na_ndim(VALUE self)
       <pre class="lines">
 
 
-1123
-1124
-1125
-1126
-1127</pre>
+1128
+1129
+1130
+1131
+1132</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1123</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1128</span>
 
 VALUE na_out_of_place_bang( VALUE self )
 {
@@ -3408,16 +3389,16 @@ na_reshape(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-1048
-1049
-1050
-1051
-1052
 1053
-1054</pre>
+1054
+1055
+1056
+1057
+1058
+1059</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1048</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1053</span>
 
 VALUE na_row_major_p( VALUE self )
 {
@@ -3457,11 +3438,6 @@ VALUE na_row_major_p( VALUE self )
       <pre class="lines">
 
 
-682
-683
-684
-685
-686
 687
 688
 689
@@ -3479,10 +3455,15 @@ VALUE na_row_major_p( VALUE self )
 701
 702
 703
-704</pre>
+704
+705
+706
+707
+708
+709</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 682</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 687</span>
 
 static VALUE
  na_shape(VALUE self)
@@ -3542,16 +3523,16 @@ static VALUE
       <pre class="lines">
 
 
-662
-663
-664
-665
-666
 667
-668</pre>
+668
+669
+670
+671
+672
+673</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 662</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 667</span>
 
 static VALUE
 na_size(VALUE self)
@@ -3997,7 +3978,7 @@ na_transpose(int argc, VALUE *argv, VALUE self)
 </div>
 
     <div id="footer">
-  Generated on Mon Feb 22 18:54:18 2016 by
+  Generated on Mon Feb 22 21:51:14 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-2.3.0).
 </div>
