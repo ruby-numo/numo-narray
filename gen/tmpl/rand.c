@@ -17,7 +17,7 @@ static void
     } else {
         for (; i--;) {
             x = m_rand;
-            SET_DATA_INDEX(p1,idx1,dtype,x);
+            SET_DATA_STRIDE(p1,s1,dtype,x);
         }
     }
 }
