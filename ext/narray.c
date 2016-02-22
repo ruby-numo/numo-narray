@@ -429,12 +429,13 @@ na_initialize_copy(VALUE self, VALUE orig)
 /*
  *  call-seq:
  *     zeros(shape)  => narray
+ *     zeros(size1,size2,...)  => narray
  *
  *  Returns a zero-filled narray with <i>shape</i>.
  *  This singleton method is valid not for NArray class itself
  *  but for typed NArray subclasses, e.g., DFloat, Int64.
  *  @example
- *    a = NArray::DFloat.zeros([3,5])
+ *    a = NArray::DFloat.zeros(3,5)
  *    => NArray::DFloat#shape=[3,5]
  *    [[0, 0, 0, 0, 0],
  *     [0, 0, 0, 0, 0],
@@ -452,12 +453,13 @@ na_s_zeros(int argc, const VALUE *argv, VALUE klass)
 /*
  *  call-seq:
  *     ones(shape)  => narray
+ *     ones(size1,size2,...)  => narray
  *
  *  Returns a one-filled narray with <i>shape</i>.
  *  This singleton method is valid not for NArray class itself
  *  but for typed NArray subclasses, e.g., DFloat, Int64.
  *  @example
- *    a = NArray::DFloat.ones([3,5])
+ *    a = NArray::DFloat.ones(3,5)
  *    => NArray::DFloat#shape=[3,5]
  *    [[1, 1, 1, 1, 1],
  *     [1, 1, 1, 1, 1],
