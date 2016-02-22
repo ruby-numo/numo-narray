@@ -423,6 +423,38 @@ na_initialize_copy(VALUE self, VALUE orig)
 }
 
 
+/*
+ *  call-seq:
+ *     NArray::DataType.zeros(shape)  => narray
+ *
+ *  Returns a zero-filled narray using the given DataType
+ *  and <i>shape</i>, where DataType is DFloat, Int64, etc.
+ */
+static VALUE
+na_s_zeros(int argc, const VALUE *argv, VALUE klass)
+{
+    VALUE obj;
+    obj = rb_class_new_instance(argc, argv, klass);
+    return rb_funcall(obj, rb_intern("fill"), 1, INT2FIX(0));
+}
+
+
+/*
+ *  call-seq:
+ *     NArray::DataType.zeros(shape)  => narray
+ *
+ *  Returns a one-filled narray using the given DataType
+ *  and <i>shape</i>, where DataType is DFloat, Int64, etc.
+ */
+static VALUE
+na_s_ones(int argc, const VALUE *argv, VALUE klass)
+{
+    VALUE obj;
+    obj = rb_class_new_instance(argc, argv, klass);
+    return rb_funcall(obj, rb_intern("fill"), 1, INT2FIX(1));
+}
+
+
 char *
 na_get_pointer_for_write(VALUE self)
 {
@@ -1161,6 +1193,9 @@ Init_narray()
     rb_define_alloc_func(cNArray, na_s_allocate);
     rb_define_method(cNArray, "initialize", na_initialize, -1);
     rb_define_method(cNArray, "initialize_copy", na_initialize_copy, 1);
+
+    rb_define_singleton_method(cNArray, "zeros", na_s_zeros, -1);
+    rb_define_singleton_method(cNArray, "ones", na_s_ones, -1);
 
     rb_define_method(cNArray, "size", na_size, 0);
     rb_define_alias (cNArray, "length","size");
