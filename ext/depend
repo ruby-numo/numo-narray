@@ -11,3 +11,6 @@ TAGSRC = \
 tags : TAGS
 TAGS : $(TAGSRC)
 	etags $(TAGSRC)
+
+doc :
+	yard doc $(SRCS) types/*.c
