@@ -263,12 +263,11 @@ void
 na_array_to_internal_shape(VALUE self, VALUE ary, size_t *shape)
 {
     size_t    i, n, c, s;
-    VALUE    *ptr;
+    VALUE     v;
     narray_t *na;
     int       flag = 0;
 
     n = RARRAY_LEN(ary);
-    ptr = RARRAY_PTR(ary);
 
     if (RTEST(self)) {
         GetNArray(self, na);
@@ -282,10 +281,14 @@ na_array_to_internal_shape(VALUE self, VALUE ary, size_t *shape)
         s = 1;
     }
     for (i=0; i<n; i++) {
-        if (RTEST(rb_funcall(ptr[i], rb_intern("<"), 1, INT2FIX(0)))) {
+        v = RARRAY_AREF(ary,i);
+        if (!FIXNUM_P(v) && !rb_obj_is_kind_of(v, rb_cInteger)) {
+            rb_raise(rb_eTypeError, "array size must be Integer");
+        }
+        if (RTEST(rb_funcall(v, rb_intern("<"), 1, INT2FIX(0)))) {
             rb_raise(rb_eArgError,"size must be non-negative");
         }
-        shape[c] = NUM2SIZE(ptr[i]);
+        shape[c] = NUM2SIZE(v);
         c += s;
     }
 }
@@ -347,24 +350,27 @@ na_setup(VALUE self, int ndim, size_t *shape)
 
 /*
  *  call-seq:
- *     NArray.new(shape)                => narray
- *     NArray.new(type, shape)                => narray
- *     NArray.new(type, size1, size2, ...)    => narray
+ *     NArray::DataType.new(shape)             => narray
+ *     NArray::DataType.new(size1, size2, ...) => narray
  *
- *  Constructs a narray using the given <i>datatype</i> and <i>shape</i> or .
- *  <i>size</i>.  If the second argument is an integer, returns 1-d array.
+ *  Constructs a narray using the given <i>DataType</i> and <i>shape</i> or
+ *  <i>sizes</i>.
  */
-
 static VALUE
-na_initialize(int argc, VALUE *argv, VALUE self)
+na_initialize(VALUE self, VALUE args)
 {
     VALUE v;
     size_t *shape=NULL;
     int ndim;
 
-    v = argv[0];
-
-    if (TYPE(v) == T_ARRAY) {
+    if (RARRAY_LEN(args) == 1) {
+        v = RARRAY_AREF(args,0);
+        if (TYPE(v) != T_ARRAY) {
+            v = args;
+        }
+    } else {
+        v = args;
+    }
         ndim = RARRAY_LEN(v);
         if (ndim > NA_MAX_DIMENSION) {
             rb_raise(rb_eArgError,"ndim=%d exceeds maximum dimension",ndim);
@@ -372,9 +378,6 @@ na_initialize(int argc, VALUE *argv, VALUE self)
         shape = ALLOCA_N(size_t, ndim);
         // setup size_t shape[] from VALUE shape argument
         na_array_to_internal_shape(self, v, shape);
-    } else {
-        rb_raise(rb_eArgError,"argument is not an Array");
-    }
     na_setup(self, ndim, shape);
 
     return self;
@@ -1205,7 +1208,7 @@ Init_narray()
 
     /* Ruby allocation framework  */
     rb_define_alloc_func(cNArray, na_s_allocate);
-    rb_define_method(cNArray, "initialize", na_initialize, -1);
+    rb_define_method(cNArray, "initialize", na_initialize, -2);
     rb_define_method(cNArray, "initialize_copy", na_initialize_copy, 1);
 
     rb_define_singleton_method(cNArray, "zeros", na_s_zeros, -1);
