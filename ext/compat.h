@@ -13,5 +13,8 @@
 #if !defined RARRAY_PTR
 #define RARRAY_PTR(a) RARRAY(a)->ptr
 #endif
+#if !defined RARRAY_AREF
+#define RARRAY_AREF(a,i) RARRAY_PTR(a)[i]
+#endif
 
 #endif /* ifndef COMPAT_H */
