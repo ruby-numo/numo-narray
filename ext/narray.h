@@ -149,6 +149,7 @@ extern int na_debug_flag;
 
 #ifndef NARRAY_C
 extern VALUE cNArray;
+extern VALUE mNumo;
 extern VALUE nary_eCastError;
 extern VALUE nary_eShapeError;
 extern VALUE nary_eOperationError;

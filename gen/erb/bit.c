@@ -709,7 +709,7 @@ Init_nary_bit()
 {
     volatile VALUE hCast;
 
-    cT = rb_define_class_under(cNArray, "Bit", cNArray);
+    cT = rb_define_class_under(mNumo, "Bit", cNArray);
 
     rb_define_const(cT, "ELEMENT_BIT_SIZE",  INT2FIX(1));
     rb_define_const(cT, "ELEMENT_BYTE_SIZE", rb_float_new(1.0/8));

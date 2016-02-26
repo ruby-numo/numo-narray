@@ -16,6 +16,7 @@
 
 /* global variables within this module */
 VALUE cNArray;
+VALUE mNumo;
 VALUE nary_eCastError;
 VALUE nary_eShapeError;
 VALUE nary_eOperationError;
@@ -1192,8 +1193,10 @@ na_equal(VALUE self, volatile VALUE other)
 void
 Init_narray()
 {
+    mNumo = rb_define_module("Numo");
+
     /* define NArray class */
-    cNArray = rb_define_class("NArray", rb_cObject);
+    cNArray = rb_define_class_under(mNumo, "NArray", rb_cObject);
 
 #ifndef HAVE_RB_CCOMPLEX
     rb_require("complex");

@@ -281,7 +281,7 @@ Init_robject()
 {
     volatile VALUE hCast;
 
-    cT = rb_define_class_under(cNArray, "<%=class_name%>", cNArray);
+    cT = rb_define_class_under(nNumo, "<%=class_name%>", cNArray);
 
     rb_define_const(cRObject, ELEMENT_BIT_SIZE,  INT2FIX(sizeof(VALUE)*8));
     rb_define_const(cRObject, ELEMENT_BYTE_SIZE, INT2FIX(sizeof(VALUE)));

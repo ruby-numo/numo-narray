@@ -225,10 +225,10 @@ Init_nary_<%=tp%>()
 {
     volatile VALUE hCast;
 
-    cT = rb_define_class_under(cNArray, "<%=class_name%>", cNArray);
+    cT = rb_define_class_under(mNumo, "<%=class_name%>", cNArray);
     <% for x in class_alias %>
     // alias of <%=class_name%>
-    rb_define_const(cNArray, "<%=x%>", <%=type_var%>);
+    rb_define_const(mNumo, "<%=x%>", <%=type_var%>);
     <% end %>
     <% if has_math %>
     mTM = rb_define_module_under(cT, "Math"); <% end %>

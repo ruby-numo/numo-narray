@@ -114,7 +114,7 @@ Init_nary_math()
 {
     VALUE hCast;
 
-    mNMath = rb_define_module_under(cNArray, "Math");
+    mNMath = rb_define_module_under(mNumo, "NMath");
     rb_define_singleton_method(mNMath, "method_missing", nary_math_method_missing, -1);
 
     //mDFloatMath = rb_define_module_under(mNMath, "DFloat");

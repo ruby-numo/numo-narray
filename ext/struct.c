@@ -823,7 +823,7 @@ NST_TYPEDEF(scomplex,cSComplex)
 void
 Init_nary_struct()
 {
-    cStruct = rb_define_class_under(cNArray, "Struct", cNArray);
+    cStruct = rb_define_class_under(mNumo, "Struct", cNArray);
     //cNStMember = rb_define_class_under(cStruct, "Member", rb_cObject);
 
     //rb_define_alloc_func(cNStMember, nst_member_s_allocate);
