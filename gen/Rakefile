@@ -4,7 +4,7 @@ ERBS = FileList["erb/*.c"]
 TMPL = FileList["tmpl/*.c"]
 SCRIPT = FileList["cogen.rb"]
 TARGETS = []
-DSTDIR = "../ext/types/"
+DSTDIR = "../ext/numo/types/"
 DTYPE_ERB = "dtype.erb.c"
 
 directory DSTDIR
