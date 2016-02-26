@@ -148,8 +148,8 @@ typedef int fortran_integer;
 extern int na_debug_flag;
 
 #ifndef NARRAY_C
-extern VALUE cNArray;
-extern VALUE mNumo;
+extern VALUE numo_cNArray;
+extern VALUE rb_mNumo;
 extern VALUE nary_eCastError;
 extern VALUE nary_eShapeError;
 extern VALUE nary_eOperationError;
@@ -157,9 +157,10 @@ extern VALUE nary_eOperationError;
 //EXTERN const int na_sizeof[NA_NTYPES+1];
 #endif
 
+#define cNArray numo_cNArray
+#define mNumo rb_mNumo
 
 /* global variables within this module */
-extern VALUE cNArray;
 extern VALUE cBit;
 extern VALUE cDFloat, cDComplex;
 extern VALUE cSFloat, cSComplex;

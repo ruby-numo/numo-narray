@@ -8,7 +8,7 @@
   under the same terms as Ruby itself.
   NO WARRANTY.
 */
-#define NARRAY_C
+//#define NARRAY_C
 
 #include <string.h>
 #include <ruby.h>

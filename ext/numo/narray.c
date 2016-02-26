@@ -15,8 +15,8 @@
 #include <assert.h>
 
 /* global variables within this module */
-VALUE cNArray;
-VALUE mNumo;
+VALUE numo_cNArray;
+VALUE rb_mNumo;
 VALUE nary_eCastError;
 VALUE nary_eShapeError;
 VALUE nary_eOperationError;
