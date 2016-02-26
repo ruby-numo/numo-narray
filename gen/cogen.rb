@@ -178,11 +178,11 @@ module DefMethod
     h = {:method => meth, :mod_var => 'mTM', :n_arg => n}
     case n
     when 1
-      Function.new(self, "unary_s", h)
+      ModuleFunction.new(self, "unary_s", h)
     when 2
-      Function.new(self, "binary_s", h)
+      ModuleFunction.new(self, "binary_s", h)
     when 3
-      Function.new(self, "ternary_s", h)
+      ModuleFunction.new(self, "ternary_s", h)
     else
       raise "invalid n=#{n}"
     end
@@ -390,6 +390,14 @@ class Function < LoadERB
       a.push(x) if x
     end
     a
+  end
+end
+
+class ModuleFunction < Function
+  def definition
+    s = singleton ? "_singleton" : ""
+    m = op_map
+    "rb_define_module_function(#{mod_var}, \"#{m}\", #{c_func}, #{n_arg});"
   end
 end
 
