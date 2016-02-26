@@ -19,7 +19,7 @@ tmp
 *.o
 *.so
 mkmf.log
-ext/numo/types/*.c
-ext/numo/narray_config.h
-ext/numo/Makefile
+ext/numo/narray/types/*.c
+ext/numo/narray/narray_config.h
+ext/numo/narray/Makefile
 TAGS

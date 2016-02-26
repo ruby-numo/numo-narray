@@ -88,4 +88,4 @@ create_conf_h("narray_config.h")
 
 create_makefile('numo/narray')
 
-system("cd ../../gen; rake")
+system("cd ../../../gen; rake")
