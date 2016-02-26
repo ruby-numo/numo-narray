@@ -1,5 +1,5 @@
 require File.join(File.dirname(__FILE__), "../ext/narray")
-#NArray.debug = true
+#Numo::NArray.debug = true
 
 RSpec.configure do |config|
   config.filter_run :focus
@@ -8,25 +8,25 @@ end
 #context :focus=>true do ... end
 
 types = [
-  NArray::DFloat,
-  NArray::SFloat,
-  NArray::DComplex,
-  NArray::SComplex,
-  NArray::Int64,
-  NArray::Int32,
-  NArray::Int16,
-  NArray::Int8,
-  NArray::UInt64,
-  NArray::UInt32,
-  NArray::UInt16,
-  NArray::UInt8,
+  Numo::DFloat,
+  Numo::SFloat,
+  Numo::DComplex,
+  Numo::SComplex,
+  Numo::Int64,
+  Numo::Int32,
+  Numo::Int16,
+  Numo::Int8,
+  Numo::UInt64,
+  Numo::UInt32,
+  Numo::UInt16,
+  Numo::UInt8,
 ]
-#types = [NArray::DFloat]
+#types = [Numo::DFloat]
 
 types.each do |dtype|
 
   describe dtype  do
-    it{expect(dtype).to be < NArray}
+    it{expect(dtype).to be < Numo::NArray}
   end
 
   procs = [
@@ -75,7 +75,7 @@ types.each do |dtype|
       it{expect((-@a)).to eq [-1,-2,-3,-5,-7,-11]}
       it{expect((@a ** 2)).to eq [1,4,9,25,49,121]}
       it{expect(@a.swap_byte.swap_byte).to eq [1,2,3,5,7,11]}
-      if dtype == NArray::DComplex || dtype == NArray::SComplex
+      if dtype == Numo::DComplex || dtype == Numo::SComplex
         it{expect(@a.real).to eq @src}
         it{expect(@a.imag).to eq [0]*6}
         it{expect(@a.conj).to eq @src}
@@ -155,7 +155,7 @@ types.each do |dtype|
       it{expect(@a.sum).to eq 29}
       it{expect(@a.sum(0)).to eq [6, 9, 14]}
       it{expect(@a.sum(1)).to eq [6, 23]}
-      if dtype == NArray::DComplex || dtype == NArray::SComplex
+      if dtype == Numo::DComplex || dtype == Numo::SComplex
         it{expect(@a.real).to eq @src}
         it{expect(@a.imag).to eq [[0]*3]*2}
         it{expect(@a.conj).to eq @src}

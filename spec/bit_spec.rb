@@ -1,5 +1,5 @@
 require File.join(File.dirname(__FILE__), "../ext/narray")
-#NArray.debug = true
+#Numo::NArray.debug = true
 
 RSpec.configure do |config|
   config.filter_run :focus
@@ -7,10 +7,10 @@ RSpec.configure do |config|
 end
 #context :focus=>true do ... end
 
-dtype = NArray::Bit
+dtype = Numo::Bit
 
 describe dtype do
-  it{expect(dtype).to be < NArray}
+  it{expect(dtype).to be < Numo::NArray}
 end
 
 procs = [
@@ -40,7 +40,7 @@ procs.each do |init,ref|
     it{expect(@a.count_false).to eq 4}
     it{expect(@a.where).to eq [1,2,4,7]}
     it{expect(@a.where2).to eq [[1,2,4,7],[0,3,5,6]]}
-    it{expect(@a.mask(NArray::DFloat[1,2,3,4,5,6,7,8])).to eq [2,3,5,8]}
+    it{expect(@a.mask(Numo::DFloat[1,2,3,4,5,6,7,8])).to eq [2,3,5,8]}
     it{expect(@a).not_to be_all}
     it{expect(@a).to     be_any}
     it{expect(@a).not_to be_none}
@@ -82,7 +82,7 @@ procs.each do |init,ref|
     it{expect(@a.count_false).to eq 4}
     it{expect(@a.where).to eq [1,2,4,7]}
     it{expect(@a.where2).to eq [[1,2,4,7],[0,3,5,6]]}
-    it{expect(@a.mask(NArray::DFloat[[1,2,3,4],[5,6,7,8]])).to eq [2,3,5,8]}
+    it{expect(@a.mask(Numo::DFloat[[1,2,3,4],[5,6,7,8]])).to eq [2,3,5,8]}
     it{expect(@a).not_to be_all}
     it{expect(@a).to     be_any}
     it{expect(@a).not_to be_none}
