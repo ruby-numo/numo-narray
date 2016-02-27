@@ -28,13 +28,13 @@ nst_allocate(VALUE self)
     case NARRAY_DATA_T:
         ptr = NA_DATA_PTR(na);
         if (na->size > 0 && ptr == NULL) {
-            velmsz = rb_const_get(CLASS_OF(self), id_element_byte_size);
+            velmsz = rb_const_get(CLASS_OF(self), rb_intern("element_byte_size"));
             ptr = xmalloc(NUM2SIZE(velmsz) * na->size);
             NA_DATA_PTR(na) = ptr;
         }
         break;
     case NARRAY_VIEW_T:
-        rb_funcall(NA_VIEW_DATA(na), id_allocate, 0);
+        rb_funcall(NA_VIEW_DATA(na), rb_intern("allocate"), 0);
         break;
     case NARRAY_FILEMAP_T:
         //ptr = ((narray_filemap_t*)na)->ptr;
@@ -627,7 +627,7 @@ nary_struct_cast_array(VALUE klass, VALUE rary)
     //fprintf(stderr,"na->ndim=%d\n",na->ndim);
     if (na->size>0) {
         opt = nst_create_member_views(nary);
-        rb_funcall(nary, id_allocate, 0);
+        rb_funcall(nary, rb_intern("allocate"), 0);
         na_ndloop_cast_rarray_to_narray2(&ndf, rary, nary, opt);
     }
     return nary;

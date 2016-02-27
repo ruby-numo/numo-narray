@@ -23,7 +23,7 @@ static VALUE
         }
         break;
     case NARRAY_VIEW_T:
-        rb_funcall(NA_VIEW_DATA(na), id_allocate, 0);
+        rb_funcall(NA_VIEW_DATA(na), rb_intern("allocate"), 0);
         break;
     case NARRAY_FILEMAP_T:
         //ptr = ((narray_filemap_t*)na)->ptr;

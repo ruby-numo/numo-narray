@@ -21,13 +21,13 @@ VALUE nary_eCastError;
 VALUE nary_eShapeError;
 VALUE nary_eOperationError;
 
-ID id_contiguous_stride;
-ID id_element_bit_size;
-ID id_element_byte_size;
+static ID id_contiguous_stride;
+//static ID id_element_bit_size;
+//static ID id_element_byte_size;
 
 VALUE cPointer;
 
-ID id_allocate;
+static ID id_allocate;
 ID id_add;
 ID id_sub;
 ID id_mul;
@@ -64,9 +64,6 @@ ID id_imag;
 ID id_cast;
 
 ID id_reduce;
-ID id_option;
-ID id_loop_opt;
-ID id_init;
 
 VALUE sym_reduce;
 VALUE sym_option;
@@ -1252,17 +1249,14 @@ Init_narray()
 
     id_allocate = rb_intern("allocate");
     id_contiguous_stride = rb_intern(CONTIGUOUS_STRIDE);
-    id_element_bit_size = rb_intern(ELEMENT_BIT_SIZE);
-    id_element_byte_size = rb_intern(ELEMENT_BYTE_SIZE);
+    //id_element_bit_size = rb_intern(ELEMENT_BIT_SIZE);
+    //id_element_byte_size = rb_intern(ELEMENT_BYTE_SIZE);
 
     id_reduce   = rb_intern("reduce");
-    id_option   = rb_intern("option");
-    id_loop_opt = rb_intern("loop_opt");
-    id_init     = rb_intern("init");
     sym_reduce   = ID2SYM(id_reduce);
-    sym_option   = ID2SYM(id_option);
-    sym_loop_opt = ID2SYM(id_loop_opt);
-    sym_init     = ID2SYM(id_init);
+    sym_option   = ID2SYM(rb_intern("option"));
+    sym_loop_opt = ID2SYM(rb_intern("loop_opt"));
+    sym_init     = ID2SYM(rb_intern("init"));
 
     Init_nary_step();
     Init_nary_index();

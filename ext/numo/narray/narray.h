@@ -171,12 +171,6 @@ extern VALUE na_cStep;
 #ifndef HAVE_RB_CCOMPLEX
 extern VALUE rb_cComplex;
 #endif
-extern ID id_contiguous_stride;
-extern ID id_element_bit_size;
-extern ID id_element_byte_size;
-extern ID id_contiguous_stride;
-
-extern ID id_allocate;
 
 extern ID id_add;
 extern ID id_sub;
@@ -214,9 +208,6 @@ extern ID id_imag;
 extern ID id_cast;
 
 extern ID id_reduce;
-extern ID id_option;
-extern ID id_loop_opt;
-extern ID id_init;
 extern VALUE sym_reduce;
 extern VALUE sym_option;
 extern VALUE sym_loop_opt;
