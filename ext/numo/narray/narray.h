@@ -159,6 +159,7 @@ extern VALUE nary_eOperationError;
 
 #define cNArray numo_cNArray
 #define mNumo rb_mNumo
+#define na_upcast(x,y) numo_na_upcast(x,y)
 
 /* global variables within this module */
 extern VALUE cBit;

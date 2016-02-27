@@ -30,7 +30,7 @@ typedef struct {
 enum { NA_NONE, NA_BIT, NA_INT32, NA_INT64, NA_RATIONAL,
        NA_DFLOAT, NA_DCOMPLEX, NA_ROBJ, NA_NTYPES };
 
-VALUE
+static VALUE
  na_object_type(int type, VALUE v)
 {
     static VALUE int32_max = Qnil;

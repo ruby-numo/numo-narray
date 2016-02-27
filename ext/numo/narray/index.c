@@ -928,7 +928,7 @@ na_aref_main(int nidx, VALUE *idx, VALUE self, int keep_dim)
 
 
 /* method: [](idx1,idx2,...,idxN) */
-VALUE na_aref(int argc, VALUE *argv, VALUE self)
+static VALUE na_aref(int argc, VALUE *argv, VALUE self)
 {
     VALUE view;
     view = na_aref_main(argc, argv, self, 0);
@@ -938,7 +938,7 @@ VALUE na_aref(int argc, VALUE *argv, VALUE self)
 
 
 /* method: slice(idx1,idx2,...,idxN) */
-VALUE na_slice(int argc, VALUE *argv, VALUE self)
+static VALUE na_slice(int argc, VALUE *argv, VALUE self)
 {
     return na_aref_main(argc, argv, self, 1);
 }

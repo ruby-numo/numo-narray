@@ -191,9 +191,15 @@ ndloop_cast_args(ndfunc_t *nf, VALUE args)
 
     for (j=0; j<nf->nin; j++) {
         t = nf->ain[j].type;
+        //x = rb_inspect(t);
+        //s = StringValueCStr(x);
+        //printf("TYPE(nf->ain[%d].type) = %d, t = nf->ain[%d].type=%s\n",j,TYPE(t),j,s);
         if (TYPE(t)!=T_SYMBOL) {
             // argument
-            v = RARRAY_PTR(args)[j];
+            v = RARRAY_AREF(args,j);
+            //x = rb_inspect(v);
+            //s = StringValueCStr(x);
+            //printf(" v = RARRAY_AREF(args,%d) = %s\n", j, s);
             // skip cast if type is nil or same as input value
             if (CASTABLE(t) && t != CLASS_OF(v)) {
                 // else do cast
@@ -202,6 +208,9 @@ ndloop_cast_args(ndfunc_t *nf, VALUE args)
                         v = nary_type_s_cast(t, v);
                         RARRAY_PTR(args)[j] = v;
                         flag |= 1<<j;
+                        //x = rb_inspect(t);
+                        //s = StringValueCStr(x);
+                        //printf(" nary_type_s_cast(t, v) = %s\n", s);
                         continue;
                     }
                 }

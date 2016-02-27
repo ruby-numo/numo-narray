@@ -840,7 +840,7 @@ na_make_view(VALUE self)
 
 
 VALUE
-na_upcast(VALUE type1, VALUE type2)
+numo_na_upcast(VALUE type1, VALUE type2)
 {
     VALUE upcast_hash;
     VALUE result_type;
@@ -875,7 +875,7 @@ nary_coerce(VALUE x, VALUE y)
 {
     VALUE type;
 
-    type = na_upcast(CLASS_OF(x), CLASS_OF(y));
+    type = numo_na_upcast(CLASS_OF(x), CLASS_OF(y));
     y = rb_funcall(type,rb_intern("cast"),1,y);
     return rb_assoc_new(y , x);
 }
@@ -1225,7 +1225,7 @@ Init_narray()
 
     rb_define_method(cNArray, "debug_info", rb_narray_debug_info, 0);
 
-    rb_define_singleton_method(cNArray, "upcast", na_upcast, 1);
+    rb_define_singleton_method(cNArray, "upcast", numo_na_upcast, 1);
     rb_define_singleton_method(cNArray, "byte_size", nary_s_byte_size, 0);
 
     rb_define_method(cNArray, "byte_size",  nary_byte_size, 0);

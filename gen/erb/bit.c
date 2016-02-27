@@ -176,7 +176,8 @@ iter_bit_format(na_loop_t *const lp)
     ssize_t    s1, s2;
     size_t    *idx1;
     VALUE y;
-    VALUE fmt = *(VALUE*)(lp->opt_ptr);
+    //VALUE fmt = *(VALUE*)(lp->opt_ptr);
+    VALUE fmt = lp->option;
 
     INIT_COUNTER(lp, i);
     INIT_PTR_BIT(lp, 0, a1, p1, s1, idx1);
@@ -219,7 +220,8 @@ iter_bit_format_to_a(na_loop_t *const lp)
     ssize_t    s1;
     size_t   *idx1;
     VALUE y;
-    VALUE fmt = *(VALUE*)(lp->opt_ptr);
+    //VALUE fmt = *(VALUE*)(lp->opt_ptr);
+    VALUE fmt = lp->option;
     volatile VALUE a;
 
     INIT_COUNTER(lp, i);
@@ -264,7 +266,8 @@ iter_bit_fill(na_loop_t *const lp)
     int     len;
     BIT_DIGIT *a3;
     BIT_DIGIT  y;
-    VALUE x = *(VALUE*)(lp->opt_ptr);
+    //VALUE x = *(VALUE*)(lp->opt_ptr);
+    VALUE x = lp->option;
 
     if (x==INT2FIX(0) || x==Qfalse) {
         y = 0;
@@ -466,6 +469,7 @@ Function.codes.each do |x|
 <% end %>
 
 
+/* !!! Bit#store: under construction !!! */
 VALUE
 nary_bit_store(VALUE dst, VALUE src)
 {
@@ -477,7 +481,7 @@ nary_bit_store(VALUE dst, VALUE src)
     return src;
 }
 
-VALUE na_aref(int argc, VALUE *argv, VALUE self);
+//VALUE na_aref(int argc, VALUE *argv, VALUE self);
 
 /* method: []=(idx1,idx2,...,idxN,val) */
 static VALUE
@@ -489,7 +493,8 @@ nary_bit_aset(int argc, VALUE *argv, VALUE self)
     if (argc==0)
         nary_bit_store(self, argv[argc]);
     else {
-        a = na_aref(argc, argv, self);
+        //a = na_aref(argc, argv, self);
+        a = rb_funcall2(self, rb_intern("[]"), argc, argv);
         nary_bit_store(a, argv[argc]);
     }
     return argv[argc];
