@@ -41,5 +41,5 @@ An example
 
 
 ## Tentative API Document
-* [NArray](http://ruby-numo.github.io/numo-narray/narray/frames.html)
-* [FFTE](http://ruby-numo.github.io/numo-narray/ffte/frames.html)
+* [NArray](http://masa16.github.io/numo-narray/narray/frames.html)
+* [FFTE](http://masa16.github.io/numo-narray/ffte/frames.html)
