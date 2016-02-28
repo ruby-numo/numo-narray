@@ -1,4 +1,4 @@
-# Development of Next NArray
+# Numo::NArray - Development of Next NArray
 under development
 
 ## Directories
@@ -13,19 +13,19 @@ under development
 ### Ubuntu, Debian
 ```shell
 apt install -y git ruby gcc ruby-dev rake make
-git clone git://github.com/masa16/narray-devel
-cd narray-devel
-gem build narray-devel.gemspec
-gem install narray-devel-0.9.0.1.gem
+git clone git://github.com/ruby-numo/numo-narray
+cd numo-narray
+gem build numo-narray.gemspec
+gem install numo-narray-0.9.0.1.gem
 ```
 
 ## Quick start
 An example
 ```ruby
-[1] pry(main)> require "narray"
+[1] pry(main)> require "numo/narray"
 => true
-[2] pry(main)> a = NArray[0..14].reshape(3, 5)
-=> NArray::Int32#shape=[3,5]
+[2] pry(main)> a = Numo::DFloat.new(3,5).seq
+=> Numo::DFloat#shape=[3,5]
 [[0, 1, 2, 3, 4],
  [5, 6, 7, 8, 9],
  [10, 11, 12, 13, 14]]
@@ -34,12 +34,12 @@ An example
 [4] pry(main)> a.ndim
 => 2
 [5] pry(main)> a.class
-=> NArray::Int32
+=> Numo::DFloat
 [6] pry(main)> a.size
 => 15
 ```
 
 
 ## Tentative API Document
-* [NArray](http://masa16.github.io/narray-devel/narray/frames.html)
-* [FFTE](http://masa16.github.io/narray-devel/ffte/frames.html)
+* [NArray](http://ruby-numo.github.io/numo-narray/narray/frames.html)
+* [FFTE](http://ruby-numo.github.io/numo-narray/ffte/frames.html)
