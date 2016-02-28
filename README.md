@@ -1,4 +1,4 @@
-# Numo::NArray - Development of Next NArray
+# Numo::NArray - New NArray class library for Ruby/Numo (NUmerical MOdule)
 under development
 
 ## Directories
