@@ -839,6 +839,127 @@ na_sort_index_main(int argc, VALUE *argv, VALUE self,
     return idx;
 }
 
+
+#ifdef SWAP
+#undef SWAP
+#endif
+#define SWAP(a,b,t) {t=a;a=b;b=t;}
+
+static VALUE
+na_new_dimension_for_dot(VALUE self, int pos, int len, boolean transpose)
+{
+    int i, k, nd;
+    size_t  j;
+    size_t *idx1, *idx2;
+    size_t *shape;
+    ssize_t stride;
+    narray_t *na;
+    narray_view_t *na1, *na2;
+    size_t shape_n;
+    stridx_t stridx_n;
+    volatile VALUE view;
+
+    GetNArray(self,na);
+    nd = na->ndim;
+
+    view = na_s_allocate_view(CLASS_OF(self));
+
+    na_copy_flags(self, view);
+    GetNArrayView(view, na2);
+
+    // new dimension
+    if (pos < 0) pos += nd;
+    if (pos > nd || pos < 0) {
+        rb_raise(rb_eRangeError,"new dimension is out of range");
+    }
+    nd += len;
+    shape = ALLOCA_N(size_t,nd);
+    i = k = 0;
+    while (i < nd) {
+        if (i == pos) {
+            for (; len--;) {
+                shape[i++] = 1;
+            }
+        } else {
+            shape[i++] = na->shape[k++];
+        }
+    }
+
+    na_setup_shape((narray_t*)na2, nd, shape);
+    na2->stridx = ALLOC_N(stridx_t,nd);
+
+    switch(na->type) {
+    case NARRAY_DATA_T:
+    case NARRAY_FILEMAP_T:
+        stride = na_get_elmsz(self);
+        for (i=nd; i--;) {
+            SDX_SET_STRIDE(na2->stridx[i],stride);
+            stride *= shape[i];
+        }
+        na2->offset = 0;
+        na2->data = self;
+        break;
+    case NARRAY_VIEW_T:
+        GetNArrayView(self, na1);
+        for (i=0; i<nd; i++) {
+            if (SDX_IS_INDEX(na1->stridx[i])) {
+                idx1 = SDX_GET_INDEX(na1->stridx[i]);
+                idx2 = ALLOC_N(size_t,na1->base.shape[i]);
+                for (j=0; j<na1->base.shape[i]; j++) {
+                    idx2[j] = idx1[j];
+                }
+                SDX_SET_INDEX(na2->stridx[i],idx2);
+            } else {
+                na2->stridx[i] = na1->stridx[i];
+            }
+        }
+        na2->offset = na1->offset;
+        na2->data = na1->data;
+        break;
+    }
+
+    if (transpose) {
+	SWAP(na2->base.shape[nd-1], na2->base.shape[nd-2], shape_n);
+	SWAP(na2->stridx[nd-1], na2->stridx[nd-2], stridx_n);
+    }
+
+    return view;
+}
+
+
+//----------------------------------------------------------------------
+
+/*
+ *  call-seq:
+ *     narray.dot(other) => narray
+ *
+ *  Returns dot product.
+ *
+ */
+
+static VALUE
+numo_na_dot(VALUE self, VALUE other)
+{
+    VALUE test, sym_mulsum;
+    ID id_mulsum;
+    narray_t *na1, *na2;
+
+    id_mulsum = rb_intern("mulsum");
+    sym_mulsum = ID2SYM(id_mulsum);
+    test = rb_funcall(self, rb_intern("respond_to?"), 1, sym_mulsum);
+    if (!RTEST(test)) {
+        rb_raise(rb_eNoMethodError,"requires mulsum method for dot method");
+    }
+    GetNArray(self,na1);
+    GetNArray(other,na2);
+    if (na1->ndim > 1 || na2->ndim > 1) {
+        self = na_new_dimension_for_dot(self, na1->ndim-1, na2->ndim-1, 0);
+        other = na_new_dimension_for_dot(other, 0, na1->ndim-1, 1);
+    }
+    return rb_funcall(self,rb_intern("mulsum"),2,other,INT2FIX(-1));
+}
+
+
 void
 Init_nary_data()
 {
@@ -869,6 +990,8 @@ Init_nary_data()
     rb_define_method(cNArray, "to_vacs", nary_to_vacs, 0);
     rb_define_method(cNArray, "to_host", nary_to_host, 0);
     rb_define_method(cNArray, "to_swapped", nary_to_swapped, 0);
+
+    rb_define_method(cNArray, "dot", numo_na_dot, 1);
 
     id_add = rb_intern("add");
     id_sub = rb_intern("sub");
