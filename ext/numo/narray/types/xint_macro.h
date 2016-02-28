@@ -36,6 +36,9 @@
 #define m_max(x,y) {if (y<x) {y=x;}}
 #define m_max_init nary_init_accum_aref0(self,reduce)
 
+#define m_mulsum(x,y,z) {z += x*y;}
+#define m_mulsum_init INT2FIX(0)
+
 #define cmp(a,b)                                        \
     ((qsort_cast(a)==qsort_cast(b)) ? 0 :               \
      (qsort_cast(a) > qsort_cast(b)) ? 1 : -1)

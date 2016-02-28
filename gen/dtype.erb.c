@@ -150,6 +150,7 @@ if is_comparable
 end
 
 # dot
+accum_binary "mulsum"
 
 # min_index
 # max_index

@@ -48,6 +48,9 @@ EXTERN double exp10(double);
 #define m_min(x,y) {if (!isnan(x) && (isnan(y) || y>x)) {y=x;}}
 #define m_max(x,y) {if (!isnan(x) && (isnan(y) || y<x)) {y=x;}}
 
+#define m_mulsum(x,y,z) {z += x*y;}
+#define m_mulsum_init INT2FIX(0)
+
 #define m_rand to_res53(gen_rand64())
 #define m_rand_norm(a) rand_norm(a)
 
