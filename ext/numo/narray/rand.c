@@ -68,7 +68,7 @@ static VALUE
     VALUE vseed;
     u_int64_t seed;
 
-    rb_secure(4);
+    //rb_secure(4);
     if (rb_scan_args(argc, argv, "01", &vseed) == 0) {
         seed = random_seed();
     }
