@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>
-  Class: NArray::SFloat
+  Class: Numo::UInt64
   
     &mdash; Documentation by YARD 0.8.7.6
   
@@ -17,7 +17,7 @@
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
   relpath = '../';
-  framesUrl = "../frames.html#!NArray/SFloat.html";
+  framesUrl = "../frames.html#!Numo/UInt64.html";
 </script>
 
 
@@ -31,10 +31,10 @@
     <div id="header">
       <div id="menu">
   
-    <a href="../_index.html">Index (S)</a> &raquo;
-    <span class='title'><span class='object_link'><a href="../NArray.html" title="NArray (class)">NArray</a></span></span>
+    <a href="../_index.html">Index (U)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span>
      &raquo; 
-    <span class="title">SFloat</span>
+    <span class="title">UInt64</span>
   
 
   <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
@@ -63,7 +63,7 @@
 
     <iframe id="search_frame"></iframe>
 
-    <div id="content"><h1>Class: NArray::SFloat
+    <div id="content"><h1>Class: Numo::UInt64
   
   
   
@@ -73,14 +73,14 @@
   
     <dt class="r1">Inherits:</dt>
     <dd class="r1">
-      <span class="inheritName"><span class='object_link'><a href="../NArray.html" title="NArray (class)">NArray</a></span></span>
+      <span class="inheritName"><span class='object_link'><a href="NArray.html" title="Numo::NArray (class)">NArray</a></span></span>
       
         <ul class="fullTree">
           <li>Object</li>
           
-            <li class="next"><span class='object_link'><a href="../NArray.html" title="NArray (class)">NArray</a></span></li>
+            <li class="next"><span class='object_link'><a href="NArray.html" title="Numo::NArray (class)">NArray</a></span></li>
           
-            <li class="next">NArray::SFloat</li>
+            <li class="next">Numo::UInt64</li>
           
         </ul>
         <a href="#" class="inheritanceTree">show all</a>
@@ -96,21 +96,11 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">types/sfloat.c</dd>
+    <dd class="r2 last">types/uint64.c</dd>
   
 </dl>
 <div class="clear"></div>
 
-<h2>Defined Under Namespace</h2>
-<p class="children">
-  
-    
-      <strong class="modules">Modules:</strong> <span class='object_link'><a href="SFloat/Math.html" title="NArray::SFloat::Math (module)">Math</a></span>
-    
-  
-    
-  
-</p>
 
   <h2>Constant Summary</h2>
   
@@ -125,12 +115,6 @@
   
 
 
-
-  
-  
-  <h3 class="inherited">Constants inherited
-     from <span class='object_link'><a href="../NArray.html" title="NArray (class)">NArray</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="../NArray.html#Complex128-constant" title="NArray::Complex128 (constant)">Complex128</a></span>, <span class='object_link'><a href="../NArray.html#Complex64-constant" title="NArray::Complex64 (constant)">Complex64</a></span>, <span class='object_link'><a href="../NArray.html#Float32-constant" title="NArray::Float32 (constant)">Float32</a></span>, <span class='object_link'><a href="../NArray.html#Float64-constant" title="NArray::Float64 (constant)">Float64</a></span></p>
 
 
 
@@ -201,6 +185,28 @@
   <span class="summary_signature">
     
       <a href="#%25-instance_method" title="#% (instance method)">- (Object) <strong>%</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#%26-instance_method" title="#&amp; (instance method)">- (Object) <strong>&amp;</strong> </a>
     
 
     
@@ -354,6 +360,28 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#%5E-instance_method" title="#^ (instance method)">- (Object) <strong>^</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#abs-instance_method" title="#abs (instance method)">- (Object) <strong>abs</strong> </a>
     
 
@@ -377,28 +405,6 @@
   <span class="summary_signature">
     
       <a href="#allocate-instance_method" title="#allocate (instance method)">- (Object) <strong>allocate</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#ceil-instance_method" title="#ceil (instance method)">- (Object) <strong>ceil</strong> </a>
     
 
     
@@ -468,6 +474,8 @@
     
 
     
+      (also: #nearly_eq)
+    
   </span>
   
   
@@ -512,28 +520,6 @@ otherwise returns self.</p>
   <span class="summary_signature">
     
       <a href="#fill-instance_method" title="#fill (instance method)">- (Object) <strong>fill</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#floor-instance_method" title="#floor (instance method)">- (Object) <strong>floor</strong> </a>
     
 
     
@@ -691,72 +677,6 @@ otherwise returns self.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#isfinite-instance_method" title="#isfinite (instance method)">- (Object) <strong>isfinite</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#isinf-instance_method" title="#isinf (instance method)">- (Object) <strong>isinf</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#isnan-instance_method" title="#isnan (instance method)">- (Object) <strong>isnan</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#le-instance_method" title="#le (instance method)">- (Object) <strong>le</strong> </a>
     
 
@@ -871,7 +791,7 @@ otherwise returns self.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#ne-instance_method" title="#ne (instance method)">- (Object) <strong>ne</strong> </a>
+      <a href="#mulsum-instance_method" title="#mulsum (instance method)">- (Object) <strong>mulsum</strong> </a>
     
 
     
@@ -893,11 +813,9 @@ otherwise returns self.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#nearly_eq-instance_method" title="#nearly_eq (instance method)">- (Object) <strong>nearly_eq</strong> </a>
+      <a href="#ne-instance_method" title="#ne (instance method)">- (Object) <strong>ne</strong> </a>
     
 
-    
-      (also: #close_to)
     
   </span>
   
@@ -940,28 +858,6 @@ otherwise returns self.</p>
   <span class="summary_signature">
     
       <a href="#rand-instance_method" title="#rand (instance method)">- (Object) <strong>rand</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#round-instance_method" title="#round (instance method)">- (Object) <strong>round</strong> </a>
     
 
     
@@ -1114,6 +1010,50 @@ otherwise returns self.</p>
 </li>
 
       
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#%7C-instance_method" title="#| (instance method)">- (Object) <strong>|</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#%7E-instance_method" title="#~ (instance method)">- (Object) <strong>~</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
     </ul>
   
 
@@ -1126,12 +1066,12 @@ otherwise returns self.</p>
   
   
   
-  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="../NArray.html" title="NArray (class)">NArray</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="../NArray.html#%3D%3D-instance_method" title="NArray#== (method)">#==</a></span>, <span class='object_link'><a href="../NArray.html#%5B%5D-instance_method" title="NArray#[] (method)">#[]</a></span>, <span class='object_link'><a href="../NArray.html#%5B%5D%3D-instance_method" title="NArray#[]= (method)">#[]=</a></span>, <span class='object_link'><a href="../NArray.html#array_shape-class_method" title="NArray.array_shape (method)">array_shape</a></span>, <span class='object_link'><a href="../NArray.html#array_type-class_method" title="NArray.array_type (method)">array_type</a></span>, <span class='object_link'><a href="../NArray.html#byte_size-class_method" title="NArray.byte_size (method)">byte_size</a></span>, <span class='object_link'><a href="../NArray.html#byte_size-instance_method" title="NArray#byte_size (method)">#byte_size</a></span>, <span class='object_link'><a href="../NArray.html#byte_swapped%3F-instance_method" title="NArray#byte_swapped? (method)">#byte_swapped?</a></span>, <span class='object_link'><a href="../NArray.html#cast_to-instance_method" title="NArray#cast_to (method)">#cast_to</a></span>, <span class='object_link'><a href="../NArray.html#coerce-instance_method" title="NArray#coerce (method)">#coerce</a></span>, <span class='object_link'><a href="../NArray.html#column_major%3F-instance_method" title="NArray#column_major? (method)">#column_major?</a></span>, <span class='object_link'><a href="../NArray.html#copy-instance_method" title="NArray#copy (method)">#copy</a></span>, <span class='object_link'><a href="../NArray.html#debug%3D-class_method" title="NArray.debug= (method)">debug=</a></span>, <span class='object_link'><a href="../NArray.html#debug_info-instance_method" title="NArray#debug_info (method)">#debug_info</a></span>, <span class='object_link'><a href="../NArray.html#flatten-instance_method" title="NArray#flatten (method)">#flatten</a></span>, <span class='object_link'><a href="../NArray.html#host_order%3F-instance_method" title="NArray#host_order? (method)">#host_order?</a></span>, <span class='object_link'><a href="../NArray.html#initialize-instance_method" title="NArray#initialize (method)">#initialize</a></span>, <span class='object_link'><a href="../NArray.html#initialize_copy-instance_method" title="NArray#initialize_copy (method)">#initialize_copy</a></span>, <span class='object_link'><a href="../NArray.html#inplace-instance_method" title="NArray#inplace (method)">#inplace</a></span>, <span class='object_link'><a href="../NArray.html#inplace%21-instance_method" title="NArray#inplace! (method)">#inplace!</a></span>, <span class='object_link'><a href="../NArray.html#inplace%3F-instance_method" title="NArray#inplace? (method)">#inplace?</a></span>, <span class='object_link'><a href="../NArray.html#ndim-instance_method" title="NArray#ndim (method)">#ndim</a></span>, <span class='object_link'><a href="../NArray.html#ones-class_method" title="NArray.ones (method)">ones</a></span>, <span class='object_link'><a href="../NArray.html#out_of_place%21-instance_method" title="NArray#out_of_place! (method)">#out_of_place!</a></span>, <span class='object_link'><a href="../NArray.html#profile-class_method" title="NArray.profile (method)">profile</a></span>, <span class='object_link'><a href="../NArray.html#profile%3D-class_method" title="NArray.profile= (method)">profile=</a></span>, <span class='object_link'><a href="../NArray.html#reshape-instance_method" title="NArray#reshape (method)">#reshape</a></span>, <span class='object_link'><a href="../NArray.html#row_major%3F-instance_method" title="NArray#row_major? (method)">#row_major?</a></span>, <span class='object_link'><a href="../NArray.html#shape-instance_method" title="NArray#shape (method)">#shape</a></span>, <span class='object_link'><a href="../NArray.html#size-instance_method" title="NArray#size (method)">#size</a></span>, <span class='object_link'><a href="../NArray.html#slice-instance_method" title="NArray#slice (method)">#slice</a></span>, <span class='object_link'><a href="../NArray.html#srand-class_method" title="NArray.srand (method)">srand</a></span>, <span class='object_link'><a href="../NArray.html#step-class_method" title="NArray.step (method)">step</a></span>, <span class='object_link'><a href="../NArray.html#swap_byte-instance_method" title="NArray#swap_byte (method)">#swap_byte</a></span>, <span class='object_link'><a href="../NArray.html#to_host-instance_method" title="NArray#to_host (method)">#to_host</a></span>, <span class='object_link'><a href="../NArray.html#to_network-instance_method" title="NArray#to_network (method)">#to_network</a></span>, <span class='object_link'><a href="../NArray.html#to_swapped-instance_method" title="NArray#to_swapped (method)">#to_swapped</a></span>, <span class='object_link'><a href="../NArray.html#to_vacs-instance_method" title="NArray#to_vacs (method)">#to_vacs</a></span>, <span class='object_link'><a href="../NArray.html#transpose-instance_method" title="NArray#transpose (method)">#transpose</a></span>, <span class='object_link'><a href="../NArray.html#upcast-class_method" title="NArray.upcast (method)">upcast</a></span>, <span class='object_link'><a href="../NArray.html#zeros-class_method" title="NArray.zeros (method)">zeros</a></span></p>
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="NArray.html" title="Numo::NArray (class)">NArray</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="NArray.html#%3D%3D-instance_method" title="Numo::NArray#== (method)">#==</a></span>, <span class='object_link'><a href="NArray.html#%5B%5D%3D-instance_method" title="Numo::NArray#[]= (method)">#[]=</a></span>, <span class='object_link'><a href="NArray.html#array_type-class_method" title="Numo::NArray.array_type (method)">array_type</a></span>, <span class='object_link'><a href="NArray.html#byte_size-class_method" title="Numo::NArray.byte_size (method)">byte_size</a></span>, <span class='object_link'><a href="NArray.html#byte_size-instance_method" title="Numo::NArray#byte_size (method)">#byte_size</a></span>, <span class='object_link'><a href="NArray.html#byte_swapped%3F-instance_method" title="Numo::NArray#byte_swapped? (method)">#byte_swapped?</a></span>, <span class='object_link'><a href="NArray.html#cast_to-instance_method" title="Numo::NArray#cast_to (method)">#cast_to</a></span>, <span class='object_link'><a href="NArray.html#coerce-instance_method" title="Numo::NArray#coerce (method)">#coerce</a></span>, <span class='object_link'><a href="NArray.html#column_major%3F-instance_method" title="Numo::NArray#column_major? (method)">#column_major?</a></span>, <span class='object_link'><a href="NArray.html#debug%3D-class_method" title="Numo::NArray.debug= (method)">debug=</a></span>, <span class='object_link'><a href="NArray.html#debug_info-instance_method" title="Numo::NArray#debug_info (method)">#debug_info</a></span>, <span class='object_link'><a href="NArray.html#dot-instance_method" title="Numo::NArray#dot (method)">#dot</a></span>, <span class='object_link'><a href="NArray.html#flatten-instance_method" title="Numo::NArray#flatten (method)">#flatten</a></span>, <span class='object_link'><a href="NArray.html#host_order%3F-instance_method" title="Numo::NArray#host_order? (method)">#host_order?</a></span>, <span class='object_link'><a href="NArray.html#initialize-instance_method" title="Numo::NArray#initialize (method)">#initialize</a></span>, <span class='object_link'><a href="NArray.html#initialize_copy-instance_method" title="Numo::NArray#initialize_copy (method)">#initialize_copy</a></span>, <span class='object_link'><a href="NArray.html#inplace-instance_method" title="Numo::NArray#inplace (method)">#inplace</a></span>, <span class='object_link'><a href="NArray.html#inplace%21-instance_method" title="Numo::NArray#inplace! (method)">#inplace!</a></span>, <span class='object_link'><a href="NArray.html#inplace%3F-instance_method" title="Numo::NArray#inplace? (method)">#inplace?</a></span>, <span class='object_link'><a href="NArray.html#ndim-instance_method" title="Numo::NArray#ndim (method)">#ndim</a></span>, <span class='object_link'><a href="NArray.html#ones-class_method" title="Numo::NArray.ones (method)">ones</a></span>, <span class='object_link'><a href="NArray.html#out_of_place%21-instance_method" title="Numo::NArray#out_of_place! (method)">#out_of_place!</a></span>, <span class='object_link'><a href="NArray.html#profile-class_method" title="Numo::NArray.profile (method)">profile</a></span>, <span class='object_link'><a href="NArray.html#profile%3D-class_method" title="Numo::NArray.profile= (method)">profile=</a></span>, <span class='object_link'><a href="NArray.html#reshape-instance_method" title="Numo::NArray#reshape (method)">#reshape</a></span>, <span class='object_link'><a href="NArray.html#row_major%3F-instance_method" title="Numo::NArray#row_major? (method)">#row_major?</a></span>, <span class='object_link'><a href="NArray.html#shape-instance_method" title="Numo::NArray#shape (method)">#shape</a></span>, <span class='object_link'><a href="NArray.html#size-instance_method" title="Numo::NArray#size (method)">#size</a></span>, <span class='object_link'><a href="NArray.html#slice-instance_method" title="Numo::NArray#slice (method)">#slice</a></span>, <span class='object_link'><a href="NArray.html#srand-class_method" title="Numo::NArray.srand (method)">srand</a></span>, <span class='object_link'><a href="NArray.html#step-class_method" title="Numo::NArray.step (method)">step</a></span>, <span class='object_link'><a href="NArray.html#swap_byte-instance_method" title="Numo::NArray#swap_byte (method)">#swap_byte</a></span>, <span class='object_link'><a href="NArray.html#to_host-instance_method" title="Numo::NArray#to_host (method)">#to_host</a></span>, <span class='object_link'><a href="NArray.html#to_network-instance_method" title="Numo::NArray#to_network (method)">#to_network</a></span>, <span class='object_link'><a href="NArray.html#to_swapped-instance_method" title="Numo::NArray#to_swapped (method)">#to_swapped</a></span>, <span class='object_link'><a href="NArray.html#to_vacs-instance_method" title="Numo::NArray#to_vacs (method)">#to_vacs</a></span>, <span class='object_link'><a href="NArray.html#transpose-instance_method" title="Numo::NArray#transpose (method)">#transpose</a></span>, <span class='object_link'><a href="NArray.html#upcast-class_method" title="Numo::NArray.upcast (method)">upcast</a></span>, <span class='object_link'><a href="NArray.html#zeros-class_method" title="Numo::NArray.zeros (method)">zeros</a></span></p>
 <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
-    <p class="notice">This class inherits a constructor from <span class='object_link'><a href="../NArray.html#initialize-instance_method" title="NArray#initialize (method)">NArray</a></span></p>
+    <p class="notice">This class inherits a constructor from <span class='object_link'><a href="NArray.html#initialize-instance_method" title="Numo::NArray#initialize (method)">Numo::NArray</a></span></p>
   
 </div>
 
@@ -1188,10 +1128,10 @@ otherwise returns self.</p>
 1000</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 970</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 970</span>
 
 static VALUE
-nary_sfloat_s_cast(VALUE type, VALUE obj)
+nary_uint64_s_cast(VALUE type, VALUE obj)
 #line 11 &quot;tmpl/cast.c&quot;
 {
     VALUE v;
@@ -1203,17 +1143,17 @@ nary_sfloat_s_cast(VALUE type, VALUE obj)
     }
     if (RTEST(rb_obj_is_kind_of(obj,rb_cNumeric))) {
         x = m_num_to_data(obj);
-        return nary_sfloat_new_dim0(x);
+        return nary_uint64_new_dim0(x);
     }
     if (RTEST(rb_obj_is_kind_of(obj,rb_cArray))) {
-        return nary_sfloat_cast_array(obj);
+        return nary_uint64_cast_array(obj);
     }
     if (IsNArray(obj)) {
         GetNArray(obj,na);
         v = rb_narray_new(cT, NA_NDIM(na), NA_SHAPE(na));
         if (NA_SIZE(na) &gt; 0) {
-            nary_sfloat_allocate(v);
-            nary_sfloat_store(v,obj);
+            nary_uint64_allocate(v);
+            nary_uint64_store(v,obj);
 #line 32 &quot;tmpl/cast.c&quot;
         }
         return v;
@@ -1274,10 +1214,10 @@ nary_sfloat_s_cast(VALUE type, VALUE obj)
 1000</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 970</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 970</span>
 
 static VALUE
-nary_sfloat_s_cast(VALUE type, VALUE obj)
+nary_uint64_s_cast(VALUE type, VALUE obj)
 #line 11 &quot;tmpl/cast.c&quot;
 {
     VALUE v;
@@ -1289,17 +1229,17 @@ nary_sfloat_s_cast(VALUE type, VALUE obj)
     }
     if (RTEST(rb_obj_is_kind_of(obj,rb_cNumeric))) {
         x = m_num_to_data(obj);
-        return nary_sfloat_new_dim0(x);
+        return nary_uint64_new_dim0(x);
     }
     if (RTEST(rb_obj_is_kind_of(obj,rb_cArray))) {
-        return nary_sfloat_cast_array(obj);
+        return nary_uint64_cast_array(obj);
     }
     if (IsNArray(obj)) {
         GetNArray(obj,na);
         v = rb_narray_new(cT, NA_NDIM(na), NA_SHAPE(na));
         if (NA_SIZE(na) &gt; 0) {
-            nary_sfloat_allocate(v);
-            nary_sfloat_store(v,obj);
+            nary_uint64_allocate(v);
+            nary_uint64_store(v,obj);
 #line 32 &quot;tmpl/cast.c&quot;
         }
         return v;
@@ -1333,34 +1273,84 @@ nary_sfloat_s_cast(VALUE type, VALUE obj)
       <pre class="lines">
 
 
-1576
-1577
-1578
-1579
-1580
-1581
-1582
-1583
-1584
-1585
 1586
 1587
-1588</pre>
+1588
+1589
+1590
+1591
+1592
+1593
+1594
+1595
+1596
+1597
+1598</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 1576</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 1586</span>
 
 static VALUE
-nary_sfloat_mod(VALUE self, VALUE other)
+nary_uint64_mod(VALUE self, VALUE other)
 #line 44 &quot;tmpl/binary.c&quot;
 {
     VALUE klass, v;
     klass = na_upcast(CLASS_OF(self),CLASS_OF(other));
     if (klass==cT) {
-        return nary_sfloat_mod_self(self, other);
+        return nary_uint64_mod_self(self, other);
     } else {
         v = rb_funcall(klass, id_cast, 1, self);
         return rb_funcall(v, &#39;%&#39;, 1, other);
+    }
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="&-instance_method">
+  
+    - (<tt>Object</tt>) <strong>&amp;</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+2028
+2029
+2030
+2031
+2032
+2033
+2034
+2035
+2036
+2037
+2038
+2039
+2040</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 2028</span>
+
+static VALUE
+nary_uint64_bit_and(VALUE self, VALUE other)
+#line 44 &quot;tmpl/binary.c&quot;
+{
+    VALUE klass, v;
+    klass = na_upcast(CLASS_OF(self),CLASS_OF(other));
+    if (klass==cT) {
+        return nary_uint64_bit_and_self(self, other);
+    } else {
+        v = rb_funcall(klass, id_cast, 1, self);
+        return rb_funcall(v, &#39;&amp;&#39;, 1, other);
     }
 }</pre>
     </td>
@@ -1398,16 +1388,16 @@ nary_sfloat_mod(VALUE self, VALUE other)
 1478</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 1466</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 1466</span>
 
 static VALUE
-nary_sfloat_mul(VALUE self, VALUE other)
+nary_uint64_mul(VALUE self, VALUE other)
 #line 44 &quot;tmpl/binary.c&quot;
 {
     VALUE klass, v;
     klass = na_upcast(CLASS_OF(self),CLASS_OF(other));
     if (klass==cT) {
-        return nary_sfloat_mul_self(self, other);
+        return nary_uint64_mul_self(self, other);
     } else {
         v = rb_funcall(klass, id_cast, 1, self);
         return rb_funcall(v, &#39;*&#39;, 1, other);
@@ -1433,31 +1423,31 @@ nary_sfloat_mul(VALUE self, VALUE other)
       <pre class="lines">
 
 
-1716
-1717
-1718
-1719
-1720
-1721
-1722
-1723
-1724
-1725
-1726
-1727
-1728</pre>
+1731
+1732
+1733
+1734
+1735
+1736
+1737
+1738
+1739
+1740
+1741
+1742
+1743</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 1716</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 1731</span>
 
 static VALUE
-nary_sfloat_pow(VALUE self, VALUE other)
+nary_uint64_pow(VALUE self, VALUE other)
 #line 65 &quot;tmpl/pow.c&quot;
 {
     VALUE klass, v;
     klass = na_upcast(CLASS_OF(self),CLASS_OF(other));
     if (klass==cT) {
-        return nary_sfloat_pow_self(self,other);
+        return nary_uint64_pow_self(self,other);
     } else {
         v = rb_funcall(klass, id_cast, 1, self);
         return rb_funcall(v, id_pow, 1, other);
@@ -1498,16 +1488,16 @@ nary_sfloat_pow(VALUE self, VALUE other)
 1368</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 1356</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 1356</span>
 
 static VALUE
-nary_sfloat_add(VALUE self, VALUE other)
+nary_uint64_add(VALUE self, VALUE other)
 #line 44 &quot;tmpl/binary.c&quot;
 {
     VALUE klass, v;
     klass = na_upcast(CLASS_OF(self),CLASS_OF(other));
     if (klass==cT) {
-        return nary_sfloat_add_self(self, other);
+        return nary_uint64_add_self(self, other);
     } else {
         v = rb_funcall(klass, id_cast, 1, self);
         return rb_funcall(v, &#39;+&#39;, 1, other);
@@ -1548,16 +1538,16 @@ nary_sfloat_add(VALUE self, VALUE other)
 1423</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 1411</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 1411</span>
 
 static VALUE
-nary_sfloat_sub(VALUE self, VALUE other)
+nary_uint64_sub(VALUE self, VALUE other)
 #line 44 &quot;tmpl/binary.c&quot;
 {
     VALUE klass, v;
     klass = na_upcast(CLASS_OF(self),CLASS_OF(other));
     if (klass==cT) {
-        return nary_sfloat_sub_self(self, other);
+        return nary_uint64_sub_self(self, other);
     } else {
         v = rb_funcall(klass, id_cast, 1, self);
         return rb_funcall(v, &#39;-&#39;, 1, other);
@@ -1583,27 +1573,27 @@ nary_sfloat_sub(VALUE self, VALUE other)
       <pre class="lines">
 
 
-1781
-1782
-1783
-1784
-1785
-1786
-1787
-1788
-1789
-1790</pre>
+1796
+1797
+1798
+1799
+1800
+1801
+1802
+1803
+1804
+1805</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 1781</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 1796</span>
 
 static VALUE
-nary_sfloat_minus(VALUE self)
+nary_uint64_minus(VALUE self)
 #line 50 &quot;tmpl/unary.c&quot;
 {
     ndfunc_arg_in_t ain[1] = {{cT,0}};
     ndfunc_arg_out_t aout[1] = {{cT,0}};
-    ndfunc_t ndf = { iter_sfloat_minus, FULL_LOOP, 1, 1, ain, aout };
+    ndfunc_t ndf = { iter_uint64_minus, FULL_LOOP, 1, 1, ain, aout };
 
     return na_ndloop(&amp;ndf, 1, self);
 }</pre>
@@ -1627,11 +1617,6 @@ nary_sfloat_minus(VALUE self)
       <pre class="lines">
 
 
-1521
-1522
-1523
-1524
-1525
 1526
 1527
 1528
@@ -1639,22 +1624,77 @@ nary_sfloat_minus(VALUE self)
 1530
 1531
 1532
-1533</pre>
+1533
+1534
+1535
+1536
+1537
+1538</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 1521</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 1526</span>
 
 static VALUE
-nary_sfloat_div(VALUE self, VALUE other)
+nary_uint64_div(VALUE self, VALUE other)
 #line 44 &quot;tmpl/binary.c&quot;
 {
     VALUE klass, v;
     klass = na_upcast(CLASS_OF(self),CLASS_OF(other));
     if (klass==cT) {
-        return nary_sfloat_div_self(self, other);
+        return nary_uint64_div_self(self, other);
     } else {
         v = rb_funcall(klass, id_cast, 1, self);
         return rb_funcall(v, &#39;/&#39;, 1, other);
+    }
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="^-instance_method">
+  
+    - (<tt>Object</tt>) <strong>^</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+2138
+2139
+2140
+2141
+2142
+2143
+2144
+2145
+2146
+2147
+2148
+2149
+2150</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 2138</span>
+
+static VALUE
+nary_uint64_bit_xor(VALUE self, VALUE other)
+#line 44 &quot;tmpl/binary.c&quot;
+{
+    VALUE klass, v;
+    klass = na_upcast(CLASS_OF(self),CLASS_OF(other));
+    if (klass==cT) {
+        return nary_uint64_bit_xor_self(self, other);
+    } else {
+        v = rb_funcall(klass, id_cast, 1, self);
+        return rb_funcall(v, &#39;^&#39;, 1, other);
     }
 }</pre>
     </td>
@@ -1689,15 +1729,15 @@ nary_sfloat_div(VALUE self, VALUE other)
 1313</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 1304</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 1304</span>
 
 static VALUE
-nary_sfloat_abs(VALUE self)
+nary_uint64_abs(VALUE self)
 #line 52 &quot;tmpl/unary2.c&quot;
 {
     ndfunc_arg_in_t ain[1] = {{cT,0}};
     ndfunc_arg_out_t aout[1] = {{cRT,0}};
-    ndfunc_t ndf = { iter_sfloat_abs, FULL_LOOP, 1, 1, ain, aout };
+    ndfunc_t ndf = { iter_uint64_abs, FULL_LOOP, 1, 1, ain, aout };
 
     return na_ndloop(&amp;ndf, 1, self);
 }</pre>
@@ -1753,10 +1793,10 @@ nary_sfloat_abs(VALUE self)
 59</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 30</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 30</span>
 
 static VALUE
-nary_sfloat_allocate(VALUE self)
+nary_uint64_allocate(VALUE self)
 #line 3 &quot;tmpl/allocate.c&quot;
 {
     narray_t *na;
@@ -1775,7 +1815,7 @@ nary_sfloat_allocate(VALUE self)
         }
         break;
     case NARRAY_VIEW_T:
-        rb_funcall(NA_VIEW_DATA(na), id_allocate, 0);
+        rb_funcall(NA_VIEW_DATA(na), rb_intern(&quot;allocate&quot;), 0);
         break;
     case NARRAY_FILEMAP_T:
         //ptr = ((narray_filemap_t*)na)-&gt;ptr;
@@ -1784,50 +1824,6 @@ nary_sfloat_allocate(VALUE self)
         rb_bug(&quot;invalid narray type : %d&quot;,NA_TYPE(na));
     }
     return self;
-}</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="ceil-instance_method">
-  
-    - (<tt>Object</tt>) <strong>ceil</strong> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-2206
-2207
-2208
-2209
-2210
-2211
-2212
-2213
-2214
-2215</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 2206</span>
-
-static VALUE
-nary_sfloat_ceil(VALUE self)
-#line 50 &quot;tmpl/unary.c&quot;
-{
-    ndfunc_arg_in_t ain[1] = {{cT,0}};
-    ndfunc_arg_out_t aout[1] = {{cT,0}};
-    ndfunc_t ndf = { iter_sfloat_ceil, FULL_LOOP, 1, 1, ain, aout };
-
-    return na_ndloop(&amp;ndf, 1, self);
 }</pre>
     </td>
   </tr>
@@ -1857,10 +1853,10 @@ nary_sfloat_ceil(VALUE self)
 1013</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 1008</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 1008</span>
 
 static VALUE
-nary_sfloat_coerce_cast(VALUE value, VALUE type)
+nary_uint64_coerce_cast(VALUE value, VALUE type)
 #line 6 &quot;tmpl/coerce_cast.c&quot;
 {
     return Qnil;
@@ -1885,31 +1881,31 @@ nary_sfloat_coerce_cast(VALUE value, VALUE type)
       <pre class="lines">
 
 
-1633
-1634
-1635
-1636
-1637
-1638
-1639
-1640
-1641
-1642
-1643
-1644
-1645</pre>
+1648
+1649
+1650
+1651
+1652
+1653
+1654
+1655
+1656
+1657
+1658
+1659
+1660</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 1633</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 1648</span>
 
 static VALUE
-nary_sfloat_divmod(VALUE self, VALUE other)
+nary_uint64_divmod(VALUE self, VALUE other)
 #line 46 &quot;tmpl/binary2.c&quot;
 {
     VALUE klass, v;
     klass = na_upcast(CLASS_OF(self),CLASS_OF(other));
     if (klass==cT) {
-        return nary_sfloat_divmod_self(self, other);
+        return nary_uint64_divmod_self(self, other);
     } else {
         v = rb_funcall(klass, id_cast, 1, self);
         return rb_funcall(v, id_divmod, 1, other);
@@ -1927,6 +1923,10 @@ nary_sfloat_divmod(VALUE self, VALUE other)
   
 
   
+    <span class="aliases">Also known as:
+    <span class="names"><span id='nearly_eq-instance_method'>nearly_eq</span></span>
+    </span>
+  
 
   
 </h3><table class="source_code">
@@ -1935,31 +1935,31 @@ nary_sfloat_divmod(VALUE self, VALUE other)
       <pre class="lines">
 
 
-1899
-1900
-1901
-1902
-1903
-1904
-1905
-1906
-1907
-1908
-1909
-1910
-1911</pre>
+1914
+1915
+1916
+1917
+1918
+1919
+1920
+1921
+1922
+1923
+1924
+1925
+1926</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 1899</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 1914</span>
 
 static VALUE
-nary_sfloat_eq(VALUE self, VALUE other)
+nary_uint64_eq(VALUE self, VALUE other)
 #line 43 &quot;tmpl/cond_binary.c&quot;
 {
     VALUE klass, v;
     klass = na_upcast(CLASS_OF(self),CLASS_OF(other));
     if (klass==cT) {
-        return nary_sfloat_eq_self(self, other);
+        return nary_uint64_eq_self(self, other);
     } else {
         v = rb_funcall(klass, id_cast, 1, self);
         return rb_funcall(v, id_eq, 1, other);
@@ -1973,7 +1973,7 @@ nary_sfloat_eq(VALUE self, VALUE other)
       <div class="method_details ">
   <h3 class="signature " id="extract-instance_method">
   
-    - (<tt>Numeric</tt>, <tt><span class='object_link'><a href="../NArray.html" title="NArray (class)">NArray</a></span></tt>) <strong>extract</strong> 
+    - (<tt>Numeric</tt>, <tt><span class='object_link'><a href="NArray.html" title="Numo::NArray (class)">NArray</a></span></tt>) <strong>extract</strong> 
   
 
   
@@ -1998,7 +1998,7 @@ otherwise returns self.</p>
     <li>
       
       
-        <span class='type'>(<tt>Numeric</tt>, <tt><span class='object_link'><a href="../NArray.html" title="NArray (class)">NArray</a></span></tt>)</span>
+        <span class='type'>(<tt>Numeric</tt>, <tt><span class='object_link'><a href="NArray.html" title="Numo::NArray (class)">NArray</a></span></tt>)</span>
       
       
       
@@ -2030,10 +2030,10 @@ otherwise returns self.</p>
 85</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 70</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 70</span>
 
 VALUE
-nary_sfloat_extract(VALUE self)
+nary_uint64_extract(VALUE self)
 {
     volatile VALUE v;
     char *ptr;
@@ -2080,61 +2080,17 @@ nary_sfloat_extract(VALUE self)
 1104</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 1095</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 1095</span>
 
 static VALUE
-nary_sfloat_fill(VALUE self, VALUE val)
+nary_uint64_fill(VALUE self, VALUE val)
 #line 32 &quot;tmpl/fill.c&quot;
 {
     ndfunc_arg_in_t ain[2] = {{cT,0},{sym_option}};
-    ndfunc_t ndf = { iter_sfloat_fill, FULL_LOOP, 2, 0, ain, 0 };
+    ndfunc_t ndf = { iter_uint64_fill, FULL_LOOP, 2, 0, ain, 0 };
 
     na_ndloop(&amp;ndf, 2, self, val);
     return self;
-}</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="floor-instance_method">
-  
-    - (<tt>Object</tt>) <strong>floor</strong> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-2082
-2083
-2084
-2085
-2086
-2087
-2088
-2089
-2090
-2091</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 2082</span>
-
-static VALUE
-nary_sfloat_floor(VALUE self)
-#line 50 &quot;tmpl/unary.c&quot;
-{
-    ndfunc_arg_in_t ain[1] = {{cT,0}};
-    ndfunc_arg_out_t aout[1] = {{cT,0}};
-    ndfunc_t ndf = { iter_sfloat_floor, FULL_LOOP, 1, 1, ain, aout };
-
-    return na_ndloop(&amp;ndf, 1, self);
 }</pre>
     </td>
   </tr>
@@ -2171,17 +2127,17 @@ nary_sfloat_floor(VALUE self)
 1170</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 1158</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 1158</span>
 
 static VALUE
-nary_sfloat_format(int argc, VALUE *argv, VALUE self)
+nary_uint64_format(int argc, VALUE *argv, VALUE self)
 #line 51 &quot;tmpl/format.c&quot;
 {
     VALUE fmt=Qnil;
 
     ndfunc_arg_in_t ain[2] = {{Qnil,0},{sym_option}};
     ndfunc_arg_out_t aout[1] = {{cRObject,0}};
-    ndfunc_t ndf = { iter_sfloat_format, FULL_LOOP_NIP, 2, 1, ain, aout };
+    ndfunc_t ndf = { iter_uint64_format, FULL_LOOP_NIP, 2, 1, ain, aout };
 
     rb_scan_args(argc, argv, &quot;01&quot;, &amp;fmt);
     return na_ndloop(&amp;ndf, 2, self, fmt);
@@ -2220,16 +2176,16 @@ nary_sfloat_format(int argc, VALUE *argv, VALUE self)
 1223</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 1212</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 1212</span>
 
 static VALUE
-nary_sfloat_format_to_a(int argc, VALUE *argv, VALUE self)
+nary_uint64_format_to_a(int argc, VALUE *argv, VALUE self)
 #line 39 &quot;tmpl/format_to_a.c&quot;
 {
     volatile VALUE fmt=Qnil;
     ndfunc_arg_in_t ain[3] = {{Qnil,0},{sym_loop_opt},{sym_option}};
     ndfunc_arg_out_t aout[1] = {{rb_cArray,0}}; // dummy?
-    ndfunc_t ndf = { iter_sfloat_format_to_a, FULL_LOOP_NIP, 3, 1, ain, aout };
+    ndfunc_t ndf = { iter_uint64_format_to_a, FULL_LOOP_NIP, 3, 1, ain, aout };
 
     rb_scan_args(argc, argv, &quot;01&quot;, &amp;fmt);
     return na_ndloop_cast_narray_to_rarray(&amp;ndf, self, fmt);
@@ -2258,6 +2214,9 @@ nary_sfloat_format_to_a(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
+2318
+2319
+2320
 2321
 2322
 2323
@@ -2267,22 +2226,19 @@ nary_sfloat_format_to_a(int argc, VALUE *argv, VALUE self)
 2327
 2328
 2329
-2330
-2331
-2332
-2333</pre>
+2330</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 2321</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 2318</span>
 
 static VALUE
-nary_sfloat_ge(VALUE self, VALUE other)
+nary_uint64_ge(VALUE self, VALUE other)
 #line 43 &quot;tmpl/cond_binary.c&quot;
 {
     VALUE klass, v;
     klass = na_upcast(CLASS_OF(self),CLASS_OF(other));
     if (klass==cT) {
-        return nary_sfloat_ge_self(self, other);
+        return nary_uint64_ge_self(self, other);
     } else {
         v = rb_funcall(klass, id_cast, 1, self);
         return rb_funcall(v, id_ge, 1, other);
@@ -2312,6 +2268,9 @@ nary_sfloat_ge(VALUE self, VALUE other)
       <pre class="lines">
 
 
+2259
+2260
+2261
 2262
 2263
 2264
@@ -2321,22 +2280,19 @@ nary_sfloat_ge(VALUE self, VALUE other)
 2268
 2269
 2270
-2271
-2272
-2273
-2274</pre>
+2271</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 2262</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 2259</span>
 
 static VALUE
-nary_sfloat_gt(VALUE self, VALUE other)
+nary_uint64_gt(VALUE self, VALUE other)
 #line 43 &quot;tmpl/cond_binary.c&quot;
 {
     VALUE klass, v;
     klass = na_upcast(CLASS_OF(self),CLASS_OF(other));
     if (klass==cT) {
-        return nary_sfloat_gt_self(self, other);
+        return nary_uint64_gt_self(self, other);
     } else {
         v = rb_funcall(klass, id_cast, 1, self);
         return rb_funcall(v, id_gt, 1, other);
@@ -2372,14 +2328,14 @@ nary_sfloat_gt(VALUE self, VALUE other)
 1247</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 1240</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 1240</span>
 
 VALUE
-nary_sfloat_inspect(VALUE ary)
+nary_uint64_inspect(VALUE ary)
 #line 14 &quot;tmpl/inspect.c&quot;
 {
     VALUE str = na_info_str(ary);
-    na_ndloop_inspect(ary, str, iter_sfloat_inspect, Qnil);
+    na_ndloop_inspect(ary, str, iter_uint64_inspect, Qnil);
     return str;
 }</pre>
     </td>
@@ -2402,159 +2358,27 @@ nary_sfloat_inspect(VALUE ary)
       <pre class="lines">
 
 
-1843
-1844
-1845
-1846
-1847
-1848
-1849
-1850
-1851
-1852</pre>
+1858
+1859
+1860
+1861
+1862
+1863
+1864
+1865
+1866
+1867</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 1843</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 1858</span>
 
 static VALUE
-nary_sfloat_inverse(VALUE self)
+nary_uint64_inverse(VALUE self)
 #line 50 &quot;tmpl/unary.c&quot;
 {
     ndfunc_arg_in_t ain[1] = {{cT,0}};
     ndfunc_arg_out_t aout[1] = {{cT,0}};
-    ndfunc_t ndf = { iter_sfloat_inverse, FULL_LOOP, 1, 1, ain, aout };
-
-    return na_ndloop(&amp;ndf, 1, self);
-}</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="isfinite-instance_method">
-  
-    - (<tt>Object</tt>) <strong>isfinite</strong> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-2595
-2596
-2597
-2598
-2599
-2600
-2601
-2602
-2603
-2604</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 2595</span>
-
-static VALUE
-nary_sfloat_isfinite(VALUE self)
-#line 39 &quot;tmpl/cond_unary.c&quot;
-{
-    ndfunc_arg_in_t ain[1] = {{cT,0}};
-    ndfunc_arg_out_t aout[1] = {{cBit,0}};
-    ndfunc_t ndf = { iter_sfloat_isfinite, FULL_LOOP, 1, 1, ain, aout };
-
-    return na_ndloop(&amp;ndf, 1, self);
-}</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="isinf-instance_method">
-  
-    - (<tt>Object</tt>) <strong>isinf</strong> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-2544
-2545
-2546
-2547
-2548
-2549
-2550
-2551
-2552
-2553</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 2544</span>
-
-static VALUE
-nary_sfloat_isinf(VALUE self)
-#line 39 &quot;tmpl/cond_unary.c&quot;
-{
-    ndfunc_arg_in_t ain[1] = {{cT,0}};
-    ndfunc_arg_out_t aout[1] = {{cBit,0}};
-    ndfunc_t ndf = { iter_sfloat_isinf, FULL_LOOP, 1, 1, ain, aout };
-
-    return na_ndloop(&amp;ndf, 1, self);
-}</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="isnan-instance_method">
-  
-    - (<tt>Object</tt>) <strong>isnan</strong> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-2493
-2494
-2495
-2496
-2497
-2498
-2499
-2500
-2501
-2502</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 2493</span>
-
-static VALUE
-nary_sfloat_isnan(VALUE self)
-#line 39 &quot;tmpl/cond_unary.c&quot;
-{
-    ndfunc_arg_in_t ain[1] = {{cT,0}};
-    ndfunc_arg_out_t aout[1] = {{cBit,0}};
-    ndfunc_t ndf = { iter_sfloat_isnan, FULL_LOOP, 1, 1, ain, aout };
+    ndfunc_t ndf = { iter_uint64_inverse, FULL_LOOP, 1, 1, ain, aout };
 
     return na_ndloop(&amp;ndf, 1, self);
 }</pre>
@@ -2582,6 +2406,9 @@ nary_sfloat_isnan(VALUE self)
       <pre class="lines">
 
 
+2436
+2437
+2438
 2439
 2440
 2441
@@ -2591,22 +2418,19 @@ nary_sfloat_isnan(VALUE self)
 2445
 2446
 2447
-2448
-2449
-2450
-2451</pre>
+2448</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 2439</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 2436</span>
 
 static VALUE
-nary_sfloat_le(VALUE self, VALUE other)
+nary_uint64_le(VALUE self, VALUE other)
 #line 43 &quot;tmpl/cond_binary.c&quot;
 {
     VALUE klass, v;
     klass = na_upcast(CLASS_OF(self),CLASS_OF(other));
     if (klass==cT) {
-        return nary_sfloat_le_self(self, other);
+        return nary_uint64_le_self(self, other);
     } else {
         v = rb_funcall(klass, id_cast, 1, self);
         return rb_funcall(v, id_le, 1, other);
@@ -2636,6 +2460,9 @@ nary_sfloat_le(VALUE self, VALUE other)
       <pre class="lines">
 
 
+2377
+2378
+2379
 2380
 2381
 2382
@@ -2645,22 +2472,19 @@ nary_sfloat_le(VALUE self, VALUE other)
 2386
 2387
 2388
-2389
-2390
-2391
-2392</pre>
+2389</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 2380</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 2377</span>
 
 static VALUE
-nary_sfloat_lt(VALUE self, VALUE other)
+nary_uint64_lt(VALUE self, VALUE other)
 #line 43 &quot;tmpl/cond_binary.c&quot;
 {
     VALUE klass, v;
     klass = na_upcast(CLASS_OF(self),CLASS_OF(other));
     if (klass==cT) {
-        return nary_sfloat_lt_self(self, other);
+        return nary_uint64_lt_self(self, other);
     } else {
         v = rb_funcall(klass, id_cast, 1, self);
         return rb_funcall(v, id_lt, 1, other);
@@ -2686,35 +2510,35 @@ nary_sfloat_lt(VALUE self, VALUE other)
       <pre class="lines">
 
 
-2805
-2806
-2807
-2808
-2809
-2810
-2811
-2812
-2813
-2814
-2815
-2816
-2817</pre>
+2649
+2650
+2651
+2652
+2653
+2654
+2655
+2656
+2657
+2658
+2659
+2660
+2661</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 2805</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 2649</span>
 
 static VALUE
-nary_sfloat_max(int argc, VALUE *argv, VALUE self)
+nary_uint64_max(int argc, VALUE *argv, VALUE self)
 #line 55 &quot;tmpl/accum.c&quot;
 {
     VALUE v, reduce;
     ndfunc_arg_in_t ain[3] = {{cT,0},{sym_reduce,0},{sym_init,0}};
     ndfunc_arg_out_t aout[1] = {{cT,0}};
-    ndfunc_t ndf = { iter_sfloat_max, FULL_LOOP_NIP, 3, 1, ain, aout };
+    ndfunc_t ndf = { iter_uint64_max, FULL_LOOP_NIP, 3, 1, ain, aout };
 
     reduce = na_reduce_dimension(argc, argv, self);
     v =  na_ndloop(&amp;ndf, 3, self, reduce, m_max_init);
-    return nary_sfloat_extract(v);
+    return nary_uint64_extract(v);
 }</pre>
     </td>
   </tr>
@@ -2736,25 +2560,25 @@ nary_sfloat_max(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-3395
-3396
-3397
-3398
-3399
-3400
-3401
-3402</pre>
+3367
+3368
+3369
+3370
+3371
+3372
+3373
+3374</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 3395</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 3367</span>
 
 static VALUE
-nary_sfloat_median(int argc, VALUE *argv, VALUE self)
+nary_uint64_median(int argc, VALUE *argv, VALUE self)
 #line 43 &quot;tmpl/median.c&quot;
 {
     VALUE v;
-    v = na_median_main(argc, argv, self, iter_sfloat_median);
-    return nary_sfloat_extract(v);
+    v = na_median_main(argc, argv, self, iter_uint64_median);
+    return nary_uint64_extract(v);
 }</pre>
     </td>
   </tr>
@@ -2776,35 +2600,91 @@ nary_sfloat_median(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-2734
-2735
-2736
-2737
-2738
-2739
-2740
-2741
-2742
-2743
-2744
-2745
-2746</pre>
+2578
+2579
+2580
+2581
+2582
+2583
+2584
+2585
+2586
+2587
+2588
+2589
+2590</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 2734</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 2578</span>
 
 static VALUE
-nary_sfloat_min(int argc, VALUE *argv, VALUE self)
+nary_uint64_min(int argc, VALUE *argv, VALUE self)
 #line 55 &quot;tmpl/accum.c&quot;
 {
     VALUE v, reduce;
     ndfunc_arg_in_t ain[3] = {{cT,0},{sym_reduce,0},{sym_init,0}};
     ndfunc_arg_out_t aout[1] = {{cT,0}};
-    ndfunc_t ndf = { iter_sfloat_min, FULL_LOOP_NIP, 3, 1, ain, aout };
+    ndfunc_t ndf = { iter_uint64_min, FULL_LOOP_NIP, 3, 1, ain, aout };
 
     reduce = na_reduce_dimension(argc, argv, self);
     v =  na_ndloop(&amp;ndf, 3, self, reduce, m_min_init);
-    return nary_sfloat_extract(v);
+    return nary_uint64_extract(v);
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="mulsum-instance_method">
+  
+    - (<tt>Object</tt>) <strong>mulsum</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+2779
+2780
+2781
+2782
+2783
+2784
+2785
+2786
+2787
+2788
+2789
+2790
+2791
+2792
+2793
+2794</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 2779</span>
+
+static VALUE
+nary_uint64_mulsum(int argc, VALUE *argv, VALUE self)
+#line 114 &quot;tmpl/accum_binary.c&quot;
+{
+    VALUE klass, v;
+    if (argc &lt; 1) {
+        rb_raise(rb_eArgError,&quot;wrong number of arguments (%d for &gt;=1)&quot;,argc);
+    }
+    klass = na_upcast(CLASS_OF(self),CLASS_OF(argv[0]));
+    if (klass==cT) {
+        return nary_uint64_mulsum_self(argc, argv, self);
+    } else {
+        v = rb_funcall(klass, id_cast, 1, self);
+        return rb_funcall2(v, rb_intern(&quot;mulsum&quot;), argc, argv);
+    }
 }</pre>
     </td>
   </tr>
@@ -2826,88 +2706,34 @@ nary_sfloat_min(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-1958
-1959
-1960
-1961
-1962
-1963
-1964
-1965
-1966
-1967
-1968
-1969
-1970</pre>
+1973
+1974
+1975
+1976
+1977
+1978
+1979
+1980
+1981
+1982
+1983
+1984
+1985</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 1958</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 1973</span>
 
 static VALUE
-nary_sfloat_ne(VALUE self, VALUE other)
+nary_uint64_ne(VALUE self, VALUE other)
 #line 43 &quot;tmpl/cond_binary.c&quot;
 {
     VALUE klass, v;
     klass = na_upcast(CLASS_OF(self),CLASS_OF(other));
     if (klass==cT) {
-        return nary_sfloat_ne_self(self, other);
+        return nary_uint64_ne_self(self, other);
     } else {
         v = rb_funcall(klass, id_cast, 1, self);
         return rb_funcall(v, id_ne, 1, other);
-    }
-}</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="nearly_eq-instance_method">
-  
-    - (<tt>Object</tt>) <strong>nearly_eq</strong> 
-  
-
-  
-    <span class="aliases">Also known as:
-    <span class="names"><span id='close_to-instance_method'>close_to</span></span>
-    </span>
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-2017
-2018
-2019
-2020
-2021
-2022
-2023
-2024
-2025
-2026
-2027
-2028
-2029</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 2017</span>
-
-static VALUE
-nary_sfloat_nearly_eq(VALUE self, VALUE other)
-#line 43 &quot;tmpl/cond_binary.c&quot;
-{
-    VALUE klass, v;
-    klass = na_upcast(CLASS_OF(self),CLASS_OF(other));
-    if (klass==cT) {
-        return nary_sfloat_nearly_eq_self(self, other);
-    } else {
-        v = rb_funcall(klass, id_cast, 1, self);
-        return rb_funcall(v, id_nearly_eq, 1, other);
     }
 }</pre>
     </td>
@@ -2930,44 +2756,44 @@ nary_sfloat_nearly_eq(VALUE self, VALUE other)
       <pre class="lines">
 
 
+2932
+2933
+2934
+2935
+2936
+2937
+2938
+2939
+2940
+2941
+2942
+2943
+2944
+2945
+2946
+2947
+2948
+2949
+2950
+2951
+2952
+2953
+2954
 2955
-2956
-2957
-2958
-2959
-2960
-2961
-2962
-2963
-2964
-2965
-2966
-2967
-2968
-2969
-2970
-2971
-2972
-2973
-2974
-2975
-2976
-2977
-2978
-2979</pre>
+2956</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 2955</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 2932</span>
 
 static VALUE
-nary_sfloat_poly(VALUE self, VALUE args)
+nary_uint64_poly(VALUE self, VALUE args)
 #line 28 &quot;tmpl/poly.c&quot;
 {
     int argc, i;
     VALUE *argv;
     volatile VALUE v, a;
     ndfunc_arg_out_t aout[1] = {{cT,0}};
-    ndfunc_t ndf = { iter_sfloat_poly, NO_LOOP, 0, 1, 0, aout };
+    ndfunc_t ndf = { iter_uint64_poly, NO_LOOP, 0, 1, 0, aout };
 
     argc = RARRAY_LEN(args);
     ndf.nin = argc+1;
@@ -2982,7 +2808,7 @@ nary_sfloat_poly(VALUE self, VALUE args)
     }
     a = rb_ary_new4(argc+1, argv);
     v = na_ndloop2(&amp;ndf, a);
-    return nary_sfloat_extract(v);
+    return nary_uint64_extract(v);
 }</pre>
     </td>
   </tr>
@@ -3004,73 +2830,29 @@ nary_sfloat_poly(VALUE self, VALUE args)
       <pre class="lines">
 
 
-2915
-2916
-2917
-2918
-2919
-2920
-2921
-2922
-2923
-2924</pre>
+2892
+2893
+2894
+2895
+2896
+2897
+2898
+2899
+2900
+2901</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 2915</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 2892</span>
 
 static VALUE
-nary_sfloat_rand(VALUE self)
+nary_uint64_rand(VALUE self)
 #line 27 &quot;tmpl/rand.c&quot;
 {
     ndfunc_arg_in_t ain[1] = {{Qnil,0}};
-    ndfunc_t ndf = { iter_sfloat_rand, FULL_LOOP, 1, 0, ain, 0 };
+    ndfunc_t ndf = { iter_uint64_rand, FULL_LOOP, 1, 0, ain, 0 };
 
     na_ndloop(&amp;ndf, 1, self);
     return self;
-}</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="round-instance_method">
-  
-    - (<tt>Object</tt>) <strong>round</strong> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-2144
-2145
-2146
-2147
-2148
-2149
-2150
-2151
-2152
-2153</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 2144</span>
-
-static VALUE
-nary_sfloat_round(VALUE self)
-#line 50 &quot;tmpl/unary.c&quot;
-{
-    ndfunc_arg_in_t ain[1] = {{cT,0}};
-    ndfunc_arg_out_t aout[1] = {{cT,0}};
-    ndfunc_t ndf = { iter_sfloat_round, FULL_LOOP, 1, 1, ain, aout };
-
-    return na_ndloop(&amp;ndf, 1, self);
 }</pre>
     </td>
   </tr>
@@ -3096,38 +2878,38 @@ nary_sfloat_round(VALUE self)
       <pre class="lines">
 
 
-2866
-2867
-2868
-2869
-2870
-2871
-2872
-2873
-2874
-2875
-2876
-2877
-2878
-2879
-2880
-2881
-2882
-2883
-2884
-2885</pre>
+2843
+2844
+2845
+2846
+2847
+2848
+2849
+2850
+2851
+2852
+2853
+2854
+2855
+2856
+2857
+2858
+2859
+2860
+2861
+2862</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 2866</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 2843</span>
 
 static VALUE
-nary_sfloat_seq(int argc, VALUE *args, VALUE self)
+nary_uint64_seq(int argc, VALUE *args, VALUE self)
 #line 46 &quot;tmpl/seq.c&quot;
 {
     seq_opt_t *g;
     VALUE vbeg=Qnil, vstep=Qnil;
     ndfunc_arg_in_t ain[2] = {{cT,0}};
-    ndfunc_t ndf = { iter_sfloat_seq, FULL_LOOP, 1, 0, ain, 0 };
+    ndfunc_t ndf = { iter_uint64_seq, FULL_LOOP, 1, 0, ain, 0 };
 
     g = ALLOCA_N(seq_opt_t,1);
     g-&gt;beg = 0;
@@ -3160,21 +2942,21 @@ nary_sfloat_seq(int argc, VALUE *args, VALUE self)
       <pre class="lines">
 
 
-3172
-3173
-3174
-3175
-3176
-3177</pre>
+3149
+3150
+3151
+3152
+3153
+3154</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 3172</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 3149</span>
 
 static VALUE
-nary_sfloat_sort(int argc, VALUE *argv, VALUE self)
+nary_uint64_sort(int argc, VALUE *argv, VALUE self)
 #line 33 &quot;tmpl/sort.c&quot;
 {
-    return na_sort_main(argc, argv, self, iter_sfloat_sort);
+    return na_sort_main(argc, argv, self, iter_uint64_sort);
 }</pre>
     </td>
   </tr>
@@ -3196,21 +2978,21 @@ nary_sfloat_sort(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-3342
-3343
-3344
-3345
-3346
-3347</pre>
+3319
+3320
+3321
+3322
+3323
+3324</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 3342</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 3319</span>
 
 static VALUE
-nary_sfloat_sort_index(int argc, VALUE *argv, VALUE self)
+nary_uint64_sort_index(int argc, VALUE *argv, VALUE self)
 #line 8 &quot;tmpl/sort_index.c&quot;
 {
-    return na_sort_index_main(argc, argv, self, sfloat_index_qsort);
+    return na_sort_index_main(argc, argv, self, uint64_index_qsort);
 }</pre>
     </td>
   </tr>
@@ -3341,10 +3123,10 @@ nary_sfloat_sort_index(int argc, VALUE *argv, VALUE self)
 957</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 851</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 851</span>
 
 static VALUE
-nary_sfloat_store(VALUE self, VALUE obj)
+nary_uint64_store(VALUE self, VALUE obj)
 #line 9 &quot;tmpl/store.c&quot;
 {
     VALUE r;
@@ -3352,84 +3134,84 @@ nary_sfloat_store(VALUE self, VALUE obj)
     
 #line 13 &quot;tmpl/store.c&quot;
     if (FIXNUM_P(obj) || TYPE(obj)==T_FLOAT || TYPE(obj)==T_BIGNUM || rb_obj_is_kind_of(obj,rb_cComplex)) {
-        nary_sfloat_store_numeric(self,obj);
+        nary_uint64_store_numeric(self,obj);
 #line 15 &quot;tmpl/store.c&quot;
         return self;
     }
     
 #line 13 &quot;tmpl/store.c&quot;
     if (TYPE(obj)==T_ARRAY) {
-        nary_sfloat_store_array(self,obj);
+        nary_uint64_store_array(self,obj);
 #line 15 &quot;tmpl/store.c&quot;
         return self;
     }
     
 #line 13 &quot;tmpl/store.c&quot;
     if (rb_obj_is_kind_of(obj,cDFloat)) {
-        nary_sfloat_store_dfloat(self,obj);
+        nary_uint64_store_dfloat(self,obj);
 #line 15 &quot;tmpl/store.c&quot;
         return self;
     }
     
 #line 13 &quot;tmpl/store.c&quot;
     if (rb_obj_is_kind_of(obj,cSFloat)) {
-        nary_sfloat_store_sfloat(self,obj);
+        nary_uint64_store_sfloat(self,obj);
 #line 15 &quot;tmpl/store.c&quot;
         return self;
     }
     
 #line 13 &quot;tmpl/store.c&quot;
     if (rb_obj_is_kind_of(obj,cInt64)) {
-        nary_sfloat_store_int64(self,obj);
+        nary_uint64_store_int64(self,obj);
 #line 15 &quot;tmpl/store.c&quot;
         return self;
     }
     
 #line 13 &quot;tmpl/store.c&quot;
     if (rb_obj_is_kind_of(obj,cInt32)) {
-        nary_sfloat_store_int32(self,obj);
+        nary_uint64_store_int32(self,obj);
 #line 15 &quot;tmpl/store.c&quot;
         return self;
     }
     
 #line 13 &quot;tmpl/store.c&quot;
     if (rb_obj_is_kind_of(obj,cInt16)) {
-        nary_sfloat_store_int16(self,obj);
+        nary_uint64_store_int16(self,obj);
 #line 15 &quot;tmpl/store.c&quot;
         return self;
     }
     
 #line 13 &quot;tmpl/store.c&quot;
     if (rb_obj_is_kind_of(obj,cInt8)) {
-        nary_sfloat_store_int8(self,obj);
+        nary_uint64_store_int8(self,obj);
 #line 15 &quot;tmpl/store.c&quot;
         return self;
     }
     
 #line 13 &quot;tmpl/store.c&quot;
     if (rb_obj_is_kind_of(obj,cUInt64)) {
-        nary_sfloat_store_uint64(self,obj);
+        nary_uint64_store_uint64(self,obj);
 #line 15 &quot;tmpl/store.c&quot;
         return self;
     }
     
 #line 13 &quot;tmpl/store.c&quot;
     if (rb_obj_is_kind_of(obj,cUInt32)) {
-        nary_sfloat_store_uint32(self,obj);
+        nary_uint64_store_uint32(self,obj);
 #line 15 &quot;tmpl/store.c&quot;
         return self;
     }
     
 #line 13 &quot;tmpl/store.c&quot;
     if (rb_obj_is_kind_of(obj,cUInt16)) {
-        nary_sfloat_store_uint16(self,obj);
+        nary_uint64_store_uint16(self,obj);
 #line 15 &quot;tmpl/store.c&quot;
         return self;
     }
     
 #line 13 &quot;tmpl/store.c&quot;
     if (rb_obj_is_kind_of(obj,cUInt8)) {
-        nary_sfloat_store_uint8(self,obj);
+        nary_uint64_store_uint8(self,obj);
 #line 15 &quot;tmpl/store.c&quot;
         return self;
     }
@@ -3439,7 +3221,7 @@ nary_sfloat_store(VALUE self, VALUE obj)
     if (IsNArray(obj)) {
         r = rb_funcall(obj, rb_intern(&quot;coerce_cast&quot;), 1, cT);
         if (CLASS_OF(r)==cT) {
-            nary_sfloat_store(self,r);
+            nary_uint64_store(self,r);
 #line 23 &quot;tmpl/store.c&quot;
             return self;
         }
@@ -3470,35 +3252,35 @@ nary_sfloat_store(VALUE self, VALUE obj)
       <pre class="lines">
 
 
-2663
-2664
-2665
-2666
-2667
-2668
-2669
-2670
-2671
-2672
-2673
-2674
-2675</pre>
+2507
+2508
+2509
+2510
+2511
+2512
+2513
+2514
+2515
+2516
+2517
+2518
+2519</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 2663</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 2507</span>
 
 static VALUE
-nary_sfloat_sum(int argc, VALUE *argv, VALUE self)
+nary_uint64_sum(int argc, VALUE *argv, VALUE self)
 #line 55 &quot;tmpl/accum.c&quot;
 {
     VALUE v, reduce;
     ndfunc_arg_in_t ain[3] = {{cT,0},{sym_reduce,0},{sym_init,0}};
     ndfunc_arg_out_t aout[1] = {{cT,0}};
-    ndfunc_t ndf = { iter_sfloat_sum, FULL_LOOP_NIP, 3, 1, ain, aout };
+    ndfunc_t ndf = { iter_uint64_sum, FULL_LOOP_NIP, 3, 1, ain, aout };
 
     reduce = na_reduce_dimension(argc, argv, self);
     v =  na_ndloop(&amp;ndf, 3, self, reduce, m_sum_init);
-    return nary_sfloat_extract(v);
+    return nary_uint64_extract(v);
 }</pre>
     </td>
   </tr>
@@ -3531,16 +3313,110 @@ nary_sfloat_sum(int argc, VALUE *argv, VALUE self)
 1060</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'types/sfloat.c', line 1052</span>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 1052</span>
 
 static VALUE
-nary_sfloat_to_a(VALUE self)
+nary_uint64_to_a(VALUE self)
 #line 36 &quot;tmpl/to_a.c&quot;
 {
     ndfunc_arg_in_t ain[3] = {{Qnil,0},{sym_loop_opt},{sym_option}};
     ndfunc_arg_out_t aout[1] = {{rb_cArray,0}}; // dummy?
-    ndfunc_t ndf = { iter_sfloat_to_a, FULL_LOOP_NIP, 3, 1, ain, aout };
+    ndfunc_t ndf = { iter_uint64_to_a, FULL_LOOP_NIP, 3, 1, ain, aout };
     return na_ndloop_cast_narray_to_rarray(&amp;ndf, self, Qnil);
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="|-instance_method">
+  
+    - (<tt>Object</tt>) <strong>|</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+2083
+2084
+2085
+2086
+2087
+2088
+2089
+2090
+2091
+2092
+2093
+2094
+2095</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 2083</span>
+
+static VALUE
+nary_uint64_bit_or(VALUE self, VALUE other)
+#line 44 &quot;tmpl/binary.c&quot;
+{
+    VALUE klass, v;
+    klass = na_upcast(CLASS_OF(self),CLASS_OF(other));
+    if (klass==cT) {
+        return nary_uint64_bit_or_self(self, other);
+    } else {
+        v = rb_funcall(klass, id_cast, 1, self);
+        return rb_funcall(v, &#39;|&#39;, 1, other);
+    }
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="~-instance_method">
+  
+    - (<tt>Object</tt>) <strong>~</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+2203
+2204
+2205
+2206
+2207
+2208
+2209
+2210
+2211
+2212</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'types/uint64.c', line 2203</span>
+
+static VALUE
+nary_uint64_bit_not(VALUE self)
+#line 50 &quot;tmpl/unary.c&quot;
+{
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_uint64_bit_not, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, self);
 }</pre>
     </td>
   </tr>
@@ -3552,7 +3428,7 @@ nary_sfloat_to_a(VALUE self)
 </div>
 
     <div id="footer">
-  Generated on Mon Feb 22 21:51:16 2016 by
+  Generated on Sun Feb 28 22:32:19 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-2.3.0).
 </div>
