@@ -4,83 +4,28 @@ static void
     size_t   i;
     char    *p1, *p2, *p3;
     ssize_t  s1, s2, s3;
-    size_t  *idx1, *idx2;
     dtype    x, y, z;
 
     INIT_COUNTER(lp, i);
-    INIT_PTR_IDX(lp, 0, p1, s1, idx1);
-    INIT_PTR_IDX(lp, 1, p2, s2, idx2);
+    INIT_PTR(lp, 0, p1, s1);
+    INIT_PTR(lp, 1, p2, s2);
     INIT_PTR(lp, 2, p3, s3);
-    if (s2==0) {
-        // Reduce loop
+    // Reduce loop
+    if (s3==0) {
         GET_DATA(p3,dtype,z);
-        if (idx1) {
-            if (idx2) {
-                for (; i--;) {
-                    GET_DATA_INDEX(p1,idx1,dtype,x);
-                    GET_DATA_INDEX(p2,idx2,dtype,y);
-                    m_<%=method%>(x,y,z);
-                }
-            } else {
-                for (; i--;) {
-                    GET_DATA_INDEX(p1,idx1,dtype,x);
-                    GET_DATA_STRIDE(p2,s2,dtype,y);
-                    m_<%=method%>(x,y,z);
-                }
-            }
-        } else {
-            if (idx2) {
-                for (; i--;) {
-                    GET_DATA_STRIDE(p1,s1,dtype,x);
-                    GET_DATA_INDEX(p2,idx2,dtype,y);
-                    m_<%=method%>(x,y,z);
-                }
-            } else {
-                for (; i--;) {
-                    GET_DATA_STRIDE(p1,s1,dtype,x);
-                    GET_DATA_STRIDE(p2,s2,dtype,y);
-                    m_<%=method%>(x,y,z);
-                }
-            }
+        for (; i--;) {
+            GET_DATA_STRIDE(p1,s1,dtype,x);
+            GET_DATA_STRIDE(p2,s2,dtype,y);
+            m_<%=method%>(x,y,z);
         }
         SET_DATA(p3,dtype,z);
     } else {
-        if (idx1) {
-            if (idx2) {
-                for (; i--;) {
-                    GET_DATA_INDEX(p1,idx1,dtype,x);
-                    GET_DATA_INDEX(p2,idx2,dtype,y);
-                    GET_DATA(p3,dtype,z);
-                    m_<%=method%>(x,y,z);
-                    SET_DATA_STRIDE(p3,s3,dtype,z);
-                }
-            } else {
-                for (; i--;) {
-                    GET_DATA_INDEX(p1,idx1,dtype,x);
-                    GET_DATA_STRIDE(p2,s2,dtype,y);
-                    GET_DATA(p3,dtype,z);
-                    m_<%=method%>(x,y,z);
-                    SET_DATA_STRIDE(p3,s3,dtype,z);
-                }
-            }
-        } else {
-            if (idx2) {
-                for (; i--;) {
-                    GET_DATA_STRIDE(p1,s1,dtype,x);
-                    GET_DATA_INDEX(p2,idx2,dtype,y);
-                    GET_DATA(p3,dtype,z);
-                    m_<%=method%>(x,y,z);
-                    SET_DATA_STRIDE(p3,s3,dtype,z);
-                }
-            } else {
-                for (; i--;) {
-                    GET_DATA_STRIDE(p1,s1,dtype,x);
-                    GET_DATA_STRIDE(p2,s2,dtype,y);
-                    GET_DATA(p3,dtype,z);
-                    m_<%=method%>(x,y,z);
-                    SET_DATA_STRIDE(p3,s3,dtype,z);
-                }
-            }
+        for (; i--;) {
+            GET_DATA_STRIDE(p1,s1,dtype,x);
+            GET_DATA_STRIDE(p2,s2,dtype,y);
+            GET_DATA_STRIDE(p3,s3,dtype,z);
+            m_<%=method%>(x,y,z);
+            SET_DATA_STRIDE(p3,s3,dtype,z);
         }
     }
 }
@@ -92,7 +37,7 @@ static VALUE
     VALUE v, reduce;
     ndfunc_arg_in_t ain[4] = {{cT,0},{cT,0},{sym_reduce,0},{sym_init,0}};
     ndfunc_arg_out_t aout[1] = {{cT,0}};
-    ndfunc_t ndf = { <%=c_iter%>, FULL_LOOP_NIP, 4, 1, ain, aout };
+    ndfunc_t ndf = { <%=c_iter%>, STRIDE_LOOP_NIP, 4, 1, ain, aout };
 
     if (argc < 1) {
         rb_raise(rb_eArgError,"wrong number of arguments (%d for >=1)",argc);
