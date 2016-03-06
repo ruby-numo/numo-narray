@@ -173,11 +173,15 @@ types.each do |dtype|
       end
       it{expect(@a.copy.fill(12)).to eq [[12]*3]*2}
       it{expect((@a + 1)).to eq [[2,3,4],[6,8,12]]}
+      it{expect((@a + [1,2,3])).to eq [[2,4,6],[6,9,14]]}
       it{expect((@a - 1)).to eq [[0,1,2],[4,6,10]]}
+      it{expect((@a - [1,2,3])).to eq [[0,0,0],[4,5,8]]}
       it{expect((@a * 3)).to eq [[3,6,9],[15,21,33]]}
+      it{expect((@a * [1,2,3])).to eq [[1,4,9],[5,14,33]]}
       it{expect((@a / 0.5)).to eq [[2,4,6],[10,14,22]]}
       it{expect((-@a)).to eq [[-1,-2,-3],[-5,-7,-11]]}
       it{expect((@a ** 2)).to eq [[1,4,9],[25,49,121]]}
+      it{expect((dtype[[1,0],[0,1]].dot dtype[[4,1],[2,2]])).to eq [[4,1],[2,2]]}
       it{expect(@a.swap_byte.swap_byte).to eq @src}
     end
 
