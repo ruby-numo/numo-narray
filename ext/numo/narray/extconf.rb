@@ -36,17 +36,6 @@ struct
 rand
 )
 
-# util method
-def create_conf_h(file)
-  print "creating #{file}\n"
-  hfile = open(file, "w")
-  for line in $defs
-    line =~ /^-D(.*)/
-    hfile.printf "#define %s 1\n", $1
-  end
-  hfile.close
-end
-
 =begin
 have_header("atlas/cblas.h")
 have_library("atlas")
@@ -81,10 +70,12 @@ end
 #have_func("asinh")
 
 have_var("rb_cComplex")
+#have_func("rb_alloc_tmp_buffer", "ruby.h")
+#have_func("rb_free_tmp_buffer", "ruby.h")
 
 $objs = srcs.collect{|i| i+".o"}
 
-create_conf_h("narray_config.h")
+create_header
 
 create_makefile('numo/narray')
 

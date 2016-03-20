@@ -14,7 +14,7 @@
 #include <math.h>
 #include "compat.h"
 
-//#include "narray_config.h"
+//#include "extconf.h"
 
 #ifdef HAVE_SYS_TYPES_H
 # include <sys/types.h>
