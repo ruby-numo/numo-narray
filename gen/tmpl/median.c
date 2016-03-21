@@ -3,14 +3,14 @@ static void
 {
     size_t i, n;
     char *p1, *p2;
-    ssize_t s1, s2;
-    size_t *idx1, *idx2;
+    ssize_t s1;
+    size_t *idx1;
     dtype *buf;
 
     //INIT_COUNTER(lp, n);
     n = lp->args[0].shape[0];
     INIT_PTR_IDX(lp, 0, p1, s1, idx1);
-    INIT_PTR_IDX(lp, 1, p2, s2, idx2);
+    p2 = (lp->args[1]).ptr + (lp->iter[1]).pos;
     buf = (dtype*)(lp->opt_ptr);
     if (idx1) {
         for (i=0; i<n; i++) {

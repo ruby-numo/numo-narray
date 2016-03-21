@@ -10,9 +10,9 @@ static void
     BIT_DIGIT  x, y;
 
     INIT_COUNTER(lp, n);
-    INIT_PTR_BIT(lp, 0, a1, p1, s1, idx1);
-    INIT_PTR_BIT(lp, 1, a2, p2, s2, idx2);
-    INIT_PTR_BIT(lp, 2, a3, p3, s3, idx3);
+    INIT_PTR_BIT_IDX(lp, 0, a1, p1, s1, idx1);
+    INIT_PTR_BIT_IDX(lp, 1, a2, p2, s2, idx2);
+    INIT_PTR_BIT_IDX(lp, 2, a3, p3, s3, idx3);
     if (s1!=1 || s2!=1 || s3!=1 || idx1 || idx2 || idx3) {
         for (; n--;) {
             LOAD_BIT_STEP(a1, p1, s1, idx1, x);

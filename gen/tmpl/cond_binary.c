@@ -6,13 +6,12 @@ static void
     BIT_DIGIT *a3;
     size_t  p3;
     ssize_t s1, s2, s3;
-    size_t *idx3;
     dtype   x, y;
     BIT_DIGIT b;
     INIT_COUNTER(lp, i);
     INIT_PTR(lp, 0, p1, s1);
     INIT_PTR(lp, 1, p2, s2);
-    INIT_PTR_BIT(lp, 2, a3, p3, s3, idx3);
+    INIT_PTR_BIT(lp, 2, a3, p3, s3);
     for (; i--;) {
         GET_DATA_STRIDE(p1,s1,dtype,x);
         GET_DATA_STRIDE(p2,s2,dtype,y);

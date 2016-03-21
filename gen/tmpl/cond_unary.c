@@ -6,12 +6,12 @@ static void
     BIT_DIGIT *a2;
     size_t    p2;
     ssize_t   s1, s2;
-    size_t   *idx1, *idx2;
+    size_t   *idx1;
     dtype     x;
     BIT_DIGIT b;
     INIT_COUNTER(lp, i);
     INIT_PTR_IDX(lp, 0, p1, s1, idx1);
-    INIT_PTR_BIT(lp, 1, a2, p2, s2, idx2);
+    INIT_PTR_BIT(lp, 1, a2, p2, s2);
     if (idx1) {
         for (; i--;) {
             GET_DATA_INDEX(p1,idx1,dtype,x);

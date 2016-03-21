@@ -355,6 +355,7 @@ ndloop_release(VALUE vlp)
 }
 
 
+/*
 static void
 ndloop_free(na_md_loop_t* lp)
 {
@@ -369,7 +370,7 @@ ndloop_free(na_md_loop_t* lp)
     }
     xfree(lp);
 }
-
+*/
 
 
 static void

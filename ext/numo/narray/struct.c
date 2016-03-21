@@ -580,7 +580,7 @@ iter_nstruct_from_a(na_loop_t *const lp)
     long  i, len;
     VALUE ary;
     VALUE types, defs, def;
-    VALUE elmt, velm, item;
+    VALUE elmt, item;
     size_t ofs;
     narray_view_t *ne;
 
@@ -602,7 +602,7 @@ iter_nstruct_from_a(na_loop_t *const lp)
         //rb_p(item);
         //rb_p(elmt);
         //abort();
-        velm = rb_funcall(elmt, rb_intern("store"), 1, item);
+        rb_funcall(elmt, rb_intern("store"), 1, item);
     }
 }
 

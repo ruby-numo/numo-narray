@@ -32,7 +32,15 @@
         es = ((lp)->args[i]).elmsz;                             \
     }
 
-#define INIT_PTR_BIT( lp, i, ad, ps, st, id )           \
+#define INIT_PTR_BIT( lp, i, ad, ps, st )               \
+    {                                                   \
+        ps = ((lp)->iter[i]).pos;                       \
+        ad = (BIT_DIGIT*)(((lp)->args[i]).ptr) + ps/NB; \
+        ps %= NB;                                       \
+        st = ((lp)->iter[i]).step;                      \
+    }
+
+#define INIT_PTR_BIT_IDX( lp, i, ad, ps, st, id )       \
     {                                                   \
         ps = ((lp)->iter[i]).pos;                       \
         ad = (BIT_DIGIT*)(((lp)->args[i]).ptr) + ps/NB; \

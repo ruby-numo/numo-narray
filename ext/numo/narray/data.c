@@ -270,7 +270,7 @@ na_reshape(int argc, VALUE *argv, VALUE self)
 {
     int    i, unfixed=-1;
     size_t total=1;
-    size_t *shape, *shape_save;
+    size_t *shape; //, *shape_save;
     narray_t *na;
     VALUE    copy;
 
@@ -309,7 +309,7 @@ na_reshape(int argc, VALUE *argv, VALUE self)
 
     copy = na_copy(self);
     GetNArray(copy,na);
-    shape_save = NA_SHAPE(na);
+    //shape_save = NA_SHAPE(na);
     na_setup_shape(na,argc,shape);
     //if (NA_SHAPE(na) != shape_save) {
     //    xfree(shape_save);

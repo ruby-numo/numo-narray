@@ -14,7 +14,7 @@ static void
     int_t   y;
 
     INIT_COUNTER(lp, i);
-    INIT_PTR_BIT(lp, 0, a1, p1, s1, idx1);
+    INIT_PTR_BIT_IDX(lp, 0, a1, p1, s1, idx1);
     INIT_PTR(lp, 1, p2, s2);
     if (s2==0) {
         GET_DATA(p2, int_t, y);

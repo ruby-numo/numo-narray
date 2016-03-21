@@ -74,7 +74,6 @@ static VALUE nary_cast_array_to_bit(VALUE ary);
 static VALUE
 nary_bit_cast_numeric(VALUE val)
 {
-    narray_t *na;
     VALUE v;
     BIT_DIGIT *ptr, b=2;
     size_t dig_ofs;
@@ -92,7 +91,6 @@ nary_bit_cast_numeric(VALUE val)
     }
 
     v = rb_narray_new(cT, 0, NULL);
-    GetNArray(v,na);
     //dig_ofs = na->offset / NB;
     //bit_ofs = na->offset % NB;
     dig_ofs = 0;
@@ -180,7 +178,7 @@ iter_bit_format(na_loop_t *const lp)
     VALUE fmt = lp->option;
 
     INIT_COUNTER(lp, i);
-    INIT_PTR_BIT(lp, 0, a1, p1, s1, idx1);
+    INIT_PTR_BIT_IDX(lp, 0, a1, p1, s1, idx1);
     INIT_PTR(lp, 1, p2, s2);
 
     if (idx1) {
@@ -225,7 +223,7 @@ iter_bit_format_to_a(na_loop_t *const lp)
     volatile VALUE a;
 
     INIT_COUNTER(lp, i);
-    INIT_PTR_BIT(lp, 0, a1, p1, s1, idx1);
+    INIT_PTR_BIT_IDX(lp, 0, a1, p1, s1, idx1);
     a = rb_ary_new2(i);
     rb_ary_push(lp->args[1].value, a);
     if (idx1) {
@@ -279,7 +277,7 @@ iter_bit_fill(na_loop_t *const lp)
     }
 
     INIT_COUNTER(lp, n);
-    INIT_PTR_BIT(lp, 0, a3, p3, s3, idx3);
+    INIT_PTR_BIT_IDX(lp, 0, a3, p3, s3, idx3);
     if (idx3) {
         y = y&1;
         for (; n--;) {
@@ -332,7 +330,7 @@ bit_cast_to_robj(na_loop_t *const lp)
     volatile VALUE a;
 
     INIT_COUNTER(lp, i);
-    INIT_PTR_BIT(lp, 0, a1, p1, s1, idx1);
+    INIT_PTR_BIT_IDX(lp, 0, a1, p1, s1, idx1);
     a = rb_ary_new2(i);
     rb_ary_push(lp->args[1].value, a);
     if (idx1) {
@@ -372,7 +370,7 @@ iter_cast_rarray_to_bit(na_loop_t *const lp)
     BIT_DIGIT y;
 
     INIT_COUNTER(lp, n);
-    INIT_PTR_BIT(lp, 1, a2, p2, s2, idx2);
+    INIT_PTR_BIT_IDX(lp, 1, a2, p2, s2, idx2);
     v1 = lp->args[0].value;
     ptr = &v1;
 
@@ -530,7 +528,7 @@ iter_bit_where(na_loop_t *const lp)
     idx1  = g->idx1;
     e     = g->elmsz;
     INIT_COUNTER(lp, i);
-    INIT_PTR_BIT(lp, 0, a, p, s, idx);
+    INIT_PTR_BIT_IDX(lp, 0, a, p, s, idx);
     if (idx) {
         for (; i--;) {
             LOAD_BIT(a, p+*idx, x);
@@ -645,7 +643,7 @@ iter_bit_mask(na_loop_t *const lp)
 
     q3 = *(void**)(lp->opt_ptr);
     INIT_COUNTER(lp, i);
-    INIT_PTR_BIT(lp, 0, a1, p1, s1, idx1);
+    INIT_PTR_BIT_IDX(lp, 0, a1, p1, s1, idx1);
     INIT_PTR_IDX(lp, 1, p2, s2, idx2);
     INIT_ELMSIZE(lp, 1, e2)
     for (; i--;) {

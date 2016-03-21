@@ -12,14 +12,14 @@
 
 int n_bits(u_int64_t a)
 {
-    int i, x, xu, xl, n=5;
+    int i, x, /*xu,*/ xl, n=5;
     u_int64_t m;
 
     if (a==0) return 0;
     //if (a<0) a=-a;
 
     x  = 1<<n;
-    xu = 1<<(n+1);
+    //xu = 1<<(n+1);
     xl = 0;
     //printf("%3i, [%3i, %3i], %i\n", i, xu, xl, x);
 
@@ -29,7 +29,7 @@ int n_bits(u_int64_t a)
 	    xl = x;
 	    x += 1<<(i-1);
 	} else {
-	    xu = x;
+	    //xu = x;
 	    x -= 1<<(i-1);
 	}
 	//printf("%3i, [%3i, %3i], %i, 0x%lx, 0x%lx\n", i, xu, xl, x, m, m&a);
