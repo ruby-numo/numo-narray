@@ -110,4 +110,3 @@ static inline dtype c_from_dcomplex(dcomplex x) {
 #define m_acosh(x)   c_acosh(x)
 #define m_atanh(x)   c_atanh(x)
 #define m_hypot(x,y) c_hypot(x,y)
-

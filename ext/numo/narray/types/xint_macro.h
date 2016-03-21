@@ -44,4 +44,3 @@
      (qsort_cast(a) > qsort_cast(b)) ? 1 : -1)
 #define cmpgt(a,b)                              \
     (qsort_cast(a) > qsort_cast(b))
-

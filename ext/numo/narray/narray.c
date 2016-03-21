@@ -28,42 +28,6 @@ static ID id_contiguous_stride;
 VALUE cPointer;
 
 static ID id_allocate;
-ID id_add;
-ID id_sub;
-ID id_mul;
-ID id_div;
-ID id_mod;
-ID id_divmod;
-ID id_pow;
-ID id_bit_and;
-ID id_bit_or;
-ID id_bit_xor;
-ID id_bit_not;
-ID id_eq;
-ID id_ne;
-ID id_gt;
-ID id_ge;
-ID id_lt;
-ID id_le;
-ID id_nearly_eq;
-
-ID id_abs;
-ID id_minus;
-ID id_inverse;
-ID id_square;
-ID id_floor;
-ID id_round;
-ID id_ceil;
-ID id_isnan;
-ID id_isinf;
-ID id_isfinite;
-
-ID id_real;
-ID id_imag;
-
-ID id_cast;
-
-ID id_reduce;
 
 VALUE sym_reduce;
 VALUE sym_option;
@@ -1252,8 +1216,7 @@ Init_narray()
     //id_element_bit_size = rb_intern(ELEMENT_BIT_SIZE);
     //id_element_byte_size = rb_intern(ELEMENT_BYTE_SIZE);
 
-    id_reduce   = rb_intern("reduce");
-    sym_reduce   = ID2SYM(id_reduce);
+    sym_reduce   = ID2SYM(rb_intern("reduce"));
     sym_option   = ID2SYM(rb_intern("option"));
     sym_loop_opt = ID2SYM(rb_intern("loop_opt"));
     sym_init     = ID2SYM(rb_intern("init"));

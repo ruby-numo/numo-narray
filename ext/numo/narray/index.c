@@ -47,7 +47,8 @@ print_index_arg(na_index_arg_t *q, int n)
 
 static ID id_ast;
 static ID id_all;
-//static ID id_minus;
+static ID id_reduce;
+static ID id_minus;
 static ID id_new;
 static ID id_reverse;
 static ID id_plus;
@@ -1015,7 +1016,7 @@ Init_nary_index()
     id_new = rb_intern("new");
     id_reverse = rb_intern("reverse");
     id_plus = rb_intern("+");
-    //id_reduce = rb_intern("reduce");
+    id_reduce = rb_intern("reduce");
     id_sum = rb_intern("sum");
     id_tilde = rb_intern("~");
     id_rest = rb_intern("rest");

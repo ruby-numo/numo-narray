@@ -20,11 +20,10 @@
 #define va_init_list(a,b) va_start(a)
 #endif
 
-
 static inline VALUE
 nary_type_s_cast(VALUE type, VALUE obj)
 {
-    return rb_funcall(type,id_cast,1,obj);
+    return rb_funcall(type,rb_intern("cast"),1,obj);
 }
 
 static void

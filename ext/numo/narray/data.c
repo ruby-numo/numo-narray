@@ -992,28 +992,4 @@ Init_nary_data()
     rb_define_method(cNArray, "to_swapped", nary_to_swapped, 0);
 
     rb_define_method(cNArray, "dot", numo_na_dot, 1);
-
-    id_add = rb_intern("add");
-    id_sub = rb_intern("sub");
-    id_mul = rb_intern("mul");
-    id_div = rb_intern("div");
-    id_mod = rb_intern("mod");
-    id_divmod = rb_intern("divmod");
-    id_pow = rb_intern("**");
-    id_bit_and = rb_intern("bit_and");
-    id_bit_or  = rb_intern("bit_or");
-    id_bit_xor = rb_intern("bit_xor");
-    id_eq = rb_intern("eq");
-    id_ne = rb_intern("ne");
-    id_gt = rb_intern("gt");
-    id_ge = rb_intern("ge");
-    id_lt = rb_intern("lt");
-    id_le = rb_intern("le");
-    id_nearly_eq = rb_intern("nearly_eq");
-
-    id_real = rb_intern("real");
-    id_imag = rb_intern("imag");
-
-    id_reduce = rb_intern("reduce");
-    id_cast   = rb_intern("cast");
 }
