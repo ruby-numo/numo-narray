@@ -97,6 +97,10 @@ end
 
 module DefMethod
 
+  def def_id(meth)
+    IdVar.new(self, meth)
+  end
+
   def def_method(meth, n_arg, tmpl=nil, opts={})
     h = {:method => meth, :mod_var => mod_var, :n_arg => n_arg}
     h.merge!(opts)
@@ -324,6 +328,37 @@ class DataType < LoadERB
   end
 end
 
+
+# ----------------------------------------------------------------------
+
+class IdVar
+  DEFS = []
+
+  def id_decl
+    "static ID id_#{@method};"
+  end
+
+  def id_assign
+    "id_#{@method} = rb_intern(\"#{@method}\");"
+  end
+
+  def initialize(parent,meth)
+    @method = meth
+    DEFS.push(self)
+  end
+
+  def self.declaration
+    DEFS.map do |x|
+      x.id_decl
+    end
+  end
+
+  def self.assignment
+    DEFS.map do |x|
+      x.id_assign
+    end
+  end
+end
 
 # ----------------------------------------------------------------------
 

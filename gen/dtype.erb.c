@@ -14,12 +14,56 @@
 #include "narray.h"
 #include "SFMT.h"
 #include "template.h"
+
+<%
+def_id "cast"
+def_id "eq"
+def_id "ne"
+def_id "pow"
+def_id "mulsum"
+if is_complex
+  def_id "real"
+  def_id "imag"
+else
+  def_id "divmod"
+end
+if is_float
+  def_id "nearly_eq"
+end
+if is_comparable
+  def_id "gt"
+  def_id "ge"
+  def_id "lt"
+  def_id "le"
+end
+if is_object
+  def_id "bit_and"
+  def_id "bit_or"
+  def_id "bit_xor"
+  def_id "bit_not"
+  def_id "abs"
+  def_id "minus"
+  def_id "inverse"
+  def_id "square"
+  def_id "floor"
+  def_id "round"
+  def_id "ceil"
+  def_id "isnan"
+  def_id "isinf"
+  def_id "isfinite"
+end
+%>
+<% IdVar.declaration.each do |x| %><%=
+ x %>
+<% end %>
+
 #include "<%=type_name%>.h"
 
 VALUE cT;
 #ifdef mTM
 VALUE mTM;
 #endif
+
 <%
 if is_object
   def_allocate "robj_allocate"
@@ -241,6 +285,8 @@ Init_nary_<%=tp%>()
     rb_define_singleton_method(cT, "[]", <%=cast_func%>, -2);
 
     <% Function.definitions.each do |x| %>
+    <%= x %><% end %>
+    <% IdVar.assignment.each do |x| %>
     <%= x %><% end %>
 
     hCast = rb_hash_new();
