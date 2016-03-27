@@ -39,6 +39,9 @@ An example
 => 15
 ```
 
+## numo-array status compared to numpy
+
+https://github.com/masa16/numo-narray/wiki/Numo-vs-numpy
 
 ## Tentative API Document
 * [NArray](http://masa16.github.io/numo-narray/narray/frames.html)
