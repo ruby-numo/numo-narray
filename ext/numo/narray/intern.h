@@ -34,6 +34,7 @@ VALUE na_median_main(int argc, VALUE *argv, volatile VALUE self, na_iter_func_t 
 
 VALUE na_sort_index_main(int argc, VALUE *argv, VALUE self, void (*func_qsort)());
 
+char *na_get_pointer(VALUE);
 char *na_get_pointer_for_write(VALUE);
 char *na_get_pointer_for_read(VALUE);
 char *na_get_pointer_at_origin_for_read(VALUE);

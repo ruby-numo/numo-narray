@@ -437,44 +437,50 @@ na_s_ones(int argc, const VALUE *argv, VALUE klass)
 
 
 char *
-na_get_pointer_for_write(VALUE self)
+na_get_pointer(VALUE self)
 {
-    char *ptr=NULL;
     narray_t *na;
-
     GetNArray(self,na);
-
-    if (OBJ_FROZEN(self)) {
-        rb_raise(rb_eRuntimeError, "cannot write frozen NArray.");
-    }
-
-    //if (NA_TEST_LOCK(na)) {
-    //    rb_raise(rb_eRuntimeError, "cannot write locked NArray.");
-    //}
-
-    if (NA_SIZE(na)==0) {
-        return NULL;
-    }
 
     switch(NA_TYPE(na)) {
     case NARRAY_DATA_T:
-        ptr = NA_DATA_PTR(na);
-        if (na->size > 0 && ptr == NULL) {
-            rb_funcall(self, id_allocate, 0);
-            ptr = NA_DATA_PTR(na);
-        }
-        break;
+        return NA_DATA_PTR(na);
     case NARRAY_FILEMAP_T:
-        ptr = ((narray_filemap_t*)na)->ptr;
-        break;
+        return ((narray_filemap_t*)na)->ptr;
     case NARRAY_VIEW_T:
-        ptr = na_get_pointer_for_write(NA_VIEW_DATA(na));
+        return na_get_pointer(NA_VIEW_DATA(na));
         //puts("pass NARRAY_VIEW_T in na_get_pointer_for_write");
         //ptr += ((narray_view_t*)na)->offset;
         //ptr += NA_VIEW_OFFSET(na);
         break;
     default:
-        rb_raise(rb_eRuntimeError,"negative or too large number of dimensions?");
+        rb_raise(rb_eRuntimeError,"invalid NA_TYPE");
+    }
+    return NULL;
+}
+
+char *
+na_get_pointer_for_write(VALUE self)
+{
+    char *ptr;
+    narray_t *na;
+    GetNArray(self,na);
+
+    if (OBJ_FROZEN(self)) {
+        rb_raise(rb_eRuntimeError, "cannot write to frozen NArray.");
+    }
+
+    if (NA_TYPE(na) == NARRAY_DATA_T) {
+        ptr = NA_DATA_PTR(na);
+        if (na->size > 0 && ptr == NULL) {
+            rb_funcall(self, id_allocate, 0);
+            ptr = NA_DATA_PTR(na);
+        }
+    } else {
+        ptr = na_get_pointer(self);
+        if (NA_SIZE(na) > 0 && ptr == NULL) {
+            rb_raise(rb_eRuntimeError,"cannot write to unallocated NArray");
+        }
     }
 
     //NA_SET_LOCK(na);
@@ -485,7 +491,7 @@ na_get_pointer_for_write(VALUE self)
 char *
 na_get_pointer_for_read(VALUE self)
 {
-    char  *ptr=NULL;
+    char  *ptr;
     narray_t *na;
     GetNArray(self,na);
 
@@ -493,34 +499,20 @@ na_get_pointer_for_read(VALUE self)
     //    rb_raise(rb_eRuntimeError, "cannot read locked NArray.");
     //}
 
-    if (NA_SIZE(na)==0) {
-        return NULL;
+    if (NA_TYPE(na) == NARRAY_DATA_T) {
+        ptr = NA_DATA_PTR(na);
+    } else {
+        ptr = na_get_pointer(self);
     }
 
-    switch(NA_TYPE(na)) {
-    case NARRAY_DATA_T:
-        ptr = NA_DATA_PTR(na);
-        if (ptr==NULL) {
-            //rb_bug("cannot read no-data NArray");
-            rb_raise(rb_eRuntimeError,"cannot read no-data NArray");
-        }
-        break;
-    case NARRAY_FILEMAP_T:
-        ptr = NA_FILEMAP_PTR(na);
-        break;
-    case NARRAY_VIEW_T:
-        ptr = na_get_pointer_for_read(NA_VIEW_DATA(na));
-        //ptr += NA_VIEW_OFFSET(na);
-        break;
-    default:
-        rb_raise(rb_eRuntimeError,"invalid narray internal type");
+    if (NA_SIZE(na) > 0 && ptr == NULL) {
+        rb_raise(rb_eRuntimeError,"cannot read unallocated NArray");
     }
 
     //NA_SET_LOCK(na);
 
     return ptr;
 }
-
 
 
 void
