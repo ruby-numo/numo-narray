@@ -501,7 +501,7 @@ na_get_pointer_for_read(VALUE self)
     case NARRAY_DATA_T:
         ptr = NA_DATA_PTR(na);
         if (ptr==NULL) {
-            rb_bug("cannot read no-data NArray");
+            //rb_bug("cannot read no-data NArray");
             rb_raise(rb_eRuntimeError,"cannot read no-data NArray");
         }
         break;

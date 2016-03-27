@@ -20,6 +20,10 @@
 #define va_init_list(a,b) va_start(a)
 #endif
 
+#define NDL_READ 1
+#define NDL_WRITE 2
+#define NDL_READ_WRITE 3
+
 static inline VALUE
 nary_type_s_cast(VALUE type, VALUE obj)
 {
@@ -176,14 +180,15 @@ ndloop_match_access_type(ndfunc_t *nf, VALUE args, int user_ndim)
 
 
 
-
-// cast argument : RARRAY_PTR(args)[j] to type : nf->args[j].type
+// convert input argeuments given by RARRAY_PTR(args)[j]
+//              to type specified by nf->args[j].type
+// returns copy_flag where nth-bit is set if nth argument is converted.
 static unsigned int
 ndloop_cast_args(ndfunc_t *nf, VALUE args)
 {
     int j;
     char *s;
-    unsigned int flag=0;
+    unsigned int copy_flag=0;
     volatile VALUE v, t, x;
 
     //if (na_debug_flag) rb_p(args);
@@ -206,7 +211,7 @@ ndloop_cast_args(ndfunc_t *nf, VALUE args)
                     if (RTEST(rb_class_inherited_p(t, cNArray))) {
                         v = nary_type_s_cast(t, v);
                         RARRAY_PTR(args)[j] = v;
-                        flag |= 1<<j;
+                        copy_flag |= 1<<j;
                         //x = rb_inspect(t);
                         //s = StringValueCStr(x);
                         //printf(" nary_type_s_cast(t, v) = %s\n", s);
@@ -221,7 +226,7 @@ ndloop_cast_args(ndfunc_t *nf, VALUE args)
             }
         }
     }
-    return flag;
+    return copy_flag;
 }
 
 
@@ -403,7 +408,7 @@ ndloop_check_shape(na_md_loop_t *lp, int nf_dim, narray_t *na)
 na->shape[i] == lp->n[ dim_map[i] ]
  */
 static void
-ndloop_set_stepidx(na_md_loop_t *lp, int j, VALUE vna, int *dim_map)
+ndloop_set_stepidx(na_md_loop_t *lp, int j, VALUE vna, int *dim_map, int rwflag)
 {
     size_t n, s;
     int i, k;
@@ -412,7 +417,19 @@ ndloop_set_stepidx(na_md_loop_t *lp, int j, VALUE vna, int *dim_map)
 
     lp->args[j].value = vna;
     lp->args[j].elmsz = na_get_elmsz(vna);
-    lp->args[j].ptr   = na_get_pointer_for_write(vna);
+    switch(rwflag){
+    case NDL_READ:
+        lp->args[j].ptr = na_get_pointer_for_read(vna);
+        break;
+    case NDL_WRITE:
+        lp->args[j].ptr = na_get_pointer_for_write(vna);
+        break;
+    case NDL_READ_WRITE:
+        lp->args[j].ptr = na_get_pointer_for_read(vna);
+        break;
+    default:
+        rb_bug("invalid value for read-write flag");
+    }
     GetNArray(vna,na);
 
     switch(NA_TYPE(na)) {
@@ -503,7 +520,7 @@ ndloop_init_args(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
             for (i=0; i<na->ndim; i++) {
                 dim_map[i] = i+dim_beg;
             }
-            ndloop_set_stepidx(lp, j, v, dim_map);
+            ndloop_set_stepidx(lp, j, v, dim_map, NDL_READ);
             lp->args[j].shape = na->shape + (na->ndim - nf_dim);
         } else if (TYPE(v)==T_ARRAY) {
             lp->args[j].value = v;
@@ -598,6 +615,7 @@ ndloop_get_arg_type(ndfunc_t *nf, VALUE args, VALUE t)
     return t;
 }
 
+
 static VALUE
 ndloop_set_output_narray(ndfunc_t *nf, na_md_loop_t *lp, int k,
                          VALUE type, VALUE args)
@@ -607,6 +625,7 @@ ndloop_set_output_narray(ndfunc_t *nf, na_md_loop_t *lp, int k,
     volatile VALUE v=Qnil;
     size_t *na_shape;
     int *dim_map;
+    int flag = NDL_READ_WRITE;
 
     int max_nd = lp->ndim + nf->aout[k].dim;
 
@@ -641,10 +660,11 @@ ndloop_set_output_narray(ndfunc_t *nf, na_md_loop_t *lp, int k,
     if (!RTEST(v)) {
         // new object
         v = rb_narray_new(type, na_ndim, na_shape);
+        flag = NDL_WRITE;
     }
 
     j = lp->nin + k;
-    ndloop_set_stepidx(lp, j, v, dim_map);
+    ndloop_set_stepidx(lp, j, v, dim_map, flag);
     lp->args[j].shape = nf->aout[k].shape;
 
     return v;
@@ -683,7 +703,7 @@ ndloop_set_output(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
                 lp->args[j].value = t;
                 lp->args[j].elmsz = sizeof(VALUE);
             } else {
-                rb_raise(rb_eRuntimeError,"ndloop_init_args: invalid for type");
+                rb_raise(rb_eRuntimeError,"ndloop_set_output: invalid for type");
             }
         }
     }
