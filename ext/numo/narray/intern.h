@@ -73,7 +73,7 @@ VALUE na_ndloop_cast_narray_to_rarray(ndfunc_t *nf, VALUE nary, VALUE fmt);
 VALUE na_ndloop_cast_rarray_to_narray(ndfunc_t *nf, VALUE rary, VALUE nary);
 VALUE na_ndloop_cast_rarray_to_narray2(ndfunc_t *nf, VALUE rary, VALUE nary, VALUE opt);
 
-void  na_ndloop_inspect(VALUE nary, VALUE buf, na_text_func_t func, VALUE opt);
+VALUE na_ndloop_inspect(VALUE nary, na_text_func_t func, VALUE opt);
 
 VALUE na_info_str(VALUE);
 

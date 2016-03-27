@@ -775,11 +775,9 @@ iter_struct_inspect(char *ptr, size_t pos, VALUE opt)
 VALUE
 nary_struct_inspect(VALUE ary)
 {
-    VALUE str, opt;
-    str = na_info_str(ary);
+    VALUE opt;
     opt = nst_create_member_views(ary);
-    na_ndloop_inspect(ary, str, iter_struct_inspect, opt);
-    return str;
+    return na_ndloop_inspect(ary, iter_struct_inspect, opt);
 }
 
 

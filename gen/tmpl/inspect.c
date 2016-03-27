@@ -12,7 +12,5 @@ static VALUE
 VALUE
 <%=c_func%>(VALUE ary)
 {
-    VALUE str = na_info_str(ary);
-    na_ndloop_inspect(ary, str, <%=c_iter%>, Qnil);
-    return str;
+    return na_ndloop_inspect(ary, <%=c_iter%>, Qnil);
 }

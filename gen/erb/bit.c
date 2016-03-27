@@ -158,9 +158,7 @@ static VALUE
  VALUE
  nary_bit_inspect(VALUE ary)
 {
-    VALUE str = na_info_str(ary);
-    na_ndloop_inspect(ary, str, bit_inspect_element, Qnil);
-    return str;
+    return na_ndloop_inspect(ary, bit_inspect_element, Qnil);
 }
 
 
@@ -309,7 +307,7 @@ iter_bit_fill(na_loop_t *const lp)
 static VALUE
 nary_bit_fill(VALUE self, VALUE val)
 {
-    ndfunc_arg_in_t ain[2] = {{cT,0},{sym_option}};
+    ndfunc_arg_in_t ain[2] = {{OVERWRITE,0},{sym_option}};
     ndfunc_t ndf = { iter_bit_fill, FULL_LOOP, 2, 0, ain, 0 };
 
     na_ndloop(&ndf, 2, self, val);

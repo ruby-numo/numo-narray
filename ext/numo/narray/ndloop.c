@@ -486,6 +486,7 @@ ndloop_init_args(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
     int dim_beg;
     int *dim_map;
     int max_nd = lp->ndim + lp->user.ndim;
+    int flag;
 
     dim_map = ALLOCA_N(int, max_nd);
 
@@ -520,7 +521,12 @@ ndloop_init_args(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
             for (i=0; i<na->ndim; i++) {
                 dim_map[i] = i+dim_beg;
             }
-            ndloop_set_stepidx(lp, j, v, dim_map, NDL_READ);
+            if (nf->ain[j].type==OVERWRITE) {
+                flag = NDL_WRITE;
+            } else {
+                flag = NDL_READ;
+            }
+            ndloop_set_stepidx(lp, j, v, dim_map, flag);
             lp->args[j].shape = na->shape + (na->ndim - nf_dim);
         } else if (TYPE(v)==T_ARRAY) {
             lp->args[j].value = v;
@@ -1006,11 +1012,6 @@ loop_inspect(ndfunc_t *nf, na_md_loop_t *lp)
     //opt = *(VALUE*)(lp->user.opt_ptr);
     opt = lp->user.option;
 
-    if (lp->args[0].ptr==NULL) {
-        rb_str_cat(buf,"(no data)",9);
-        return;
-    }
-
     for (i=0; i<nd; i++) {
         if (lp->n[i] == 0) {
             rb_str_cat(buf,"[]",2);
@@ -1077,13 +1078,21 @@ loop_inspect(ndfunc_t *nf, na_md_loop_t *lp)
     ;
 }
 
-void
-na_ndloop_inspect(VALUE nary, VALUE buf, na_text_func_t func, VALUE opt)
+
+VALUE
+na_ndloop_inspect(VALUE nary, na_text_func_t func, VALUE opt)
 {
     volatile VALUE vlp, args;
+    VALUE buf;
     ndfunc_arg_in_t ain[3] = {{Qnil,0},{sym_loop_opt},{sym_option}};
     ndfunc_t nf = { (na_iter_func_t)func, NO_LOOP, 3, 0, ain, 0 };
     //nf = ndfunc_alloc(NULL, NO_LOOP, 1, 0, Qnil);
+
+    buf = na_info_str(nary);
+
+    if (na_get_pointer(nary)==NULL) {
+        return rb_str_cat(buf,"(unallocated)",13);
+    }
 
     //rb_p(args);
     //if (na_debug_flag) print_ndfunc(&nf);
@@ -1097,6 +1106,8 @@ na_ndloop_inspect(VALUE nary, VALUE buf, na_text_func_t func, VALUE opt)
     vlp = ndloop_alloc(&nf, args, NULL, 0, loop_inspect);
 
     rb_ensure(ndloop_run, vlp, ndloop_release, vlp);
+
+    return buf;
 }
 
 

@@ -46,7 +46,7 @@ static VALUE
 {
     seq_opt_t *g;
     VALUE vbeg=Qnil, vstep=Qnil;
-    ndfunc_arg_in_t ain[2] = {{cT,0}};
+    ndfunc_arg_in_t ain[1] = {{OVERWRITE,0}};
     ndfunc_t ndf = { <%=c_iter%>, FULL_LOOP, 1, 0, ain, 0 };
 
     g = ALLOCA_N(seq_opt_t,1);
