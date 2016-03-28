@@ -319,6 +319,7 @@ na_ary_composition(VALUE ary)
     if (TYPE(ary) == T_ARRAY) {
         mdai = na_mdai_alloc(ary);
         vmdai = Data_Wrap_Struct(rb_cData, 0, na_mdai_free, mdai);
+        // ^ use rb_alloc_tmp_buffer
         na_mdai_investigate(mdai, 1);
         na_mdai_result(mdai, nc);
     } else if (IsNArray(ary)) {
@@ -418,7 +419,7 @@ nst_check_compatibility(VALUE self, VALUE ary);
 static int
 na_mdai_for_struct(na_mdai_t *mdai, int ndim)
 {
-    ssize_t i;
+    size_t i;
     int j, r;
     size_t len;
     VALUE  v;
@@ -502,6 +503,7 @@ na_ary_composition_for_struct(VALUE nstruct, VALUE ary)
     mdai = na_mdai_alloc(ary);
     mdai->na_type = nstruct;
     vmdai = Data_Wrap_Struct(rb_cData, 0, na_mdai_free, mdai);
+    // ^ use rb_alloc_tmp_buffer
     na_mdai_for_struct(mdai, 0);
     nc = ALLOC(na_compose_t);
     vnc = Data_Wrap_Struct(rb_cData, 0, -1, nc);
