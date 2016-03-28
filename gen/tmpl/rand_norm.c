@@ -38,7 +38,7 @@ static void
 static VALUE
 <%=c_func%>(VALUE self)
 {
-    ndfunc_arg_in_t ain[1] = {{Qnil,0}};
+    ndfunc_arg_in_t ain[1] = {{OVERWRITE,0}};
     ndfunc_t ndf = { <%=c_iter%>, FULL_LOOP, 1, 0, ain, 0 };
 
     na_ndloop(&ndf, 1, self);
