@@ -1091,7 +1091,7 @@ na_ndloop_inspect(VALUE nary, na_text_func_t func, VALUE opt)
     buf = na_info_str(nary);
 
     if (na_get_pointer(nary)==NULL) {
-        return rb_str_cat(buf,"(unallocated)",13);
+        return rb_str_cat(buf,"(empty)",7);
     }
 
     //rb_p(args);
