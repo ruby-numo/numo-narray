@@ -5,9 +5,8 @@ static void
     char   *p1;
     ssize_t s1;
     size_t *idx1;
-    double  x, beg, step;
+    double  x, beg, step, c;
     dtype   y;
-    size_t  c;
     seq_opt_t *g;
 
     INIT_COUNTER(lp, i);

@@ -382,7 +382,7 @@ _na_get_narray_t(VALUE obj, unsigned char na_type)
 typedef struct {
     double beg;
     double step;
-    size_t count;
+    double count;
 } seq_opt_t;
 
 typedef struct {
