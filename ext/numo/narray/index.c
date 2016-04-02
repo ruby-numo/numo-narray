@@ -1026,11 +1026,11 @@ na_multi_dim_scalar_position(VALUE self, int ndim, ssize_t *idx, ssize_t stride)
     stridx_t sdx;
 
     GetNArray(self,na);
-    pos = 0;
 
     switch(na->type) {
     case NARRAY_VIEW_T:
         GetNArrayView(self,nv);
+        pos = nv->offset;
         for (i=ndim-1; i>=0; i--) {
             x = na_range_check(idx[i], na->shape[i], i);
             sdx = nv->stridx[i];
@@ -1042,6 +1042,7 @@ na_multi_dim_scalar_position(VALUE self, int ndim, ssize_t *idx, ssize_t stride)
         }
         break;
     default:
+        pos = 0;
         for (i=ndim-1; i>=0; i--) {
             x = na_range_check(idx[i], na->shape[i], i);
             pos += stride*x;
@@ -1050,7 +1051,7 @@ na_multi_dim_scalar_position(VALUE self, int ndim, ssize_t *idx, ssize_t stride)
     }
     return pos;
 }
-
+1
 
 size_t
 na_single_dim_scalar_position(VALUE self, ssize_t idx, ssize_t stride)
