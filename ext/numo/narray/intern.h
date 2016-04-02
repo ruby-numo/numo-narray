@@ -99,4 +99,13 @@ VALUE nary_init_accum_aref0(VALUE self, VALUE reduce);
 
 VALUE nary_mathcast(int argc, VALUE *argv);
 
+
+size_t
+na_multi_dim_scalar_position(VALUE self, int ndim, ssize_t *idx, ssize_t stride);
+size_t
+na_single_dim_scalar_position(VALUE self, ssize_t idx, ssize_t stride);
+VALUE
+na_aref_main(int nidx, VALUE *idx, VALUE self, int keep_dim);
+
+
 #endif /* ifndef INTERN_H */

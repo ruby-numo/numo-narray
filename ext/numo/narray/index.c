@@ -911,7 +911,7 @@ na_aref_md(int argc, VALUE *argv, VALUE self, int keep_dim)
 
 
 /* method: [](idx1,idx2,...,idxN) */
-static VALUE
+VALUE
 na_aref_main(int nidx, VALUE *idx, VALUE self, int keep_dim)
 {
     na_index_arg_to_internal_order(nidx, idx, self);
@@ -1001,6 +1001,92 @@ VALUE nary_init_accum_aref0(VALUE self, VALUE reduce)
     return na_aref_md(RARRAY_LEN(a), RARRAY_PTR(a), self, 0);
 }
 
+
+static inline size_t
+na_range_check(ssize_t pos, ssize_t size, int dim)
+{
+    ssize_t idx=pos;
+
+    if (idx < 0) idx += size;
+    if (idx < 0 || idx >= size) {
+        rb_raise(rb_eIndexError, "index=%"SZF"d out of shape[%d]=%"SZF"d",
+                 pos, dim, size);
+    }
+    return idx;
+}
+
+
+size_t
+na_multi_dim_scalar_position(VALUE self, int ndim, ssize_t *idx, ssize_t stride)
+{
+    int i;
+    size_t x, pos;
+    narray_t *na;
+    narray_view_t *nv;
+    stridx_t sdx;
+
+    GetNArray(self,na);
+    pos = 0;
+
+    switch(na->type) {
+    case NARRAY_VIEW_T:
+        GetNArrayView(self,nv);
+        for (i=ndim-1; i>=0; i--) {
+            x = na_range_check(idx[i], na->shape[i], i);
+            sdx = nv->stridx[i];
+            if (SDX_IS_INDEX(sdx)) {
+                pos += SDX_GET_INDEX(sdx)[x];
+            } else {
+                pos += SDX_GET_STRIDE(sdx)*x;
+            }
+        }
+        break;
+    default:
+        for (i=ndim-1; i>=0; i--) {
+            x = na_range_check(idx[i], na->shape[i], i);
+            pos += stride*x;
+            stride *= na->shape[i];
+        }
+    }
+    return pos;
+}
+
+
+size_t
+na_single_dim_scalar_position(VALUE self, ssize_t idx, ssize_t stride)
+{
+    int i;
+    size_t x, s, m, pos;
+    narray_t *na;
+    narray_view_t *nv;
+    stridx_t sdx;
+
+    GetNArray(self,na);
+    x = na_range_check(idx, na->size, 0);
+
+    switch(na->type) {
+    case NARRAY_VIEW_T:
+        GetNArrayView(self,nv);
+        pos = nv->offset;
+        for (i=na->ndim-1; i>=0; i--) {
+            s = na->shape[i];
+            m = x % s;
+            x = x / s;
+            sdx = nv->stridx[i];
+            if (SDX_IS_INDEX(sdx)) {
+                pos += SDX_GET_INDEX(sdx)[m];
+            } else {
+                pos += SDX_GET_STRIDE(sdx)*m;
+            }
+            //printf("m=%ld pos=%ld\n",m,pos);
+        }
+        break;
+    default:
+        pos = stride*x;
+        //printf("pos=%ld\n",pos);
+    }
+    return pos;
+}
 
 
 void

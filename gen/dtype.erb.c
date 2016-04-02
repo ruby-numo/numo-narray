@@ -92,6 +92,8 @@ store_from "UInt8", "u_int8_t", "m_from_real"
 def_method "store", 1
 def_singleton "cast", 1
 
+def_method "aref", -1, "aref", :op=>"[]"
+
 def_method "coerce_cast", 1
 def_method "to_a", 0
 def_method "fill", 1
