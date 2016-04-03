@@ -1002,7 +1002,7 @@ VALUE nary_init_accum_aref0(VALUE self, VALUE reduce)
 }
 
 
-static inline size_t
+static inline ssize_t
 na_range_check(ssize_t pos, ssize_t size, int dim)
 {
     ssize_t idx=pos;
@@ -1016,75 +1016,81 @@ na_range_check(ssize_t pos, ssize_t size, int dim)
 }
 
 
-size_t
-na_multi_dim_scalar_position(VALUE self, int ndim, ssize_t *idx, ssize_t stride)
+ssize_t
+na_get_scalar_position(VALUE self, int argc, VALUE *argv, ssize_t stride)
 {
     int i;
-    size_t x, pos;
+    ssize_t x, s, m, pos, *idx;
     narray_t *na;
     narray_view_t *nv;
     stridx_t sdx;
 
     GetNArray(self,na);
-
-    switch(na->type) {
-    case NARRAY_VIEW_T:
-        GetNArrayView(self,nv);
-        pos = nv->offset;
-        for (i=ndim-1; i>=0; i--) {
-            x = na_range_check(idx[i], na->shape[i], i);
-            sdx = nv->stridx[i];
-            if (SDX_IS_INDEX(sdx)) {
-                pos += SDX_GET_INDEX(sdx)[x];
-            } else {
-                pos += SDX_GET_STRIDE(sdx)*x;
-            }
-        }
-        break;
-    default:
-        pos = 0;
-        for (i=ndim-1; i>=0; i--) {
-            x = na_range_check(idx[i], na->shape[i], i);
-            pos += stride*x;
-            stride *= na->shape[i];
+    if (na->size == 0) {
+        rb_raise(rb_eRuntimeError, "cannot get index of empty array");
+        return -1;
+    }
+    if (argc != 1 && argc != na->ndim) {
+        return -1;
+    }
+    idx = ALLOCA_N(ssize_t, argc);
+    for (i=0; i<argc; i++) {
+        switch(TYPE(argv[i])) {
+        case T_FIXNUM:
+            idx[i] = FIX2LONG(argv[i]);
+            break;
+        case T_BIGNUM:
+        case T_FLOAT:
+            idx[i] = NUM2SSIZE(argv[i]);
+            break;
+        default:
+            return -1;
         }
     }
-    return pos;
-}
-1
-
-size_t
-na_single_dim_scalar_position(VALUE self, ssize_t idx, ssize_t stride)
-{
-    int i;
-    size_t x, s, m, pos;
-    narray_t *na;
-    narray_view_t *nv;
-    stridx_t sdx;
-
-    GetNArray(self,na);
-    x = na_range_check(idx, na->size, 0);
-
     switch(na->type) {
     case NARRAY_VIEW_T:
         GetNArrayView(self,nv);
         pos = nv->offset;
-        for (i=na->ndim-1; i>=0; i--) {
-            s = na->shape[i];
-            m = x % s;
-            x = x / s;
-            sdx = nv->stridx[i];
-            if (SDX_IS_INDEX(sdx)) {
-                pos += SDX_GET_INDEX(sdx)[m];
-            } else {
-                pos += SDX_GET_STRIDE(sdx)*m;
+        if (argc==1) {
+            x = na_range_check(idx[0], na->size, 0);
+            for (i=na->ndim-1; i>=0; i--) {
+                s = na->shape[i];
+                m = x % s;
+                x = x / s;
+                sdx = nv->stridx[i];
+                if (SDX_IS_INDEX(sdx)) {
+                    pos += SDX_GET_INDEX(sdx)[m];
+                } else {
+                    pos += SDX_GET_STRIDE(sdx)*m;
+                }
             }
-            //printf("m=%ld pos=%ld\n",m,pos);
+        } else {
+            for (i=argc-1; i>=0; i--) {
+                x = na_range_check(idx[i], na->shape[i], i);
+                sdx = nv->stridx[i];
+                if (SDX_IS_INDEX(sdx)) {
+                    pos += SDX_GET_INDEX(sdx)[x];
+                } else {
+                    pos += SDX_GET_STRIDE(sdx)*x;
+                }
+            }
         }
         break;
     default:
-        pos = stride*x;
-        //printf("pos=%ld\n",pos);
+        if (!stride) {
+            stride = na_get_elmsz(self);
+        }
+        if (argc==1) {
+            x = na_range_check(idx[0], na->size, 0);
+            pos = stride*x;
+        } else {
+            pos = 0;
+            for (i=argc-1; i>=0; i--) {
+                x = na_range_check(idx[i], na->shape[i], i);
+                pos += stride*x;
+                stride *= na->shape[i];
+            }
+        }
     }
     return pos;
 }
