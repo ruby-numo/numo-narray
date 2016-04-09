@@ -26,7 +26,7 @@ static void
 /*
   Returns sorted narray.
   @overload sort
-  @return [NArray::<%=class_name%>] sorted narray.
+  @return [Numo::<%=class_name%>] sorted narray.
 */
 static VALUE
 <%=c_func%>(int argc, VALUE *argv, VALUE self)

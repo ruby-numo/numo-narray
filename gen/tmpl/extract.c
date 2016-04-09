@@ -1,8 +1,9 @@
 /*
-  Extract element value as Ruby Object if self is dimensionless NArray,
-  otherwise returns self.
+  Extract an element only if self is a dimensionless NArray.
   @overload extract
-  @return [Numeric,NArray]
+  @return [Numeric,Numo::NArray]
+  --- Extract element value as Ruby Object if self is a dimensionless NArray,
+  otherwise returns self.
 */
 VALUE
 nary_<%=tp%>_extract(VALUE self)

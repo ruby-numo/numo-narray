@@ -43,8 +43,8 @@ static void
 /*
   Calculate <%=method%>(x).
   @overload <%=method%>(x)
-  @param [NArray,Numeric] x  input value
-  @return [NArray::<%=class_name%>] result of <%=method%>(x).
+  @param [Numo::NArray,Numeric] x  input value
+  @return [Numo::<%=class_name%>] result of <%=method%>(x).
 */
 static VALUE
 <%=c_func%>(VALUE mod, VALUE a1)

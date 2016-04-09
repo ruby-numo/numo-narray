@@ -45,7 +45,7 @@ static void
 /*
   <%=method%> of self.
   @overload <%=method%>
-  @return [NArray::<%=real_class_name%>] <%=method%> of self.
+  @return [Numo::<%=real_class_name%>] <%=method%> of self.
 */
 static VALUE
 <%=c_func%>(VALUE self)

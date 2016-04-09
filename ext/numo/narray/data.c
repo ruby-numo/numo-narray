@@ -526,7 +526,7 @@ VALUE
  *
  *  Return an index array of sort result.
  *
- *     NArray::DFloat[3,4,1,2].sort_index => NArray::DFloat[1,2,3,4]
+ *     Numo::DFloat[3,4,1,2].sort_index => Numo::DFloat[1,2,3,4]
  */
 
 static VALUE
@@ -782,7 +782,7 @@ iter_sort_index(na_loop_t *const lp)
  *
  *  Return an index array of sort result.
  *
- *     NArray[3,4,1,2].sort_index => NArray::Int32[2,3,0,1]
+ *     Numo::NArray[3,4,1,2].sort_index => Numo::Int32[2,3,0,1]
  */
 
 VALUE

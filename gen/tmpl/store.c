@@ -1,8 +1,8 @@
 /*
-  Store elements to NArray::<%=class_name%> from other.
+  Store elements to Numo::<%=class_name%> from other.
   @overload store(other)
   @param [Object] other
-  @return [NArray::<%=class_name%>] self
+  @return [Numo::<%=class_name%>] self
 */
 static VALUE
 <%=c_func%>(VALUE self, VALUE obj)

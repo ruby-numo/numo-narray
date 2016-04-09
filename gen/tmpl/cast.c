@@ -1,10 +1,10 @@
 /*
-  Cast object to NArray::<%=class_name%>.
+  Cast object to Numo::<%=class_name%>.
   @overload [](elements)
   @overload <%=method%>(array)
   @param [Numeric,Array] elements
   @param [Array] array
-  @return [NArray::<%=class_name%>]
+  @return [Numo::<%=class_name%>]
 */
 static VALUE
 <%=c_func%>(VALUE type, VALUE obj)

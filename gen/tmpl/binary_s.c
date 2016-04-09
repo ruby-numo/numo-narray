@@ -20,9 +20,9 @@ static void
 /*
   Calculate <%=method%>(a1,a2).
   @overload <%=method%>(a1,a2)
-  @param [NArray,Numeric] a1  first value
-  @param [NArray,Numeric] a2  second value
-  @return [NArray::<%=class_name%>] <%=method%>(a1,a2).
+  @param [Numo::NArray,Numeric] a1  first value
+  @param [Numo::NArray,Numeric] a2  second value
+  @return [Numo::<%=class_name%>] <%=method%>(a1,a2).
 */
 static VALUE
 <%=c_func%>(VALUE mod, VALUE a1, VALUE a2)

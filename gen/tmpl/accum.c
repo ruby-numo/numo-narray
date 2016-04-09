@@ -48,7 +48,7 @@ static void
   <%=method.capitalize%> of self.
   @overload <%=method%>(*args)
   @param [Array of Numeric,Range] args  Affected dimensions.
-  @return [NArray::<%=class_name%>] <%=method%> of self.
+  @return [Numo::<%=class_name%>] <%=method%> of self.
 */
 static VALUE
 <%=c_func%>(int argc, VALUE *argv, VALUE self)

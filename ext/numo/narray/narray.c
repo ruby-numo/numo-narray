@@ -312,8 +312,8 @@ na_setup(VALUE self, int ndim, size_t *shape)
 
 /*
  *  call-seq:
- *     NArray::DataType.new(shape)             => narray
- *     NArray::DataType.new(size1, size2, ...) => narray
+ *     Numo::DataType.new(shape)             => narray
+ *     Numo::DataType.new(size1, size2, ...) => narray
  *
  *  Constructs a narray using the given <i>DataType</i> and <i>shape</i> or
  *  <i>sizes</i>.
@@ -372,8 +372,8 @@ rb_narray_view_new(VALUE klass, int ndim, size_t *shape)
   Replaces the contents of self with the contents of other narray.
   Used in dup and clone method.
   @overload initialize_copy(other)
-  @param [NArray] other
-  @return [NArray] self
+  @param [Numo::NArray] other
+  @return [Numo::NArray] self
  */
 static VALUE
 na_initialize_copy(VALUE self, VALUE orig)
@@ -397,8 +397,8 @@ na_initialize_copy(VALUE self, VALUE orig)
  *  This singleton method is valid not for NArray class itself
  *  but for typed NArray subclasses, e.g., DFloat, Int64.
  *  @example
- *    a = NArray::DFloat.zeros(3,5)
- *    => NArray::DFloat#shape=[3,5]
+ *    a = Numo::DFloat.zeros(3,5)
+ *    => Numo::DFloat#shape=[3,5]
  *    [[0, 0, 0, 0, 0],
  *     [0, 0, 0, 0, 0],
  *     [0, 0, 0, 0, 0]]
@@ -421,8 +421,8 @@ na_s_zeros(int argc, const VALUE *argv, VALUE klass)
  *  This singleton method is valid not for NArray class itself
  *  but for typed NArray subclasses, e.g., DFloat, Int64.
  *  @example
- *    a = NArray::DFloat.ones(3,5)
- *    => NArray::DFloat#shape=[3,5]
+ *    a = Numo::DFloat.ones(3,5)
+ *    => Numo::DFloat#shape=[3,5]
  *    [[1, 1, 1, 1, 1],
  *     [1, 1, 1, 1, 1],
  *     [1, 1, 1, 1, 1]]
@@ -869,7 +869,7 @@ nary_s_byte_size(VALUE type)
   Cast self to another NArray datatype.
   @overload cast_to(datatype)
   @param [Class] datatype NArray datatype.
-  @return [NArray]
+  @return [Numo::NArray]
  */
 static VALUE
 nary_cast_to(VALUE obj, VALUE type)
@@ -1036,7 +1036,7 @@ VALUE na_host_order_p( VALUE self )
 
 /*
   Returns view of narray with inplace flagged.
-  @return [NArray] view of narray with inplace flag.
+  @return [Numo::NArray] view of narray with inplace flag.
 */
 VALUE na_inplace( VALUE self )
 {
@@ -1048,7 +1048,7 @@ VALUE na_inplace( VALUE self )
 
 /*
   Set inplace flag to self.
-  @return [NArray] self
+  @return [Numo::NArray] self
 */
 VALUE na_inplace_bang( VALUE self )
 {
@@ -1077,7 +1077,7 @@ VALUE na_inplace_p( VALUE self )
 
 /*
   Unset inplace flag to self.
-  @return [NArray] self
+  @return [Numo::NArray] self
 */
 VALUE na_out_of_place_bang( VALUE self )
 {

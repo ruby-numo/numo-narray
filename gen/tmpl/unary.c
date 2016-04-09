@@ -43,7 +43,7 @@ static void
 /*
   Unary <%=method%>.
   @overload <%=op_map%>
-  @return [NArray::<%=class_name%>] <%=method%> of self.
+  @return [Numo::<%=class_name%>] <%=method%> of self.
 */
 static VALUE
 <%=c_func%>(VALUE self)

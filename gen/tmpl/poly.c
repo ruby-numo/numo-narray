@@ -19,9 +19,9 @@ static void
 /*
   Polynomial.: a0 + a1*x + a2*x**2 + a3*x**3 + ... + an*x**n
   @overload <%=method%> a0, a1, ...
-  @param [NArray,Numeric] a0
-  @param [NArray,Numeric] a1 , ...
-  @return [NArray::<%=class_name%>]
+  @param [Numo::NArray,Numeric] a0
+  @param [Numo::NArray,Numeric] a1 , ...
+  @return [Numo::<%=class_name%>]
 */
 static VALUE
 <%=c_func%>(VALUE self, VALUE args)

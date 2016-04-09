@@ -38,7 +38,7 @@ static void
   @overload seq([beg,[step]])
   @param [Numeric] beg  begining of sequence. (default=0)
   @param [Numeric] step  step of sequence. (default=1)
-  @return [NArray::<%=class_name%>] self.
+  @return [Numo::<%=class_name%>] self.
 */
 static VALUE
 <%=c_func%>(int argc, VALUE *args, VALUE self)

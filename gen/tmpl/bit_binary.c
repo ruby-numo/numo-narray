@@ -80,8 +80,8 @@ static void
 /*
   Binary <%=method%>.
   @overload <%=op_map%> other
-  @param [NArray,Numeric] other
-  @return [NArray] <%=method%> of self and other.
+  @param [Numo::NArray,Numeric] other
+  @return [Numo::NArray] <%=method%> of self and other.
 */
 static VALUE
 <%=c_func%>(VALUE self, VALUE other)

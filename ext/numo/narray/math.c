@@ -67,7 +67,7 @@ VALUE nary_mathcast(int argc, VALUE *argv)
         type2 = na_ary_composition_dtype(argv[i]);
 	type = nary_math_cast2(type, type2);
 	if (NIL_P(type)) {
-	    rb_raise(rb_eTypeError,"%s is unknown for NArray::Math",
+	    rb_raise(rb_eTypeError,"%s is unknown for Numo::NMath",
 		     rb_class2name(argv[i]));
 	}
     }
@@ -77,7 +77,7 @@ VALUE nary_mathcast(int argc, VALUE *argv)
 
 /*
   Dispatches method to Math module of upcasted type,
-  eg, NArray::DFloat::Math.
+  eg, Numo::DFloat::Math.
   @overload method_missing(name,x,...)
   @param [Symbol] name  method name.
   @param [NArray,Numeric] x  input array.
@@ -92,7 +92,7 @@ VALUE nary_math_method_missing(int argc, VALUE *argv, VALUE mod)
 	hash = rb_const_get(mod, rb_intern("DISPATCH"));
 	typemod = rb_hash_aref( hash, type );
 	if (NIL_P(typemod)) {
-	    rb_raise(rb_eTypeError,"%s is unknown for NArray::Math",
+	    rb_raise(rb_eTypeError,"%s is unknown for Numo::NMath",
 		     rb_class2name(type));
 	}
 

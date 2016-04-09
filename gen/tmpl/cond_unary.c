@@ -32,7 +32,7 @@ static void
 /*
   Condition of <%=method%>.
   @overload <%=method%>
-  @return [NArray::Bit] Condition of <%=method%>.
+  @return [Numo::Bit] Condition of <%=method%>.
 */
 static VALUE
 <%=c_func%>(VALUE self)

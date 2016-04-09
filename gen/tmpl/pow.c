@@ -55,10 +55,10 @@ static VALUE
 }
 
 /*
-  <%=method%>.
-  @overload <%=method%> other
-  @param [NArray,Numeric] other
-  @return [NArray] self <%=method%> other.
+  Binary power.
+  @overload <%=op_map%> other
+  @param [Numo::NArray,Numeric] other
+  @return [Numo::NArray] self to the other-th power.
 */
 static VALUE
 <%=c_func%>(VALUE self, VALUE other)

@@ -97,7 +97,7 @@ na_make_view_struct(VALUE self, VALUE dtype, VALUE offset)
 
     GetNArray(self,na);
 
-    // build from NArray::Struct
+    // build from Numo::Struct
     if (rb_obj_is_kind_of(dtype,cNArray)) {
 	GetNArray(dtype,nt);
         ndim = na->ndim + nt->ndim;
@@ -246,7 +246,7 @@ nst_method_missing(int argc, VALUE *argv, VALUE self)
 
 
 /*
-  Foo = NArray::Struct.new {
+  Foo = Numo::Struct.new {
     int8     :byte
     float64  :float, [2,2]
     dcomplex :compl
@@ -706,10 +706,10 @@ nary_struct_store_array(VALUE self, VALUE obj)
 }
 
 /*
-  Store elements to NArray::Struct from other.
+  Store elements to Numo::Struct from other.
   @overload store(other)
   @param [Object] other
-  @return [NArray::Struct] self
+  @return [Numo::Struct] self
 */
 static VALUE
 nary_struct_store(VALUE self, VALUE obj)

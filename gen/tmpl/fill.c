@@ -25,7 +25,7 @@ static void
   Fill elements with other.
   @overload <%=method%> other
   @param [Numeric] other
-  @return [NArray::<%=class_name%>] self.
+  @return [Numo::<%=class_name%>] self.
 */
 static VALUE
 <%=c_func%>(VALUE self, VALUE val)

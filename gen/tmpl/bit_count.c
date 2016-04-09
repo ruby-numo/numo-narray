@@ -66,7 +66,7 @@ static void
 /*
   <%=method%>.
   @overload <%=method%>
-  @return [NArray::Int64] the number of true bits.
+  @return [Numo::Int64] the number of true bits.
 */
 static VALUE
 <%=c_func%>(int argc, VALUE *argv, VALUE self)
