@@ -129,8 +129,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Dispatches method to Math module of upcasted type, eg,
-NArray::DFloat::Math.</p>
+<p>Dispatches method to Math module of upcasted type, eg, Numo::DFloat::Math.</p>
 </div></span>
   
 </li>
@@ -157,8 +156,7 @@ NArray::DFloat::Math.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Dispatches method to Math module of upcasted type, eg,
-NArray::DFloat::Math.</p>
+<p>Dispatches method to Math module of upcasted type, eg, Numo::DFloat::Math.</p>
 
 
   </div>
@@ -265,7 +263,7 @@ VALUE nary_math_method_missing(int argc, VALUE *argv, VALUE mod)
 	hash = rb_const_get(mod, rb_intern(&quot;DISPATCH&quot;));
 	typemod = rb_hash_aref( hash, type );
 	if (NIL_P(typemod)) {
-	    rb_raise(rb_eTypeError,&quot;%s is unknown for NArray::Math&quot;,
+	    rb_raise(rb_eTypeError,&quot;%s is unknown for Numo::NMath&quot;,
 		     rb_class2name(type));
 	}
 
@@ -290,7 +288,7 @@ VALUE nary_math_method_missing(int argc, VALUE *argv, VALUE mod)
 </div>
 
     <div id="footer">
-  Generated on Sun Feb 28 22:32:17 2016 by
+  Generated on Sat Apr  9 21:33:54 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-2.3.0).
 </div>

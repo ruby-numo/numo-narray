@@ -488,7 +488,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#cast_to-instance_method" title="#cast_to (instance method)">- (NArray) <strong>cast_to</strong>(datatype) </a>
+      <a href="#cast_to-instance_method" title="#cast_to (instance method)">- (Numo::NArray) <strong>cast_to</strong>(datatype) </a>
     
 
     
@@ -681,7 +681,7 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize_copy-instance_method" title="#initialize_copy (instance method)">- (NArray) <strong>initialize_copy</strong>(other) </a>
+      <a href="#initialize_copy-instance_method" title="#initialize_copy (instance method)">- (Numo::NArray) <strong>initialize_copy</strong>(other) </a>
     
 
     
@@ -705,7 +705,7 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#inplace-instance_method" title="#inplace (instance method)">- (NArray) <strong>inplace</strong> </a>
+      <a href="#inplace-instance_method" title="#inplace (instance method)">- (Numo::NArray) <strong>inplace</strong> </a>
     
 
     
@@ -729,7 +729,7 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#inplace%21-instance_method" title="#inplace! (instance method)">- (NArray) <strong>inplace!</strong> </a>
+      <a href="#inplace%21-instance_method" title="#inplace! (instance method)">- (Numo::NArray) <strong>inplace!</strong> </a>
     
 
     
@@ -803,7 +803,7 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#out_of_place%21-instance_method" title="#out_of_place! (instance method)">- (NArray) <strong>out_of_place!</strong> </a>
+      <a href="#out_of_place%21-instance_method" title="#out_of_place! (instance method)">- (Numo::NArray) <strong>out_of_place!</strong> </a>
     
 
     
@@ -1095,9 +1095,9 @@ rb_define_alias(cNArray,  “shape=”,“reshape!”);.</p>
   <h3 class="signature first" id="initialize-instance_method">
   
     
-      <span class="overload">- (<tt>Object</tt>) <strong>NArray::DataType.new</strong>(shape) </span>
+      <span class="overload">- (<tt>Object</tt>) <strong>Numo::DataType.new</strong>(shape) </span>
     
-      <span class="overload">- (<tt>Object</tt>) <strong>NArray::DataType.new</strong>(size1, size2, ...) </span>
+      <span class="overload">- (<tt>Object</tt>) <strong>Numo::DataType.new</strong>(size1, size2, ...) </span>
     
   
 
@@ -1122,35 +1122,35 @@ rb_define_alias(cNArray,  “shape=”,“reshape!”);.</p>
       <pre class="lines">
 
 
-357
-358
-359
-360
-361
-362
-363
-364
-365
-366
-367
-368
-369
-370
-371
-372
-373
-374
-375
-376
-377
-378
-379
-380
-381
-382</pre>
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 357</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 321</span>
 
 static VALUE
 na_initialize(VALUE self, VALUE args)
@@ -1246,7 +1246,6 @@ na_initialize(VALUE self, VALUE args)
       <pre class="lines">
 
 
-392
 393
 394
 395
@@ -1264,10 +1263,11 @@ na_initialize(VALUE self, VALUE args)
 407
 408
 409
-410</pre>
+410
+411</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'array.c', line 392</span>
+      <pre class="code"><span class="info file"># File 'array.c', line 393</span>
 
 static VALUE
 nary_s_bracket(VALUE klass, VALUE ary)
@@ -1308,14 +1308,14 @@ nary_s_bracket(VALUE klass, VALUE ary)
       <pre class="lines">
 
 
-378
 379
 380
 381
-382</pre>
+382
+383</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'array.c', line 378</span>
+      <pre class="code"><span class="info file"># File 'array.c', line 379</span>
 
 static VALUE
 na_s_array_type(VALUE mod, VALUE ary)
@@ -1371,14 +1371,14 @@ na_s_array_type(VALUE mod, VALUE ary)
       <pre class="lines">
 
 
-905
-906
-907
-908
-909</pre>
+861
+862
+863
+864
+865</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 905</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 861</span>
 
 static VALUE
 nary_s_byte_size(VALUE type)
@@ -1405,14 +1405,14 @@ nary_s_byte_size(VALUE type)
       <pre class="lines">
 
 
-1134
-1135
-1136
-1137
-1138</pre>
+1090
+1091
+1092
+1093
+1094</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1134</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1090</span>
 
 VALUE na_debug_set(VALUE mod, VALUE flag)
 {
@@ -1453,8 +1453,8 @@ DFloat, Int64.</p>
     <p class="tag_title">Examples:</p>
     
       
-      <pre class="example code"><code>a = NArray::DFloat.ones(3,5)
-=&gt; NArray::DFloat#shape=[3,5]
+      <pre class="example code"><code>a = Numo::DFloat.ones(3,5)
+=&gt; Numo::DFloat#shape=[3,5]
 [[1, 1, 1, 1, 1],
  [1, 1, 1, 1, 1],
  [1, 1, 1, 1, 1]]</code></pre>
@@ -1468,16 +1468,16 @@ DFloat, Int64.</p>
       <pre class="lines">
 
 
-466
-467
-468
-469
-470
-471
-472</pre>
+430
+431
+432
+433
+434
+435
+436</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 466</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 430</span>
 
 static VALUE
 na_s_ones(int argc, const VALUE *argv, VALUE klass)
@@ -1506,13 +1506,13 @@ na_s_ones(int argc, const VALUE *argv, VALUE klass)
       <pre class="lines">
 
 
-1142
-1143
-1144
-1145</pre>
+1098
+1099
+1100
+1101</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1142</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1098</span>
 
 VALUE na_profile(VALUE mod)
 {
@@ -1538,14 +1538,14 @@ VALUE na_profile(VALUE mod)
       <pre class="lines">
 
 
-1147
-1148
-1149
-1150
-1151</pre>
+1103
+1104
+1105
+1106
+1107</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1147</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1103</span>
 
 VALUE na_profile_set(VALUE mod, VALUE val)
 {
@@ -1668,30 +1668,30 @@ nary_s_step( int argc, VALUE *argv, VALUE mod )
       <pre class="lines">
 
 
-842
-843
-844
-845
-846
-847
-848
-849
-850
-851
-852
-853
-854
-855
-856
-857
-858
-859
-860
-861
-862</pre>
+798
+799
+800
+801
+802
+803
+804
+805
+806
+807
+808
+809
+810
+811
+812
+813
+814
+815
+816
+817
+818</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 842</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 798</span>
 
 VALUE
 numo_na_upcast(VALUE type1, VALUE type2)
@@ -1748,8 +1748,8 @@ DFloat, Int64.</p>
     <p class="tag_title">Examples:</p>
     
       
-      <pre class="example code"><code>a = NArray::DFloat.zeros(3,5)
-=&gt; NArray::DFloat#shape=[3,5]
+      <pre class="example code"><code>a = Numo::DFloat.zeros(3,5)
+=&gt; Numo::DFloat#shape=[3,5]
 [[0, 0, 0, 0, 0],
  [0, 0, 0, 0, 0],
  [0, 0, 0, 0, 0]]</code></pre>
@@ -1763,16 +1763,16 @@ DFloat, Int64.</p>
       <pre class="lines">
 
 
-442
-443
-444
-445
-446
-447
-448</pre>
+406
+407
+408
+409
+410
+411
+412</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 442</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 406</span>
 
 static VALUE
 na_s_zeros(int argc, const VALUE *argv, VALUE klass)
@@ -1854,34 +1854,34 @@ have same shape and corresponding elements are equal.</p>
       <pre class="lines">
 
 
-1161
-1162
-1163
-1164
-1165
-1166
-1167
-1168
-1169
-1170
-1171
-1172
-1173
-1174
-1175
-1176
-1177
-1178
-1179
-1180
-1181
-1182
-1183
-1184
-1185</pre>
+1117
+1118
+1119
+1120
+1121
+1122
+1123
+1124
+1125
+1126
+1127
+1128
+1129
+1130
+1131
+1132
+1133
+1134
+1135
+1136
+1137
+1138
+1139
+1140
+1141</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1161</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1117</span>
 
 VALUE
 na_equal(VALUE self, volatile VALUE other)
@@ -1939,7 +1939,6 @@ na_equal(VALUE self, volatile VALUE other)
       <pre class="lines">
 
 
-950
 951
 952
 953
@@ -1953,10 +1952,11 @@ na_equal(VALUE self, volatile VALUE other)
 961
 962
 963
-964</pre>
+964
+965</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'index.c', line 950</span>
+      <pre class="code"><span class="info file"># File 'index.c', line 951</span>
 
 static VALUE
 na_aset(int argc, VALUE *argv, VALUE self)
@@ -2022,21 +2022,21 @@ na_aset(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-888
-889
-890
-891
-892
-893
-894
-895
-896
-897
-898
-899</pre>
+844
+845
+846
+847
+848
+849
+850
+851
+852
+853
+854
+855</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 888</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 844</span>
 
 static VALUE
 nary_byte_size(VALUE self)
@@ -2098,15 +2098,15 @@ nary_byte_size(VALUE self)
       <pre class="lines">
 
 
-1063
-1064
-1065
-1066
-1067
-1068</pre>
+1019
+1020
+1021
+1022
+1023
+1024</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1063</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1019</span>
 
 VALUE na_byte_swapped_p( VALUE self )
 {
@@ -2122,7 +2122,7 @@ VALUE na_byte_swapped_p( VALUE self )
       <div class="method_details ">
   <h3 class="signature " id="cast_to-instance_method">
   
-    - (<tt><span class='object_link'><a href="" title="Numo::NArray (class)">NArray</a></span></tt>) <strong>cast_to</strong>(datatype) 
+    - (<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>) <strong>cast_to</strong>(datatype) 
   
 
   
@@ -2166,7 +2166,7 @@ VALUE na_byte_swapped_p( VALUE self )
     <li>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::NArray (class)">NArray</a></span></tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>)</span>
       
       
       
@@ -2180,14 +2180,14 @@ VALUE na_byte_swapped_p( VALUE self )
       <pre class="lines">
 
 
-918
-919
-920
-921
-922</pre>
+874
+875
+876
+877
+878</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 918</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 874</span>
 
 static VALUE
 nary_cast_to(VALUE obj, VALUE type)
@@ -2267,18 +2267,18 @@ used for operation between non-NArray and NArray.</p>
       <pre class="lines">
 
 
-873
-874
-875
-876
-877
-878
-879
-880
-881</pre>
+829
+830
+831
+832
+833
+834
+835
+836
+837</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 873</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 829</span>
 
 static VALUE
 nary_coerce(VALUE x, VALUE y)
@@ -2333,16 +2333,16 @@ nary_coerce(VALUE x, VALUE y)
       <pre class="lines">
 
 
-1040
-1041
-1042
-1043
-1044
-1045
-1046</pre>
+996
+997
+998
+999
+1000
+1001
+1002</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1040</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 996</span>
 
 VALUE na_column_major_p( VALUE self )
 {
@@ -2371,41 +2371,41 @@ VALUE na_column_major_p( VALUE self )
       <pre class="lines">
 
 
-146
-147
-148
-149
-150
-151
-152
-153
-154
-155
-156
-157
-158
-159
-160
-161
-162
-163
-164
-165
-166
-167
-168
-169
-170
-171
-172
-173
-174
-175
-176
-177</pre>
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 146</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 110</span>
 
 VALUE
 rb_narray_debug_info(VALUE self)
@@ -2600,15 +2600,15 @@ na_flatten(VALUE self)
       <pre class="lines">
 
 
-1073
-1074
-1075
-1076
-1077
-1078</pre>
+1029
+1030
+1031
+1032
+1033
+1034</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1073</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1029</span>
 
 VALUE na_host_order_p( VALUE self )
 {
@@ -2624,7 +2624,7 @@ VALUE na_host_order_p( VALUE self )
       <div class="method_details ">
   <h3 class="signature " id="initialize_copy-instance_method">
   
-    - (<tt><span class='object_link'><a href="" title="Numo::NArray (class)">NArray</a></span></tt>) <strong>initialize_copy</strong>(other) 
+    - (<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>) <strong>initialize_copy</strong>(other) 
   
 
   
@@ -2650,7 +2650,7 @@ dup and clone method.</p>
         <span class='name'>other</span>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::NArray (class)">NArray</a></span></tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>)</span>
       
       
       
@@ -2664,7 +2664,7 @@ dup and clone method.</p>
     <li>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::NArray (class)">NArray</a></span></tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>)</span>
       
       
       
@@ -2683,20 +2683,20 @@ dup and clone method.</p>
       <pre class="lines">
 
 
-414
-415
-416
-417
-418
-419
-420
-421
-422
-423
-424</pre>
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 414</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 378</span>
 
 static VALUE
 na_initialize_copy(VALUE self, VALUE orig)
@@ -2717,7 +2717,7 @@ na_initialize_copy(VALUE self, VALUE orig)
       <div class="method_details ">
   <h3 class="signature " id="inplace-instance_method">
   
-    - (<tt><span class='object_link'><a href="" title="Numo::NArray (class)">NArray</a></span></tt>) <strong>inplace</strong> 
+    - (<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>) <strong>inplace</strong> 
   
 
   
@@ -2739,7 +2739,7 @@ na_initialize_copy(VALUE self, VALUE orig)
     <li>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::NArray (class)">NArray</a></span></tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>)</span>
       
       
       
@@ -2758,16 +2758,16 @@ na_initialize_copy(VALUE self, VALUE orig)
       <pre class="lines">
 
 
-1085
-1086
-1087
-1088
-1089
-1090
-1091</pre>
+1041
+1042
+1043
+1044
+1045
+1046
+1047</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1085</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1041</span>
 
 VALUE na_inplace( VALUE self )
 {
@@ -2784,7 +2784,7 @@ VALUE na_inplace( VALUE self )
       <div class="method_details ">
   <h3 class="signature " id="inplace!-instance_method">
   
-    - (<tt><span class='object_link'><a href="" title="Numo::NArray (class)">NArray</a></span></tt>) <strong>inplace!</strong> 
+    - (<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>) <strong>inplace!</strong> 
   
 
   
@@ -2806,7 +2806,7 @@ VALUE na_inplace( VALUE self )
     <li>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::NArray (class)">NArray</a></span></tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>)</span>
       
       
       
@@ -2825,14 +2825,14 @@ VALUE na_inplace( VALUE self )
       <pre class="lines">
 
 
-1097
-1098
-1099
-1100
-1101</pre>
+1053
+1054
+1055
+1056
+1057</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1097</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1053</span>
 
 VALUE na_inplace_bang( VALUE self )
 {
@@ -2883,16 +2883,16 @@ VALUE na_inplace_bang( VALUE self )
       <pre class="lines">
 
 
-1114
-1115
-1116
-1117
-1118
-1119
-1120</pre>
+1070
+1071
+1072
+1073
+1074
+1075
+1076</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1114</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1070</span>
 
 VALUE na_inplace_p( VALUE self )
 {
@@ -2936,16 +2936,16 @@ VALUE na_inplace_p( VALUE self )
       <pre class="lines">
 
 
-675
-676
-677
-678
-679
-680
-681</pre>
+631
+632
+633
+634
+635
+636
+637</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 675</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 631</span>
 
 static VALUE
 na_ndim(VALUE self)
@@ -2962,7 +2962,7 @@ na_ndim(VALUE self)
       <div class="method_details ">
   <h3 class="signature " id="out_of_place!-instance_method">
   
-    - (<tt><span class='object_link'><a href="" title="Numo::NArray (class)">NArray</a></span></tt>) <strong>out_of_place!</strong> 
+    - (<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>) <strong>out_of_place!</strong> 
   
 
   
@@ -2988,7 +2988,7 @@ na_ndim(VALUE self)
     <li>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::NArray (class)">NArray</a></span></tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>)</span>
       
       
       
@@ -3007,14 +3007,14 @@ na_ndim(VALUE self)
       <pre class="lines">
 
 
-1126
-1127
-1128
-1129
-1130</pre>
+1082
+1083
+1084
+1085
+1086</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1126</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1082</span>
 
 VALUE na_out_of_place_bang( VALUE self )
 {
@@ -3112,7 +3112,7 @@ na_reshape(int argc, VALUE *argv, VALUE self)
 {
     int    i, unfixed=-1;
     size_t total=1;
-    size_t *shape, *shape_save;
+    size_t *shape; //, *shape_save;
     narray_t *na;
     VALUE    copy;
 
@@ -3151,7 +3151,7 @@ na_reshape(int argc, VALUE *argv, VALUE self)
 
     copy = na_copy(self);
     GetNArray(copy,na);
-    shape_save = NA_SHAPE(na);
+    //shape_save = NA_SHAPE(na);
     na_setup_shape(na,argc,shape);
     //if (NA_SHAPE(na) != shape_save) {
     //    xfree(shape_save);
@@ -3202,16 +3202,16 @@ na_reshape(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-1051
-1052
-1053
-1054
-1055
-1056
-1057</pre>
+1007
+1008
+1009
+1010
+1011
+1012
+1013</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1051</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1007</span>
 
 VALUE na_row_major_p( VALUE self )
 {
@@ -3251,32 +3251,32 @@ VALUE na_row_major_p( VALUE self )
       <pre class="lines">
 
 
-685
-686
-687
-688
-689
-690
-691
-692
-693
-694
-695
-696
-697
-698
-699
-700
-701
-702
-703
-704
-705
-706
-707</pre>
+641
+642
+643
+644
+645
+646
+647
+648
+649
+650
+651
+652
+653
+654
+655
+656
+657
+658
+659
+660
+661
+662
+663</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 685</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 641</span>
 
 static VALUE
  na_shape(VALUE self)
@@ -3336,16 +3336,16 @@ static VALUE
       <pre class="lines">
 
 
-665
-666
-667
-668
-669
-670
-671</pre>
+621
+622
+623
+624
+625
+626
+627</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 665</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 621</span>
 
 static VALUE
 na_size(VALUE self)
@@ -3385,13 +3385,13 @@ na_size(VALUE self)
       <pre class="lines">
 
 
-941
 942
 943
-944</pre>
+944
+945</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'index.c', line 941</span>
+      <pre class="code"><span class="info file"># File 'index.c', line 942</span>
 
 static VALUE na_slice(int argc, VALUE *argv, VALUE self)
 {
@@ -3791,7 +3791,7 @@ na_transpose(int argc, VALUE *argv, VALUE self)
 </div>
 
     <div id="footer">
-  Generated on Sun Feb 28 22:32:17 2016 by
+  Generated on Sat Apr  9 21:33:55 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-2.3.0).
 </div>
