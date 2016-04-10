@@ -77,6 +77,6 @@ $objs = srcs.collect{|i| i+".o"}
 
 create_header
 
-create_makefile('numo/narray')
+system("rm -f depend; erb depend.erb > depend")
 
-system("cd ../../../gen; rake")
+create_makefile('numo/narray')
