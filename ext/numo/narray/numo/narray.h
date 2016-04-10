@@ -12,7 +12,7 @@
 #define NARRAY_H
 
 #include <math.h>
-#include "compat.h"
+#include "numo/compat.h"
 
 //#include "extconf.h"
 
@@ -404,9 +404,9 @@ typedef unsigned int BIT_DIGIT;
 #define ELEMENT_BYTE_SIZE "ELEMENT_BYTE_SIZE"
 #define CONTIGUOUS_STRIDE "CONTIGUOUS_STRIDE"
 
-#include "ndloop.h"
+#include "numo/ndloop.h"
 //#include "ndfunc.h"
 
-#include "intern.h"
+#include "numo/intern.h"
 
 #endif /* ifndef NARRAY_H */

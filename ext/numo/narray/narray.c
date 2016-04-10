@@ -10,7 +10,7 @@
 */
 #define NARRAY_C
 #include <ruby.h>
-#include "narray.h"
+#include "numo/narray.h"
 #include "extconf.h"
 #include <assert.h>
 

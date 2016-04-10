@@ -11,7 +11,7 @@
 
 #include <ruby.h>
 #include <math.h>
-#include "narray.h"
+#include "numo/narray.h"
 #include "SFMT.h"
 #include "template.h"
 
@@ -57,7 +57,7 @@ end
  x %>
 <% end %>
 
-#include "<%=type_name%>.h"
+#include "numo/types/<%=type_name%>.h"
 
 VALUE cT;
 #ifdef mTM

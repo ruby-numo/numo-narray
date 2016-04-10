@@ -10,7 +10,7 @@
 */
 
 #include <ruby.h>
-#include "narray.h"
+#include "numo/narray.h"
 
 #ifdef HAVE_STDARG_PROTOTYPES
 #include <stdarg.h>

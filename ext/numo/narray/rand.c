@@ -1,5 +1,5 @@
 #include "ruby.h"
-#include "narray.h"
+#include "numo/narray.h"
 #include "SFMT.h"
 
 #ifdef HAVE_UNISTD_H

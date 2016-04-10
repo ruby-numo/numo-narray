@@ -22,11 +22,13 @@ GEN_DEF = <%= GEN_DEF="gen/def" %>
 
 <% Dir.glob(GEN_DEF+"/*.rb").map{|s| File.basename(s,".rb")}.each do |t| %>
 types/<%=t%>.c: $(GEN_DEF)/<%=t%>.rb $(C_TMPL) $(COGEN_DTYPE)
+	$(MAKEDIRS) $(@D) types
 	ruby $(COGEN_DTYPE) $(GEN_DEF)/<%=t%>.rb > $@
 <% end %>
 
 <% Dir.glob(GEN_DEF+"/*.c").map{|s| File.basename(s,".c")}.each do |t| %>
 types/<%=t%>.c: $(GEN_DEF)/<%=t%>.c $(C_TMPL) $(COGEN)
+	$(MAKEDIRS) $(@D) types
 	ruby $(COGEN) $(GEN_DEF)/<%=t%>.c > $@
 <% end %>
 

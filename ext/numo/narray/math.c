@@ -9,7 +9,7 @@
   NO WARRANTY.
 */
 #include <ruby.h>
-#include "narray.h"
+#include "numo/narray.h"
 
 VALUE mNMath;
 EXTERN VALUE mDFloatMath, mDComplexMath;

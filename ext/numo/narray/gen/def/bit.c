@@ -9,7 +9,7 @@
   NO WARRANTY.
 */
 #include <ruby.h>
-#include "narray.h"
+#include "numo/narray.h"
 #include "template.h"
 
 <%

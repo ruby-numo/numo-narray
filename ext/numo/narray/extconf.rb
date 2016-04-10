@@ -9,6 +9,11 @@ require 'mkmf'
 #$CFLAGS=" $(cflags) -O3"
 $INCFLAGS = "-Itypes #$INCFLAGS"
 
+$INSTALLFILES = Dir.glob(%w[numo/*.h numo/types/*.h]).map{|x| [x,"$(archdir)/numo"] }
+if /cygwin|mingw/ =~ RUBY_PLATFORM
+  $INSTALLFILES << ['libnarray.a', '$(archdir)']
+end
+
 srcs = %w(
 narray
 array

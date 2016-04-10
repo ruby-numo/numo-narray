@@ -9,7 +9,7 @@
    NO WARRANTY.
 */
 #include <ruby.h>
-#include "compat.h"
+#include "numo/compat.h"
 
 /* void rb_scan_kw_args __((VALUE, ...)); */
 
@@ -59,7 +59,7 @@ rb_scan_kw_args(hash, va_alist)
 	rb_iterate(rb_each, hash, kw_hash_i, tmp);
     else if (hash != Qnil)
 	rb_fatal("rb_san_kw_args: non-hash arg passed");
-    
+
     for (;;) {
 	key = va_arg(vargs, char*);
 	if (!key) break;

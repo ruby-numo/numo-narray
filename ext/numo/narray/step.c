@@ -11,7 +11,7 @@
 #include <ruby.h>
 #include <math.h>
 
-#include "narray.h"
+#include "numo/narray.h"
 
 #if defined(__FreeBSD__) && __FreeBSD__ < 4
 #include <floatingpoint.h>
