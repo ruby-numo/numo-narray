@@ -26,10 +26,8 @@ types/<%=t%>.c: $(GEN_DEF)/<%=t%>.rb $(C_TMPL) $(COGEN_DTYPE)
 	ruby $(COGEN_DTYPE) $(GEN_DEF)/<%=t%>.rb > $@
 <% end %>
 
-<% Dir.glob(GEN_DEF+"/*.c").map{|s| File.basename(s,".c")}.each do |t| %>
-types/<%=t%>.c: $(GEN_DEF)/<%=t%>.c $(C_TMPL) $(COGEN)
+types/bit.c: gen/bit.erb.c $(C_TMPL) $(COGEN)
 	$(MAKEDIRS) $(@D) types
-	ruby $(COGEN) $(GEN_DEF)/<%=t%>.c > $@
-<% end %>
+	ruby $(COGEN) gen/bit.erb.c > $@
 
 CLEANOBJS = *.o */*.o *.bak types/*.c

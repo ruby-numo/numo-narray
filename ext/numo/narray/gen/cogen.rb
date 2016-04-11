@@ -599,5 +599,5 @@ end
 erb_path = ARGV[0]
 type_file = ARGV[1]
 
-TMPL_DIR = File.join(File.dirname(__FILE__),"tmpl")
+TMPL_DIR = File.join(File.dirname(ARGV[0]),"tmpl")
 DataType.new(erb_path, type_file).run
