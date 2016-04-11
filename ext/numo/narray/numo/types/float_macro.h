@@ -94,7 +94,7 @@ EXTERN double exp10(double);
 #define m_ldexp(x,y) ldexp(x,y)
 #define m_frexp(x,exp) frexp(x,exp)
 
-static dtype pow_int(dtype x, int p)
+static inline dtype pow_int(dtype x, int p)
 {
     dtype r=1;
     switch(p) {

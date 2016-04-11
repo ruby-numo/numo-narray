@@ -352,7 +352,8 @@ static inline dtype c_atanh(dtype x) {
     return z;
 }
 
-static inline dtype c_pow(dtype x, dtype y) {
+static inline dtype c_pow(dtype x, dtype y)
+{
     dtype z;
     if (c_is_zero(y)) {
         z = c_one();
@@ -366,7 +367,7 @@ static inline dtype c_pow(dtype x, dtype y) {
     return z;
 }
 
-static dtype c_pow_int(dtype x, int p)
+static inline dtype c_pow_int(dtype x, int p)
 {
     dtype z = c_one();
     if (p<0) {
@@ -383,7 +384,6 @@ static dtype c_pow_int(dtype x, int p)
     }
     return z;
 }
-
 
 static inline dtype c_cbrt(dtype x) {
     dtype z;
