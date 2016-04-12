@@ -30,6 +30,6 @@ types/<%=t%>.c: $(GEN_DEF)/<%=t%>.rb $(DEPENDS)
 
 types/bit.c: gen/bit.erb.c $(DEPENDS)
 	$(MAKEDIRS) $(@D) types
-	ruby $(COGEN) gen/bit.erb.c > $@
+	ruby $(COGEN) -l gen/bit.erb.c > $@
 
 CLEANOBJS = *.o */*.o *.bak types/*.c
