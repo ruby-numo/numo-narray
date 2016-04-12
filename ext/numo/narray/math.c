@@ -11,8 +11,8 @@
 #include <ruby.h>
 #include "numo/narray.h"
 
-VALUE mNMath;
-EXTERN VALUE mDFloatMath, mDComplexMath;
+VALUE numo_mNMath;
+EXTERN VALUE numo_mDFloatMath, numo_mDComplexMath;
 static ID id_send;
 
 VALUE
@@ -114,30 +114,27 @@ Init_nary_math()
 {
     VALUE hCast;
 
-    mNMath = rb_define_module_under(mNumo, "NMath");
-    rb_define_singleton_method(mNMath, "method_missing", nary_math_method_missing, -1);
-
-    //mDFloatMath = rb_define_module_under(mNMath, "DFloat");
-    //mDComplexMath = rb_define_module_under(mNMath, "DComplex");
+    numo_mNMath = rb_define_module_under(mNumo, "NMath");
+    rb_define_singleton_method(numo_mNMath, "method_missing", nary_math_method_missing, -1);
 
     hCast = rb_hash_new();
-    rb_define_const(mNMath, "DISPATCH", hCast);
-    rb_hash_aset(hCast, cInt64,      mDFloatMath);
-    rb_hash_aset(hCast, cInt32,      mDFloatMath);
-    rb_hash_aset(hCast, cInt16,      mDFloatMath);
-    rb_hash_aset(hCast, cInt8,       mDFloatMath);
-    rb_hash_aset(hCast, cUInt64,     mDFloatMath);
-    rb_hash_aset(hCast, cUInt32,     mDFloatMath);
-    rb_hash_aset(hCast, cUInt16,     mDFloatMath);
-    rb_hash_aset(hCast, cUInt8,      mDFloatMath);
-    rb_hash_aset(hCast, cDFloat,     mDFloatMath);
-    rb_hash_aset(hCast, cDFloat,     mDFloatMath);
-    rb_hash_aset(hCast, cDComplex,   mDComplexMath);
+    rb_define_const(numo_mNMath, "DISPATCH", hCast);
+    rb_hash_aset(hCast, numo_cInt64,    numo_mDFloatMath);
+    rb_hash_aset(hCast, numo_cInt32,    numo_mDFloatMath);
+    rb_hash_aset(hCast, numo_cInt16,    numo_mDFloatMath);
+    rb_hash_aset(hCast, numo_cInt8,     numo_mDFloatMath);
+    rb_hash_aset(hCast, numo_cUInt64,   numo_mDFloatMath);
+    rb_hash_aset(hCast, numo_cUInt32,   numo_mDFloatMath);
+    rb_hash_aset(hCast, numo_cUInt16,   numo_mDFloatMath);
+    rb_hash_aset(hCast, numo_cUInt8,    numo_mDFloatMath);
+    rb_hash_aset(hCast, numo_cDFloat,   numo_mDFloatMath);
+    rb_hash_aset(hCast, numo_cDFloat,   numo_mDFloatMath);
+    rb_hash_aset(hCast, numo_cDComplex, numo_mDComplexMath);
     rb_hash_aset(hCast, rb_cFixnum,  rb_mMath);
     rb_hash_aset(hCast, rb_cBignum,  rb_mMath);
     rb_hash_aset(hCast, rb_cInteger, rb_mMath);
     rb_hash_aset(hCast, rb_cFloat,   rb_mMath);
-    rb_hash_aset(hCast, rb_cComplex, mDComplexMath);
+    rb_hash_aset(hCast, rb_cComplex, numo_mDComplexMath);
 
     id_send = rb_intern("send");
 }

@@ -1,6 +1,6 @@
 typedef u_int64_t dtype;
 typedef u_int64_t rtype;
-#define cT  cUInt64
+#define cT  numo_cUInt64
 #define cRT cT
 
 #define m_num_to_data(x) ((dtype)NUM2UINT64(x))

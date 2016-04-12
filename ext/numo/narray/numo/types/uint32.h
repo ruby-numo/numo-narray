@@ -1,6 +1,6 @@
 typedef u_int32_t dtype;
 typedef u_int32_t rtype;
-#define cT  cUInt32
+#define cT  numo_cUInt32
 #define cRT cT
 
 #define m_num_to_data(x) ((dtype)NUM2UINT32(x))

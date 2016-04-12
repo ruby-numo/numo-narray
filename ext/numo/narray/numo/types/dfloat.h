@@ -1,8 +1,8 @@
 typedef double dtype;
 typedef double rtype;
-#define cT  cDFloat
-#define cRT cDFloat
-#define mTM mDFloatMath
+#define cT  numo_cDFloat
+#define cRT numo_cDFloat
+#define mTM numo_mDFloatMath
 
 #include "float_macro.h"
 

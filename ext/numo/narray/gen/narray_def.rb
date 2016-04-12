@@ -113,7 +113,7 @@ module DefMethod
   end
 
   def store_from(cname,dtype,macro)
-    Store.new(self,"store_from",cname.downcase,dtype,"c"+cname,macro)
+    Store.new(self,"store_from",cname.downcase,dtype,"numo_c"+cname,macro)
   end
 
   def store
@@ -180,11 +180,11 @@ class DataType < ErbPP
   alias tp type_name
 
   def type_var
-    @type_var ||= "c"+class_name
+    @type_var ||= "numo_c"+class_name
   end
 
   def math_var
-    @math_var ||= "m"+class_name+"Math"
+    @math_var ||= "numo_m"+class_name+"Math"
   end
 
   def real_class_name(arg=nil)
@@ -204,7 +204,7 @@ class DataType < ErbPP
   end
 
   def real_type_var
-    @real_type_var ||= "c"+real_class_name
+    @real_type_var ||= "numo_c"+real_class_name
   end
 
   def real_type_name
@@ -215,20 +215,30 @@ class DataType < ErbPP
     @class_alias.concat(args)
   end
 
-  def upcast(c=nil,t="T")
+  def upcast(c=nil,t=nil)
     if c
-      @upcast << "rb_hash_aset(hCast, c#{c}, c#{t});"
+      if t
+        t = "numo_c#{t}"
+      else
+        t = "cT"
+      end
+      @upcast << "rb_hash_aset(hCast, numo_c#{c}, #{t});"
     else
       @upcast
     end
   end
 
-  def upcast_rb(c,t="T")
-    if c=="Integer"
-      @upcast << "rb_hash_aset(hCast, rb_cFixnum, c#{t});"
-      @upcast << "rb_hash_aset(hCast, rb_cBignum, c#{t});"
+  def upcast_rb(c,t=nil)
+    if t
+      t = "numo_c#{t}"
     else
-      @upcast << "rb_hash_aset(hCast, rb_c#{c}, c#{t});"
+      t = "cT"
+    end
+    if c=="Integer"
+      @upcast << "rb_hash_aset(hCast, rb_cFixnum, #{t});"
+      @upcast << "rb_hash_aset(hCast, rb_cBignum, #{t});"
+    else
+      @upcast << "rb_hash_aset(hCast, rb_c#{c}, #{t});"
     end
   end
 end

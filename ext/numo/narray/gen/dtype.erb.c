@@ -60,6 +60,7 @@ end
 #include "numo/types/<%=type_name%>.h"
 
 VALUE cT;
+VALUE cRT;
 #ifdef mTM
 VALUE mTM;
 #endif

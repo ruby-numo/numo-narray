@@ -806,7 +806,7 @@ na_sort_index_main(int argc, VALUE *argv, VALUE self,
     if (na->size > (~(u_int32_t)0)) {
         ;
     } else {
-        idx = rb_narray_new(cInt32, na->ndim, na->shape);
+        idx = rb_narray_new(numo_cInt32, na->ndim, na->shape);
     }
     rb_funcall(idx, rb_intern("allocate"), 0);
 

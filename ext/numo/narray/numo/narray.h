@@ -162,12 +162,20 @@ extern VALUE nary_eOperationError;
 #define na_upcast(x,y) numo_na_upcast(x,y)
 
 /* global variables within this module */
-extern VALUE cBit;
-extern VALUE cDFloat, cDComplex;
-extern VALUE cSFloat, cSComplex;
-extern VALUE cInt64, cInt32, cInt16, cInt8;
-extern VALUE cUInt64, cUInt32, cUInt16, cUInt8;
-extern VALUE cRObject;
+extern VALUE numo_cBit;
+extern VALUE numo_cDFloat;
+extern VALUE numo_cSFloat;
+extern VALUE numo_cDComplex;
+extern VALUE numo_cSComplex;
+extern VALUE numo_cInt64;
+extern VALUE numo_cInt32;
+extern VALUE numo_cInt16;
+extern VALUE numo_cInt8;
+extern VALUE numo_cUInt64;
+extern VALUE numo_cUInt32;
+extern VALUE numo_cUInt16;
+extern VALUE numo_cUInt8;
+extern VALUE numo_cRObject;
 extern VALUE na_cStep;
 #ifndef HAVE_RB_CCOMPLEX
 extern VALUE rb_cComplex;

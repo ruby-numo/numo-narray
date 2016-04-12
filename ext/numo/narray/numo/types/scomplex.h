@@ -1,8 +1,8 @@
 typedef scomplex dtype;
 typedef float rtype;
-#define cT  cSComplex
-#define cRT cSFloat
-#define mTM mSComplexMath
+#define cT  numo_cSComplex
+#define cRT numo_cSFloat
+#define mTM numo_mSComplexMath
 
 #include "complex_macro.h"
 

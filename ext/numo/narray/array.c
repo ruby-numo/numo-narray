@@ -274,22 +274,22 @@ na_mdai_result(na_mdai_t *mdai, na_compose_t *nc)
 	// DataType
 	switch(mdai->type) {
 	case NA_BIT:
-	    tp = cBit;
+	    tp = numo_cBit;
 	    break;
 	case NA_INT32:
-	    tp = cInt32;
+	    tp = numo_cInt32;
 	    break;
 	case NA_INT64:
-	    tp = cInt64;
+	    tp = numo_cInt64;
 	    break;
 	case NA_DFLOAT:
-	    tp = cDFloat;
+	    tp = numo_cDFloat;
 	    break;
 	case NA_DCOMPLEX:
-	    tp = cDComplex;
+	    tp = numo_cDComplex;
 	    break;
 	case NA_ROBJ:
-	    tp = cRObject;
+	    tp = numo_cRObject;
 	    break;
 	default:
 	    tp = Qnil;

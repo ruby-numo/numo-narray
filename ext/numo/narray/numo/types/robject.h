@@ -1,6 +1,6 @@
 typedef VALUE dtype;
 typedef VALUE rtype;
-#define cT  cRObject
+#define cT  numo_cRObject
 #define cRT cT
 //#define mTM mRObjectMath
 

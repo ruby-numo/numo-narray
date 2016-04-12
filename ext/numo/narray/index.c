@@ -920,7 +920,7 @@ na_aref_main(int nidx, VALUE *idx, VALUE self, int keep_dim)
         return na_copy(self);
     }
     if (nidx==1) {
-      if (CLASS_OF(*idx)==cBit) {
+      if (CLASS_OF(*idx)==numo_cBit) {
         rb_funcall(*idx,rb_intern("mask"),1,self);
       }
     }

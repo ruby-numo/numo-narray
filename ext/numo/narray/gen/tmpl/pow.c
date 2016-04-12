@@ -41,13 +41,13 @@ static VALUE
 <%=c_func%>_self(VALUE self, VALUE other)
 {
     ndfunc_arg_in_t ain[2] = {{cT,0},{cT,0}};
-    ndfunc_arg_in_t ain_i[2] = {{cT,0},{cInt32,0}};
+    ndfunc_arg_in_t ain_i[2] = {{cT,0},{numo_cInt32,0}};
     ndfunc_arg_out_t aout[1] = {{cT,0}};
     ndfunc_t ndf = { <%=c_iter%>, STRIDE_LOOP, 2, 1, ain, aout };
     ndfunc_t ndf_i = { <%=c_iter%>_int32, STRIDE_LOOP, 2, 1, ain_i, aout };
 
     // fixme : use na.integer?
-    if (FIXNUM_P(other) || rb_obj_is_kind_of(other,cInt32)) {
+    if (FIXNUM_P(other) || rb_obj_is_kind_of(other,numo_cInt32)) {
         return na_ndloop(&ndf_i, 2, self, other);
     } else {
         return na_ndloop(&ndf, 2, self, other);

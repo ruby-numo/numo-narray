@@ -12,8 +12,8 @@
 #include "numo/narray.h"
 #include "template.h"
 
-VALUE cStruct;
-
+#define cT numo_cStruct
+VALUE cT;
 
 static VALUE
 nst_allocate(VALUE self)
@@ -801,18 +801,18 @@ nst_s_##tpname(VALUE argc, VALUE *argv, VALUE mod)  \
     return Qnil;                                    \
 }
 
-NST_TYPEDEF(int8,cInt8)
-NST_TYPEDEF(int16,cInt16)
-NST_TYPEDEF(int32,cInt32)
-NST_TYPEDEF(int64,cInt64)
-NST_TYPEDEF(uint8, cUInt8)
-NST_TYPEDEF(uint16,cUInt16)
-NST_TYPEDEF(uint32,cUInt32)
-NST_TYPEDEF(uint64,cUInt64)
-NST_TYPEDEF(dfloat,cDFloat)
-NST_TYPEDEF(dcomplex,cDComplex)
-NST_TYPEDEF(sfloat,cSFloat)
-NST_TYPEDEF(scomplex,cSComplex)
+NST_TYPEDEF(int8,numo_cInt8)
+NST_TYPEDEF(int16,numo_cInt16)
+NST_TYPEDEF(int32,numo_cInt32)
+NST_TYPEDEF(int64,numo_cInt64)
+NST_TYPEDEF(uint8,numo_cUInt8)
+NST_TYPEDEF(uint16,numo_cUInt16)
+NST_TYPEDEF(uint32,numo_cUInt32)
+NST_TYPEDEF(uint64,numo_cUInt64)
+NST_TYPEDEF(dfloat,numo_cDFloat)
+NST_TYPEDEF(dcomplex,numo_cDComplex)
+NST_TYPEDEF(sfloat,numo_cSFloat)
+NST_TYPEDEF(scomplex,numo_cSComplex)
 
 
 #define rb_define_singleton_alias(klass,name1,name2) \
@@ -821,52 +821,52 @@ NST_TYPEDEF(scomplex,cSComplex)
 void
 Init_nary_struct()
 {
-    cStruct = rb_define_class_under(mNumo, "Struct", cNArray);
-    //cNStMember = rb_define_class_under(cStruct, "Member", rb_cObject);
+    cT = rb_define_class_under(mNumo, "Struct", numo_cNArray);
+    //cNStMember = rb_define_class_under(cT, "Member", rb_cObject);
 
     //rb_define_alloc_func(cNStMember, nst_member_s_allocate);
     //rb_define_method(cNStMember, "initialize", nst_member_initialize, -1);
 
-    //rb_undef_alloc_func(cStruct);
-    rb_define_singleton_method(cStruct, "new", nst_s_new, -1);
-    rb_define_singleton_method(cStruct, "add_type", nst_s_add_type, -1);
-    rb_define_singleton_method(cStruct, "int8",   nst_s_int8,   -1);
-    rb_define_singleton_method(cStruct, "int16",  nst_s_int16,  -1);
-    rb_define_singleton_method(cStruct, "int32",  nst_s_int32,  -1);
-    rb_define_singleton_method(cStruct, "int64",  nst_s_int64,  -1);
-    rb_define_singleton_method(cStruct, "uint8",  nst_s_uint8,  -1);
-    rb_define_singleton_method(cStruct, "uint16", nst_s_uint16, -1);
-    rb_define_singleton_method(cStruct, "uint32", nst_s_uint32, -1);
-    rb_define_singleton_method(cStruct, "uint64", nst_s_uint64, -1);
-    rb_define_singleton_method(cStruct, "sfloat",   nst_s_sfloat, -1);
-    rb_define_singleton_alias (cStruct, "float32", "sfloat");
-    rb_define_singleton_method(cStruct, "scomplex", nst_s_scomplex, -1);
-    rb_define_singleton_alias (cStruct, "complex64", "scomplex");
-    rb_define_singleton_method(cStruct, "dfloat",   nst_s_dfloat, -1);
-    rb_define_singleton_alias (cStruct, "float64", "dfloat");
-    rb_define_singleton_method(cStruct, "dcomplex", nst_s_dcomplex, -1);
-    rb_define_singleton_alias (cStruct, "complex128", "dcomplex");
+    //rb_undef_alloc_func(cT);
+    rb_define_singleton_method(cT, "new", nst_s_new, -1);
+    rb_define_singleton_method(cT, "add_type", nst_s_add_type, -1);
+    rb_define_singleton_method(cT, "int8",   nst_s_int8,   -1);
+    rb_define_singleton_method(cT, "int16",  nst_s_int16,  -1);
+    rb_define_singleton_method(cT, "int32",  nst_s_int32,  -1);
+    rb_define_singleton_method(cT, "int64",  nst_s_int64,  -1);
+    rb_define_singleton_method(cT, "uint8",  nst_s_uint8,  -1);
+    rb_define_singleton_method(cT, "uint16", nst_s_uint16, -1);
+    rb_define_singleton_method(cT, "uint32", nst_s_uint32, -1);
+    rb_define_singleton_method(cT, "uint64", nst_s_uint64, -1);
+    rb_define_singleton_method(cT, "sfloat",   nst_s_sfloat, -1);
+    rb_define_singleton_alias (cT, "float32", "sfloat");
+    rb_define_singleton_method(cT, "scomplex", nst_s_scomplex, -1);
+    rb_define_singleton_alias (cT, "complex64", "scomplex");
+    rb_define_singleton_method(cT, "dfloat",   nst_s_dfloat, -1);
+    rb_define_singleton_alias (cT, "float64", "dfloat");
+    rb_define_singleton_method(cT, "dcomplex", nst_s_dcomplex, -1);
+    rb_define_singleton_alias (cT, "complex128", "dcomplex");
 
-    rb_define_method(cStruct, "definition", nst_definition, 1);
-    rb_define_method(cStruct, "definitions", nst_definitions, 0);
-    rb_define_method(cStruct, "field", nst_field, 1);
-    rb_define_method(cStruct, "field_set", nst_field_set, 2);
-    rb_define_method(cStruct, "extract", nst_extract, 0);
-    rb_define_method(cStruct, "method_missing", nst_method_missing, -1);
+    rb_define_method(cT, "definition", nst_definition, 1);
+    rb_define_method(cT, "definitions", nst_definitions, 0);
+    rb_define_method(cT, "field", nst_field, 1);
+    rb_define_method(cT, "field_set", nst_field_set, 2);
+    rb_define_method(cT, "extract", nst_extract, 0);
+    rb_define_method(cT, "method_missing", nst_method_missing, -1);
 
-    //rb_define_method(cStruct, "fill", nary_nstruct_fill, 1);
+    //rb_define_method(cT, "fill", nary_nstruct_fill, 1);
 
-    //rb_define_method(cStruct, "debug_print", nary_nstruct_debug_print, 0);
+    //rb_define_method(cT, "debug_print", nary_nstruct_debug_print, 0);
 
-    rb_define_method(cStruct, "to_a", nary_struct_to_a, 0);
+    rb_define_method(cT, "to_a", nary_struct_to_a, 0);
 
-    rb_define_method(cStruct, "store", nary_struct_store, 1);
+    rb_define_method(cT, "store", nary_struct_store, 1);
 
-    rb_define_method(cStruct, "inspect", nary_struct_inspect, 0);
+    rb_define_method(cT, "inspect", nary_struct_inspect, 0);
 
-    rb_define_singleton_method(cStruct, "cast", nary_struct_s_cast, 1);
-    rb_define_singleton_method(cStruct, "[]", nary_struct_s_cast, -2);
+    rb_define_singleton_method(cT, "cast", nary_struct_s_cast, 1);
+    rb_define_singleton_method(cT, "[]", nary_struct_s_cast, -2);
 
-    //rb_define_method(cStruct, "initialize", rb_struct_initialize, -2);
-    //rb_define_method(cStruct, "initialize_copy", rb_struct_init_copy, 1);
+    //rb_define_method(cT, "initialize", rb_struct_initialize, -2);
+    //rb_define_method(cT, "initialize_copy", rb_struct_init_copy, 1);
 }

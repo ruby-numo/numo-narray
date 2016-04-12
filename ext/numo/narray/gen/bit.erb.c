@@ -199,7 +199,7 @@ nary_bit_format(int argc, VALUE *argv, VALUE self)
 {
     VALUE fmt=Qnil;
     ndfunc_arg_in_t ain[2] = {{Qnil,0},{sym_option}};
-    ndfunc_arg_out_t aout[1] = {{cRObject,0}};
+    ndfunc_arg_out_t aout[1] = {{numo_cRObject,0}};
     ndfunc_t ndf = { iter_bit_format, FULL_LOOP, 2, 1, ain, aout };
 
     rb_scan_args(argc, argv, "01", &fmt);
@@ -582,10 +582,10 @@ static VALUE
     g = ALLOCA_N(where_opt_t,1);
     g->count = 0;
     if (size>4294967295ul) {
-        idx_1 = rb_narray_new(cInt64, 1, &n_1);
+        idx_1 = rb_narray_new(numo_cInt64, 1, &n_1);
         g->elmsz = 8;
     } else {
-        idx_1 = rb_narray_new(cInt32, 1, &n_1);
+        idx_1 = rb_narray_new(numo_cInt32, 1, &n_1);
         g->elmsz = 4;
     }
     g->idx1 = na_get_pointer_for_write(idx_1);
@@ -610,12 +610,12 @@ static VALUE
     g = ALLOCA_N(where_opt_t,1);
     g->count = 0;
     if (size>4294967295ul) {
-        idx_1 = rb_narray_new(cInt64, 1, &n_1);
-        idx_0 = rb_narray_new(cInt64, 1, &n_1);
+        idx_1 = rb_narray_new(numo_cInt64, 1, &n_1);
+        idx_0 = rb_narray_new(numo_cInt64, 1, &n_1);
         g->elmsz = 8;
     } else {
-        idx_1 = rb_narray_new(cInt32, 1, &n_1);
-        idx_0 = rb_narray_new(cInt32, 1, &n_1);
+        idx_1 = rb_narray_new(numo_cInt32, 1, &n_1);
+        idx_0 = rb_narray_new(numo_cInt32, 1, &n_1);
         g->elmsz = 4;
     }
     g->idx1 = na_get_pointer_for_write(idx_1);
@@ -751,7 +751,7 @@ Init_nary_bit()
 
     hCast = rb_hash_new();
     rb_define_const(cT, "UPCAST", hCast);
-    rb_hash_aset(hCast, cInt32, cInt32);
-    rb_hash_aset(hCast, cInt16, cInt16);
-    rb_hash_aset(hCast, cInt8,  cInt8);
+    rb_hash_aset(hCast, numo_cInt32, numo_cInt32);
+    rb_hash_aset(hCast, numo_cInt16, numo_cInt16);
+    rb_hash_aset(hCast, numo_cInt8,  numo_cInt8);
 }

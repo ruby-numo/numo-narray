@@ -1,8 +1,8 @@
 typedef dcomplex dtype;
 typedef double rtype;
-#define cT  cDComplex
-#define cRT cDFloat
-#define mTM mDComplexMath
+#define cT  numo_cDComplex
+#define cRT numo_cDFloat
+#define mTM numo_mDComplexMath
 
 #include "complex_macro.h"
 
