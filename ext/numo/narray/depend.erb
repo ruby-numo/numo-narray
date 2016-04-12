@@ -16,17 +16,19 @@ doc :
 C_TMPL = <%=Dir.glob("gen/tmpl/*.c").join(" ")%>
 
 COGEN = gen/cogen.rb
-COGEN_DTYPE = $(COGEN) gen/dtype.erb.c
+DTYPE = gen/dtype.erb.c
+COGEN_DTYPE = $(COGEN) -l $(DTYPE)
+DEPENDS = $(C_TMPL) $(DTYPE) gen/*.rb
 
 GEN_DEF = <%= GEN_DEF="gen/def" %>
 
 <% Dir.glob(GEN_DEF+"/*.rb").map{|s| File.basename(s,".rb")}.each do |t| %>
-types/<%=t%>.c: $(GEN_DEF)/<%=t%>.rb $(C_TMPL) $(COGEN_DTYPE)
+types/<%=t%>.c: $(GEN_DEF)/<%=t%>.rb $(DEPENDS)
 	$(MAKEDIRS) $(@D) types
 	ruby $(COGEN_DTYPE) $(GEN_DEF)/<%=t%>.rb > $@
 <% end %>
 
-types/bit.c: gen/bit.erb.c $(C_TMPL) $(COGEN)
+types/bit.c: gen/bit.erb.c $(DEPENDS)
 	$(MAKEDIRS) $(@D) types
 	ruby $(COGEN) gen/bit.erb.c > $@
 
