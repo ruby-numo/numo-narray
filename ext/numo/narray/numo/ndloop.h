@@ -15,18 +15,20 @@ typedef struct NA_LOOP_ARGS {
     VALUE    value;
     ssize_t  elmsz;
     char    *ptr;
+    // int ndim; - not required for each argument.
+    // ssize_t pos; - not required here.
     size_t  *shape;
 } na_loop_args_t;
 
 typedef struct NA_LOOP_ITER {
-    ssize_t    pos;
+    ssize_t    pos; // - required for each dimension.
     ssize_t    step;
     size_t    *idx;
 } na_loop_iter_t;
 
 typedef struct NA_LOOP {
     int  narg;
-    int  ndim;             // n of user dimention
+    int  ndim;             // n of user dimention  - required for each iterator.
     size_t *n;             // n of elements for each dim
     na_loop_args_t *args;  // for each arg
     na_loop_iter_t *iter;  // for each dim, each arg
