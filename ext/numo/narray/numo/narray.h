@@ -13,6 +13,7 @@
 
 #include <math.h>
 #include "numo/compat.h"
+#include "numo/template.h"
 
 //#include "extconf.h"
 

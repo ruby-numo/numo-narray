@@ -11,9 +11,7 @@
 
 #include <ruby.h>
 #include "numo/narray.h"
-
-#include "template.h"
-
+#include "numo/template.h"
 
 // ---------------------------------------------------------------------
 

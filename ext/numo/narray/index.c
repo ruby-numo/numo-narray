@@ -12,12 +12,8 @@
 
 #include <string.h>
 #include <ruby.h>
-//#include <version.h>
 #include "numo/narray.h"
-//#include "narray_local.h"
-//#include "bytedata.h"
-
-#include "template.h"
+#include "numo/template.h"
 
 typedef struct {
     size_t  n;
