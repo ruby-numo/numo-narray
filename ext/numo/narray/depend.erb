@@ -20,12 +20,10 @@ DTYPE = gen/dtype.erb.c
 COGEN_DTYPE = $(COGEN) -l $(DTYPE)
 DEPENDS = $(C_TMPL) $(DTYPE) gen/*.rb
 
-GEN_DEF = <%= GEN_DEF="gen/def" %>
-
-<% Dir.glob(GEN_DEF+"/*.rb").map{|s| File.basename(s,".rb")}.each do |t| %>
-types/<%=t%>.c: $(GEN_DEF)/<%=t%>.rb $(DEPENDS)
+<% Dir.glob("gen/def/*.rb") do |s| %>
+types/<%=File.basename(s,".rb")%>.c: <%=s%> $(DEPENDS)
 	$(MAKEDIRS) $(@D) types
-	ruby $(COGEN_DTYPE) $(GEN_DEF)/<%=t%>.rb > $@
+	ruby $(COGEN_DTYPE) <%=s%> > $@
 <% end %>
 
 types/bit.c: gen/bit.erb.c $(DEPENDS)
