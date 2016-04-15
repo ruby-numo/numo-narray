@@ -1,9 +1,11 @@
 #! /usr/bin/env ruby
 
-require_relative "erbpp"
-require_relative "narray_def"
+libpath = File.absolute_path(File.dirname(__FILE__))+"/../../../../lib"
+$LOAD_PATH.unshift libpath
+
+require "erbpp/narray_def"
 if ARGV[0] == "-l"
-  require_relative "line_number"
+  require "erbpp/line_number"
   ARGV.shift
 end
 

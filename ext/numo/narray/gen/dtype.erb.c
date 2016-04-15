@@ -12,8 +12,8 @@
 #include <ruby.h>
 #include <math.h>
 #include "numo/narray.h"
+#include "numo/template.h"
 #include "SFMT.h"
-#include "template.h"
 
 <%
 def_id "cast"
