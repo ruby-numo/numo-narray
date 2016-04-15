@@ -1,5 +1,0 @@
-class_name  "SComplex"
-ctype       "scomplex"
-blas_char   "c"
-complex_class_name  "SComplex"
-complex_type "scomplex"
