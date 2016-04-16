@@ -305,6 +305,9 @@ ndloop_alloc(ndfunc_t *nf, VALUE args, void *opt_ptr, unsigned int copy_flag,
     lp->n    = (size_t*)ptr;         ptr += sz2;
     lp->args = (na_loop_args_t*)ptr; ptr += sz3;
     lp->iter = (na_loop_iter_t*)ptr;
+    for (i=0; i<narg; i++) {
+      lp->args[i].value = Qnil;
+    }
 
     lp->vargs = args;
     lp->ndfunc = nf;

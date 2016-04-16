@@ -204,5 +204,10 @@ types.each do |dtype|
       expect(a.dot(b)).to eq [[9, 12, 15], [19, 26, 33], [29, 40, 51]]
       expect(b.dot(a)).to eq [[22, 28], [49, 64]]
     end
+    it "matrix.dot(matrix) with incorrect shape" do
+      a = dtype[1..6].reshape(3,2)
+      b = dtype[1..9].reshape(3,3)
+      expect{a.dot(b)}.to raise_error(TypeError)
+    end
   end
 end
