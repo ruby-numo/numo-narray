@@ -950,7 +950,7 @@ numo_na_dot(VALUE self, VALUE other)
     }
     GetNArray(self,na1);
     GetNArray(other,na2);
-    if (na1->ndim > 1 || na2->ndim > 1) {
+    if (na1->ndim > 1 && na2->ndim > 1) {
         self = na_new_dimension_for_dot(self, na1->ndim-1, na2->ndim-1, 0);
         other = na_new_dimension_for_dot(other, 0, na1->ndim-1, 1);
     }
