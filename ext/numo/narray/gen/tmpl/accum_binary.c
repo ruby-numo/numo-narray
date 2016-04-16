@@ -10,8 +10,8 @@ static void
     INIT_PTR(lp, 0, p1, s1);
     INIT_PTR(lp, 1, p2, s2);
     INIT_PTR(lp, 2, p3, s3);
-    // Reduce loop
     if (s3==0) {
+        // Reduce loop
         GET_DATA(p3,dtype,z);
         for (; i--;) {
             GET_DATA_STRIDE(p1,s1,dtype,x);
@@ -23,7 +23,7 @@ static void
         for (; i--;) {
             GET_DATA_STRIDE(p1,s1,dtype,x);
             GET_DATA_STRIDE(p2,s2,dtype,y);
-            GET_DATA_STRIDE(p3,s3,dtype,z);
+            GET_DATA(p3,dtype,z);
             m_<%=method%>(x,y,z);
             SET_DATA_STRIDE(p3,s3,dtype,z);
         }
@@ -42,6 +42,7 @@ static VALUE
     if (argc < 1) {
         rb_raise(rb_eArgError,"wrong number of arguments (%d for >=1)",argc);
     }
+    // should fix below: [self.ndim,other.ndim].max or?
     reduce = na_reduce_dimension(argc-1, argv+1, self);
     v =  na_ndloop(&ndf, 4, self, argv[0], reduce, m_<%=method%>_init);
     return nary_<%=tp%>_extract(v);
