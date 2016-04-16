@@ -953,18 +953,10 @@ numo_na_dot(VALUE self, VALUE other)
     GetNArray(a1,na1);
     GetNArray(a2,na2);
     if (na2->ndim > 1) {
-        if (na1->ndim > 1) {
-            // insert new axis [ ..., last-1-dim, newaxis*other.ndim, last-dim ]
-            a1 = na_new_dimension_for_dot(a1, na1->ndim-1, na2->ndim-1, 0);
-            // insert & transpose [ newaxis*self.ndim, ..., last-dim, last-1-dim ]
-            a2 = na_new_dimension_for_dot(a2, 0, na1->ndim-1, 1);
-        } else
-        if (na1->ndim == 1) {
-            // insert new axis     [ newaxis, last-dim ]
-            a1 = na_new_dimension_for_dot(a1, 0, 1, 0);
-            // transpose last axis [ ..., last-dim, last-1-dim ]
-            a2 = na_new_dimension_for_dot(a2, 0, 0, 1);
-        }
+        // insert new axis [ ..., last-1-dim, newaxis*other.ndim, last-dim ]
+        a1 = na_new_dimension_for_dot(a1, na1->ndim-1, na2->ndim-1, 0);
+        // insert & transpose [ newaxis*self.ndim, ..., last-dim, last-1-dim ]
+        a2 = na_new_dimension_for_dot(a2, 0, na1->ndim-1, 1);
     }
     return rb_funcall(a1,rb_intern("mulsum"),2,a2,INT2FIX(-1));
 }
