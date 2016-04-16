@@ -875,9 +875,10 @@ na_new_dimension_for_dot(VALUE self, int pos, int len, boolean transpose)
     i = k = 0;
     while (i < nd) {
         if (i == pos) {
-            for (; len--;) {
+            for (; len; len--) {
                 shape[i++] = 1;
             }
+            pos = -1; // new axis done
         } else {
             shape[i++] = na->shape[k++];
         }
@@ -939,22 +940,33 @@ static VALUE
 numo_na_dot(VALUE self, VALUE other)
 {
     VALUE test, sym_mulsum;
+    volatile VALUE a1=self, a2=other;
     ID id_mulsum;
     narray_t *na1, *na2;
 
     id_mulsum = rb_intern("mulsum");
     sym_mulsum = ID2SYM(id_mulsum);
-    test = rb_funcall(self, rb_intern("respond_to?"), 1, sym_mulsum);
+    test = rb_funcall(a1, rb_intern("respond_to?"), 1, sym_mulsum);
     if (!RTEST(test)) {
         rb_raise(rb_eNoMethodError,"requires mulsum method for dot method");
     }
-    GetNArray(self,na1);
-    GetNArray(other,na2);
-    if (na1->ndim > 1 && na2->ndim > 1) {
-        self = na_new_dimension_for_dot(self, na1->ndim-1, na2->ndim-1, 0);
-        other = na_new_dimension_for_dot(other, 0, na1->ndim-1, 1);
+    GetNArray(a1,na1);
+    GetNArray(a2,na2);
+    if (na2->ndim > 1) {
+        if (na1->ndim > 1) {
+            // insert new axis [ ..., last-1-dim, newaxis*other.ndim, last-dim ]
+            a1 = na_new_dimension_for_dot(a1, na1->ndim-1, na2->ndim-1, 0);
+            // insert & transpose [ newaxis*self.ndim, ..., last-dim, last-1-dim ]
+            a2 = na_new_dimension_for_dot(a2, 0, na1->ndim-1, 1);
+        } else
+        if (na1->ndim == 1) {
+            // insert new axis     [ newaxis, last-dim ]
+            a1 = na_new_dimension_for_dot(a1, 0, 1, 0);
+            // transpose last axis [ ..., last-dim, last-1-dim ]
+            a2 = na_new_dimension_for_dot(a2, 0, 0, 1);
+        }
     }
-    return rb_funcall(self,rb_intern("mulsum"),2,other,INT2FIX(-1));
+    return rb_funcall(a1,rb_intern("mulsum"),2,a2,INT2FIX(-1));
 }
 
 
