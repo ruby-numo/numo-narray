@@ -198,6 +198,11 @@ types.each do |dtype|
       b = dtype[1..2]
       expect(a.dot(b)).to eq [5, 11, 17]
     end
+    it "vector.dot(matrix)" do
+      a = dtype[1..2]
+      b = dtype[1..6].reshape(2,3)
+      expect(a.dot(b)).to eq [9, 12, 15]
+    end
     it "matrix.dot(matrix)" do
       a = dtype[1..6].reshape(3,2)
       b = dtype[1..6].reshape(2,3)
