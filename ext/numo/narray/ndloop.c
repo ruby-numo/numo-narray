@@ -960,6 +960,9 @@ na_info_str(VALUE ary)
     nd = na->ndim;
 
     buf = rb_str_new2(rb_class2name(CLASS_OF(ary)));
+    if (NA_TYPE(na) == NARRAY_VIEW_T) {
+        rb_str_cat(buf,"(view)",6);
+    }
     rb_str_cat(buf,"#shape=[",8);
     if (nd>0) {
         for (i=0;;) {
