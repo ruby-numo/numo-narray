@@ -84,8 +84,8 @@ na_index_preprocess(VALUE args, int na_ndim)
         rb_raise(rb_eIndexError, "# of index=%i != narray.ndim=%i",
                  nidx-count_new, na_ndim);
 
-    if (count_rest==1 && nidx-count_new-1 > na_ndim)
-        rb_raise(rb_eIndexError, "# of index=%i > narray.ndim=%i with :rest", nidx-count_new-1, na_ndim);
+    if (count_rest==1 && nidx-count_new-1 >= na_ndim)
+        rb_raise(rb_eIndexError, "# of index=%i >= narray.ndim=%i with :rest", nidx-count_new-1, na_ndim);
 
     return count_new;
 }
