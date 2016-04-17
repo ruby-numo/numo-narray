@@ -437,7 +437,7 @@ na_flatten(VALUE self)
 
 
 VALUE
- na_flatten_by_reduce(int argc, VALUE *argv, volatile VALUE self)
+ na_flatten_by_reduce(int argc, VALUE *argv, VALUE self)
 {
     size_t  sz_reduce=1;
     int     i, j, ndim;
@@ -449,7 +449,7 @@ VALUE
 
     //puts("pass1");
     //rb_p(self);
-    reduce = na_reduce_dimension(argc, argv, self);
+    reduce = na_reduce_dimension(argc, argv, 1, &self);
     //reduce = INT2FIX(1);
     //rb_p(self);
     //puts("pass2");

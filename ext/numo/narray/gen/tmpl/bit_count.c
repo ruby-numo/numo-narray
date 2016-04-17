@@ -76,7 +76,7 @@ static VALUE
     ndfunc_arg_out_t aout[1] = {{numo_cInt64,0}};
     ndfunc_t ndf = { <%=c_iter%>, FULL_LOOP_NIP, 3, 1, ain, aout };
 
-    reduce = na_reduce_dimension(argc, argv, self);
+    reduce = na_reduce_dimension(argc, argv, 1, &self);
     v = na_ndloop(&ndf, 3, self, reduce, INT2FIX(0));
     return rb_funcall(v,rb_intern("extract"),0);
 }

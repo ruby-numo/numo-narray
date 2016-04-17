@@ -20,7 +20,7 @@ VALUE na_make_view(VALUE self);
 VALUE na_make_view_struct(VALUE self, VALUE dtype, VALUE offset);
 void na_array_to_internal_shape(VALUE self, VALUE ary, size_t *shape);
 
-VALUE na_reduce_dimension(int argc, VALUE *argv, VALUE self);
+VALUE na_reduce_dimension(int argc, VALUE *argv, int naryc, VALUE *naryv);
 
 VALUE na_check_ladder(VALUE self, int start_dim);
 void na_setup_shape(narray_t *na, int ndim, size_t *shape);

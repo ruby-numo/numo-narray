@@ -898,7 +898,7 @@ na_test_reduce(VALUE reduce, int dim)
 
 
 VALUE
-na_reduce_dimension(int argc, VALUE *argv, VALUE self)
+na_reduce_dimension(int argc, VALUE *argv, int naryc, VALUE *naryv)
 {
     int ndim;
     int row_major;
@@ -909,17 +909,27 @@ na_reduce_dimension(int argc, VALUE *argv, VALUE self)
     VALUE v;
     narray_t *na;
     size_t m;
-    volatile VALUE reduce;
+    VALUE reduce;
 
-    GetNArray(self,na);
-    ndim = na->ndim;
+    if (naryc<1) {
+        rb_raise(rb_eRuntimeError,"must be positive: naryc=%d", naryc);
+    }
+    GetNArray(naryv[0],na);
     reduce = na->reduce;
-
-    row_major = TEST_COLUMN_MAJOR(self);
-
     if (argc==0) {
         //printf("pass argc=0 reduce=%d\n",NUM2INT(reduce));
         return reduce;
+    }
+    ndim = na->ndim;
+    row_major = TEST_COLUMN_MAJOR(naryv[0]);
+    for (i=1; i<naryc; i++) {
+        GetNArray(naryv[i],na);
+        if (TEST_COLUMN_MAJOR(naryv[i]) != row_major) {
+            rb_raise(rb_eArgError,"dimension order is different");
+        }
+        if (na->ndim > ndim) {
+            ndim = na->ndim;
+        }
     }
     //printf("argc=%d\n",argc);
 
@@ -934,10 +944,12 @@ na_reduce_dimension(int argc, VALUE *argv, VALUE self)
             len = 1;
             step = 0;
             //printf("beg=%d step=%d len=%d\n",beg,step,len);
-        } else if (rb_obj_is_kind_of(v,rb_cRange) || rb_obj_is_kind_of(v,na_cStep)) {
+        } else if (rb_obj_is_kind_of(v,rb_cRange) ||
+                   rb_obj_is_kind_of(v,na_cStep)) {
             nary_step_array_index( v, ndim, &len, &beg, &step );
         } else {
-            rb_raise(rb_eTypeError, "invalid dimension argument %s", rb_obj_classname(v));
+            rb_raise(rb_eTypeError, "invalid dimension argument %s",
+                     rb_obj_classname(v));
         }
         for (j=0; j<len; j++) {
             r = beg + step*j;

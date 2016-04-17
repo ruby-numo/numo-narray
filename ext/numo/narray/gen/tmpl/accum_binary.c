@@ -35,6 +35,7 @@ static VALUE
 <%=c_func%>_self(int argc, VALUE *argv, VALUE self)
 {
     VALUE v, reduce;
+    VALUE naryv[2];
     ndfunc_arg_in_t ain[4] = {{cT,0},{cT,0},{sym_reduce,0},{sym_init,0}};
     ndfunc_arg_out_t aout[1] = {{cT,0}};
     ndfunc_t ndf = { <%=c_iter%>, STRIDE_LOOP_NIP, 4, 1, ain, aout };
@@ -43,7 +44,9 @@ static VALUE
         rb_raise(rb_eArgError,"wrong number of arguments (%d for >=1)",argc);
     }
     // should fix below: [self.ndim,other.ndim].max or?
-    reduce = na_reduce_dimension(argc-1, argv+1, self);
+    naryv[0] = self;
+    naryv[1] = argv[0];
+    reduce = na_reduce_dimension(argc-1, argv+1, 2, naryv);
     v =  na_ndloop(&ndf, 4, self, argv[0], reduce, m_<%=method%>_init);
     return nary_<%=tp%>_extract(v);
 }
