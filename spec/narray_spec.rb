@@ -184,6 +184,19 @@ types.each do |dtype|
 
   end
 
+  describe dtype,"[[[1,2],[3,4]],[[5,6],[7,8]]]" do
+    before do
+      @a = dtype[[[1,2],[3,4]],[[5,6],[7,8]]]
+    end
+    
+    it{expect(@a[0, 1, 1]).to eq 4}
+    #it{expect(@a[:rest]).to eq @a} # note: this spec probably shows the correct behaviour
+    it{expect(@a[0, :rest]).to eq [[1,2],[3,4]]}
+    it{expect(@a[0, false]).to eq [[1,2],[3,4]]}
+    it{expect(@a[0, 1, :rest]).to eq [3,4]}
+    it{expect(@a[0, 1, false]).to eq [3,4]}
+  end
+
   describe dtype, "#dot" do
     it "vector.dot(vector)" do
       a = dtype[1..3]

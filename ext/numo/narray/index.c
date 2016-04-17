@@ -64,17 +64,12 @@ na_index_preprocess(VALUE args, int na_ndim)
     for (i=0; i<RARRAY_LEN(args); i++) {
         a = rb_ary_entry(args, i);
 
-        switch (TYPE(a)) {
-
-        case T_SYMBOL:
-            if (a==sym_new || a==sym_minus) {
-                RARRAY_ASET(args, i, sym_new);
-                count_new++;
-            }
-            if (a==sym_rest || a==sym_tilde) {
-                RARRAY_ASET(args, i, Qfalse);
-                count_rest++;
-            }
+        if (a==sym_new || a==sym_minus) {
+            RARRAY_ASET(args, i, sym_new);
+            count_new++;
+        } else if (a==sym_rest || a==sym_tilde || a==Qfalse) {
+            RARRAY_ASET(args, i, Qfalse);
+            count_rest++;
         }
     }
 
