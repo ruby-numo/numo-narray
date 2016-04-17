@@ -346,7 +346,7 @@ na_index_aref_naview(narray_view_t *na1, narray_view_t *na2,
     ssize_t beg, step;
     size_t *index;
     VALUE m;
-    stridx_t sdx1/*, sdx2*/;
+    stridx_t sdx1;
 
     for (i=j=0; i<ndim; i++) {
 
@@ -538,7 +538,6 @@ na_aset(int argc, VALUE *argv, VALUE self)
         na_store(self, argv[argc]);
     else {
         a = na_aref_main(argc, argv, self, 0);
-        //a = na_aref(argc, argv, self);
         na_store(a, argv[argc]);
     }
     return argv[argc];
