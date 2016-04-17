@@ -62,7 +62,7 @@ types.each do |dtype|
 
       it{expect(@a.eq([1,1,3,3,7,7])).to eq [1,0,1,0,1,0]}
       it{expect(@a[3..4]).to eq [5,7]}
-      it{expect(@a['1::2']).to eq [2,5,11]}
+      #it{expect(@a['1::2']).to eq [2,5,11]}
       it{expect(@a[5]).to eq 11}
       it{expect(@a[-1]).to eq 11}
       it{expect(@a[[4,3,0,1,5,2]]).to eq [7,5,1,2,11,3]}
@@ -138,10 +138,10 @@ types.each do |dtype|
       it{expect(@a[1,0]).to eq @src[1][0]}
       it{expect(@a[1,1]).to eq @src[1][1]}
       it{expect(@a[1,2]).to eq @src[1][2]}
-      it{expect(@a['1::2']).to eq [2,5,11]}
+      #it{expect(@a['1::2']).to eq [2,5,11]}
       it{expect(@a[3..4]).to eq [5,7]}
       it{expect(@a[0,1..2]).to eq [2,3]}
-      it{expect(@a['1,0::2']).to eq [5,11]}
+      #it{expect(@a['1,0::2']).to eq [5,11]}
       it{expect(@a[0,:*]).to eq @src[0]}
       it{expect(@a[1,:*]).to eq @src[1]}
       it{expect(@a[:*,1]).to eq [@src[0][1],@src[1][1]]}
