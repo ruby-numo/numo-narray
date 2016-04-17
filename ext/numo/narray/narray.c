@@ -900,7 +900,7 @@ na_test_reduce(VALUE reduce, int dim)
 VALUE
 na_reduce_dimension(int argc, VALUE *argv, int naryc, VALUE *naryv)
 {
-    int ndim;
+    int ndim, ndim0;
     int row_major;
     int i, r;
     size_t j;
@@ -920,7 +920,7 @@ na_reduce_dimension(int argc, VALUE *argv, int naryc, VALUE *naryv)
         //printf("pass argc=0 reduce=%d\n",NUM2INT(reduce));
         return reduce;
     }
-    ndim = na->ndim;
+    ndim = ndim0 = na->ndim;
     row_major = TEST_COLUMN_MAJOR(naryv[0]);
     for (i=1; i<naryc; i++) {
         GetNArray(naryv[i],na);
@@ -929,6 +929,13 @@ na_reduce_dimension(int argc, VALUE *argv, int naryc, VALUE *naryv)
         }
         if (na->ndim > ndim) {
             ndim = na->ndim;
+        }
+    }
+    if (ndim != ndim0) {
+        j = FIX2ULONG(reduce) << (ndim-ndim0);
+        reduce = ULONG2NUM(j);
+        if (!FIXNUM_P(reduce)) {
+            rb_raise(rb_eRuntimeError,"reduce has too many bits");
         }
     }
     //printf("argc=%d\n",argc);

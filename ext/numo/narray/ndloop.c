@@ -583,7 +583,6 @@ ndloop_find_inplace(ndfunc_t *nf, na_md_loop_t *lp, VALUE type, int na_ndim, siz
                     // if already copied, create outary and write-back
                     if (lp->copy_flag & (1<<j)) {
                         lp->writeback = j;
-                        rb_p(v);
                     }
                     return v;
                 }
