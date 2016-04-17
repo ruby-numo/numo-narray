@@ -195,6 +195,12 @@ types.each do |dtype|
     it{expect(@a[0, false]).to eq [[1,2],[3,4]]}
     it{expect(@a[0, 1, :rest]).to eq [3,4]}
     it{expect(@a[0, 1, false]).to eq [3,4]}
+    it{expect(@a[:rest, 0]).to eq [[1,3],[5,7]]}
+    it{expect(@a[:rest, 0, 1]).to eq [2,6]}
+    it{expect(@a[1, :rest, 0]).to eq [5,7]}
+    #it{expect(@a[1, 1, :rest, 0]).to eq 7} # this test causes segfault
+    it{expect{@a[1, 1, 1, 1, :rest]}.to raise_error IndexError}
+    it{expect{@a[1, 1, 1, :rest, 1]}.to raise_error IndexError}
   end
 
   describe dtype, "#dot" do
