@@ -192,30 +192,19 @@ na_index_parse_each(volatile VALUE a, ssize_t size, int i, na_index_arg_t *q)
         if (rb_obj_is_kind_of(a, rb_cRange)) {
             step = 1;
 
-            //puts("pass0");
-
-            //beg = NUM2LONG(rb_ivar_get(a, id_beg));
             beg = NUM2LONG(rb_funcall(a,id_beg,0));
             if (beg<0) {
                 beg += size;
             }
 
-            //puts("pass1");
-
-            //end = NUM2LONG(rb_ivar_get(a, id_end));
             end = NUM2LONG(rb_funcall(a,id_end,0));
             if (end<0) {
                 end += size;
             }
 
-            //puts("pass2");
-
             if (RTEST(rb_funcall(a,id_exclude_end,0))) {
                 end--;
             }
-
-            //puts("pass3");
-
             if (beg < -size || beg >= size ||
                  end < -size || end >= size) {
                 rb_raise(rb_eRangeError,
@@ -224,9 +213,6 @@ na_index_parse_each(volatile VALUE a, ssize_t size, int i, na_index_arg_t *q)
             }
             n = end-beg+1;
             if (n<0) n=0;
-
-            //puts("pass");
-
             na_index_set_step(q,i,n,beg,step);
         }
         // Num::Step Object
@@ -234,12 +220,6 @@ na_index_parse_each(volatile VALUE a, ssize_t size, int i, na_index_arg_t *q)
             if (rb_obj_is_kind_of(a, rb_cRange) || rb_obj_is_kind_of(a, na_cStep)) {
 
                 nary_step_array_index(a, size, (size_t*)(&n), &beg, &step);
-            /*
-            a = nary_step_parameters(a, ULONG2NUM(size));
-            beg  = NUM2LONG(RARRAY_PTR(a)[0]);
-            step = NUM2LONG(RARRAY_PTR(a)[1]);
-            n    = NUM2LONG(RARRAY_PTR(a)[2]);
-            */
                 na_index_set_step(q,i,n,beg,step);
             }
 
@@ -323,7 +303,6 @@ na_index_aref_nadata(narray_data_t *na1, narray_view_t *na2,
     }
 
     for (i=j=0; i<ndim; i++) {
-        //sdx2 = na2->stridx[j];
         stride1 = stride[q[i].orig_dim];
 
         // numeric index -- trim dimension
@@ -377,7 +356,6 @@ na_index_aref_naview(narray_view_t *na1, narray_view_t *na2,
     for (i=j=0; i<ndim; i++) {
 
         sdx1 = na1->stridx[q[i].orig_dim];
-        //sdx2 = na2->stridx[j];
 
         // numeric index -- trim dimension
         if (!keep_dim && q[i].n==1 && q[i].step==0) {
@@ -430,7 +408,6 @@ na_index_aref_naview(narray_view_t *na1, narray_view_t *na2,
             beg  = q[i].beg;
             step = q[i].step;
             // step <- index
-            //if (na1->index) {
             if (SDX_IS_INDEX(sdx1)) {
                 index = ALLOC_N(size_t, size);
                 SDX_SET_INDEX(na2->stridx[j],index);
@@ -542,7 +519,6 @@ static VALUE na_aref(int argc, VALUE *argv, VALUE self)
 {
     VALUE view;
     view = na_aref_main(argc, argv, self, 0);
-    //return view;
     return rb_funcall(view, rb_intern("extract"), 0);
 }
 
