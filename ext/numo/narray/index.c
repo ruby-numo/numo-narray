@@ -167,7 +167,6 @@ na_index_parse_each(volatile VALUE a, ssize_t size, int i, na_index_arg_t *q)
     case T_ARRAY:
         n = RARRAY_LEN(a);
         idx = ALLOC_N(size_t, n);
-        //printf("array size n =%ld\n",n);
         for (k=0; k<n; k++) {
             x = NUM2SIZE(RARRAY_PTR(a)[k]);
             // range check
@@ -217,12 +216,11 @@ na_index_parse_each(volatile VALUE a, ssize_t size, int i, na_index_arg_t *q)
         }
         // Num::Step Object
         else if (rb_obj_is_kind_of(a, na_cStep)) {
-            if (rb_obj_is_kind_of(a, rb_cRange) || rb_obj_is_kind_of(a, na_cStep)) {
-
-                nary_step_array_index(a, size, (size_t*)(&n), &beg, &step);
-                na_index_set_step(q,i,n,beg,step);
-            }
-
+            nary_step_array_index(a, size, (size_t*)(&n), &beg, &step);
+            na_index_set_step(q,i,n,beg,step);
+        } else {
+            rb_raise(rb_eIndexError, "not allowed type");
+        }
         // write me
 
         /*
@@ -232,10 +230,7 @@ na_index_parse_each(volatile VALUE a, ssize_t size, int i, na_index_arg_t *q)
         size = na_ary_to_index(na,shape,sl);
         } else
         */
-            else {
-                rb_raise(rb_eIndexError, "not allowed type");
-            }
-        }
+
     }
 }
 
