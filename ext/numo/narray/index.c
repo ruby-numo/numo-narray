@@ -41,58 +41,45 @@ print_index_arg(na_index_arg_t *q, int n)
     printf("}\n");
 }
 
-static ID id_ast;
-static ID id_all;
-static ID id_reduce;
-static ID id_minus;
-static ID id_new;
-static ID id_reverse;
-static ID id_plus;
-static ID id_sum;
-static ID id_tilde;
-static ID id_rest;
-static ID id_beg;
-static ID id_end;
-static ID id_exclude_end;
+static VALUE sym_ast;
+static VALUE sym_all;
+//static VALUE sym_reduce;
+static VALUE sym_minus;
+static VALUE sym_new;
+static VALUE sym_reverse;
+static VALUE sym_plus;
+static VALUE sym_sum;
+static VALUE sym_tilde;
+static VALUE sym_rest;
+static VALUE id_beg;
+static VALUE id_end;
+static VALUE id_exclude_end;
 
 static int
 na_index_preprocess(VALUE args, int na_ndim)
 {
     int i, count_new=0, count_rest=0;
-    ID id;
-    volatile VALUE a, ary;
+    VALUE a;
 
-    ary = rb_ary_new();
-
-    for (i=0; i<RARRAY_LEN(args);) {
-        a = RARRAY_PTR(args)[i];
+    for (i=0; i<RARRAY_LEN(args); i++) {
+        a = rb_ary_entry(args, i);
 
         switch (TYPE(a)) {
 
         case T_SYMBOL:
-            id = SYM2ID(a);
-            if (id==id_new || id==id_minus) {
-                //RARRAY_PTR(args)[i] = ID2SYM(id_new);
-                a = ID2SYM(id_new);
+            if (a==sym_new || a==sym_minus) {
+                RARRAY_ASET(args, i, sym_new);
                 count_new++;
             }
-            if (id==id_rest || id==id_tilde) {
-                //RARRAY_PTR(args)[i] = Qfalse;
-                a = Qfalse;
+            if (a==sym_rest || a==sym_tilde) {
+                RARRAY_ASET(args, i, Qfalse);
                 count_rest++;
             }
-
-            // though
-        default:
-            rb_ary_push(ary, a);
-            i++;
         }
     }
 
     if (count_rest>1)
         rb_raise(rb_eIndexError, "multiple rest-dimension is not allowd");
-
-    rb_ary_replace(args, ary);
 
     if (count_rest==0 && count_new==0 && i==1)
         return 0;
@@ -141,7 +128,6 @@ na_index_parse_each(volatile VALUE a, ssize_t size, int i, na_index_arg_t *q)
     int k;
     ssize_t beg, end, step, n, x;
     size_t *idx;
-    ID id;
 
     switch(TYPE(a)) {
 
@@ -163,17 +149,16 @@ na_index_parse_each(volatile VALUE a, ssize_t size, int i, na_index_arg_t *q)
         break;
 
     case T_SYMBOL:
-        id = SYM2ID(a);
-        if (id==id_all || id==id_ast) {
+        if (a==sym_all || a==sym_ast) {
             na_index_set_step(q,i,size,0,1);
         }
-        else if (id==id_reverse) {
+        else if (a==sym_reverse) {
             na_index_set_step(q,i,size,size-1,-1);
         }
-        else if (id==id_new) {
+        else if (a==sym_new) {
             na_index_set_step(q,i,1,0,1);
         }
-        else if (id==id_reduce || id==id_sum || id==id_plus) {
+        else if (a==sym_reduce || a==sym_sum || a==sym_plus) {
             na_index_set_step(q,i,size,0,1);
             q->reduce = 1;
         }
@@ -298,7 +283,7 @@ na_index_parse_args(VALUE args, narray_t *na, na_index_arg_t *q, int nd)
             }
         }
         // new dimension
-        else if ((TYPE(idx[i])==T_SYMBOL) && (SYM2ID(idx[i])==id_new)) {
+        else if (idx[i]==sym_new) {
             na_index_parse_each(idx[i], 1, k, &q[j]);
             j++;
         }
@@ -727,16 +712,16 @@ Init_nary_index()
     rb_define_method(cNArray, "slice", na_slice, -1);
     rb_define_method(cNArray, "[]=", na_aset, -1);
 
-    id_ast = rb_intern("*");
-    id_all = rb_intern("all");
-    id_minus = rb_intern("-");
-    id_new = rb_intern("new");
-    id_reverse = rb_intern("reverse");
-    id_plus = rb_intern("+");
-    id_reduce = rb_intern("reduce");
-    id_sum = rb_intern("sum");
-    id_tilde = rb_intern("~");
-    id_rest = rb_intern("rest");
+    sym_ast = ID2SYM(rb_intern("*"));
+    sym_all = ID2SYM(rb_intern("all"));
+    sym_minus = ID2SYM(rb_intern("-"));
+    sym_new = ID2SYM(rb_intern("new"));
+    sym_reverse = ID2SYM(rb_intern("reverse"));
+    sym_plus = ID2SYM(rb_intern("+"));
+    //sym_reduce = ID2SYM(rb_intern("reduce"));
+    sym_sum = ID2SYM(rb_intern("sum"));
+    sym_tilde = ID2SYM(rb_intern("~"));
+    sym_rest = ID2SYM(rb_intern("rest"));
     id_beg = rb_intern("begin");
     id_end = rb_intern("end");
     id_exclude_end = rb_intern("exclude_end?");
