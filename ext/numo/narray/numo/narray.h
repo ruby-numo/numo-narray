@@ -383,7 +383,7 @@ _na_get_narray_t(VALUE obj, unsigned char na_type)
 #define NUM2REAL(v)  NUM2DBL( rb_funcall((v),na_id_real,0) )
 #define NUM2IMAG(v)  NUM2DBL( rb_funcall((v),na_id_imag,0) )
 
-#define NA_MAX_DIMENSION (ssize_t)(sizeof(VALUE)*8-1)
+#define NA_MAX_DIMENSION (int)(sizeof(VALUE)*8-2)
 
 /* Function Prototypes */
 
