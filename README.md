@@ -7,7 +7,9 @@ under development
 * spec: RSpec test code.
 * ffte: Sample Wrapper of [FFTE](http://www.ffte.jp/): A Fast Fourier Transform Package
   developed by Prof. Takahashi.
-* linalg: Sample Wrapper of [LAPACK](http://www.netlib.org/lapack/).
+
+## Related Projects
+* [Numo::Linalg](https://github.com/masa16/numo-linalg): Linear Algebra library with [LAPACK](http://www.netlib.org/lapack/).
 
 ## Installation
 ### Ubuntu, Debian
