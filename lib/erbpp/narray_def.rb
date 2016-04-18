@@ -303,14 +303,28 @@ class Function < ErbPP
     DEFS.push(self)
   end
 
+  def c_method
+    "#{m_prefix}#{method}"
+  end
+
   def c_iter
-    "iter_#{type_name}_#{method}"
+    begin
+      t = "_"+type_name
+    rescue
+      t = ""
+    end
+    "iter#{t}_#{method}"
   end
   alias c_iterator c_iter
 
   def c_func
     s = singleton ? "_s" : ""
-    "nary_#{type_name}#{s}_#{method}"
+    begin
+      t = "_"+type_name
+    rescue
+      t = ""
+    end
+    "nary#{t}#{s}_#{method}"
   end
   alias c_function c_func
   alias c_instance_method c_func
