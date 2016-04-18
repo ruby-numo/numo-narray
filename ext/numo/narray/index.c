@@ -58,7 +58,9 @@ static VALUE id_exclude_end;
 static int
 na_index_preprocess(VALUE args, int na_ndim)
 {
-    int i, count_new=0, count_rest=0;
+    int i;
+    int count_new=0, count_rest=0;
+    int count_other_indices;
     int nidx = RARRAY_LEN(args);
     VALUE a;
     
@@ -74,18 +76,21 @@ na_index_preprocess(VALUE args, int na_ndim)
         }
     }
 
+    count_other_indices = nidx - count_new - count_rest;
+
     if (count_rest>1)
         rb_raise(rb_eIndexError, "multiple rest-dimension is not allowd");
 
     if (count_rest==0 && count_new==0 && nidx==1)
         return 0;
 
-    if (count_rest==0 && nidx-count_new != na_ndim)
+    if (count_rest==0 && count_other_indices != na_ndim)
         rb_raise(rb_eIndexError, "# of index=%i != narray.ndim=%i",
-                 nidx-count_new, na_ndim);
+                 count_rest, na_ndim);
 
-    if (count_rest==1 && nidx-count_new-1 >= na_ndim)
-        rb_raise(rb_eIndexError, "# of index=%i >= narray.ndim=%i with :rest", nidx-count_new-1, na_ndim);
+    if (count_rest==1 && count_other_indices >= na_ndim)
+        rb_raise(rb_eIndexError, "# of index=%i >= narray.ndim=%i with :rest",
+                 count_other_indices, na_ndim);
 
     return count_new;
 }
