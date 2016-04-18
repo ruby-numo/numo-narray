@@ -14,28 +14,34 @@ class CountLnString < String
     "#line #{@current} \"#{@filename}\"\n"
   end
 
-  def concat(n,s)
-    case n
-    when 0
-      @buf.concat(s)
-      @str.concat(s)
-    when 1
-      @buf.concat(s)
-    else
-      super(s)
-    end
+  def concat0(s)
+    ln(caller[0])
+    @buf.concat(s)
+    @str.concat(s)
   end
 
-  def ln(n)
+  def concat1(s)
+    ln(caller[0])
+    @buf.concat(s)
+  end
+
+  def ln(status=nil)
+    case status
+    when /:(\d+):/
+      n = $1.to_i
+    else
+      n = status.to_i
+    end
+    return if n == @current
     if @current != @countln || @postpone
       if /^\s*$/ =~ @str || /\A#line / =~ @buf
         @postpone = true
       else
-        concat(2,report_line)
+        concat(report_line)
         @postpone = false
       end
     end
-    concat(2,@buf)
+    concat(@buf)
     @countln = @current + @buf.count(@lnchar)
     @current = n
     @buf = ""
@@ -67,14 +73,14 @@ class ERB
 
   def src_with_cpp_line
     @src.each_line.with_index.map do |line, num|
-      line.gsub!(/_erbout.concat "/,'_erbout.concat 0,"')
-      line.gsub!(/_erbout.concat\(/,'_erbout.concat(1,')
+      line.gsub!(/_erbout.concat "/,'_erbout.concat0 "')
+      line.gsub!(/_erbout.concat\(/,'_erbout.concat1(')
       if num==0
         # skip
       elsif num==1
         f = @filename.dump
         line.sub!(/_erbout = '';/, "_erbout = CountLnString.new(#{f});")
-      elsif /^; _erbout\./ =~ line
+      elsif /^; _erbout\.force_encoding/ =~ line
         line.sub!(/^;/,";_erbout.ln(#{num});")
       end
       line
