@@ -347,6 +347,7 @@ na_index_aref_nadata(narray_data_t *na1, narray_view_t *na2,
         if (q[i].idx != NULL) {
             index = q[i].idx;
             SDX_SET_INDEX(na2->stridx[j],index);
+            q[i].idx = NULL;
             for (k=0; k<size; k++) {
                 index[k] = index[k] * stride1;
             }
@@ -396,6 +397,8 @@ na_index_aref_naview(narray_view_t *na1, narray_view_t *na2,
             int k;
             size_t *index = q[i].idx;
             SDX_SET_INDEX(na2->stridx[j], index);
+            q[i].idx = NULL;
+
             for (k=0; k<size; k++) {
                 index[k] = SDX_GET_INDEX(sdx1)[index[k]];
             }
@@ -405,7 +408,8 @@ na_index_aref_naview(narray_view_t *na1, narray_view_t *na2,
             ssize_t stride1 = SDX_GET_STRIDE(sdx1);
             size_t *index = q[i].idx;
             SDX_SET_INDEX(na2->stridx[j],index);
-            
+            q[i].idx = NULL;
+
             if (stride1<0) {
                 size_t  last;
                 int k;
@@ -464,32 +468,43 @@ na_ndim_new_narray(int ndim, const na_index_arg_t *q)
     return ndim_new;
 }
 
-VALUE
-na_aref_md(int argc, VALUE *argv, VALUE self, int keep_dim)
-{
-    VALUE view, args;
-    narray_t *na1;
-    narray_view_t *na2;
-    int ndim_new, ndim, count_new;
+typedef struct {
+    VALUE args, self;
+    int ndim;
     na_index_arg_t *q;
+    narray_t *na1;
+    int keep_dim;
+} na_aref_md_data_t;
 
-    GetNArray(self,na1);
+static na_index_arg_t*
+na_allocate_index_args(int ndim)
+{
+    na_index_arg_t *q = ALLOC_N(na_index_arg_t, ndim);
+    int i;
 
-    //printf("argc=%d\n",argc);
-
-    args = rb_ary_new4(argc,argv);
-
-    count_new = na_index_preprocess(args, na1->ndim);
-
-    if (RARRAY_LEN(args)==1) {
-        // fix me
-        self = na_flatten(self);
-        GetNArray(self,na1);
+    for (i=0; i<ndim; i++) {
+        q[i].idx = NULL;
     }
-    ndim = na1->ndim + count_new;
-    q = ALLOCA_N(na_index_arg_t, ndim);
-    na_index_parse_args(args, na1, q, ndim);
+    return q;
+}
 
+static
+VALUE na_aref_md_protected(VALUE data_value)
+{
+    na_aref_md_data_t *data = (na_aref_md_data_t*)(data_value);
+    VALUE self = data->self;
+    VALUE args = data->args;
+    int ndim = data->ndim;
+    na_index_arg_t *q = data->q;
+    narray_t *na1 = data->na1;
+    int keep_dim = data->keep_dim;
+
+    int ndim_new;
+    VALUE view;
+    narray_view_t *na2;
+
+    na_index_parse_args(args, na1, q, ndim);
+    
     if (na_debug_flag) print_index_arg(q,ndim);
 
     if (keep_dim) {
@@ -497,7 +512,6 @@ na_aref_md(int argc, VALUE *argv, VALUE self, int keep_dim)
     } else {
         ndim_new = na_ndim_new_narray(ndim, q);
     }
-
     view = na_s_allocate_view(CLASS_OF(self));
 
     na_copy_flags(self, view);
@@ -520,6 +534,51 @@ na_aref_md(int argc, VALUE *argv, VALUE self, int keep_dim)
     }
 
     return view;
+}
+
+static VALUE
+na_aref_md_ensure(VALUE data_value)
+{
+    na_aref_md_data_t *data = (na_aref_md_data_t*)(data_value);
+    int i;
+    for (i=0; i<data->ndim; i++) {
+        xfree(data->q[i].idx);
+    }
+    xfree(data->q);
+    return Qnil;
+}
+
+VALUE
+na_aref_md(int argc, VALUE *argv, VALUE self, int keep_dim)
+{
+    VALUE args; // should be GC protected
+    narray_t *na1;
+    int count_new, ndim;
+    na_aref_md_data_t data;
+    
+    GetNArray(self,na1);
+
+    //printf("argc=%d\n",argc);
+
+    args = rb_ary_new4(argc,argv);
+
+    count_new = na_index_preprocess(args, na1->ndim);
+
+    if (RARRAY_LEN(args)==1) {
+        // fix me
+        self = na_flatten(self);
+        GetNArray(self,na1);
+    }
+    ndim = na1->ndim + count_new;
+
+    data.args = args;
+    data.self = self;
+    data.ndim = ndim;
+    data.q = na_allocate_index_args(ndim);
+    data.na1 = na1;
+    data.keep_dim = keep_dim;
+
+    return rb_ensure(na_aref_md_protected, (VALUE)&data, na_aref_md_ensure, (VALUE)&data);
 }
 
 
