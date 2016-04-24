@@ -41,287 +41,45 @@ print_index_arg(na_index_arg_t *q, int n)
     printf("}\n");
 }
 
-static ID id_ast;
-static ID id_all;
-static ID id_reduce;
-static ID id_minus;
-static ID id_new;
-static ID id_reverse;
-static ID id_plus;
-static ID id_sum;
-static ID id_tilde;
-static ID id_rest;
-static ID id_beg;
-static ID id_end;
-static ID id_exclude_end;
-
-struct StrSplit {
-    long    n;
-    char **ptr;
-    long   *len;
-};
-
-static void
-free_split(struct StrSplit *sp)
-{
-    //if (sp->ptr!=NULL) xfree(sp->ptr);
-    //if (sp->len!=NULL) xfree(sp->len);
-    xfree(sp);
-}
-
-static struct StrSplit *
-str_split(char *s, long len, char sep)
-{
-    long i, c, n=1, alen;
-    struct StrSplit *sp;
-
-    for (i=0; i<len; i++) {
-        if (s[i]==sep) {
-            n++;
-        }
-    }
-    //printf("sep='%c' n=%d s=\"%s\"\n",sep,n,s);
-
-    sp = xmalloc(sizeof(struct StrSplit) + sizeof(char*)*n + sizeof(long)*n);
-    sp->n = n;
-    sp->ptr = (char**)((char*)sp + sizeof(struct StrSplit));
-    sp->len = (long*)((char*)sp + sizeof(struct StrSplit) +  sizeof(char*)*n);
-
-    sp->ptr[0] = &(s[0]);
-
-    if (n==1) {
-        sp->len[0] = len;
-        return sp;
-    }
-
-    c = 1;
-    alen = 0;
-    for (i=0; i<len; i++) {
-        if (s[i]==sep) {
-            sp->ptr[c] = &(s[i+1]);
-            sp->len[c-1] = alen;
-            alen = 0;
-            c++;
-        } else {
-            alen++;
-        }
-    }
-    sp->len[c-1] = alen;
-    return sp;
-}
-
-
-static void
-str_trim(const char **s, long *n)
-{
-    if (*n==0) return;
-
-    // trim prefix white space
-    while ((*s)[0]==' ' || (*s)[0]=='\t' || (*s)[0]=='\n' || (*s)[0]=='\r') {
-        (*s)++;
-        (*n)--;
-        if (*n==0) return;
-    }
-
-    // trim trailing white space
-    while ((*s)[*n-1]==' ' || (*s)[*n-1]=='\t' || (*s)[*n-1]=='\n' || (*s)[*n-1]=='\r') {
-        (*n)--;
-        if (*n==0) return;
-    }
-}
-
-
-static int
-match_int(const char *s, long n)
-{
-    long i=0;
-
-    str_trim(&s, &n);
-
-    if (n==0) return 0;
-
-    // sign
-    if (s[i]=='+' || s[i]=='-') {
-        if (++i==n) return 0;
-    }
-
-    // whitespace
-    while (s[i]==' ' || s[i]=='\t' || s[i]=='\n' || s[i]=='\r') {
-        if (++i==n) return 1;
-    }
-
-    // digit
-    if (s[i]>='0' && s[i]<='9') {
-        if (++i==n) return 1;
-    } else {
-        return 0;
-    }
-    while (s[i]>='0' && s[i]<='9') {
-        if (++i==n) return 1;
-    }
-
-    /*
-    // trailing whitespace
-    while (s[i]==' ' || s[i]=='\t' || s[i]=='\n' || s[i]=='\r') {
-        if (++i==n) return 1;
-    }
-    */
-    return 0;
-}
-
-static int
-match_all(const char *s, long n)
-{
-    str_trim(&s, &n);
-    switch(n) {
-    case 0:
-        return 1;
-    case 1:
-        if (s[0]=='*') return 1;
-        break;
-    case 3:
-        if (strncmp(s,"all",3)==0) return 1;
-        break;
-    }
-    return 0;
-}
-
-static int
-match_rev(const char *s, long n)
-{
-    str_trim(&s, &n);
-    switch(n) {
-    case 3:
-        if (strncmp(s,"rev",3)==0) return 1;
-        break;
-    case 7:
-        if (strncmp(s,"reverse",7)==0) return 1;
-        break;
-    }
-    return 0;
-}
-
-static int
-match_new(const char *s, long n)
-{
-    str_trim(&s, &n);
-    switch(n) {
-    case 1:
-        if (s[0]=='-') return 1;
-        break;
-    case 3:
-        if (strncmp(s,"new",3)==0) return 1;
-        break;
-    }
-    return 0;
-}
-
-static int
-match_rest(const char *s, long n)
-{
-    str_trim(&s, &n);
-    switch(n) {
-    case 1:
-        if (s[0]=='~') return 1;
-        break;
-    case 4:
-        if (strncmp(s,"rest",4)==0) return 1;
-        break;
-    }
-    return 0;
-}
-
-static int
-match_reduce(const char *s, long n)
-{
-    str_trim(&s, &n);
-    switch(n) {
-    case 1:
-        if (s[0]=='+') return 1;
-        break;
-    case 3:
-        if (strncmp(s,"sum",3)==0) return 1;
-        break;
-    case 4:
-        if (strncmp(s,"reduce",4)==0) return 1;
-        break;
-    }
-    return 0;
-}
-
-static long
-strn2long(const char *s, long n)
-{
-    char *buf;
-    long value;
-
-    buf = xmalloc(sizeof(char)*(n+1));
-    strncpy(buf, s, n);
-    buf[n] = '\0';
-    value = atol(buf);
-    xfree(buf);
-    return value;
-}
-
+static VALUE sym_ast;
+static VALUE sym_all;
+//static VALUE sym_reduce;
+static VALUE sym_minus;
+static VALUE sym_new;
+static VALUE sym_reverse;
+static VALUE sym_plus;
+static VALUE sym_sum;
+static VALUE sym_tilde;
+static VALUE sym_rest;
+static VALUE id_beg;
+static VALUE id_end;
+static VALUE id_exclude_end;
 
 static int
 na_index_preprocess(VALUE args, int na_ndim)
 {
-    int i, j, count_new=0, count_rest=0;
-    ID id;
-    volatile VALUE a, ary;
-    struct StrSplit *sp;
+    int i, count_new=0, count_rest=0;
+    VALUE a;
 
-    ary = rb_ary_new();
-
-    for (i=0; i<RARRAY_LEN(args);) {
-        a = RARRAY_PTR(args)[i];
+    for (i=0; i<RARRAY_LEN(args); i++) {
+        a = rb_ary_entry(args, i);
 
         switch (TYPE(a)) {
 
-        case T_STRING:
-            sp = str_split(RSTRING_PTR(a), RSTRING_LEN(a), ',');
-            for (j=0; j<sp->n; j++) {
-                if (match_new(sp->ptr[j],sp->len[j])) {
-                    rb_ary_push(ary, ID2SYM(id_new));
-                    count_new++;
-                }
-                else if (match_rest(sp->ptr[j],sp->len[j])) {
-                    rb_ary_push(ary, Qfalse);
-                    count_rest++;
-                }
-                else {
-                    rb_ary_push(ary,rb_str_new(sp->ptr[j],sp->len[j]));
-                }
-            }
-            i += sp->n; //RARRAY_LEN(a);
-            free_split(sp);
-            break;
-
         case T_SYMBOL:
-            id = SYM2ID(a);
-            if (id==id_new || id==id_minus) {
-                //RARRAY_PTR(args)[i] = ID2SYM(id_new);
-                a = ID2SYM(id_new);
+            if (a==sym_new || a==sym_minus) {
+                RARRAY_ASET(args, i, sym_new);
                 count_new++;
             }
-            if (id==id_rest || id==id_tilde) {
-                //RARRAY_PTR(args)[i] = Qfalse;
-                a = Qfalse;
+            if (a==sym_rest || a==sym_tilde) {
+                RARRAY_ASET(args, i, Qfalse);
                 count_rest++;
             }
-
-            // though
-        default:
-            rb_ary_push(ary, a);
-            i++;
         }
     }
 
     if (count_rest>1)
         rb_raise(rb_eIndexError, "multiple rest-dimension is not allowd");
-
-    rb_ary_replace(args, ary);
 
     if (count_rest==0 && count_new==0 && i==1)
         return 0;
@@ -370,19 +128,6 @@ na_index_parse_each(volatile VALUE a, ssize_t size, int i, na_index_arg_t *q)
     int k;
     ssize_t beg, end, step, n, x;
     size_t *idx;
-    //int rest_dim=0;
-    ID id;
-    volatile VALUE tmp;
-
-    //char *ptr;
-    //long  len;
-    struct StrSplit *sp;
-    //int   step;
-    //char *buf;
-    char *s;
-    long  l;
-
-    //printf("type(a) = 0x%x\n",TYPE(a));
 
     switch(TYPE(a)) {
 
@@ -404,17 +149,16 @@ na_index_parse_each(volatile VALUE a, ssize_t size, int i, na_index_arg_t *q)
         break;
 
     case T_SYMBOL:
-        id = SYM2ID(a);
-        if (id==id_all || id==id_ast) {
+        if (a==sym_all || a==sym_ast) {
             na_index_set_step(q,i,size,0,1);
         }
-        else if (id==id_reverse) {
+        else if (a==sym_reverse) {
             na_index_set_step(q,i,size,size-1,-1);
         }
-        else if (id==id_new) {
+        else if (a==sym_new) {
             na_index_set_step(q,i,1,0,1);
         }
-        else if (id==id_reduce || id==id_sum || id==id_plus) {
+        else if (a==sym_reduce || a==sym_sum || a==sym_plus) {
             na_index_set_step(q,i,size,0,1);
             q->reduce = 1;
         }
@@ -423,7 +167,6 @@ na_index_parse_each(volatile VALUE a, ssize_t size, int i, na_index_arg_t *q)
     case T_ARRAY:
         n = RARRAY_LEN(a);
         idx = ALLOC_N(size_t, n);
-        //printf("array size n =%ld\n",n);
         for (k=0; k<n; k++) {
             x = NUM2SIZE(RARRAY_PTR(a)[k]);
             // range check
@@ -443,166 +186,24 @@ na_index_parse_each(volatile VALUE a, ssize_t size, int i, na_index_arg_t *q)
         q->orig_dim = i;
         break;
 
-    case T_STRING:
-        //a = rb_funcall(a,rb_intern("strip"),0);
-        //a = rb_funcall(a,rb_intern("split"),2,rb_str_new2(":"),INT2FIX(-1));
-        //puts("t_string");
-
-        sp = str_split(RSTRING_PTR(a), RSTRING_LEN(a), ':');
-        step = 1;
-        //printf("sp->n=%d\n",sp->n);
-        switch (sp->n){
-        case 3:
-            s = sp->ptr[2];
-            l = sp->len[2];
-            if (match_all(s,l)) {
-                step = 1;
-            }
-            else if (match_int(s,l)) {
-                step = strn2long(s,l);
-                if (step==0) {
-                    free_split(sp);
-                    rb_raise(rb_eIndexError,"step must be non-zero");
-                }
-            }
-            else {
-                tmp = rb_str_new(s,l);
-                free_split(sp);
-                rb_raise(rb_eIndexError,"invalid step in colon range '%s'",
-                         StringValuePtr(tmp));
-            }
-            //printf("step=%d\n",step);
-
-
-        case 2:
-            s = sp->ptr[1];
-            l = sp->len[1];
-            if (match_all(s,l)) {
-                if (step>0)
-                    end = -1;
-                else
-                    end = 0;
-            }
-            else if (match_int(s,l)) {
-                end = strn2long(s,l);
-            }
-            else {
-                tmp = rb_str_new(s,l);
-                free_split(sp);
-                rb_raise(rb_eIndexError,"invalid end in colon range '%s'",
-                         StringValuePtr(tmp));
-            }
-
-            if (end<0) {
-                end += size;
-            }
-            //printf("end=%d\n",end);
-
-            s = sp->ptr[0];
-            l = sp->len[0];
-            if (match_all(s,l)) {
-                if (step>0)
-                    beg = 0;
-                else
-                    beg = -1;
-            }
-            else if (match_int(s,l)) {
-                beg = strn2long(s,l);
-            }
-            else {
-                tmp = rb_str_new(s,l);
-                free_split(sp);
-                rb_raise(rb_eIndexError,"invalid start in colon range '%s'",
-                         StringValuePtr(tmp));
-            }
-
-            if (beg<0) {
-                beg += size;
-            }
-
-            //printf("beg=%d\n",beg);
-
-            if (beg < -size || beg >= size || end < -size || end >= size) {
-                free_split(sp);
-                rb_raise(rb_eRangeError,
-                          "beg=%ld,end=%ld is out of array size (%ld)",
-                          beg, end, size);
-            }
-
-            //n = (end-beg+1)/step;
-            n = (end-beg)/step+1;
-            if (n<0) n=0;
-            //printf("n=%d beg=%ld end=%ld size=%ld", n, beg, end, size);
-
-            na_index_set_step(q,i,n,beg,step);
-
-            break;
-
-        case 1:
-            s = sp->ptr[0];
-            l = sp->len[0];
-            if (match_all(s,l)) {
-                na_index_set_step(q,i,size,0,1);
-            }
-            else if (match_reduce(s,l)) {
-                na_index_set_step(q,i,size,0,1);
-                q->reduce = 1;
-            }
-            else if (match_rev(s,l)) {
-                na_index_set_step(q,i,size,size-1,-1);
-            }
-            else if (match_int(s,l)) {
-                beg = strn2long(s,l);
-                na_index_set_scalar(q,i,size,beg);
-            } else {
-                tmp = rb_str_new(s,l);
-                free_split(sp);
-                rb_raise(rb_eIndexError,"invalid string argument '%s'",
-                         StringValuePtr(tmp));
-            }
-            break;
-
-        case 0:
-            // all
-            na_index_set_step(q,i,size,0,1);
-            break;
-
-        default:
-            free_split(sp);
-            rb_raise(rb_eIndexError, "too many colon");
-        }
-        free_split(sp);
-        break;
-
     default:
         // Range object
         if (rb_obj_is_kind_of(a, rb_cRange)) {
             step = 1;
 
-            //puts("pass0");
-
-            //beg = NUM2LONG(rb_ivar_get(a, id_beg));
             beg = NUM2LONG(rb_funcall(a,id_beg,0));
             if (beg<0) {
                 beg += size;
             }
 
-            //puts("pass1");
-
-            //end = NUM2LONG(rb_ivar_get(a, id_end));
             end = NUM2LONG(rb_funcall(a,id_end,0));
             if (end<0) {
                 end += size;
             }
 
-            //puts("pass2");
-
             if (RTEST(rb_funcall(a,id_exclude_end,0))) {
                 end--;
             }
-
-            //puts("pass3");
-
             if (beg < -size || beg >= size ||
                  end < -size || end >= size) {
                 rb_raise(rb_eRangeError,
@@ -611,25 +212,15 @@ na_index_parse_each(volatile VALUE a, ssize_t size, int i, na_index_arg_t *q)
             }
             n = end-beg+1;
             if (n<0) n=0;
-
-            //puts("pass");
-
             na_index_set_step(q,i,n,beg,step);
         }
         // Num::Step Object
         else if (rb_obj_is_kind_of(a, na_cStep)) {
-            if (rb_obj_is_kind_of(a, rb_cRange) || rb_obj_is_kind_of(a, na_cStep)) {
-
-                nary_step_array_index(a, size, (size_t*)(&n), &beg, &step);
-            /*
-            a = nary_step_parameters(a, ULONG2NUM(size));
-            beg  = NUM2LONG(RARRAY_PTR(a)[0]);
-            step = NUM2LONG(RARRAY_PTR(a)[1]);
-            n    = NUM2LONG(RARRAY_PTR(a)[2]);
-            */
-                na_index_set_step(q,i,n,beg,step);
-            }
-
+            nary_step_array_index(a, size, (size_t*)(&n), &beg, &step);
+            na_index_set_step(q,i,n,beg,step);
+        } else {
+            rb_raise(rb_eIndexError, "not allowed type");
+        }
         // write me
 
         /*
@@ -639,10 +230,7 @@ na_index_parse_each(volatile VALUE a, ssize_t size, int i, na_index_arg_t *q)
         size = na_ary_to_index(na,shape,sl);
         } else
         */
-            else {
-                rb_raise(rb_eIndexError, "not allowed type");
-            }
-        }
+
     }
 }
 
@@ -670,7 +258,7 @@ na_index_parse_args(VALUE args, narray_t *na, na_index_arg_t *q, int nd)
             }
         }
         // new dimension
-        else if ((TYPE(idx[i])==T_SYMBOL) && (SYM2ID(idx[i])==id_new)) {
+        else if (idx[i]==sym_new) {
             na_index_parse_each(idx[i], 1, k, &q[j]);
             j++;
         }
@@ -710,7 +298,6 @@ na_index_aref_nadata(narray_data_t *na1, narray_view_t *na2,
     }
 
     for (i=j=0; i<ndim; i++) {
-        //sdx2 = na2->stridx[j];
         stride1 = stride[q[i].orig_dim];
 
         // numeric index -- trim dimension
@@ -759,12 +346,11 @@ na_index_aref_naview(narray_view_t *na1, narray_view_t *na2,
     ssize_t beg, step;
     size_t *index;
     VALUE m;
-    stridx_t sdx1/*, sdx2*/;
+    stridx_t sdx1;
 
     for (i=j=0; i<ndim; i++) {
 
         sdx1 = na1->stridx[q[i].orig_dim];
-        //sdx2 = na2->stridx[j];
 
         // numeric index -- trim dimension
         if (!keep_dim && q[i].n==1 && q[i].step==0) {
@@ -817,7 +403,6 @@ na_index_aref_naview(narray_view_t *na1, narray_view_t *na2,
             beg  = q[i].beg;
             step = q[i].step;
             // step <- index
-            //if (na1->index) {
             if (SDX_IS_INDEX(sdx1)) {
                 index = ALLOC_N(size_t, size);
                 SDX_SET_INDEX(na2->stridx[j],index);
@@ -929,7 +514,6 @@ static VALUE na_aref(int argc, VALUE *argv, VALUE self)
 {
     VALUE view;
     view = na_aref_main(argc, argv, self, 0);
-    //return view;
     return rb_funcall(view, rb_intern("extract"), 0);
 }
 
@@ -954,7 +538,6 @@ na_aset(int argc, VALUE *argv, VALUE self)
         na_store(self, argv[argc]);
     else {
         a = na_aref_main(argc, argv, self, 0);
-        //a = na_aref(argc, argv, self);
         na_store(a, argv[argc]);
     }
     return argv[argc];
@@ -1099,16 +682,16 @@ Init_nary_index()
     rb_define_method(cNArray, "slice", na_slice, -1);
     rb_define_method(cNArray, "[]=", na_aset, -1);
 
-    id_ast = rb_intern("*");
-    id_all = rb_intern("all");
-    id_minus = rb_intern("-");
-    id_new = rb_intern("new");
-    id_reverse = rb_intern("reverse");
-    id_plus = rb_intern("+");
-    id_reduce = rb_intern("reduce");
-    id_sum = rb_intern("sum");
-    id_tilde = rb_intern("~");
-    id_rest = rb_intern("rest");
+    sym_ast = ID2SYM(rb_intern("*"));
+    sym_all = ID2SYM(rb_intern("all"));
+    sym_minus = ID2SYM(rb_intern("-"));
+    sym_new = ID2SYM(rb_intern("new"));
+    sym_reverse = ID2SYM(rb_intern("reverse"));
+    sym_plus = ID2SYM(rb_intern("+"));
+    //sym_reduce = ID2SYM(rb_intern("reduce"));
+    sym_sum = ID2SYM(rb_intern("sum"));
+    sym_tilde = ID2SYM(rb_intern("~"));
+    sym_rest = ID2SYM(rb_intern("rest"));
     id_beg = rb_intern("begin");
     id_end = rb_intern("end");
     id_exclude_end = rb_intern("exclude_end?");

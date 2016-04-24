@@ -70,10 +70,8 @@ procs.each do |init,ref|
     it{expect(@a[1,0]).to eq @src[1][0]}
     it{expect(@a[1,1]).to eq @src[1][1]}
     it{expect(@a[1,2]).to eq @src[1][2]}
-    it{expect(@a['1::2']).to eq [1,0,0,1]}
     it{expect(@a[3..4]).to eq [0,1]}
     it{expect(@a[0,1..2]).to eq [1,1]}
-    it{expect(@a['1,0::2']).to eq [1,0]}
     it{expect(@a[0,:*]).to eq @src[0]}
     it{expect(@a[1,:*]).to eq @src[1]}
     it{expect(@a[:*,1]).to eq [@src[0][1],@src[1][1]]}
