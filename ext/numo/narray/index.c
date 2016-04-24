@@ -15,13 +15,14 @@
 #include "numo/narray.h"
 #include "numo/template.h"
 
+// note: the memory refed by this pointer is not freed and causes memroy leak.
 typedef struct {
-    size_t  n;
-    size_t  beg;
-    ssize_t step;
-    size_t *idx;
-    int     reduce;
-    int     orig_dim;
+    size_t  n; // the number of elements of the dimesnion
+    size_t  beg; // the starting point in the dimension
+    ssize_t step; // the step size of the dimension
+    size_t *idx; // list of indices
+    int     reduce; // true if the dimension is reduced by addition
+    int     orig_dim; // the dimension of original array
 } na_index_arg_t;
 
 
@@ -58,7 +59,9 @@ static VALUE id_exclude_end;
 static int
 na_index_preprocess(VALUE args, int na_ndim)
 {
-    int i, count_new=0, count_rest=0;
+    int i;
+    int count_new=0, count_rest=0;
+    int count_other_indices;
     int nidx = RARRAY_LEN(args);
     VALUE a;
     
@@ -74,18 +77,21 @@ na_index_preprocess(VALUE args, int na_ndim)
         }
     }
 
+    count_other_indices = nidx - count_new - count_rest;
+
     if (count_rest>1)
         rb_raise(rb_eIndexError, "multiple rest-dimension is not allowd");
 
     if (count_rest==0 && count_new==0 && nidx==1)
         return 0;
 
-    if (count_rest==0 && nidx-count_new != na_ndim)
+    if (count_rest==0 && count_other_indices != na_ndim)
         rb_raise(rb_eIndexError, "# of index=%i != narray.ndim=%i",
-                 nidx-count_new, na_ndim);
+                 count_rest, na_ndim);
 
-    if (count_rest==1 && nidx-count_new-1 >= na_ndim)
-        rb_raise(rb_eIndexError, "# of index=%i >= narray.ndim=%i with :rest", nidx-count_new-1, na_ndim);
+    if (count_rest==1 && count_other_indices >= na_ndim)
+        rb_raise(rb_eIndexError, "# of index=%i >= narray.ndim=%i with :rest",
+                 count_other_indices, na_ndim);
 
     return count_new;
 }
@@ -120,14 +126,75 @@ na_index_set_scalar(na_index_arg_t *q, int i, ssize_t size, ssize_t x)
     q->orig_dim = i;
 }
 
+static inline ssize_t
+na_range_check(ssize_t pos, ssize_t size, int dim)
+{
+    ssize_t idx=pos;
 
+    if (idx < 0) idx += size;
+    if (idx < 0 || idx >= size) {
+        rb_raise(rb_eIndexError, "index=%"SZF"d out of shape[%d]=%"SZF"d",
+                 pos, dim, size);
+    }
+    return idx;
+}
+
+static void
+na_parse_array(VALUE ary, int orig_dim, ssize_t size, na_index_arg_t *q)
+{
+    int k;
+    int n = RARRAY_LEN(ary);
+    q->idx = ALLOC_N(size_t, n);
+    for (k=0; k<n; k++) {
+        q->idx[k] = na_range_check(NUM2SSIZE(RARRAY_PTR(ary)[k]), size, k);
+    }
+    q->n    = n;
+    q->beg  = 0;
+    q->step = 1;
+    q->reduce = 0;
+    q->orig_dim = orig_dim;
+}
+
+static void
+na_parse_range(VALUE range, int orig_dim, ssize_t size, na_index_arg_t *q)
+{
+    int n;
+    ssize_t beg, end;
+    
+    beg = NUM2LONG(rb_funcall(range,id_beg,0));
+    if (beg<0) {
+        beg += size;
+    }
+
+    end = NUM2LONG(rb_funcall(range,id_end,0));
+    if (end<0) {
+        end += size;
+    }
+
+    if (RTEST(rb_funcall(range,id_exclude_end,0))) {
+        end--;
+    }
+    if (beg < -size || beg >= size ||
+        end < -size || end >= size) {
+        rb_raise(rb_eRangeError,
+                 "beg=%ld,end=%ld is out of array size (%ld)",
+                 beg, end, size);
+    }
+    n = end-beg+1;
+    if (n<0) n=0;
+    na_index_set_step(q,orig_dim,n,beg,1);
+
+}
+
+// Analyze *a* which is *i*-th index object and store the information to q
+//
+// a: a ruby object of i-th index
+// size: size of i-th dimension of original NArray
+// i: parse i-th index
+// q: parsed information is stored to *q
 static void
 na_index_parse_each(volatile VALUE a, ssize_t size, int i, na_index_arg_t *q)
 {
-    int k;
-    ssize_t beg, end, step, n, x;
-    size_t *idx;
-
     switch(TYPE(a)) {
 
     case T_FIXNUM:
@@ -164,60 +231,19 @@ na_index_parse_each(volatile VALUE a, ssize_t size, int i, na_index_arg_t *q)
         break;
 
     case T_ARRAY:
-        n = RARRAY_LEN(a);
-        idx = ALLOC_N(size_t, n);
-        for (k=0; k<n; k++) {
-            x = NUM2SIZE(RARRAY_PTR(a)[k]);
-            // range check
-            if (x < -size || x >= size)
-                rb_raise(rb_eRangeError,
-                          " array index[%d]=%lu is out of array size (%ld)",
-                          k, x, size);
-            if (x < 0)
-                x += size;
-            idx[k] = x;
-        }
-        q->n    = n;
-        q->beg  = 0;
-        q->step = 1;
-        q->idx  = idx;
-        q->reduce = 0;
-        q->orig_dim = i;
+        na_parse_array(a, i, size, q);
         break;
 
     default:
-        // Range object
         if (rb_obj_is_kind_of(a, rb_cRange)) {
-            step = 1;
-
-            beg = NUM2LONG(rb_funcall(a,id_beg,0));
-            if (beg<0) {
-                beg += size;
-            }
-
-            end = NUM2LONG(rb_funcall(a,id_end,0));
-            if (end<0) {
-                end += size;
-            }
-
-            if (RTEST(rb_funcall(a,id_exclude_end,0))) {
-                end--;
-            }
-            if (beg < -size || beg >= size ||
-                 end < -size || end >= size) {
-                rb_raise(rb_eRangeError,
-                          "beg=%ld,end=%ld is out of array size (%ld)",
-                          beg, end, size);
-            }
-            n = end-beg+1;
-            if (n<0) n=0;
-            na_index_set_step(q,i,n,beg,step);
+            na_parse_range(a, i, size, q);
         }
-        // Num::Step Object
         else if (rb_obj_is_kind_of(a, na_cStep)) {
+            ssize_t beg, step, n;
             nary_step_array_index(a, size, (size_t*)(&n), &beg, &step);
             na_index_set_step(q,i,n,beg,step);
-        } else {
+        }
+        else {
             rb_raise(rb_eIndexError, "not allowed type");
         }
         // write me
@@ -235,7 +261,7 @@ na_index_parse_each(volatile VALUE a, ssize_t size, int i, na_index_arg_t *q)
 
 
 static size_t
-na_index_parse_args(VALUE args, narray_t *na, na_index_arg_t *q, int nd)
+na_index_parse_args(VALUE args, narray_t *na, na_index_arg_t *q, int ndim)
 {
     int i, j, k, l, nidx;
     size_t total=1;
@@ -247,7 +273,7 @@ na_index_parse_args(VALUE args, narray_t *na, na_index_arg_t *q, int nd)
     for (i=j=k=0; i<nidx; i++) {
         // rest dimension
         if (idx[i]==Qfalse) {
-            for (l = nd - (nidx-1); l>0; l--) {
+            for (l = ndim - (nidx-1); l>0; l--) {
                 na_index_parse_each(Qtrue, na->shape[k], k, &q[j]);
                 if (q[j].n > 1) {
                     total *= q[j].n;
@@ -276,28 +302,32 @@ na_index_parse_args(VALUE args, narray_t *na, na_index_arg_t *q, int nd)
 
 
 static void
+na_get_strides_nadata(const narray_data_t *na, ssize_t *strides, ssize_t elmsz)
+{
+    int i = na->base.ndim - 1;
+    strides[i] = elmsz;
+    for (; i>0; i--) {
+        strides[i-1] = strides[i] * na->base.shape[i];
+    }
+}
+
+static void
 na_index_aref_nadata(narray_data_t *na1, narray_view_t *na2,
                      na_index_arg_t *q, ssize_t elmsz, int ndim, int keep_dim)
 {
     int i, j;
     ssize_t size, k, total=1;
     ssize_t stride1;
-    ssize_t *stride;
+    ssize_t *strides_na1;
     size_t  *index;
     ssize_t beg, step;
     VALUE m;
-    //stridx_t sdx2;
 
-    stride = ALLOC_N(ssize_t, na1->base.ndim);
-
-    i = na1->base.ndim - 1;
-    stride[i] = elmsz;
-    for (; i>0; i--) {
-        stride[i-1] = stride[i] * na1->base.shape[i];
-    }
-
+    strides_na1 = ALLOCA_N(ssize_t, na1->base.ndim);
+    na_get_strides_nadata(na1, strides_na1, elmsz);
+    
     for (i=j=0; i<ndim; i++) {
-        stride1 = stride[q[i].orig_dim];
+        stride1 = strides_na1[q[i].orig_dim];
 
         // numeric index -- trim dimension
         if (!keep_dim && q[i].n==1 && q[i].step==0) {
@@ -330,7 +360,6 @@ na_index_aref_nadata(narray_data_t *na1, narray_view_t *na2,
         total *= size;
     }
     na2->base.size = total;
-    xfree(stride);
 }
 
 
@@ -339,17 +368,11 @@ na_index_aref_naview(narray_view_t *na1, narray_view_t *na2,
                    na_index_arg_t *q, int ndim, int keep_dim)
 {
     int i, j;
-    ssize_t size, k, total=1;
-    size_t  last;
-    ssize_t stride1;
-    ssize_t beg, step;
-    size_t *index;
-    VALUE m;
-    stridx_t sdx1;
+    ssize_t total=1;
 
     for (i=j=0; i<ndim; i++) {
-
-        sdx1 = na1->stridx[q[i].orig_dim];
+        stridx_t sdx1 = na1->stridx[q[i].orig_dim];
+        ssize_t size;
 
         // numeric index -- trim dimension
         if (!keep_dim && q[i].n==1 && q[i].step==0) {
@@ -364,58 +387,64 @@ na_index_aref_naview(narray_view_t *na1, narray_view_t *na2,
         na2->base.shape[j] = size = q[i].n;
 
         if (q[i].reduce != 0) {
-            m = rb_funcall(INT2FIX(1),rb_intern("<<"),1,INT2FIX(j));
+            VALUE m = rb_funcall(INT2FIX(1),rb_intern("<<"),1,INT2FIX(j));
             na2->base.reduce = rb_funcall(m,rb_intern("|"),1,na2->base.reduce);
         }
 
-        // array index
-        if (q[i].idx != NULL) {
-            index = q[i].idx;
-            SDX_SET_INDEX(na2->stridx[j],index);
-
-            if (SDX_IS_INDEX(sdx1)) {
-                // index <- index
-                for (k=0; k<size; k++) {
-                    index[k] = SDX_GET_INDEX(sdx1)[index[k]];
-                }
-            }
-            else {
-                // index <- step
-                stride1 = SDX_GET_STRIDE(sdx1);
-                if (stride1<0) {
-                    stride1 = -stride1;
-                    last = na1->base.shape[q[i].orig_dim] - 1;
-                    if (na2->offset < last * stride1) {
-                        rb_raise(rb_eStandardError,"bug: negative offset");
-                    }
-                    na2->offset -= last * stride1;
-                    for (k=0; k<size; k++) {
-                        index[k] = (last - index[k]) * stride1;
-                    }
-                } else {
-                    for (k=0; k<size; k++) {
-                        index[k] = index[k] * stride1;
-                    }
-                }
-            }
-        } else {
-            beg  = q[i].beg;
-            step = q[i].step;
-            // step <- index
-            if (SDX_IS_INDEX(sdx1)) {
-                index = ALLOC_N(size_t, size);
-                SDX_SET_INDEX(na2->stridx[j],index);
-                for (k=0; k<size; k++) {
-                    index[k] = SDX_GET_INDEX(sdx1)[beg+step*k];
-                }
-            }
-            else {
-                // step <- step
-                stride1 = SDX_GET_STRIDE(sdx1);
-                na2->offset += stride1*beg;
-                SDX_SET_STRIDE(na2->stridx[j], stride1*step);
+        if (q[i].idx != NULL && SDX_IS_INDEX(sdx1)) {
+            // index <- index
+            int k;
+            size_t *index = q[i].idx;
+            SDX_SET_INDEX(na2->stridx[j], index);
+            for (k=0; k<size; k++) {
+                index[k] = SDX_GET_INDEX(sdx1)[index[k]];
             }
         }
+        else if (q[i].idx != NULL && SDX_IS_STRIDE(sdx1)) {
+            // index <- step
+            ssize_t stride1 = SDX_GET_STRIDE(sdx1);
+            size_t *index = q[i].idx;
+            SDX_SET_INDEX(na2->stridx[j],index);
+            
+            if (stride1<0) {
+                size_t  last;
+                int k;
+                stride1 = -stride1;
+                last = na1->base.shape[q[i].orig_dim] - 1;
+                if (na2->offset < last * stride1) {
+                    rb_raise(rb_eStandardError,"bug: negative offset");
+                }
+                na2->offset -= last * stride1;
+                for (k=0; k<size; k++) {
+                    index[k] = (last - index[k]) * stride1;
+                }
+            } else {
+                int k;
+                for (k=0; k<size; k++) {
+                    index[k] = index[k] * stride1;
+                }
+            }
+        }
+        else if (q[i].idx == NULL && SDX_IS_INDEX(sdx1)) {
+            // step <- index
+            int k;
+            size_t beg  = q[i].beg;
+            ssize_t step = q[i].step;
+            size_t *index = ALLOC_N(size_t, size);
+            SDX_SET_INDEX(na2->stridx[j],index);
+            for (k=0; k<size; k++) {
+                index[k] = SDX_GET_INDEX(sdx1)[beg+step*k];
+            }
+        }
+        else if (q[i].idx == NULL && SDX_IS_STRIDE(sdx1)) {
+            // step <- step
+            size_t beg  = q[i].beg;
+            ssize_t step = q[i].step;
+            ssize_t stride1 = SDX_GET_STRIDE(sdx1);
+            na2->offset += stride1*beg;
+            SDX_SET_STRIDE(na2->stridx[j], stride1*step);
+        }
+            
         j++;
         total *= size;
     }
@@ -423,15 +452,26 @@ na_index_aref_naview(narray_view_t *na1, narray_view_t *na2,
 }
 
 
+static int
+na_ndim_new_narray(int ndim, const na_index_arg_t *q)
+{
+    int i, ndim_new=0;
+    for (i=0; i<ndim; i++) {
+        if (q[i].n>1 || q[i].step!=0) {
+            ndim_new++;
+        }
+    }
+    return ndim_new;
+}
+
 VALUE
 na_aref_md(int argc, VALUE *argv, VALUE self, int keep_dim)
 {
     VALUE view, args;
     narray_t *na1;
     narray_view_t *na2;
-    int i, nd, ndim, count_new;
+    int ndim_new, ndim, count_new;
     na_index_arg_t *q;
-    ssize_t elmsz;
 
     GetNArray(self,na1);
 
@@ -453,13 +493,9 @@ na_aref_md(int argc, VALUE *argv, VALUE self, int keep_dim)
     if (na_debug_flag) print_index_arg(q,ndim);
 
     if (keep_dim) {
-        nd = ndim;
+        ndim_new = ndim;
     } else {
-        for (i=nd=0; i<ndim; i++) {
-            if (q[i].n>1 || q[i].step!=0) {
-                nd++;
-            }
-        }
+        ndim_new = na_ndim_new_narray(ndim, q);
     }
 
     view = na_s_allocate_view(CLASS_OF(self));
@@ -467,15 +503,14 @@ na_aref_md(int argc, VALUE *argv, VALUE self, int keep_dim)
     na_copy_flags(self, view);
     GetNArrayView(view,na2);
 
-    na_alloc_shape((narray_t*)na2, nd);
+    na_alloc_shape((narray_t*)na2, ndim_new);
 
-    na2->stridx = ALLOC_N(stridx_t,nd);
+    na2->stridx = ALLOC_N(stridx_t,ndim_new);
 
     switch(na1->type) {
     case NARRAY_DATA_T:
     case NARRAY_FILEMAP_T:
-        elmsz = na_get_elmsz(self);
-        na_index_aref_nadata((narray_data_t *)na1,na2,q,elmsz,ndim,keep_dim);
+        na_index_aref_nadata((narray_data_t *)na1,na2,q,na_get_elmsz(self),ndim,keep_dim);
         na2->data = self;
         break;
     case NARRAY_VIEW_T:
@@ -577,20 +612,6 @@ VALUE nary_init_accum_aref0(VALUE self, VALUE reduce)
                 rb_ary_push(a,Qtrue);
     }
     return na_aref_md(RARRAY_LEN(a), RARRAY_PTR(a), self, 0);
-}
-
-
-static inline ssize_t
-na_range_check(ssize_t pos, ssize_t size, int dim)
-{
-    ssize_t idx=pos;
-
-    if (idx < 0) idx += size;
-    if (idx < 0 || idx >= size) {
-        rb_raise(rb_eIndexError, "index=%"SZF"d out of shape[%d]=%"SZF"d",
-                 pos, dim, size);
-    }
-    return idx;
 }
 
 
