@@ -36,17 +36,53 @@ class CountLnString < String
     if @current != @countln || @postpone
       if /^\s*$/ =~ @str || /\A#line / =~ @buf
         @postpone = true
+      elsif @in_comment
+        @postpone = false
       else
         concat(report_line)
         @postpone = false
       end
     end
     concat(@buf)
+
+    b = @buf.gsub(/".*?(?<!\\)"/,'""')
+    /^.*(\/\*)(.*?)$/ =~ b
+    x = $2
+    /^.*(\*\/)(.*?)$/ =~ b
+    y = $2
+    if x
+      if y
+        if x.size < y.size
+          #:in_comment
+          @in_comment = true
+        else
+          #:out_comment
+          @in_comment = false
+        end
+      else
+        #:in_comment
+        @in_comment = true
+      end
+    else
+      if y
+        #:out_comment
+        @in_comment = false
+      else
+        #:keep
+      end
+    end
+
     @countln = @current + @buf.count(@lnchar)
     @current = n
     @buf = ""
     @str = ""
   end
+
+  def d(s)
+  p [s, [x,y], r]
+  r
+end
+
 end
 
 class ERB
