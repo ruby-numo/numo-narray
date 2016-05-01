@@ -6,7 +6,7 @@
   otherwise returns self.
 */
 VALUE
-nary_<%=tp%>_extract(VALUE self)
+numo_<%=tp%>_extract(VALUE self)
 {
     volatile VALUE v;
     char *ptr;

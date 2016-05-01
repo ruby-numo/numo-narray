@@ -48,7 +48,7 @@ static VALUE
     naryv[1] = argv[0];
     reduce = na_reduce_dimension(argc-1, argv+1, 2, naryv);
     v =  na_ndloop(&ndf, 4, self, argv[0], reduce, m_<%=method%>_init);
-    return nary_<%=tp%>_extract(v);
+    return numo_<%=tp%>_extract(v);
 }
 
 

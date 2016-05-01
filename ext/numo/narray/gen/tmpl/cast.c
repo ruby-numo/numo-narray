@@ -18,7 +18,7 @@ static VALUE
     }
     if (RTEST(rb_obj_is_kind_of(obj,rb_cNumeric))) {
         x = m_num_to_data(obj);
-        return nary_<%=tp%>_new_dim0(x);
+        return numo_<%=tp%>_new_dim0(x);
     }
     if (RTEST(rb_obj_is_kind_of(obj,rb_cArray))) {
         return <%=find_tmpl("cast_array").c_func%>(obj);

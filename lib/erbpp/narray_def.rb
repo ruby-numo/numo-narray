@@ -131,7 +131,7 @@ module DefMethod
   end
 
   def cast_func
-    "nary_#{tp}_s_cast"
+    "numo_#{tp}_s_cast"
   end
 end
 
@@ -270,7 +270,7 @@ class Store < Function
   attr_reader :tmpl, :tpname, :dtype, :tpclass, :macro
 
   def c_func
-    "nary_#{tp}_store_#{tpname}"
+    "numo_#{tp}_store_#{tpname}"
   end
 
   def c_iter
@@ -310,7 +310,7 @@ class StoreArray < Store
   end
 
   def c_func
-    "nary_#{tp}_#{tmpl}"
+    "numo_#{tp}_#{tmpl}"
   end
 
   def condition

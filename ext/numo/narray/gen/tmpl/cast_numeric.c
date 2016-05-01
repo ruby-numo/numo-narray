@@ -1,5 +1,5 @@
 static VALUE
- nary_<%=tp%>_new_dim0(dtype x)
+ numo_<%=tp%>_new_dim0(dtype x)
 {
     narray_t *na;
     VALUE v;
@@ -18,5 +18,5 @@ static VALUE
 {
     dtype y;
     y = m_num_to_data(x);
-    return nary_<%=tp%>_new_dim0(y);
+    return numo_<%=tp%>_new_dim0(y);
 }

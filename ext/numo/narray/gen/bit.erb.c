@@ -40,7 +40,7 @@ static inline dtype load_data(void *ptr, size_t pos) {
 VALUE <%=type_var%>;
 
 static VALUE
-nary_bit_allocate(VALUE self)
+numo_bit_allocate(VALUE self)
 {
     narray_t *na;
     char *ptr;
@@ -69,10 +69,10 @@ nary_bit_allocate(VALUE self)
 }
 
 
-static VALUE nary_cast_array_to_bit(VALUE ary);
+static VALUE numo_cast_array_to_bit(VALUE ary);
 
 static VALUE
-nary_bit_cast_numeric(VALUE val)
+numo_bit_cast_numeric(VALUE val)
 {
     VALUE v;
     BIT_DIGIT *ptr, b=2;
@@ -103,16 +103,16 @@ nary_bit_cast_numeric(VALUE val)
 
 
 static VALUE
-nary_bit_s_cast(VALUE type, VALUE obj)
+numo_bit_s_cast(VALUE type, VALUE obj)
 {
     VALUE r;
 
     if (CLASS_OF(obj)==cT) {
         return obj;
     } else if (TYPE(obj)==T_ARRAY) {
-        return nary_cast_array_to_bit(obj);
+        return numo_cast_array_to_bit(obj);
     } else if (TYPE(obj)==T_FLOAT || FIXNUM_P(obj) || TYPE(obj)==T_BIGNUM) {
-        return nary_bit_cast_numeric(obj);
+        return numo_bit_cast_numeric(obj);
     }
 
     if (IsNArray(obj)) {
@@ -129,7 +129,7 @@ nary_bit_s_cast(VALUE type, VALUE obj)
 }
 
 static VALUE
-nary_bit_coerce_cast(VALUE value, VALUE type)
+numo_bit_coerce_cast(VALUE value, VALUE type)
 {
     return Qnil;
 }
@@ -156,7 +156,7 @@ static VALUE
     return format_bit(fmt, x);
 }
  VALUE
- nary_bit_inspect(VALUE ary)
+ numo_bit_inspect(VALUE ary)
 {
     return na_ndloop_inspect(ary, bit_inspect_element, Qnil);
 }
@@ -195,7 +195,7 @@ iter_bit_format(na_loop_t *const lp)
 }
 
 static VALUE
-nary_bit_format(int argc, VALUE *argv, VALUE self)
+numo_bit_format(int argc, VALUE *argv, VALUE self)
 {
     VALUE fmt=Qnil;
     ndfunc_arg_in_t ain[2] = {{Qnil,0},{sym_option}};
@@ -240,7 +240,7 @@ iter_bit_format_to_a(na_loop_t *const lp)
 }
 
 static VALUE
-nary_bit_format_to_a(int argc, VALUE *argv, VALUE self)
+numo_bit_format_to_a(int argc, VALUE *argv, VALUE self)
 {
     volatile VALUE fmt=Qnil;
     ndfunc_arg_in_t ain[3] = {{Qnil,0},{sym_loop_opt},{sym_option}};
@@ -305,7 +305,7 @@ iter_bit_fill(na_loop_t *const lp)
 
 
 static VALUE
-nary_bit_fill(VALUE self, VALUE val)
+numo_bit_fill(VALUE self, VALUE val)
 {
     ndfunc_arg_in_t ain[2] = {{OVERWRITE,0},{sym_option}};
     ndfunc_t ndf = { iter_bit_fill, FULL_LOOP, 2, 0, ain, 0 };
@@ -347,7 +347,7 @@ bit_cast_to_robj(na_loop_t *const lp)
 }
 
 static VALUE
-nary_bit_cast_to_rarray(VALUE self)
+numo_bit_cast_to_rarray(VALUE self)
 {
     ndfunc_arg_in_t ain[3] = {{Qnil,0},{sym_loop_opt},{sym_option}};
     ndfunc_arg_out_t aout[1] = {{rb_cArray,0}}; // dummy?
@@ -416,7 +416,7 @@ iter_cast_rarray_to_bit(na_loop_t *const lp)
 }
 
 static VALUE
-nary_cast_array_to_bit(VALUE rary)
+numo_cast_array_to_bit(VALUE rary)
 {
     volatile VALUE vnc, nary;
     na_compose_t *nc;
@@ -426,14 +426,14 @@ nary_cast_array_to_bit(VALUE rary)
     vnc = na_ary_composition(rary);
     Data_Get_Struct(vnc, na_compose_t, nc);
     nary = rb_narray_new(cT, nc->ndim, nc->shape);
-    nary_bit_allocate(nary);
+    numo_bit_allocate(nary);
     na_ndloop_cast_rarray_to_narray(&ndf, rary, nary);
     return nary;
 }
 
 
 static VALUE
-nary_bit_extract(VALUE self)
+numo_bit_extract(VALUE self)
 {
     BIT_DIGIT *ptr, val;
     size_t pos;
@@ -467,7 +467,7 @@ Function.codes.each do |x|
 
 /* !!! Bit#store: under construction !!! */
 VALUE
-nary_bit_store(VALUE dst, VALUE src)
+numo_bit_store(VALUE dst, VALUE src)
 {
     // check and fix me
     ndfunc_arg_in_t ain[2] = {{INT2FIX(1),0},{Qnil,0}};
@@ -481,17 +481,17 @@ nary_bit_store(VALUE dst, VALUE src)
 
 /* method: []=(idx1,idx2,...,idxN,val) */
 static VALUE
-nary_bit_aset(int argc, VALUE *argv, VALUE self)
+numo_bit_aset(int argc, VALUE *argv, VALUE self)
 {
     VALUE a;
     argc--;
 
     if (argc==0)
-        nary_bit_store(self, argv[argc]);
+        numo_bit_store(self, argv[argc]);
     else {
         //a = na_aref(argc, argv, self);
         a = rb_funcall2(self, rb_intern("[]"), argc, argv);
-        nary_bit_store(a, argv[argc]);
+        numo_bit_store(a, argv[argc]);
     }
     return argv[argc];
 }
@@ -568,7 +568,7 @@ iter_bit_where(na_loop_t *const lp)
 }
 
 static VALUE
- nary_bit_where(VALUE self)
+ numo_bit_where(VALUE self)
 {
     volatile VALUE idx_1;
     size_t size, n_1;
@@ -578,7 +578,7 @@ static VALUE
     ndfunc_t ndf = { iter_bit_where, FULL_LOOP, 1, 0, ain, 0 };
 
     size = RNARRAY_SIZE(self);
-    n_1 = NUM2SIZE(nary_bit_count_true(0, NULL, self));
+    n_1 = NUM2SIZE(numo_bit_count_true(0, NULL, self));
     g = ALLOCA_N(where_opt_t,1);
     g->count = 0;
     if (size>4294967295ul) {
@@ -596,7 +596,7 @@ static VALUE
 }
 
 static VALUE
- nary_bit_where2(VALUE self)
+ numo_bit_where2(VALUE self)
 {
     VALUE idx_1, idx_0;
     size_t size, n_1;
@@ -606,7 +606,7 @@ static VALUE
     ndfunc_t ndf = { iter_bit_where, FULL_LOOP, 1, 0, ain, 0 };
 
     size = RNARRAY_SIZE(self);
-    n_1 = NUM2SIZE(nary_bit_count_true(0, NULL, self));
+    n_1 = NUM2SIZE(numo_bit_count_true(0, NULL, self));
     g = ALLOCA_N(where_opt_t,1);
     g->count = 0;
     if (size>4294967295ul) {
@@ -669,7 +669,7 @@ iter_bit_mask(na_loop_t *const lp)
 }
 
 static VALUE
- nary_bit_mask(VALUE mask, VALUE val)
+ numo_bit_mask(VALUE mask, VALUE val)
 {
     VALUE result;
     size_t size;
@@ -677,7 +677,7 @@ static VALUE
     ndfunc_arg_in_t ain[2] = {{cT,0},{Qnil,0}};
     ndfunc_t ndf = { iter_bit_mask, FULL_LOOP, 2, 0, ain, 0 };
 
-    size = NUM2SIZE(nary_bit_count_true(0, NULL, mask));
+    size = NUM2SIZE(numo_bit_count_true(0, NULL, mask));
     result = rb_narray_new(CLASS_OF(val), 1, &size);
     g = ALLOC(void *);
     *g = na_get_pointer_for_write(result);
@@ -687,19 +687,19 @@ static VALUE
 }
 
 VALUE
-nary_bit_all_p(VALUE self)
+numo_bit_all_p(VALUE self)
 {
     return (rb_funcall(self, rb_intern("count_false"), 0)==INT2FIX(0)) ? Qtrue : Qfalse;
 }
 
 VALUE
-nary_bit_any_p(VALUE self)
+numo_bit_any_p(VALUE self)
 {
     return (rb_funcall(self, rb_intern("count_true"), 0)!=INT2FIX(0)) ? Qtrue : Qfalse;
 }
 
 VALUE
-nary_bit_none_p(VALUE self)
+numo_bit_none_p(VALUE self)
 {
     return (rb_funcall(self, rb_intern("count_true"), 0)==INT2FIX(0)) ? Qtrue : Qfalse;
 }
@@ -716,38 +716,38 @@ Init_nary_bit()
     rb_define_const(cT, "ELEMENT_BYTE_SIZE", rb_float_new(1.0/8));
     rb_define_const(cT, "CONTIGUOUS_STRIDE", INT2FIX(1));
 
-    rb_define_method(cT, "allocate", nary_bit_allocate, 0);
+    rb_define_method(cT, "allocate", numo_bit_allocate, 0);
 
-    rb_define_singleton_method(cT, "cast", nary_bit_s_cast, 1);
-    rb_define_singleton_method(cT, "[]", nary_bit_s_cast, -2);
-    rb_define_method(cT, "coerce_cast", nary_bit_coerce_cast, 1);
+    rb_define_singleton_method(cT, "cast", numo_bit_s_cast, 1);
+    rb_define_singleton_method(cT, "[]", numo_bit_s_cast, -2);
+    rb_define_method(cT, "coerce_cast", numo_bit_coerce_cast, 1);
 
     <% Function.definitions.each do |x| %>
     <%= x %><% end %>
 
     rb_define_alias (cT, "count_1","count_true");
     rb_define_alias (cT, "count_0","count_false");
-    rb_define_method(cT, "where", nary_bit_where, 0);
-    rb_define_method(cT, "where2", nary_bit_where2, 0);
-    rb_define_method(cT, "mask", nary_bit_mask, 1);
+    rb_define_method(cT, "where", numo_bit_where, 0);
+    rb_define_method(cT, "where2", numo_bit_where2, 0);
+    rb_define_method(cT, "mask", numo_bit_mask, 1);
 
-    rb_define_method(cT, "all?", nary_bit_all_p, 0);
-    rb_define_method(cT, "any?", nary_bit_any_p, 0);
-    rb_define_method(cT, "none?", nary_bit_none_p, 0);
+    rb_define_method(cT, "all?", numo_bit_all_p, 0);
+    rb_define_method(cT, "any?", numo_bit_any_p, 0);
+    rb_define_method(cT, "none?", numo_bit_none_p, 0);
 
-    rb_define_method(cT, "inspect", nary_bit_inspect, 0);
-    rb_define_method(cT, "format", nary_bit_format, -1);
-    rb_define_method(cT, "format_to_a", nary_bit_format_to_a, -1);
+    rb_define_method(cT, "inspect", numo_bit_inspect, 0);
+    rb_define_method(cT, "format", numo_bit_format, -1);
+    rb_define_method(cT, "format_to_a", numo_bit_format_to_a, -1);
 
-    rb_define_method(cT, "fill", nary_bit_fill, 1);
+    rb_define_method(cT, "fill", numo_bit_fill, 1);
 
-    rb_define_method(cT, "to_a", nary_bit_cast_to_rarray, 0);
+    rb_define_method(cT, "to_a", numo_bit_cast_to_rarray, 0);
 
-    rb_define_method(cT, "extract", nary_bit_extract, 0);
+    rb_define_method(cT, "extract", numo_bit_extract, 0);
 
-    rb_define_method(cT, "copy",  nary_bit_copy, 0);
-    rb_define_method(cT, "store", nary_bit_store, 1);
-    rb_define_method(cT, "[]=",   nary_bit_aset, -1);
+    rb_define_method(cT, "copy",  numo_bit_copy, 0);
+    rb_define_method(cT, "store", numo_bit_store, 1);
+    rb_define_method(cT, "[]=",   numo_bit_aset, -1);
 
     hCast = rb_hash_new();
     rb_define_const(cT, "UPCAST", hCast);

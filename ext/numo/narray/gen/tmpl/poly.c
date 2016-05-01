@@ -45,5 +45,5 @@ static VALUE
     }
     a = rb_ary_new4(argc+1, argv);
     v = na_ndloop2(&ndf, a);
-    return nary_<%=tp%>_extract(v);
+    return numo_<%=tp%>_extract(v);
 }

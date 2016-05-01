@@ -1,5 +1,5 @@
 static VALUE
-nary_<%=tp%>_new_dim0(dtype x)
+numo_<%=tp%>_new_dim0(dtype x)
 {
     VALUE v;
     dtype *ptr;
@@ -16,7 +16,7 @@ static VALUE
 {
     dtype x;
     x = m_num_to_data(obj);
-    obj = nary_<%=tp%>_new_dim0(x);
+    obj = numo_<%=tp%>_new_dim0(x);
     <%=find_tmpl("store").c_func%>(self,obj);
     return self;
 }

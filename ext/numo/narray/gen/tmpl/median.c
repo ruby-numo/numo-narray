@@ -43,5 +43,5 @@ static VALUE
 {
     VALUE v;
     v = na_median_main(argc, argv, self, <%=c_iter%>);
-    return nary_<%=tp%>_extract(v);
+    return numo_<%=tp%>_extract(v);
 }
