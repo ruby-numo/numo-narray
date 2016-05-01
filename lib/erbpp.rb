@@ -3,6 +3,8 @@ require "erb"
 class ErbPP
   ATTRS = []
 
+  class ParamNotSetError < StandardError; end
+
   def self.define_attrs(attrs)
     attrs.each do |attr|
       ivar = ("@"+attr).to_sym
@@ -72,7 +74,11 @@ class ErbPP
   def method_missing(_meth_id, *args, &block)
     ivar = "@"+_meth_id.to_s
     if args.empty? and instance_variable_defined?(ivar)
-      instance_variable_get(ivar)
+      parm = instance_variable_get(ivar)
+      if parm.nil?
+        raise ParamNotSetError,"parameter #{_meth_id.to_s} is not set"
+      end
+      parm
     elsif args.size == 1 and attrs.include?(_meth_id.to_s)
       instance_variable_set(ivar,args.first)
     elsif x = search_method_in_parents(_meth_id)
@@ -92,6 +98,9 @@ class ErbPP
     @erb.result(binding)
   end
 end
+
+# ----------------------------------------------------------------------
+
 class IdVar
   DEFS = []
 
