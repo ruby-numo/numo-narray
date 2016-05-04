@@ -1,16 +1,10 @@
 # Numo::NArray - New NArray class library for Ruby/Numo (NUmerical MOdule)
 under development
 
-## Directories
-* ext: C-extension source code.
-* gen: Code generator.
-* spec: RSpec test code.
-* ffte: Sample Wrapper of [FFTE](http://www.ffte.jp/): A Fast Fourier Transform Package
-  developed by Prof. Takahashi.
-
 ## Related Projects
 * [Numo::Linalg](https://github.com/masa16/numo-linalg): Linear Algebra library with [LAPACK](http://www.netlib.org/lapack/).
-* [Numo::GSL](https://github.com/masa16/numo-gsl): Interface for [GSL (GNU Scientific Library)](http://www.gnu.org/software/gsl/).
+* [Numo::GSL](https://github.com/masa16/numo-gsl): Ruby interface for [GSL (GNU Scientific Library)](http://www.gnu.org/software/gsl/).
+* [Numo::FFTE](https://github.com/masa16/numo-ffte): Ruby interface for [FFTE (A Fast Fourier Transform library with radix-2,3,5)](http://www.ffte.jp/).
 
 ## Installation
 ### Ubuntu, Debian
