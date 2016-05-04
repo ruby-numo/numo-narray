@@ -10,6 +10,7 @@ under development
 
 ## Related Projects
 * [Numo::Linalg](https://github.com/masa16/numo-linalg): Linear Algebra library with [LAPACK](http://www.netlib.org/lapack/).
+* [Numo::GSL](https://github.com/masa16/numo-gsl): Interface for [GSL (GNU Scientific Library)](http://www.gnu.org/software/gsl/).
 
 ## Installation
 ### Ubuntu, Debian
