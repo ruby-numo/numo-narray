@@ -69,6 +69,15 @@ class ErbPP
     respond_to?(_meth_id) or attrs.include?(_meth_id.to_s)
   end
 
+  def check_params(*params)
+    params.each do |x|
+      val = send(x)
+      if !val # || val.empty?
+        raise ParamNotSetError,"parameter #{x.to_s} is not set"
+      end
+    end
+  end
+
   alias method_missing_alias method_missing
 
   def method_missing(_meth_id, *args, &block)
@@ -193,6 +202,7 @@ class Function < ErbPP
 
   def definition
     s = singleton ? "_singleton" : ""
+    check_params(:mod_var, :op_map, :c_func, :n_arg)
     m = op_map
     "rb_define#{s}_method(#{mod_var}, \"#{m}\", #{c_func}, #{n_arg});"
   end
