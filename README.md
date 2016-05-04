@@ -40,6 +40,4 @@ An example
 
 https://github.com/masa16/numo-narray/wiki/Numo-vs-numpy
 
-## Tentative API Document
-* [NArray](http://masa16.github.io/numo-narray/narray/frames.html)
-* [FFTE](http://masa16.github.io/numo-narray/ffte/frames.html)
+## [NArray Tentative API Document](http://masa16.github.io/numo-narray/narray/frames.html)
