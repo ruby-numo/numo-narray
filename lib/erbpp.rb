@@ -255,3 +255,22 @@ class Alias < ErbPP
     "rb_define_alias(#{mod_var}, \"#{dst}\", \"#{src}\");"
   end
 end
+
+class Const < ErbPP
+  def initialize(parent,name,value,desc)
+    super(parent,nil)
+    @name = name
+    @value = value
+    @desc = desc
+    Function::DEFS.push(self)
+  end
+
+  def code
+    nil
+  end
+
+  def definition
+    "/*"+desc+"*/\n    "+
+      "rb_define_const(#{mod_var},\"#{name}\",#{value});"
+  end
+end
