@@ -62,9 +62,9 @@ nst_definition(VALUE nst, VALUE idx)
     if (TYPE(idx) == T_STRING || TYPE(idx) == T_SYMBOL) {
         ID id  = rb_to_id(idx);
         for (i=0; i<len; i++) {
-            VALUE key = RARRAY_PTR(RARRAY_PTR(def)[i])[0];
+            VALUE key = RARRAY_AREF(RARRAY_AREF(def,i),0);
             if (SYM2ID(key) == id) {
-                return RARRAY_PTR(def)[i];
+                return RARRAY_AREF(def,i);
             }
         }
     } else if (rb_obj_is_kind_of(idx,rb_cNumeric)) {
@@ -72,7 +72,7 @@ nst_definition(VALUE nst, VALUE idx)
         if (i<-len || i>=len) {
             rb_raise(rb_eIndexError,"offset %"SZF"u out of range of struct(size:%ld)", i, len);
         }
-        return RARRAY_PTR(def)[i];
+        return RARRAY_AREF(def,i);
     }
     return Qnil;
 }
@@ -188,8 +188,8 @@ nst_field_view(VALUE self, VALUE idx)
         rb_raise(rb_eTypeError, "Invalid field: '%s' for struct %s",
                  StringValuePtr(idx), rb_class2name(CLASS_OF(self)));
     }
-    type = RARRAY_PTR(def)[1];
-    ofs  = RARRAY_PTR(def)[2];
+    type = RARRAY_AREF(def,1);
+    ofs  = RARRAY_AREF(def,2);
     return na_make_view_struct(self, type, ofs);
 }
 
@@ -261,7 +261,7 @@ nst_s_new(int argc, VALUE *argv, VALUE klass)
 
     rb_scan_args(argc, argv, "0*", &rest);
     if (RARRAY_LEN(rest)>0) {
-        name = RARRAY_PTR(rest)[0];
+        name = RARRAY_AREF(rest,0);
         if (!NIL_P(name)) {
             VALUE tmp = rb_check_string_type(name);
             if (!NIL_P(tmp)) {
@@ -401,18 +401,18 @@ iter_nstruct_to_a(na_loop_t *const lp)
     narray_view_t *ne;
 
     opt = lp->option;
-    types = RARRAY_PTR(opt)[0];
-    defs = RARRAY_PTR(opt)[1];
+    types = RARRAY_AREF(opt,0);
+    defs = RARRAY_AREF(opt,1);
     pos = lp->iter[0].pos;
 
     len = RARRAY_LEN(types);
     vary = rb_ary_new2(len);
 
     for (i=0; i<len; i++) {
-        def  = RARRAY_PTR(defs)[i];
-        ofs  = NUM2SIZE(RARRAY_PTR(def)[2]);
-        //ofs  = NUM2SIZE(RARRAY_PTR(ofsts)[i]);
-        elmt = RARRAY_PTR(types)[i];
+        def  = RARRAY_AREF(defs,i);
+        ofs  = NUM2SIZE(RARRAY_AREF(def,2));
+        //ofs  = NUM2SIZE(RARRAY_AREF(ofsts,i));
+        elmt = RARRAY_AREF(types,i);
         GetNArrayView(elmt,ne);
         ne->offset = pos + ofs;
         if (ne->base.ndim==0) {
@@ -437,9 +437,9 @@ nst_create_member_views(VALUE self)
     types = rb_ary_new2(len);
     //ofsts = rb_ary_new2(len);
     for (i=0; i<len; i++) {
-        def  = RARRAY_PTR(defs)[i];
-        type = RARRAY_PTR(def)[1];
-        //ofst = RARRAY_PTR(def)[2];
+        def  = RARRAY_AREF(defs,i);
+        type = RARRAY_AREF(def,1);
+        //ofst = RARRAY_AREF(def,2);
         elmt = na_make_view(type);
         rb_ary_push(types, elmt);
         //rb_ary_push(ofsts, ofst);
@@ -493,7 +493,7 @@ check_array_1d(VALUE item, size_t size) {
             return 0;
         }
         for (i=0; i<len; i++) {
-            if (!check_array(RARRAY_PTR(item)[i])) {
+            if (!check_array(RARRAY_AREF(item,i))) {
                 return 0;
             }
         }
@@ -531,10 +531,10 @@ nst_check_compatibility(VALUE nst, VALUE ary)
         return Qfalse;
     }
     for (i=0; i<len; i++) {
-        def  = RARRAY_PTR(defs)[i];
-        type = RARRAY_PTR(def)[1];
+        def  = RARRAY_AREF(defs,i);
+        type = RARRAY_AREF(def,1);
         GetNArray(type,nt);
-        item = RARRAY_PTR(ary)[i];
+        item = RARRAY_AREF(ary,i);
         if (nt->ndim == 0) {
             if (check_array(item)) {
                 //puts("pass3");
@@ -584,20 +584,20 @@ iter_nstruct_from_a(na_loop_t *const lp)
     size_t ofs;
     narray_view_t *ne;
 
-    types = RARRAY_PTR(lp->option)[0];
-    defs = RARRAY_PTR(lp->option)[1];
+    types = RARRAY_AREF(lp->option,0);
+    defs = RARRAY_AREF(lp->option,1);
 
     len = RARRAY_LEN(types);
     ary = lp->args[0].value;
     //rb_p(CLASS_OF(ary));rb_p(ary);
 
     for (i=0; i<len; i++) {
-        def  = RARRAY_PTR(defs)[i];
-        ofs  = NUM2SIZE(RARRAY_PTR(def)[2]);
-        elmt = RARRAY_PTR(types)[i];
+        def  = RARRAY_AREF(defs,i);
+        ofs  = NUM2SIZE(RARRAY_AREF(def,2));
+        elmt = RARRAY_AREF(types,i);
         GetNArrayView(elmt,ne);
         ne->offset = lp->iter[1].pos + ofs;
-        item = RARRAY_PTR(ary)[i];
+        item = RARRAY_AREF(ary,i);
         //rb_p(ary);
         //rb_p(item);
         //rb_p(elmt);
@@ -739,17 +739,17 @@ iter_struct_inspect(char *ptr, size_t pos, VALUE opt)
     long    i, len;
     narray_view_t *ne;
 
-    types = RARRAY_PTR(opt)[0];
-    defs = RARRAY_PTR(opt)[1];
+    types = RARRAY_AREF(opt,0);
+    defs = RARRAY_AREF(opt,1);
 
     len = RARRAY_LEN(types);
     vary = rb_ary_new2(len);
 
     for (i=0; i<len; i++) {
-        def  = RARRAY_PTR(defs)[i];
-        name = RARRAY_PTR(def)[0];
-        ofs  = NUM2SIZE(RARRAY_PTR(def)[2]);
-        elmt = RARRAY_PTR(types)[i];
+        def  = RARRAY_AREF(defs,i);
+        name = RARRAY_AREF(def,0);
+        ofs  = NUM2SIZE(RARRAY_AREF(def,2));
+        elmt = RARRAY_AREF(types,i);
         GetNArrayView(elmt,ne);
         ne->offset = pos + ofs;
         v = rb_str_concat(rb_sym_to_s(name), rb_str_new2(": "));

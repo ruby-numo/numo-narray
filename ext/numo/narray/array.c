@@ -193,7 +193,7 @@ na_mdai_investigate(na_mdai_t *mdai, int ndim)
     len = RARRAY_LEN(val);
 
     for (i=0; i < RARRAY_LEN(val); i++) {
-        v = RARRAY_PTR(val)[i];
+        v = RARRAY_AREF(val,i);
 
 	if (TYPE(v) == T_ARRAY) {
 	    /* check recursive array */
@@ -466,14 +466,14 @@ na_mdai_for_struct(na_mdai_t *mdai, int ndim)
         // finally, multidimension-check
         len = RARRAY_LEN(val);
         for (i=0; i < len; i++) {
-            v = RARRAY_PTR(val)[i];
+            v = RARRAY_AREF(val,i);
             if (TYPE(v) != T_ARRAY) {
                 //abort();
                 return 0;
             }
         }
         for (i=0; i < len; i++) {
-            v = RARRAY_PTR(val)[i];
+            v = RARRAY_AREF(val,i);
             //fprintf(stderr,"check:");            rb_p(v);
             mdai->item[ndim+1].val = v;
             if ( na_mdai_for_struct( mdai, ndim+1 ) == 0 ) {

@@ -64,7 +64,7 @@ na_index_preprocess(VALUE args, int na_ndim)
     int count_other_indices;
     int nidx = RARRAY_LEN(args);
     VALUE a;
-    
+
     for (i=0; i<nidx; i++) {
         a = rb_ary_entry(args, i);
 
@@ -146,7 +146,7 @@ na_parse_array(VALUE ary, int orig_dim, ssize_t size, na_index_arg_t *q)
     int n = RARRAY_LEN(ary);
     q->idx = ALLOC_N(size_t, n);
     for (k=0; k<n; k++) {
-        q->idx[k] = na_range_check(NUM2SSIZE(RARRAY_PTR(ary)[k]), size, k);
+        q->idx[k] = na_range_check(NUM2SSIZE(RARRAY_AREF(ary,k)), size, k);
     }
     q->n    = n;
     q->beg  = 0;
@@ -160,7 +160,7 @@ na_parse_range(VALUE range, int orig_dim, ssize_t size, na_index_arg_t *q)
 {
     int n;
     ssize_t beg, end;
-    
+
     beg = NUM2LONG(rb_funcall(range,id_beg,0));
     if (beg<0) {
         beg += size;
@@ -265,14 +265,14 @@ na_index_parse_args(VALUE args, narray_t *na, na_index_arg_t *q, int ndim)
 {
     int i, j, k, l, nidx;
     size_t total=1;
-    VALUE *idx;
+    VALUE v;
 
     nidx = RARRAY_LEN(args);
-    idx = RARRAY_PTR(args);
 
     for (i=j=k=0; i<nidx; i++) {
+        v = RARRAY_AREF(args,i);
         // rest dimension
-        if (idx[i]==Qfalse) {
+        if (v==Qfalse) {
             for (l = ndim - (nidx-1); l>0; l--) {
                 na_index_parse_each(Qtrue, na->shape[k], k, &q[j]);
                 if (q[j].n > 1) {
@@ -283,13 +283,13 @@ na_index_parse_args(VALUE args, narray_t *na, na_index_arg_t *q, int ndim)
             }
         }
         // new dimension
-        else if (idx[i]==sym_new) {
-            na_index_parse_each(idx[i], 1, k, &q[j]);
+        else if (v==sym_new) {
+            na_index_parse_each(v, 1, k, &q[j]);
             j++;
         }
         // other dimention
         else {
-            na_index_parse_each(idx[i], na->shape[k], k, &q[j]);
+            na_index_parse_each(v, na->shape[k], k, &q[j]);
             if (q[j].n > 1) {
                 total *= q[j].n;
             }
@@ -325,7 +325,7 @@ na_index_aref_nadata(narray_data_t *na1, narray_view_t *na2,
 
     strides_na1 = ALLOCA_N(ssize_t, na1->base.ndim);
     na_get_strides_nadata(na1, strides_na1, elmsz);
-    
+
     for (i=j=0; i<ndim; i++) {
         stride1 = strides_na1[q[i].orig_dim];
 
@@ -448,7 +448,7 @@ na_index_aref_naview(narray_view_t *na1, narray_view_t *na2,
             na2->offset += stride1*beg;
             SDX_SET_STRIDE(na2->stridx[j], stride1*step);
         }
-            
+
         j++;
         total *= size;
     }
@@ -504,7 +504,7 @@ VALUE na_aref_md_protected(VALUE data_value)
     narray_view_t *na2;
 
     na_index_parse_args(args, na1, q, ndim);
-    
+
     if (na_debug_flag) print_index_arg(q,ndim);
 
     if (keep_dim) {
@@ -555,7 +555,7 @@ na_aref_md(int argc, VALUE *argv, VALUE self, int keep_dim)
     narray_t *na1;
     int count_new, ndim;
     na_aref_md_data_t data;
-    
+
     GetNArray(self,na1);
 
     //printf("argc=%d\n",argc);

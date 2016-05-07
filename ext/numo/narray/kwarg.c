@@ -19,7 +19,7 @@ kw_hash_i(i, tmp)
 {
     VALUE key;
 
-    key = RARRAY_PTR(i)[0];
+    key = RARRAY_AREF(i,0);
     if (TYPE(key)==T_SYMBOL) {
 	key = rb_funcall(key, rb_intern("id2name"), 0);
     } else
@@ -27,7 +27,7 @@ kw_hash_i(i, tmp)
 	    rb_raise(rb_eArgError, "keywords must be String or Symbol");
 	}
 
-    rb_hash_aset(tmp, key, RARRAY_PTR(i)[1]);
+    rb_hash_aset(tmp, key, RARRAY_AREF(i,1));
     return Qnil;
 }
 

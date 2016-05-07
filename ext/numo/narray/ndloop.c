@@ -134,7 +134,7 @@ ndloop_copy_by_access_type(ndfunc_t *nf, VALUE args, int cond)
     unsigned int flag=0;
 
     for (j=0; j<nf->nin; j++) {
-        v = RARRAY_PTR(args)[j];
+        v = RARRAY_AREF(args,j);
         if (IsNArray(v)) {
             GetNArray(v,na);
             if (NA_TYPE(na) == NARRAY_VIEW_T) {
@@ -145,7 +145,7 @@ ndloop_copy_by_access_type(ndfunc_t *nf, VALUE args, int cond)
                 }
                 f = ndloop_get_access_type(na,sz,nd);
                 if (f>=cond) {
-                    RARRAY_PTR(args)[j] = rb_obj_dup(v);
+                    RARRAY_ASET(args,j,rb_obj_dup(v));
                     //RARRAY_PTR(args)[j] = v = na_copy(v);
                     //rb_funcall(v,rb_intern("debug_info"),0);
                     flag |= 1<<j;
@@ -210,7 +210,7 @@ ndloop_cast_args(ndfunc_t *nf, VALUE args)
                 if (rb_obj_is_kind_of(t, rb_cClass)) {
                     if (RTEST(rb_class_inherited_p(t, cNArray))) {
                         v = nary_type_s_cast(t, v);
-                        RARRAY_PTR(args)[j] = v;
+                        RARRAY_ASET(args,j,v);
                         copy_flag |= 1<<j;
                         //x = rb_inspect(t);
                         //s = StringValueCStr(x);
@@ -253,13 +253,14 @@ ndloop_alloc(ndfunc_t *nf, VALUE args, void *opt_ptr, unsigned int copy_flag,
     size_t sz1, sz2, sz3, sz4;
     char *ptr;
 
-    int nin, nout, nopt, len;
+    int nin, nout, nopt;
+    long args_len;
 
-    len = RARRAY_LEN(args);
+    args_len = RARRAY_LEN(args);
 
-    if (RARRAY_LEN(args) != nf->nin) {
-        rb_bug("wrong number of arguments for ndfunc (%"SZF"u for %d)",
-               RARRAY_LEN(args), nf->nin);
+    if (args_len != nf->nin) {
+        rb_bug("wrong number of arguments for ndfunc (%lu for %d)",
+               args_len, nf->nin);
     }
 
     nin = nf->nin;
@@ -269,7 +270,7 @@ ndloop_alloc(ndfunc_t *nf, VALUE args, void *opt_ptr, unsigned int copy_flag,
     // find max dimension
     user_nd = 0;
     loop_nd = 0;
-    for (j=0; j<len; j++) {
+    for (j=0; j<args_len; j++) {
         // Symbol
         if (TYPE(nf->ain[j].type)==T_SYMBOL) {
             nin--;
@@ -281,7 +282,7 @@ ndloop_alloc(ndfunc_t *nf, VALUE args, void *opt_ptr, unsigned int copy_flag,
                 user_nd = tmp_nd;
             }
             // max dimension of md-loop
-            v = RARRAY_PTR(args)[j];
+            v = RARRAY_AREF(args,j);
             if (IsNArray(v)) {
                 GetNArray(v,na);
                 // array-dimension minus user-dimension
@@ -496,7 +497,7 @@ ndloop_init_args(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
     // input arguments
     for (j=k=0; k<nf->nin; k++) {
         t = nf->ain[k].type;
-        v = RARRAY_PTR(args)[k];
+        v = RARRAY_AREF(args,k);
         if (TYPE(t)==T_SYMBOL) {
             if (t==sym_reduce) {
                 lp->reduce = v;
@@ -576,7 +577,7 @@ ndloop_find_inplace(ndfunc_t *nf, na_md_loop_t *lp, VALUE type, int na_ndim, siz
 
     // find inplace
     for (j=0; j<nf->nin; j++) {
-        v = RARRAY_PTR(args)[j];
+        v = RARRAY_AREF(args,j);
         if (IsNArray(v)) {
             if (TEST_INPLACE(v)) {
                 if (ndloop_check_inplace(type,na_ndim,na_shape,v)) {
@@ -592,7 +593,7 @@ ndloop_find_inplace(ndfunc_t *nf, na_md_loop_t *lp, VALUE type, int na_ndim, siz
     // find casted or copied input array
     for (j=0; j<nf->nin; j++) {
         if (lp->copy_flag & (1<<j)) {
-            v = RARRAY_PTR(args)[j];
+            v = RARRAY_AREF(args,j);
             if (ndloop_check_inplace(type,na_ndim,na_shape,v)) {
                 return v;
             }
@@ -617,7 +618,7 @@ ndloop_get_arg_type(ndfunc_t *nf, VALUE args, VALUE t)
         t = nf->ain[i].type;
         // if i-th type is Qnil, get the type of i-th input value
         if (!CASTABLE(t)) {
-            t = CLASS_OF(RARRAY_PTR(args)[i]);
+            t = CLASS_OF(RARRAY_AREF(args,i));
         }
     }
     return t;
@@ -720,8 +721,8 @@ ndloop_set_output(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
     for (k=0; k<nf->nin; k++) {
         if (nf->ain[k].type == sym_init) {
             idx = nf->ain[k].dim;
-            v = RARRAY_PTR(results)[idx];
-            init = RARRAY_PTR(args)[k];
+            v = RARRAY_AREF(results,idx);
+            init = RARRAY_AREF(args,k);
             na_store(v,init);
         }
     }
@@ -750,10 +751,10 @@ ndfunc_write_back(ndfunc_t *nf, na_md_loop_t *lp, VALUE orig_args, VALUE results
     VALUE src, dst;
 
     if (lp->writeback >= 0) {
-        dst = RARRAY_PTR(orig_args)[lp->writeback];
-        src = RARRAY_PTR(results)[0];
+        dst = RARRAY_AREF(orig_args,lp->writeback);
+        src = RARRAY_AREF(results,0);
         na_store(dst,src);
-        RARRAY_PTR(results)[0] = dst;
+        RARRAY_ASET(results,0,dst);
     }
 }
 
@@ -797,7 +798,7 @@ ndloop_run(VALUE vlp)
     case 0:
         return Qnil;
     case 1:
-        return RARRAY_PTR(results)[0];
+        return RARRAY_AREF(results,0);
     }
     return results;
 }
@@ -1145,7 +1146,7 @@ loop_rarray_to_narray(ndfunc_t *nf, na_md_loop_t *lp)
             //LITER(lp,i+1,0).pos = LITER(lp,i,0).pos + c[i];
             if (TYPE(a[i])==T_ARRAY) {
                 if (c[i] < (size_t)RARRAY_LEN(a[i])) {
-                    a[i+1] = RARRAY_PTR(a[i])[c[i]];
+                    a[i+1] = RARRAY_AREF(a[i],c[i]);
                 } else {
                     a[i+1] = Qnil;
                 }
@@ -1287,5 +1288,5 @@ na_ndloop_cast_narray_to_rarray(ndfunc_t *nf, VALUE nary, VALUE fmt)
     vlp = ndloop_alloc(nf, args, NULL, 0, loop_narray_to_rarray);
 
     rb_ensure(ndloop_run, vlp, ndloop_release, vlp);
-    return RARRAY_PTR(a0)[0];
+    return RARRAY_AREF(a0,0);
 }
