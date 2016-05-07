@@ -240,18 +240,15 @@ ndloop_cast_args(ndfunc_t *nf, VALUE args)
     loop_nd
 */
 
-static VALUE
-ndloop_alloc(ndfunc_t *nf, VALUE args, void *opt_ptr, unsigned int copy_flag,
+static void
+ndloop_alloc(na_md_loop_t *lp, ndfunc_t *nf, VALUE args, void *opt_ptr, unsigned int copy_flag,
              void (*loop_func)(ndfunc_t*, na_md_loop_t*))
 {
     int i,j;
     int narg;
-    na_md_loop_t *lp;
     int user_nd, loop_nd, max_nd, tmp_nd;
     VALUE v;
     narray_t *na;
-    size_t sz1, sz2, sz3, sz4;
-    char *ptr;
 
     int nin, nout, nopt;
     long args_len;
@@ -297,15 +294,9 @@ ndloop_alloc(ndfunc_t *nf, VALUE args, void *opt_ptr, unsigned int copy_flag,
     narg = nin + nout;
     max_nd = loop_nd + user_nd;
 
-    sz1 = sizeof(na_md_loop_t);
-    sz2 = sizeof(size_t)*(max_nd+1);
-    sz3 = sizeof(na_loop_args_t)*(narg+1);
-    sz4 = sizeof(na_loop_iter_t)*(narg*(max_nd+1));
-    ptr = ALLOC_N(char,sz1+sz2+sz3+sz4);
-    lp       = (na_md_loop_t*)ptr;   ptr += sz1;
-    lp->n    = (size_t*)ptr;         ptr += sz2;
-    lp->args = (na_loop_args_t*)ptr; ptr += sz3;
-    lp->iter = (na_loop_iter_t*)ptr;
+    lp->n    = ALLOC_N(size_t, max_nd+1);
+    lp->args = ALLOC_N(na_loop_args_t, narg+1);
+    lp->iter = ALLOC_N(na_loop_iter_t, narg*(max_nd+1));
     for (i=0; i<narg; i++) {
       lp->args[i].value = Qnil;
     }
@@ -339,8 +330,6 @@ ndloop_alloc(ndfunc_t *nf, VALUE args, void *opt_ptr, unsigned int copy_flag,
     lp->user.err_type = Qfalse;
     lp->loop_opt = Qnil;
     lp->loop_func = loop_func;
-
-    return Data_Wrap_Struct(rb_cData,0,-1,lp);
 }
 
 
@@ -349,8 +338,7 @@ ndloop_release(VALUE vlp)
 {
     int j;
     VALUE v;
-    na_md_loop_t* lp;
-    Data_Get_Struct(vlp,na_md_loop_t,lp);
+    na_md_loop_t *lp = (na_md_loop_t*)(vlp);
 
     for (j=0; j < lp->narg; j++) {
         v = lp->args[j].value;
@@ -359,6 +347,9 @@ ndloop_release(VALUE vlp)
         }
     }
     //xfree(lp);
+    xfree(lp->iter);
+    xfree(lp->args);
+    xfree(lp->n);
     //rb_gc_force_recycle(vlp);
     return Qnil;
 }
@@ -763,10 +754,9 @@ static VALUE
 ndloop_run(VALUE vlp)
 {
     volatile VALUE args, orig_args, results;
-    na_md_loop_t *lp;
+    na_md_loop_t *lp = (na_md_loop_t*)(vlp);
     ndfunc_t *nf;
 
-    Data_Get_Struct(vlp,na_md_loop_t,lp);
     orig_args = lp->vargs;
     nf = lp->ndfunc;
 
@@ -861,7 +851,7 @@ VALUE
 na_ndloop_main(ndfunc_t *nf, VALUE args, void *opt_ptr)
 {
     unsigned int copy_flag;
-    volatile VALUE vlp;
+    na_md_loop_t lp;
 
     if (na_debug_flag) print_ndfunc(nf);
 
@@ -869,9 +859,9 @@ na_ndloop_main(ndfunc_t *nf, VALUE args, void *opt_ptr)
     copy_flag = ndloop_cast_args(nf, args);
 
     // allocate ndloop struct
-    vlp = ndloop_alloc(nf, args, opt_ptr, copy_flag, loop_narray);
+    ndloop_alloc(&lp, nf, args, opt_ptr, copy_flag, loop_narray);
 
-    return rb_ensure(ndloop_run, vlp, ndloop_release, vlp);
+    return rb_ensure(ndloop_run, (VALUE)&lp, ndloop_release, (VALUE)&lp);
 }
 
 
@@ -1088,7 +1078,8 @@ loop_inspect(ndfunc_t *nf, na_md_loop_t *lp)
 VALUE
 na_ndloop_inspect(VALUE nary, na_text_func_t func, VALUE opt)
 {
-    volatile VALUE vlp, args;
+    volatile VALUE args;
+    na_md_loop_t lp;
     VALUE buf;
     ndfunc_arg_in_t ain[3] = {{Qnil,0},{sym_loop_opt},{sym_option}};
     ndfunc_t nf = { (na_iter_func_t)func, NO_LOOP, 3, 0, ain, 0 };
@@ -1109,9 +1100,9 @@ na_ndloop_inspect(VALUE nary, na_text_func_t func, VALUE opt)
     //ndloop_cast_args(nf, args);
 
     // allocate ndloop struct
-    vlp = ndloop_alloc(&nf, args, NULL, 0, loop_inspect);
+    ndloop_alloc(&lp, &nf, args, NULL, 0, loop_inspect);
 
-    rb_ensure(ndloop_run, vlp, ndloop_release, vlp);
+    rb_ensure(ndloop_run, (VALUE)&lp, ndloop_release, (VALUE)&lp);
 
     return buf;
 }
@@ -1179,7 +1170,7 @@ loop_rarray_to_narray(ndfunc_t *nf, na_md_loop_t *lp)
 VALUE
 na_ndloop_cast_rarray_to_narray(ndfunc_t *nf, VALUE rary, VALUE nary)
 {
-    volatile VALUE vlp;
+    na_md_loop_t lp;
     VALUE args;
 
     //rb_p(args);
@@ -1191,16 +1182,16 @@ na_ndloop_cast_rarray_to_narray(ndfunc_t *nf, VALUE rary, VALUE nary)
     //ndloop_cast_args(nf, args);
 
     // allocate ndloop struct
-    vlp = ndloop_alloc(nf, args, NULL, 0, loop_rarray_to_narray);
+    ndloop_alloc(&lp, nf, args, NULL, 0, loop_rarray_to_narray);
 
-    return rb_ensure(ndloop_run, vlp, ndloop_release, vlp);
+    return rb_ensure(ndloop_run, (VALUE)&lp, ndloop_release, (VALUE)&lp);
 }
 
 
 VALUE
 na_ndloop_cast_rarray_to_narray2(ndfunc_t *nf, VALUE rary, VALUE nary, VALUE opt)
 {
-    volatile VALUE vlp;
+    na_md_loop_t lp;
     VALUE args;
 
     //rb_p(args);
@@ -1213,9 +1204,9 @@ na_ndloop_cast_rarray_to_narray2(ndfunc_t *nf, VALUE rary, VALUE nary, VALUE opt
     //ndloop_cast_args(nf, args);
 
     // allocate ndloop struct
-    vlp = ndloop_alloc(nf, args, NULL, 0, loop_rarray_to_narray);
+    ndloop_alloc(&lp, nf, args, NULL, 0, loop_rarray_to_narray);
 
-    return rb_ensure(ndloop_run, vlp, ndloop_release, vlp);
+    return rb_ensure(ndloop_run, (VALUE)&lp, ndloop_release, (VALUE)&lp);
 }
 
 
@@ -1272,7 +1263,7 @@ loop_narray_to_rarray(ndfunc_t *nf, na_md_loop_t *lp)
 VALUE
 na_ndloop_cast_narray_to_rarray(ndfunc_t *nf, VALUE nary, VALUE fmt)
 {
-    volatile VALUE vlp;
+    na_md_loop_t lp;
     VALUE args, a0;
 
     //rb_p(args);
@@ -1285,8 +1276,8 @@ na_ndloop_cast_narray_to_rarray(ndfunc_t *nf, VALUE nary, VALUE fmt)
     //ndloop_cast_args(nf, args);
 
     // allocate ndloop struct
-    vlp = ndloop_alloc(nf, args, NULL, 0, loop_narray_to_rarray);
+    ndloop_alloc(&lp, nf, args, NULL, 0, loop_narray_to_rarray);
 
-    rb_ensure(ndloop_run, vlp, ndloop_release, vlp);
+    rb_ensure(ndloop_run, (VALUE)&lp, ndloop_release, (VALUE)&lp);
     return RARRAY_AREF(a0,0);
 }
