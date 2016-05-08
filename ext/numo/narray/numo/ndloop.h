@@ -51,6 +51,7 @@ typedef struct NA_LOOP {
 #define NDF_ACCEPT_BYTESWAP     (1<<5)
 
 #define NDF_HAS_REDUCE_DIM      (1<<6)
+#define NDF_EXTRACT             (1<<7)
 
 #define FULL_LOOP       (NDF_HAS_LOOP|NDF_STRIDE_LOOP|NDF_INDEX_LOOP|NDF_INPLACE)
 #define FULL_LOOP_NIP   (NDF_HAS_LOOP|NDF_STRIDE_LOOP|NDF_INDEX_LOOP)
