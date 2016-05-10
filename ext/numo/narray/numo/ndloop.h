@@ -11,22 +11,22 @@
 #ifndef NDLOOP_H
 #define NDLOOP_H
 
-typedef struct NA_LOOP_ARGS {
-    VALUE    value;
-    ssize_t  elmsz;
-    char    *ptr;
-    // char  *buf_ptr;  //
-    // int ndim; - not required for each argument.
-    // ssize_t pos; - not required here.
-    size_t  *shape;
-    //na_loop_iter_t *iter;  // should move from na_loop_t
-} na_loop_args_t;
-
 typedef struct NA_LOOP_ITER {
     ssize_t    pos; // - required for each dimension.
     ssize_t    step;
     size_t    *idx;
 } na_loop_iter_t;
+
+typedef struct NA_LOOP_ARGS {
+    VALUE    value;
+    ssize_t  elmsz;
+    char    *ptr;
+    //char    *buf_ptr;  //
+    // int ndim; - not required for each argument.
+    // ssize_t pos; - not required here.
+    size_t  *shape;
+    na_loop_iter_t *iter;  // moved from na_loop_t
+} na_loop_args_t;
 
 // pass this structure to user iterator
 typedef struct NA_LOOP {
@@ -34,16 +34,11 @@ typedef struct NA_LOOP {
     int  ndim;             // n of user dimention  - required for each iterator.
     size_t *n;             // n of elements for each dim (=shape)
     na_loop_args_t *args;  // for each arg
-    na_loop_iter_t *iter;  // for each dim, each arg - should move to under args
     VALUE  option;
     void  *opt_ptr;
     VALUE  err_type;
 } na_loop_t;
 
-
-
-#define LITER(lp,idim,iarg) ((lp)->iter[(idim)*((lp)->narg)+(iarg)])
-//#define LITER(lp,idim,iarg) ((lp)->iter[iarg][idim])
 
 // ------------------ ndfunc -------------------------------------------
 
@@ -63,6 +58,8 @@ typedef struct NA_LOOP {
 #define STRIDE_LOOP_NIP (NDF_HAS_LOOP|NDF_STRIDE_LOOP)
 #define NO_LOOP         0
 #define HAS_REDUCE      NDF_HAS_REDUCE_DIM
+
+#define OVERWRITE Qtrue // used for CASTABLE(t)
 
 #define NDF_TEST(nf,fl)  ((nf)->flag&(fl))
 #define NDF_SET(nf,fl)  {(nf)->flag |= (fl);}
@@ -101,28 +98,5 @@ typedef struct NDFUNCTION {
 
 #define NDF_TEST(nf,fl)  ((nf)->flag&(fl))
 #define NDF_SET(nf,fl)  {(nf)->flag |= (fl);}
-
-
-// ------------------ na_md_loop_t ----------------------------------------
-
-typedef struct NA_MD_LOOP {
-    int  narg;
-    int  nin;
-    int  ndim;             // n of total dimention
-    unsigned int copy_flag;// set i-th bit if i-th arg is cast
-    size_t  *n;            // n of elements for each dim
-    na_loop_args_t *args;  // for each arg
-    na_loop_iter_t *iter;  // for each dim, each arg
-    na_loop_t  user;       // loop in user function
-    int    writeback;      // write back result to i-th arg
-    VALUE  vargs;
-    VALUE  reduce;
-    VALUE  loop_opt;
-    ndfunc_t  *ndfunc;
-    void (*loop_func)();
-} na_md_loop_t;
-
-#define OVERWRITE Qtrue
-#define CASTABLE(t) (RTEST(t) && (t)!=OVERWRITE)
 
 #endif /* NDLOOP_H */

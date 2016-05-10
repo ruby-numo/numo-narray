@@ -403,7 +403,7 @@ iter_nstruct_to_a(na_loop_t *const lp)
     opt = lp->option;
     types = RARRAY_AREF(opt,0);
     defs = RARRAY_AREF(opt,1);
-    pos = lp->iter[0].pos;
+    pos = lp->args[0].iter[0].pos;
 
     len = RARRAY_LEN(types);
     vary = rb_ary_new2(len);
@@ -596,7 +596,7 @@ iter_nstruct_from_a(na_loop_t *const lp)
         ofs  = NUM2SIZE(RARRAY_AREF(def,2));
         elmt = RARRAY_AREF(types,i);
         GetNArrayView(elmt,ne);
-        ne->offset = lp->iter[1].pos + ofs;
+        ne->offset = lp->args[1].iter[0].pos + ofs;
         item = RARRAY_AREF(ary,i);
         //rb_p(ary);
         //rb_p(item);

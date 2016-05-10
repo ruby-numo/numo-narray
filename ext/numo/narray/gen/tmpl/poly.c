@@ -4,16 +4,16 @@ static void
     size_t  i;
     dtype  x, y, a;
 
-    x = *(dtype*)(lp->args[0].ptr + lp->iter[0].pos);
+    x = *(dtype*)(lp->args[0].ptr + lp->args[0].iter[0].pos);
     i = lp->narg - 2;
-    y = *(dtype*)(lp->args[i].ptr + lp->iter[i].pos);
+    y = *(dtype*)(lp->args[i].ptr + lp->args[i].iter[0].pos);
     for (; --i;) {
         y = m_mul(x,y);
-        a = *(dtype*)(lp->args[i].ptr + lp->iter[i].pos);
+        a = *(dtype*)(lp->args[i].ptr + lp->args[i].iter[0].pos);
         y = m_add(y,a);
     }
     i = lp->narg - 1;
-    *(dtype*)(lp->args[i].ptr + lp->iter[i].pos) = y;
+    *(dtype*)(lp->args[i].ptr + lp->args[i].iter[0].pos) = y;
 }
 
 /*

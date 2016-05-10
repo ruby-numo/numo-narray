@@ -16,15 +16,15 @@
 
 #define INIT_PTR( lp, i, pt, st )                               \
     {                                                           \
-        pt = ((lp)->args[i]).ptr + ((lp)->iter[i]).pos;         \
-        st = ((lp)->iter[i]).step;                              \
+        pt = ((lp)->args[i]).ptr + ((lp)->args[i].iter[0]).pos;         \
+        st = ((lp)->args[i].iter[0]).step;                              \
     }
 
 #define INIT_PTR_IDX( lp, i, pt, st, id )                       \
     {                                                           \
-        pt = ((lp)->args[i]).ptr + ((lp)->iter[i]).pos;         \
-        st = ((lp)->iter[i]).step;                              \
-        id = ((lp)->iter[i]).idx;                               \
+        pt = ((lp)->args[i]).ptr + ((lp)->args[i].iter[0]).pos;         \
+        st = ((lp)->args[i].iter[0]).step;                              \
+        id = ((lp)->args[i].iter[0]).idx;                               \
     }
 
 #define INIT_ELMSIZE( lp, i, es )                               \
@@ -34,19 +34,19 @@
 
 #define INIT_PTR_BIT( lp, i, ad, ps, st )               \
     {                                                   \
-        ps = ((lp)->iter[i]).pos;                       \
+        ps = ((lp)->args[i].iter[0]).pos;                       \
         ad = (BIT_DIGIT*)(((lp)->args[i]).ptr) + ps/NB; \
         ps %= NB;                                       \
-        st = ((lp)->iter[i]).step;                      \
+        st = ((lp)->args[i].iter[0]).step;                      \
     }
 
 #define INIT_PTR_BIT_IDX( lp, i, ad, ps, st, id )       \
     {                                                   \
-        ps = ((lp)->iter[i]).pos;                       \
+        ps = ((lp)->args[i].iter[0]).pos;                       \
         ad = (BIT_DIGIT*)(((lp)->args[i]).ptr) + ps/NB; \
         ps %= NB;                                       \
-        st = ((lp)->iter[i]).step;                      \
-        id = ((lp)->iter[i]).idx;                       \
+        st = ((lp)->args[i].iter[0]).step;                      \
+        id = ((lp)->args[i].iter[0]).idx;                       \
     }
 
 #define GET_DATA( ptr, type, val )                 \

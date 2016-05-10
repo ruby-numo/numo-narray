@@ -10,7 +10,7 @@ static void
     //INIT_COUNTER(lp, n);
     n = lp->args[0].shape[0];
     INIT_PTR_IDX(lp, 0, p1, s1, idx1);
-    p2 = (lp->args[1]).ptr + (lp->iter[1]).pos;
+    p2 = (lp->args[1]).ptr + (lp->args[1].iter[0]).pos;
     buf = (dtype*)(lp->opt_ptr);
     if (idx1) {
         for (i=0; i<n; i++) {

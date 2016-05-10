@@ -20,6 +20,29 @@
 #define va_init_list(a,b) va_start(a)
 #endif
 
+// ------------------ na_md_loop_t ----------------------------------------
+
+typedef struct NA_MD_LOOP {
+    int  narg;
+    int  nin;
+    int  ndim;             // n of total dimention
+    unsigned int copy_flag;// set i-th bit if i-th arg is cast
+    size_t  *n;            // n of elements for each dim
+    na_loop_args_t *args;  // for each arg
+    na_loop_iter_t **iter;  // for each dim, each arg
+    na_loop_t  user;       // loop in user function
+    int    writeback;      // write back result to i-th arg
+    VALUE  vargs;
+    VALUE  reduce;
+    VALUE  loop_opt;
+    ndfunc_t  *ndfunc;
+    void (*loop_func)();
+} na_md_loop_t;
+
+#define LITER(lp,idim,iarg) ((lp)->iter[iarg][idim])
+
+#define CASTABLE(t) (RTEST(t) && (t)!=OVERWRITE)
+
 #define NDL_READ 1
 #define NDL_WRITE 2
 #define NDL_READ_WRITE 3
@@ -74,7 +97,6 @@ print_ndloop(na_md_loop_t *lp) {
     printf("  user.ndim = %d\n", lp->user.ndim);
     printf("  user.n = 0x%"SZF"x\n", (size_t)lp->user.n);
     printf("  user.args = 0x%"SZF"x\n", (size_t)lp->user.args);
-    printf("  user.iter = 0x%"SZF"x\n", (size_t)lp->user.iter);
     printf("  user.opt_ptr = 0x%"SZF"x\n", (size_t)lp->user.opt_ptr);
     if (lp->reduce==Qnil) {
         printf("  reduce  = nil\n");
@@ -253,6 +275,8 @@ ndloop_alloc(na_md_loop_t *lp, ndfunc_t *nf, VALUE args, void *opt_ptr, unsigned
     int nin, nout, nopt;
     long args_len;
 
+    na_loop_iter_t *iter;
+
     args_len = RARRAY_LEN(args);
 
     if (args_len != nf->nin) {
@@ -295,19 +319,13 @@ ndloop_alloc(na_md_loop_t *lp, ndfunc_t *nf, VALUE args, void *opt_ptr, unsigned
     max_nd = loop_nd + user_nd;
 
     lp->n    = ALLOC_N(size_t, max_nd+1);
-    lp->args = ALLOC_N(na_loop_args_t, narg+1);
-    lp->iter = ALLOC_N(na_loop_iter_t, narg*(max_nd+1));
-    /*
-    iter = ALLOC_N(na_loop_iter_t, narg*(max_nd+1));
+    lp->args = ALLOC_N(na_loop_args_t, narg);
+    lp->user.args = lp->args;
     lp->iter = ALLOC_N(na_loop_iter_t*, narg);
-    lp->user.iter = ALLOC_N(na_loop_iter_t*, narg);
-    for (i=0; i<narg; i++) {
-        lp->iter[i] = &(iter[(max_nd+1)*i]);
-        lp->user.iter[i] = &(lp->iter[i][loop_nd]);
-    }
-     */
-    for (i=0; i<narg; i++) {
-      lp->args[i].value = Qnil;
+    iter = ALLOC_N(na_loop_iter_t, narg*(max_nd+1));
+    for (j=0; j<narg; j++) {
+        lp->iter[j] = &(iter[(max_nd+1)*j]);
+        lp->args[j].value = Qnil;
     }
 
     lp->vargs = args;
@@ -321,7 +339,6 @@ ndloop_alloc(na_md_loop_t *lp, ndfunc_t *nf, VALUE args, void *opt_ptr, unsigned
     lp->writeback = -1;
     lp->user.narg = narg;
     lp->user.ndim = user_nd;
-    lp->user.args = lp->args;
 
     for (i=0; i<=max_nd; i++) {
         lp->n[i] = 1;
@@ -356,6 +373,7 @@ ndloop_release(VALUE vlp)
         }
     }
     //xfree(lp);
+    xfree(lp->iter[0]);
     xfree(lp->iter);
     xfree(lp->args);
     xfree(lp->n);
@@ -734,6 +752,8 @@ ndloop_set_output(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
 static void
 ndfunc_set_user_loop(ndfunc_t *nf, na_md_loop_t *lp)
 {
+    int j;
+
     if (lp->ndim > 0 && NDF_TEST(nf,NDF_HAS_LOOP)) {
         lp->user.ndim += 1;
         lp->ndim -= 1;
@@ -741,7 +761,11 @@ ndfunc_set_user_loop(ndfunc_t *nf, na_md_loop_t *lp)
     //ndfunc_check_user_loop(nf, lp);
 
     lp->user.n = &(lp->n[lp->ndim]);
-    lp->user.iter = &LITER(lp,lp->ndim,0);
+    //lp->user.iter = &LITER(lp,lp->ndim,0);
+    for (j=0; j<lp->narg; j++) {
+        //lp->user.args[j].iter = &(lp->user.args[j].iter[lp->ndim]);
+        lp->user.args[j].iter = &LITER(lp,lp->ndim,j);
+    }
 }
 
 
