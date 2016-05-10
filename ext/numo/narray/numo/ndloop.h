@@ -15,9 +15,11 @@ typedef struct NA_LOOP_ARGS {
     VALUE    value;
     ssize_t  elmsz;
     char    *ptr;
+    // char  *buf_ptr;  //
     // int ndim; - not required for each argument.
     // ssize_t pos; - not required here.
     size_t  *shape;
+    //na_loop_iter_t *iter;  // should move from na_loop_t
 } na_loop_args_t;
 
 typedef struct NA_LOOP_ITER {
@@ -26,12 +28,13 @@ typedef struct NA_LOOP_ITER {
     size_t    *idx;
 } na_loop_iter_t;
 
+// pass this structure to user iterator
 typedef struct NA_LOOP {
     int  narg;
     int  ndim;             // n of user dimention  - required for each iterator.
-    size_t *n;             // n of elements for each dim
+    size_t *n;             // n of elements for each dim (=shape)
     na_loop_args_t *args;  // for each arg
-    na_loop_iter_t *iter;  // for each dim, each arg
+    na_loop_iter_t *iter;  // for each dim, each arg - should move to under args
     VALUE  option;
     void  *opt_ptr;
     VALUE  err_type;
@@ -40,6 +43,7 @@ typedef struct NA_LOOP {
 
 
 #define LITER(lp,idim,iarg) ((lp)->iter[(idim)*((lp)->narg)+(iarg)])
+//#define LITER(lp,idim,iarg) ((lp)->iter[iarg][idim])
 
 // ------------------ ndfunc -------------------------------------------
 

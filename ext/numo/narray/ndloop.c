@@ -297,6 +297,15 @@ ndloop_alloc(na_md_loop_t *lp, ndfunc_t *nf, VALUE args, void *opt_ptr, unsigned
     lp->n    = ALLOC_N(size_t, max_nd+1);
     lp->args = ALLOC_N(na_loop_args_t, narg+1);
     lp->iter = ALLOC_N(na_loop_iter_t, narg*(max_nd+1));
+    /*
+    iter = ALLOC_N(na_loop_iter_t, narg*(max_nd+1));
+    lp->iter = ALLOC_N(na_loop_iter_t*, narg);
+    lp->user.iter = ALLOC_N(na_loop_iter_t*, narg);
+    for (i=0; i<narg; i++) {
+        lp->iter[i] = &(iter[(max_nd+1)*i]);
+        lp->user.iter[i] = &(lp->iter[i][loop_nd]);
+    }
+     */
     for (i=0; i<narg; i++) {
       lp->args[i].value = Qnil;
     }
@@ -749,6 +758,7 @@ ndfunc_write_back(ndfunc_t *nf, na_md_loop_t *lp, VALUE orig_args, VALUE results
     }
 }
 
+
 static VALUE
 ndloop_extract(VALUE results, ndfunc_t *nf)
 {
@@ -851,13 +861,15 @@ loop_narray(ndfunc_t *nf, na_md_loop_t *lp)
         return;
     }
 
-    // alloc counter
+    // initialize loop counter
     c = ALLOCA_N(size_t, nd+1);
     for (i=0; i<=nd; i++) c[i]=0;
 
     // loop body
     for (i=0;;) {
+        // i-th dimension
         for (; i<nd; i++) {
+            // j-th argument
             for (j=0; j<lp->narg; j++) {
                 //printf("i=%d,j=%d\n",i,j);
                 if (LITER(lp,i,j).idx) {
@@ -867,8 +879,23 @@ loop_narray(ndfunc_t *nf, na_md_loop_t *lp)
                 }
             }
         }
-
+        /*
+        for (j=0; j<lp->nin; j++) {
+            if (lp->user.args[j].ptr != lp->args[j].ptr) {
+                // copy data to work buffer
+                // cp lp->args[j].iter[nd..] to lp->user.args[j].iter[0..]
+            }
+        }
+        */
         (*(nf->func))(&(lp->user));
+        /*
+        for (j=lp->nin; j<lp->narg; j++) {
+            if (lp->args[j].buf_ptr) {
+                // copy data from buffer
+                // cp lp->args[j].buf lp->args[j].ptr
+            }
+        }
+        */
         if (RTEST(lp->user.err_type)) {return;}
 
         for (;;) {
