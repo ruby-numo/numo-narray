@@ -1,7 +1,7 @@
 /*
   ndloop.h
   Numerical Array Extension for Ruby
-    (C) Copyright 1999-2011 by Masahiro TANAKA
+    (C) Copyright 1999-2016 by Masahiro TANAKA
 
   This program is free software.
   You can distribute/modify this program
@@ -52,6 +52,9 @@ typedef struct NA_LOOP {
 #define NDF_HAS_REDUCE_DIM      (1<<6)
 #define NDF_EXTRACT             (1<<7)
 
+#define NDF_REDUCE_FLATTEN
+#define NDF_REDUCE_USER_LOOP
+
 #define FULL_LOOP       (NDF_HAS_LOOP|NDF_STRIDE_LOOP|NDF_INDEX_LOOP|NDF_INPLACE)
 #define FULL_LOOP_NIP   (NDF_HAS_LOOP|NDF_STRIDE_LOOP|NDF_INDEX_LOOP)
 #define STRIDE_LOOP     (NDF_HAS_LOOP|NDF_STRIDE_LOOP|NDF_INPLACE)
@@ -61,7 +64,7 @@ typedef struct NA_LOOP {
 
 #define OVERWRITE Qtrue // used for CASTABLE(t)
 
-#define NDF_TEST(nf,fl)  ((nf)->flag&(fl))
+#define NDF_TEST(nf,fl)  ((nf)->flag & (fl))
 #define NDF_SET(nf,fl)  {(nf)->flag |= (fl);}
 
 #define NDF_ARG_READ_ONLY   1
@@ -77,6 +80,7 @@ typedef VALUE (*na_text_func_t) _((char *ptr, size_t pos, VALUE opt));
 typedef struct NDF_ARG_IN {
     VALUE   type;    // argument types
     int     dim;     // # of dimension of argument handled by user function
+                     // if dim==-1, reduce dimension
 } ndfunc_arg_in_t;
 
 typedef struct NDF_ARG_OUT {
@@ -94,9 +98,5 @@ typedef struct NDFUNCTION {
     ndfunc_arg_in_t *ain;   // spec of input arguments
     ndfunc_arg_out_t *aout; // spec of output result
 } ndfunc_t;
-
-
-#define NDF_TEST(nf,fl)  ((nf)->flag&(fl))
-#define NDF_SET(nf,fl)  {(nf)->flag |= (fl);}
 
 #endif /* NDLOOP_H */

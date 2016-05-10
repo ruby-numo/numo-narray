@@ -1,7 +1,7 @@
 /*
   ndloop.c
   Numerical Array Extension for Ruby
-    (C) Copyright 1999-2011 by Masahiro TANAKA
+    (C) Copyright 1999-2016 by Masahiro TANAKA
 
   This program is free software.
   You can distribute/modify this program
@@ -29,8 +29,9 @@ typedef struct NA_MD_LOOP {
     unsigned int copy_flag;// set i-th bit if i-th arg is cast
     size_t  *n;            // n of elements for each dim
     na_loop_args_t *args;  // for each arg
-    na_loop_iter_t **iter;  // for each dim, each arg
+    na_loop_iter_t **iter; // for each dim, each arg
     na_loop_t  user;       // loop in user function
+    na_loop_t *buf_cp;    // loop in user function
     int    writeback;      // write back result to i-th arg
     VALUE  vargs;
     VALUE  reduce;
@@ -162,6 +163,11 @@ ndloop_copy_by_access_type(ndfunc_t *nf, VALUE args, int cond)
             if (NA_TYPE(na) == NARRAY_VIEW_T) {
                 sz = na_get_elmsz(v);
                 nd = nf->ain[j].dim;
+                /*
+                if (nd == -1) {
+                   reduce dimention;
+                }
+                */
                 if (NDF_TEST(nf,NDF_HAS_LOOP)) {
                     nd++;
                 }
@@ -171,6 +177,8 @@ ndloop_copy_by_access_type(ndfunc_t *nf, VALUE args, int cond)
                     //RARRAY_PTR(args)[j] = v = na_copy(v);
                     //rb_funcall(v,rb_intern("debug_info"),0);
                     flag |= 1<<j;
+
+                    // copy_buf j-th argument
                 }
             }
         }
@@ -178,8 +186,8 @@ ndloop_copy_by_access_type(ndfunc_t *nf, VALUE args, int cond)
     return flag;
 }
 
-static unsigned int
-ndloop_match_access_type(ndfunc_t *nf, VALUE args, int user_ndim)
+static int
+ndloop_func_access_type(ndfunc_t *nf, int user_ndim)
 {
     // If user function supports LOOP
     if (user_ndim > 0 || NDF_TEST(nf,NDF_HAS_LOOP)) {
@@ -187,13 +195,13 @@ ndloop_match_access_type(ndfunc_t *nf, VALUE args, int user_ndim)
         if (NDF_TEST(nf,NDF_STRIDE_LOOP)) {
             // If the user function supports STRIDE but not INDEX
             if (!NDF_TEST(nf,NDF_INDEX_LOOP)) {
-                return ndloop_copy_by_access_type(nf,args,2);
+                return 2;
             }
             // else
             // If the user function supports both STRIDE and INDEX
         } else {
             // If the user function supports only CONTIGUOUS loop
-            return ndloop_copy_by_access_type(nf,args,1);
+            return 1;
         }
     }
     return 0;
@@ -263,7 +271,8 @@ ndloop_cast_args(ndfunc_t *nf, VALUE args)
 */
 
 static void
-ndloop_alloc(na_md_loop_t *lp, ndfunc_t *nf, VALUE args, void *opt_ptr, unsigned int copy_flag,
+ndloop_alloc(na_md_loop_t *lp, ndfunc_t *nf, VALUE args,
+             void *opt_ptr, unsigned int copy_flag,
              void (*loop_func)(ndfunc_t*, na_md_loop_t*))
 {
     int i,j;
@@ -588,7 +597,8 @@ ndloop_check_inplace(VALUE type, int na_ndim, size_t *na_shape, VALUE v)
 }
 
 static VALUE
-ndloop_find_inplace(ndfunc_t *nf, na_md_loop_t *lp, VALUE type, int na_ndim, size_t *na_shape, VALUE args)
+ndloop_find_inplace(ndfunc_t *nf, na_md_loop_t *lp, VALUE type,
+                    int na_ndim, size_t *na_shape, VALUE args)
 {
     int j;
     VALUE v;
@@ -709,9 +719,7 @@ ndloop_set_output(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
     // output results
     results = rb_ary_new2(nf->nout);
 
-    //for (j=nf->nin; j<nall; j++) {
     for (k=0; k<nf->nout; k++) {
-        //t = nf->args[j].type;
         t = nf->aout[k].type;
         t = ndloop_get_arg_type(nf,args,t);
 
@@ -761,9 +769,7 @@ ndfunc_set_user_loop(ndfunc_t *nf, na_md_loop_t *lp)
     //ndfunc_check_user_loop(nf, lp);
 
     lp->user.n = &(lp->n[lp->ndim]);
-    //lp->user.iter = &LITER(lp,lp->ndim,0);
     for (j=0; j<lp->narg; j++) {
-        //lp->user.args[j].iter = &(lp->user.args[j].iter[lp->ndim]);
         lp->user.args[j].iter = &LITER(lp,lp->ndim,j);
     }
 }
@@ -831,6 +837,7 @@ ndloop_extract(VALUE results, ndfunc_t *nf)
 static VALUE
 ndloop_run(VALUE vlp)
 {
+    int access;
     volatile VALUE args, orig_args, results;
     na_md_loop_t *lp = (na_md_loop_t*)(vlp);
     ndfunc_t *nf;
@@ -840,7 +847,10 @@ ndloop_run(VALUE vlp)
 
     args = rb_obj_dup(orig_args);
 
-    lp->copy_flag |= ndloop_match_access_type(nf, args, lp->user.ndim);
+    access = ndloop_func_access_type(nf, lp->user.ndim);
+    if (access != 0) {
+        lp->copy_flag |= ndloop_copy_by_access_type(nf, args, access);
+    }
 
     // setup ndloop iterator with arguments
     ndloop_init_args(nf, lp, args);
@@ -873,7 +883,6 @@ loop_narray(ndfunc_t *nf, na_md_loop_t *lp)
 {
     size_t *c;
     int  i, j;
-    //int  nargs = lp->narg;
     int  nd = lp->ndim;
 
     if (nd<0) {
@@ -905,9 +914,14 @@ loop_narray(ndfunc_t *nf, na_md_loop_t *lp)
         }
         /*
         for (j=0; j<lp->nin; j++) {
-            if (lp->user.args[j].ptr != lp->args[j].ptr) {
+            if (lp->buf_cp[j]) {
                 // copy data to work buffer
-                // cp lp->args[j].iter[nd..] to lp->user.args[j].iter[0..]
+                // cp lp->iter[j][nd..*] to lp->user.args[j].iter[0..*]
+                ndloop_copy_to_buffer(lp->buf_cp[j]);
+                //lp->buf_cp[j].args[0] = src array
+                //lp->buf_cp[j].args[1] = buf array
+                //lp->buf_cp[j].args[0].iter = lp->iter[j][nd..*]
+                //lp->buf_cp[j].args[1].iter = lp->user.args[j].iter[0..*]
             }
         }
         */
@@ -916,7 +930,7 @@ loop_narray(ndfunc_t *nf, na_md_loop_t *lp)
         for (j=lp->nin; j<lp->narg; j++) {
             if (lp->args[j].buf_ptr) {
                 // copy data from buffer
-                // cp lp->args[j].buf lp->args[j].ptr
+                // cp lp->args[j].iter[0..*] lp->iter[j][nd..*]
             }
         }
         */
