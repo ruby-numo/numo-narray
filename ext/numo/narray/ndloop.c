@@ -28,8 +28,10 @@ typedef struct NA_MD_LOOP {
     int  ndim;             // n of total dimention
     unsigned int copy_flag;// set i-th bit if i-th arg is cast
     size_t  *n;            // n of elements for each dim
+    size_t  *n_ptr;        // memory for n
     na_loop_args_t *args;  // for each arg
     na_loop_iter_t **iter; // for each dim, each arg
+    na_loop_iter_t *iter_ptr; // memory for iter
     na_loop_t  user;       // loop in user function
     na_loop_t *buf_cp;    // loop in user function
     int    writeback;      // write back result to i-th arg
@@ -327,11 +329,12 @@ ndloop_alloc(na_md_loop_t *lp, ndfunc_t *nf, VALUE args,
     narg = nin + nout;
     max_nd = loop_nd + user_nd;
 
-    lp->n    = ALLOC_N(size_t, max_nd+1);
+    lp->n    = lp->n_ptr = ALLOC_N(size_t, max_nd+1);
     lp->args = ALLOC_N(na_loop_args_t, narg);
     lp->user.args = lp->args;
     lp->iter = ALLOC_N(na_loop_iter_t*, narg);
     iter = ALLOC_N(na_loop_iter_t, narg*(max_nd+1));
+    lp->iter_ptr = iter;
     for (j=0; j<narg; j++) {
         lp->iter[j] = &(iter[(max_nd+1)*j]);
         lp->args[j].value = Qnil;
@@ -382,10 +385,10 @@ ndloop_release(VALUE vlp)
         }
     }
     //xfree(lp);
-    xfree(lp->iter[0]);
+    xfree(lp->iter_ptr);
     xfree(lp->iter);
     xfree(lp->args);
-    xfree(lp->n);
+    xfree(lp->n_ptr);
     //rb_gc_force_recycle(vlp);
     return Qnil;
 }
@@ -758,6 +761,46 @@ ndloop_set_output(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
 
 
 static void
+ndfunc_contract_loop(na_md_loop_t *lp)
+{
+    int i,j,k,success,cnt=0;
+
+    for (i=1; i<lp->ndim; i++) {
+        success = 1;
+        for (j=0; j<lp->narg; j++) {
+            if (!(LITER(lp,i,j).idx==NULL && LITER(lp,i-1,j).idx==NULL &&
+                  LITER(lp,i-1,j).step == LITER(lp,i,j).step*(ssize_t)(lp->n[i]))) {
+                success = 0;
+                break;
+            }
+        }
+        if (success) {
+            // contract (i-1)-th and i-th dimension
+            lp->n[i] *= lp->n[i-i];
+            //printf("lp->n[%d]=%lu\n",i,lp->n[i]);
+            // shift dimensions
+            for (k=i-1; k>cnt; k--) {
+                lp->n[k] = lp->n[k-i];
+            }
+            for (j=0; j<lp->narg; j++) {
+                for (k=i-1; k>cnt; k--) {
+                    LITER(lp,k,j) = LITER(lp,k-1,j);
+                }
+            }
+            cnt++;
+        }
+    }
+    if (cnt>0) {
+        for (j=0; j<lp->narg; j++) {
+            lp->iter[j] = &LITER(lp,cnt,j);
+        }
+        lp->n = &(lp->n[cnt]);
+        lp->ndim -= cnt;
+    }
+}
+
+
+static void
 ndfunc_set_user_loop(ndfunc_t *nf, na_md_loop_t *lp)
 {
     int j;
@@ -834,6 +877,9 @@ ndloop_extract(VALUE results, ndfunc_t *nf)
 }
 
 
+static void
+loop_narray(ndfunc_t *nf, na_md_loop_t *lp);
+
 static VALUE
 ndloop_run(VALUE vlp)
 {
@@ -855,6 +901,11 @@ ndloop_run(VALUE vlp)
     // setup ndloop iterator with arguments
     ndloop_init_args(nf, lp, args);
     results = ndloop_set_output(nf, lp, args);
+
+    // contract loop
+    if (lp->loop_func == loop_narray) {
+        ndfunc_contract_loop(lp);
+    }
 
     // setup objects in which resuts are stored
     ndfunc_set_user_loop(nf, lp);
