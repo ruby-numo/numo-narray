@@ -131,94 +131,35 @@ print_ndloop(na_md_loop_t *lp) {
             printf("  iter[%d,%d].step = %"SZF"u\n", i,j, LITER(lp,i,j).step);
             printf("  iter[%d,%d].idx = 0x%"SZF"x\n", i,j, (size_t)LITER(lp,i,j).idx);
         }
+        printf("  xargs[%d].bufcp = 0x%"SZF"x\n", j, (size_t)lp->xargs[j].bufcp);
+        if (lp->xargs[j].bufcp) {
+            printf("  xargs[%d].bufcp->ndim = %d\n", j, lp->xargs[j].bufcp->ndim);
+            printf("  xargs[%d].bufcp->elmsz = %"SZF"d\n", j, lp->xargs[j].bufcp->elmsz);
+            printf("  xargs[%d].bufcp->n = 0x%"SZF"x\n", j, (size_t)lp->xargs[j].bufcp->n);
+            printf("  xargs[%d].bufcp->src_ptr = 0x%"SZF"x\n", j, (size_t)lp->xargs[j].bufcp->src_ptr);
+            printf("  xargs[%d].bufcp->buf_ptr = 0x%"SZF"x\n", j, (size_t)lp->xargs[j].bufcp->buf_ptr);
+            printf("  xargs[%d].bufcp->src_iter = 0x%"SZF"x\n", j, (size_t)lp->xargs[j].bufcp->src_iter);
+            printf("  xargs[%d].bufcp->buf_iter = 0x%"SZF"x\n", j, (size_t)lp->xargs[j].bufcp->buf_iter);
+        }
     }
     printf("}\n");
 }
 
 
-static int
-ndloop_get_access_type(narray_t *na, ssize_t sz, int nd)
+static unsigned int
+ndloop_func_loop_spec(ndfunc_t *nf, int user_ndim)
 {
-    int i, k, f=0;
-    size_t n;
-    stridx_t sdx;
-
-    for (i=0; i<nd; i++) {
-        k = na->ndim-1-i;
-        n = na->shape[k];
-        if (n > 1) {
-            sdx = NA_VIEW_STRIDX(na)[k];
-            if (SDX_IS_INDEX(sdx)) {
-                f |= 2;
-            } else {
-                if (SDX_GET_STRIDE(sdx)!=sz) {
-                    f |= 1;
-                }
-            }
-            sz *= n;
+    unsigned int f=0;
+    // If user function supports LOOP
+    if (user_ndim > 0 || NDF_TEST(nf,NDF_HAS_LOOP)) {
+        if (!NDF_TEST(nf,NDF_STRIDE_LOOP)) {
+            f |= 1;
+        }
+        if (!NDF_TEST(nf,NDF_INDEX_LOOP)) {
+            f |= 2;
         }
     }
     return f;
-}
-
-static unsigned int
-ndloop_copy_by_access_type(ndfunc_t *nf, VALUE args, int cond)
-{
-    int j, nd, f;
-    ssize_t sz;
-    VALUE v;
-    narray_t *na;
-    unsigned int flag=0;
-
-    for (j=0; j<nf->nin; j++) {
-        v = RARRAY_AREF(args,j);
-        if (IsNArray(v)) {
-            GetNArray(v,na);
-            if (NA_TYPE(na) == NARRAY_VIEW_T) {
-                sz = na_get_elmsz(v);
-                nd = nf->ain[j].dim;
-                /*
-                if (nd == -1) {
-                   reduce dimention;
-                }
-                */
-                if (NDF_TEST(nf,NDF_HAS_LOOP)) {
-                    nd++;
-                }
-                f = ndloop_get_access_type(na,sz,nd);
-                if (f>=cond) {
-                    RARRAY_ASET(args,j,rb_obj_dup(v));
-                    //RARRAY_PTR(args)[j] = v = na_copy(v);
-                    //rb_funcall(v,rb_intern("debug_info"),0);
-                    flag |= 1<<j;
-
-                    // copy_buf j-th argument
-                }
-            }
-        }
-    }
-    return flag;
-}
-
-static int
-ndloop_func_access_type(ndfunc_t *nf, int user_ndim)
-{
-    // If user function supports LOOP
-    if (user_ndim > 0 || NDF_TEST(nf,NDF_HAS_LOOP)) {
-        // If the user function supports STRIDE
-        if (NDF_TEST(nf,NDF_STRIDE_LOOP)) {
-            // If the user function supports STRIDE but not INDEX
-            if (!NDF_TEST(nf,NDF_INDEX_LOOP)) {
-                return 2;
-            }
-            // else
-            // If the user function supports both STRIDE and INDEX
-        } else {
-            // If the user function supports only CONTIGUOUS loop
-            return 1;
-        }
-    }
-    return 0;
 }
 
 
@@ -796,8 +737,7 @@ ndfunc_contract_loop(na_md_loop_t *lp)
         }
         if (success) {
             // contract (i-1)-th and i-th dimension
-            lp->n[i] *= lp->n[i-i];
-            //printf("lp->n[%d]=%lu\n",i,lp->n[i]);
+            lp->n[i] *= lp->n[i-1];
             // shift dimensions
             for (k=i-1; k>cnt; k--) {
                 lp->n[k] = lp->n[k-i];
@@ -835,6 +775,138 @@ ndfunc_set_user_loop(ndfunc_t *nf, na_md_loop_t *lp)
     for (j=0; j<lp->narg; j++) {
         LARG(lp,j).iter = &LITER(lp,lp->ndim,j);
     }
+}
+
+
+#define LBUFCP(lp,j) ((lp)->xargs[j].bufcp)
+
+static void
+ndfunc_set_bufcp(na_md_loop_t *lp, unsigned int loop_spec)
+{
+    unsigned int f;
+    int i, j;
+    int nd = lp->user.ndim;
+    int nin = lp->nin;
+    ssize_t sz, elmsz;
+    na_loop_iter_t *buf_iter, *arg_iter;
+
+    for (j=0; j<nin; j++) {
+        sz = elmsz = LARG(lp,j).elmsz;
+        arg_iter = LARG(lp,j).iter;
+        buf_iter = ALLOC_N(na_loop_iter_t,nd+1);
+        f = 0;
+        buf_iter[nd].pos = 0;
+        buf_iter[nd].step = 0;
+        buf_iter[nd].idx = NULL;
+        for (i=nd; i>0; ) {
+            i--;
+            buf_iter[i].pos = 0;
+            buf_iter[i].step = sz;
+            buf_iter[i].idx = NULL;
+            if (arg_iter[i].idx) {
+                f |= 2;
+            } else
+            if (arg_iter[i].step != sz) {
+                f |= 1;
+            }
+            sz *= lp->user.n[i];
+        }
+        if (f & loop_spec) {
+            LBUFCP(lp,j) = ALLOC(na_buffer_copy_t);
+            LBUFCP(lp,j)->ndim = nd;
+            LBUFCP(lp,j)->elmsz = elmsz;
+            LBUFCP(lp,j)->n = lp->user.n;
+            LBUFCP(lp,j)->src_iter = LARG(lp,j).iter;
+            LARG(lp,j).iter = LBUFCP(lp,j)->buf_iter = buf_iter;
+            LBUFCP(lp,j)->src_ptr = LARG(lp,j).ptr;
+            LARG(lp,j).ptr = LBUFCP(lp,j)->buf_ptr = xmalloc(sz);
+        } else {
+            xfree(buf_iter);
+        }
+    }
+}
+
+#define LITER_SRC(lp,idim) ((lp)->src_iter[idim])
+
+static void
+ndloop_copy_to_buffer(na_buffer_copy_t *lp)
+{
+    size_t *c;
+    char *src, *buf;
+    int  i;
+    int  nd = lp->ndim;
+    size_t elmsz = lp->elmsz;
+    size_t buf_pos = 0;
+
+    // initialize loop counter
+    c = ALLOCA_N(size_t, nd+1);
+    for (i=0; i<=nd; i++) c[i]=0;
+    // loop body
+    for (i=0;;) {
+        // i-th dimension
+        for (; i<nd; i++) {
+            if (LITER_SRC(lp,i).idx) {
+                LITER_SRC(lp,i+1).pos = LITER_SRC(lp,i).pos + LITER_SRC(lp,i).idx[c[i]];
+            } else {
+                LITER_SRC(lp,i+1).pos = LITER_SRC(lp,i).pos + LITER_SRC(lp,i).step*c[i];
+            }
+        }
+        src = lp->src_ptr + LITER_SRC(lp,nd).pos;
+        buf = lp->buf_ptr + buf_pos;
+        memcpy(buf,src,elmsz);
+        buf_pos += elmsz;
+        // count up
+        for (;;) {
+            if (i<=0) goto loop_end;
+            i--;
+            if (++c[i] < lp->n[i]) break;
+            c[i] = 0;
+        }
+    }
+ loop_end:
+    ;
+}
+
+static void
+ndloop_copy_from_buffer(na_buffer_copy_t *lp)
+{
+    size_t *c;
+    char *src, *buf;
+    int  i;
+    int  nd = lp->ndim;
+    size_t elmsz = lp->elmsz;
+    size_t buf_pos = 0;
+
+    // initialize loop counter
+    c = ALLOCA_N(size_t, nd+1);
+    for (i=0; i<=nd; i++) c[i]=0;
+    // loop body
+    for (i=0;;) {
+        // i-th dimension
+        for (; i<nd; i++) {
+            //printf("i=%d=%d\n",i);
+            if (LITER_SRC(lp,i).idx) {
+                LITER_SRC(lp,i+1).pos = LITER_SRC(lp,i).pos + LITER_SRC(lp,i).idx[c[i]];
+            } else {
+                LITER_SRC(lp,i+1).pos = LITER_SRC(lp,i).pos + LITER_SRC(lp,i).step*c[i];
+            }
+        }
+        src = lp->src_ptr + LITER_SRC(lp,nd).pos;
+        buf = lp->buf_ptr + buf_pos;
+        //printf("buf=%f src=%f\n",*(double*)buf,*(double*)src);
+        //printf("buf=%lxd src=%lxd elmsz=%ld\n",(size_t)buf,(size_t)src,elmsz);
+        memcpy(src,buf,elmsz);
+        buf_pos += elmsz;
+        // count up
+        for (;;) {
+            if (i<=0) goto loop_end;
+            i--;
+            if (++c[i] < lp->n[i]) break;
+            c[i] = 0;
+        }
+    }
+ loop_end:
+    ;
 }
 
 
@@ -903,7 +975,7 @@ loop_narray(ndfunc_t *nf, na_md_loop_t *lp);
 static VALUE
 ndloop_run(VALUE vlp)
 {
-    int access;
+    unsigned int loop_spec;
     volatile VALUE args, orig_args, results;
     na_md_loop_t *lp = (na_md_loop_t*)(vlp);
     ndfunc_t *nf;
@@ -912,11 +984,6 @@ ndloop_run(VALUE vlp)
     nf = lp->ndfunc;
 
     args = rb_obj_dup(orig_args);
-
-    access = ndloop_func_access_type(nf, lp->user.ndim);
-    if (access != 0) {
-        lp->copy_flag |= ndloop_copy_by_access_type(nf, args, access);
-    }
 
     // setup ndloop iterator with arguments
     ndloop_init_args(nf, lp, args);
@@ -929,6 +996,12 @@ ndloop_run(VALUE vlp)
 
     // setup objects in which resuts are stored
     ndfunc_set_user_loop(nf, lp);
+
+    // setup buffering during loop
+    if (lp->loop_func == loop_narray) {
+        loop_spec = ndloop_func_loop_spec(nf, lp->user.ndim);
+        ndfunc_set_bufcp(lp, loop_spec);
+    }
 
     if (na_debug_flag) print_ndloop(lp);
 
@@ -961,7 +1034,18 @@ loop_narray(ndfunc_t *nf, na_md_loop_t *lp)
     }
 
     if (nd==0) {
+        for (j=0; j<lp->nin; j++) {
+            if (lp->xargs[j].bufcp) {
+                ndloop_copy_to_buffer(lp->xargs[j].bufcp);
+            }
+        }
         (*(nf->func))(&(lp->user));
+        for (j=0; j<lp->nin; j++) {
+            if (lp->xargs[j].bufcp) {
+                // copy data to work buffer
+                ndloop_copy_from_buffer(lp->xargs[j].bufcp);
+            }
+        }
         return;
     }
 
@@ -975,7 +1059,6 @@ loop_narray(ndfunc_t *nf, na_md_loop_t *lp)
         for (; i<nd; i++) {
             // j-th argument
             for (j=0; j<lp->narg; j++) {
-                //printf("i=%d,j=%d\n",i,j);
                 if (LITER(lp,i,j).idx) {
                     LITER(lp,i+1,j).pos = LITER(lp,i,j).pos + LITER(lp,i,j).idx[c[i]];
                 } else {
@@ -983,28 +1066,20 @@ loop_narray(ndfunc_t *nf, na_md_loop_t *lp)
                 }
             }
         }
-        /*
         for (j=0; j<lp->nin; j++) {
-            if (lp->buf_cp[j]) {
+            if (lp->xargs[j].bufcp) {
                 // copy data to work buffer
                 // cp lp->iter[j][nd..*] to lp->user.args[j].iter[0..*]
-                ndloop_copy_to_buffer(lp->buf_cp[j]);
-                //lp->buf_cp[j].args[0] = src array
-                //lp->buf_cp[j].args[1] = buf array
-                //lp->buf_cp[j].args[0].iter = lp->iter[j][nd..*]
-                //lp->buf_cp[j].args[1].iter = lp->user.args[j].iter[0..*]
+                ndloop_copy_to_buffer(lp->xargs[j].bufcp);
             }
         }
-        */
         (*(nf->func))(&(lp->user));
-        /*
-        for (j=lp->nin; j<lp->narg; j++) {
-            if (lp->xargs[j].buf_ptr) {
-                // copy data from buffer
-                // cp lp->xargs[j].iter[0..*] lp->iter[j][nd..*]
+        for (j=0; j<lp->nin; j++) {
+            if (lp->xargs[j].bufcp) {
+                // copy data to work buffer
+                ndloop_copy_from_buffer(lp->xargs[j].bufcp);
             }
         }
-        */
         if (RTEST(lp->user.err_type)) {return;}
 
         for (;;) {
