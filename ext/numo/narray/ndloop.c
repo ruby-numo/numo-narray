@@ -20,21 +20,32 @@
 #define va_init_list(a,b) va_start(a)
 #endif
 
-// ------------------ na_md_loop_t ----------------------------------------
+typedef struct NA_BUFFER_COPY {
+    int ndim;
+    size_t elmsz;
+    size_t *n;
+    char *src_ptr;
+    char *buf_ptr;
+    na_loop_iter_t *src_iter;
+    na_loop_iter_t *buf_iter;
+} na_buffer_copy_t;
+
+typedef struct NA_LOOP_XARGS {
+    na_loop_iter_t *iter;     // moved from na_loop_t
+    na_buffer_copy_t *bufcp;  // copy data to buffer
+} na_loop_xargs_t;
 
 typedef struct NA_MD_LOOP {
     int  narg;
     int  nin;
-    int  ndim;             // n of total dimention
-    unsigned int copy_flag;// set i-th bit if i-th arg is cast
-    size_t  *n;            // n of elements for each dim
-    size_t  *n_ptr;        // memory for n
-    na_loop_args_t *args;  // for each arg
-    na_loop_iter_t **iter; // for each dim, each arg
+    int  ndim;                // n of total dimention
+    unsigned int copy_flag;   // set i-th bit if i-th arg is cast
+    size_t  *n_ptr;           // memory for n
     na_loop_iter_t *iter_ptr; // memory for iter
-    na_loop_t  user;       // loop in user function
-    na_loop_t *buf_cp;    // loop in user function
-    int    writeback;      // write back result to i-th arg
+    size_t  *n;               // n of elements for each dim
+    na_loop_t  user;          // loop in user function
+    na_loop_xargs_t *xargs;   // extra data for each arg
+    int    writeback;         // write back result to i-th arg
     VALUE  vargs;
     VALUE  reduce;
     VALUE  loop_opt;
@@ -42,7 +53,8 @@ typedef struct NA_MD_LOOP {
     void (*loop_func)();
 } na_md_loop_t;
 
-#define LITER(lp,idim,iarg) ((lp)->iter[iarg][idim])
+#define LARG(lp,iarg) ((lp)->user.args[iarg])
+#define LITER(lp,idim,iarg) ((lp)->xargs[iarg].iter[idim])
 
 #define CASTABLE(t) (RTEST(t) && (t)!=OVERWRITE)
 
@@ -94,8 +106,8 @@ print_ndloop(na_md_loop_t *lp) {
     printf("  copy_flag = %x\n", lp->copy_flag);
     printf("  writeback = %d\n", lp->writeback);
     printf("  n = 0x%"SZF"x\n", (size_t)lp->n);
-    printf("  args = 0x%"SZF"x\n", (size_t)lp->args);
-    printf("  iter = 0x%"SZF"x\n", (size_t)lp->iter);
+    printf("  xargs = 0x%"SZF"x\n", (size_t)lp->xargs);
+    printf("  iter_ptr = 0x%"SZF"x\n", (size_t)lp->iter_ptr);
     printf("  user.narg = %d\n", lp->user.narg);
     printf("  user.ndim = %d\n", lp->user.ndim);
     printf("  user.n = 0x%"SZF"x\n", (size_t)lp->user.n);
@@ -111,9 +123,9 @@ print_ndloop(na_md_loop_t *lp) {
         printf("  n[%d] = %"SZF"u\n", i, lp->n[i]);
     }
     for (j=0; j<lp->narg; j++) {
-        printf("  args[%d].ptr = 0x%"SZF"x\n", j, (size_t)lp->args[j].ptr);
-        printf("  args[%d].elmsz = %"SZF"d\n", j, lp->args[j].elmsz);
-        printf("  args[%d].value = 0x%"SZF"x\n", j, lp->args[j].value);
+        printf("  args[%d].ptr = 0x%"SZF"x\n", j, (size_t)LARG(lp,j).ptr);
+        printf("  args[%d].elmsz = %"SZF"d\n", j, LARG(lp,j).elmsz);
+        printf("  args[%d].value = 0x%"SZF"x\n", j, LARG(lp,j).value);
         for (i=0; i<=nd; i++) {
             printf("  iter[%d,%d].pos = %"SZF"u\n", i,j, LITER(lp,i,j).pos);
             printf("  iter[%d,%d].step = %"SZF"u\n", i,j, LITER(lp,i,j).step);
@@ -330,14 +342,14 @@ ndloop_alloc(na_md_loop_t *lp, ndfunc_t *nf, VALUE args,
     max_nd = loop_nd + user_nd;
 
     lp->n    = lp->n_ptr = ALLOC_N(size_t, max_nd+1);
-    lp->args = ALLOC_N(na_loop_args_t, narg);
-    lp->user.args = lp->args;
-    lp->iter = ALLOC_N(na_loop_iter_t*, narg);
+    lp->xargs = ALLOC_N(na_loop_xargs_t, narg);
+    lp->user.args = ALLOC_N(na_loop_args_t, narg);
     iter = ALLOC_N(na_loop_iter_t, narg*(max_nd+1));
     lp->iter_ptr = iter;
     for (j=0; j<narg; j++) {
-        lp->iter[j] = &(iter[(max_nd+1)*j]);
-        lp->args[j].value = Qnil;
+        LARG(lp,j).value = Qnil;
+        lp->xargs[j].iter = &(iter[(max_nd+1)*j]);
+        lp->xargs[j].bufcp = NULL;
     }
 
     lp->vargs = args;
@@ -379,15 +391,22 @@ ndloop_release(VALUE vlp)
     na_md_loop_t *lp = (na_md_loop_t*)(vlp);
 
     for (j=0; j < lp->narg; j++) {
-        v = lp->args[j].value;
+        v = LARG(lp,j).value;
         if (IsNArray(v)) {
             na_release_lock(v);
         }
     }
     //xfree(lp);
+    for (j=0; j<lp->narg; j++) {
+        if (lp->xargs[j].bufcp) {
+            xfree(lp->xargs[j].bufcp->buf_iter);
+            xfree(lp->xargs[j].bufcp->buf_ptr);
+            xfree(lp->xargs[j].bufcp);
+        }
+    }
+    xfree(lp->xargs);
     xfree(lp->iter_ptr);
-    xfree(lp->iter);
-    xfree(lp->args);
+    xfree(lp->user.args);
     xfree(lp->n_ptr);
     //rb_gc_force_recycle(vlp);
     return Qnil;
@@ -402,7 +421,7 @@ ndloop_free(na_md_loop_t* lp)
     VALUE v;
 
     for (j=0; j<lp->narg; j++) {
-        v = lp->args[j].value;
+        v = LARG(lp,j).value;
         if (IsNArray(v)) {
             na_release_lock(v);
         }
@@ -449,17 +468,17 @@ ndloop_set_stepidx(na_md_loop_t *lp, int j, VALUE vna, int *dim_map, int rwflag)
     stridx_t sdx;
     narray_t *na;
 
-    lp->args[j].value = vna;
-    lp->args[j].elmsz = na_get_elmsz(vna);
+    LARG(lp,j).value = vna;
+    LARG(lp,j).elmsz = na_get_elmsz(vna);
     switch(rwflag){
     case NDL_READ:
-        lp->args[j].ptr = na_get_pointer_for_read(vna);
+        LARG(lp,j).ptr = na_get_pointer_for_read(vna);
         break;
     case NDL_WRITE:
-        lp->args[j].ptr = na_get_pointer_for_write(vna);
+        LARG(lp,j).ptr = na_get_pointer_for_write(vna);
         break;
     case NDL_READ_WRITE:
-        lp->args[j].ptr = na_get_pointer_for_read(vna);
+        LARG(lp,j).ptr = na_get_pointer_for_read(vna);
         break;
     default:
         rb_bug("invalid value for read-write flag");
@@ -474,7 +493,7 @@ ndloop_set_stepidx(na_md_loop_t *lp, int j, VALUE vna, int *dim_map, int rwflag)
         }
         // through
     case NARRAY_FILEMAP_T:
-        s = lp->args[j].elmsz;
+        s = LARG(lp,j).elmsz;
         for (k=na->ndim; k--;) {
             n = na->shape[k];
             if (n > 1) {
@@ -547,7 +566,7 @@ ndloop_init_args(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
             continue;
         }
         if (IsNArray(v)) {
-            // set lp->args[j] with v
+            // set LARG(lp,j) with v
             GetNArray(v,na);
             nf_dim = nf->ain[j].dim;
             ndloop_check_shape(lp, nf_dim, na);
@@ -561,11 +580,11 @@ ndloop_init_args(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
                 flag = NDL_READ;
             }
             ndloop_set_stepidx(lp, j, v, dim_map, flag);
-            lp->args[j].shape = na->shape + (na->ndim - nf_dim);
+            LARG(lp,j).shape = na->shape + (na->ndim - nf_dim);
         } else if (TYPE(v)==T_ARRAY) {
-            lp->args[j].value = v;
-            lp->args[j].elmsz = sizeof(VALUE);
-            lp->args[j].ptr   = NULL;
+            LARG(lp,j).value = v;
+            LARG(lp,j).elmsz = sizeof(VALUE);
+            LARG(lp,j).ptr   = NULL;
             for (i=0; i<=max_nd; i++) {
                 LITER(lp,i,j).step = 1;
             }
@@ -705,7 +724,7 @@ ndloop_set_output_narray(ndfunc_t *nf, na_md_loop_t *lp, int k,
 
     j = lp->nin + k;
     ndloop_set_stepidx(lp, j, v, dim_map, flag);
-    lp->args[j].shape = nf->aout[k].shape;
+    LARG(lp,j).shape = nf->aout[k].shape;
 
     return v;
 }
@@ -738,8 +757,8 @@ ndloop_set_output(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
                 for (i=0; i<=max_nd; i++) {
                     LITER(lp,i,j).step = sizeof(VALUE);
                 }
-                lp->args[j].value = t;
-                lp->args[j].elmsz = sizeof(VALUE);
+                LARG(lp,j).value = t;
+                LARG(lp,j).elmsz = sizeof(VALUE);
             } else {
                 rb_raise(rb_eRuntimeError,"ndloop_set_output: invalid for type");
             }
@@ -768,7 +787,8 @@ ndfunc_contract_loop(na_md_loop_t *lp)
     for (i=1; i<lp->ndim; i++) {
         success = 1;
         for (j=0; j<lp->narg; j++) {
-            if (!(LITER(lp,i,j).idx==NULL && LITER(lp,i-1,j).idx==NULL &&
+            if (!(LITER(lp,i,j).idx == NULL &&
+                  LITER(lp,i-1,j).idx == NULL &&
                   LITER(lp,i-1,j).step == LITER(lp,i,j).step*(ssize_t)(lp->n[i]))) {
                 success = 0;
                 break;
@@ -792,7 +812,7 @@ ndfunc_contract_loop(na_md_loop_t *lp)
     }
     if (cnt>0) {
         for (j=0; j<lp->narg; j++) {
-            lp->iter[j] = &LITER(lp,cnt,j);
+            lp->xargs[j].iter = &LITER(lp,cnt,j);
         }
         lp->n = &(lp->n[cnt]);
         lp->ndim -= cnt;
@@ -813,7 +833,7 @@ ndfunc_set_user_loop(ndfunc_t *nf, na_md_loop_t *lp)
 
     lp->user.n = &(lp->n[lp->ndim]);
     for (j=0; j<lp->narg; j++) {
-        lp->user.args[j].iter = &LITER(lp,lp->ndim,j);
+        LARG(lp,j).iter = &LITER(lp,lp->ndim,j);
     }
 }
 
@@ -979,9 +999,9 @@ loop_narray(ndfunc_t *nf, na_md_loop_t *lp)
         (*(nf->func))(&(lp->user));
         /*
         for (j=lp->nin; j<lp->narg; j++) {
-            if (lp->args[j].buf_ptr) {
+            if (lp->xargs[j].buf_ptr) {
                 // copy data from buffer
-                // cp lp->args[j].iter[0..*] lp->iter[j][nd..*]
+                // cp lp->xargs[j].iter[0..*] lp->iter[j][nd..*]
             }
         }
         */
@@ -1193,7 +1213,7 @@ loop_inspect(ndfunc_t *nf, na_md_loop_t *lp)
                 LITER(lp,i+1,0).pos = LITER(lp,i,0).pos + LITER(lp,i,0).step*c[i];
             }
         }
-        str = (*func)(lp->args[0].ptr, LITER(lp,i,0).pos, opt);
+        str = (*func)(LARG(lp,0).ptr, LITER(lp,i,0).pos, opt);
 
         len = RSTRING_LEN(str) + 2;
         if (ncol>0 && col+len > ncol-3) {
@@ -1276,7 +1296,7 @@ loop_rarray_to_narray(ndfunc_t *nf, na_md_loop_t *lp)
 
     // array at each dimension
     a = ALLOCA_N(VALUE, nd+1);
-    a[0] = lp->args[0].value;
+    a[0] = LARG(lp,0).value;
 
     // loop body
     for (i=0;;) {
@@ -1304,7 +1324,7 @@ loop_rarray_to_narray(ndfunc_t *nf, na_md_loop_t *lp)
         }
 
         //printf("a[i]=0x%x, i=%d\n",a[i],i);
-        lp->args[0].value = a[i];
+        LARG(lp,0).value = a[i];
 
         (*(nf->func))(&(lp->user));
 
@@ -1398,7 +1418,7 @@ loop_narray_to_rarray(ndfunc_t *nf, na_md_loop_t *lp)
         }
 
         //lp->user.info = a[i];
-        lp->args[1].value = a[i];
+        LARG(lp,1).value = a[i];
         (*(nf->func))(&(lp->user));
 
         for (;;) {
