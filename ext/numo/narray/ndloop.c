@@ -55,6 +55,8 @@ typedef struct NA_MD_LOOP {
 
 #define LARG(lp,iarg) ((lp)->user.args[iarg])
 #define LITER(lp,idim,iarg) ((lp)->xargs[iarg].iter[idim])
+#define LITER_SRC(lp,idim) ((lp)->src_iter[idim])
+#define LBUFCP(lp,j) ((lp)->xargs[j].bufcp)
 
 #define CASTABLE(t) (RTEST(t) && (t)!=OVERWRITE)
 
@@ -778,55 +780,67 @@ ndfunc_set_user_loop(ndfunc_t *nf, na_md_loop_t *lp)
 }
 
 
-#define LBUFCP(lp,j) ((lp)->xargs[j].bufcp)
-
 static void
 ndfunc_set_bufcp(na_md_loop_t *lp, unsigned int loop_spec)
 {
     unsigned int f;
     int i, j;
-    int nd = lp->user.ndim;
-    int nin = lp->nin;
-    ssize_t sz, elmsz;
-    na_loop_iter_t *buf_iter, *arg_iter;
+    int nd, ndim;
+    ssize_t sz, elmsz, stride;
+    size_t *buf_shape;
+    na_loop_iter_t *buf_iter, *src_iter;
 
-    for (j=0; j<nin; j++) {
+    for (j=0; j<lp->nin; j++) {
+        ndim = lp->user.ndim;
         sz = elmsz = LARG(lp,j).elmsz;
-        arg_iter = LARG(lp,j).iter;
-        buf_iter = ALLOC_N(na_loop_iter_t,nd+1);
+        src_iter = LARG(lp,j).iter;
         f = 0;
-        buf_iter[nd].pos = 0;
-        buf_iter[nd].step = 0;
-        buf_iter[nd].idx = NULL;
-        for (i=nd; i>0; ) {
+        for (i=ndim; i>0; ) {
             i--;
-            buf_iter[i].pos = 0;
-            buf_iter[i].step = sz;
-            buf_iter[i].idx = NULL;
-            if (arg_iter[i].idx) {
+            stride = sz * lp->user.n[i];
+            if (src_iter[i].idx) {
                 f |= 2;
             } else
-            if (arg_iter[i].step != sz) {
+            if (src_iter[i].step != sz) {
                 f |= 1;
+            } else
+            if (i==ndim-1) {
+                ndim = i;
+                elmsz = stride;
             }
-            sz *= lp->user.n[i];
+            sz = stride;
         }
+        //printf("f=%d loop_spec=%d\n",f,loop_spec);
         if (f & loop_spec) {
+        //if (1) {
+            nd = lp->user.ndim;
+            buf_iter = ALLOC_N(na_loop_iter_t,nd+1);
+            buf_shape = ALLOC_N(size_t,nd+1);
+            buf_iter[nd].pos = 0;
+            buf_iter[nd].step = 0;
+            buf_iter[nd].idx = NULL;
+            buf_shape[nd] = 1;
+            sz = LARG(lp,j).elmsz;
+            for (i=nd; i>0; ) {
+                i--;
+                buf_iter[i].pos = 0;
+                buf_iter[i].step = sz;
+                buf_iter[i].idx = NULL;
+                sz *= buf_shape[i] = lp->user.n[i];
+            }
+            //printf("nd=%d i=%d elmsz=%ld n=%ld\n",nd,i,elmsz,n);
             LBUFCP(lp,j) = ALLOC(na_buffer_copy_t);
-            LBUFCP(lp,j)->ndim = nd;
+            LBUFCP(lp,j)->ndim = ndim;
             LBUFCP(lp,j)->elmsz = elmsz;
-            LBUFCP(lp,j)->n = lp->user.n;
-            LBUFCP(lp,j)->src_iter = LARG(lp,j).iter;
+            LBUFCP(lp,j)->n = buf_shape;
+            LBUFCP(lp,j)->src_iter = src_iter;
             LARG(lp,j).iter = LBUFCP(lp,j)->buf_iter = buf_iter;
             LBUFCP(lp,j)->src_ptr = LARG(lp,j).ptr;
             LARG(lp,j).ptr = LBUFCP(lp,j)->buf_ptr = xmalloc(sz);
-        } else {
-            xfree(buf_iter);
         }
     }
 }
 
-#define LITER_SRC(lp,idim) ((lp)->src_iter[idim])
 
 static void
 ndloop_copy_to_buffer(na_buffer_copy_t *lp)
@@ -838,6 +852,17 @@ ndloop_copy_to_buffer(na_buffer_copy_t *lp)
     size_t elmsz = lp->elmsz;
     size_t buf_pos = 0;
 
+    //printf("to_buf nd=%d elmsz=%ld\n",nd,elmsz);
+    // zero-dimension
+    if (nd==0) {
+        src = lp->src_ptr + LITER_SRC(lp,0).pos;
+        buf = lp->buf_ptr;
+        //for (i=0; i<elmsz/8; i++) {
+        //    printf("src[%d]=%f\n",i,((double*)src)[i]);
+        //}
+        memcpy(buf,src,elmsz);
+        return;
+    }
     // initialize loop counter
     c = ALLOCA_N(size_t, nd+1);
     for (i=0; i<=nd; i++) c[i]=0;
@@ -853,6 +878,7 @@ ndloop_copy_to_buffer(na_buffer_copy_t *lp)
         }
         src = lp->src_ptr + LITER_SRC(lp,nd).pos;
         buf = lp->buf_ptr + buf_pos;
+        //printf("src=%f\n",*(double*)src);
         memcpy(buf,src,elmsz);
         buf_pos += elmsz;
         // count up
@@ -877,6 +903,14 @@ ndloop_copy_from_buffer(na_buffer_copy_t *lp)
     size_t elmsz = lp->elmsz;
     size_t buf_pos = 0;
 
+    //printf("from_buf nd=%d elmsz=%ld\n",nd,elmsz);
+    // zero-dimension
+    if (nd==0) {
+        src = lp->src_ptr + LITER_SRC(lp,0).pos;
+        buf = lp->buf_ptr;
+        memcpy(src,buf,elmsz);
+        return;
+    }
     // initialize loop counter
     c = ALLOCA_N(size_t, nd+1);
     for (i=0; i<=nd; i++) c[i]=0;
@@ -884,7 +918,6 @@ ndloop_copy_from_buffer(na_buffer_copy_t *lp)
     for (i=0;;) {
         // i-th dimension
         for (; i<nd; i++) {
-            //printf("i=%d=%d\n",i);
             if (LITER_SRC(lp,i).idx) {
                 LITER_SRC(lp,i+1).pos = LITER_SRC(lp,i).pos + LITER_SRC(lp,i).idx[c[i]];
             } else {
@@ -893,8 +926,6 @@ ndloop_copy_from_buffer(na_buffer_copy_t *lp)
         }
         src = lp->src_ptr + LITER_SRC(lp,nd).pos;
         buf = lp->buf_ptr + buf_pos;
-        //printf("buf=%f src=%f\n",*(double*)buf,*(double*)src);
-        //printf("buf=%lxd src=%lxd elmsz=%ld\n",(size_t)buf,(size_t)src,elmsz);
         memcpy(src,buf,elmsz);
         buf_pos += elmsz;
         // count up
