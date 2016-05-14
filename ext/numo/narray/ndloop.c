@@ -46,6 +46,7 @@ typedef struct NA_MD_LOOP {
     na_loop_t  user;          // loop in user function
     na_loop_xargs_t *xargs;   // extra data for each arg
     int    writeback;         // write back result to i-th arg
+    int    init_aidx;         // index of initializer argument
     VALUE  vargs;
     VALUE  reduce;
     VALUE  loop_opt;
@@ -235,7 +236,7 @@ ndloop_alloc(na_md_loop_t *lp, ndfunc_t *nf, VALUE args,
     int i,j;
     int narg;
     int user_nd, loop_nd, max_nd, tmp_nd;
-    VALUE v;
+    VALUE v, t;
     narray_t *na;
 
     int nin, nout, nopt;
@@ -250,19 +251,47 @@ ndloop_alloc(na_md_loop_t *lp, ndfunc_t *nf, VALUE args,
                args_len, nf->nin);
     }
 
-    nin = nf->nin;
+    // options
+    lp->reduce = Qnil;
+    lp->user.option = Qnil;
+    lp->user.opt_ptr = opt_ptr;
+    lp->user.err_type = Qfalse;
+    lp->loop_opt = Qnil;
+    lp->loop_func = loop_func;
+    lp->copy_flag = copy_flag;
+    lp->writeback = -1;
+    lp->init_aidx = -1;
+
     nout = nf->nout;
+    nin = 0;
     nopt = 0;
 
     // find max dimension
     user_nd = 0;
     loop_nd = 0;
     for (j=0; j<args_len; j++) {
+        t = nf->ain[j].type;
+        v = RARRAY_AREF(args,j);
         // Symbol
-        if (TYPE(nf->ain[j].type)==T_SYMBOL) {
-            nin--;
+        if (TYPE(t)==T_SYMBOL) {
             nopt++;
+            if (t==sym_reduce) {
+                lp->reduce = v;
+            }
+            else if (t==sym_option) {
+                lp->user.option = v;
+            }
+            else if (t==sym_loop_opt) {
+                lp->loop_opt = v;
+            }
+            else if (t==sym_init) {
+                lp->init_aidx = j;
+            }
+            else {
+                rb_bug("ndloop parse_options: unknown type");
+            }
         } else {
+            nin++;
             // max dimension of user function
             tmp_nd = nf->ain[j].dim;
             if (tmp_nd > user_nd) {
@@ -302,8 +331,6 @@ ndloop_alloc(na_md_loop_t *lp, ndfunc_t *nf, VALUE args,
 
     lp->narg = narg;
     lp->ndim = loop_nd;
-    lp->copy_flag = copy_flag;
-    lp->writeback = -1;
     lp->user.narg = narg;
     lp->user.ndim = user_nd;
 
@@ -315,14 +342,6 @@ ndloop_alloc(na_md_loop_t *lp, ndfunc_t *nf, VALUE args,
             LITER(lp,i,j).idx = NULL;
         }
     }
-
-    // options
-    lp->reduce = Qnil;
-    lp->user.option = Qnil;
-    lp->user.opt_ptr = opt_ptr;
-    lp->user.err_type = Qfalse;
-    lp->loop_opt = Qnil;
-    lp->loop_func = loop_func;
 }
 
 
@@ -481,7 +500,7 @@ static void
 ndloop_init_args(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
 {
     int i, j;
-    volatile VALUE v, t;
+    VALUE v, t;
     narray_t *na;
     int nf_dim;
     int dim_beg;
@@ -496,21 +515,6 @@ ndloop_init_args(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
         t = nf->ain[j].type;
         v = RARRAY_AREF(args,j);
         if (TYPE(t)==T_SYMBOL) {
-            if (t==sym_reduce) {
-                lp->reduce = v;
-            }
-            else if (t==sym_option) {
-                lp->user.option = v;
-            }
-            else if (t==sym_loop_opt) {
-                lp->loop_opt = v;
-            }
-            else if (t==sym_init) {
-                ; // through
-            }
-            else {
-                fprintf(stderr,"ndloop parse_options: unknown type");
-            }
             continue;
         }
         if (IsNArray(v)) {
@@ -713,13 +717,12 @@ ndloop_set_output(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
     }
 
     // initialilzer
-    for (k=0; k<nf->nin; k++) {
-        if (nf->ain[k].type == sym_init) {
-            idx = nf->ain[k].dim;
-            v = RARRAY_AREF(results,idx);
-            init = RARRAY_AREF(args,k);
-            na_store(v,init);
-        }
+    k = lp->init_aidx;
+    if (k > -1) {
+        idx = nf->ain[k].dim;
+        v = RARRAY_AREF(results,idx);
+        init = RARRAY_AREF(args,k);
+        na_store(v,init);
     }
 
     return results;
