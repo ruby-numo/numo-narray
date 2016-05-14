@@ -344,6 +344,7 @@ ndloop_release(VALUE vlp)
         if (lp->xargs[j].bufcp) {
             xfree(lp->xargs[j].bufcp->buf_iter);
             xfree(lp->xargs[j].bufcp->buf_ptr);
+            xfree(lp->xargs[j].bufcp->n);
             xfree(lp->xargs[j].bufcp);
         }
     }
@@ -374,6 +375,9 @@ ndloop_free(na_md_loop_t* lp)
 */
 
 
+/*
+  set lp->n[i] (shape of n-d iteration) here
+*/
 static void
 ndloop_check_shape(na_md_loop_t *lp, int nf_dim, narray_t *na)
 {
@@ -393,7 +397,8 @@ ndloop_check_shape(na_md_loop_t *lp, int nf_dim, narray_t *na)
                 lp->n[i] = n;
             } else if (lp->n[i] != n) {
                 // inconsistent array shape
-                rb_raise(rb_eTypeError,"shape1[%d](=%"SZF"u) != shape2[%d](=%"SZF"u)", i, lp->n[i], k, n);
+                rb_raise(rb_eTypeError,"shape1[%d](=%"SZF"u) != shape2[%d](=%"SZF"u)",
+                         i, lp->n[i], k, n);
             }
         }
     }
@@ -475,7 +480,7 @@ ndloop_set_stepidx(na_md_loop_t *lp, int j, VALUE vna, int *dim_map, int rwflag)
 static void
 ndloop_init_args(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
 {
-    int i, j, k;
+    int i, j;
     volatile VALUE v, t;
     narray_t *na;
     int nf_dim;
@@ -487,9 +492,9 @@ ndloop_init_args(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
     dim_map = ALLOCA_N(int, max_nd);
 
     // input arguments
-    for (j=k=0; k<nf->nin; k++) {
-        t = nf->ain[k].type;
-        v = RARRAY_AREF(args,k);
+    for (j=0; j<nf->nin; j++) {
+        t = nf->ain[j].type;
+        v = RARRAY_AREF(args,j);
         if (TYPE(t)==T_SYMBOL) {
             if (t==sym_reduce) {
                 lp->reduce = v;
@@ -532,7 +537,6 @@ ndloop_init_args(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
                 LITER(lp,i,j).step = 1;
             }
         }
-        j++;
     }
 }
 
@@ -790,6 +794,8 @@ ndfunc_set_bufcp(na_md_loop_t *lp, unsigned int loop_spec)
     size_t *buf_shape;
     na_loop_iter_t *buf_iter, *src_iter;
 
+    //if (loop_spec==0) return;
+
     for (j=0; j<lp->nin; j++) {
         ndim = lp->user.ndim;
         sz = elmsz = LARG(lp,j).elmsz;
@@ -804,9 +810,10 @@ ndfunc_set_bufcp(na_md_loop_t *lp, unsigned int loop_spec)
             if (src_iter[i].step != sz) {
                 f |= 1;
             } else
-            if (i==ndim-1) {
+            if (i==ndim-1) {  // contract contiguous dimension
                 ndim = i;
                 elmsz = stride;
+                //printf("ndim=%d i=%d elmsz=%ld\n",ndim,i,elmsz);
             }
             sz = stride;
         }
@@ -828,7 +835,6 @@ ndfunc_set_bufcp(na_md_loop_t *lp, unsigned int loop_spec)
                 buf_iter[i].idx = NULL;
                 sz *= buf_shape[i] = lp->user.n[i];
             }
-            //printf("nd=%d i=%d elmsz=%ld n=%ld\n",nd,i,elmsz,n);
             LBUFCP(lp,j) = ALLOC(na_buffer_copy_t);
             LBUFCP(lp,j)->ndim = ndim;
             LBUFCP(lp,j)->elmsz = elmsz;
