@@ -1,26 +1,13 @@
 static void
 <%=c_iter%>(na_loop_t *const lp)
 {
-    size_t i, n;
+    size_t n;
     char *ptr;
     ssize_t step;
-    size_t *idx;
-    dtype *buf;
 
     INIT_COUNTER(lp, n);
-    INIT_PTR_IDX(lp, 0, ptr, step, idx);
-    if (idx) {
-        buf = (dtype*)(lp->opt_ptr);
-        for (i=0; i<n; i++) {
-            buf[i] = *(dtype*)(ptr+idx[i]);
-        }
-        <%=tp%>_qsort(buf, n, sizeof(dtype));
-        for (i=0; i<n; i++) {
-            *(dtype*)(ptr+idx[i]) = buf[i];
-        }
-    } else {
-        <%=tp%>_qsort(ptr, n, step);
-    }
+    INIT_PTR(lp, 0, ptr, step);
+    <%=tp%>_qsort(ptr, n, step);
 }
 
 /*
@@ -31,5 +18,15 @@ static void
 static VALUE
 <%=c_func%>(int argc, VALUE *argv, VALUE self)
 {
-    return na_sort_main(argc, argv, self, <%=c_iter%>);
+    VALUE reduce;
+    ndfunc_arg_in_t ain[2] = {{cT,0},{sym_reduce,0}};
+    ndfunc_t ndf = {<%=c_iter%>, STRIDE_LOOP_NIP|NDF_FLAT_REDUCE, 2,0, ain,0};
+
+    if (!TEST_INPLACE(self)) {
+        self = na_copy(self);
+    }
+    reduce = na_reduce_dimension(argc, argv, 1, &self); // v[0] = self
+
+    na_ndloop(&ndf, 2, self, reduce);
+    return self;
 }
