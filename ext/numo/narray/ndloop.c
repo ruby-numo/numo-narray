@@ -862,18 +862,22 @@ ndfunc_set_bufcp(na_md_loop_t *lp, unsigned int loop_spec)
 
     //if (loop_spec==0) return;
 
+    n_total = lp->user.n[0];
+    for (i=1; i<lp->user.ndim; i++) {
+        n_total *= lp->user.n[i];
+    }
+
     for (j=0; j<lp->nin; j++) {
         ndim = nd = lp->user.ndim;
         sz = elmsz = LARG(lp,j).elmsz;
         src_iter = LARG(lp,j).iter;
         last_step = src_iter[ndim-1].step;
         f = 0;
-        n_total = 1;
         for (i=ndim; i>0; ) {
             i--;
             n = lp->user.n[i];
-            n_total *= n;
             stride = sz * n;
+            //printf("\n {j=%d,i=%d,ndim=%d,nd=%d,idx=%lx,step=%ld,n=%ld,sz=%ld,stride=%ld}\n",j,i,ndim,nd,src_iter[i].idx,src_iter[i].step,n,sz,stride);
             if (src_iter[i].idx) {
                 f |= 2;
             } else
@@ -883,14 +887,14 @@ ndfunc_set_bufcp(na_md_loop_t *lp, unsigned int loop_spec)
             if (i==ndim-1) {  // contract contiguous dimension
                 ndim = i;
                 elmsz = stride;
-                //printf("ndim=%d i=%d elmsz=%ld\n",ndim,i,elmsz);
+                //printf("(ndim=%d i=%d elmsz=%ld)\n",ndim,i,elmsz);
             }
             sz = stride;
         }
 
         // should check flatten-able loop to avoid buffering
 
-        //printf("f=%d loop_spec=%d\n",f,loop_spec);
+        //printf("[j=%d f=%d loop_spec=%d]\n",j,f,loop_spec);
 
         // over loop_spec or reduce_loop is not contiguous
         if (f & loop_spec || (lp->reduce_dim > 1 && ndim > 0)) {
@@ -920,12 +924,12 @@ ndfunc_set_bufcp(na_md_loop_t *lp, unsigned int loop_spec)
             LARG(lp,j).iter = buf_iter;
             LBUFCP(lp,j)->src_ptr = LARG(lp,j).ptr;
             LARG(lp,j).ptr = LBUFCP(lp,j)->buf_ptr = xmalloc(sz);
+            //printf("(LBUFCP(lp,%d)->buf_ptr=%lx)\n",j,(size_t)(LBUFCP(lp,j)->buf_ptr));
         }
 
         // flatten reduce dimensions
         if (lp->reduce_dim>1) {
-            //printf("(reduce_dim=%d,ndim=%d,nd=%d,n=%ld,lst=%ld)",
-            //       lp->reduce_dim,ndim,nd,n_total,last_step);
+            //printf("(reduce_dim=%d,ndim=%d,nd=%d,n=%ld,lst=%ld)",lp->reduce_dim,ndim,nd,n_total,last_step);
             buf_iter = ALLOC_N(na_loop_iter_t,2);
             buf_iter[0].pos = LARG(lp,j).iter[0].pos;
             buf_iter[0].step = last_step;
@@ -933,11 +937,15 @@ ndfunc_set_bufcp(na_md_loop_t *lp, unsigned int loop_spec)
             buf_iter[1].pos = 0;
             buf_iter[1].step = 0;
             buf_iter[1].idx = NULL;
-            lp->user.n[0] = n_total;
-            lp->user.ndim = 1;
             LARG(lp,j).iter = buf_iter;
             lp->xargs[j].free_user_iter = 1;
         }
+    }
+
+    // flatten reduce dimensions
+    if (lp->reduce_dim>1) {
+        lp->user.n[0] = n_total;
+        lp->user.ndim = 1;
     }
 }
 
@@ -952,11 +960,12 @@ ndloop_copy_to_buffer(na_buffer_copy_t *lp)
     size_t elmsz = lp->elmsz;
     size_t buf_pos = 0;
 
-    //printf("to_buf nd=%d elmsz=%ld\n",nd,elmsz);
+    //printf("\nto_buf nd=%d elmsz=%ld\n",nd,elmsz);
     // zero-dimension
     if (nd==0) {
         src = lp->src_ptr + LITER_SRC(lp,0).pos;
         buf = lp->buf_ptr;
+        //printf("(src=%lx,buf=%lx)\n",src,buf);
         //for (i=0; i<elmsz/8; i++) {
         //    printf("src[%d]=%f\n",i,((double*)src)[i]);
         //}
@@ -979,6 +988,7 @@ ndloop_copy_to_buffer(na_buffer_copy_t *lp)
         src = lp->src_ptr + LITER_SRC(lp,nd).pos;
         buf = lp->buf_ptr + buf_pos;
         //printf("src=%f\n",*(double*)src);
+        //printf("(i=%d,src=%lx,buf=%lx,elmsz=%ld)\n",i,src,buf,elmsz);
         memcpy(buf,src,elmsz);
         buf_pos += elmsz;
         // count up
@@ -1003,11 +1013,12 @@ ndloop_copy_from_buffer(na_buffer_copy_t *lp)
     size_t elmsz = lp->elmsz;
     size_t buf_pos = 0;
 
-    //printf("from_buf nd=%d elmsz=%ld\n",nd,elmsz);
+    //printf("\nfrom_buf nd=%d elmsz=%ld\n",nd,elmsz);
     // zero-dimension
     if (nd==0) {
         src = lp->src_ptr + LITER_SRC(lp,0).pos;
         buf = lp->buf_ptr;
+        //printf("(buf=%lx,src=%lx)\n",buf,src);
         memcpy(src,buf,elmsz);
         return;
     }
@@ -1026,6 +1037,7 @@ ndloop_copy_from_buffer(na_buffer_copy_t *lp)
         }
         src = lp->src_ptr + LITER_SRC(lp,nd).pos;
         buf = lp->buf_ptr + buf_pos;
+        //printf("(i=%d,buf=%lx,src=%lx,elmsz=%ld)\n",i,buf,src,elmsz);
         memcpy(src,buf,elmsz);
         buf_pos += elmsz;
         // count up
