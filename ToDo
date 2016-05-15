@@ -1,6 +1,10 @@
 
-* reduce loop: copy to buffer if non-contiguous.
-* unify contiguous dimesions.
+* copy to buffer if non-contiguous. --done
+* contract contiguous dimesions. --done
+
+* transpose and flatten reduce dimeinsion to last user dimension. -- almost done.
+
+* specify Input/Overwrite array
 
 * inspect Enumerable#step object, delete Numo::Step class.
 
