@@ -11,10 +11,14 @@ static void
 }
 
 /*
-  Returns sorted narray.
-  @overload sort
-  @return [Numo::<%=class_name%>] sorted narray.
-*/
+ *  call-seq:
+ *     narray.sort() => narray
+ *     narray.sort(dim) => narray
+ *
+ *  Return an index array of sort result.
+ *
+ *     Numo::DFloat[3,4,1,2].sort_index => Numo::DFloat[1,2,3,4]
+ */
 static VALUE
 <%=c_func%>(int argc, VALUE *argv, VALUE self)
 {
