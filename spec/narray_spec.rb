@@ -188,7 +188,7 @@ types.each do |dtype|
     before do
       @a = dtype[[[1,2],[3,4]],[[5,6],[7,8]]]
     end
-    
+
     it{expect(@a[0, 1, 1]).to eq 4}
     #it{expect(@a[:rest]).to eq @a} # note: this spec probably shows the correct behaviour
     it{expect(@a[0, :rest]).to eq [[1,2],[3,4]]}
