@@ -10,6 +10,7 @@ static void
     INIT_COUNTER(lp, i);
     INIT_PTR_IDX(lp, 0, p1, s1, idx1);
     INIT_PTR(lp, 1, p2, s2);
+    //printf("n=%ld,s1=%ld,s2=%ld ",i,s1,s2);
     if (s2==0) {
         // Reduce loop
         GET_DATA(p2,dtype,y);
@@ -56,7 +57,7 @@ static VALUE
     VALUE v, reduce;
     ndfunc_arg_in_t ain[3] = {{cT,0},{sym_reduce,0},{sym_init,0}};
     ndfunc_arg_out_t aout[1] = {{cT,0}};
-    ndfunc_t ndf = { <%=c_iter%>, FULL_LOOP_NIP, 3, 1, ain, aout };
+    ndfunc_t ndf = { <%=c_iter%>, STRIDE_LOOP_NIP|NDF_FLAT_REDUCE, 3, 1, ain, aout };
 
     reduce = na_reduce_dimension(argc, argv, 1, &self);
     v =  na_ndloop(&ndf, 3, self, reduce, m_<%=method%>_init);
