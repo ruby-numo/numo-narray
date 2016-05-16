@@ -15,6 +15,12 @@
 #include "numo/narray.h"
 #include "numo/template.h"
 
+#if   SIZEOF_VOIDP == 8
+#define cIndex numo_cInt64
+#elif SIZEOF_VOIDP == 4
+#define cIndex numo_cInt32
+#endif
+
 // note: the memory refed by this pointer is not freed and causes memroy leak.
 typedef struct {
     size_t  n; // the number of elements of the dimesnion
@@ -156,6 +162,30 @@ na_parse_array(VALUE ary, int orig_dim, ssize_t size, na_index_arg_t *q)
 }
 
 static void
+na_parse_narray_index(VALUE a, int orig_dim, ssize_t size, na_index_arg_t *q)
+{
+    VALUE idx;
+    narray_t *na;
+    narray_data_t *nidx;
+
+    GetNArray(a,na);
+    if (NA_NDIM(na) != 1) {
+        rb_raise(rb_eIndexError, "should be 1-d NArray");
+    }
+    idx = rb_narray_new(cIndex,1,&NA_SIZE(na));
+    na_store(idx,a);
+
+    GetNArrayData(idx,nidx);
+    q->idx  = (size_t*)nidx->ptr;
+    nidx->ptr = NULL;
+    q->n    = na->size;
+    q->beg  = 0;
+    q->step = 1;
+    q->reduce = 0;
+    q->orig_dim = orig_dim;
+}
+
+static void
 na_parse_range(VALUE range, int orig_dim, ssize_t size, na_index_arg_t *q)
 {
     int n;
@@ -243,19 +273,13 @@ na_index_parse_each(volatile VALUE a, ssize_t size, int i, na_index_arg_t *q)
             nary_step_array_index(a, size, (size_t*)(&n), &beg, &step);
             na_index_set_step(q,i,n,beg,step);
         }
+        // NArray index
+        else if (NA_IsNArray(a)) {
+            na_parse_narray_index(a, i, size, q);
+        }
         else {
             rb_raise(rb_eIndexError, "not allowed type");
         }
-        // write me
-
-        /*
-        // NArray index
-        if (NA_IsNArray(a)) {
-        GetNArray(a,na);
-        size = na_ary_to_index(na,shape,sl);
-        } else
-        */
-
     }
 }
 
@@ -565,7 +589,7 @@ na_aref_md(int argc, VALUE *argv, VALUE self, int keep_dim)
     count_new = na_index_preprocess(args, na1->ndim);
 
     if (RARRAY_LEN(args)==1) {
-        // fix me
+        // flatten should be done only for narray-view with non-uniform stride.
         self = na_flatten(self);
         GetNArray(self,na1);
     }
@@ -594,9 +618,9 @@ na_aref_main(int nidx, VALUE *idx, VALUE self, int keep_dim)
         return na_copy(self);
     }
     if (nidx==1) {
-      if (CLASS_OF(*idx)==numo_cBit) {
-        rb_funcall(*idx,rb_intern("mask"),1,self);
-      }
+        if (CLASS_OF(*idx)==numo_cBit) {
+            return rb_funcall(*idx,rb_intern("mask"),1,self);
+        }
     }
     return na_aref_md(nidx, idx, self, keep_dim);
 }
