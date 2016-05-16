@@ -146,7 +146,7 @@ na_parse_array(VALUE ary, int orig_dim, ssize_t size, na_index_arg_t *q)
     int n = RARRAY_LEN(ary);
     q->idx = ALLOC_N(size_t, n);
     for (k=0; k<n; k++) {
-        q->idx[k] = na_range_check(NUM2SSIZE(RARRAY_AREF(ary,k)), size, k);
+        q->idx[k] = na_range_check(NUM2SSIZE(RARRAY_AREF(ary,k)), size, orig_dim);
     }
     q->n    = n;
     q->beg  = 0;
