@@ -133,9 +133,11 @@ print_ndloop(na_md_loop_t *lp) {
         printf("  args[%d].elmsz = %"SZF"d\n", j, LARG(lp,j).elmsz);
         printf("  args[%d].value = 0x%"SZF"x\n", j, LARG(lp,j).value);
         for (i=0; i<=nd; i++) {
-            printf("  iter[%d,%d].pos = %"SZF"u\n", i,j, LITER(lp,i,j).pos);
-            printf("  iter[%d,%d].step = %"SZF"u\n", i,j, LITER(lp,i,j).step);
-            printf("  iter[%d,%d].idx = 0x%"SZF"x\n", i,j, (size_t)LITER(lp,i,j).idx);
+#define LITER(lp,idim,iarg) ((lp)->xargs[iarg].iter[idim])
+
+            printf("  xargs[%d].iter[%d].pos = %"SZF"u\n", j,i, LITER(lp,i,j).pos);
+            printf("  xargs[%d].iter[%d].step = %"SZF"u\n", j,i, LITER(lp,i,j).step);
+            printf("  xargs[%d].iter[%d].idx = 0x%"SZF"x\n", j,i, (size_t)LITER(lp,i,j).idx);
         }
         printf("  xargs[%d].bufcp = 0x%"SZF"x\n", j, (size_t)lp->xargs[j].bufcp);
         if (lp->xargs[j].bufcp) {
@@ -802,7 +804,7 @@ ndfunc_contract_loop(na_md_loop_t *lp)
             lp->n[i] *= lp->n[i-1];
             // shift dimensions
             for (k=i-1; k>cnt; k--) {
-                lp->n[k] = lp->n[k-i];
+                lp->n[k] = lp->n[k-1];
             }
             for (j=0; j<lp->narg; j++) {
                 for (k=i-1; k>cnt; k--) {
