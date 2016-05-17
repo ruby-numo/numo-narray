@@ -530,7 +530,7 @@ na_release_lock(VALUE self)
     }
 }
 
-
+// fix name, ex, allow_stride_for_flatten_view
 VALUE
 na_check_ladder(VALUE self, int start_dim)
 {
@@ -564,9 +564,9 @@ na_check_ladder(VALUE self, int start_dim)
         // check stride
         i = start_dim;
         st0 = SDX_GET_STRIDE(na->stridx[i]);
-        for (; i<na->base.ndim-1; i++) {
-            st1 = SDX_GET_STRIDE(na->stridx[i+1]);
-            if (st0 != (ssize_t)(st1*na->base.shape[i+1])) {
+        for (i++; i<na->base.ndim; i++) {
+            st1 = SDX_GET_STRIDE(na->stridx[i]);
+            if (st0 != (ssize_t)(st1*na->base.shape[i])) {
                 return Qfalse;
             }
             st0 = st1;
