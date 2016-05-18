@@ -493,7 +493,7 @@ na_ndim_new_narray(int ndim, const na_index_arg_t *q)
 }
 
 typedef struct {
-    VALUE args, self;
+    VALUE args, self, store;
     int ndim;
     na_index_arg_t *q;
     narray_t *na1;
@@ -518,6 +518,7 @@ VALUE na_aref_md_protected(VALUE data_value)
     na_aref_md_data_t *data = (na_aref_md_data_t*)(data_value);
     VALUE self = data->self;
     VALUE args = data->args;
+    VALUE store = data->store;
     int ndim = data->ndim;
     na_index_arg_t *q = data->q;
     narray_t *na1 = data->na1;
@@ -556,7 +557,11 @@ VALUE na_aref_md_protected(VALUE data_value)
         na2->data = ((narray_view_t *)na1)->data;
         break;
     }
-
+    if (store) {
+        na_get_pointer_for_write(store); // allocate memory
+        na_store(na_flatten_dim(store,0),view);
+        return store;
+    }
     return view;
 }
 
@@ -579,6 +584,9 @@ na_aref_md(int argc, VALUE *argv, VALUE self, int keep_dim)
     narray_t *na1;
     int count_new, ndim;
     na_aref_md_data_t data;
+    VALUE store = 0;
+    VALUE idx;
+    narray_t *nidx;
 
     GetNArray(self,na1);
 
@@ -589,6 +597,15 @@ na_aref_md(int argc, VALUE *argv, VALUE self, int keep_dim)
     count_new = na_index_preprocess(args, na1->ndim);
 
     if (RARRAY_LEN(args)==1) {
+        idx = RARRAY_AREF(args,0);
+        if (rb_obj_is_kind_of(idx, numo_cNArray)) {
+            GetNArray(idx,nidx);
+            if (NA_NDIM(nidx)>1) {
+                store = rb_narray_new(CLASS_OF(self),NA_NDIM(nidx),NA_SHAPE(nidx));
+                idx = na_flatten(idx);
+                RARRAY_ASET(args,0,idx);
+            }
+        }
         // flatten should be done only for narray-view with non-uniform stride.
         self = na_flatten(self);
         GetNArray(self,na1);
@@ -597,6 +614,7 @@ na_aref_md(int argc, VALUE *argv, VALUE self, int keep_dim)
 
     data.args = args;
     data.self = self;
+    data.store = store;
     data.ndim = ndim;
     data.q = na_allocate_index_args(ndim);
     data.na1 = na1;
