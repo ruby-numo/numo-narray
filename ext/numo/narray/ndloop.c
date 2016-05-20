@@ -454,7 +454,7 @@ static void
 ndloop_check_shape(na_md_loop_t *lp, int nf_dim, narray_t *na)
 {
     int i, k;
-    size_t n, s=1;
+    size_t n;
     int dim_beg;
 
     dim_beg = lp->ndim + nf_dim - na->ndim;
@@ -463,12 +463,8 @@ ndloop_check_shape(na_md_loop_t *lp, int nf_dim, narray_t *na)
     for (k = na->ndim - nf_dim - 1; k>=0; k--) {
         i = lp->trans_map[k + dim_beg];
         n = na->shape[k];
-        s *= n;
-        if (n==0) {
-            lp->n[i] = 0;
-        }
         // if n==1 then repeat this dimension
-        else if (n>1) {
+        if (n != 1) {
             if (lp->n[i] == 1) {
                 lp->n[i] = n;
             } else if (lp->n[i] != n) {
@@ -477,11 +473,6 @@ ndloop_check_shape(na_md_loop_t *lp, int nf_dim, narray_t *na)
                          i, lp->n[i], k, n);
             }
         }
-
-    }
-    // no loop if an empty array exists
-    if (s==0) {
-        lp->n[lp->ndim-1] = 0;
     }
 }
 
@@ -569,6 +560,7 @@ ndloop_init_args(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
     int *dim_map;
     int max_nd = lp->ndim + lp->user.ndim;
     int flag;
+    size_t s;
 
     dim_map = ALLOCA_N(int, max_nd);
 
@@ -601,6 +593,15 @@ ndloop_init_args(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
             for (i=0; i<=max_nd; i++) {
                 LITER(lp,i,j).step = 1;
             }
+        }
+    }
+    // check whether # of element is zero
+    for (s=1,i=0; i<=max_nd; i++) {
+        s *= lp->n[i];
+    }
+    if (s==0) {
+        for (i=0; i<=max_nd; i++) {
+            lp->n[i] = 0;
         }
     }
 }
