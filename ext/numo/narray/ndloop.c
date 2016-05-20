@@ -454,7 +454,7 @@ static void
 ndloop_check_shape(na_md_loop_t *lp, int nf_dim, narray_t *na)
 {
     int i, k;
-    size_t n;
+    size_t n, s=1;
     int dim_beg;
 
     dim_beg = lp->ndim + nf_dim - na->ndim;
@@ -463,8 +463,12 @@ ndloop_check_shape(na_md_loop_t *lp, int nf_dim, narray_t *na)
     for (k = na->ndim - nf_dim - 1; k>=0; k--) {
         i = lp->trans_map[k + dim_beg];
         n = na->shape[k];
+        s *= n;
+        if (n==0) {
+            lp->n[i] = 0;
+        }
         // if n==1 then repeat this dimension
-        if (n>1) {
+        else if (n>1) {
             if (lp->n[i] == 1) {
                 lp->n[i] = n;
             } else if (lp->n[i] != n) {
@@ -473,6 +477,11 @@ ndloop_check_shape(na_md_loop_t *lp, int nf_dim, narray_t *na)
                          i, lp->n[i], k, n);
             }
         }
+
+    }
+    // no loop if an empty array exists
+    if (s==0) {
+        lp->n[lp->ndim-1] = 0;
     }
 }
 
