@@ -397,6 +397,10 @@ static inline rtype c_abs(dtype x) {
     return r_hypot(REAL(x),IMAG(x));
 }
 
+static inline rtype c_abs_square(dtype x) {
+    return REAL(x)*REAL(x)+IMAG(x)*IMAG(x);
+}
+
 
 
 /*

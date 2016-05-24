@@ -191,10 +191,14 @@ if is_float
   cond_unary "isfinite"
 end
 
-accum "sum"
+accum "sum","dtype","cT"
+if is_float
+  accum "mean","dtype","cT"
+  accum "stddev","rtype","cRT"
+end
 if is_comparable
-  accum "min"
-  accum "max"
+  accum "min","dtype","cT"
+  accum "max","dtype","cT"
 end
 
 # dot

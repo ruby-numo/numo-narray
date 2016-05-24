@@ -22,6 +22,10 @@ types = [
   Numo::UInt8,
 ]
 #types = [Numo::DFloat]
+float_types = [
+  Numo::DFloat,
+  Numo::DComplex,
+]
 
 types.each do |dtype|
 
@@ -66,6 +70,10 @@ types.each do |dtype|
       it{expect(@a[-1]).to eq 11}
       it{expect(@a[[4,3,0,1,5,2]]).to eq [7,5,1,2,11,3]}
       it{expect(@a.sum).to eq 29}
+      if float_types.include?(dtype)
+        it{expect(@a.mean).to eq 29.0/6}
+        it{expect(@a.stddev).to eq 13.766666666666669}
+      end
       it{expect(@a.copy.fill(12)).to eq [12]*6}
       it{expect((@a + 1)).to eq [2,3,4,6,8,12]}
       it{expect((@a - 1)).to eq [0,1,2,4,6,10]}
@@ -152,6 +160,11 @@ types.each do |dtype|
       it{expect(@a.sum).to eq 29}
       it{expect(@a.sum(0)).to eq [6, 9, 14]}
       it{expect(@a.sum(1)).to eq [6, 23]}
+      if float_types.include?(dtype)
+        it{expect(@a.mean).to eq 29.0/6}
+        it{expect(@a.mean(0)).to eq [3, 4.5, 7]}
+        it{expect(@a.mean(1)).to eq [2, 23.0/3]}
+      end
       if dtype == Numo::DComplex || dtype == Numo::SComplex
         it{expect(@a.real).to eq @src}
         it{expect(@a.imag).to eq [[0]*3]*2}

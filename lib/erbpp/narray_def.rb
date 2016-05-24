@@ -74,8 +74,9 @@ module DefMethod
     def_method(meth, -1, "bit_count")
   end
 
-  def accum(meth)
-    def_method(meth, -1, "accum")
+  def accum(meth, dtype, tpclass)
+    h = {:dtype => dtype, :tpclass => tpclass}
+    def_method(meth, -1, "accum", h)
   end
 
   def accum_binary(meth, ope=nil)

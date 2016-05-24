@@ -42,11 +42,6 @@
 #define m_isinf(x)     RTEST(rb_funcall(x,id_isinf,0))
 #define m_isfinite(x)  RTEST(rb_funcall(x,id_isfinite,0))
 
-#define m_sum(x,y) {if (!m_isnan(x)) {y = m_add(x,y);}}
-#define m_sum_init INT2FIX(0)
-#define m_min(x,y) {if (!(m_isnan(x) && m_isnan(x)) || m_gt(x,y)) {y = x;}}
-#define m_max(x,y) {if (!(m_isnan(x) && m_isnan(x)) || m_lt(x,y)) {y = x;}}
-
 #define m_mulsum(x,y,z) {z = m_add(m_mul(x,y),z);}
 #define m_mulsum_init INT2FIX(0)
 
@@ -58,4 +53,94 @@
 static inline int robj_sprintf(char *s, VALUE x) {
     VALUE v = rb_funcall(x,rb_intern("to_s"),0);
     return sprintf(s,"%s",StringValuePtr(v));
+}
+
+static inline dtype f_sum(size_t n, char *p, ssize_t stride)
+{
+    size_t i=n;
+    dtype x,y=INT2FIX(0);
+
+    for (; i--;) {
+        x = *(dtype*)p;
+        if (!m_isnan(x)) {
+            y = m_add(x,y);
+        }
+        p += stride;
+    }
+    return y;
+}
+
+static inline dtype f_mean(size_t n, char *p, ssize_t stride)
+{
+    size_t i=n;
+    size_t count=0;
+    dtype x,y=INT2FIX(0);
+
+    for (; i--;) {
+        x = *(dtype*)p;
+        if (!m_isnan(x)) {
+            y = m_add(x,y);
+            count++;
+        }
+        p += stride;
+    }
+    return m_div(y,SIZE2NUM(count));
+}
+
+static inline dtype f_stddev(size_t n, char *p, ssize_t stride)
+{
+    size_t i=n;
+    size_t count=0;
+    dtype x,m;
+    rtype y=0;
+
+    m = f_mean(n,p,stride);
+
+    for (; i--;) {
+        x = *(dtype*)p;
+        if (!m_isnan(x)) {
+            y = m_add(m_square(m_abs(m_sub(x,m))),y);
+            count++;
+        }
+        p += stride;
+    }
+    return m_div(y,SIZE2NUM(count-1));
+}
+
+
+
+static inline dtype f_min(size_t n, char *p, ssize_t stride)
+{
+    dtype x,y;
+    size_t i=n;
+
+    y = *(dtype*)p;
+    p += stride;
+    i--;
+    for (; i--;) {
+        x = *(dtype*)p;
+        if (!(m_isnan(x) && m_isnan(x)) || m_gt(x,y)) {
+            y = x;
+        }
+        p += stride;
+    }
+    return y;
+}
+
+static inline dtype f_max(size_t n, char *p, ssize_t stride)
+{
+    dtype x,y;
+    size_t i=n;
+
+    y = *(dtype*)p;
+    p += stride;
+    i--;
+    for (; i--;) {
+        x = *(dtype*)p;
+        if (!(m_isnan(x) && m_isnan(x)) || m_lt(x,y)) {
+            y = x;
+        }
+        p += stride;
+    }
+    return y;
 }

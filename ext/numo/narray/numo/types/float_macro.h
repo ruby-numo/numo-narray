@@ -43,11 +43,6 @@ EXTERN double exp10(double);
 #define m_isinf(x) isinf(x)
 #define m_isfinite(x) isfinite(x)
 
-#define m_sum(x,y) {if (!isnan(x)) {y+=x;}}
-#define m_sum_init INT2FIX(0)
-#define m_min(x,y) {if (!isnan(x) && (isnan(y) || y>x)) {y=x;}}
-#define m_max(x,y) {if (!isnan(x) && (isnan(y) || y<x)) {y=x;}}
-
 #define m_mulsum(x,y,z) {z += x*y;}
 #define m_mulsum_init INT2FIX(0)
 
@@ -112,4 +107,94 @@ static inline dtype pow_int(dtype x, int p)
         p >>= 1;
     }
     return r;
+}
+
+
+static inline dtype f_sum(size_t n, char *p, ssize_t stride)
+{
+    size_t i=n;
+    dtype x,y=0;
+
+    for (; i--;) {
+        x = *(dtype*)p;
+        if (!isnan(x)) {
+            y += x;
+        }
+        p += stride;
+    }
+    return y;
+}
+
+static inline dtype f_mean(size_t n, char *p, ssize_t stride)
+{
+    size_t i=n;
+    size_t count=0;
+    dtype x,y=0;
+
+    for (; i--;) {
+        x = *(dtype*)p;
+        if (!isnan(x)) {
+            y += x;
+            count++;
+        }
+        p += stride;
+    }
+    return y/count;
+}
+
+static inline dtype f_stddev(size_t n, char *p, ssize_t stride)
+{
+    size_t i=n;
+    size_t count=0;
+    dtype x,y=0;
+    dtype a,m;
+
+    m = f_mean(n,p,stride);
+
+    for (; i--;) {
+        x = *(dtype*)p;
+        if (!isnan(x)) {
+            a = x - m;
+            y += a*a;
+            count++;
+        }
+        p += stride;
+    }
+    return y/(count-1);
+}
+
+static inline dtype f_min(size_t n, char *p, ssize_t stride)
+{
+    dtype x,y;
+    size_t i=n;
+
+    y = *(dtype*)p;
+    p += stride;
+    i--;
+    for (; i--;) {
+        x = *(dtype*)p;
+        if (!isnan(x) && (isnan(y) || x<y)) {
+            y = x;
+        }
+        p += stride;
+    }
+    return y;
+}
+
+static inline dtype f_max(size_t n, char *p, ssize_t stride)
+{
+    dtype x,y;
+    size_t i=n;
+
+    y = *(dtype*)p;
+    p += stride;
+    i--;
+    for (; i--;) {
+        x = *(dtype*)p;
+        if (!isnan(x) && (isnan(y) || x>y)) {
+            y = x;
+        }
+        p += stride;
+    }
+    return y;
 }

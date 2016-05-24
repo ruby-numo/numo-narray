@@ -29,13 +29,6 @@
 #define m_lt(x,y) ((x)<(y))
 #define m_le(x,y) ((x)<=(y))
 
-#define m_sum(x,y) {{y+=x;}}
-#define m_sum_init INT2FIX(0)
-#define m_min(x,y) {if (y>x) {y=x;}}
-#define m_min_init nary_init_accum_aref0(self,reduce)
-#define m_max(x,y) {if (y<x) {y=x;}}
-#define m_max_init nary_init_accum_aref0(self,reduce)
-
 #define m_mulsum(x,y,z) {z += x*y;}
 #define m_mulsum_init INT2FIX(0)
 
@@ -44,3 +37,52 @@
      (qsort_cast(a) > qsort_cast(b)) ? 1 : -1)
 #define cmpgt(a,b)                              \
     (qsort_cast(a) > qsort_cast(b))
+
+
+static inline dtype f_sum(size_t n, char *p, ssize_t stride)
+{
+    dtype x,y=0;
+    size_t i=n;
+    for (; i--;) {
+        x = *(dtype*)p;
+        y += x;
+        p += stride;
+    }
+    return y;
+}
+
+static inline dtype f_min(size_t n, char *p, ssize_t stride)
+{
+    dtype x,y;
+    size_t i=n;
+
+    y = *(dtype*)p;
+    p += stride;
+    i--;
+    for (; i--;) {
+        x = *(dtype*)p;
+        if (x < y) {
+            y = x;
+        }
+        p += stride;
+    }
+    return y;
+}
+
+static inline dtype f_max(size_t n, char *p, ssize_t stride)
+{
+    dtype x,y;
+    size_t i=n;
+
+    y = *(dtype*)p;
+    p += stride;
+    i--;
+    for (; i--;) {
+        x = *(dtype*)p;
+        if (x > y) {
+            y = x;
+        }
+        p += stride;
+    }
+    return y;
+}
