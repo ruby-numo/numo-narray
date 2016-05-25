@@ -87,7 +87,7 @@ static inline dtype f_mean(size_t n, char *p, ssize_t stride)
     return m_div(y,SIZE2NUM(count));
 }
 
-static inline dtype f_stddev(size_t n, char *p, ssize_t stride)
+static inline dtype f_var(size_t n, char *p, ssize_t stride)
 {
     size_t i=n;
     size_t count=0;
@@ -107,6 +107,11 @@ static inline dtype f_stddev(size_t n, char *p, ssize_t stride)
     return m_div(y,SIZE2NUM(count-1));
 }
 
+static inline dtype f_stddev(size_t n, char *p, ssize_t stride)
+{
+    VALUE m = rb_const_get(rb_mKernel,rb_intern("Math"));
+    return rb_funcall(m,rb_intern("sqrt"),1,f_var(n,p,stride));
+}
 
 
 static inline dtype f_min(size_t n, char *p, ssize_t stride)

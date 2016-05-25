@@ -72,7 +72,8 @@ types.each do |dtype|
       it{expect(@a.sum).to eq 29}
       if float_types.include?(dtype)
         it{expect(@a.mean).to eq 29.0/6}
-        it{expect(@a.stddev).to eq 13.766666666666669}
+        it{expect(@a.var).to eq 13.766666666666669}
+        it{expect(@a.stddev).to eq 3.710345895825168}
       end
       it{expect(@a.copy.fill(12)).to eq [12]*6}
       it{expect((@a + 1)).to eq [2,3,4,6,8,12]}

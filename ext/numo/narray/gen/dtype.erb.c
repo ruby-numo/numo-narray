@@ -195,6 +195,7 @@ accum "sum","dtype","cT"
 if is_float
   accum "mean","dtype","cT"
   accum "stddev","rtype","cRT"
+  accum "var","rtype","cRT"
 end
 if is_comparable
   accum "min","dtype","cT"
@@ -208,8 +209,6 @@ accum_binary "mulsum"
 # max_index
 # minmax
 
-# mean
-# stddev
 # rms
 # rmsdev
 # cumsum

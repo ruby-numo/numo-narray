@@ -142,7 +142,7 @@ static inline dtype f_mean(size_t n, char *p, ssize_t stride)
     return y/count;
 }
 
-static inline dtype f_stddev(size_t n, char *p, ssize_t stride)
+static inline dtype f_var(size_t n, char *p, ssize_t stride)
 {
     size_t i=n;
     size_t count=0;
@@ -161,6 +161,11 @@ static inline dtype f_stddev(size_t n, char *p, ssize_t stride)
         p += stride;
     }
     return y/(count-1);
+}
+
+static inline dtype f_stddev(size_t n, char *p, ssize_t stride)
+{
+    return m_sqrt(f_var(n,p,stride));
 }
 
 static inline dtype f_min(size_t n, char *p, ssize_t stride)
