@@ -48,11 +48,12 @@ if is_object
   def_id "floor"
   def_id "round"
   def_id "ceil"
-  def_id "isnan"
-  def_id "isinf"
-  def_id "isfinite"
+  def_id "nan?"
+  def_id "infinite?"
+  def_id "finite?"
 end
 %>
+
 <% IdVar.declaration.each do |x| %><%=
  x %>
 <% end %>

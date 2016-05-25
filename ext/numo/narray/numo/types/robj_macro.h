@@ -21,7 +21,7 @@
 #define m_abs(x)       rb_funcall(x,id_abs,0)
 #define m_minus(x)     rb_funcall(x,id_minus,0)
 #define m_inverse(x)   rb_funcall(x,id_inverse,0)
-#define m_square(x)    rb_funcall(x,id_square,0)
+#define m_square(x)    rb_funcall(x,'*',1,x)
 #define m_floor(x)     rb_funcall(x,id_floor,0)
 #define m_round(x)     rb_funcall(x,id_round,0)
 #define m_ceil(x)      rb_funcall(x,id_ceil,0)
@@ -38,9 +38,9 @@
 #define m_bit_xor(x,y) rb_funcall(x,id_bit_xor,1,y)
 #define m_bit_not(x)   rb_funcall(x,id_bit_not,0)
 
-#define m_isnan(x)     RTEST(rb_funcall(x,id_isnan,0))
-#define m_isinf(x)     RTEST(rb_funcall(x,id_isinf,0))
-#define m_isfinite(x)  RTEST(rb_funcall(x,id_isfinite,0))
+#define m_isnan(x)     ((rb_respond_to(x,id_nan_p)) ? RTEST(rb_funcall(x,id_nan_p,0)) : 0)
+#define m_isinf(x)     ((rb_respond_to(x,id_infinite_p)) ? RTEST(rb_funcall(x,id_infinite_p,0)) : 0)
+#define m_isfinite(x)  ((rb_respond_to(x,id_finite_p)) ? RTEST(rb_funcall(x,id_finite_p,0)) : 0)
 
 #define m_mulsum(x,y,z) {z = m_add(m_mul(x,y),z);}
 #define m_mulsum_init INT2FIX(0)
@@ -84,7 +84,7 @@ static inline dtype f_mean(size_t n, char *p, ssize_t stride)
         }
         p += stride;
     }
-    return m_div(y,SIZE2NUM(count));
+    return m_div(y,DBL2NUM(count));
 }
 
 static inline dtype f_var(size_t n, char *p, ssize_t stride)
@@ -92,19 +92,19 @@ static inline dtype f_var(size_t n, char *p, ssize_t stride)
     size_t i=n;
     size_t count=0;
     dtype x,m;
-    rtype y=0;
+    dtype y=INT2FIX(0);
 
     m = f_mean(n,p,stride);
 
     for (; i--;) {
         x = *(dtype*)p;
         if (!m_isnan(x)) {
-            y = m_add(m_square(m_abs(m_sub(x,m))),y);
+            y = m_add(y,m_square(m_abs(m_sub(x,m))));
             count++;
         }
         p += stride;
     }
-    return m_div(y,SIZE2NUM(count-1));
+    return m_div(y,DBL2NUM(count-1));
 }
 
 static inline dtype f_stddev(size_t n, char *p, ssize_t stride)
