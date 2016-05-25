@@ -4,7 +4,14 @@
 
 * transpose and flatten reduce dimeinsion to last user dimension. -- almost done.
 
+* NArray with 1-d index and md-shape??
+* enable a[a.sort_index] == a.sort for multi-dimensional array -- perhaps done.
+
 * specify Input/Overwrite array
+
+* accept int-array as index argument of aref.
+
+* switch to TypedData.
 
 * inspect Enumerable#step object, delete Numo::Step class.
 
