@@ -114,15 +114,16 @@ class IdVar
   DEFS = []
 
   def id_decl
-    "static ID id_#{@method};"
+    "static ID #{@id_var};"
   end
 
   def id_assign
-    "id_#{@method} = rb_intern(\"#{@method}\");"
+    "#{@id_var} = rb_intern(\"#{@name}\");"
   end
 
-  def initialize(parent,meth)
-    @method = meth
+  def initialize(parent,name)
+    @name = name
+    @id_var = "id_"+name.gsub(/\?/,"_p").gsub(/\!/,"_bang")
     DEFS.push(self)
   end
 
