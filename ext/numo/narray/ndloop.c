@@ -257,8 +257,7 @@ ndloop_alloc(na_md_loop_t *lp, ndfunc_t *nf, VALUE args,
 
     na_loop_iter_t *iter;
 
-    int trans_dim, reduce_dim;
-    int *reduce_map;
+    int trans_dim;
     unsigned int f;
 
     args_len = RARRAY_LEN(args);
@@ -336,6 +335,10 @@ ndloop_alloc(na_md_loop_t *lp, ndfunc_t *nf, VALUE args,
         }
     }
 
+    if (user_nd>0 && RTEST(lp->reduce)) {
+        rb_bug("reduce dimension conflicts with user dimension");
+    }
+
     narg = nin + nout;
     max_nd = loop_nd + user_nd;
 
@@ -369,27 +372,26 @@ ndloop_alloc(na_md_loop_t *lp, ndfunc_t *nf, VALUE args,
     }
 
     // transpose reduce-dimensions to last dimensions
+    //              array          loop
+    //           [*,+,*,+,*] => [*,*,*,+,+]
+    // trans_map=[0,3,1,4,2] <= [0,1,2,3,4]
     lp->trans_map = ALLOC_N(int, max_nd+1);
     if (NDF_TEST(nf,NDF_FLAT_REDUCE) && RTEST(lp->reduce)) {
-        reduce_map = ALLOCA_N(int, max_nd+1);
-        reduce_dim = trans_dim = 0;
+        trans_dim = 0;
         for (i=0; i<max_nd; i++) {
             if (na_test_reduce(lp->reduce, i)) {
-                reduce_map[reduce_dim++] = i;
+                lp->trans_map[i] = -1;
             } else {
-                lp->trans_map[trans_dim++] = i;
+                lp->trans_map[i] = trans_dim++;
             }
         }
-        for (i=trans_dim,j=0; j<reduce_dim; j++,i++) {
-            lp->trans_map[i] = reduce_map[j];
+        j = trans_dim;
+        for (i=0; i<max_nd; i++) {
+            if (lp->trans_map[i] == -1) {
+                lp->trans_map[i] = j++;
+            }
         }
-        lp->reduce_dim = reduce_dim;
-        //fprintf(stderr,"trans_map=[");
-        //for (i=0; i<max_nd; i++) {
-        //    fprintf(stderr,"%d,",lp->trans_map[i]);
-        //}
-        //fprintf(stderr,"]\n");
-        // new reduce flag
+        lp->reduce_dim = max_nd - trans_dim;
         f = 0;
         for (i=trans_dim; i<max_nd; i++) {
             f |= 1<<i;
@@ -429,6 +431,7 @@ ndloop_release(VALUE vlp)
             }
         }
     }
+    if (lp->trans_map) xfree(lp->trans_map);
     xfree(lp->xargs);
     xfree(lp->iter_ptr);
     xfree(lp->user.args);
@@ -468,7 +471,6 @@ ndloop_check_shape(na_md_loop_t *lp, int nf_dim, narray_t *na)
 
     dim_beg = lp->ndim + nf_dim - na->ndim;
 
-    //for (k=na->ndim-1; k>=0; k--) {
     for (k = na->ndim - nf_dim - 1; k>=0; k--) {
         i = lp->trans_map[k + dim_beg];
         n = na->shape[k];
@@ -522,6 +524,7 @@ ndloop_set_stepidx(na_md_loop_t *lp, int j, VALUE vna, int *dim_map, int rwflag)
             n = na->shape[k];
             if (n > 1) {
                 i = dim_map[k];
+                //printf("n=%d k=%d i=%d\n",n,k,i);
                 LITER(lp,i,j).step = s;
                 LITER(lp,i,j).idx = NULL;
             }
@@ -566,6 +569,9 @@ ndloop_init_args(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
     int flag;
     size_t s;
 
+/*
+na->shape[i] == lp->n[ dim_map[i] ]
+ */
     dim_map = ALLOCA_N(int, max_nd);
 
     // input arguments
@@ -582,6 +588,7 @@ ndloop_init_args(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
             dim_beg = lp->ndim + nf->ain[j].dim - na->ndim;
             for (i=0; i<na->ndim; i++) {
                 dim_map[i] = lp->trans_map[i+dim_beg];
+                //printf("dim_map[%d]=%d na->shape[%d]=%d\n",i,dim_map[i],i,na->shape[i]);
             }
             if (nf->ain[j].type==OVERWRITE) {
                 lp->xargs[j].flag = flag = NDL_WRITE;
@@ -698,6 +705,7 @@ ndloop_set_output_narray(ndfunc_t *nf, na_md_loop_t *lp, int k,
 {
     int i, j;
     int na_ndim;
+    int lp_dim;
     volatile VALUE v=Qnil;
     size_t *na_shape;
     int *dim_map;
@@ -708,19 +716,29 @@ ndloop_set_output_narray(ndfunc_t *nf, na_md_loop_t *lp, int k,
     na_shape = ALLOCA_N(size_t, max_nd);
     dim_map = ALLOCA_N(int, max_nd);
 
+    //printf("max_nd=%d lp->ndim=%d\n",max_nd,lp->ndim);
+
     // md-loop shape
     na_ndim = 0;
     for (i=0; i<lp->ndim; i++) {
-        if (na_test_reduce(lp->reduce,i)) {    // accumulate dimension
+        // na_shape[i] == lp->n[lp->trans_map[i]]
+        lp_dim = lp->trans_map[i];
+        //printf("i=%d lp_dim=%d\n",i,lp_dim);
+        if (NDF_TEST(nf,NDF_CUM_DIM)) {   // cumulate with shape kept
+            na_shape[na_ndim] = lp->n[lp_dim];
+        } else
+        if (na_test_reduce(lp->reduce,lp_dim)) {   // accumulate dimension
             if (NDF_TEST(nf,NDF_KEEP_DIM)) {
                 na_shape[na_ndim] = 1;         // leave it
             } else {
                 continue;  // delete dimension
             }
         } else {
-            na_shape[na_ndim] = lp->n[i];
+            na_shape[na_ndim] = lp->n[lp_dim];
         }
-        dim_map[na_ndim++] = i;
+        //printf("i=%d lp_dim=%d na_shape[%d]=%ld\n",i,lp_dim,i,na_shape[i]);
+        dim_map[na_ndim++] = lp_dim;
+        //dim_map[lp_dim] = na_ndim++;
     }
 
     // user-specified shape
@@ -814,6 +832,7 @@ ndfunc_contract_loop(na_md_loop_t *lp)
             }
         }
         if (success) {
+            //printf("contract i=%d\n",i);
             // contract (i-1)-th and i-th dimension
             lp->n[i] *= lp->n[i-1];
             // shift dimensions
@@ -884,6 +903,7 @@ ndfunc_set_bufcp(na_md_loop_t *lp, unsigned int loop_spec)
     }
 
     for (j=0; j<lp->nin; j++) {
+        //for (j=0; j<lp->narg; j++) {
         ndim = nd = lp->user.ndim;
         sz = elmsz = LARG(lp,j).elmsz;
         src_iter = LARG(lp,j).iter;
@@ -945,7 +965,7 @@ ndfunc_set_bufcp(na_md_loop_t *lp, unsigned int loop_spec)
 
         // flatten reduce dimensions
         if (lp->reduce_dim>1) {
-            //printf("(reduce_dim=%d,ndim=%d,nd=%d,n=%ld,lst=%ld)",lp->reduce_dim,ndim,nd,n_total,last_step);
+            //printf("(reduce_dim=%d,ndim=%d,nd=%d,n=%ld,lst=%ld)\n",lp->reduce_dim,ndim,nd,n_total,last_step);
             buf_iter = ALLOC_N(na_loop_iter_t,2);
             buf_iter[0].pos = LARG(lp,j).iter[0].pos;
             buf_iter[0].step = last_step;
@@ -1195,12 +1215,14 @@ loop_narray(ndfunc_t *nf, na_md_loop_t *lp)
     if (nd==0) {
         for (j=0; j<lp->nin; j++) {
             if (lp->xargs[j].bufcp) {
+                //printf("copy_to_buffer j=%d\n",j);
                 ndloop_copy_to_buffer(lp->xargs[j].bufcp);
             }
         }
         (*(nf->func))(&(lp->user));
         for (j=0; j<lp->narg; j++) {
             if (lp->xargs[j].bufcp && (lp->xargs[j].flag & NDL_WRITE)) {
+                //printf("copy_from_buffer j=%d\n",j);
                 // copy data to work buffer
                 ndloop_copy_from_buffer(lp->xargs[j].bufcp);
             }
