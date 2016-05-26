@@ -79,6 +79,10 @@ module DefMethod
     def_method(meth, -1, "accum", h)
   end
 
+  def cum(meth, cmacro)
+    def_method(meth, -1, "cum", cmacro:cmacro)
+  end
+
   def accum_binary(meth, ope=nil)
     ope = meth if ope.nil?
     def_method(meth, -1, "accum_binary", :op => ope)
