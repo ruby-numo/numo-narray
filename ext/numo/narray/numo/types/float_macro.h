@@ -168,6 +168,23 @@ static inline dtype f_stddev(size_t n, char *p, ssize_t stride)
     return m_sqrt(f_var(n,p,stride));
 }
 
+static inline dtype f_rms(size_t n, char *p, ssize_t stride)
+{
+    size_t i=n;
+    size_t count=0;
+    dtype x,y=0;
+
+    for (; i--;) {
+        x = *(dtype*)p;
+        if (!isnan(x)) {
+            y += x*x;
+            count++;
+        }
+        p += stride;
+    }
+    return m_sqrt(y/count);
+}
+
 static inline dtype f_min(size_t n, char *p, ssize_t stride)
 {
     dtype x,y;

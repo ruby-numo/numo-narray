@@ -169,3 +169,21 @@ static inline rtype f_stddev(size_t n, char *p, ssize_t stride)
 {
     return r_sqrt(f_var(n,p,stride));
 }
+
+static inline rtype f_rms(size_t n, char *p, ssize_t stride)
+{
+    size_t i=n;
+    size_t count=0;
+    dtype x;
+    rtype y=0;
+
+    for (; i--;) {
+        x = *(dtype*)p;
+        if (!c_isnan(x)) {
+            y += c_abs_square(x);
+            count++;
+        }
+        p += stride;
+    }
+    return r_sqrt(y/count);
+}

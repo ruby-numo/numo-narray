@@ -113,6 +113,26 @@ static inline dtype f_stddev(size_t n, char *p, ssize_t stride)
     return rb_funcall(m,rb_intern("sqrt"),1,f_var(n,p,stride));
 }
 
+static inline dtype f_rms(size_t n, char *p, ssize_t stride)
+{
+    size_t i=n;
+    size_t count=0;
+    dtype x;
+    dtype y=INT2FIX(0);
+    VALUE m;
+
+    for (; i--;) {
+        x = *(dtype*)p;
+        if (!isnan(x)) {
+            y = m_add(y,m_square(m_abs(x)));
+            count++;
+        }
+        p += stride;
+    }
+    y = m_div(y,DBL2NUM(count));
+    m = rb_const_get(rb_mKernel,rb_intern("Math"));
+    return rb_funcall(m,rb_intern("sqrt"),1,y);
+}
 
 static inline dtype f_min(size_t n, char *p, ssize_t stride)
 {
