@@ -33,6 +33,7 @@ typedef struct NA_BUFFER_COPY {
 typedef struct NA_LOOP_XARGS {
     na_loop_iter_t *iter;     // moved from na_loop_t
     na_buffer_copy_t *bufcp;  // copy data to buffer
+    int flag;                 // NDL_READ NDL_WRITE
     boolean free_user_iter;   // alloc LARG(lp,j).iter=lp->xargs[j].iter
 } na_loop_xargs_t;
 
@@ -111,6 +112,13 @@ print_ndloop(na_md_loop_t *lp) {
     printf("  ndim = %d\n", lp->ndim);
     printf("  copy_flag = %x\n", lp->copy_flag);
     printf("  writeback = %d\n", lp->writeback);
+    printf("  init_aidx = %d\n", lp->init_aidx);
+    printf("  reduce_dim = %d\n", lp->reduce_dim);
+    printf("  trans_map = 0x%"SZF"x\n", (size_t)lp->trans_map);
+    nd = lp->ndim + lp->user.ndim;
+    for (i=0; i<nd; i++) {
+        printf("  trans_map[%d] = %d\n", i, lp->trans_map[i]);
+    }
     printf("  n = 0x%"SZF"x\n", (size_t)lp->n);
     printf("  xargs = 0x%"SZF"x\n", (size_t)lp->xargs);
     printf("  iter_ptr = 0x%"SZF"x\n", (size_t)lp->iter_ptr);
@@ -132,9 +140,9 @@ print_ndloop(na_md_loop_t *lp) {
         printf("  args[%d].ptr = 0x%"SZF"x\n", j, (size_t)LARG(lp,j).ptr);
         printf("  args[%d].elmsz = %"SZF"d\n", j, LARG(lp,j).elmsz);
         printf("  args[%d].value = 0x%"SZF"x\n", j, LARG(lp,j).value);
+        printf("  xargs[%d].flag = %d\n", j, lp->xargs[j].flag);
+        printf("  xargs[%d].free_user_iter = %d\n", j, lp->xargs[j].free_user_iter);
         for (i=0; i<=nd; i++) {
-#define LITER(lp,idim,iarg) ((lp)->xargs[iarg].iter[idim])
-
             printf("  xargs[%d].iter[%d].pos = %"SZF"u\n", j,i, LITER(lp,i,j).pos);
             printf("  xargs[%d].iter[%d].step = %"SZF"u\n", j,i, LITER(lp,i,j).step);
             printf("  xargs[%d].iter[%d].idx = 0x%"SZF"x\n", j,i, (size_t)LITER(lp,i,j).idx);
@@ -347,6 +355,7 @@ ndloop_alloc(na_md_loop_t *lp, ndfunc_t *nf, VALUE args,
         LARG(lp,j).value = Qnil;
         lp->xargs[j].iter = &(iter[(max_nd+1)*j]);
         lp->xargs[j].bufcp = NULL;
+        lp->xargs[j].flag = (j<nin) ? NDL_READ : NDL_WRITE;
         lp->xargs[j].free_user_iter = 0;
     }
 
@@ -490,17 +499,12 @@ ndloop_set_stepidx(na_md_loop_t *lp, int j, VALUE vna, int *dim_map, int rwflag)
 
     LARG(lp,j).value = vna;
     LARG(lp,j).elmsz = na_get_elmsz(vna);
-    switch(rwflag){
-    case NDL_READ:
+    if (rwflag & NDL_READ) {
         LARG(lp,j).ptr = na_get_pointer_for_read(vna);
-        break;
-    case NDL_WRITE:
+    } else
+    if (rwflag & NDL_WRITE) {
         LARG(lp,j).ptr = na_get_pointer_for_write(vna);
-        break;
-    case NDL_READ_WRITE:
-        LARG(lp,j).ptr = na_get_pointer_for_read(vna);
-        break;
-    default:
+    } else {
         rb_bug("invalid value for read-write flag");
     }
     GetNArray(vna,na);
@@ -580,9 +584,9 @@ ndloop_init_args(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
                 dim_map[i] = lp->trans_map[i+dim_beg];
             }
             if (nf->ain[j].type==OVERWRITE) {
-                flag = NDL_WRITE;
+                lp->xargs[j].flag = flag = NDL_WRITE;
             } else {
-                flag = NDL_READ;
+                lp->xargs[j].flag = flag = NDL_READ;
             }
             ndloop_set_stepidx(lp, j, v, dim_map, flag);
             LARG(lp,j).shape = na->shape + (na->ndim - nf_dim);
@@ -1195,8 +1199,8 @@ loop_narray(ndfunc_t *nf, na_md_loop_t *lp)
             }
         }
         (*(nf->func))(&(lp->user));
-        for (j=0; j<lp->nin; j++) {
-            if (lp->xargs[j].bufcp) {
+        for (j=0; j<lp->narg; j++) {
+            if (lp->xargs[j].bufcp && (lp->xargs[j].flag & NDL_WRITE)) {
                 // copy data to work buffer
                 ndloop_copy_from_buffer(lp->xargs[j].bufcp);
             }
@@ -1229,8 +1233,8 @@ loop_narray(ndfunc_t *nf, na_md_loop_t *lp)
             }
         }
         (*(nf->func))(&(lp->user));
-        for (j=0; j<lp->nin; j++) {
-            if (lp->xargs[j].bufcp) {
+        for (j=0; j<lp->narg; j++) {
+            if (lp->xargs[j].bufcp && (lp->xargs[j].flag|NDL_WRITE)) {
                 // copy data to work buffer
                 ndloop_copy_from_buffer(lp->xargs[j].bufcp);
             }
