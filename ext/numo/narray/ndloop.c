@@ -817,11 +817,16 @@ static void
 ndfunc_contract_loop(na_md_loop_t *lp)
 {
     int i,j,k,success,cnt=0;
+    int red0, redi;
+
+    red0 = na_test_reduce(lp->reduce,0);
 
     for (i=1; i<lp->ndim; i++) {
-        if (na_test_reduce(lp->reduce, i)) {
+        redi = na_test_reduce(lp->reduce,i);
+        if (red0 != redi) {
             continue;
         }
+        red0 = redi;
         success = 1;
         for (j=0; j<lp->narg; j++) {
             if (!(LITER(lp,i,j).idx == NULL &&
@@ -832,7 +837,7 @@ ndfunc_contract_loop(na_md_loop_t *lp)
             }
         }
         if (success) {
-            //printf("contract i=%d\n",i);
+            //printf("contract i=%d-th and %d-th\n",i-1,i);
             // contract (i-1)-th and i-th dimension
             lp->n[i] *= lp->n[i-1];
             // shift dimensions
@@ -843,6 +848,9 @@ ndfunc_contract_loop(na_md_loop_t *lp)
                 for (k=i-1; k>cnt; k--) {
                     LITER(lp,k,j) = LITER(lp,k-1,j);
                 }
+            }
+            if (redi) {
+                lp->reduce_dim--;
             }
             cnt++;
         }
@@ -863,9 +871,9 @@ ndfunc_set_user_loop(ndfunc_t *nf, na_md_loop_t *lp)
     int j;
 
     if (lp->reduce_dim > 0) {
-        //printf("lp->reduce_dim=%d\n",lp->reduce_dim);
         lp->user.ndim += lp->reduce_dim;
         lp->ndim -= lp->reduce_dim;
+        //printf("lp->reduce_dim=%d lp->user.ndim=%d lp->ndim=%d\n",lp->reduce_dim,lp->user.ndim,lp->ndim);
         //flatten:
         //  lp->n[lp->ndim..]
         //  for (j=0; j<lp->narg; j++) {
