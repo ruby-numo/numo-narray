@@ -154,6 +154,7 @@ extern VALUE rb_mNumo;
 extern VALUE nary_eCastError;
 extern VALUE nary_eShapeError;
 extern VALUE nary_eOperationError;
+extern VALUE nary_eDimensionError;
 
 //EXTERN const int na_sizeof[NA_NTYPES+1];
 #endif

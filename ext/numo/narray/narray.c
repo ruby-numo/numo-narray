@@ -20,6 +20,7 @@ VALUE rb_mNumo;
 VALUE nary_eCastError;
 VALUE nary_eShapeError;
 VALUE nary_eOperationError;
+VALUE nary_eDimensionError;
 
 static ID id_contiguous_stride;
 //static ID id_element_bit_size;
@@ -269,10 +270,10 @@ na_alloc_shape(narray_t *na, int ndim)
         na->shape = &(na->size);
     }
     else if (ndim < 0) {
-        rb_raise(rb_eRuntimeError,"ndim=%d is negative", ndim);
+        rb_raise(nary_eDimensionError,"ndim=%d is negative", ndim);
     }
     else if (ndim > NA_MAX_DIMENSION) {
-        rb_raise(rb_eRuntimeError,"ndim=%d is too many", ndim);
+        rb_raise(nary_eDimensionError,"ndim=%d is too many", ndim);
     } else {
         na->shape = ALLOC_N(size_t, ndim);
     }
@@ -925,7 +926,7 @@ na_reduce_dimension(int argc, VALUE *argv, int naryc, VALUE *naryv)
     for (i=1; i<naryc; i++) {
         GetNArray(naryv[i],na);
         if (TEST_COLUMN_MAJOR(naryv[i]) != row_major) {
-            rb_raise(rb_eArgError,"dimension order is different");
+            rb_raise(nary_eDimensionError,"dimension order is different");
         }
         if (na->ndim > ndim) {
             ndim = na->ndim;
@@ -935,7 +936,7 @@ na_reduce_dimension(int argc, VALUE *argv, int naryc, VALUE *naryv)
         j = FIX2ULONG(reduce) << (ndim-ndim0);
         reduce = ULONG2NUM(j);
         if (!FIXNUM_P(reduce)) {
-            rb_raise(rb_eRuntimeError,"reduce has too many bits");
+            rb_raise(nary_eDimensionError,"reduce has too many bits");
         }
     }
     //printf("argc=%d\n",argc);
@@ -948,6 +949,9 @@ na_reduce_dimension(int argc, VALUE *argv, int naryc, VALUE *naryv)
         if (TYPE(v)==T_FIXNUM) {
             beg = FIX2INT(v);
             if (beg<0) beg+=ndim;
+            if (beg>=ndim || beg<0) {
+                rb_raise(nary_eDimensionError,"dimension is out of range");
+            }
             len = 1;
             step = 0;
             //printf("beg=%d step=%d len=%d\n",beg,step,len);
@@ -955,7 +959,7 @@ na_reduce_dimension(int argc, VALUE *argv, int naryc, VALUE *naryv)
                    rb_obj_is_kind_of(v,na_cStep)) {
             nary_step_array_index( v, ndim, &len, &beg, &step );
         } else {
-            rb_raise(rb_eTypeError, "invalid dimension argument %s",
+            rb_raise(nary_eDimensionError, "invalid dimension argument %s",
                      rb_obj_classname(v));
         }
         for (j=0; j<len; j++) {
@@ -1178,6 +1182,7 @@ Init_narray()
     nary_eCastError = rb_define_class_under(cNArray, "CastError", rb_eStandardError);
     nary_eShapeError = rb_define_class_under(cNArray, "ShapeError", rb_eStandardError);
     nary_eOperationError = rb_define_class_under(cNArray, "OperationError", rb_eStandardError);
+    nary_eDimensionError = rb_define_class_under(cNArray, "DimensionError", rb_eStandardError);
 
     rb_define_singleton_method(cNArray, "debug=", na_debug_set, 1);
     rb_define_singleton_method(cNArray, "profile", na_profile, 0);
