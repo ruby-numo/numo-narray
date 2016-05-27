@@ -35,7 +35,7 @@ static VALUE
     VALUE reduce;
     ndfunc_arg_in_t ain[2] = {{cT,0},{sym_reduce,0}};
     ndfunc_arg_out_t aout[1] = {{INT2FIX(0),0}};
-    ndfunc_t ndf = {<%=c_iter%>, NDF_FLAT_REDUCE, 2,1, ain,aout};
+    ndfunc_t ndf = {<%=c_iter%>, STRIDE_LOOP_NIP|NDF_FLAT_REDUCE, 2,1, ain,aout};
 
     self = na_copy(self);
     reduce = na_reduce_dimension(argc, argv, 1, &self); // v[0] = self
