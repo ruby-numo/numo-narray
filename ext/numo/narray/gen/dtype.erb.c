@@ -205,6 +205,7 @@ if is_comparable
 end
 
 cum "cumsum","add"
+cum "cumprod","mul"
 
 # dot
 accum_binary "mulsum"
@@ -214,9 +215,7 @@ accum_binary "mulsum"
 # minmax
 
 # rmsdev
-# cumsum
 # prod
-# cumprod
 
 def_method "seq",-1
 def_alias  "indgen", "seq"
