@@ -12,6 +12,12 @@
 #include <ruby.h>
 #include "numo/narray.h"
 
+#if 0
+#define DBG(x) x
+#else
+#define DBG(x)
+#endif
+
 #ifdef HAVE_STDARG_PROTOTYPES
 #include <stdarg.h>
 #define va_init_list(a,b) va_start(a,b)
@@ -120,19 +126,30 @@ print_ndloop(na_md_loop_t *lp) {
         printf("  trans_map[%d] = %d\n", i, lp->trans_map[i]);
     }
     printf("  n = 0x%"SZF"x\n", (size_t)lp->n);
+    nd = lp->ndim + lp->user.ndim;
+    for (i=0; i<=lp->ndim; i++) {
+        printf("  n[%d] = %"SZF"u\n", i, lp->n[i]);
+    }
+    printf("  user.n = 0x%"SZF"x\n", (size_t)lp->user.n);
+    if (lp->user.n) {
+        for (i=0; i<=lp->user.ndim; i++) {
+            printf("  user.n[%d] = %"SZF"u\n", i, lp->user.n[i]);
+        }
+    }
     printf("  xargs = 0x%"SZF"x\n", (size_t)lp->xargs);
     printf("  iter_ptr = 0x%"SZF"x\n", (size_t)lp->iter_ptr);
     printf("  user.narg = %d\n", lp->user.narg);
     printf("  user.ndim = %d\n", lp->user.ndim);
-    printf("  user.n = 0x%"SZF"x\n", (size_t)lp->user.n);
     printf("  user.args = 0x%"SZF"x\n", (size_t)lp->user.args);
     for (j=0; j<lp->narg; j++) {
         printf("  user.args[%d].iter = 0x%"SZF"x\n", j,(size_t)lp->user.args[j].iter);
-        for (i=0; i<lp->user.ndim; i++) {
-            printf(" &user.args[%d].iter[%d] = 0x%"SZF"x\n", j,i, (size_t)&lp->user.args[j].iter[i]);
-            printf("  user.args[%d].iter[%d].pos = %"SZF"u\n", j,i, lp->user.args[j].iter[i].pos);
-            printf("  user.args[%d].iter[%d].step = %"SZF"u\n", j,i, lp->user.args[j].iter[i].step);
-            printf("  user.args[%d].iter[%d].idx = 0x%"SZF"x\n", j,i, (size_t)lp->user.args[j].iter[i].idx);
+        if (lp->user.args[j].iter) {
+            for (i=0; i<lp->user.ndim; i++) {
+                printf(" &user.args[%d].iter[%d] = 0x%"SZF"x\n", j,i, (size_t)&lp->user.args[j].iter[i]);
+                printf("  user.args[%d].iter[%d].pos = %"SZF"u\n", j,i, lp->user.args[j].iter[i].pos);
+                printf("  user.args[%d].iter[%d].step = %"SZF"u\n", j,i, lp->user.args[j].iter[i].step);
+                printf("  user.args[%d].iter[%d].idx = 0x%"SZF"x\n", j,i, (size_t)lp->user.args[j].iter[i].idx);
+            }
         }
     }
     printf("  user.opt_ptr = 0x%"SZF"x\n", (size_t)lp->user.opt_ptr);
@@ -141,14 +158,17 @@ print_ndloop(na_md_loop_t *lp) {
     } else {
         printf("  reduce  = 0x%x\n", NUM2INT(lp->reduce));
     }
-    nd = lp->ndim + lp->user.ndim;
-    for (i=0; i<=nd; i++) {
-        printf("  n[%d] = %"SZF"u\n", i, lp->n[i]);
-    }
     for (j=0; j<lp->narg; j++) {
-        printf("  args[%d].ptr = 0x%"SZF"x\n", j, (size_t)LARG(lp,j).ptr);
-        printf("  args[%d].elmsz = %"SZF"d\n", j, LARG(lp,j).elmsz);
-        printf("  args[%d].value = 0x%"SZF"x\n", j, LARG(lp,j).value);
+        printf("  user.args[%d].ptr = 0x%"SZF"x\n", j, (size_t)LARG(lp,j).ptr);
+        printf("  user.args[%d].elmsz = %"SZF"d\n", j, LARG(lp,j).elmsz);
+        printf("  user.args[%d].value = 0x%"SZF"x\n", j, LARG(lp,j).value);
+        printf("  user.args[%d].ndim = %d\n", j, LARG(lp,j).ndim);
+        printf("  user.args[%d].shape = 0x%"SZF"x\n", j, (size_t)LARG(lp,j).shape);
+        if (LARG(lp,j).shape) {
+            for (i=0; i<LARG(lp,j).ndim; i++) {
+                printf("  user.args[%d].shape[%d] = %"SZF"d\n", j, i, LARG(lp,j).shape[i]);
+            }
+        }
         printf("  xargs[%d].flag = %d\n", j, lp->xargs[j].flag);
         printf("  xargs[%d].free_user_iter = %d\n", j, lp->xargs[j].free_user_iter);
         for (i=0; i<=nd; i++) {
@@ -294,6 +314,7 @@ ndloop_alloc(na_md_loop_t *lp, ndfunc_t *nf, VALUE args,
     lp->n_ptr = NULL;
     lp->xargs = NULL;
     lp->user.args = NULL;
+    lp->user.n = NULL;
     lp->iter_ptr = NULL;
     lp->trans_map = NULL;
 
@@ -366,6 +387,9 @@ ndloop_alloc(na_md_loop_t *lp, ndfunc_t *nf, VALUE args,
 
     for (j=0; j<narg; j++) {
         LARG(lp,j).value = Qnil;
+        LARG(lp,j).iter = NULL;
+        LARG(lp,j).shape = NULL;
+        LARG(lp,j).ndim = 0;
         lp->xargs[j].iter = &(iter[(max_nd+1)*j]);
         lp->xargs[j].bufcp = NULL;
         lp->xargs[j].flag = (j<nin) ? NDL_READ : NDL_WRITE;
@@ -431,6 +455,7 @@ ndloop_release(VALUE vlp)
     }
     //xfree(lp);
     for (j=0; j<lp->narg; j++) {
+        //printf("lp->xargs[%d].bufcp=%lx\n",j,(size_t)(lp->xargs[j].bufcp));
         if (lp->xargs[j].bufcp) {
             xfree(lp->xargs[j].bufcp->buf_iter);
             xfree(lp->xargs[j].bufcp->buf_ptr);
@@ -606,7 +631,10 @@ na->shape[i] == lp->n[ dim_map[i] ]
                 lp->xargs[j].flag = flag = NDL_READ;
             }
             ndloop_set_stepidx(lp, j, v, dim_map, flag);
-            LARG(lp,j).shape = na->shape + (na->ndim - nf_dim);
+            LARG(lp,j).ndim = nf_dim;
+            if (nf_dim > 0) {
+                LARG(lp,j).shape = na->shape + (na->ndim - nf_dim);
+            }
         } else if (TYPE(v)==T_ARRAY) {
             LARG(lp,j).value = v;
             LARG(lp,j).elmsz = sizeof(VALUE);
@@ -720,7 +748,7 @@ ndloop_set_output_narray(ndfunc_t *nf, na_md_loop_t *lp, int k,
     size_t *na_shape;
     int *dim_map;
     int flag = NDL_READ_WRITE;
-
+    int nd;
     int max_nd = lp->ndim + nf->aout[k].dim;
 
     na_shape = ALLOCA_N(size_t, max_nd);
@@ -769,7 +797,10 @@ ndloop_set_output_narray(ndfunc_t *nf, na_md_loop_t *lp, int k,
 
     j = lp->nin + k;
     ndloop_set_stepidx(lp, j, v, dim_map, flag);
-    LARG(lp,j).shape = nf->aout[k].shape;
+    LARG(lp,j).ndim = nd = nf->aout[k].dim;
+    if (nd > 0) {
+        LARG(lp,j).shape = nf->aout[k].shape;
+    }
 
     return v;
 }
@@ -904,6 +935,14 @@ ndfunc_set_user_loop(ndfunc_t *nf, na_md_loop_t *lp)
     if (lp->ndim > 0 && NDF_TEST(nf,NDF_HAS_LOOP)) {
         lp->user.ndim += 1;
         lp->ndim -= 1;
+        for (j=0; j<lp->narg; j++) {
+            if (LARG(lp,j).shape) {
+                rb_bug("HAS_LOOP conflicts with user dimension");
+            }
+            LARG(lp,j).ndim += 1;
+            LARG(lp,j).shape = &(lp->n[lp->ndim]);
+            //printf("LARG(lp,j).ndim=%d,LARG(lp,j).shape=%lx\n",LARG(lp,j).ndim,(size_t)LARG(lp,j).shape);
+        }
     }
     //ndfunc_check_user_loop(nf, lp);
 
@@ -933,9 +972,10 @@ ndfunc_set_bufcp(na_md_loop_t *lp, unsigned int loop_spec)
         n_total *= lp->user.n[i];
     }
 
-    //for (j=0; j<lp->nin; j++) {
-    for (j=0; j<lp->narg; j++) {
-        ndim = nd = lp->user.ndim;
+    for (j=0; j<lp->nin; j++) {
+    //for (j=0; j<lp->narg; j++) {
+        //ndim = nd = lp->user.ndim;
+        ndim = nd = LARG(lp,j).ndim;
         sz = elmsz = LARG(lp,j).elmsz;
         src_iter = LARG(lp,j).iter;
         last_step = src_iter[ndim-1].step;
@@ -943,9 +983,14 @@ ndfunc_set_bufcp(na_md_loop_t *lp, unsigned int loop_spec)
         zero_step = 1;
         for (i=ndim; i>0; ) {
             i--;
-            n = lp->user.n[i];
+            if (LARG(lp,j).shape) {
+                n = LARG(lp,j).shape[i];
+            } else {
+                printf("shape is NULL\n");
+                n = lp->user.n[i];
+            }
             stride = sz * n;
-            //printf("\n {j=%d,i=%d,ndim=%d,nd=%d,idx=%lx,step=%ld,n=%ld,sz=%ld,stride=%ld}\n",j,i,ndim,nd,src_iter[i].idx,src_iter[i].step,n,sz,stride);
+            //printf("{j=%d,i=%d,ndim=%d,nd=%d,idx=%lx,step=%ld,n=%ld,sz=%ld,stride=%ld}\n",j,i,ndim,nd,(size_t)src_iter[i].idx,src_iter[i].step,n,sz,stride);
             if (src_iter[i].idx) {
                 f |= 2;  // INDEX LOOP
                 zero_step = 0;
@@ -965,6 +1010,8 @@ ndfunc_set_bufcp(na_md_loop_t *lp, unsigned int loop_spec)
             }
             sz = stride;
         }
+        //printf("[j=%d f=%d loop_spec=%d zero_step=%d]\n",j,f,loop_spec,zero_step);
+
         if (zero_step) {
             // no buffer needed
             continue;
@@ -972,7 +1019,6 @@ ndfunc_set_bufcp(na_md_loop_t *lp, unsigned int loop_spec)
 
         // should check flatten-able loop to avoid buffering
 
-        //printf("[j=%d f=%d loop_spec=%d]\n",j,f,loop_spec);
 
         // over loop_spec or reduce_loop is not contiguous
         if (f & loop_spec || (lp->reduce_dim > 1 && ndim > 0)) {
@@ -989,7 +1035,8 @@ ndfunc_set_bufcp(na_md_loop_t *lp, unsigned int loop_spec)
                 buf_iter[i].pos = 0;
                 buf_iter[i].step = sz;
                 buf_iter[i].idx = NULL;
-                n = lp->user.n[i];
+                //n = lp->user.n[i];
+                n = LARG(lp,j).shape[i];
                 buf_shape[i] = n;
                 sz *= n;
             }
@@ -1005,9 +1052,13 @@ ndfunc_set_bufcp(na_md_loop_t *lp, unsigned int loop_spec)
             LARG(lp,j).ptr = LBUFCP(lp,j)->buf_ptr = xmalloc(sz);
             //printf("(LBUFCP(lp,%d)->buf_ptr=%lx)\n",j,(size_t)(LBUFCP(lp,j)->buf_ptr));
         }
+    }
 
-        // flatten reduce dimensions
-        //if (0) {
+    // flatten reduce dimensions
+    for (j=0; j<lp->narg; j++) {
+        ndim = lp->user.ndim;
+        src_iter = LARG(lp,j).iter;
+        last_step = src_iter[ndim-1].step;
         if (lp->reduce_dim>1) {
             //printf("(reduce_dim=%d,ndim=%d,nd=%d,n=%ld,lst=%ld)\n",lp->reduce_dim,ndim,nd,n_total,last_step);
             buf_iter = ALLOC_N(na_loop_iter_t,2);
@@ -1040,16 +1091,16 @@ ndloop_copy_to_buffer(na_buffer_copy_t *lp)
     int  nd = lp->ndim;
     size_t elmsz = lp->elmsz;
     size_t buf_pos = 0;
-    //size_t j;
+    DBG(size_t j);
 
     //printf("\nto_buf nd=%d elmsz=%ld\n",nd,elmsz);
-    //printf("<to buf> [");
+    DBG(printf("<to buf> ["));
     // zero-dimension
     if (nd==0) {
         src = lp->src_ptr + LITER_SRC(lp,0).pos;
         buf = lp->buf_ptr;
         memcpy(buf,src,elmsz);
-        //for (j=0; j<elmsz/8; j++) {printf("%g,",((double*)(buf))[j]);}
+        DBG(for (j=0; j<elmsz/8; j++) {printf("%g,",((double*)(buf))[j]);});
         goto loop_end;
     }
     // initialize loop counter
@@ -1068,7 +1119,7 @@ ndloop_copy_to_buffer(na_buffer_copy_t *lp)
         src = lp->src_ptr + LITER_SRC(lp,nd).pos;
         buf = lp->buf_ptr + buf_pos;
         memcpy(buf,src,elmsz);
-        // for (j=0; j<elmsz/8; j++) {printf("%g,",((double*)(buf))[j]);}
+        DBG(for (j=0; j<elmsz/8; j++) {printf("%g,",((double*)(buf))[j]);});
         buf_pos += elmsz;
         // count up
         for (;;) {
@@ -1080,7 +1131,7 @@ ndloop_copy_to_buffer(na_buffer_copy_t *lp)
     }
  loop_end:
     ;
-    //printf("]\n");
+    DBG(printf("]\n"));
 }
 
 static void
@@ -1092,16 +1143,16 @@ ndloop_copy_from_buffer(na_buffer_copy_t *lp)
     int  nd = lp->ndim;
     size_t elmsz = lp->elmsz;
     size_t buf_pos = 0;
-    //size_t j;
+    DBG(size_t j);
 
     //printf("\nfrom_buf nd=%d elmsz=%ld\n",nd,elmsz);
-    //printf("<from buf> [");
+    DBG(printf("<from buf> ["));
     // zero-dimension
     if (nd==0) {
         src = lp->src_ptr + LITER_SRC(lp,0).pos;
         buf = lp->buf_ptr;
         memcpy(src,buf,elmsz);
-        //for (j=0; j<elmsz/8; j++) {printf("%g,",((double*)(src))[j]);}
+        DBG(for (j=0; j<elmsz/8; j++) {printf("%g,",((double*)(src))[j]);});
         goto loop_end;
     }
     // initialize loop counter
@@ -1120,7 +1171,7 @@ ndloop_copy_from_buffer(na_buffer_copy_t *lp)
         src = lp->src_ptr + LITER_SRC(lp,nd).pos;
         buf = lp->buf_ptr + buf_pos;
         memcpy(src,buf,elmsz);
-        //for (j=0; j<elmsz/8; j++) {printf("%g,",((double*)(src))[j]);}
+        DBG(for (j=0; j<elmsz/8; j++) {printf("%g,",((double*)(src))[j]);});
         buf_pos += elmsz;
         // count up
         for (;;) {
@@ -1131,8 +1182,7 @@ ndloop_copy_from_buffer(na_buffer_copy_t *lp)
         }
     }
  loop_end:
-    ;
-    //printf("]\n");
+    DBG(printf("]\n"));
 }
 
 

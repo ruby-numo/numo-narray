@@ -22,7 +22,7 @@ typedef struct NA_LOOP_ARGS {
     ssize_t  elmsz;
     char    *ptr;
     //char    *buf_ptr;  //
-    // int ndim; - not required for each argument.
+    int      ndim;       // required for each argument.
     // ssize_t pos; - not required here.
     size_t  *shape;
     na_loop_iter_t *iter;  // moved from na_loop_t
