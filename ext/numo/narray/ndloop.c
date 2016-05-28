@@ -213,6 +213,28 @@ ndloop_func_loop_spec(ndfunc_t *nf, int user_ndim)
 
 
 
+static int
+ndloop_cast_required(VALUE type, VALUE value)
+{
+    return CASTABLE(type) && type != CLASS_OF(value);
+}
+
+static int
+ndloop_castable_type(VALUE type)
+{
+    return rb_obj_is_kind_of(type, rb_cClass) && RTEST(rb_class_inherited_p(type, cNArray));
+}
+
+static void
+ndloop_cast_error(VALUE type, VALUE value)
+{
+    VALUE x = rb_inspect(type);
+    char* s = StringValueCStr(x);
+    rb_bug("fail cast from %s to %s", rb_obj_classname(value),s);
+    rb_raise(rb_eTypeError,"fail cast from %s to %s",
+             rb_obj_classname(value), s);
+}
+
 // convert input argeuments given by RARRAY_PTR(args)[j]
 //              to type specified by nf->args[j].type
 // returns copy_flag where nth-bit is set if nth argument is converted.
@@ -220,45 +242,27 @@ static unsigned int
 ndloop_cast_args(ndfunc_t *nf, VALUE args)
 {
     int j;
-    char *s;
     unsigned int copy_flag=0;
-    volatile VALUE v, t, x;
-
-    //if (na_debug_flag) rb_p(args);
+    VALUE type, value;
 
     for (j=0; j<nf->nin; j++) {
-        t = nf->ain[j].type;
-        //x = rb_inspect(t);
-        //s = StringValueCStr(x);
-        //printf("TYPE(nf->ain[%d].type) = %d, t = nf->ain[%d].type=%s\n",j,TYPE(t),j,s);
-        if (TYPE(t)!=T_SYMBOL) {
-            // argument
-            v = RARRAY_AREF(args,j);
-            //x = rb_inspect(v);
-            //s = StringValueCStr(x);
-            //printf(" v = RARRAY_AREF(args,%d) = %s\n", j, s);
-            // skip cast if type is nil or same as input value
-            if (CASTABLE(t) && t != CLASS_OF(v)) {
-                // else do cast
-                if (rb_obj_is_kind_of(t, rb_cClass)) {
-                    if (RTEST(rb_class_inherited_p(t, cNArray))) {
-                        v = nary_type_s_cast(t, v);
-                        RARRAY_ASET(args,j,v);
-                        copy_flag |= 1<<j;
-                        //x = rb_inspect(t);
-                        //s = StringValueCStr(x);
-                        //printf(" nary_type_s_cast(t, v) = %s\n", s);
-                        continue;
-                    }
-                }
-                x = rb_inspect(t);
-                s = StringValueCStr(x);
-                rb_bug("fail cast from %s to %s", rb_obj_classname(v),s);
-                rb_raise(rb_eTypeError,"fail cast from %s to %s",
-                         rb_obj_classname(v), s);
-            }
+
+        type = nf->ain[j].type;
+        if (TYPE(type)==T_SYMBOL)
+            continue;
+        value = RARRAY_AREF(args,j);
+        if (!ndloop_cast_required(type, value))
+            continue;
+        
+        if (ndloop_castable_type(type)) {
+            RARRAY_ASET(args,j,nary_type_s_cast(type, value));
+            copy_flag |= 1<<j;
+        } else {
+            ndloop_cast_error(type, value);
         }
     }
+
+    RB_GC_GUARD(type); RB_GC_GUARD(value);
     return copy_flag;
 }
 
