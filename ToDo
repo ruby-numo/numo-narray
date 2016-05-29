@@ -17,6 +17,18 @@
 
 * move "reduce" field from RNArray to RNArrayView.
 
-* unify RNArray structure??
+* unify RNArrayBase and RNArrayView structure??
 
 * how to get the element size value effectively??
+
+* Frozen array, Thread-locked array
+
+* convert binary to String
+
+* Marshaling
+
+* parsing keyword arguments
+
+* alignment
+
+* force buffering
