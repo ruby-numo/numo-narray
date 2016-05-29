@@ -267,6 +267,69 @@ ndloop_cast_args(ndfunc_t *nf, VALUE args)
 }
 
 
+static void
+ndloop_handle_symbol_in_ain(VALUE type, VALUE value, int at, na_md_loop_t *lp)
+{
+    if (type==sym_reduce) {
+        lp->reduce = value;
+    }
+    else if (type==sym_option) {
+        lp->user.option = value;
+    }
+    else if (type==sym_loop_opt) {
+        lp->loop_opt = value;
+    }
+    else if (type==sym_init) {
+        lp->init_aidx = at;
+    }
+    else {
+        rb_bug("ndloop parse_options: unknown type");
+    }
+}
+
+static inline int
+max2(int x, int y)
+{
+    return x > y ? x : y;
+}
+
+static void
+ndloop_find_max_dimension(na_md_loop_t *lp, ndfunc_t *nf, VALUE args,
+                          int *narg, int *max_nd)
+{
+    int j;
+    int args_len = RARRAY_LEN(args);
+    int nin=0; // number of input objects (but symbols)
+    int user_nd=0; // max dimension of user function
+    int loop_nd=0; // max dimension of md-loop
+    
+    for (j=0; j<args_len; j++) {
+        VALUE t = nf->ain[j].type;
+        VALUE v = RARRAY_AREF(args,j);
+        if (TYPE(t)==T_SYMBOL) {
+            ndloop_handle_symbol_in_ain(t, v, j, lp);
+        } else {
+            nin++;
+            user_nd = max2(user_nd, nf->ain[j].dim);
+            
+            if (IsNArray(v)) {
+                narray_t *na;
+                GetNArray(v,na);
+                loop_nd = max2(loop_nd, na->ndim - nf->ain[j].dim);
+            }
+        }
+    }
+
+    *narg = nin + nf->nout;
+    *max_nd = loop_nd + user_nd;
+
+    lp->nin = nin;
+    lp->narg = *narg;
+    lp->ndim = loop_nd;
+    lp->user.narg = *narg;
+    lp->user.ndim = user_nd;
+}
+
 /*
   user-dimension:
     user_nd = MAX( nf->args[j].dim )
@@ -284,11 +347,8 @@ ndloop_alloc(na_md_loop_t *lp, ndfunc_t *nf, VALUE args,
 {
     int i,j;
     int narg;
-    int user_nd, loop_nd, max_nd, tmp_nd;
-    VALUE v, t;
-    narray_t *na;
+    int max_nd;
 
-    int nin, nout, nopt;
     long args_len;
 
     na_loop_iter_t *iter;
@@ -324,66 +384,8 @@ ndloop_alloc(na_md_loop_t *lp, ndfunc_t *nf, VALUE args,
     lp->iter_ptr = NULL;
     lp->trans_map = NULL;
 
-    nout = nf->nout;
-    nin = 0;
-    nopt = 0;
-
     // find max dimension, symbol options
-    user_nd = 0;
-    loop_nd = 0;
-    for (j=0; j<args_len; j++) {
-        t = nf->ain[j].type;
-        v = RARRAY_AREF(args,j);
-        // Symbol
-        if (TYPE(t)==T_SYMBOL) {
-            nopt++;
-            if (t==sym_reduce) {
-                lp->reduce = v;
-            }
-            else if (t==sym_option) {
-                lp->user.option = v;
-            }
-            else if (t==sym_loop_opt) {
-                lp->loop_opt = v;
-            }
-            else if (t==sym_init) {
-                lp->init_aidx = j;
-            }
-            else {
-                rb_bug("ndloop parse_options: unknown type");
-            }
-        } else {
-            nin++;
-            // max dimension of user function
-            tmp_nd = nf->ain[j].dim;
-            if (tmp_nd > user_nd) {
-                user_nd = tmp_nd;
-            }
-            // max dimension of md-loop
-            v = RARRAY_AREF(args,j);
-            if (IsNArray(v)) {
-                GetNArray(v,na);
-                // array-dimension minus user-dimension
-                tmp_nd = na->ndim - nf->ain[j].dim;
-                if (tmp_nd > loop_nd) {
-                    loop_nd = tmp_nd;
-                }
-            }
-        }
-    }
-
-    if (user_nd>0 && RTEST(lp->reduce)) {
-        rb_bug("reduce dimension conflicts with user dimension");
-    }
-
-    narg = nin + nout;
-    max_nd = loop_nd + user_nd;
-
-    lp->nin = nin;
-    lp->narg = narg;
-    lp->ndim = loop_nd;
-    lp->user.narg = narg;
-    lp->user.ndim = user_nd;
+    ndloop_find_max_dimension(lp, nf, args, &narg, &max_nd);
 
     lp->n    = lp->n_ptr = ALLOC_N(size_t, max_nd+1);
     lp->xargs = ALLOC_N(na_loop_xargs_t, narg);
