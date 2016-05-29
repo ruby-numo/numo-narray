@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["masa16.tanaka@gmail.com"]
   spec.description   = %q{NArray development version.}
   spec.summary       = %q{NArray development version}
-  spec.homepage      = "https://github.com/ruby-numo/numo-narray"
+  spec.homepage      = "https://github.com/ruby-numo/narray"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files Gemfile README.md Rakefile lib ext numo-narray.gemspec spec`.split($/)
