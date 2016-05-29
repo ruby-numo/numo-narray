@@ -294,16 +294,14 @@ max2(int x, int y)
 }
 
 static void
-ndloop_find_max_dimension(na_md_loop_t *lp, ndfunc_t *nf, VALUE args,
-                          int *narg, int *max_nd)
+ndloop_find_max_dimension(na_md_loop_t *lp, ndfunc_t *nf, VALUE args)
 {
     int j;
-    int args_len = RARRAY_LEN(args);
-    int nin=0; // number of input objects (but symbols)
+    int nin=0; // number of input objects (except for symbols)
     int user_nd=0; // max dimension of user function
     int loop_nd=0; // max dimension of md-loop
     
-    for (j=0; j<args_len; j++) {
+    for (j=0; j<RARRAY_LEN(args); j++) {
         VALUE t = nf->ain[j].type;
         VALUE v = RARRAY_AREF(args,j);
         if (TYPE(t)==T_SYMBOL) {
@@ -311,22 +309,14 @@ ndloop_find_max_dimension(na_md_loop_t *lp, ndfunc_t *nf, VALUE args,
         } else {
             nin++;
             user_nd = max2(user_nd, nf->ain[j].dim);
-            
-            if (IsNArray(v)) {
-                narray_t *na;
-                GetNArray(v,na);
-                loop_nd = max2(loop_nd, na->ndim - nf->ain[j].dim);
-            }
+            if (IsNArray(v)) 
+                loop_nd = max2(loop_nd, RNARRAY_NDIM(v) - nf->ain[j].dim);
         }
     }
 
-    *narg = nin + nf->nout;
-    *max_nd = loop_nd + user_nd;
-
+    lp->narg = lp->user.narg = nin + nf->nout;
     lp->nin = nin;
-    lp->narg = *narg;
     lp->ndim = loop_nd;
-    lp->user.narg = *narg;
     lp->user.ndim = user_nd;
 }
 
@@ -384,9 +374,10 @@ ndloop_alloc(na_md_loop_t *lp, ndfunc_t *nf, VALUE args,
     lp->iter_ptr = NULL;
     lp->trans_map = NULL;
 
-    // find max dimension, symbol options
-    ndloop_find_max_dimension(lp, nf, args, &narg, &max_nd);
-
+    ndloop_find_max_dimension(lp, nf, args);
+    narg = lp->nin + nf->nout;
+    max_nd = lp->ndim + lp->user.ndim;
+    
     lp->n    = lp->n_ptr = ALLOC_N(size_t, max_nd+1);
     lp->xargs = ALLOC_N(na_loop_xargs_t, narg);
     lp->user.args = ALLOC_N(na_loop_args_t, narg);
@@ -400,7 +391,7 @@ ndloop_alloc(na_md_loop_t *lp, ndfunc_t *nf, VALUE args,
         LARG(lp,j).ndim = 0;
         lp->xargs[j].iter = &(iter[(max_nd+1)*j]);
         lp->xargs[j].bufcp = NULL;
-        lp->xargs[j].flag = (j<nin) ? NDL_READ : NDL_WRITE;
+        lp->xargs[j].flag = (j<nf->nin) ? NDL_READ : NDL_WRITE;
         lp->xargs[j].free_user_iter = 0;
     }
 
