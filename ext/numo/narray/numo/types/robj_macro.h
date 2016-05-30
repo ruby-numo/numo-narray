@@ -123,7 +123,7 @@ static inline dtype f_rms(size_t n, char *p, ssize_t stride)
 
     for (; i--;) {
         x = *(dtype*)p;
-        if (!isnan(x)) {
+        if (!m_isnan(x)) {
             y = m_add(y,m_square(m_abs(x)));
             count++;
         }
@@ -144,7 +144,7 @@ static inline dtype f_min(size_t n, char *p, ssize_t stride)
     i--;
     for (; i--;) {
         x = *(dtype*)p;
-        if (!(m_isnan(x) && m_isnan(x)) || m_gt(x,y)) {
+        if (!m_isnan(x) && (m_isnan(y) || m_lt(x,y))) {
             y = x;
         }
         p += stride;
@@ -162,7 +162,7 @@ static inline dtype f_max(size_t n, char *p, ssize_t stride)
     i--;
     for (; i--;) {
         x = *(dtype*)p;
-        if (!(m_isnan(x) && m_isnan(x)) || m_lt(x,y)) {
+        if (!m_isnan(x) && (m_isnan(y) || m_gt(x,y))) {
             y = x;
         }
         p += stride;
