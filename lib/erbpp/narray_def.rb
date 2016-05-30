@@ -2,8 +2,8 @@ require 'erbpp'
 
 module DefMethod
 
-  def def_id(meth)
-    IdVar.new(self, meth)
+  def def_id(meth,var=nil)
+    IdVar.new(self, meth, var)
   end
 
   def def_method(meth, n_arg, tmpl=nil, opts={})

@@ -121,9 +121,10 @@ class IdVar
     "#{@id_var} = rb_intern(\"#{@name}\");"
   end
 
-  def initialize(parent,name)
+  def initialize(parent,name,var=nil)
     @name = name
-    @id_var = "id_"+name.gsub(/\?/,"_p").gsub(/\!/,"_bang")
+    var = name if var.nil?
+    @id_var = "id_"+var.gsub(/\?/,"_p").gsub(/\!/,"_bang")
     DEFS.push(self)
   end
 

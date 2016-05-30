@@ -28,10 +28,10 @@
 
 #define m_eq(x,y)      RTEST(rb_funcall(x,id_eq,1,y))
 #define m_ne(x,y)      RTEST(rb_funcall(x,id_ne,1,y))
-#define m_gt(x,y)      RTEST(rb_funcall(x,id_gt,1,y))
-#define m_ge(x,y)      RTEST(rb_funcall(x,id_ge,1,y))
-#define m_lt(x,y)      RTEST(rb_funcall(x,id_lt,1,y))
-#define m_le(x,y)      RTEST(rb_funcall(x,id_le,1,y))
+#define m_gt(x,y)      RTEST(rb_funcall(x,id_op_gt,1,y))
+#define m_ge(x,y)      RTEST(rb_funcall(x,id_op_ge,1,y))
+#define m_lt(x,y)      RTEST(rb_funcall(x,id_op_lt,1,y))
+#define m_le(x,y)      RTEST(rb_funcall(x,id_op_le,1,y))
 
 #define m_bit_and(x,y) rb_funcall(x,id_bit_and,1,y)
 #define m_bit_or(x,y)  rb_funcall(x,id_bit_or, 1,y)

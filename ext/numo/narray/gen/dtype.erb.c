@@ -51,6 +51,10 @@ if is_object
   def_id "nan?"
   def_id "infinite?"
   def_id "finite?"
+  def_id ">" ,"op_gt"
+  def_id ">=","op_ge"
+  def_id "<" ,"op_lt"
+  def_id "<=","op_le"
 end
 %>
 
