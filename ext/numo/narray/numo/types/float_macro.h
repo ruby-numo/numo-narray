@@ -52,13 +52,13 @@ EXTERN double exp10(double);
 #define m_sprintf(s,x) sprintf(s,"%g",x)
 
 #define cmp(a,b)                                                        \
-    (isnan(qsort_cast(a)) ? (isnan(qsort_cast(b)) ? 0 : 1) :            \
-     (isnan(qsort_cast(b)) ? -1 :                                       \
+    (m_isnan(qsort_cast(a)) ? (m_isnan(qsort_cast(b)) ? 0 : 1) :            \
+     (m_isnan(qsort_cast(b)) ? -1 :                                       \
       ((qsort_cast(a)==qsort_cast(b)) ? 0 :                             \
        (qsort_cast(a) > qsort_cast(b)) ? 1 : -1)))
 
 #define cmpgt(a,b)                                            \
-    ((isnan(qsort_cast(a)) && !isnan(qsort_cast(b))) ||       \
+    ((m_isnan(qsort_cast(a)) && !m_isnan(qsort_cast(b))) ||       \
      (qsort_cast(a) > qsort_cast(b)))
 
 #define m_sqrt(x)    sqrt(x)
@@ -117,7 +117,7 @@ static inline dtype f_sum(size_t n, char *p, ssize_t stride)
 
     for (; i--;) {
         x = *(dtype*)p;
-        if (!isnan(x)) {
+        if (!m_isnan(x)) {
             y += x;
         }
         p += stride;
@@ -133,7 +133,7 @@ static inline dtype f_mean(size_t n, char *p, ssize_t stride)
 
     for (; i--;) {
         x = *(dtype*)p;
-        if (!isnan(x)) {
+        if (!m_isnan(x)) {
             y += x;
             count++;
         }
@@ -153,7 +153,7 @@ static inline dtype f_var(size_t n, char *p, ssize_t stride)
 
     for (; i--;) {
         x = *(dtype*)p;
-        if (!isnan(x)) {
+        if (!m_isnan(x)) {
             a = x - m;
             y += a*a;
             count++;
@@ -176,7 +176,7 @@ static inline dtype f_rms(size_t n, char *p, ssize_t stride)
 
     for (; i--;) {
         x = *(dtype*)p;
-        if (!isnan(x)) {
+        if (!m_isnan(x)) {
             y += x*x;
             count++;
         }
@@ -195,7 +195,7 @@ static inline dtype f_min(size_t n, char *p, ssize_t stride)
     i--;
     for (; i--;) {
         x = *(dtype*)p;
-        if (!isnan(x) && (isnan(y) || x<y)) {
+        if (!m_isnan(x) && (m_isnan(y) || x<y)) {
             y = x;
         }
         p += stride;
@@ -213,7 +213,7 @@ static inline dtype f_max(size_t n, char *p, ssize_t stride)
     i--;
     for (; i--;) {
         x = *(dtype*)p;
-        if (!isnan(x) && (isnan(y) || x>y)) {
+        if (!m_isnan(x) && (m_isnan(y) || x>y)) {
             y = x;
         }
         p += stride;
