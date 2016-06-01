@@ -13,18 +13,18 @@ static void
 /*
  *  call-seq:
  *     narray.sort() => narray
- *     narray.sort(dim) => narray
+ *     narray.sort(dim0,dim1,...) => narray
  *
  *  Return an index array of sort result.
  *
- *     Numo::DFloat[3,4,1,2].sort_index => Numo::DFloat[1,2,3,4]
+ *     Numo::DFloat[3,4,1,2].sort => Numo::DFloat[1,2,3,4]
  */
 static VALUE
 <%=c_func%>(int argc, VALUE *argv, VALUE self)
 {
     VALUE reduce;
-    ndfunc_arg_in_t ain[2] = {{cT,0},{sym_reduce,0}};
-    ndfunc_t ndf = {<%=c_iter%>, STRIDE_LOOP_NIP|NDF_FLAT_REDUCE, 2,0, ain,0};
+    ndfunc_arg_in_t ain[2] = {{OVERWRITE,0},{sym_reduce,0}};
+    ndfunc_t ndf = {<%=c_iter%>, STRIDE_LOOP_NIP|NDF_INPLACE|NDF_FLAT_REDUCE, 2,0, ain,0};
 
     if (!TEST_INPLACE(self)) {
         self = na_copy(self);

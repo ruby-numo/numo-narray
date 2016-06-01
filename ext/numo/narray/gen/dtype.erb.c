@@ -221,6 +221,9 @@ accum_binary "mulsum"
 # rmsdev
 # prod
 
+# shuffle
+# histogram
+
 def_method "seq",-1
 def_alias  "indgen", "seq"
 
