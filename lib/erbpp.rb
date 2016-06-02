@@ -161,9 +161,9 @@ class Function < ErbPP
     end
   end
 
-  def initialize(parent,tmpl,*opts)
+  def initialize(parent,tmpl,**opts)
     super
-    @aliases = []
+    @aliases = opts[:aliases] || []
     @erb_path = File.join(parent.tmpl_dir, tmpl+".c")
     DEFS.push(self)
   end
@@ -206,7 +206,9 @@ class Function < ErbPP
     s = singleton ? "_singleton" : ""
     check_params(:mod_var, :op_map, :c_func, :n_arg)
     m = op_map
-    "rb_define#{s}_method(#{mod_var}, \"#{m}\", #{c_func}, #{n_arg});"
+    a = ["rb_define#{s}_method(#{mod_var}, \"#{m}\", #{c_func}, #{n_arg});"]
+    @aliases.map{|x| a << "rb_define_alias(#{mod_var}, \"#{x}\", \"#{m}\");"}
+    a
   end
 
   def self.codes
@@ -221,8 +223,14 @@ class Function < ErbPP
   def self.definitions
     a = []
     DEFS.each do |i|
-      x = i.definition
-      a.push(x) if x
+      case x = i.definition
+      when Array
+        a.concat(x)
+      when String
+        a.push(x)
+      else
+        raise "unknown definition: #{x}" if x
+      end
     end
     a
   end

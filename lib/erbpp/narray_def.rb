@@ -63,11 +63,15 @@ module DefMethod
   end
 
   def bit_binary(meth, op=nil)
-    def_method(meth, 1, "bit_binary", :op => op)
+    h = {:op=>op}
+    h[:aliases] = [meth] if op
+    def_method(meth, 1, "bit_binary", h)
   end
 
   def bit_unary(meth, op=nil)
-    def_method(meth, 0, "bit_unary", :op => op)
+    h = {:op=>op}
+    h[:aliases] = [meth] if op
+    def_method(meth, 0, "bit_unary", h)
   end
 
   def bit_count(meth)
