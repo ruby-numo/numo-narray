@@ -7,7 +7,7 @@
 * NArray with 1-d index and md-shape??
 * enable a[a.sort_index] == a.sort for multi-dimensional array -- perhaps done.
 
-* specify Input/Overwrite array
+* specify Input/Overwrite array -- already has OVERWRITE
 
 * accept int-array as index argument of aref.
 
@@ -32,3 +32,5 @@
 * alignment
 
 * force buffering
+
+* update MT Random Number Generator
