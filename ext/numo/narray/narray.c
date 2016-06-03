@@ -740,6 +740,14 @@ na_original_data(VALUE self)
 }
 
 
+//----------------------------------------------------------------------
+
+/*
+ *  call-seq:
+ *     narray.view => narray
+ *
+ *  Return view of NArray
+ */
 VALUE
 na_make_view(VALUE self)
 {
@@ -1204,6 +1212,8 @@ Init_narray()
     rb_define_alias (cNArray, "rank","ndim");
 
     rb_define_method(cNArray, "debug_info", rb_narray_debug_info, 0);
+
+    rb_define_method(cNArray, "view", na_make_view, 0);
 
     rb_define_singleton_method(cNArray, "upcast", numo_na_upcast, 1);
     rb_define_singleton_method(cNArray, "byte_size", nary_s_byte_size, 0);
