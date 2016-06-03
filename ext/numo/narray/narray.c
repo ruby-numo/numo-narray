@@ -803,6 +803,96 @@ na_make_view(VALUE self)
     return view;
 }
 
+//----------------------------------------------------------------------
+
+/*
+ *  call-seq:
+ *     narray.reverse([dim0,dim1,..]) => narray
+ *
+ *  Return reversed view along specified dimeinsion
+ */
+VALUE
+nary_reverse(int argc, VALUE *argv, VALUE self)
+{
+    int i, nd;
+    size_t  j, n;
+    size_t  offset;
+    size_t *idx1, *idx2;
+    ssize_t stride;
+    ssize_t sign;
+    narray_t *na;
+    narray_view_t *na1, *na2;
+    VALUE view;
+    VALUE reduce;
+
+    reduce = na_reduce_dimension(argc, argv, 1, &self);
+
+    GetNArray(self,na);
+    nd = na->ndim;
+
+    view = na_s_allocate_view(CLASS_OF(self));
+
+    na_copy_flags(self, view);
+    GetNArrayView(view, na2);
+
+    na_setup_shape((narray_t*)na2, nd, na->shape);
+    na2->stridx = ALLOC_N(stridx_t,nd);
+
+    switch(na->type) {
+    case NARRAY_DATA_T:
+    case NARRAY_FILEMAP_T:
+        stride = na_get_elmsz(self);
+        offset = 0;
+        for (i=nd; i--;) {
+            if (na_test_reduce(reduce,i)) {
+                offset += (na->shape[i]-1)*stride;
+                sign = -1;
+            } else {
+                sign = 1;
+            }
+            SDX_SET_STRIDE(na2->stridx[i],stride*sign);
+            stride *= na->shape[i];
+        }
+        na2->offset = offset;
+        na2->data = self;
+        break;
+    case NARRAY_VIEW_T:
+        GetNArrayView(self, na1);
+        offset = na1->offset;
+        for (i=0; i<nd; i++) {
+            n = na1->base.shape[i];
+            if (SDX_IS_INDEX(na1->stridx[i])) {
+                idx1 = SDX_GET_INDEX(na1->stridx[i]);
+                idx2 = ALLOC_N(size_t,n);
+                if (na_test_reduce(reduce,i)) {
+                    for (j=0; j<n; j++) {
+                        idx2[n-1-j] = idx1[j];
+                    }
+                } else {
+                    for (j=0; j<n; j++) {
+                        idx2[j] = idx1[j];
+                    }
+                }
+                SDX_SET_INDEX(na2->stridx[i],idx2);
+            } else {
+                stride = SDX_GET_STRIDE(na1->stridx[i]);
+                if (na_test_reduce(reduce,i)) {
+                    offset += (n-1)*stride;
+                    SDX_SET_STRIDE(na2->stridx[i],-stride);
+                } else {
+                    na2->stridx[i] = na1->stridx[i];
+                }
+            }
+        }
+        na2->offset = offset;
+        na2->data = na1->data;
+        break;
+    }
+
+    return view;
+}
+
+//----------------------------------------------------------------------
 
 VALUE
 numo_na_upcast(VALUE type1, VALUE type2)
@@ -1214,6 +1304,7 @@ Init_narray()
     rb_define_method(cNArray, "debug_info", rb_narray_debug_info, 0);
 
     rb_define_method(cNArray, "view", na_make_view, 0);
+    rb_define_method(cNArray, "reverse", nary_reverse, -1);
 
     rb_define_singleton_method(cNArray, "upcast", numo_na_upcast, 1);
     rb_define_singleton_method(cNArray, "byte_size", nary_s_byte_size, 0);
