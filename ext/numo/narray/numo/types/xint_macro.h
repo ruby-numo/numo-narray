@@ -86,3 +86,35 @@ static inline dtype f_max(size_t n, char *p, ssize_t stride)
     }
     return y;
 }
+
+static inline size_t f_min_index(size_t n, char *p, ssize_t stride)
+{
+    dtype x, y;
+    size_t i, j=0;
+
+    y = *(dtype*)p;
+    for (i=1; i<n; i++) {
+        x = *(dtype*)(p+i*stride);
+        if (x < y) {
+            y = x;
+            j = i;
+        }
+    }
+    return j;
+}
+
+static inline size_t f_max_index(size_t n, char *p, ssize_t stride)
+{
+    dtype x, y;
+    size_t i, j=0;
+
+    y = *(dtype*)p;
+    for (i=1; i<n; i++) {
+        x = *(dtype*)(p+i*stride);
+        if (x > y) {
+            y = x;
+            j = i;
+        }
+    }
+    return j;
+}

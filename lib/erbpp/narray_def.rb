@@ -83,6 +83,10 @@ module DefMethod
     def_method(meth, -1, "accum", h)
   end
 
+  def accum_index(meth)
+    def_method(meth, -1, "accum_index")
+  end
+
   def cum(meth, cmacro)
     def_method(meth, -1, "cum", cmacro:cmacro)
   end

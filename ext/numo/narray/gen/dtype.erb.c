@@ -206,6 +206,8 @@ end
 if is_comparable
   accum "min","dtype","cT"
   accum "max","dtype","cT"
+  accum_index "max_index"
+  accum_index "min_index"
 end
 
 cum "cumsum","add"
@@ -214,8 +216,6 @@ cum "cumprod","mul"
 # dot
 accum_binary "mulsum"
 
-# min_index
-# max_index
 # minmax
 
 # rmsdev
