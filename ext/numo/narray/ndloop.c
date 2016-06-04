@@ -621,6 +621,10 @@ na->shape[i] == lp->n[ dim_map[i] ]
             // set LARG(lp,j) with v
             GetNArray(v,na);
             nf_dim = nf->ain[j].dim;
+            if (nf_dim > na->ndim) {
+                rb_raise(nary_eDimensionError,"requires >= %d-dimensioal array "
+                         "while %d-dimensional array is given",nf_dim,na->ndim);
+            }
             ndloop_check_shape(lp, nf_dim, na);
             dim_beg = lp->ndim + nf->ain[j].dim - na->ndim;
             for (i=0; i<na->ndim; i++) {
