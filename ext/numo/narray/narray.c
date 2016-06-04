@@ -437,6 +437,37 @@ na_s_ones(int argc, const VALUE *argv, VALUE klass)
 }
 
 
+/*
+ *  call-seq:
+ *     eye(n)  => narray
+ *
+ *  Returns a NArray with shape=[n,n] whose diagonal elements are 1, otherwise 0.
+ *  @example
+ *    a = Numo::DFloat.eye(3)
+ *    => Numo::DFloat#shape=[3,3]
+ *    [[1, 0, 0],
+ *     [0, 1, 0],
+ *     [0, 0, 1]]
+ */
+static VALUE
+na_s_eye(int argc, const VALUE *argv, VALUE klass)
+{
+    VALUE obj;
+    VALUE tmp[2];
+
+    if (argc==0) {
+        rb_raise(rb_eArgError,"No argument");
+    }
+    else if (argc==1) {
+        tmp[0] = tmp[1] = argv[0];
+        argv = tmp;
+        argc = 2;
+    }
+    obj = rb_class_new_instance(argc, argv, klass);
+    return rb_funcall(obj, rb_intern("eye"), 0);
+}
+
+
 char *
 na_get_pointer(VALUE self)
 {
@@ -1293,6 +1324,7 @@ Init_narray()
 
     rb_define_singleton_method(cNArray, "zeros", na_s_zeros, -1);
     rb_define_singleton_method(cNArray, "ones", na_s_ones, -1);
+    rb_define_singleton_method(cNArray, "eye", na_s_eye, -1);
 
     rb_define_method(cNArray, "size", na_size, 0);
     rb_define_alias (cNArray, "length","size");

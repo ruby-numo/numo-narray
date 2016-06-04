@@ -1,19 +1,16 @@
 static void
 <%=c_iter%>(na_loop_t *const lp)
 {
-    //int      nd;
     size_t   n0, n1;
     size_t   i0, i1;
     ssize_t  s0, s1;
     char    *p0, *p1;
 
-    nd = lp->args[0].ndim;
     n0 = lp->args[0].shape[0];
     n1 = lp->args[0].shape[1];
     s0 = lp->args[0].iter[0].step;
     s1 = lp->args[0].iter[1].step;
     p0 = NDL_PTR(lp,0);
-    //printf("lp->ndim=%d nd=%d n0=%ld n1=%ld s0=%ld s1=%ld\n",lp->ndim,nd,n0,n1,s0,s1);
 
     for (i0=0; i0 < n0; i0++) {
         p1 = p0;
