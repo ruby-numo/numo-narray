@@ -598,6 +598,9 @@ na_aref_md(int argc, VALUE *argv, VALUE self, int keep_dim)
 
     if (RARRAY_LEN(args)==1) {
         idx = RARRAY_AREF(args,0);
+        if (rb_obj_is_kind_of(idx, rb_cArray)) {
+            idx = rb_apply(numo_cNArray,rb_intern("[]"),idx);
+        }
         if (rb_obj_is_kind_of(idx, numo_cNArray)) {
             GetNArray(idx,nidx);
             if (NA_NDIM(nidx)>1) {

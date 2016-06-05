@@ -9,7 +9,7 @@
 
 * specify Input/Overwrite array -- already has OVERWRITE
 
-* accept int-array as index argument of aref.
+* accept int-array as index argument of aref. -- done.
 
 * switch to TypedData.
 
