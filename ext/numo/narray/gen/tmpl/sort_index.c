@@ -15,7 +15,9 @@ static void
     INIT_PTR(lp, 2, o_ptr, o_step);
 
     ptr = (char**)(lp->opt_ptr);
-    //printf("(d_ptr=%lx,ptr=%lx,i_ptr=%lx)\n",d_ptr,ptr,i_ptr);
+
+    //printf("(ptr=%lx, d_ptr=%lx,d_step=%ld, i_ptr=%lx,i_step=%ld, o_ptr=%lx,o_step=%ld)\n",(size_t)ptr,(size_t)d_ptr,(ssize_t)d_step,(size_t)i_ptr,(ssize_t)i_step,(size_t)o_ptr,(ssize_t)o_step);
+
     for (i=0; i<n; i++) {
         ptr[i] = d_ptr + d_step * i;
         //printf("(%ld,%.3f)",i,*(double*)ptr[i]);
@@ -23,16 +25,16 @@ static void
 
     <%=tp%>_index_qsort(ptr, n, sizeof(dtype*));
 
-    //printf("n=%ld d_step=%ld i_step=%ld\n",n,d_step,i_step);
+    //d_ptr = lp->args[0].ptr;
+    //printf("(d_ptr=%lx)\n",(size_t)d_ptr);
 
-    d_ptr = lp->args[0].ptr;
-    //printf("(d_ptr=%lx,ptr=%lx,i_ptr=%lx)\n",d_ptr,ptr,i_ptr);
     for (i=0; i<n; i++) {
         idx = (ptr[i] - d_ptr) / d_step;
-        //printf("(%ld,%ld)",i,idx);
         *(idx_t*)o_ptr = *(idx_t*)(i_ptr + i_step * idx);
+        //printf("(idx[%ld]=%ld,%d)",i,idx,*(idx_t*)o_ptr);
         o_ptr += o_step;
     }
+    //printf("\n");
 }
 #undef idx_t
 <% end %>
@@ -53,7 +55,7 @@ static VALUE
     narray_t *na;
     VALUE idx, tmp, reduce, res;
     char *buf;
-    ndfunc_arg_in_t ain[3] = {{Qnil,0},{Qnil,0},{sym_reduce,0}};
+    ndfunc_arg_in_t ain[3] = {{cT,0},{0,0},{sym_reduce,0}};
     ndfunc_arg_out_t aout[1] = {{0,0,0}};
     ndfunc_t ndf = {0, STRIDE_LOOP_NIP|NDF_FLAT_REDUCE|NDF_CUM, 3,1, ain,aout};
 
@@ -62,10 +64,12 @@ static VALUE
         return INT2FIX(0);
     }
     if (na->size > (~(u_int32_t)0)) {
+        ain[1].type =
         aout[0].type = numo_cInt64;
         idx = rb_narray_new(numo_cInt64, na->ndim, na->shape);
         ndf.func = <%=tp%>_index64_qsort;
     } else {
+        ain[1].type =
         aout[0].type = numo_cInt32;
         idx = rb_narray_new(numo_cInt32, na->ndim, na->shape);
         ndf.func = <%=tp%>_index32_qsort;
