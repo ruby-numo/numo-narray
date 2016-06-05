@@ -570,11 +570,12 @@ ndloop_set_stepidx(na_md_loop_t *lp, int j, VALUE vna, int *dim_map, int rwflag)
         LITER(lp,0,j).pos = 0;
         break;
     case NARRAY_VIEW_T:
+        LITER(lp,0,j).pos = NA_VIEW_OFFSET(na);
         for (k=0; k<na->ndim; k++) {
             n = na->shape[k];
+            sdx = NA_VIEW_STRIDX(na)[k];
             if (n > 1) {
                 i = dim_map[k];
-                sdx = NA_VIEW_STRIDX(na)[k];
                 if (SDX_IS_INDEX(sdx)) {
                     LITER(lp,i,j).step = 0;
                     LITER(lp,i,j).idx = SDX_GET_INDEX(sdx);
@@ -582,9 +583,12 @@ ndloop_set_stepidx(na_md_loop_t *lp, int j, VALUE vna, int *dim_map, int rwflag)
                     LITER(lp,i,j).step = SDX_GET_STRIDE(sdx);
                     LITER(lp,i,j).idx = NULL;
                 }
+            } else if (n==1) {
+                if (SDX_IS_INDEX(sdx)) {
+                    LITER(lp,0,j).pos += SDX_GET_INDEX(sdx)[0];
+                }
             }
         }
-        LITER(lp,0,j).pos = NA_VIEW_OFFSET(na);
         break;
     default:
         rb_bug("invalid narray internal type");
