@@ -973,7 +973,7 @@ ndfunc_set_bufcp(na_md_loop_t *lp, unsigned int loop_spec)
     int i, j;
     int nd, ndim;
     boolean zero_step;
-    ssize_t n, sz, elmsz, stride, n_total, last_step;
+    ssize_t n, sz, elmsz, stride, n_total; //, last_step;
     size_t *buf_shape;
     na_loop_iter_t *buf_iter=NULL, *src_iter;
 
@@ -990,7 +990,7 @@ ndfunc_set_bufcp(na_md_loop_t *lp, unsigned int loop_spec)
         ndim = nd = LARG(lp,j).ndim;
         sz = elmsz = LARG(lp,j).elmsz;
         src_iter = LARG(lp,j).iter;
-        last_step = src_iter[ndim-1].step;
+        //last_step = src_iter[ndim-1].step;
         f = 0;
         zero_step = 1;
         for (i=ndim; i>0; ) {
@@ -1041,7 +1041,7 @@ ndfunc_set_bufcp(na_md_loop_t *lp, unsigned int loop_spec)
             buf_iter[nd].step = 0;
             buf_iter[nd].idx = NULL;
             sz = LARG(lp,j).elmsz;
-            last_step = sz;
+            //last_step = sz;
             for (i=nd; i>0; ) {
                 i--;
                 buf_iter[i].pos = 0;
@@ -1066,7 +1066,7 @@ ndfunc_set_bufcp(na_md_loop_t *lp, unsigned int loop_spec)
         }
     }
 
-    // flatten reduce dimensions
+#if 0
     for (j=0; j<lp->narg; j++) {
         ndim = lp->user.ndim;
         src_iter = LARG(lp,j).iter;
@@ -1085,9 +1085,17 @@ ndfunc_set_bufcp(na_md_loop_t *lp, unsigned int loop_spec)
             lp->xargs[j].free_user_iter = 1;
         }
     }
+#endif
 
     // flatten reduce dimensions
-    if (lp->reduce_dim>1) {
+    if (lp->reduce_dim > 1) {
+#if 1
+        for (j=0; j<lp->narg; j++) {
+            ndim = lp->user.ndim;
+            LARG(lp,j).iter[0].step = LARG(lp,j).iter[ndim-1].step;
+            LARG(lp,j).iter[0].idx = NULL;
+        }
+#endif
         lp->user.n[0] = n_total;
         lp->user.ndim = 1;
     }
@@ -1277,18 +1285,18 @@ ndloop_run(VALUE vlp)
     ndloop_init_args(nf, lp, args);
     results = ndloop_set_output(nf, lp, args);
 
-    if (na_debug_flag) {
-        printf("-- ndloop_set_output --\n");
-        print_ndloop(lp);
-    }
+    //if (na_debug_flag) {
+    //    printf("-- ndloop_set_output --\n");
+    //    print_ndloop(lp);
+    //}
 
     // contract loop
     if (lp->loop_func == loop_narray) {
         ndfunc_contract_loop(lp);
-        if (na_debug_flag) {
-            printf("-- ndfunc_contract_loop --\n");
-            print_ndloop(lp);
-        }
+        //if (na_debug_flag) {
+        //    printf("-- ndfunc_contract_loop --\n");
+        //    print_ndloop(lp);
+        //}
     }
 
     // setup objects in which resuts are stored
