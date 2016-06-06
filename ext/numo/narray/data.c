@@ -520,12 +520,14 @@ VALUE
 
 /*
  *  call-seq:
- *     diagonal([offset])  => narray view
+ *     diagonal([offset,axes])  => narray view
  *
  *  Returns diagonal view of NArray.
  *  @param [Integoer] Diagonal offset from the main diagonal.  The
  *  default is 0. k>0 for diagonals above the main diagonal, and k<0
- *  for diagonals below the main diagonal.
+ *  @param [Array] Array of axes to be used as the 2-d sub-arrays from
+ *  which the diagonals should be taken. Defaults to last-two axes
+ *  ([-2,-1]).
  *  @example
  *    a = Numo::DFloat.new(4,5).seq
  *    => Numo::DFloat#shape=[4,5]
@@ -554,20 +556,43 @@ VALUE
 VALUE
 na_diagonal(int argc, VALUE *argv, VALUE self)
 {
-    int  i, nd;
+    int  i, k, nd;
     size_t  j;
-    size_t *idx1, *idx2, *diag_idx;
+    size_t *idx0, *idx1, *diag_idx;
     size_t *shape;
     size_t  diag_size;
-    ssize_t stride, stride1, stride2;
+    ssize_t stride, stride0, stride1;
     narray_t *na;
     narray_view_t *na1, *na2;
     VALUE view;
-    VALUE vofs;
+    VALUE vofs=0, vaxes=0;
     ssize_t kofs;
-    size_t k1, k2;
+    size_t k0, k1;
+    int ax[2];
 
-    if (rb_scan_args(argc, argv, "01", &vofs) == 1) {
+    // check arguments
+    if (argc>2) {
+        rb_raise(rb_eArgError,"too many arguments (%d for 0..2)",argc);
+    }
+
+    for (i=0; i<argc; i++) {
+        switch(TYPE(argv[i])) {
+        case T_FIXNUM:
+            if (vofs) {
+                rb_raise(rb_eArgError,"offset is given twice");
+            }
+            vofs = argv[i];
+            break;
+        case T_ARRAY:
+            if (vaxes) {
+                rb_raise(rb_eArgError,"axes-array is given twice");
+            }
+            vaxes = argv[i];
+            break;
+        }
+    }
+
+    if (vofs) {
         kofs = NUM2SSIZE(vofs);
     } else {
         kofs = 0;
@@ -579,33 +604,53 @@ na_diagonal(int argc, VALUE *argv, VALUE self)
         rb_raise(nary_eDimensionError,"requires >= 2-d array "
                  "while %d-dimensional array is given",na->ndim);
     }
-    nd--;
+
+    if (vaxes) {
+        if (RARRAY_LEN(vaxes) != 2) {
+            rb_raise(rb_eArgError,"axes must be 2-element array");
+        }
+        ax[0] = NUM2INT(RARRAY_AREF(vaxes,0));
+        ax[1] = NUM2INT(RARRAY_AREF(vaxes,1));
+        if (ax[0]<-nd || ax[0]>=nd || ax[1]<-nd || ax[1]>=nd) {
+            rb_raise(rb_eArgError,"axis out of range:[%d,%d]",ax[0],ax[1]);
+        }
+        if (ax[0]<0) {ax[0] += nd;}
+        if (ax[1]<0) {ax[1] += nd;}
+        if (ax[0]==ax[1]) {
+            rb_raise(rb_eArgError,"same axes:[%d,%d]",ax[0],ax[1]);
+        }
+    } else {
+        ax[0] = nd-2;
+        ax[1] = nd-1;
+    }
 
     // Diagonal offset from the main diagonal.
     if (kofs >= 0) {
-        k1 = 0;
-        k2 = kofs;
-        if (k2 >= na->shape[nd]) {
+        k0 = 0;
+        k1 = kofs;
+        if (k1 >= na->shape[ax[1]]) {
             rb_raise(rb_eArgError,"diagonal offset(=%ld) >= "
-                     "size of last dimension(=%ld)",kofs,na->shape[nd]);
+                     "size of last dimension(=%ld)",kofs,na->shape[ax[1]]);
         }
     } else {
-        k1 = -kofs;
-        k2 = 0;
-        if (k1 >= na->shape[nd-1]) {
+        k0 = -kofs;
+        k1 = 0;
+        if (k0 >= na->shape[ax[0]]) {
             rb_raise(rb_eArgError,"diagonal offset(=%ld) >= "
-                     "size of last-1 dimension(=%ld)",kofs,na->shape[nd-1]);
+                     "size of last-1 dimension(=%ld)",kofs,na->shape[ax[0]]);
         }
     }
 
-    diag_size = MIN(na->shape[nd-1]-k1,na->shape[nd]-k2);
+    diag_size = MIN(na->shape[ax[0]]-k0,na->shape[ax[1]]-k1);
 
     // new shape
-    shape = ALLOCA_N(size_t,nd);
-    for (i=0; i<nd-1; i++) {
-        shape[i] = na->shape[i];
+    shape = ALLOCA_N(size_t,nd-1);
+    for (i=k=0; i<nd; i++) {
+        if (i != ax[0] && i != ax[1]) {
+            shape[k++] = na->shape[i];
+        }
     }
-    shape[i] = diag_size;
+    shape[k] = diag_size;
 
     // new object
     view = na_s_allocate_view(CLASS_OF(self));
@@ -613,74 +658,84 @@ na_diagonal(int argc, VALUE *argv, VALUE self)
     GetNArrayView(view, na2);
 
     // new stride
-    na_setup_shape((narray_t*)na2, nd, shape);
-    na2->stridx = ALLOC_N(stridx_t, nd);
+    na_setup_shape((narray_t*)na2, nd-1, shape);
+    na2->stridx = ALLOC_N(stridx_t, nd-1);
 
     switch(na->type) {
     case NARRAY_DATA_T:
     case NARRAY_FILEMAP_T:
         na2->offset = 0;
         na2->data = self;
-        stride = stride1 = na_get_elmsz(self);
-        if (kofs>0) {
-            na2->offset = kofs*stride;
+        stride = stride0 = stride1 = na_get_elmsz(self);
+        for (i=nd,k=nd-2; i--; ) {
+            if (i==ax[1]) {
+                stride1 = stride;
+                if (kofs > 0) {
+                    na2->offset = kofs*stride;
+                }
+            } else if (i==ax[0]) {
+                stride0 = stride;
+                if (kofs < 0) {
+                    na2->offset = (-kofs)*stride;
+                }
+            } else {
+                SDX_SET_STRIDE(na2->stridx[--k],stride);
+            }
+            stride *= na->shape[i];
         }
-        stride *= na->shape[nd];
-        if (kofs<0) {
-            na2->offset = (-kofs)*stride;
-        }
-        SDX_SET_STRIDE(na2->stridx[nd-1],stride1+stride);
-        for (i=nd-1; i--; ) {
-            SDX_SET_STRIDE(na2->stridx[i],stride);
-            stride *= shape[i];
-        }
+        SDX_SET_STRIDE(na2->stridx[nd-2],stride0+stride1);
         break;
+
     case NARRAY_VIEW_T:
         GetNArrayView(self, na1);
         na2->data = na1->data;
         na2->offset = na1->offset;
-        for (i=0; i<nd-1; i++) {
-            if (SDX_IS_INDEX(na1->stridx[i])) {
-                idx1 = SDX_GET_INDEX(na1->stridx[i]);
-                idx2 = ALLOC_N(size_t, shape[i]);
-                for (j=0; j<shape[i]; j++) {
-                    idx2[j] = idx1[j];
+        for (i=k=0; i<nd; i++) {
+            if (i != ax[0] && i != ax[1]) {
+                if (SDX_IS_INDEX(na1->stridx[i])) {
+                    idx0 = SDX_GET_INDEX(na1->stridx[i]);
+                    idx1 = ALLOC_N(size_t, na->shape[i]);
+                    for (j=0; j<na->shape[i]; j++) {
+                        idx1[j] = idx0[j];
+                    }
+                    SDX_SET_INDEX(na2->stridx[k],idx1);
+                } else {
+                    na2->stridx[k] = na1->stridx[i];
                 }
-                SDX_SET_INDEX(na2->stridx[i],idx2);
-            } else {
-                na2->stridx[i] = na1->stridx[i];
+                k++;
             }
         }
-        if (SDX_IS_INDEX(na1->stridx[nd-1])) {
-            idx1 = SDX_GET_INDEX(na1->stridx[nd-1]);
+        if (SDX_IS_INDEX(na1->stridx[ax[0]])) {
+            idx0 = SDX_GET_INDEX(na1->stridx[ax[0]]);
             diag_idx = ALLOC_N(size_t, diag_size);
-            if (SDX_IS_INDEX(na1->stridx[nd])) {
-                idx2 = SDX_GET_INDEX(na1->stridx[nd]);
+            if (SDX_IS_INDEX(na1->stridx[ax[1]])) {
+                idx1 = SDX_GET_INDEX(na1->stridx[ax[1]]);
                 for (j=0; j<diag_size; j++) {
-                    diag_idx[j] = idx1[j+k1] + idx2[j+k2];
+                    diag_idx[j] = idx0[j+k0] + idx1[j+k1];
                 }
             } else {
-                stride2 = SDX_GET_STRIDE(na1->stridx[nd]);
+                stride1 = SDX_GET_STRIDE(na1->stridx[ax[1]]);
                 for (j=0; j<diag_size; j++) {
-                    diag_idx[j] = idx1[j+k1] + stride2*(j+k2);
+                    diag_idx[j] = idx0[j+k0] + stride1*(j+k1);
                 }
             }
-            SDX_SET_INDEX(na2->stridx[nd-1],diag_idx);
+            SDX_SET_INDEX(na2->stridx[nd-2],diag_idx);
         } else {
-            stride1 = SDX_GET_STRIDE(na1->stridx[nd-1]);
-            if (SDX_IS_INDEX(na1->stridx[nd])) {
-                idx2 = SDX_GET_INDEX(na1->stridx[nd]);
+            stride0 = SDX_GET_STRIDE(na1->stridx[ax[0]]);
+            if (SDX_IS_INDEX(na1->stridx[ax[1]])) {
+                idx1 = SDX_GET_INDEX(na1->stridx[ax[1]]);
                 diag_idx = ALLOC_N(size_t, diag_size);
                 for (j=0; j<diag_size; j++) {
-                    diag_idx[j] = stride1*(j+k1) + idx2[j+k2];
+                    diag_idx[j] = stride0*(j+k0) + idx1[j+k1];
                 }
-                SDX_SET_INDEX(na2->stridx[nd-1],diag_idx);
+                SDX_SET_INDEX(na2->stridx[nd-2],diag_idx);
             } else {
-                stride2 = SDX_GET_STRIDE(na1->stridx[nd]);
-                na2->offset += stride1*k1 + stride2*k2;
-                SDX_SET_STRIDE(na2->stridx[nd-1],stride1+stride2);
+                stride1 = SDX_GET_STRIDE(na1->stridx[ax[1]]);
+                na2->offset += stride0*k0 + stride1*k1;
+                SDX_SET_STRIDE(na2->stridx[nd-2],stride0+stride1);
             }
         }
+        break;
     }
     return view;
 }
