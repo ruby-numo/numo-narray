@@ -523,8 +523,9 @@ VALUE
  *     diagonal([offset,axes])  => narray view
  *
  *  Returns diagonal view of NArray.
- *  @param [Integoer] Diagonal offset from the main diagonal.  The
+ *  @param [Integer] Diagonal offset from the main diagonal.  The
  *  default is 0. k>0 for diagonals above the main diagonal, and k<0
+ *  for diagonals below the main diagonal.
  *  @param [Array] Array of axes to be used as the 2-d sub-arrays from
  *  which the diagonals should be taken. Defaults to last-two axes
  *  ([-2,-1]).
