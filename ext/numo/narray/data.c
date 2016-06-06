@@ -210,7 +210,7 @@ na_transpose(int argc, VALUE *argv, VALUE self)
     ndim = na1->ndim;
     row_major = TEST_COLUMN_MAJOR( self );
 
-    map = ALLOC_N(int,ndim);
+    map = ALLOCA_N(int,ndim);
     for (i=0;i<ndim;i++) {
 	map[i] = i;
     }
@@ -256,7 +256,6 @@ na_transpose(int argc, VALUE *argv, VALUE self)
 
  new_object:
     view = na_transpose_map(self,map);
-    xfree(map);
     return view;
 }
 
