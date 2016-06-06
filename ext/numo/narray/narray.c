@@ -834,6 +834,67 @@ na_make_view(VALUE self)
     return view;
 }
 
+
+//----------------------------------------------------------------------
+
+/*
+ *  call-seq:
+ *     narray.expand_dims(dim) => narray view
+ *
+ *  Expand the shape of an array. Insert a new axis with size=1
+ *  at a given dimension.
+ *  @param [Integer] dim  dimension at which new axis is inserted.
+ *  @return [Numo::NArray]  result narray view.
+ */
+VALUE
+na_expand_dims(VALUE self, VALUE vdim)
+{
+    int  i, j, nd, dim;
+    size_t *shape, *na_shape;
+    stridx_t *stridx, *na_stridx;
+    narray_t *na;
+    narray_view_t *na2;
+    VALUE view;
+
+    GetNArray(self,na);
+    nd = na->ndim;
+
+    dim = NUM2INT(vdim);
+    if (dim < -nd-1 || dim > nd) {
+        rb_raise(nary_eDimensionError,"invalid axis (%d for %dD NArray)",
+                 dim,nd);
+    }
+    if (dim < 0) {
+        dim += nd+1;
+    }
+
+    view = na_make_view(self);
+    GetNArrayView(view, na2);
+
+    shape = ALLOC_N(size_t,nd+1);
+    stridx = ALLOC_N(stridx_t,nd+1);
+    na_shape = na2->base.shape;
+    na_stridx = na2->stridx;
+
+    for (i=j=0; i<=nd; i++) {
+        if (i==dim) {
+            shape[i] = 1;
+            SDX_SET_STRIDE(stridx[i],0);
+        } else {
+            shape[i] = na_shape[j];
+            stridx[i] = na_stridx[j];
+            j++;
+        }
+    }
+
+    na2->stridx = stridx;
+    xfree(na_stridx);
+    na2->base.shape = shape;
+    xfree(na_shape);
+    na2->base.ndim++;
+    return view;
+}
+
 //----------------------------------------------------------------------
 
 /*
@@ -1336,6 +1397,7 @@ Init_narray()
     rb_define_method(cNArray, "debug_info", rb_narray_debug_info, 0);
 
     rb_define_method(cNArray, "view", na_make_view, 0);
+    rb_define_method(cNArray, "expand_dims", na_expand_dims, 1);
     rb_define_method(cNArray, "reverse", nary_reverse, -1);
 
     rb_define_singleton_method(cNArray, "upcast", numo_na_upcast, 1);
