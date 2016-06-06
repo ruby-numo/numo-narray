@@ -197,12 +197,15 @@ if is_float
 end
 
 accum "sum","dtype","cT"
+accum "prod","dtype","cT"
+
 if is_float
   accum "mean","dtype","cT"
   accum "stddev","rtype","cRT"
   accum "var","rtype","cRT"
   accum "rms","rtype","cRT"
 end
+
 if is_comparable
   accum "min","dtype","cT"
   accum "max","dtype","cT"

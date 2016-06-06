@@ -52,6 +52,18 @@ static inline dtype f_sum(size_t n, char *p, ssize_t stride)
     return y;
 }
 
+static inline dtype f_prod(size_t n, char *p, ssize_t stride)
+{
+    dtype x,y=1;
+    size_t i=n;
+    for (; i--;) {
+        x = *(dtype*)p;
+        y *= x;
+        p += stride;
+    }
+    return y;
+}
+
 static inline dtype f_min(size_t n, char *p, ssize_t stride)
 {
     dtype x,y;

@@ -125,6 +125,21 @@ static inline dtype f_sum(size_t n, char *p, ssize_t stride)
     return y;
 }
 
+static inline dtype f_prod(size_t n, char *p, ssize_t stride)
+{
+    size_t i=n;
+    dtype x,y=1;
+
+    for (; i--;) {
+        x = *(dtype*)p;
+        if (!m_isnan(x)) {
+            y *= x;
+        }
+        p += stride;
+    }
+    return y;
+}
+
 static inline dtype f_mean(size_t n, char *p, ssize_t stride)
 {
     size_t i=n;
