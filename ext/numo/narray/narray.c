@@ -1057,6 +1057,82 @@ nary_s_byte_size(VALUE type)
 
 
 /*
+  Returns a new 1-D array initialized from binary raw data in a string.
+  @overload from_string(string,[shape])
+  @param [String] string  Binary raw data.
+  @param [Array] shape  array of integers representing array shape.
+  @return [Numo::NArray] NArray containing binary data.
+ */
+static VALUE
+nary_s_from_string(int argc, VALUE *argv, VALUE type)
+{
+    size_t len, str_len, elmsz;
+    size_t *shape;
+    char *ptr;
+    int i, nd, narg;
+    VALUE vstr,vshape,vna;
+
+    narg = rb_scan_args(argc,argv,"11",&vstr,&vshape);
+    str_len = RSTRING_LEN(vstr);
+    elmsz = na_dtype_elmsz(type);
+    if (narg==2) {
+        nd = RARRAY_LEN(vshape);
+        if (nd == 0 || nd > NA_MAX_DIMENSION) {
+            rb_raise(nary_eDimensionError,"too long or empty shape (%d)", nd);
+        }
+        shape = ALLOCA_N(size_t,nd);
+        len = 1;
+        for (i=0; i<nd; ++i) {
+            len *= shape[i] = NUM2SIZE(RARRAY_AREF(vshape,i));
+        }
+        if (len*elmsz != str_len) {
+            rb_raise(rb_eArgError, "size mismatch");
+        }
+    } else {
+        nd = 1;
+        shape = ALLOCA_N(size_t,nd);
+        shape[0] = len = str_len / elmsz;
+        if (len == 0) {
+            rb_raise(rb_eArgError, "string is empty or too short");
+        }
+    }
+
+    vna = rb_narray_new(type, nd, shape);
+    ptr = na_get_pointer_for_write(vna);
+
+    memcpy(ptr, RSTRING_PTR(vstr), elmsz*len);
+
+    return vna;
+}
+
+/*
+  Returns stfing containing the raw data bytes in NArray.
+  @overload to_string()
+  @return [String] String object containing binary raw data.
+ */
+static VALUE
+nary_to_string(VALUE self)
+{
+    size_t len, esz;
+    char *ptr;
+    volatile VALUE v[2];
+    narray_t *na;
+
+    GetNArray(self,na);
+    if (na->type == NARRAY_VIEW_T) {
+        v[0] = na_copy(self);
+    } else {
+        v[0] = self;
+    }
+    esz = na_get_elmsz(v[0]);
+    len = na->size * esz;
+    ptr = na_get_pointer_for_read(v[0]);
+    v[1] = rb_usascii_str_new(ptr,len);
+    return v[1];
+}
+
+
+/*
   Cast self to another NArray datatype.
   @overload cast_to(datatype)
   @param [Class] datatype NArray datatype.
@@ -1402,6 +1478,9 @@ Init_narray()
 
     rb_define_singleton_method(cNArray, "upcast", numo_na_upcast, 1);
     rb_define_singleton_method(cNArray, "byte_size", nary_s_byte_size, 0);
+
+    rb_define_singleton_method(cNArray, "from_string", nary_s_from_string, -1);
+    rb_define_method(cNArray, "to_string",  nary_to_string, 0);
 
     rb_define_method(cNArray, "byte_size",  nary_byte_size, 0);
 

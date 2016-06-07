@@ -310,6 +310,11 @@ Init_nary_<%=tp%>()
 
     rb_define_singleton_method(cT, "[]", <%=cast_func%>, -2);
 
+    <% if is_object %>
+    rb_undef_method(rb_singleton_class(cT),"from_string");
+    rb_undef_method(cT,"to_string");
+    <% end %>
+
     <% Function.definitions.each do |x| %>
     <%= x %><% end %>
     <% IdVar.assignment.each do |x| %>
