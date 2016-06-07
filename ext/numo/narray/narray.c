@@ -438,17 +438,17 @@ na_s_ones(int argc, const VALUE *argv, VALUE klass)
 
 
 /*
- *  call-seq:
- *     eye(n)  => narray
- *
- *  Returns a NArray with shape=[n,n] whose diagonal elements are 1, otherwise 0.
- *  @example
- *    a = Numo::DFloat.eye(3)
- *    => Numo::DFloat#shape=[3,3]
- *    [[1, 0, 0],
- *     [0, 1, 0],
- *     [0, 0, 1]]
- */
+  Returns a NArray with shape=(n,n) whose diagonal elements are 1, otherwise 0.
+  @overload  eye(n)
+  @param [Integer] n  Size of NArray. Creates 2-D NArray with shape=(n,n)
+  @return [Numo::NArray]  created NArray.
+  @example
+    a = Numo::DFloat.eye(3)
+    => Numo::DFloat#shape=[3,3]
+    [[1, 0, 0],
+     [0, 1, 0],
+     [0, 0, 1]]
+*/
 static VALUE
 na_s_eye(int argc, const VALUE *argv, VALUE klass)
 {

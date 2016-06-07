@@ -518,40 +518,39 @@ VALUE
 #define MIN(a,b) (((a)<(b))?(a):(b))
 
 /*
- *  call-seq:
- *     diagonal([offset,axes])  => narray view
- *
- *  Returns diagonal view of NArray.
- *  @param [Integer] Diagonal offset from the main diagonal.  The
- *  default is 0. k>0 for diagonals above the main diagonal, and k<0
- *  for diagonals below the main diagonal.
- *  @param [Array] Array of axes to be used as the 2-d sub-arrays from
- *  which the diagonals should be taken. Defaults to last-two axes
- *  ([-2,-1]).
- *  @example
- *    a = Numo::DFloat.new(4,5).seq
- *    => Numo::DFloat#shape=[4,5]
- *    [[0, 1, 2, 3, 4],
- *     [5, 6, 7, 8, 9],
- *     [10, 11, 12, 13, 14],
- *     [15, 16, 17, 18, 19]]
- *    b = a.diagonal(1)
- *    => Numo::DFloat(view)#shape=[4]
- *    [1, 7, 13, 19]
- *    b.store(0)
- *    a
- *    => Numo::DFloat#shape=[4,5]
- *    [[0, 0, 2, 3, 4],
- *     [5, 6, 0, 8, 9],
- *     [10, 11, 12, 0, 14],
- *     [15, 16, 17, 18, 0]]
- *    b.store([1,2,3,4])
- *    a
- *    => Numo::DFloat#shape=[4,5]
- *    [[0, 1, 2, 3, 4],
- *     [5, 6, 2, 8, 9],
- *     [10, 11, 12, 3, 14],
- *     [15, 16, 17, 18, 4]]
+  Returns a diagonal view of NArray
+  @overload  diagonal([offset,axes])
+  @param [Integer] offset  Diagonal offset from the main diagonal.
+    The default is 0. k>0 for diagonals above the main diagonal,
+    and k<0 for diagonals below the main diagonal.
+  @param [Array] axes  Array of axes to be used as the 2-d sub-arrays
+    from which the diagonals should be taken. Defaults to last-two
+    axes ([-2,-1]).
+  @return [Numo::NArray]  diagonal view of NArray.
+  @example
+    a = Numo::DFloat.new(4,5).seq
+    => Numo::DFloat#shape=[4,5]
+    [[0, 1, 2, 3, 4],
+     [5, 6, 7, 8, 9],
+     [10, 11, 12, 13, 14],
+     [15, 16, 17, 18, 19]]
+    b = a.diagonal(1)
+    => Numo::DFloat(view)#shape=[4]
+    [1, 7, 13, 19]
+    b.store(0)
+    a
+    => Numo::DFloat#shape=[4,5]
+    [[0, 0, 2, 3, 4],
+     [5, 6, 0, 8, 9],
+     [10, 11, 12, 0, 14],
+     [15, 16, 17, 18, 0]]
+    b.store([1,2,3,4])
+    a
+    => Numo::DFloat#shape=[4,5]
+    [[0, 1, 2, 3, 4],
+     [5, 6, 2, 8, 9],
+     [10, 11, 12, 3, 14],
+     [15, 16, 17, 18, 4]]
  */
 VALUE
 na_diagonal(int argc, VALUE *argv, VALUE self)
@@ -601,8 +600,7 @@ na_diagonal(int argc, VALUE *argv, VALUE self)
     GetNArray(self,na);
     nd = na->ndim;
     if (nd < 2) {
-        rb_raise(nary_eDimensionError,"requires >= 2-d array "
-                 "while %d-dimensional array is given",na->ndim);
+        rb_raise(nary_eDimensionError,"less than 2-d array");
     }
 
     if (vaxes) {
@@ -629,15 +627,15 @@ na_diagonal(int argc, VALUE *argv, VALUE self)
         k0 = 0;
         k1 = kofs;
         if (k1 >= na->shape[ax[1]]) {
-            rb_raise(rb_eArgError,"diagonal offset(=%ld) >= "
-                     "size of last dimension(=%ld)",kofs,na->shape[ax[1]]);
+            rb_raise(rb_eArgError,"invalid diagonal offset(%ld) for "
+                     "last dimension size(%ld)",kofs,na->shape[ax[1]]);
         }
     } else {
         k0 = -kofs;
         k1 = 0;
         if (k0 >= na->shape[ax[0]]) {
-            rb_raise(rb_eArgError,"diagonal offset(=%ld) >= "
-                     "size of last-1 dimension(=%ld)",kofs,na->shape[ax[0]]);
+            rb_raise(rb_eArgError,"invalid diagonal offset(=%ld) for "
+                     "last-1 dimension size(%ld)",kofs,na->shape[ax[0]]);
         }
     }
 
