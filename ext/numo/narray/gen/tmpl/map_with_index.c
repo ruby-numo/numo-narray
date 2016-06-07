@@ -1,3 +1,17 @@
+static inline dtype
+yield_map_with_index(dtype x, size_t *c, VALUE *a, int nd, int md)
+{
+    int j;
+    VALUE y;
+
+    a[0] = m_data_to_num(x);
+    for (j=0; j<=nd; j++) {
+        a[j+1] = SIZE2NUM(c[j]);
+    }
+    y = rb_yield(rb_ary_new4(md,a));
+    return m_num_to_data(y);
+}
+
 void
 <%=c_iter%>(na_loop_t *const lp)
 {
@@ -6,13 +20,14 @@ void
     ssize_t s1, s2;
     size_t *idx1, *idx2;
     dtype x;
-    VALUE y;
-    VALUE a;
+    VALUE *a;
     size_t *c;
-    int j, nd;
+    int nd, md;
 
     c = (size_t*)(lp->opt_ptr);
     nd = lp->ndim - 1;
+    md = lp->ndim + 1;
+    a = ALLOCA_N(VALUE,md);
 
     INIT_COUNTER(lp, i);
     INIT_PTR_IDX(lp, 0, p1, s1, idx1);
@@ -22,29 +37,15 @@ void
     if (idx1) {
         if (idx2) {
             for (; i--;) {
-                a = rb_ary_new2(nd+2);
                 GET_DATA_INDEX(p1,idx1,dtype,x);
-                y = m_data_to_num(x);
-                rb_ary_push(a,y);
-                for (j=0; j<=nd; j++) {
-                    rb_ary_push(a,SIZE2NUM(c[j]));
-                }
-                y = rb_yield(a);
-                x = m_num_to_data(y);
+                x = yield_map_with_index(x,c,a,nd,md);
                 SET_DATA_INDEX(p2,idx2,dtype,x);
                 c[nd]++;
             }
         } else {
             for (; i--;) {
-                a = rb_ary_new2(nd+2);
                 GET_DATA_INDEX(p1,idx1,dtype,x);
-                y = m_data_to_num(x);
-                rb_ary_push(a,y);
-                for (j=0; j<=nd; j++) {
-                    rb_ary_push(a,SIZE2NUM(c[j]));
-                }
-                y = rb_yield(a);
-                x = m_num_to_data(y);
+                x = yield_map_with_index(x,c,a,nd,md);
                 SET_DATA_STRIDE(p2,s2,dtype,x);
                 c[nd]++;
             }
@@ -52,29 +53,15 @@ void
     } else {
         if (idx2) {
             for (; i--;) {
-                a = rb_ary_new2(nd+2);
                 GET_DATA_STRIDE(p1,s1,dtype,x);
-                y = m_data_to_num(x);
-                rb_ary_push(a,y);
-                for (j=0; j<=nd; j++) {
-                    rb_ary_push(a,SIZE2NUM(c[j]));
-                }
-                y = rb_yield(a);
-                x = m_num_to_data(y);
+                x = yield_map_with_index(x,c,a,nd,md);
                 SET_DATA_INDEX(p2,idx2,dtype,x);
                 c[nd]++;
             }
         } else {
             for (; i--;) {
-                a = rb_ary_new2(nd+2);
                 GET_DATA_STRIDE(p1,s1,dtype,x);
-                y = m_data_to_num(x);
-                rb_ary_push(a,y);
-                for (j=0; j<=nd; j++) {
-                    rb_ary_push(a,SIZE2NUM(c[j]));
-                }
-                y = rb_yield(a);
-                x = m_num_to_data(y);
+                x = yield_map_with_index(x,c,a,nd,md);
                 SET_DATA_STRIDE(p2,s2,dtype,x);
                 c[nd]++;
             }

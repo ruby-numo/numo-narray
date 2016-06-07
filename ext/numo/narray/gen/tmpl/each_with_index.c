@@ -1,3 +1,16 @@
+static inline void
+yield_each_with_index(dtype x, size_t *c, VALUE *a, int nd, int md)
+{
+    int j;
+
+    a[0] = m_data_to_num(x);
+    for (j=0; j<=nd; j++) {
+        a[j+1] = SIZE2NUM(c[j]);
+    }
+    rb_yield(rb_ary_new4(md,a));
+}
+
+
 void
 <%=c_iter%>(na_loop_t *const lp)
 {
@@ -5,39 +18,28 @@ void
     char *p1;
     size_t *idx1;
     dtype x;
-    VALUE y;
-    VALUE a;
+    VALUE *a;
     size_t *c;
-    int j, nd;
+    int nd, md;
 
     c = (size_t*)(lp->opt_ptr);
     nd = lp->ndim - 1;
+    md = lp->ndim + 1;
+    a = ALLOCA_N(VALUE,md);
 
     INIT_COUNTER(lp, i);
     INIT_PTR_IDX(lp, 0, p1, s1, idx1);
     c[nd] = 0;
     if (idx1) {
         for (; i--;) {
-            a = rb_ary_new2(nd+2);
             GET_DATA_INDEX(p1,idx1,dtype,x);
-            y = m_data_to_num(x);
-            rb_ary_push(a,y);
-            for (j=0; j<=nd; j++) {
-                rb_ary_push(a,SIZE2NUM(c[j]));
-            }
-            rb_yield(a);
+            yield_each_with_index(x,c,a,nd,md);
             c[nd]++;
         }
     } else {
         for (; i--;) {
-            a = rb_ary_new2(nd+2);
             GET_DATA_STRIDE(p1,s1,dtype,x);
-            y = m_data_to_num(x);
-            rb_ary_push(a,y);
-            for (j=0; j<=nd; j++) {
-                rb_ary_push(a,SIZE2NUM(c[j]));
-            }
-            rb_yield(a);
+            yield_each_with_index(x,c,a,nd,md);
             c[nd]++;
         }
     }
