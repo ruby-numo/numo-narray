@@ -11,6 +11,9 @@
 
 * accept int-array as index argument of aref. -- done.
 
+* convert binary from/to String -- done
+
+
 * switch to TypedData.
 
 * inspect Enumerable#step object, delete Numo::Step class.
@@ -23,14 +26,34 @@
 
 * Frozen array, Thread-locked array
 
-* convert binary to String
-
 * Marshaling
 
 * parsing keyword arguments
 
 * alignment
 
-* force buffering
+* force buffering option
 
 * update MT Random Number Generator
+
+* method: rot90
+
+* from numpy
+swapaxis
+squeeze
+trace
+ptp
+clip
+ravel
+take
+put
+choose
+partition
+searchsorted
+compress
+
+Math
+    csc,sec,cot
+    csch,sech,coth
+    acsc,asec,acot
+    acsch,asech,acoth
