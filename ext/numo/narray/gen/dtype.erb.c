@@ -234,7 +234,7 @@ accum_binary "mulsum"
 # histogram
 
 def_method "seq",-1
-def_method "eye",0
+def_method "eye",-1
 def_alias  "indgen", "seq"
 
 if !is_object
