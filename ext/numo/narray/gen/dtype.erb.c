@@ -15,6 +15,8 @@
 #include "numo/template.h"
 #include "SFMT.h"
 
+#define m_map(x) m_num_to_data(rb_yield(m_data_to_num(x)))
+
 <%
 def_id "cast"
 def_id "eq"
@@ -107,6 +109,11 @@ def_method "fill", 1
 def_method "format", -1
 def_method "format_to_a", -1
 def_method "inspect", 0
+
+def_method "each", 0
+unary "map"
+def_method "each_with_index", 0
+def_method "map_with_index", 0
 
 # Arithmetic
 

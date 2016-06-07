@@ -75,6 +75,9 @@ VALUE na_ndloop_cast_rarray_to_narray2(ndfunc_t *nf, VALUE rary, VALUE nary, VAL
 
 VALUE na_ndloop_inspect(VALUE nary, na_text_func_t func, VALUE opt);
 
+VALUE na_ndloop_with_index(ndfunc_t *nf, int argc, ...);
+
+
 VALUE na_info_str(VALUE);
 
 size_t na_get_elmsz(VALUE nary);

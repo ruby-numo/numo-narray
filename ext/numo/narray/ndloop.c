@@ -1845,3 +1845,87 @@ na_ndloop_cast_narray_to_rarray(ndfunc_t *nf, VALUE nary, VALUE fmt)
     rb_ensure(ndloop_run, (VALUE)&lp, ndloop_release, (VALUE)&lp);
     return RARRAY_AREF(a0,0);
 }
+
+
+//----------------------------------------------------------------------
+
+static void
+loop_narray_with_index(ndfunc_t *nf, na_md_loop_t *lp)
+{
+    size_t *c;
+    int i,j;
+    int nd = lp->ndim;
+
+    // pass total ndim to iterator
+    lp->user.ndim += nd;
+
+    // alloc counter
+    lp->user.opt_ptr = c = ALLOCA_N(size_t, nd+1);
+    for (i=0; i<=nd; i++) c[i]=0;
+
+    // loop body
+    for (i=0;;) {
+        for (; i<nd; i++) {
+            // j-th argument
+            for (j=0; j<lp->narg; j++) {
+                if (LITER(lp,i,j).idx) {
+                    LITER(lp,i+1,j).pos = LITER(lp,i,j).pos + LITER(lp,i,j).idx[c[i]];
+                } else {
+                    LITER(lp,i+1,j).pos = LITER(lp,i,j).pos + LITER(lp,i,j).step*c[i];
+                }
+                //printf("j=%d c[i=%d]=%lu pos=%lu\n",j,i,c[i],LITER(lp,i+1,j).pos);
+            }
+        }
+
+        (*(nf->func))(&(lp->user));
+
+        for (;;) {
+            if (i<=0) goto loop_end;
+            i--;
+            if (++c[i] < lp->n[i]) break;
+            c[i] = 0;
+        }
+    }
+ loop_end:
+    ;
+}
+
+
+VALUE
+#ifdef HAVE_STDARG_PROTOTYPES
+na_ndloop_with_index(ndfunc_t *nf, int argc, ...)
+#else
+na_ndloop(nf, argc, va_alist)
+  ndfunc_t *nf;
+  int argc;
+  va_dcl
+#endif
+{
+    va_list ar;
+
+    int i;
+    VALUE *argv;
+    volatile VALUE args;
+    na_md_loop_t lp;
+
+    argv = ALLOCA_N(VALUE,argc);
+
+    va_init_list(ar, argc);
+    for (i=0; i<argc; i++) {
+        argv[i] = va_arg(ar, VALUE);
+    }
+    va_end(ar);
+
+    args = rb_ary_new4(argc, argv);
+
+    //return na_ndloop_main(nf, args, NULL);
+    if (na_debug_flag) print_ndfunc(nf);
+
+    // cast arguments to NArray
+    //copy_flag = ndloop_cast_args(nf, args);
+
+    // allocate ndloop struct
+    ndloop_alloc(&lp, nf, args, 0, 0, loop_narray_with_index);
+
+    return rb_ensure(ndloop_run, (VALUE)&lp, ndloop_release, (VALUE)&lp);
+}

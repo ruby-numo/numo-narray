@@ -6,9 +6,11 @@ static void
     ssize_t s1, s2;
     size_t *idx1, *idx2;
     dtype   x;
+
     INIT_COUNTER(lp, i);
     INIT_PTR_IDX(lp, 0, p1, s1, idx1);
     INIT_PTR_IDX(lp, 1, p2, s2, idx2);
+
     if (idx1) {
         if (idx2) {
             for (; i--;) {
@@ -50,7 +52,7 @@ static VALUE
 {
     ndfunc_arg_in_t ain[1] = {{cT,0}};
     ndfunc_arg_out_t aout[1] = {{cT,0}};
-    ndfunc_t ndf = { <%=c_iter%>, FULL_LOOP, 1, 1, ain, aout };
+    ndfunc_t ndf = {<%=c_iter%>, FULL_LOOP, 1,1, ain,aout};
 
     return na_ndloop(&ndf, 1, self);
 }
