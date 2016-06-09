@@ -4,6 +4,11 @@ require 'rbconfig.rb'
 
 require 'mkmf'
 
+if RUBY_VERSION < "2.0.0"
+  puts "Numo::NArray requires Ruby version 2.0 or later."
+  exit(1)
+end
+
 #$CFLAGS="-g3 -O0 -Wall"
 #$CFLAGS=" $(cflags) -O3 -m64 -msse2 -funroll-loops"
 #$CFLAGS=" $(cflags) -O3"
@@ -55,20 +60,28 @@ if have_library("blas")
 end
 =end
 
-if have_header("sys/types.h")
-  header = "sys/types.h"
+if have_header("stdbool.h")
+  stdbool = "stdbool.h"
 else
-  header = nil
+  stdbool = nil
 end
 
-have_type("boolean", header)
-have_type("int32_t", header)
-unless have_type("u_int32_t", header)
- have_type("uint32_t",header)
+if have_header("stdint.h")
+  stdint = "stdint.h"
+elsif have_header("sys/types.h")
+  stdint = "sys/types.h"
+else
+  stdint = nil
 end
-have_type("int64_t", header)
-unless have_type("u_int64_t", header)
- have_type("uint64_t", header)
+
+have_type("bool", stdbool)
+have_type("int32_t", stdint)
+unless have_type("u_int32_t", stdint)
+  have_type("uint32_t",stdint)
+end
+have_type("int64_t", stdint)
+unless have_type("u_int64_t", stdint)
+  have_type("uint64_t", stdint)
 end
 #have_library("m")
 #have_func("sincos")
