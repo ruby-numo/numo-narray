@@ -1146,7 +1146,7 @@ nary_cast_to(VALUE obj, VALUE type)
 
 
 
-boolean
+bool
 na_test_reduce(VALUE reduce, int dim)
 {
     size_t m;
@@ -1406,7 +1406,7 @@ VALUE na_profile_set(VALUE mod, VALUE val)
 VALUE
 na_equal(VALUE self, volatile VALUE other)
 {
-    volatile VALUE bool;
+    volatile VALUE vbool;
     narray_t *na1, *na2;
     int i;
 
@@ -1425,8 +1425,8 @@ na_equal(VALUE self, volatile VALUE other)
             return Qfalse;
         }
     }
-    bool = rb_funcall(self, rb_intern("eq"), 1, other);
-    return (rb_funcall(bool, rb_intern("count_false"), 0)==INT2FIX(0)) ? Qtrue : Qfalse;
+    vbool = rb_funcall(self, rb_intern("eq"), 1, other);
+    return (rb_funcall(vbool, rb_intern("count_false"), 0)==INT2FIX(0)) ? Qtrue : Qfalse;
 }
 
 
