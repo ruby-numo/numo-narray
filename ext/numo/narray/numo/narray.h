@@ -11,132 +11,109 @@
 #ifndef NARRAY_H
 #define NARRAY_H
 
+#define NARRAY_VERSION "0.9.0.1"
+#define NARRAY_VERSION_CODE 901
+
 #include <math.h>
 #include "numo/compat.h"
 #include "numo/template.h"
 
-//#include "extconf.h"
+#include "extconf.h"
+
+#ifdef HAVE_STDBOOL_H
+# include <stdbool.h>
+#endif
+
+#ifdef HAVE_STDINT_H
+# include <stdint.h>
+#endif
 
 #ifdef HAVE_SYS_TYPES_H
 # include <sys/types.h>
 #endif
 
-#define NARRAY_VERSION "0.9.0.1"
-#define NARRAY_VERSION_CODE 901
-
-/*
-  Data types used in NArray :
-  Please modify these types if your system has any different type.
-*/
-#if 0
-#ifndef HAVE_U_INT8_T
-typedef unsigned char          u_int8_t; /* NA_BYTE */
-#endif
-
-#ifndef HAVE_INT16_T
-# if SIZEOF_SHORT == 2
-typedef short                  int16_t;  /* NA_SINT */
-# else
----->> Please define int16_t manually because sizeof(short) != 2. <<----
-# endif
-#endif /* HAVE_INT16_T */
-
-#ifndef HAVE_INT32_T
-# if SIZEOF_LONG == 4
-typedef long                   int32_t;  /* NA_LINT */
-# else
-#  if SIZEOF_INT == 4
-typedef int                    int32_t;  /* NA_LINT */
-#  else
----->> Please define int32_t manually because sizeof(long) != 4. <<----
-#  endif
-# endif
-#endif /* HAVE_INT32_T */
-
-#ifndef HAVE_U_INT32_T || HAVE_UINT32_T
-# if SIZEOF_LONG == 4
-typedef unsigned long                   u_int32_t;  /* NA_LINT */
-# else
-#  if SIZEOF_INT == 4
-typedef unsigned int                    u_int32_t;  /* NA_LINT */
-#  else
----->> Please define u_int32_t manually because sizeof(long) != 4. <<----
-#  endif
-# endif
-#endif /* HAVE_U_INT32_T */
-
-#endif // 0
-
 #ifndef HAVE_U_INT32_T
-#ifdef HAVE_UINT32_T
-  typedef uint32_t u_int32_t;
-#endif
+# ifdef HAVE_UINT32_T
+    typedef uint32_t u_int32_t;
+# endif
 #endif
 
 #ifndef HAVE_U_INT64_T
-#ifdef HAVE_UINT64_T
-  typedef uint64_t u_int64_t;
+# ifdef HAVE_UINT64_T
+    typedef uint64_t u_int64_t;
+# endif
 #endif
-#endif
-
-
 
 #if   SIZEOF_VOIDP==SIZEOF_LONG
-#define NUM2SIZE(x) NUM2ULONG(x)
-#define NUM2SSIZE(x) NUM2LONG(x)
-#define SIZE2NUM(x) ULONG2NUM(x)
-#define SSIZE2NUM(x) LONG2NUM(x)
-#define SZF "l"
+# define NUM2SIZE(x) NUM2ULONG(x)
+# define NUM2SSIZE(x) NUM2LONG(x)
+# define SIZE2NUM(x) ULONG2NUM(x)
+# define SSIZE2NUM(x) LONG2NUM(x)
+# define SZF "l"
 #elif SIZEOF_VOIDP==SIZEOF_LONG_LONG
-#define NUM2SIZE(x) NUM2ULL(x)
-#define NUM2SSIZE(x) NUM2LL(x)
-#define SIZE2NUM(x) ULL2NUM(x)
-#define SSIZE2NUM(x) LL2NUM(x)
-#define SZF "ll"
+# define NUM2SIZE(x) NUM2ULL(x)
+# define NUM2SSIZE(x) NUM2LL(x)
+# define SIZE2NUM(x) ULL2NUM(x)
+# define SSIZE2NUM(x) LL2NUM(x)
+# define SZF "ll"
 #endif
 
 #if   SIZEOF_LONG==8
-#define NUM2INT64(x) NUM2LONG(x)
-#define INT642NUM(x) LONG2NUM(x)
-#define NUM2UINT64(x) NUM2ULONG(x)
-#define UINT642NUM(x) ULONG2NUM(x)
-#define INT64FMT "l"
+# define NUM2INT64(x) NUM2LONG(x)
+# define INT642NUM(x) LONG2NUM(x)
+# define NUM2UINT64(x) NUM2ULONG(x)
+# define UINT642NUM(x) ULONG2NUM(x)
+# ifndef PRId64
+#  define PRId64 "ld"
+# endif
+# ifndef PRIu64
+#  define PRIu64 "lu"
+# endif
 #elif SIZEOF_LONG_LONG==8
-#define NUM2INT64(x) NUM2LL(x)
-#define INT642NUM(x) LL2NUM(x)
-#define NUM2UINT64(x) NUM2ULL(x)
-#define UINT642NUM(x) ULL2NUM(x)
-#define INT64FMT "ll"
+# define NUM2INT64(x) NUM2LL(x)
+# define INT642NUM(x) LL2NUM(x)
+# define NUM2UINT64(x) NUM2ULL(x)
+# define UINT642NUM(x) ULL2NUM(x)
+# ifndef PRId64
+#  define PRId64 "lld"
+# endif
+# ifndef PRIu64
+#  define PRIu64 "llu"
+# endif
 #endif
 
 #if   SIZEOF_LONG==4
-#define NUM2INT32(x) NUM2LONG(x)
-#define INT322NUM(x) LONG2NUM(x)
-#define NUM2UINT32(x) NUM2ULONG(x)
-#define UINT322NUM(x) ULONG2NUM(x)
-#define INT32FMT "l"
+# define NUM2INT32(x) NUM2LONG(x)
+# define INT322NUM(x) LONG2NUM(x)
+# define NUM2UINT32(x) NUM2ULONG(x)
+# define UINT322NUM(x) ULONG2NUM(x)
+# ifndef PRId32
+#  define PRId32 "ld"
+# endif
+# ifndef PRIu32
+#  define PRIu32 "lu"
+# endif
 #elif SIZEOF_INT==4
-#define NUM2INT32(x) NUM2INT(x)
-#define INT322NUM(x) UINT2NUM(x)
-#define NUM2UINT32(x) NUM2UINT(x)
-#define UINT322NUM(x) UINT2NUM(x)
-#define INT32FMT ""
+# define NUM2INT32(x) NUM2INT(x)
+# define INT322NUM(x) UINT2NUM(x)
+# define NUM2UINT32(x) NUM2UINT(x)
+# define UINT322NUM(x) UINT2NUM(x)
+# ifndef PRId32
+#  define PRId32 "d"
+# endif
+# ifndef PRIu32
+#  define PRIu32 "u"
+# endif
 #endif
 
-
-
-//typedef struct { float r,i; }  scomplex;
-//typedef struct { double r,i; } dcomplex;
-
-
-#ifndef HAVE_TYPE_BOOLEAN
-typedef int boolean;
+#ifndef HAVE_TYPE_BOOL
+  typedef int bool;
 #endif
 #ifndef FALSE                   /* in case these macros already exist */
-#define FALSE   0               /* values of boolean */
+# define FALSE   0              /* values of bool */
 #endif
 #ifndef TRUE
-#define TRUE    1
+# define TRUE    1
 #endif
 
 typedef struct { float dat[2]; }  scomplex;

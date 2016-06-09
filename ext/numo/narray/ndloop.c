@@ -40,7 +40,7 @@ typedef struct NA_LOOP_XARGS {
     na_loop_iter_t *iter;     // moved from na_loop_t
     na_buffer_copy_t *bufcp;  // copy data to buffer
     int flag;                 // NDL_READ NDL_WRITE
-    boolean free_user_iter;   // alloc LARG(lp,j).iter=lp->xargs[j].iter
+    bool free_user_iter;   // alloc LARG(lp,j).iter=lp->xargs[j].iter
 } na_loop_xargs_t;
 
 typedef struct NA_MD_LOOP {
@@ -972,7 +972,7 @@ ndfunc_set_bufcp(na_md_loop_t *lp, unsigned int loop_spec)
     unsigned int f;
     int i, j;
     int nd, ndim;
-    boolean zero_step;
+    bool zero_step;
     ssize_t n, sz, elmsz, stride, n_total; //, last_step;
     size_t *buf_shape;
     na_loop_iter_t *buf_iter=NULL, *src_iter;

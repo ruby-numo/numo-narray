@@ -747,7 +747,7 @@ na_diagonal(int argc, VALUE *argv, VALUE self)
 #define SWAP(a,b,t) {t=a;a=b;b=t;}
 
 static VALUE
-na_new_dimension_for_dot(VALUE self, int pos, int len, boolean transpose)
+na_new_dimension_for_dot(VALUE self, int pos, int len, bool transpose)
 {
     int i, k, nd;
     size_t  j;

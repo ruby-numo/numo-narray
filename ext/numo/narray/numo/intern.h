@@ -83,7 +83,7 @@ VALUE na_info_str(VALUE);
 size_t na_get_elmsz(VALUE nary);
 size_t na_dtype_elmsz(VALUE klass);
 
-boolean na_test_reduce(VALUE reduce, int dim);
+bool na_test_reduce(VALUE reduce, int dim);
 
 //size_t *na_mdarray_investigate(VALUE ary, int *ndim, VALUE *type);
 VALUE na_ary_composition(VALUE ary);
