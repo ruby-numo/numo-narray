@@ -1106,7 +1106,7 @@ nary_s_from_string(int argc, VALUE *argv, VALUE type)
 }
 
 /*
-  Returns stfing containing the raw data bytes in NArray.
+  Returns string containing the raw data bytes in NArray.
   @overload to_string()
   @return [String] String object containing binary raw data.
  */
@@ -1115,20 +1115,19 @@ nary_to_string(VALUE self)
 {
     size_t len, esz;
     char *ptr;
-    volatile VALUE v[2];
+    VALUE str;
     narray_t *na;
 
     GetNArray(self,na);
     if (na->type == NARRAY_VIEW_T) {
-        v[0] = na_copy(self);
-    } else {
-        v[0] = self;
+        self = na_copy(self);
     }
-    esz = na_get_elmsz(v[0]);
+    esz = na_get_elmsz(self);
     len = na->size * esz;
-    ptr = na_get_pointer_for_read(v[0]);
-    v[1] = rb_usascii_str_new(ptr,len);
-    return v[1];
+    ptr = na_get_pointer_for_read(self);
+    str = rb_usascii_str_new(ptr,len);
+    RB_GC_GUARD(self);
+    return str;
 }
 
 
