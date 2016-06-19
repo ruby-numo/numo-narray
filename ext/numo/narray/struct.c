@@ -1,5 +1,5 @@
 /*
-  nstrut.c
+  struct.c
   Numerical Array Extension for Ruby
     (C) Copyright 1999-2007,2013 by Masahiro TANAKA
 
