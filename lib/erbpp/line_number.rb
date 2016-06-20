@@ -115,7 +115,7 @@ class ERB
         # skip
       elsif num==1
         f = @filename.dump
-        line.sub!(/_erbout = '';/, "_erbout = CountLnString.new(#{f});")
+        line.sub!(/_erbout = (''|String\.new);/, "_erbout = CountLnString.new(#{f});")
       elsif /^; _erbout\.force_encoding/ =~ line
         line.sub!(/^;/,";_erbout.ln(#{num});")
       end
