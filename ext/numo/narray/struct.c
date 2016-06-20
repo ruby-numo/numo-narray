@@ -273,9 +273,8 @@ nst_s_new(int argc, VALUE *argv, VALUE klass)
     }
 
     if (NIL_P(name)) {
-        st = rb_class_new(klass);
-        rb_make_metaclass(st, RBASIC(klass)->klass);
-        rb_class_inherited(klass, st);
+        st = rb_define_class_id(name, klass);
+        rb_funcall(klass, rb_intern("inherited"), 1, st);
     }
     else {
         char *cname = StringValuePtr(name);
