@@ -249,8 +249,12 @@ class DataType < ErbPP
       t = "cT"
     end
     if c=="Integer"
-      @upcast << "rb_hash_aset(hCast, rb_cFixnum, #{t});"
-      @upcast << "rb_hash_aset(hCast, rb_cBignum, #{t});"
+      if RUBY_VERSION >= "2.4.0"
+        @upcast << "rb_hash_aset(hCast, rb_cInteger, #{t});"
+      else
+        @upcast << "rb_hash_aset(hCast, rb_cFixnum, #{t});"
+        @upcast << "rb_hash_aset(hCast, rb_cBignum, #{t});"
+        end
     else
       @upcast << "rb_hash_aset(hCast, rb_c#{c}, #{t});"
     end
