@@ -77,6 +77,12 @@ else
 end
 
 have_type("bool", stdbool)
+unless have_type("u_int8_t", stdint)
+  have_type("uint8_t",stdint)
+end
+unless have_type("u_int16_t", stdint)
+  have_type("uint16_t",stdint)
+end
 have_type("int32_t", stdint)
 unless have_type("u_int32_t", stdint)
   have_type("uint32_t",stdint)
@@ -88,6 +94,7 @@ end
 #have_library("m")
 #have_func("sincos")
 #have_func("asinh")
+have_func("exp10")
 
 have_var("rb_cComplex")
 #have_func("rb_alloc_tmp_buffer", "ruby.h")

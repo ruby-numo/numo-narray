@@ -32,6 +32,18 @@
 # include <sys/types.h>
 #endif
 
+#ifndef HAVE_U_INT8_T
+# ifdef HAVE_UINT8_T
+    typedef uint8_t u_int8_t;
+# endif
+#endif
+
+#ifndef HAVE_U_INT16_T
+# ifdef HAVE_UINT16_T
+    typedef uint16_t u_int16_t;
+# endif
+#endif
+
 #ifndef HAVE_U_INT32_T
 # ifdef HAVE_UINT32_T
     typedef uint32_t u_int32_t;
