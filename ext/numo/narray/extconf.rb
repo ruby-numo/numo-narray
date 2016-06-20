@@ -88,6 +88,7 @@ end
 #have_func("asinh")
 
 have_var("rb_cComplex")
+have_var("rb_cFixnum")
 #have_func("rb_alloc_tmp_buffer", "ruby.h")
 #have_func("rb_free_tmp_buffer", "ruby.h")
 
