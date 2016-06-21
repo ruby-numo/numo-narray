@@ -3,7 +3,11 @@
 EXTERN double round(double);
 EXTERN double log2(double);
 EXTERN double exp2(double);
+#ifdef HAVE_EXP10
 EXTERN double exp10(double);
+#else
+EXTERN double pow(double, double);
+#endif
 
 #define m_zero 0.0
 #define m_one  1.0
@@ -68,7 +72,11 @@ EXTERN double exp10(double);
 #define m_log10(x)   log10(x)
 #define m_exp(x)     exp(x)
 #define m_exp2(x)    exp2(x)
+#ifdef HAVE_EXP10
 #define m_exp10(x)   exp10(x)
+#else
+#define m_exp10(x)   pow(10, x)
+#endif
 #define m_sin(x)     sin(x)
 #define m_cos(x)     cos(x)
 #define m_tan(x)     tan(x)

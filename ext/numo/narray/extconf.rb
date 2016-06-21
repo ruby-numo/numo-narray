@@ -4,6 +4,8 @@ require 'rbconfig.rb'
 
 require 'mkmf'
 
+require "erb"
+
 if RUBY_VERSION < "2.0.0"
   puts "Numo::NArray requires Ruby version 2.0 or later."
   exit(1)
@@ -75,6 +77,12 @@ else
 end
 
 have_type("bool", stdbool)
+unless have_type("u_int8_t", stdint)
+  have_type("uint8_t",stdint)
+end
+unless have_type("u_int16_t", stdint)
+  have_type("uint16_t",stdint)
+end
 have_type("int32_t", stdint)
 unless have_type("u_int32_t", stdint)
   have_type("uint32_t",stdint)
@@ -86,6 +94,7 @@ end
 #have_library("m")
 #have_func("sincos")
 #have_func("asinh")
+have_func("exp10")
 
 have_var("rb_cComplex")
 have_var("rb_cFixnum")
@@ -96,6 +105,14 @@ $objs = srcs.collect{|i| i+".o"}
 
 create_header
 
-system("rm -f depend; erb depend.erb > depend")
+depend_path = File.join(__dir__, "depend")
+File.open(depend_path, "w") do |depend|
+  depend_erb_path = File.join(__dir__, "depend.erb")
+  File.open(depend_erb_path, "r") do |depend_erb|
+    erb = ERB.new(depend_erb.read)
+    erb.filename = depend_erb_path
+    depend.print(erb.result)
+  end
+end
 
 create_makefile('numo/narray')
