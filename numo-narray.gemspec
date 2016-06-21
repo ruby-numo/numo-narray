@@ -16,8 +16,8 @@ Gem::Specification.new do |spec|
   spec.version       = NARRAY_VERSION
   spec.authors       = ["Masahiro TANAKA"]
   spec.email         = ["masa16.tanaka@gmail.com"]
-  spec.description   = %q{NArray development version.}
-  spec.summary       = %q{NArray development version}
+  spec.description   = %q{Numo::NArray - New NArray class library in Ruby/Numo.}
+  spec.summary       = %q{alpha release of Numo::NArray - New NArray class library in Ruby/Numo (NUmerical MOdule)}
   spec.homepage      = "https://github.com/ruby-numo/narray"
   spec.license       = "MIT"
 

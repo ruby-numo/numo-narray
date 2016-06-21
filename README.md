@@ -5,9 +5,10 @@
 under development
 
 ## Related Projects
-* [Numo::Linalg](https://github.com/ruby-numo/linalg): Linear Algebra library with [LAPACK](http://www.netlib.org/lapack/).
-* [Numo::GSL](https://github.com/ruby-numo/gsl): Ruby interface for [GSL (GNU Scientific Library)](http://www.gnu.org/software/gsl/).
-* [Numo::FFTE](https://github.com/ruby-numo/ffte): Ruby interface for [FFTE (A Fast Fourier Transform library with radix-2,3,5)](http://www.ffte.jp/).
+* [Numo::Linalg](https://github.com/ruby-numo/linalg) - Linear Algebra library with [LAPACK](http://www.netlib.org/lapack/).
+* [Numo::GSL](https://github.com/ruby-numo/gsl) - Ruby interface for [GSL (GNU Scientific Library)](http://www.gnu.org/software/gsl/).
+* [Numo::FFTE](https://github.com/ruby-numo/ffte) - Ruby interface for [FFTE (A Fast Fourier Transform library with radix-2,3,5)](http://www.ffte.jp/).
+* [Numo::Gnuplot](https://github.com/ruby-numo/gnuplot) - Simple and easy-to-use Gnuplot interface.
 
 ## Installation
 ### Ubuntu, Debian
@@ -40,8 +41,10 @@ An example
 ```
 For more examples, check out this [narray version of 100 numpy exercises](https://github.com/ruby-numo/narray/wiki/100-narray-exercises).
 
-## numo-array status compared to numpy
+## Documentation
 
-https://github.com/ruby-numo/narray/wiki/Numo-vs-numpy
+All documents are primitive.
 
-## [NArray Tentative API Document](http://ruby-numo.github.io/narray/narray/frames.html)
+* [Numo::NArray API Doc](http://ruby-numo.github.io/narray/narray/frames.html)
+* [Numo::NArray概要](https://github.com/ruby-numo/narray/wiki/Numo::NArray%E6%A6%82%E8%A6%81) (in Japanese)
+* [Numo::NArray vs numpy](https://github.com/ruby-numo/narray/wiki/Numo-vs-numpy)
