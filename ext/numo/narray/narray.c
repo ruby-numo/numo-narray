@@ -405,7 +405,7 @@ na_initialize_copy(VALUE self, VALUE orig)
  *     [0, 0, 0, 0, 0]]
  */
 static VALUE
-na_s_zeros(int argc, const VALUE *argv, VALUE klass)
+na_s_zeros(int argc, VALUE *argv, VALUE klass)
 {
     VALUE obj;
     obj = rb_class_new_instance(argc, argv, klass);
@@ -429,7 +429,7 @@ na_s_zeros(int argc, const VALUE *argv, VALUE klass)
  *     [1, 1, 1, 1, 1]]
  */
 static VALUE
-na_s_ones(int argc, const VALUE *argv, VALUE klass)
+na_s_ones(int argc, VALUE *argv, VALUE klass)
 {
     VALUE obj;
     obj = rb_class_new_instance(argc, argv, klass);
@@ -450,7 +450,7 @@ na_s_ones(int argc, const VALUE *argv, VALUE klass)
      [0, 0, 1]]
 */
 static VALUE
-na_s_eye(int argc, const VALUE *argv, VALUE klass)
+na_s_eye(int argc, VALUE *argv, VALUE klass)
 {
     VALUE obj;
     VALUE tmp[2];
@@ -1443,6 +1443,8 @@ Init_narray()
     rb_require("complex");
     rb_cComplex = rb_const_get(rb_cObject, rb_intern("Complex"));
 #endif
+
+    rb_define_const(cNArray, "VERSION", rb_str_new2(NARRAY_VERSION));
 
     nary_eCastError = rb_define_class_under(cNArray, "CastError", rb_eStandardError);
     nary_eShapeError = rb_define_class_under(cNArray, "ShapeError", rb_eStandardError);
