@@ -5,13 +5,18 @@ require "shellwords"
 
 spec = Bundler::GemHelper.gemspec
 
+cross_platforms = ["x86-mingw32", "x64-mingw32"]
 Rake::ExtensionTask.new("numo/narray", spec) do |ext|
   ext.cross_compile = true
-  ext.cross_platform = ["x86-mingw32", "x64-mingw32"]
+  ext.cross_platform = cross_platforms
+end
+
+pkg_dir = "pkg"
+windows_gem_paths = cross_platforms.collect do |platform|
+  File.join(pkg_dir, "#{spec.full_name}-#{platform}.gem")
 end
 
 namespace :build do
-  pkg_dir = "pkg"
   directory pkg_dir
 
   desc "Build gems for Windows into the pkg directory"
@@ -37,5 +42,19 @@ namespace :build do
 
     cp(Dir.glob("#{build_dir}/#{pkg_dir}/*.gem"),
        "#{pkg_dir}/")
+  end
+
+  windows_gem_paths.each do |path|
+    file path do
+      Rake::Task["build:windows"].invoke
+    end
+  end
+end
+
+namespace :release do
+  task :windows => windows_gem_paths do
+    windows_gem_paths.each do |path|
+      ruby("-S", "gem", "push", path)
+    end
   end
 end
