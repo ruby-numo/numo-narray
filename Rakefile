@@ -1,4 +1,5 @@
 require "bundler/gem_tasks"
+begin
 require "rake/extensiontask"
 require "rake_compiler_dock"
 require "shellwords"
@@ -57,4 +58,7 @@ namespace :release do
       ruby("-S", "gem", "push", path)
     end
   end
+end
+
+rescue LoadError
 end
