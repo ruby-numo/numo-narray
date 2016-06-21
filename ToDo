@@ -38,6 +38,9 @@
 
 * method: rot90
 
+* contiguous check
+
+
 * from numpy
 swapaxis
 squeeze
