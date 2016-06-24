@@ -131,3 +131,8 @@ static inline size_t f_max_index(size_t n, char *p, ssize_t stride)
     }
     return j;
 }
+
+static inline double f_seq(double x, double y, double c)
+{
+    return x + y * c;
+}

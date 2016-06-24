@@ -203,3 +203,8 @@ static inline rtype f_rms(size_t n, char *p, ssize_t stride)
     }
     return r_sqrt(y/count);
 }
+
+static inline dtype f_seq(dtype x, dtype y, double c)
+{
+    return c_add(x,c_mul_r(y,c));
+}

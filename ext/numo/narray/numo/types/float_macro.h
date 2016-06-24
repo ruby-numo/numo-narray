@@ -275,3 +275,8 @@ static inline size_t f_max_index(size_t n, char *p, ssize_t stride)
     }
     return j;
 }
+
+static inline dtype f_seq(dtype x, dtype y, double c)
+{
+    return x + y * c;
+}
