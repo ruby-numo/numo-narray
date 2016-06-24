@@ -438,6 +438,45 @@ na_s_ones(int argc, VALUE *argv, VALUE klass)
 
 
 /*
+  Returns an array of N linearly spaced points between x1 and x2.
+  This singleton method is valid not for NArray class itself
+  but for typed NArray subclasses, e.g., DFloat, Int64.
+
+  @overload linspace(x1,x2[,n])
+  @param [Numeric] x1   start point
+  @param [Numeric] x2   end point
+  @param [Integer] n    the number of elements. default is 100.
+  @return [Numo::NArray]
+
+  @example
+    a = Numo::DFloat.linspace(-5,5,7)
+    => Numo::DFloat#shape=[7]
+    [-5, -3.33333, -1.66667, 0, 1.66667, 3.33333, 5]
+ */
+static VALUE
+na_s_linspace(int argc, VALUE *argv, VALUE klass)
+{
+    VALUE obj, vx1, vx2, vstep, vsize;
+    double n;
+    int narg;
+
+    narg = rb_scan_args(argc,argv,"21",&vx1,&vx2,&vsize);
+    if (narg==3) {
+        n = NUM2DBL(vsize);
+    } else {
+        n = 100;
+        vsize = INT2FIX(100);
+    }
+
+    obj = rb_funcall(vx2, '-', 1, vx1);
+    vstep = rb_funcall(obj, '/', 1, DBL2NUM(n-1));
+
+    obj = rb_class_new_instance(1, &vsize, klass);
+    return rb_funcall(obj, rb_intern("seq"), 2, vx1, vstep);
+}
+
+
+/*
   Returns a NArray with shape=(n,n) whose diagonal elements are 1, otherwise 0.
   @overload  eye(n)
   @param [Integer] n  Size of NArray. Creates 2-D NArray with shape=(n,n)
@@ -1462,6 +1501,7 @@ Init_narray()
 
     rb_define_singleton_method(cNArray, "zeros", na_s_zeros, -1);
     rb_define_singleton_method(cNArray, "ones", na_s_ones, -1);
+    rb_define_singleton_method(cNArray, "linspace", na_s_linspace, -1);
     rb_define_singleton_method(cNArray, "eye", na_s_eye, -1);
 
     rb_define_method(cNArray, "size", na_size, 0);
