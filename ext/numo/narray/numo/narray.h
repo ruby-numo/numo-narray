@@ -358,12 +358,9 @@ _na_get_narray_t(VALUE obj, unsigned char na_type)
 #endif
 #endif
 
-
 #define IsNArray(obj) (rb_obj_is_kind_of(obj,cNArray)==Qtrue)
 
 #define DEBUG_PRINT(v) puts(StringValueCStr(rb_funcall(v,rb_intern("inspect"),0)))
-
-
 
 #define NA_IsNArray(obj) \
   (rb_obj_is_kind_of(obj,cNArray)==Qtrue)
@@ -375,37 +372,17 @@ _na_get_narray_t(VALUE obj, unsigned char na_type)
 
 #define NA_MAX_DIMENSION (int)(sizeof(VALUE)*8-2)
 
-/* Function Prototypes */
-
-
-typedef struct {
-    double beg;
-    double step;
-    double count;
-} seq_opt_t;
-
-typedef struct {
-    u_int64_t max;
-    int64_t sign;
-    int shift;
-} rand_opt_t;
-
-
 typedef unsigned int BIT_DIGIT;
 //#define BYTE_BIT_DIGIT sizeof(BIT_DIGIT)
 #define NB     (sizeof(BIT_DIGIT)*8)
 #define BALL   (~(BIT_DIGIT)0)
 #define SLB(n) (((n)==NB)?~(BIT_DIGIT)0:(~(~(BIT_DIGIT)0<<(n))))
 
-//#include "template.h"
-
 #define ELEMENT_BIT_SIZE  "ELEMENT_BIT_SIZE"
 #define ELEMENT_BYTE_SIZE "ELEMENT_BYTE_SIZE"
 #define CONTIGUOUS_STRIDE "CONTIGUOUS_STRIDE"
 
 #include "numo/ndloop.h"
-//#include "ndfunc.h"
-
 #include "numo/intern.h"
 
 #endif /* ifndef NARRAY_H */
