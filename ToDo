@@ -36,10 +36,26 @@
 
 * update MT Random Number Generator
 
-* method: rot90
+* Complex#seq allows complex step
 
 * contiguous check
 
+* GVL release
+* Ctrl-C stop during method
+
+* constatntss
+NAN
+INF
+EPS
+
+* Matlab method:
+logspace
+meshgrid
+rot90
+rad2deg
+deg2rad
+expm1
+histcount
 
 * from numpy
 swapaxis
