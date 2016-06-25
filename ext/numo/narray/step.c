@@ -230,13 +230,13 @@ nary_step_array_index(VALUE self, size_t ary_size,
     //vstep = rb_funcall(self, id_step, 0);
 
     if (RTEST(vbeg)) {
-        beg = NUM2SSIZE(vbeg);
+        beg = NUM2SSIZET(vbeg);
         if (beg<0) {
             beg += ary_size;
         }
     }
     if (RTEST(vend)) {
-        end = NUM2SSIZE(vend);
+        end = NUM2SSIZET(vend);
         if (end<0) {
             end += ary_size;
         }
@@ -245,10 +245,10 @@ nary_step_array_index(VALUE self, size_t ary_size,
     //puts("pass 1");
 
     if (RTEST(vlen)) {
-        len = NUM2SIZE(vlen);
+        len = NUM2SIZET(vlen);
         if (len>0) {
             if (RTEST(vstep)) {
-                step = NUM2SSIZE(step);
+                step = NUM2SSIZET(step);
                 if (RTEST(vbeg)) {
                     if (RTEST(vend)) {
                         rb_raise( rb_eStandardError, "verbose Step object" );
@@ -295,7 +295,7 @@ nary_step_array_index(VALUE self, size_t ary_size,
         }
     } else { // no len
         if (RTEST(vstep)) {
-            step = NUM2SSIZE(vstep);
+            step = NUM2SSIZET(vstep);
         } else {
             step = 1;
         }
@@ -368,7 +368,7 @@ nary_step_sequence( VALUE self, size_t *plen, double *pbeg, double *pstep )
     //vstep = rb_funcall(self, id_step,0);
 
     if (RTEST(vlen)) {
-        size = NUM2SIZE(vlen);
+        size = NUM2SIZET(vlen);
 
         if (!RTEST(vstep)) {
             if (RTEST(vend)) {
@@ -429,7 +429,7 @@ step_each( VALUE self )
     a = nary_step_parameters( self, Qnil );
     beg  = NUM2DBL(RARRAY_PTR(a)[0]);
     step = NUM2DBL(RARRAY_PTR(a)[1]);
-    size = NUM2SIZE(RARRAY_PTR(a)[2]);
+    size = NUM2SIZET(RARRAY_PTR(a)[2]);
 
     for (i=0; i<size; i++) {
         rb_yield(rb_float_new(beg+i*step));

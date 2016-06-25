@@ -592,7 +592,7 @@ na_diagonal(int argc, VALUE *argv, VALUE self)
     }
 
     if (vofs) {
-        kofs = NUM2SSIZE(vofs);
+        kofs = NUM2SSIZET(vofs);
     } else {
         kofs = 0;
     }

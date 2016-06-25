@@ -268,7 +268,7 @@ na_mdai_result(na_mdai_t *mdai, na_compose_t *nc)
         for (i=0; i<ndim; i++) {
             shape[i] = mdai->item[i].shape;
             //printf("shape[%d]=%d\n",i,shape[i]);
-            //rb_ary_push( shape, SIZE2NUM(mdai->item[i].shape) );
+            //rb_ary_push( shape, SIZET2NUM(mdai->item[i].shape) );
         }
 
 	// DataType
@@ -355,7 +355,7 @@ na_s_array_shape(VALUE mod, VALUE ary)
     Data_Get_Struct(vnc, na_compose_t, nc);
     shape = rb_ary_new2(nc->ndim);
     for (i=0; i<nc->ndim; i++) {
-        rb_ary_push( shape, SIZE2NUM(nc->shape[i]) );
+        rb_ary_push( shape, SIZET2NUM(nc->shape[i]) );
     }
     return shape;
 }

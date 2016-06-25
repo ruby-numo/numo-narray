@@ -152,7 +152,7 @@ na_parse_array(VALUE ary, int orig_dim, ssize_t size, na_index_arg_t *q)
     int n = RARRAY_LEN(ary);
     q->idx = ALLOC_N(size_t, n);
     for (k=0; k<n; k++) {
-        q->idx[k] = na_range_check(NUM2SSIZE(RARRAY_AREF(ary,k)), size, orig_dim);
+        q->idx[k] = na_range_check(NUM2SSIZET(RARRAY_AREF(ary,k)), size, orig_dim);
     }
     q->n    = n;
     q->beg  = 0;
@@ -232,11 +232,11 @@ na_index_parse_each(volatile VALUE a, ssize_t size, int i, na_index_arg_t *q)
         break;
 
     case T_BIGNUM:
-        na_index_set_scalar(q,i,size,NUM2SSIZE(a));
+        na_index_set_scalar(q,i,size,NUM2SSIZET(a));
         break;
 
     case T_FLOAT:
-        na_index_set_scalar(q,i,size,NUM2SSIZE(a));
+        na_index_set_scalar(q,i,size,NUM2SSIZET(a));
         break;
 
     case T_NIL:
@@ -744,7 +744,7 @@ na_get_scalar_position(VALUE self, int argc, VALUE *argv, ssize_t stride)
             break;
         case T_BIGNUM:
         case T_FLOAT:
-            idx[i] = NUM2SSIZE(argv[i]);
+            idx[i] = NUM2SSIZET(argv[i]);
             break;
         default:
             return -1;

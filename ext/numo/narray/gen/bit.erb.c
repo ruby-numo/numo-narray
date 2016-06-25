@@ -578,7 +578,7 @@ static VALUE
     ndfunc_t ndf = { iter_bit_where, FULL_LOOP, 1, 0, ain, 0 };
 
     size = RNARRAY_SIZE(self);
-    n_1 = NUM2SIZE(numo_bit_count_true(0, NULL, self));
+    n_1 = NUM2SIZET(numo_bit_count_true(0, NULL, self));
     g = ALLOCA_N(where_opt_t,1);
     g->count = 0;
     if (size>4294967295ul) {
@@ -606,7 +606,7 @@ static VALUE
     ndfunc_t ndf = { iter_bit_where, FULL_LOOP, 1, 0, ain, 0 };
 
     size = RNARRAY_SIZE(self);
-    n_1 = NUM2SIZE(numo_bit_count_true(0, NULL, self));
+    n_1 = NUM2SIZET(numo_bit_count_true(0, NULL, self));
     g = ALLOCA_N(where_opt_t,1);
     g->count = 0;
     if (size>4294967295ul) {
@@ -716,7 +716,7 @@ static VALUE
     ndfunc_arg_in_t ain[2] = {{cT,0},{Qnil,0}};
     ndfunc_t ndf = {iter_bit_pointer, FULL_LOOP, 2, 0, ain, 0};
 
-    n_1 = NUM2SIZE(numo_bit_count_true(0, NULL, mask));
+    n_1 = NUM2SIZET(numo_bit_count_true(0, NULL, mask));
     idx_1 = rb_narray_new(cIndex, 1, &n_1);
     g.count = 0;
     g.elmsz = SIZEOF_VOIDP;

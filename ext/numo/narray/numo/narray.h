@@ -56,12 +56,6 @@
 # endif
 #endif
 
-// to be removed
-#define NUM2SIZE(x)  NUM2SIZET(x)
-#define NUM2SSIZE(x) NUM2SSIZET(x)
-#define SIZE2NUM(x)  SIZET2NUM(x)
-#define SSIZE2NUM(x) SSIZET2NUM(x)
-
 #define SZF PRI_SIZE_PREFIX // defined in ruby.h
 
 #if   SIZEOF_LONG==8

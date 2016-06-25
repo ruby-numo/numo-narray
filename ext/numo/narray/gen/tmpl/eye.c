@@ -54,7 +54,7 @@ static VALUE
         rb_raise(rb_eArgError,"too many arguments (%d for 0..2)",argc);
     } else if (argc == 2) {
         data = m_num_to_data(argv[0]);
-        kofs = NUM2SSIZE(argv[1]);
+        kofs = NUM2SSIZET(argv[1]);
     } else if (argc == 1) {
         data = m_num_to_data(argv[0]);
         kofs = 0;

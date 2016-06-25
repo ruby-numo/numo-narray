@@ -6,7 +6,7 @@ yield_map_with_index(dtype x, size_t *c, VALUE *a, int nd, int md)
 
     a[0] = m_data_to_num(x);
     for (j=0; j<=nd; j++) {
-        a[j+1] = SIZE2NUM(c[j]);
+        a[j+1] = SIZET2NUM(c[j]);
     }
     y = rb_yield(rb_ary_new4(md,a));
     return m_num_to_data(y);

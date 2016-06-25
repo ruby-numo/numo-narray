@@ -251,7 +251,7 @@ na_array_to_internal_shape(VALUE self, VALUE ary, size_t *shape)
         if (RTEST(rb_funcall(v, rb_intern("<"), 1, INT2FIX(0)))) {
             rb_raise(rb_eArgError,"size must be non-negative");
         }
-        shape[c] = NUM2SIZE(v);
+        shape[c] = NUM2SIZET(v);
         c += s;
     }
 }
@@ -675,7 +675,7 @@ na_get_stride(VALUE v)
 
     if (!stridx) {
         stridx = ALLOC_N(stridx_t, na->ndim);
-        st = NUM2SIZE(rb_const_get(CLASS_OF(v), id_contiguous_stride));
+        st = NUM2SIZET(rb_const_get(CLASS_OF(v), id_contiguous_stride));
         //printf("step_unit=%ld, CLASS_OF(v)=%lx\n",st, CLASS_OF(v));
         for (i=na->ndim; i>0;) {
             SDX_SET_STRIDE(stridx[--i],st);
@@ -694,7 +694,7 @@ na_size(VALUE self)
 {
     narray_t *na;
     GetNArray(self,na);
-    return SIZE2NUM(na->size);
+    return SIZET2NUM(na->size);
 }
 
 
@@ -727,7 +727,7 @@ static VALUE
     }
     v = rb_ary_new2(n);
     for (i=0; i<n; i++) {
-        rb_ary_push(v, SIZE2NUM(na->shape[c]));
+        rb_ary_push(v, SIZET2NUM(na->shape[c]));
         c += s;
     }
     return v;
@@ -737,13 +737,13 @@ static VALUE
 size_t
 na_get_elmsz(VALUE vna)
 {
-    return NUM2SIZE(rb_const_get(CLASS_OF(vna), id_contiguous_stride));
+    return NUM2SIZET(rb_const_get(CLASS_OF(vna), id_contiguous_stride));
 }
 
 size_t
 na_dtype_elmsz(VALUE klass)
 {
-    return NUM2SIZE(rb_const_get(klass, id_contiguous_stride));
+    return NUM2SIZET(rb_const_get(klass, id_contiguous_stride));
 }
 
 size_t
@@ -1080,7 +1080,7 @@ nary_byte_size(VALUE self)
 
     GetNArray(self,na);
     velmsz = rb_const_get(CLASS_OF(self), rb_intern(ELEMENT_BYTE_SIZE));
-    sz = SIZE2NUM(NUM2SIZE(velmsz) * na->size);
+    sz = SIZET2NUM(NUM2SIZET(velmsz) * na->size);
     return sz;
 }
 
@@ -1122,7 +1122,7 @@ nary_s_from_string(int argc, VALUE *argv, VALUE type)
         shape = ALLOCA_N(size_t,nd);
         len = 1;
         for (i=0; i<nd; ++i) {
-            len *= shape[i] = NUM2SIZE(RARRAY_AREF(vshape,i));
+            len *= shape[i] = NUM2SIZET(RARRAY_AREF(vshape,i));
         }
         if (len*elmsz != str_len) {
             rb_raise(rb_eArgError, "size mismatch");
@@ -1275,14 +1275,14 @@ na_reduce_dimension(int argc, VALUE *argv, int naryc, VALUE *naryv)
                     m |= ((size_t)1) << r;
                     continue;
                 } else {
-                    reduce = SIZE2NUM(m);
+                    reduce = SIZET2NUM(m);
                 }
             }
             v = rb_funcall( INT2FIX(1), rb_intern("<<"), 1, INT2FIX(r) );
             reduce = rb_funcall( reduce, rb_intern("|"), 1, v );
         }
     }
-    if (reduce==Qnil) reduce = SIZE2NUM(m);
+    if (reduce==Qnil) reduce = SIZET2NUM(m);
     return reduce;
 }
 

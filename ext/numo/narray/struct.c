@@ -29,7 +29,7 @@ nst_allocate(VALUE self)
         ptr = NA_DATA_PTR(na);
         if (na->size > 0 && ptr == NULL) {
             velmsz = rb_const_get(CLASS_OF(self), rb_intern("element_byte_size"));
-            ptr = xmalloc(NUM2SIZE(velmsz) * na->size);
+            ptr = xmalloc(NUM2SIZET(velmsz) * na->size);
             NA_DATA_PTR(na) = ptr;
         }
         break;
@@ -170,7 +170,7 @@ na_make_view_struct(VALUE self, VALUE dtype, VALUE offset)
     }
 
     if (RTEST(offset)) {
-        na2->offset += NUM2SIZE(offset);
+        na2->offset += NUM2SIZET(offset);
     }
 
     return view;
@@ -373,7 +373,7 @@ nstruct_add_type(VALUE type, int argc, VALUE *argv, VALUE nst)
     }
 
     ofs  = rb_iv_get(nst, "__offset__");
-    nt->offset = NUM2SIZE(ofs);
+    nt->offset = NUM2SIZET(ofs);
 
     size = rb_funcall(type, rb_intern("byte_size"), 0);
     rb_iv_set(nst, "__offset__", rb_funcall(ofs,'+',1,size));
@@ -409,8 +409,8 @@ iter_nstruct_to_a(na_loop_t *const lp)
 
     for (i=0; i<len; i++) {
         def  = RARRAY_AREF(defs,i);
-        ofs  = NUM2SIZE(RARRAY_AREF(def,2));
-        //ofs  = NUM2SIZE(RARRAY_AREF(ofsts,i));
+        ofs  = NUM2SIZET(RARRAY_AREF(def,2));
+        //ofs  = NUM2SIZET(RARRAY_AREF(ofsts,i));
         elmt = RARRAY_AREF(types,i);
         GetNArrayView(elmt,ne);
         ne->offset = pos + ofs;
@@ -592,7 +592,7 @@ iter_nstruct_from_a(na_loop_t *const lp)
 
     for (i=0; i<len; i++) {
         def  = RARRAY_AREF(defs,i);
-        ofs  = NUM2SIZE(RARRAY_AREF(def,2));
+        ofs  = NUM2SIZET(RARRAY_AREF(def,2));
         elmt = RARRAY_AREF(types,i);
         GetNArrayView(elmt,ne);
         ne->offset = lp->args[1].iter[0].pos + ofs;
@@ -747,7 +747,7 @@ iter_struct_inspect(char *ptr, size_t pos, VALUE opt)
     for (i=0; i<len; i++) {
         def  = RARRAY_AREF(defs,i);
         name = RARRAY_AREF(def,0);
-        ofs  = NUM2SIZE(RARRAY_AREF(def,2));
+        ofs  = NUM2SIZET(RARRAY_AREF(def,2));
         elmt = RARRAY_AREF(types,i);
         GetNArrayView(elmt,ne);
         ne->offset = pos + ofs;
