@@ -70,7 +70,7 @@ nst_definition(VALUE nst, VALUE idx)
     } else if (rb_obj_is_kind_of(idx,rb_cNumeric)) {
         i = NUM2LONG(idx);
         if (i<-len || i>=len) {
-            rb_raise(rb_eIndexError,"offset %"SZF"u out of range of struct(size:%ld)", i, len);
+            rb_raise(rb_eIndexError,"offset %ld out of range of struct(size:%ld)", i, len);
         }
         return RARRAY_AREF(def,i);
     }

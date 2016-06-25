@@ -207,7 +207,7 @@ na_parse_range(VALUE range, int orig_dim, ssize_t size, na_index_arg_t *q)
     if (beg < -size || beg >= size ||
         end < -size || end >= size) {
         rb_raise(rb_eRangeError,
-                 "beg=%ld,end=%ld is out of array size (%ld)",
+                 "beg=%"SZF"d,end=%"SZF"d is out of array size (%"SZF"d)",
                  beg, end, size);
     }
     n = end-beg+1;

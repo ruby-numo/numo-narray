@@ -116,7 +116,7 @@ rb_narray_debug_info(VALUE self)
     GetNArray(self,na);
 
     printf("%s:\n",rb_class2name(CLASS_OF(self)));
-    printf("  id     = 0x%"SZF"x\n", self);
+    printf("  id     = 0x%"PRI_VALUE_PREFIX"x\n", self);
     printf("  type   = %d\n", na->type);
     printf("  flag   = [%d,%d]\n", na->flag[0], na->flag[1]);
     printf("  size   = %"SZF"d\n", na->size);

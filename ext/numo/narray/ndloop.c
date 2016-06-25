@@ -153,7 +153,7 @@ print_ndloop(na_md_loop_t *lp) {
         printf("--user.args[%d]--\n", j);
         printf("  user.args[%d].ptr = 0x%"SZF"x\n", j, (size_t)LARG(lp,j).ptr);
         printf("  user.args[%d].elmsz = %"SZF"d\n", j, LARG(lp,j).elmsz);
-        printf("  user.args[%d].value = 0x%"SZF"x\n", j, LARG(lp,j).value);
+        printf("  user.args[%d].value = 0x%"PRI_VALUE_PREFIX"x\n", j, LARG(lp,j).value);
         printf("  user.args[%d].ndim = %d\n", j, LARG(lp,j).ndim);
         printf("  user.args[%d].shape = 0x%"SZF"x\n", j, (size_t)LARG(lp,j).shape);
         if (LARG(lp,j).shape) {
@@ -253,7 +253,7 @@ ndloop_cast_args(ndfunc_t *nf, VALUE args)
         value = RARRAY_AREF(args,j);
         if (!ndloop_cast_required(type, value))
             continue;
-        
+
         if (ndloop_castable_type(type)) {
             RARRAY_ASET(args,j,nary_type_s_cast(type, value));
             copy_flag |= 1<<j;
@@ -300,7 +300,7 @@ ndloop_find_max_dimension(na_md_loop_t *lp, ndfunc_t *nf, VALUE args)
     int nin=0; // number of input objects (except for symbols)
     int user_nd=0; // max dimension of user function
     int loop_nd=0; // max dimension of md-loop
-    
+
     for (j=0; j<RARRAY_LEN(args); j++) {
         VALUE t = nf->ain[j].type;
         VALUE v = RARRAY_AREF(args,j);
@@ -309,7 +309,7 @@ ndloop_find_max_dimension(na_md_loop_t *lp, ndfunc_t *nf, VALUE args)
         } else {
             nin++;
             user_nd = max2(user_nd, nf->ain[j].dim);
-            if (IsNArray(v)) 
+            if (IsNArray(v))
                 loop_nd = max2(loop_nd, RNARRAY_NDIM(v) - nf->ain[j].dim);
         }
     }
@@ -377,7 +377,7 @@ ndloop_alloc(na_md_loop_t *lp, ndfunc_t *nf, VALUE args,
     ndloop_find_max_dimension(lp, nf, args);
     narg = lp->nin + nf->nout;
     max_nd = lp->ndim + lp->user.ndim;
-    
+
     lp->n    = lp->n_ptr = ALLOC_N(size_t, max_nd+1);
     lp->xargs = ALLOC_N(na_loop_xargs_t, narg);
     lp->user.args = ALLOC_N(na_loop_args_t, narg);

@@ -72,13 +72,13 @@ static VALUE
     // Diagonal offset from the main diagonal.
     if (kofs >= 0) {
         if ((size_t)(kofs) >= na->shape[nd-1]) {
-            rb_raise(rb_eArgError,"invalid diagonal offset(%ld) for "
-                     "last dimension size(%ld)",kofs,na->shape[nd-1]);
+            rb_raise(rb_eArgError,"invalid diagonal offset(%"SZF"d) for "
+                     "last dimension size(%"SZF"d)",kofs,na->shape[nd-1]);
         }
     } else {
         if ((size_t)(-kofs) >= na->shape[nd-2]) {
-            rb_raise(rb_eArgError,"invalid diagonal offset(%ld) for "
-                     "last-1 dimension size(%ld)",kofs,na->shape[nd-2]);
+            rb_raise(rb_eArgError,"invalid diagonal offset(%"SZF"d) for "
+                     "last-1 dimension size(%"SZF"d)",kofs,na->shape[nd-2]);
         }
     }
 

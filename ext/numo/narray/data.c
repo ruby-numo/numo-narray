@@ -627,15 +627,15 @@ na_diagonal(int argc, VALUE *argv, VALUE self)
         k0 = 0;
         k1 = kofs;
         if (k1 >= na->shape[ax[1]]) {
-            rb_raise(rb_eArgError,"invalid diagonal offset(%ld) for "
-                     "last dimension size(%ld)",kofs,na->shape[ax[1]]);
+            rb_raise(rb_eArgError,"invalid diagonal offset(%"SZF"d) for "
+                     "last dimension size(%"SZF"d)",kofs,na->shape[ax[1]]);
         }
     } else {
         k0 = -kofs;
         k1 = 0;
         if (k0 >= na->shape[ax[0]]) {
-            rb_raise(rb_eArgError,"invalid diagonal offset(=%ld) for "
-                     "last-1 dimension size(%ld)",kofs,na->shape[ax[0]]);
+            rb_raise(rb_eArgError,"invalid diagonal offset(=%"SZF"d) for "
+                     "last-1 dimension size(%"SZF"d)",kofs,na->shape[ax[0]]);
         }
     }
 

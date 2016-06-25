@@ -56,19 +56,13 @@
 # endif
 #endif
 
-#if   SIZEOF_VOIDP==SIZEOF_LONG
-# define NUM2SIZE(x) NUM2ULONG(x)
-# define NUM2SSIZE(x) NUM2LONG(x)
-# define SIZE2NUM(x) ULONG2NUM(x)
-# define SSIZE2NUM(x) LONG2NUM(x)
-# define SZF "l"
-#elif SIZEOF_VOIDP==SIZEOF_LONG_LONG
-# define NUM2SIZE(x) NUM2ULL(x)
-# define NUM2SSIZE(x) NUM2LL(x)
-# define SIZE2NUM(x) ULL2NUM(x)
-# define SSIZE2NUM(x) LL2NUM(x)
-# define SZF "ll"
-#endif
+// to be removed
+#define NUM2SIZE(x)  NUM2SIZET(x)
+#define NUM2SSIZE(x) NUM2SSIZET(x)
+#define SIZE2NUM(x)  SIZET2NUM(x)
+#define SSIZE2NUM(x) SSIZET2NUM(x)
+
+#define SZF PRI_SIZE_PREFIX // defined in ruby.h
 
 #if   SIZEOF_LONG==8
 # define NUM2INT64(x) NUM2LONG(x)
