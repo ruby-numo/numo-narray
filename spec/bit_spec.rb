@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), "../ext/numo/narray/narray")
+require "numo/narray"
 #Numo::NArray.debug = true
 
 RSpec.configure do |config|
