@@ -234,6 +234,9 @@ accum_binary "mulsum"
 # histogram
 
 def_method "seq",-1
+if is_float
+  def_method "logseq",-1
+end
 def_method "eye",-1
 def_alias  "indgen", "seq"
 
