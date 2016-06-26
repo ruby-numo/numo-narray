@@ -11,14 +11,13 @@
 #ifndef NARRAY_H
 #define NARRAY_H
 
-#define NARRAY_VERSION "0.9.0.1"
-#define NARRAY_VERSION_CODE 901
+#define NARRAY_VERSION "0.9.0.2"
+#define NARRAY_VERSION_CODE 902
 
 #include <math.h>
 #include "numo/compat.h"
 #include "numo/template.h"
-
-#include "extconf.h"
+#include "numo/extconf.h"
 
 #ifdef HAVE_STDBOOL_H
 # include <stdbool.h>

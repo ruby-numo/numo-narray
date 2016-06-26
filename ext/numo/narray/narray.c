@@ -11,7 +11,6 @@
 #define NARRAY_C
 #include <ruby.h>
 #include "numo/narray.h"
-#include "extconf.h"
 #include <assert.h>
 
 /* global variables within this module */

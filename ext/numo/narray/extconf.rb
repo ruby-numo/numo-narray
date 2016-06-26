@@ -1,9 +1,5 @@
 require 'rbconfig.rb'
-
-#RbConfig::MAKEFILE_CONFIG["optflags"] = "-g3 -gdwarf-2"
-
 require 'mkmf'
-
 require "erb"
 
 if RUBY_VERSION < "2.0.0"
@@ -17,6 +13,7 @@ end
 $INCFLAGS = "-Itypes #$INCFLAGS"
 
 $INSTALLFILES = Dir.glob(%w[numo/*.h numo/types/*.h]).map{|x| [x,'$(archdir)'] }
+$INSTALLFILES << ['numo/extconf.h','$(archdir)']
 if /cygwin|mingw/ =~ RUBY_PLATFORM
   $INSTALLFILES << ['libnarray.a', '$(archdir)']
 end
@@ -48,20 +45,6 @@ struct
 rand
 )
 
-=begin
-have_header("atlas/cblas.h")
-have_library("atlas")
-
-if have_library("blas")
-  if have_library("lapack")
-    srcs.push "linalg"
-    $defs.push "-DHAVE_LAPACK"
-  else
-    #$defs.delete "-DHAVE_LAPACK"
-  end
-end
-=end
-
 if have_header("stdbool.h")
   stdbool = "stdbool.h"
 else
@@ -91,19 +74,14 @@ have_type("int64_t", stdint)
 unless have_type("u_int64_t", stdint)
   have_type("uint64_t", stdint)
 end
-#have_library("m")
-#have_func("sincos")
-#have_func("asinh")
 have_func("exp10")
 
 have_var("rb_cComplex")
 have_var("rb_cFixnum")
-#have_func("rb_alloc_tmp_buffer", "ruby.h")
-#have_func("rb_free_tmp_buffer", "ruby.h")
 
 $objs = srcs.collect{|i| i+".o"}
 
-create_header
+create_header('numo/extconf.h')
 
 depend_path = File.join(__dir__, "depend")
 File.open(depend_path, "w") do |depend|
