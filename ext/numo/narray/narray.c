@@ -442,11 +442,11 @@ na_s_ones(int argc, VALUE *argv, VALUE klass)
   This singleton method is valid not for NArray class itself
   but for typed NArray subclasses, e.g., DFloat, Int64.
 
-  @overload linspace(x1,x2[,n])
-  @param [Numeric] x1   start point
-  @param [Numeric] x2   end point
-  @param [Integer] n    the number of elements. default is 100.
-  @return [Numo::NArray]
+  @overload linspace(x1, x2, [n])
+  @param [Numeric] x1   The start value
+  @param [Numeric] x2   The end value
+  @param [Integer] n    The number of elements. (default is 100).
+  @return [Numo::NArray]  result array.
 
   @example
     a = Numo::DFloat.linspace(-5,5,7)
@@ -473,6 +473,50 @@ na_s_linspace(int argc, VALUE *argv, VALUE klass)
 
     obj = rb_class_new_instance(1, &vsize, klass);
     return rb_funcall(obj, rb_intern("seq"), 2, vx1, vstep);
+}
+
+/*
+  Returns an array of N logarithmically spaced points between 10^a and 10^b.
+  This singleton method is valid not for NArray having +logseq+ method,
+  i.e., DFloat, SFloat, DComplex, and SComplex.
+
+  @overload logspace(a, b, [n, base])
+  @param [Numeric] a  The start value
+  @param [Numeric] b  The end value
+  @param [Integer] n  The number of elements. (default is 50)
+  @param [Numeric] base  The base of log space. (default is 10)
+  @return [Numo::NArray]  result array.
+
+  @example
+    Numo::DFloat.logspace(4,0,5,2)
+    => Numo::DFloat#shape=[5]
+       [16, 8, 4, 2, 1]
+    Numo::DComplex.logspace(0,1i*Math::PI,5,Math::E)
+    => Numo::DComplex#shape=[5]
+       [1+4.44659e-323i, 0.707107+0.707107i, 6.12323e-17+1i, -0.707107+0.707107i, ...]
+ */
+static VALUE
+na_s_logspace(int argc, VALUE *argv, VALUE klass)
+{
+    VALUE obj, vx1, vx2, vstep, vsize, vbase;
+    double n;
+
+    rb_scan_args(argc,argv,"22",&vx1,&vx2,&vsize,&vbase);
+    if (vsize == Qnil) {
+        vsize = INT2FIX(50);
+        n = 50;
+    } else {
+        n = NUM2DBL(vsize);
+    }
+    if (vbase == Qnil) {
+        vbase = DBL2NUM(10);
+    }
+
+    obj = rb_funcall(vx2, '-', 1, vx1);
+    vstep = rb_funcall(obj, '/', 1, DBL2NUM(n-1));
+
+    obj = rb_class_new_instance(1, &vsize, klass);
+    return rb_funcall(obj, rb_intern("logseq"), 3, vx1, vstep, vbase);
 }
 
 
@@ -1502,6 +1546,7 @@ Init_narray()
     rb_define_singleton_method(cNArray, "zeros", na_s_zeros, -1);
     rb_define_singleton_method(cNArray, "ones", na_s_ones, -1);
     rb_define_singleton_method(cNArray, "linspace", na_s_linspace, -1);
+    rb_define_singleton_method(cNArray, "logspace", na_s_logspace, -1);
     rb_define_singleton_method(cNArray, "eye", na_s_eye, -1);
 
     rb_define_method(cNArray, "size", na_size, 0);
