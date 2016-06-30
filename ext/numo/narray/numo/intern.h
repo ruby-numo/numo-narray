@@ -19,6 +19,7 @@ VALUE na_original_data(VALUE self);
 VALUE na_make_view(VALUE self);
 VALUE na_make_view_struct(VALUE self, VALUE dtype, VALUE offset);
 void na_array_to_internal_shape(VALUE self, VALUE ary, size_t *shape);
+VALUE na_expand_dims(VALUE self, VALUE vdim);
 
 VALUE na_reduce_dimension(int argc, VALUE *argv, int naryc, VALUE *naryv);
 
