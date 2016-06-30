@@ -972,7 +972,9 @@ na_expand_dims(VALUE self, VALUE vdim)
     na2->stridx = stridx;
     xfree(na_stridx);
     na2->base.shape = shape;
-    xfree(na_shape);
+    if (na_shape != &(na2->base.size)) {
+        xfree(na_shape);
+    }
     na2->base.ndim++;
     return view;
 }
