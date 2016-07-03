@@ -198,65 +198,72 @@ na_transpose_map(VALUE self, int *map)
 VALUE
 na_transpose(int argc, VALUE *argv, VALUE self)
 {
-    int ndim, *map, tmp;
-    int row_major;
-    int i, j, c, r;
-    size_t len;
-    ssize_t beg, step;
-    volatile VALUE v, view;
+    int ndim, *map, *permute;
+    int i, d;
+    bool is_positive, is_negative;
     narray_t *na1;
 
     GetNArray(self,na1);
     ndim = na1->ndim;
-    row_major = TEST_COLUMN_MAJOR( self );
-
+    if (ndim < 2) {
+        if (argc > 0) {
+            rb_raise(rb_eArgError, "unnecessary argument for 1-d array");
+        }
+        return na_make_view(self);
+    }
     map = ALLOCA_N(int,ndim);
-    for (i=0;i<ndim;i++) {
-	map[i] = i;
+    if (argc == 0) {
+        for (i=0; i < ndim; i++) {
+            map[i] = ndim-1-i;
+        }
+        return na_transpose_map(self,map);
     }
-    if (argc==0) {
-	SWAP(map[ndim-1], map[ndim-2], tmp);
-	goto new_object;
+    // with argument
+    if (argc > ndim) {
+        rb_raise(rb_eArgError, "more arguments than ndim");
     }
-    if (argc==2) {
-	if (TYPE(argv[0])==T_FIXNUM && TYPE(argv[1])==T_FIXNUM) {
-	    i = FIX2INT(argv[0]);
-	    j = FIX2INT(argv[1]);
-	    if (row_major) {
-		i = ndim-1-i;
-		j = ndim-1-j;
-	    }
-	    SWAP( map[i], map[j], tmp );
-	    goto new_object;
-	}
+    for (i=0; i < ndim; i++) {
+        map[i] = i;
     }
-    for (i=argc,c=ndim-1; i;) {
-	v = argv[--i];
-	if (TYPE(v)==T_FIXNUM) {
-	    beg = FIX2INT(v);
-	    len = 1;
-	    step = 0;
-	} else if (rb_obj_is_kind_of(v,rb_cRange) || rb_obj_is_kind_of(v,na_cStep)) {
-            // write me
-	    nary_step_array_index(v, ndim, &len, &beg, &step);
-            //printf("len=%d beg=%d step=%d\n",len,beg,step);
-	}
-	for (j=len; j; ) {
-	    r = beg + step*(--j);
-	    if (row_major) {
-		r = ndim-1-r;
+    permute = ALLOCA_N(int,argc);
+    for (i=0; i < argc; i++) {
+        permute[i] = 0;
+    }
+    is_positive = is_negative = 0;
+    for (i=0; i < argc; i++) {
+	if (TYPE(argv[i]) != T_FIXNUM) {
+            rb_raise(rb_eArgError, "invalid argument");
+        }
+        d = FIX2INT(argv[i]);
+        if (d >= 0) {
+            if (d >= argc) {
+                rb_raise(rb_eArgError, "out of dimension range");
             }
-	    if ( c < 0 ) {
-		rb_raise(rb_eArgError, "too many dims");
+            if (is_negative) {
+                rb_raise(rb_eArgError, "dimension must be non-negative only or negative only");
             }
-	    map[c--] = r;
-	    //printf("r=%d\n",r);
-	}
+            if (permute[d]) {
+                rb_raise(rb_eArgError, "not permutation");
+            }
+            map[i] = d;
+            permute[d] = 1;
+            is_positive = 1;
+        } else {
+            if (d < -argc) {
+                rb_raise(rb_eArgError, "out of dimension range");
+            }
+            if (is_positive) {
+                rb_raise(rb_eArgError, "dimension must be non-negative only or negative only");
+            }
+            if (permute[argc+d]) {
+                rb_raise(rb_eArgError, "not permutation");
+            }
+            map[ndim-argc+i] = ndim+d;
+            permute[argc+d] = 1;
+            is_negative = 1;
+        }
     }
-
- new_object:
-    view = na_transpose_map(self,map);
-    return view;
+    return na_transpose_map(self,map);
 }
 
 //----------------------------------------------------------------------
