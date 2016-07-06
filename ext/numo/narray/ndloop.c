@@ -890,7 +890,8 @@ ndfunc_contract_loop(na_md_loop_t *lp)
             }
         }
         if (success) {
-            //printf("contract i=%d-th and %d-th\n",i-1,i);
+            //printf("contract i=%d-th and %d-th, lp->n[%d]=%"SZF"d, lp->n[%d]=%"SZF"d\n",
+            //       i-1,i, i,lp->n[i], i-1,lp->n[i-1]);
             // contract (i-1)-th and i-th dimension
             lp->n[i] *= lp->n[i-1];
             // shift dimensions
@@ -915,6 +916,7 @@ ndfunc_contract_loop(na_md_loop_t *lp)
     //printf("contract cnt=%d\n",cnt);
     if (cnt>0) {
         for (j=0; j<lp->narg; j++) {
+            LITER(lp,cnt,j).pos = LITER(lp,0,j).pos;
             lp->xargs[j].iter = &LITER(lp,cnt,j);
         }
         lp->n = &(lp->n[cnt]);
@@ -1312,10 +1314,10 @@ ndloop_run(VALUE vlp)
     // loop
     (*(lp->loop_func))(nf, lp);
 
-    if (na_debug_flag) {
-        printf("-- after loop --\n");
-        print_ndloop(lp);
-    }
+    //if (na_debug_flag) {
+    //    printf("-- after loop --\n");
+    //    print_ndloop(lp);
+    //}
 
     if (RTEST(lp->user.err_type)) {
         rb_raise(lp->user.err_type, "error in NArray operation");
