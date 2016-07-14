@@ -13,6 +13,7 @@
 
 VALUE numo_mNMath;
 EXTERN VALUE numo_mDFloatMath, numo_mDComplexMath;
+EXTERN VALUE numo_mSFloatMath, numo_mSComplexMath;
 static ID id_send;
 
 VALUE
@@ -130,6 +131,8 @@ Init_nary_math()
     rb_hash_aset(hCast, numo_cDFloat,   numo_mDFloatMath);
     rb_hash_aset(hCast, numo_cDFloat,   numo_mDFloatMath);
     rb_hash_aset(hCast, numo_cDComplex, numo_mDComplexMath);
+    rb_hash_aset(hCast, numo_cSFloat,   numo_mSFloatMath);
+    rb_hash_aset(hCast, numo_cSComplex, numo_mSComplexMath);
 #ifdef HAVE_RB_CFIXNUM
     rb_hash_aset(hCast, rb_cFixnum,  rb_mMath);
     rb_hash_aset(hCast, rb_cBignum,  rb_mMath);
