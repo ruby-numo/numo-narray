@@ -38,7 +38,7 @@ VALUE na_sort_index_main(int argc, VALUE *argv, VALUE self, void (*func_qsort)()
 char *na_get_pointer(VALUE);
 char *na_get_pointer_for_write(VALUE);
 char *na_get_pointer_for_read(VALUE);
-char *na_get_pointer_at_origin_for_read(VALUE);
+char *na_get_pointer_for_read_write(VALUE);
 
 size_t na_get_offset(VALUE self);
 
