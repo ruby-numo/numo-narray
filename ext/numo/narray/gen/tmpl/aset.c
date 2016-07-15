@@ -52,7 +52,7 @@ static VALUE
             a = na_aref_main(argc, argv, self, 0);
             <%=c_func.sub(/_aset/,"_store")%>(a, argv[argc]);
         } else {
-            ptr = na_get_pointer_for_read(self) + pos;
+            ptr = na_get_pointer_for_read_write(self) + pos;
             *(dtype*)ptr = m_num_to_data(argv[argc]);
         }
 

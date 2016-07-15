@@ -73,7 +73,7 @@ typedef struct NA_MD_LOOP {
 
 #define NDL_READ 1
 #define NDL_WRITE 2
-#define NDL_READ_WRITE 3
+#define NDL_READ_WRITE (NDL_READ|NDL_WRITE)
 
 static inline VALUE
 nary_type_s_cast(VALUE type, VALUE obj)
@@ -535,11 +535,14 @@ ndloop_set_stepidx(na_md_loop_t *lp, int j, VALUE vna, int *dim_map, int rwflag)
 
     LARG(lp,j).value = vna;
     LARG(lp,j).elmsz = na_get_elmsz(vna);
-    if (rwflag & NDL_READ) {
+    if (rwflag == NDL_READ) {
         LARG(lp,j).ptr = na_get_pointer_for_read(vna);
     } else
-    if (rwflag & NDL_WRITE) {
+    if (rwflag == NDL_WRITE) {
         LARG(lp,j).ptr = na_get_pointer_for_write(vna);
+    } else
+    if (rwflag == NDL_READ_WRITE) {
+        LARG(lp,j).ptr = na_get_pointer_for_read_write(vna);
     } else {
         rb_bug("invalid value for read-write flag");
     }
