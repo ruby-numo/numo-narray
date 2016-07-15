@@ -550,82 +550,86 @@ na_s_eye(int argc, VALUE *argv, VALUE klass)
 }
 
 
-char *
-na_get_pointer(VALUE self)
+
+#define READ 1
+#define WRITE 2
+
+static char *
+na_get_pointer_for_rw(VALUE self, int flag)
 {
+    char *ptr;
+    VALUE obj;
     narray_t *na;
+
+    if ((flag & WRITE) && OBJ_FROZEN(self)) {
+        rb_raise(rb_eRuntimeError, "cannot write to frozen NArray.");
+    }
+
     GetNArray(self,na);
 
     switch(NA_TYPE(na)) {
     case NARRAY_DATA_T:
-        return NA_DATA_PTR(na);
-    case NARRAY_FILEMAP_T:
-        return ((narray_filemap_t*)na)->ptr;
-    case NARRAY_VIEW_T:
-        return na_get_pointer(NA_VIEW_DATA(na));
-        //puts("pass NARRAY_VIEW_T in na_get_pointer_for_write");
-        //ptr += ((narray_view_t*)na)->offset;
-        //ptr += NA_VIEW_OFFSET(na);
-        break;
-    default:
-        rb_raise(rb_eRuntimeError,"invalid NA_TYPE");
-    }
-    return NULL;
-}
-
-char *
-na_get_pointer_for_write(VALUE self)
-{
-    char *ptr;
-    narray_t *na;
-    GetNArray(self,na);
-
-    if (OBJ_FROZEN(self)) {
-        rb_raise(rb_eRuntimeError, "cannot write to frozen NArray.");
-    }
-
-    if (NA_TYPE(na) == NARRAY_DATA_T) {
         ptr = NA_DATA_PTR(na);
-        if (na->size > 0 && ptr == NULL) {
-            rb_funcall(self, id_allocate, 0);
-            ptr = NA_DATA_PTR(na);
-        }
-    } else {
-        ptr = na_get_pointer(self);
         if (NA_SIZE(na) > 0 && ptr == NULL) {
-            rb_raise(rb_eRuntimeError,"cannot write to unallocated NArray");
+            if (flag & READ) {
+                rb_raise(rb_eRuntimeError,"cannot read unallocated NArray");
+            }
+            if (flag & WRITE) {
+                rb_funcall(self, id_allocate, 0);
+                ptr = NA_DATA_PTR(na);
+            }
+        }
+        return ptr;
+    case NARRAY_VIEW_T:
+        obj = NA_VIEW_DATA(na);
+        if ((flag & WRITE) && OBJ_FROZEN(obj)) {
+            rb_raise(rb_eRuntimeError, "cannot write to frozen NArray.");
+        }
+
+        if (flag & WRITE) {
+            if (OBJ_FROZEN(obj)) {
+                rb_raise(rb_eRuntimeError, "cannot write to frozen NArray.");
+            }
+        }
+        GetNArray(obj,na);
+        switch(NA_TYPE(na)) {
+        case NARRAY_DATA_T:
+            ptr = NA_DATA_PTR(na);
+            if (flag & (READ|WRITE)) {
+                if (NA_SIZE(na) > 0 && ptr == NULL) {
+                    rb_raise(rb_eRuntimeError,"cannot read/write unallocated NArray");
+                }
+            }
+            return ptr;
         }
     }
 
-    //NA_SET_LOCK(na);
-
-    return ptr;
+    rb_raise(rb_eRuntimeError,"invalid NA_TYPE");
+    return NULL;
 }
 
 char *
 na_get_pointer_for_read(VALUE self)
 {
-    char  *ptr;
-    narray_t *na;
-    GetNArray(self,na);
+    return na_get_pointer_for_rw(self, READ);
+}
 
-    //if (NA_TEST_LOCK(na)) {
-    //    rb_raise(rb_eRuntimeError, "cannot read locked NArray.");
-    //}
+char *
+na_get_pointer_for_write(VALUE self)
+{
+    return na_get_pointer_for_rw(self, WRITE);
+}
 
-    if (NA_TYPE(na) == NARRAY_DATA_T) {
-        ptr = NA_DATA_PTR(na);
-    } else {
-        ptr = na_get_pointer(self);
-    }
+char *
+na_get_pointer_for_read_write(VALUE self)
+{
+    return na_get_pointer_for_rw(self, READ|WRITE);
+}
 
-    if (NA_SIZE(na) > 0 && ptr == NULL) {
-        rb_raise(rb_eRuntimeError,"cannot read unallocated NArray");
-    }
-
-    //NA_SET_LOCK(na);
-
-    return ptr;
+char *
+na_get_pointer(VALUE self)
+{
+    return na_get_pointer_for_rw(self, 0);
 }
 
 
