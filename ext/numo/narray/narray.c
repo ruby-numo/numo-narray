@@ -39,6 +39,9 @@ VALUE na_cStep;
 VALUE rb_cComplex;
 #endif
 
+int numo_na_inspect_rows=20;
+int numo_na_inspect_cols=80;
+
 void Init_nary_data();
 void Init_nary_step();
 void Init_nary_index();
@@ -1484,6 +1487,67 @@ VALUE na_profile_set(VALUE mod, VALUE val)
 
 
 /*
+  Returns the number of rows used for NArray#inspect
+  @overload inspect_rows
+  @return [Integer or nil]  the number of rows.
+*/
+static VALUE na_inspect_rows(VALUE mod)
+{
+    if (numo_na_inspect_rows > 0) {
+        return INT2NUM(numo_na_inspect_rows);
+    } else {
+        return Qnil;
+    }
+}
+
+/*
+  Set the number of rows used for NArray#inspect
+  @overload inspect_rows=(rows)
+  @param [Integer or nil] rows  the number of rows
+  @return [nil]
+*/
+static VALUE na_inspect_rows_set(VALUE mod, VALUE num)
+{
+    if (RTEST(num)) {
+        numo_na_inspect_rows = NUM2INT(num);
+    } else {
+        numo_na_inspect_rows = 0;
+    }
+    return Qnil;
+}
+
+/*
+  Returns the number of cols used for NArray#inspect
+  @overload inspect_cols
+  @return [Integer or nil]  the number of cols.
+*/
+static VALUE na_inspect_cols(VALUE mod)
+{
+    if (numo_na_inspect_cols > 0) {
+        return INT2NUM(numo_na_inspect_cols);
+    } else {
+        return Qnil;
+    }
+}
+
+/*
+  Set the number of cols used for NArray#inspect
+  @overload inspect_cols=(cols)
+  @param [Integer or nil] cols  the number of cols
+  @return [nil]
+*/
+static VALUE na_inspect_cols_set(VALUE mod, VALUE num)
+{
+    if (RTEST(num)) {
+        numo_na_inspect_cols = NUM2INT(num);
+    } else {
+        numo_na_inspect_cols = 0;
+    }
+    return Qnil;
+}
+
+
+/*
   Equality of self and other in view of numerical array.
   i.e., both arrays have same shape and corresponding elements are equal.
   @overload == other
@@ -1542,6 +1606,11 @@ Init_narray()
     rb_define_singleton_method(cNArray, "debug=", na_debug_set, 1);
     rb_define_singleton_method(cNArray, "profile", na_profile, 0);
     rb_define_singleton_method(cNArray, "profile=", na_profile_set, 1);
+
+    rb_define_singleton_method(cNArray, "inspect_rows", na_inspect_rows, 0);
+    rb_define_singleton_method(cNArray, "inspect_rows=", na_inspect_rows_set, 1);
+    rb_define_singleton_method(cNArray, "inspect_cols", na_inspect_cols, 0);
+    rb_define_singleton_method(cNArray, "inspect_cols=", na_inspect_cols_set, 1);
 
     /* Ruby allocation framework  */
     rb_define_alloc_func(cNArray, na_s_allocate);

@@ -1536,25 +1536,9 @@ na_info_str(VALUE ary)
 
 //----------------------------------------------------------------------
 
-static void
-ndloop_inspect_get_width(int *ncol, int *nrow)
-{
-    VALUE cols, rows;
-
-    cols = rb_ivar_get(cNArray,rb_intern("inspect_cols"));
-    if (RTEST(cols)) {
-        *ncol = NUM2INT(cols);
-    } else {
-        *ncol = 80;
-    }
-
-    rows = rb_ivar_get(cNArray,rb_intern("inspect_rows"));
-    if (RTEST(rows)) {
-        *nrow = NUM2INT(rows);
-    } else {
-        *nrow = 20;
-    }
-}
+#define ncol numo_na_inspect_cols
+#define nrow numo_na_inspect_rows
+extern int ncol, nrow;
 
 static void
 loop_inspect(ndfunc_t *nf, na_md_loop_t *lp)
@@ -1564,8 +1548,6 @@ loop_inspect(ndfunc_t *nf, na_md_loop_t *lp)
     int col=0, row=0;
     long len;
     VALUE str;
-    int ncol;
-    int nrow;
     na_text_func_t func = (na_text_func_t)(nf->func);
     VALUE buf, opt;
 
@@ -1591,8 +1573,6 @@ loop_inspect(ndfunc_t *nf, na_md_loop_t *lp)
     } else {
         rb_str_cat(buf,"",0);
     }
-
-    ndloop_inspect_get_width(&ncol,&nrow);
 
     col = nd*2;
     for (i=0;;) {
