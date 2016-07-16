@@ -7,6 +7,5 @@ typedef int32_t rtype;
 #define m_data_to_num(x) INT322NUM((int32_t)(x))
 #define m_extract(x)     INT322NUM((int32_t)*(dtype*)(x))
 #define m_sprintf(s,x)   sprintf(s,"%"PRId32,(int32_t)(x))
-#define m_rand           ((dtype)gen_rand32())
 
 #include "int_macro.h"

@@ -7,6 +7,5 @@ typedef int16_t rtype;
 #define m_data_to_num(x) INT2NUM((int)(x))
 #define m_extract(x)     INT2NUM((int)*(dtype*)(x))
 #define m_sprintf(s,x)   sprintf(s,"%d",(int)(x))
-#define m_rand           ((dtype)gen_rand32())
 
 #include "int_macro.h"

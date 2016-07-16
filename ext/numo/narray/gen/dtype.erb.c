@@ -240,9 +240,7 @@ end
 def_method "eye",-1
 def_alias  "indgen", "seq"
 
-if !is_object
-  def_method "rand", 0
-end
+def_method "rand", -1
 
 # y = a[0] + a[1]*x + a[2]*x^2 + a[3]*x^3 + ... + a[n]*x^n
 def_method "poly",-2

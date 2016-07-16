@@ -7,6 +7,5 @@ typedef u_int64_t rtype;
 #define m_data_to_num(x) UINT642NUM((u_int64_t)(x))
 #define m_extract(x)     UINT642NUM((u_int64_t)*(dtype*)(x))
 #define m_sprintf(s,x)   sprintf(s,"%"PRIu64,(u_int64_t)(x))
-#define m_rand           ((dtype)gen_rand64())
 
 #include "uint_macro.h"

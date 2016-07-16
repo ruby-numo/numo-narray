@@ -84,7 +84,6 @@ static inline dtype c_from_dcomplex(dcomplex x) {
 #define m_mulsum(x,y,z) {z = c_add(c_mul(x,y),z);}
 #define m_mulsum_init INT2FIX(0)
 
-#define m_rand c_new(to_res53(gen_rand64()),to_res53(gen_rand64()))
 #define m_rand_norm(a) rand_norm(a)
 
 #define m_sprintf(s,x) sprintf(s,"%g%+gi",REAL(x),IMAG(x))

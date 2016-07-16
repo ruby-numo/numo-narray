@@ -19,3 +19,9 @@ inline static int robj_nearly_eq(VALUE vx, VALUE vy)
     y = NUM2DBL(vy);
     return (fabs(x-y)<=(fabs(x)+fabs(y))*DBL_EPSILON*2);
 }
+
+/* generates a random number on [0,1)-real-interval */
+inline static dtype m_rand(dtype max)
+{
+    return DBL2NUM(gen_rand64() * (max/18446744073709551616.0L));
+}

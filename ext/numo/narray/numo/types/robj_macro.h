@@ -45,7 +45,6 @@
 #define m_mulsum(x,y,z) {z = m_add(m_mul(x,y),z);}
 #define m_mulsum_init INT2FIX(0)
 
-#define m_rand to_res53(gen_rand64())
 #define m_rand_norm(a) rand_norm(a)
 
 #define m_sprintf(s,x) robj_sprintf(s,x)
