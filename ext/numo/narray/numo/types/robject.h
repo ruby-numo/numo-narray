@@ -23,5 +23,5 @@ inline static int robj_nearly_eq(VALUE vx, VALUE vy)
 /* generates a random number on [0,1)-real-interval */
 inline static dtype m_rand(dtype max)
 {
-    return DBL2NUM(gen_rand64() * (max/18446744073709551616.0L));
+    return DBL2NUM(genrand_res53_mix() * max);
 }

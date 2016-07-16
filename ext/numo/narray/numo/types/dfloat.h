@@ -9,7 +9,7 @@ typedef double rtype;
 /* generates a random number on [0,1)-real-interval */
 inline static dtype m_rand(dtype max)
 {
-    return to_res53(gen_rand64()) * max;
+    return genrand_res53_mix() * max;
 }
 
 #define m_min_init numo_dfloat_new_dim0(0.0/0.0)

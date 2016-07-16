@@ -41,9 +41,9 @@ void rand_norm(double *a)
 {
     double x1, x2, w;
     do {
-	x1 = to_res53(gen_rand64());
+	x1 = genrand_res53_mix();
 	x1 = x1*2-1;
-	x2 = to_res53(gen_rand64());
+	x2 = genrand_res53_mix();
 	x2 = x2*2-1;
 	w = x1 * x1 + x2 * x2;
     } while (w>=1);

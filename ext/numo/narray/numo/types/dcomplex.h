@@ -14,7 +14,7 @@ static inline bool c_nearly_eq(dtype x, dtype y) {
 inline static dtype m_rand(dtype max)
 {
     dtype z;
-    REAL(z) = to_res53(gen_rand64()) * REAL(max);
-    IMAG(z) = to_res53(gen_rand64()) * IMAG(max);
+    REAL(z) = genrand_res53_mix() * REAL(max);
+    IMAG(z) = genrand_res53_mix() * IMAG(max);
     return z;
 }

@@ -34,16 +34,29 @@ static int msb_pos(<%=rand_type%> a)
 }
 
 /* generates a random number on [0,max) */
-inline static dtype m_rand(uint<%=rand_bit%>_t max, int shift)
+<% if rand_bit == 64 %>
+inline static dtype m_rand(uint64_t max, int shift)
 {
-    uint<%=rand_bit%>_t x;
+    uint64_t x;
     do {
-        x = gen_rand<%=rand_bit%>();
+        x = gen_rand32();
+        x <<= 32;
+        x |= gen_rand32();
         x >>= shift;
     } while (x >= max);
     return x;
 }
-
+<% else %>
+inline static dtype m_rand(uint32_t max, int shift)
+{
+    uint32_t x;
+    do {
+        x = gen_rand32();
+        x >>= shift;
+    } while (x >= max);
+    return x;
+}
+<% end %>
 <%
 else
   m_rand = "m_rand(max)"
