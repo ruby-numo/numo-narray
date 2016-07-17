@@ -1,6 +1,7 @@
 #include "xint_macro.h"
 
 #define m_abs(x)     ((x<0)?-x:x)
+#define m_sign(x)    (((x)==0) ? 0 : (((x)>0) ? 1 : -1))
 
 static inline dtype int_reciprocal(dtype x) {
     switch (x) {

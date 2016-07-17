@@ -26,6 +26,7 @@
 #define m_round(x)     rb_funcall(x,id_round,0)
 #define m_ceil(x)      rb_funcall(x,id_ceil,0)
 #define m_trunc(x)     rb_funcall(x,id_truncate,0)
+#define m_sign(x)      rb_funcall(x,id_op_ufo,1,INT2FIX(0))
 
 #define m_eq(x,y)      RTEST(rb_funcall(x,id_eq,1,y))
 #define m_ne(x,y)      RTEST(rb_funcall(x,id_ne,1,y))

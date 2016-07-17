@@ -58,6 +58,7 @@ if is_object
   def_id ">=","op_ge"
   def_id "<" ,"op_lt"
   def_id "<=","op_le"
+  def_id "<=>","op_ufo"
 end
 %>
 
@@ -134,6 +135,7 @@ pow
 
 unary "minus", "-@"
 unary "reciprocal"
+unary "sign"
 
 # Complex
 
@@ -183,7 +185,7 @@ if is_int
   end
 end
 
-if is_float && !is_complex
+if is_float
   unary "floor"
   unary "round"
   unary "ceil"

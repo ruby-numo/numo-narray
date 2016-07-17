@@ -61,13 +61,21 @@ static inline dtype c_from_dcomplex(dcomplex x) {
 #define m_pow(x,y) c_pow(x,y)
 #define m_pow_int(x,y) c_pow_int(x,y)
 
-#define m_minus(x)   c_minus(x)
-#define m_reciprocal(x) c_reciprocal(x)
-#define m_square(x)  c_square(x)
-#define m_im(x)      c_im(x)
-
-#define m_conj(x)  c_new(REAL(x),-IMAG(x))
 #define m_abs(x)   c_abs(x)
+#define m_minus(x) c_minus(x)
+#define m_reciprocal(x) c_reciprocal(x)
+#define m_square(x) c_square(x)
+#define m_floor(x) c_new(floor(REAL(x)),floor(IMAG(x)))
+#define m_round(x) c_new(round(REAL(x)),round(IMAG(x)))
+#define m_ceil(x)  c_new(ceil(REAL(x)),ceil(IMAG(x)))
+#define m_trunc(x) c_new(trunc(REAL(x)),trunc(IMAG(x)))
+#define m_rint(x)  c_new(rint(REAL(x)),rint(IMAG(x)))
+#define m_sign(x)  c_new( \
+ ((REAL(x)==0) ? 0.0:((REAL(x)>0) ? 1.0:((REAL(x)<0) ? -1.0:REAL(x)))), \
+ ((IMAG(x)==0) ? 0.0:((IMAG(x)>0) ? 1.0:((IMAG(x)<0) ? -1.0:IMAG(x)))))
+
+#define m_im(x)    c_im(x)
+#define m_conj(x)  c_new(REAL(x),-IMAG(x))
 #define m_arg(x)   atan2(IMAG(x),REAL(x))
 
 #define m_eq(x,y) c_eq(x,y)
