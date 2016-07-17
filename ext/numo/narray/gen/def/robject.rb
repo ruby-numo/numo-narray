@@ -7,7 +7,7 @@ has_math      false
 is_bit        false
 is_int        true
 is_float      true
-is_real       false
+is_real       true
 is_complex    false
 is_object     true
 is_comparable true
