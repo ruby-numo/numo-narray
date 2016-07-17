@@ -257,6 +257,8 @@ na_index_parse_each(volatile VALUE a, ssize_t size, int i, na_index_arg_t *q)
         else if (a==sym_reduce || a==sym_sum || a==sym_plus) {
             na_index_set_step(q,i,size,0,1);
             q->reduce = 1;
+        } else {
+            rb_raise(rb_eIndexError, "invalid symbol for index");
         }
         break;
 
