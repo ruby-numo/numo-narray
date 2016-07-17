@@ -604,10 +604,13 @@ na_get_pointer_for_rw(VALUE self, int flag)
                 }
             }
             return ptr;
+        default:
+            rb_raise(rb_eRuntimeError,"invalid NA_TYPE of view: %d",NA_TYPE(na));
         }
+    default:
+        rb_raise(rb_eRuntimeError,"invalid NA_TYPE: %d",NA_TYPE(na));
     }
 
-    rb_raise(rb_eRuntimeError,"invalid NA_TYPE");
     return NULL;
 }
 
