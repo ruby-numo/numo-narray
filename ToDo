@@ -13,6 +13,8 @@
 
 * convert binary from/to String -- done
 
+* Complex#seq allows complex step -- done.
+
 
 * switch to TypedData.
 
@@ -36,12 +38,12 @@
 
 * update MT Random Number Generator
 
-* Complex#seq allows complex step
-
 * contiguous check
 
 * GVL release
 * Ctrl-C stop during method
+
+* floor method should be same as Ruby floor or C99 floor ??
 
 * constatntss
 NAN
@@ -49,7 +51,7 @@ INF
 EPS
 
 * Matlab method:
-logspace
+logspace - done
 meshgrid
 rot90
 rad2deg
@@ -66,10 +68,24 @@ clip
 ravel
 take
 put
-choose
+choose choise
 partition
 searchsorted
 compress
+pad
+tile
+copysign
+bincount
+unique
+roll
+repeat
+logical_and/or/not
+minimum,maximum
+shuffle
+interp
+intersect1d
+asarray
+persentile
 
 Math
     csc,sec,cot
