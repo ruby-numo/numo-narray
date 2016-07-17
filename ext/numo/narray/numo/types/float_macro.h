@@ -35,6 +35,8 @@ EXTERN double pow(double, double);
 #define m_floor(x)   floor(x)
 #define m_round(x)   round(x)
 #define m_ceil(x)    ceil(x)
+#define m_trunc(x)   trunc(x)
+#define m_rint(x)    rint(x)
 
 #define m_eq(x,y) ((x)==(y))
 #define m_ne(x,y) ((x)!=(y))

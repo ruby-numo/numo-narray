@@ -50,6 +50,7 @@ if is_object
   def_id "floor"
   def_id "round"
   def_id "ceil"
+  def_id "truncate"
   def_id "nan?"
   def_id "infinite?"
   def_id "finite?"
@@ -173,15 +174,23 @@ if is_int
   binary "bit_or" , "|"
   binary "bit_xor", "^"
   unary  "bit_not", "~"
-  def_alias "floor", "copy"
-  def_alias "round", "copy"
-  def_alias "ceil",  "copy"
+  if !is_object
+    def_alias "floor", "copy"
+    def_alias "round", "copy"
+    def_alias "ceil",  "copy"
+    def_alias "trunc", "copy"
+    def_alias "rint",  "copy"
+  end
 end
 
-if is_float && is_real
+if is_float && !is_complex
   unary "floor"
   unary "round"
   unary "ceil"
+  unary "trunc"
+  if !is_object
+    unary "rint"
+  end
 end
 
 if is_comparable
