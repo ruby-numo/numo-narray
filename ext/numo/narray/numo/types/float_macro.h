@@ -30,7 +30,7 @@ EXTERN double pow(double, double);
 
 #define m_abs(x)     fabs(x)
 #define m_minus(x)   (-(x))
-#define m_inverse(x) (1/(x))
+#define m_reciprocal(x) (1/(x))
 #define m_square(x)  ((x)*(x))
 #define m_floor(x)   floor(x)
 #define m_round(x)   round(x)

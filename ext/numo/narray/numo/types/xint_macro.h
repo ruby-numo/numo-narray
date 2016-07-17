@@ -19,7 +19,7 @@
 #define m_bit_not(x)   (~(x))
 
 #define m_minus(x)   (-(x))
-#define m_inverse(x) int_inverse(x)
+#define m_reciprocal(x) int_reciprocal(x)
 #define m_square(x)  ((x)*(x))
 
 #define m_eq(x,y) ((x)==(y))

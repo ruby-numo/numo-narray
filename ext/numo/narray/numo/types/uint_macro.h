@@ -2,7 +2,7 @@
 
 #define m_abs(x)     (x)
 
-static inline dtype int_inverse(dtype x) {
+static inline dtype int_reciprocal(dtype x) {
     switch (x) {
     case 1:
         return 1;

@@ -45,7 +45,7 @@ if is_object
   def_id "bit_not"
   def_id "abs"
   def_id "minus"
-  def_id "inverse"
+  def_id "reciprocal"
   def_id "square"
   def_id "floor"
   def_id "round"
@@ -132,7 +132,7 @@ end
 pow
 
 unary "minus", "-@"
-unary "inverse"
+unary "reciprocal"
 
 # Complex
 

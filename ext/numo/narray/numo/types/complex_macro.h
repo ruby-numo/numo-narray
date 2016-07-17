@@ -62,7 +62,7 @@ static inline dtype c_from_dcomplex(dcomplex x) {
 #define m_pow_int(x,y) c_pow_int(x,y)
 
 #define m_minus(x)   c_minus(x)
-#define m_inverse(x) c_inverse(x)
+#define m_reciprocal(x) c_reciprocal(x)
 #define m_square(x)  c_square(x)
 #define m_im(x)      c_im(x)
 

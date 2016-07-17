@@ -123,7 +123,7 @@ static inline dtype c_div_r(dtype x, rtype y) {
     return z;
 }
 
-static inline dtype c_inverse(dtype x) {
+static inline dtype c_reciprocal(dtype x) {
     dtype z;
     if ( r_abs(REAL(x)) > r_abs(IMAG(x)) ) {
         IMAG(z) = IMAG(x)/REAL(x);
@@ -372,7 +372,7 @@ static inline dtype c_pow_int(dtype x, int p)
     dtype z = c_one();
     if (p<0) {
 	x = c_pow_int(x,-p);
-	return c_inverse(x);
+	return c_reciprocal(x);
     }
     if (p==2) {return c_square(x);}
     if (p&1) {z = x;}

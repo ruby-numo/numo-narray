@@ -20,7 +20,7 @@
 
 #define m_abs(x)       rb_funcall(x,id_abs,0)
 #define m_minus(x)     rb_funcall(x,id_minus,0)
-#define m_inverse(x)   rb_funcall(x,id_inverse,0)
+#define m_reciprocal(x)   rb_funcall(x,id_reciprocal,0)
 #define m_square(x)    rb_funcall(x,'*',1,x)
 #define m_floor(x)     rb_funcall(x,id_floor,0)
 #define m_round(x)     rb_funcall(x,id_round,0)
