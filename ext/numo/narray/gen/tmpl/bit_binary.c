@@ -88,7 +88,7 @@ static VALUE
 {
     ndfunc_arg_in_t ain[2] = {{cT,0},{cT,0}};
     ndfunc_arg_out_t aout[1] = {{cT,0}};
-    ndfunc_t ndf = { <%=c_iter%>, STRIDE_LOOP, 2, 1, ain, aout };
+    ndfunc_t ndf = { <%=c_iter%>, FULL_LOOP, 2, 1, ain, aout };
 
     return na_ndloop(&ndf, 2, self, other);
 }

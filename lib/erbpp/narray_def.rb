@@ -7,7 +7,7 @@ module DefMethod
   end
 
   def def_method(meth, n_arg, tmpl=nil, opts={})
-    h = {:method => meth, :n_arg => n_arg}
+    h = {:meth => meth, :n_arg => n_arg}
     h.merge!(opts)
     tmpl ||= meth
     Function.new(self, tmpl, h)
@@ -22,7 +22,7 @@ module DefMethod
   end
 
   def def_allocate(tmpl)
-    h = {:method => "allocate", :singleton => true}
+    h = {:meth => "allocate", :singleton => true}
     Allocate.new(self, tmpl, h)
   end
 
@@ -78,6 +78,11 @@ module DefMethod
     def_method(meth, -1, "bit_count")
   end
 
+  def bit_reduce(meth, init_bit)
+    h = {:init_bit=>init_bit}
+    def_method(meth, -1, "bit_reduce", h)
+  end
+
   def accum(meth, dtype, tpclass)
     h = {:dtype => dtype, :tpclass => tpclass}
     def_method(meth, -1, "accum", h)
@@ -102,7 +107,7 @@ module DefMethod
   end
 
   def math(meth, n=1)
-    h = {:method => meth, :mod_var => 'mTM', :n_arg => n}
+    h = {:meth => meth, :mod_var => 'mTM', :n_arg => n}
     case n
     when 1
       ModuleFunction.new(self, "unary_s", h)
@@ -136,7 +141,7 @@ module DefMethod
   end
 
   def find_method(meth)
-    Function::DEFS.find{|x| x.kind_of?(Function) and meth == x.method }
+    Function::DEFS.find{|x| x.kind_of?(Function) and meth == x.meth }
   end
 
   def find_tmpl(meth)

@@ -148,7 +148,7 @@ class Function < ErbPP
 
   attrs = %w[
     singleton
-    method
+    meth
     n_arg
   ]
   define_attrs attrs
@@ -159,6 +159,10 @@ class Function < ErbPP
     else
       "id_#{method}"
     end
+  end
+
+  def method
+    meth.gsub(/\?/,"_p").gsub(/\!/,"_bang")
   end
 
   def initialize(parent,tmpl,**opts)
@@ -195,7 +199,7 @@ class Function < ErbPP
   alias c_instance_method c_func
 
   def op_map
-    @op || method
+    @op || meth
   end
 
   def code
