@@ -761,6 +761,22 @@ na_ndim(VALUE self)
 }
 
 
+/*
+  Returns true if self.size == 0.
+  @overload empty?
+*/
+static VALUE
+na_empty_p(VALUE self)
+{
+    narray_t *na;
+    GetNArray(self,na);
+    if (NA_SIZE(na)==0) {
+        return Qtrue;
+    }
+    return Qfalse;
+}
+
+
 /* method: shape() -- returns shape, array of the size of dimensions */
 static VALUE
  na_shape(VALUE self)
@@ -1632,6 +1648,7 @@ Init_narray()
     rb_define_method(cNArray, "shape", na_shape, 0);
     rb_define_method(cNArray, "ndim", na_ndim,0);
     rb_define_alias (cNArray, "rank","ndim");
+    rb_define_method(cNArray, "empty?", na_empty_p, 0);
 
     rb_define_method(cNArray, "debug_info", rb_narray_debug_info, 0);
 
