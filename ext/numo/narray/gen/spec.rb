@@ -1,3 +1,5 @@
+# Define ID
+
 def_id "cast"
 def_id "eq"
 def_id "ne"
@@ -41,15 +43,22 @@ if is_object
   def_id "<=>","op_ufo"
 end
 
+# Allocation
+
 if is_object
   def_allocate "robj_allocate"
 end
 def_method "allocate", 0
 
+# Type conversion
+
 def_method "extract", 0
 store_numeric
 cast_array
 store_array
+if is_bit
+  store_bit "Bit"
+end
 if is_complex
   store_from "DComplex","dcomplex","m_from_dcomplex"
   store_from "SComplex","scomplex","m_from_scomplex"
@@ -78,9 +87,31 @@ def_method "format", -1
 def_method "format_to_a", -1
 def_method "inspect", 0
 
+
+# Array manipulation
+
 def_method "each", 0
-unary "map"
+unary "map" if !is_bit
 def_method "each_with_index", 0
+
+if is_bit
+  unary  "copy"
+  unary  "not", "~"
+  binary "and", "&"
+  binary "or" , "|"
+  binary "xor", "^"
+  binary "eq"
+  bit_count "count_true"
+  def_alias "count_1","count_true"
+  bit_count "count_false"
+  def_alias "count_0","count_false"
+  bit_reduce "all?", 1
+  bit_reduce "any?", 0
+  def_method "none?", -1, "none_p"
+  def_method "where", 0
+  def_method "where2", 0
+  def_method "mask", 1
+else
 def_method "map_with_index", 0
 
 # Arithmetic
@@ -261,4 +292,5 @@ if has_math
     math "erfc"
     math "ldexp",2
   end
+end
 end

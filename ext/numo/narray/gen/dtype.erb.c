@@ -18,7 +18,7 @@
 #define m_map(x) m_num_to_data(rb_yield(m_data_to_num(x)))
 
 <%
-eval open(File.join(File.dirname(__FILE__),"dtype.rb")).read
+eval open(File.join(File.dirname(__FILE__),"spec.rb")).read
 
 IdVar.declaration.each do |x| %>
 <%= x %><%
@@ -52,9 +52,15 @@ Init_nary_<%=tp%>()
     <% if has_math %>
     mTM = rb_define_module_under(cT, "Math"); <% end %>
 
+    <% if is_bit %>
+    rb_define_const(cT, "ELEMENT_BIT_SIZE",  INT2FIX(1));
+    rb_define_const(cT, "ELEMENT_BYTE_SIZE", rb_float_new(1.0/8));
+    rb_define_const(cT, "CONTIGUOUS_STRIDE", INT2FIX(1));
+    <% else %>
     rb_define_const(cT, ELEMENT_BIT_SIZE,  INT2FIX(sizeof(dtype)*8));
     rb_define_const(cT, ELEMENT_BYTE_SIZE, INT2FIX(sizeof(dtype)));
     rb_define_const(cT, CONTIGUOUS_STRIDE, INT2FIX(sizeof(dtype)));
+    <% end %>
 
     rb_define_singleton_method(cT, "[]", <%=cast_func%>, -2);
 

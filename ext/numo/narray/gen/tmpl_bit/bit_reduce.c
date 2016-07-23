@@ -14,46 +14,52 @@ static void
     if (idx2) {
         if (idx1) {
             for (; i--;) {
-                LOAD_BIT(a1, p1+*idx1, x); idx1++;
                 LOAD_BIT(a2, p2+*idx2, y);
-                x = m_<%=method%>(x,y);
-                if (x != <%=init_bit%>) {
-                    STORE_BIT(a2, p2+*idx2, x);
-                    return;
+                if (y == <%=init_bit%>) {
+                    LOAD_BIT(a1, p1+*idx1, x);
+                    if (x != <%=init_bit%>) {
+                        STORE_BIT(a2, p2+*idx2, x);
+                    }
                 }
+                idx1++;
                 idx2++;
             }
         } else {
             for (; i--;) {
-                LOAD_BIT(a1, p1, x); p1+=s1;
                 LOAD_BIT(a2, p2+*idx2, y);
-                if (x != <%=init_bit%>) {
-                    STORE_BIT(a2, p2+*idx2, x);
-                    return;
+                if (y == <%=init_bit%>) {
+                    LOAD_BIT(a1, p1, x);
+                    if (x != <%=init_bit%>) {
+                        STORE_BIT(a2, p2+*idx2, x);
+                    }
                 }
+                p1 += s1;
                 idx2++;
             }
         }
     } else if (s2) {
         if (idx1) {
             for (; i--;) {
-                LOAD_BIT(a1, p1+*idx1, x); idx1++;
                 LOAD_BIT(a2, p2, y);
-                x = m_<%=method%>(x,y);
-                if (x != <%=init_bit%>) {
-                    STORE_BIT(a2, p2, x);
-                    return;
+                if (y == <%=init_bit%>) {
+                    LOAD_BIT(a1, p1+*idx1, x);
+                    if (x != <%=init_bit%>) {
+                        STORE_BIT(a2, p2, x);
+                    }
                 }
+                idx1++;
                 p2 += s2;
             }
         } else {
             for (; i--;) {
-                LOAD_BIT(a1, p1, x); p1+=s1;
                 LOAD_BIT(a2, p2, y);
-                if (x != <%=init_bit%>) {
-                    STORE_BIT(a2, p2, x);
-                    return;
+                if (y == <%=init_bit%>) {
+                    LOAD_BIT(a1, p1, x);
+                    if (x != <%=init_bit%>) {
+                        STORE_BIT(a2, p2, x);
+                    }
                 }
+                p1 += s1;
                 p2 += s2;
             }
         }
@@ -64,19 +70,21 @@ static void
         }
         if (idx1) {
             for (; i--;) {
-                LOAD_BIT(a1, p1+*idx1, x); idx1++;
-                if (x != <%=init_bit%>) {
-                    STORE_BIT(a2, p2, x);
+                LOAD_BIT(a1, p1+*idx1, y);
+                if (y != <%=init_bit%>) {
+                    STORE_BIT(a2, p2, y);
                     return;
                 }
+                idx1++;
             }
         } else {
             for (; i--;) {
-                LOAD_BIT(a1, p1, x); p1+=s1;
-                if (x != <%=init_bit%>) {
-                    STORE_BIT(a2, p2, x);
+                LOAD_BIT(a1, p1, y);
+                if (y != <%=init_bit%>) {
+                    STORE_BIT(a2, p2, y);
                     return;
                 }
+                p1 += s1;
             }
         }
     }
@@ -97,6 +105,6 @@ static VALUE
 
     reduce = na_reduce_dimension(argc, argv, 1, &self);
     v = na_ndloop(&ndf, 3, self, reduce, INT2FIX(<%=init_bit%>));
-    return rb_funcall(v,rb_intern("extract"),0);
-    //return v;
+    v = numo_bit_extract(v);
+    return (v == INT2FIX(0)) ? Qfalse : Qtrue;
 }
