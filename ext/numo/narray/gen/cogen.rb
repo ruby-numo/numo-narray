@@ -4,9 +4,18 @@ libpath = File.absolute_path(File.dirname(__FILE__))+"/../../../../lib"
 $LOAD_PATH.unshift libpath
 
 require "erbpp/narray_def"
-if ARGV[0] == "-l"
-  require "erbpp/line_number"
-  ARGV.shift
+while true
+  if ARGV[0] == "-l"
+    require "erbpp/line_number"
+    ARGV.shift
+  elsif ARGV[0] == "-o"
+    ARGV.shift
+    $output = ARGV.shift
+    require "fileutils"
+    FileUtils.rm_f($output)
+  else
+    break
+  end
 end
 
 unless (1..2) === ARGV.size
@@ -15,4 +24,9 @@ unless (1..2) === ARGV.size
 end
 
 erb_path, type_file = ARGV
-DataType.new(erb_path, type_file).run
+
+if $output
+  open($output,"w").write DataType.new(erb_path, type_file).result
+else
+  DataType.new(erb_path, type_file).run
+end
