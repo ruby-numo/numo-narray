@@ -1188,32 +1188,42 @@ nary_s_from_string(int argc, VALUE *argv, VALUE type)
     str_len = RSTRING_LEN(vstr);
     velmsz = rb_const_get(type, rb_intern(ELEMENT_BYTE_SIZE));
     if (narg==2) {
-        if (TYPE(vshape) != T_ARRAY) {
-            rb_raise(rb_eArgError,"second argument must be shape (Array)");
-        }
-        nd = RARRAY_LEN(vshape);
-        if (nd == 0 || nd > NA_MAX_DIMENSION) {
-            rb_raise(nary_eDimensionError,"too long or empty shape (%d)", nd);
-        }
-        shape = ALLOCA_N(size_t,nd);
-        len = 1;
-        for (i=0; i<nd; ++i) {
-            len *= shape[i] = NUM2SIZET(RARRAY_AREF(vshape,i));
+        switch(TYPE(vshape)) {
+        case T_FIXNUM:
+            nd = 1;
+            len = NUM2SIZET(vshape);
+            shape = &len;
+            break;
+        case T_ARRAY:
+            nd = RARRAY_LEN(vshape);
+            if (nd == 0 || nd > NA_MAX_DIMENSION) {
+                rb_raise(nary_eDimensionError,"too long or empty shape (%d)", nd);
+            }
+            shape = ALLOCA_N(size_t,nd);
+            len = 1;
+            for (i=0; i<nd; ++i) {
+                len *= shape[i] = NUM2SIZET(RARRAY_AREF(vshape,i));
+            }
+            break;
+        default:
+            rb_raise(rb_eArgError,"second argument must be size or shape");
         }
         if (FIXNUM_P(velmsz)) {
             byte_size = len * NUM2SIZET(velmsz);
         } else {
             byte_size = ceil(len * NUM2DBL(velmsz));
         }
-        if (byte_size != str_len) {
-            rb_raise(rb_eArgError, "size mismatch");
+        if (byte_size > str_len) {
+            rb_raise(rb_eArgError, "specified size is too large");
         }
     } else {
         nd = 1;
         if (FIXNUM_P(velmsz)) {
             len = str_len / NUM2SIZET(velmsz);
+            byte_size = len * NUM2SIZET(velmsz);
         } else {
             len = floor(str_len / NUM2DBL(velmsz));
+            byte_size = str_len;
         }
         if (len == 0) {
             rb_raise(rb_eArgError, "string is empty or too short");
@@ -1225,7 +1235,7 @@ nary_s_from_string(int argc, VALUE *argv, VALUE type)
     vna = rb_narray_new(type, nd, shape);
     ptr = na_get_pointer_for_write(vna);
 
-    memcpy(ptr, RSTRING_PTR(vstr), str_len);
+    memcpy(ptr, RSTRING_PTR(vstr), byte_size);
 
     return vna;
 }
