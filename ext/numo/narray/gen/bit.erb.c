@@ -462,8 +462,8 @@ bit_unary  "not", "~"
 bit_unary  "copy"
 bit_count  "count_true"
 bit_count  "count_false"
-bit_reduce "all?", 1
-bit_reduce "any?", 0
+#bit_reduce "all?", 1
+#bit_reduce "any?", 0
 Function.codes.each do |x|
 %>
 <%= x %>
@@ -746,6 +746,18 @@ static VALUE
 
 
 VALUE
+numo_bit_all_p(VALUE self)
+{
+    return (rb_funcall(self, rb_intern("count_false"), 0)==INT2FIX(0)) ? Qtrue : Qfalse;
+}
+
+VALUE
+numo_bit_any_p(VALUE self)
+{
+    return (rb_funcall(self, rb_intern("count_true"), 0)!=INT2FIX(0)) ? Qtrue : Qfalse;
+}
+
+VALUE
 numo_bit_none_p(VALUE self)
 {
     return (rb_funcall(self, rb_intern("count_true"), 0)==INT2FIX(0)) ? Qtrue : Qfalse;
@@ -778,6 +790,8 @@ Init_nary_bit()
     rb_define_method(cT, "where2", numo_bit_where2, 0);
     rb_define_method(cT, "mask", numo_bit_mask, 1);
 
+    rb_define_method(cT, "all?", numo_bit_all_p, 0);
+    rb_define_method(cT, "any?", numo_bit_any_p, 0);
     rb_define_method(cT, "none?", numo_bit_none_p, 0);
 
     rb_define_method(cT, "inspect", numo_bit_inspect, 0);
