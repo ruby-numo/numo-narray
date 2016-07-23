@@ -26,7 +26,8 @@ end
 erb_path, type_file = ARGV
 
 if $output
-  open($output,"w").write DataType.new(erb_path, type_file).result
+  s = DataType.new(erb_path, type_file).result
+  open($output,"w").write(s)
 else
   DataType.new(erb_path, type_file).run
 end
