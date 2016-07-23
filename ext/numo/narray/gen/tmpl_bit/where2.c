@@ -1,3 +1,10 @@
+/*
+  Returns two index arrays.
+  The first array contains index where the bit is one (true).
+  The second array contains index where the bit is zero (false).
+  @overload <%=op_map%>
+  @return [Numo::Int32,Numo::Int64]*2
+*/
 static VALUE
 numo_bit_where2(VALUE self)
 {

@@ -64,9 +64,11 @@ static void
 }
 
 /*
-  <%=method%>.
-  @overload <%=method%>
-  @return [Numo::Int64] the number of true bits.
+  Returns the number of bits.
+  If argument is supplied, return Int-array counted along the axes.
+  @overload <%=op_map%>([axis,..])
+  @param [Integer] axis  axes to be counted.
+  @return [Numo::Int64]
 */
 static VALUE
 <%=c_func%>(int argc, VALUE *argv, VALUE self)

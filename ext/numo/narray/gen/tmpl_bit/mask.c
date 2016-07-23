@@ -75,6 +75,12 @@ iter_bit_pointer(na_loop_t *const lp)
 #define cIndex numo_cInt32
 #endif
 
+/*
+  Return subarray of argument masked with self bit array.
+  @overload <%=op_map%>(array)
+  @param [Numo::NArray] array  narray to be masked.
+  @return [Numo::NArray]  view of masked array.
+*/
 static VALUE
  numo_bit_mask(VALUE mask, VALUE val)
 {

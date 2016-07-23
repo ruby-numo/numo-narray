@@ -68,6 +68,11 @@ iter_bit_where(na_loop_t *const lp)
     g->idx1  = idx1;
 }
 
+/*
+  Returns the array of index where the bit is one (true).
+  @overload <%=op_map%>
+  @return [Numo::Int32,Numo::Int64]
+*/
 static VALUE
  numo_bit_where(VALUE self)
 {

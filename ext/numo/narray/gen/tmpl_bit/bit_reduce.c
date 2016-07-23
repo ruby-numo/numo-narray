@@ -91,9 +91,16 @@ static void
 }
 
 /*
-  <%=method%>.
-  @overload <%=method%>
-  @return [Numo::Int64] the number of true bits.
+<% case method
+   when /^any/ %>
+  Return true if any of bits is one (true).
+<% when /^all/ %>
+  Return true if all of bits are one (true).
+<% end %>
+  If argument is supplied, return Bit-array reduced along the axes.
+  @overload <%=op_map%>([axis,..])
+  @param [Integer] axis  axes to be reduced.
+  @return [Numo::Bit] .
 */
 static VALUE
 <%=c_func%>(int argc, VALUE *argv, VALUE self)
@@ -105,6 +112,17 @@ static VALUE
 
     reduce = na_reduce_dimension(argc, argv, 1, &self);
     v = na_ndloop(&ndf, 3, self, reduce, INT2FIX(<%=init_bit%>));
+    if (argc > 0) {
+        return v;
+    }
     v = numo_bit_extract(v);
-    return (v == INT2FIX(0)) ? Qfalse : Qtrue;
+    switch (v) {
+    case INT2FIX(0):
+        return Qfalse;
+    case INT2FIX(1):
+        return Qtrue;
+    default:
+        rb_bug("unexpected result");
+        return v;
+    }
 }
