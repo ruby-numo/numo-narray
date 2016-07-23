@@ -136,6 +136,10 @@ module DefMethod
     Store.new(self,"store_from",cname.downcase,dtype,"numo_c"+cname,macro)
   end
 
+  def store_bit(cname)
+    Store.new(self,"store_bit",cname.downcase,nil,"numo_c"+cname,nil)
+  end
+
   def store
     Function.new(self,"store","store")
   end
@@ -163,8 +167,9 @@ class DataType < ErbPP
     @class_alias = []
     @upcast = []
     @mod_var = "cT"
-    @tmpl_dir = File.join(File.dirname(erb_path),"tmpl")
     load_type(type_file) if type_file
+    dir = template_dir || "tmpl"
+    @tmpl_dir = File.join(File.dirname(erb_path),dir)
   end
 
   attr_reader :tmpl_dir
@@ -176,6 +181,7 @@ class DataType < ErbPP
   attrs = %w[
     class_name
     ctype
+    template_dir
     blas_char
     complex_class_name
     complex_type
