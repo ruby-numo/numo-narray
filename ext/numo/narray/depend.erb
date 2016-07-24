@@ -17,17 +17,19 @@ C_TMPL = <%=Dir.glob("#{__dir__}/gen/tmpl/*.c").join(" ")%>
 
 COGEN = <%= __dir__ %>/gen/cogen.rb
 DTYPE = <%= __dir__ %>/gen/dtype.erb.c
-COGEN_DTYPE = $(COGEN) -l $(DTYPE)
 DEPENDS = $(C_TMPL) $(DTYPE) <%= __dir__ %>/gen/*.rb
 
-<% Dir.glob("#{__dir__}/gen/def/*.rb") do |s| %>
-types/<%=File.basename(s,".rb")%>.c: <%=s%> $(DEPENDS)
+<%
+   type_c = ["types/bit.c"]
+   type_rb = Dir.glob("#{__dir__}/gen/def/*.rb")
+   type_rb.each do |s|
+     type_c << c = "types/"+File.basename(s,".rb")+".c"
+%>
+<%=c%>: <%=s%> $(DEPENDS)
 	$(MAKEDIRS) $(@D) types
-	ruby $(COGEN_DTYPE) <%=s%> > $@
+	ruby $(COGEN) -l -o $@ $(DTYPE) <%=s%>
 <% end %>
 
-types/bit.c: <%= __dir__ %>/gen/bit.erb.c $(DEPENDS)
-	$(MAKEDIRS) $(@D) types
-	ruby $(COGEN) -l <%= __dir__ %>/gen/bit.erb.c > $@
+src : <%= type_c.join(" ") %>
 
 CLEANOBJS = *.o */*.o *.bak types/*.c

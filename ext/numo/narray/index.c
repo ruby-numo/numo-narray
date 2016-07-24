@@ -638,7 +638,7 @@ na_aref_main(int nidx, VALUE *idx, VALUE self, int keep_dim)
     na_index_arg_to_internal_order(nidx, idx, self);
 
     if (nidx==0) {
-        return na_copy(self);
+        return rb_funcall(self,rb_intern("copy"),0);
     }
     if (nidx==1) {
         if (CLASS_OF(*idx)==numo_cBit) {

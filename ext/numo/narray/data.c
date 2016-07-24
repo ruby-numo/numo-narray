@@ -76,7 +76,6 @@ na_copy(VALUE self)
     return v;
 }
 
-
 VALUE
 na_store(VALUE self, VALUE src)
 {
@@ -311,7 +310,7 @@ na_reshape(int argc, VALUE *argv, VALUE self)
         rb_raise(rb_eArgError, "Total size must be same");
     }
 
-    copy = na_copy(self);
+    copy = rb_funcall(self,rb_intern("copy"),0);
     GetNArray(copy,na);
     //shape_save = NA_SHAPE(na);
     na_setup_shape(na,argc,shape);

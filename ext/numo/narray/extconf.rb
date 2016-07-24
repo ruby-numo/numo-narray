@@ -7,6 +7,8 @@ if RUBY_VERSION < "2.0.0"
   exit(1)
 end
 
+rm_f 'numo/extconf.h'
+
 #$CFLAGS="-g3 -O0 -Wall"
 #$CFLAGS=" $(cflags) -O3 -m64 -msse2 -funroll-loops"
 #$CFLAGS=" $(cflags) -O3"

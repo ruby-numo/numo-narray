@@ -1145,14 +1145,15 @@ nary_coerce(VALUE x, VALUE y)
 static VALUE
 nary_byte_size(VALUE self)
 {
-    VALUE velmsz; //klass,
+    VALUE velmsz;
     narray_t *na;
-    size_t sz;
 
     GetNArray(self,na);
     velmsz = rb_const_get(CLASS_OF(self), rb_intern(ELEMENT_BYTE_SIZE));
-    sz = SIZET2NUM(NUM2SIZET(velmsz) * na->size);
-    return sz;
+    if (FIXNUM_P(velmsz)) {
+        return SIZET2NUM(NUM2SIZET(velmsz) * na->size);
+    }
+    return SIZET2NUM(ceil(NUM2DBL(velmsz) * na->size));
 }
 
 /*
@@ -1176,41 +1177,65 @@ nary_s_byte_size(VALUE type)
 static VALUE
 nary_s_from_string(int argc, VALUE *argv, VALUE type)
 {
-    size_t len, str_len, elmsz;
+    size_t len, str_len, byte_size;
     size_t *shape;
     char *ptr;
-    int i, nd, narg;
-    VALUE vstr,vshape,vna;
+    int   i, nd, narg;
+    VALUE vstr, vshape, vna;
+    VALUE velmsz;
 
     narg = rb_scan_args(argc,argv,"11",&vstr,&vshape);
     str_len = RSTRING_LEN(vstr);
-    elmsz = na_dtype_elmsz(type);
+    velmsz = rb_const_get(type, rb_intern(ELEMENT_BYTE_SIZE));
     if (narg==2) {
-        nd = RARRAY_LEN(vshape);
-        if (nd == 0 || nd > NA_MAX_DIMENSION) {
-            rb_raise(nary_eDimensionError,"too long or empty shape (%d)", nd);
+        switch(TYPE(vshape)) {
+        case T_FIXNUM:
+            nd = 1;
+            len = NUM2SIZET(vshape);
+            shape = &len;
+            break;
+        case T_ARRAY:
+            nd = RARRAY_LEN(vshape);
+            if (nd == 0 || nd > NA_MAX_DIMENSION) {
+                rb_raise(nary_eDimensionError,"too long or empty shape (%d)", nd);
+            }
+            shape = ALLOCA_N(size_t,nd);
+            len = 1;
+            for (i=0; i<nd; ++i) {
+                len *= shape[i] = NUM2SIZET(RARRAY_AREF(vshape,i));
+            }
+            break;
+        default:
+            rb_raise(rb_eArgError,"second argument must be size or shape");
         }
-        shape = ALLOCA_N(size_t,nd);
-        len = 1;
-        for (i=0; i<nd; ++i) {
-            len *= shape[i] = NUM2SIZET(RARRAY_AREF(vshape,i));
+        if (FIXNUM_P(velmsz)) {
+            byte_size = len * NUM2SIZET(velmsz);
+        } else {
+            byte_size = ceil(len * NUM2DBL(velmsz));
         }
-        if (len*elmsz != str_len) {
-            rb_raise(rb_eArgError, "size mismatch");
+        if (byte_size > str_len) {
+            rb_raise(rb_eArgError, "specified size is too large");
         }
     } else {
         nd = 1;
-        shape = ALLOCA_N(size_t,nd);
-        shape[0] = len = str_len / elmsz;
+        if (FIXNUM_P(velmsz)) {
+            len = str_len / NUM2SIZET(velmsz);
+            byte_size = len * NUM2SIZET(velmsz);
+        } else {
+            len = floor(str_len / NUM2DBL(velmsz));
+            byte_size = str_len;
+        }
         if (len == 0) {
             rb_raise(rb_eArgError, "string is empty or too short");
         }
+        shape = ALLOCA_N(size_t,nd);
+        shape[0] = len;
     }
 
     vna = rb_narray_new(type, nd, shape);
     ptr = na_get_pointer_for_write(vna);
 
-    memcpy(ptr, RSTRING_PTR(vstr), elmsz*len);
+    memcpy(ptr, RSTRING_PTR(vstr), byte_size);
 
     return vna;
 }
@@ -1223,17 +1248,16 @@ nary_s_from_string(int argc, VALUE *argv, VALUE type)
 static VALUE
 nary_to_string(VALUE self)
 {
-    size_t len, esz;
+    size_t len;
     char *ptr;
     VALUE str;
     narray_t *na;
 
     GetNArray(self,na);
     if (na->type == NARRAY_VIEW_T) {
-        self = na_copy(self);
+        self = rb_funcall(self,rb_intern("copy"),0);
     }
-    esz = na_get_elmsz(self);
-    len = na->size * esz;
+    len = NUM2SIZET(nary_byte_size(self));
     ptr = na_get_pointer_for_read(self);
     str = rb_usascii_str_new(ptr,len);
     RB_GC_GUARD(self);
