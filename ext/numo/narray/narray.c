@@ -1255,7 +1255,7 @@ nary_to_string(VALUE self)
 
     GetNArray(self,na);
     if (na->type == NARRAY_VIEW_T) {
-        self = na_copy(self);
+        self = rb_funcall(self,rb_intern("copy"),0);
     }
     len = NUM2SIZET(nary_byte_size(self));
     ptr = na_get_pointer_for_read(self);

@@ -51,7 +51,6 @@ void na_alloc_index(narray_t *na);
 void na_copy_flags(VALUE src, VALUE dst);
 
 VALUE na_flatten(VALUE);
-VALUE na_dup(VALUE);
 VALUE na_copy(VALUE);
 VALUE na_upcast(VALUE type1, VALUE type2);
 
