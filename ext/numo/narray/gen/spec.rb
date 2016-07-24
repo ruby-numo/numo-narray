@@ -56,9 +56,7 @@ def_method "extract", 0
 store_numeric
 cast_array
 store_array
-if is_bit
-  store_bit "Bit"
-end
+store_bit "Bit"
 if is_complex
   store_from "DComplex","dcomplex","m_from_dcomplex"
   store_from "SComplex","scomplex","m_from_scomplex"
