@@ -755,7 +755,7 @@ na_diagonal(int argc, VALUE *argv, VALUE self)
 static VALUE
 na_new_dimension_for_dot(VALUE self, int pos, int len, bool transpose)
 {
-    int i, k, nd;
+    int i, k, l, nd;
     size_t  j;
     size_t *idx1, *idx2;
     size_t *shape;
@@ -781,27 +781,25 @@ na_new_dimension_for_dot(VALUE self, int pos, int len, bool transpose)
     }
     nd += len;
     shape = ALLOCA_N(size_t,nd);
-    i = k = 0;
-    while (i < nd) {
-        if (i == pos) {
-            for (; len; len--) {
-                shape[i++] = 1;
-            }
-            pos = -1; // new axis done
-        } else {
-            shape[i++] = na->shape[k++];
-        }
-    }
-
-    na_setup_shape((narray_t*)na2, nd, shape);
     na2->stridx = ALLOC_N(stridx_t,nd);
 
     switch(na->type) {
     case NARRAY_DATA_T:
     case NARRAY_FILEMAP_T:
+        i = k = 0;
+        while (i < nd) {
+            if (i == pos && len > 0) {
+                for (l=0; l<len; l++) {
+                    shape[i++] = 1;
+                }
+            } else {
+                shape[i++] = na->shape[k++];
+            }
+        }
+        na_setup_shape((narray_t*)na2, nd, shape);
         stride = na_get_elmsz(self);
         for (i=nd; i--;) {
-            SDX_SET_STRIDE(na2->stridx[i],stride);
+            SDX_SET_STRIDE(na2->stridx[i], stride);
             stride *= shape[i];
         }
         na2->offset = 0;
@@ -809,18 +807,35 @@ na_new_dimension_for_dot(VALUE self, int pos, int len, bool transpose)
         break;
     case NARRAY_VIEW_T:
         GetNArrayView(self, na1);
-        for (i=0; i<nd; i++) {
-            if (SDX_IS_INDEX(na1->stridx[i])) {
-                idx1 = SDX_GET_INDEX(na1->stridx[i]);
-                idx2 = ALLOC_N(size_t,na1->base.shape[i]);
-                for (j=0; j<na1->base.shape[i]; j++) {
-                    idx2[j] = idx1[j];
+        i = k = 0;
+        while (i < nd) {
+            if (i == pos && len > 0) {
+                if (SDX_IS_INDEX(na1->stridx[k])) {
+                    stride = SDX_GET_INDEX(na1->stridx[k])[0];
+                } else {
+                    stride = SDX_GET_STRIDE(na1->stridx[k]);
                 }
-                SDX_SET_INDEX(na2->stridx[i],idx2);
+                for (l=0; l<len; l++) {
+                    shape[i] = 1;
+                    SDX_SET_STRIDE(na2->stridx[i], stride);
+                    i++;
+                }
             } else {
-                na2->stridx[i] = na1->stridx[i];
+                shape[i] = na1->base.shape[k];
+                if (SDX_IS_INDEX(na1->stridx[k])) {
+                    idx1 = SDX_GET_INDEX(na1->stridx[k]);
+                    idx2 = ALLOC_N(size_t,na1->base.shape[k]);
+                    for (j=0; j<na1->base.shape[k]; j++) {
+                        idx2[j] = idx1[j];
+                    }
+                    SDX_SET_INDEX(na2->stridx[i], idx2);
+                } else {
+                    na2->stridx[i] = na1->stridx[k];
+                }
+                i++; k++;
             }
         }
+        na_setup_shape((narray_t*)na2, nd, shape);
         na2->offset = na1->offset;
         na2->data = na1->data;
         break;
