@@ -228,6 +228,7 @@ void
 na_array_to_internal_shape(VALUE self, VALUE ary, size_t *shape)
 {
     size_t    i, n, c, s;
+    ssize_t   x;
     VALUE     v;
     narray_t *na;
     int       flag = 0;
@@ -247,13 +248,11 @@ na_array_to_internal_shape(VALUE self, VALUE ary, size_t *shape)
     }
     for (i=0; i<n; i++) {
         v = RARRAY_AREF(ary,i);
-        if (!FIXNUM_P(v) && !rb_obj_is_kind_of(v, rb_cInteger)) {
-            rb_raise(rb_eTypeError, "array size must be Integer");
-        }
-        if (RTEST(rb_funcall(v, rb_intern("<"), 1, INT2FIX(0)))) {
+        x = NUM2SSIZET(v);
+        if (x < 0) {
             rb_raise(rb_eArgError,"size must be non-negative");
         }
-        shape[c] = NUM2SIZET(v);
+        shape[c] = x;
         c += s;
     }
 }
@@ -336,13 +335,13 @@ na_initialize(VALUE self, VALUE args)
     } else {
         v = args;
     }
-        ndim = RARRAY_LEN(v);
-        if (ndim > NA_MAX_DIMENSION) {
-            rb_raise(rb_eArgError,"ndim=%d exceeds maximum dimension",ndim);
-        }
-        shape = ALLOCA_N(size_t, ndim);
-        // setup size_t shape[] from VALUE shape argument
-        na_array_to_internal_shape(self, v, shape);
+    ndim = RARRAY_LEN(v);
+    if (ndim > NA_MAX_DIMENSION) {
+        rb_raise(rb_eArgError,"ndim=%d exceeds maximum dimension",ndim);
+    }
+    shape = ALLOCA_N(size_t, ndim);
+    // setup size_t shape[] from VALUE shape argument
+    na_array_to_internal_shape(self, v, shape);
     na_setup(self, ndim, shape);
 
     return self;
