@@ -40,7 +40,7 @@ An example
 [6] pry(main)> a.size
 => 15
 ```
-For more examples, check out this [narray version of 100 numpy exercises](https://github.com/ruby-numo/narray/wiki/100-narray-exercises).
+For more examples, check out this [narray version of 100 numpy exercises](https://github.com/ruby-numo/narray/wiki/100-narray-exercises) (and the [IRuby Notebook](https://github.com/ruby-numo/narray/blob/master/100-narray-exercises.ipynb)).
 
 ## Documentation
 
