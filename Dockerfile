@@ -9,7 +9,7 @@ RUN apt-get install -y build-essential ruby ruby-dev rake git libzmq3 libzmq3-de
 RUN ln -s /usr/bin/libtoolize /usr/bin/libtool # See https://github.com/zeromq/libzmq/issues/1385
 RUN git clone git://github.com/ruby-numo/narray
 RUN gem update --no-document --system && gem install --no-document iruby pry rbczmq
-RUN cd narray; gem build numo-narray.gemspec; gem install numo-narray-0.9.0.2.gem
+RUN cd narray; gem build numo-narray.gemspec; gem install numo-narray-0.9.0.3.gem
 
 USER main
 
