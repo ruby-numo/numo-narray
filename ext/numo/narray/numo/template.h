@@ -1,7 +1,7 @@
 /*
-  narray.h
+  template.h
   Numerical Array Extension for Ruby
-    (C) Copyright 1999-2003 by Masahiro TANAKA
+    (C) Copyright 1999-2016 by Masahiro TANAKA
 
   This program is free software.
   You can distribute/modify this program

@@ -1,7 +1,7 @@
 /*
   narray.h
   Numerical Array Extension for Ruby
-    (C) Copyright 1999-2003 by Masahiro TANAKA
+    (C) Copyright 1999-2016 by Masahiro TANAKA
 
   This program is free software.
   You can distribute/modify this program
@@ -11,8 +11,8 @@
 #ifndef NARRAY_H
 #define NARRAY_H
 
-#define NARRAY_VERSION "0.9.0.2"
-#define NARRAY_VERSION_CODE 902
+#define NARRAY_VERSION "0.9.0.3"
+#define NARRAY_VERSION_CODE 903
 
 #include <math.h>
 #include "numo/compat.h"
