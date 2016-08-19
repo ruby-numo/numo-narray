@@ -37,21 +37,6 @@ int n_bits(u_int64_t a)
     return xl;
 }
 
-void rand_norm(double *a)
-{
-    double x1, x2, w;
-    do {
-	x1 = genrand_res53_mix();
-	x1 = x1*2-1;
-	x2 = genrand_res53_mix();
-	x2 = x2*2-1;
-	w = x1 * x1 + x2 * x2;
-    } while (w>=1);
-    w = sqrt( (-2*log(w)) / w );
-    a[0] = x1*w;
-    a[1] = x2*w;
-}
-
 static u_int64_t
  random_seed()
 {

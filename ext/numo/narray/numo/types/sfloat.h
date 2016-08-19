@@ -12,6 +12,24 @@ inline static dtype m_rand(dtype max)
     return to_real2(gen_rand32()) * max;
 }
 
+/* generates random numbers from the normal distribution
+   using Box-Muller Transformation.
+ */
+inline static void m_rand_norm(dtype mu, dtype sigma, dtype *a0, dtype *a1)
+{
+    dtype x1, x2, w;
+    do {
+	x1 = to_real2(gen_rand32());
+	x1 = x1*2-1;
+	x2 = to_real2(gen_rand32());
+	x2 = x2*2-1;
+	w = x1 * x1 + x2 * x2;
+    } while (w>=1);
+    w = sqrt( (-2*log(w)) / w );
+    if (a0) {*a0 = x1*w * sigma + mu;}
+    if (a1) {*a1 = x2*w * sigma + mu;}
+}
+
 #define m_min_init numo_sfloat_new_dim0(0.0/0.0)
 #define m_max_init numo_sfloat_new_dim0(0.0/0.0)
 

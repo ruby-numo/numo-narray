@@ -53,8 +53,6 @@ EXTERN double pow(double, double);
 #define m_mulsum(x,y,z) {z += x*y;}
 #define m_mulsum_init INT2FIX(0)
 
-#define m_rand_norm(a) rand_norm(a)
-
 #define m_sprintf(s,x) sprintf(s,"%g",x)
 
 #define cmp(a,b)                                                        \
