@@ -63,14 +63,14 @@ VALUE nary_mathcast(int argc, VALUE *argv)
 {
     VALUE type, type2;
     int i;
+
     type = na_ary_composition_dtype(argv[0]);
     for (i=1; i<argc; i++) {
         type2 = na_ary_composition_dtype(argv[i]);
-	type = nary_math_cast2(type, type2);
-	if (NIL_P(type)) {
-	    rb_raise(rb_eTypeError,"%s is unknown for Numo::NMath",
-		     rb_class2name(argv[i]));
-	}
+        type = nary_math_cast2(type, type2);
+        if (NIL_P(type)) {
+            rb_raise(rb_eTypeError,"includes unknown DataType for upcast");
+        }
     }
     return type;
 }
