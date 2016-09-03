@@ -320,6 +320,53 @@ ndloop_find_max_dimension(na_md_loop_t *lp, ndfunc_t *nf, VALUE args)
     lp->user.ndim = user_nd;
 }
 
+
+static void
+ndloop_clear_lp(na_md_loop_t *lp)
+{
+    lp->reduce = Qnil;
+    lp->user.option = Qnil;
+    lp->user.err_type = Qfalse;
+    lp->loop_opt = Qnil;
+    lp->writeback = -1;
+    lp->init_aidx = -1;
+
+    lp->n = NULL;
+    lp->n_ptr = NULL;
+    lp->xargs = NULL;
+    lp->user.args = NULL;
+    lp->user.n = NULL;
+    lp->iter_ptr = NULL;
+    lp->trans_map = NULL;
+
+}
+
+static void
+ndloop_clear_loop_arg(na_loop_args_t *arg)
+{
+    arg->value = Qnil;
+    arg->iter = NULL;
+    arg->shape = NULL;
+    arg->ndim = 0;
+}
+
+static void
+ndloop_clear_loop_xarg(na_loop_xargs_t *xarg, na_loop_iter_t *iterbuf, int flag)
+{
+    xarg->iter = iterbuf;
+    xarg->bufcp = NULL;
+    xarg->flag = flag;
+    xarg->free_user_iter = 0;
+}
+
+static void
+ndloop_clear_loop_iter(na_loop_iter_t *iter)
+{
+    iter->pos = 0;
+    iter->step = 0;
+    iter->idx = NULL;
+}
+
 /*
   user-dimension:
     user_nd = MAX( nf->args[j].dim )
@@ -353,26 +400,12 @@ ndloop_alloc(na_md_loop_t *lp, ndfunc_t *nf, VALUE args,
                args_len, nf->nin);
     }
 
+    ndloop_clear_lp(lp);
     lp->vargs = args;
     lp->ndfunc = nf;
     lp->loop_func = loop_func;
     lp->copy_flag = copy_flag;
-
-    lp->reduce = Qnil;
-    lp->user.option = Qnil;
     lp->user.opt_ptr = opt_ptr;
-    lp->user.err_type = Qfalse;
-    lp->loop_opt = Qnil;
-    lp->writeback = -1;
-    lp->init_aidx = -1;
-
-    lp->n = NULL;
-    lp->n_ptr = NULL;
-    lp->xargs = NULL;
-    lp->user.args = NULL;
-    lp->user.n = NULL;
-    lp->iter_ptr = NULL;
-    lp->trans_map = NULL;
 
     ndloop_find_max_dimension(lp, nf, args);
     narg = lp->nin + nf->nout;
@@ -385,23 +418,15 @@ ndloop_alloc(na_md_loop_t *lp, ndfunc_t *nf, VALUE args,
     lp->iter_ptr = iter;
 
     for (j=0; j<narg; j++) {
-        LARG(lp,j).value = Qnil;
-        LARG(lp,j).iter = NULL;
-        LARG(lp,j).shape = NULL;
-        LARG(lp,j).ndim = 0;
-        lp->xargs[j].iter = &(iter[(max_nd+1)*j]);
-        lp->xargs[j].bufcp = NULL;
-        lp->xargs[j].flag = (j<nf->nin) ? NDL_READ : NDL_WRITE;
-        lp->xargs[j].free_user_iter = 0;
+        ndloop_clear_loop_arg(&lp->user.args[j]);
+        ndloop_clear_loop_xarg(&lp->xargs[j], &iter[(max_nd+1)*j],
+                               (j<nf->nin) ? NDL_READ : NDL_WRITE);
     }
 
     for (i=0; i<=max_nd; i++) {
         lp->n[i] = 1;
-        for (j=0; j<narg; j++) {
-            LITER(lp,i,j).pos = 0;
-            LITER(lp,i,j).step = 0;
-            LITER(lp,i,j).idx = NULL;
-        }
+        for (j=0; j<narg; j++) 
+            ndloop_clear_loop_iter(&(lp->xargs[j].iter[i]));
     }
 
     // transpose reduce-dimensions to last dimensions
