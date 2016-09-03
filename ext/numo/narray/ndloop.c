@@ -633,69 +633,80 @@ ndloop_set_stepidx(na_md_loop_t *lp, int j, VALUE vna, int *dim_map, int rwflag)
 }
 
 
+static int
+ndloop_lp_has_an_empty_element(na_md_loop_t *lp)
+{
+    int max_nd = lp->ndim + lp->user.ndim;
+    int i;
+
+    for (i=0; i<=max_nd; i++) 
+        if (lp->n[i] == 0)
+            return 1;
+
+    return 0;
+}
+
+static int
+ndloop_xarg_readwrite_flag(VALUE ain_type)
+{
+    return (ain_type == OVERWRITE) ? NDL_WRITE : NDL_READ;
+}
 
 static void
+ndloop_init_arg_by_narray(ndfunc_t *nf, na_md_loop_t *lp, int j, VALUE nary)
+{
+    narray_t *na;
+    const int ain_dim = nf->ain[j].dim;
+    const int max_nd = lp->ndim + lp->user.ndim;
+    int dim_beg;
+    int *dim_map = ALLOCA_N(int, max_nd);
+    int i;
+        
+    GetNArray(nary,na);
+
+    if (ain_dim > na->ndim) {
+        rb_raise(nary_eDimensionError,"requires >= %d-dimensioal array "
+                 "while %d-dimensional array is given",ain_dim,na->ndim);
+    }
+    ndloop_check_shape(lp, ain_dim, na);
+    dim_beg = lp->ndim + nf->ain[j].dim - na->ndim;
+    for (i=0; i<na->ndim; i++) {
+        dim_map[i] = lp->trans_map[i+dim_beg];
+    }
+    lp->xargs[j].flag = ndloop_xarg_readwrite_flag(nf->ain[j].type);
+    ndloop_set_stepidx(lp, j, nary, dim_map, lp->xargs[j].flag);
+    lp->user.args[j].ndim = ain_dim;
+    if (ain_dim > 0) {
+        lp->user.args[j].shape = na->shape + (na->ndim - ain_dim);
+    }
+}  
+static void
 ndloop_init_args(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
+
 {
     int i, j;
-    VALUE v;
-    narray_t *na;
-    int nf_dim;
-    int dim_beg;
-    int *dim_map;
     int max_nd = lp->ndim + lp->user.ndim;
-    int flag;
-    size_t s;
-
-/*
-na->shape[i] == lp->n[ dim_map[i] ]
- */
-    dim_map = ALLOCA_N(int, max_nd);
 
     // input arguments
     for (j=0; j<nf->nin; j++) {
+        VALUE v;
+        
         if (TYPE(nf->ain[j].type)==T_SYMBOL) {
             continue;
         }
         v = RARRAY_AREF(args,j);
         if (IsNArray(v)) {
-            // set LARG(lp,j) with v
-            GetNArray(v,na);
-            nf_dim = nf->ain[j].dim;
-            if (nf_dim > na->ndim) {
-                rb_raise(nary_eDimensionError,"requires >= %d-dimensioal array "
-                         "while %d-dimensional array is given",nf_dim,na->ndim);
-            }
-            ndloop_check_shape(lp, nf_dim, na);
-            dim_beg = lp->ndim + nf->ain[j].dim - na->ndim;
-            for (i=0; i<na->ndim; i++) {
-                dim_map[i] = lp->trans_map[i+dim_beg];
-                //printf("dim_map[%d]=%d na->shape[%d]=%d\n",i,dim_map[i],i,na->shape[i]);
-            }
-            if (nf->ain[j].type==OVERWRITE) {
-                lp->xargs[j].flag = flag = NDL_WRITE;
-            } else {
-                lp->xargs[j].flag = flag = NDL_READ;
-            }
-            ndloop_set_stepidx(lp, j, v, dim_map, flag);
-            LARG(lp,j).ndim = nf_dim;
-            if (nf_dim > 0) {
-                LARG(lp,j).shape = na->shape + (na->ndim - nf_dim);
-            }
+            ndloop_init_arg_by_narray(nf, lp, j, v);
         } else if (TYPE(v)==T_ARRAY) {
-            LARG(lp,j).value = v;
-            LARG(lp,j).elmsz = sizeof(VALUE);
-            LARG(lp,j).ptr   = NULL;
-            for (i=0; i<=max_nd; i++) {
-                LITER(lp,i,j).step = 1;
-            }
+            lp->user.args[j].value = v;
+            lp->user.args[j].elmsz = sizeof(VALUE);
+            lp->user.args[j].ptr = NULL;
+            for (i=0; i<=max_nd; i++) 
+                lp->xargs[j].iter[i].step = 1;
         }
     }
     // check whether # of element is zero
-    for (s=1,i=0; i<=max_nd; i++) {
-        s *= lp->n[i];
-    }
-    if (s==0) {
+    if (ndloop_lp_has_an_empty_element(lp)) {
         for (i=0; i<=max_nd; i++) {
             lp->n[i] = 0;
         }
