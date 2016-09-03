@@ -298,7 +298,7 @@ ndloop_find_max_dimension(na_md_loop_t *lp, ndfunc_t *nf, VALUE args)
 {
     int j;
     int nin=0; // number of input objects (except for symbols)
-    int user_nd=0; // max dimension of user function
+    int user_nd=0; // max dimension of user function (MAX(nf->args[j].dim for j))
     int loop_nd=0; // max dimension of md-loop
 
     for (j=0; j<RARRAY_LEN(args); j++) {
@@ -367,15 +367,58 @@ ndloop_clear_loop_iter(na_loop_iter_t *iter)
     iter->idx = NULL;
 }
 
-/*
-  user-dimension:
-    user_nd = MAX( nf->args[j].dim )
+static int
+ndloop_setup_lp_trans_map(na_md_loop_t *lp, int max_nd)
+{
+    int trans_dim = 0;
+    int i, j;
+    
+    for (i=0; i<max_nd; i++) {
+        if (na_test_reduce(lp->reduce, i)) {
+            lp->trans_map[i] = -1;
+        } else {
+            lp->trans_map[i] = trans_dim++;
+        }
+    }
+    j = trans_dim;
+    for (i=0; i<max_nd; i++) {
+        if (lp->trans_map[i] == -1) {
+            lp->trans_map[i] = j++;
+        }
+    }
 
-  user-support dimension:
+    return trans_dim;
+}
 
-  loop dimension:
-    loop_nd
-*/
+static void
+ndloop_setup_lp_reduce(na_md_loop_t *lp, int max_nd, int trans_dim)
+{
+    int i;
+    unsigned int f = 0;
+
+    lp->reduce_dim = max_nd - trans_dim;    
+
+    for (i=trans_dim; i<max_nd; i++)
+        f |= 1<<i;
+    lp->reduce = INT2FIX(f);
+}
+
+static void
+ndloop_set_trans_map_identity(int *trans_map, int max_nd)
+{
+    int i;
+    for (i=0; i<max_nd; i++) 
+        trans_map[i] = i;
+}
+
+static void
+check_args_length(VALUE args, int nin)
+{
+    long args_len = RARRAY_LEN(args);
+
+    if (args_len != nin) 
+        rb_bug("wrong number of arguments for ndfunc (%lu for %d)", args_len, nin);
+}
 
 static void
 ndloop_alloc(na_md_loop_t *lp, ndfunc_t *nf, VALUE args,
@@ -385,21 +428,10 @@ ndloop_alloc(na_md_loop_t *lp, ndfunc_t *nf, VALUE args,
     int i,j;
     int narg;
     int max_nd;
-
-    long args_len;
-
     na_loop_iter_t *iter;
 
-    int trans_dim;
-    unsigned int f;
-
-    args_len = RARRAY_LEN(args);
-
-    if (args_len != nf->nin) {
-        rb_bug("wrong number of arguments for ndfunc (%lu for %d)",
-               args_len, nf->nin);
-    }
-
+    check_args_length(args, nf->nin);
+    
     ndloop_clear_lp(lp);
     lp->vargs = args;
     lp->ndfunc = nf;
@@ -435,30 +467,10 @@ ndloop_alloc(na_md_loop_t *lp, ndfunc_t *nf, VALUE args,
     // trans_map=[0,3,1,4,2] <= [0,1,2,3,4]
     lp->trans_map = ALLOC_N(int, max_nd+1);
     if (NDF_TEST(nf,NDF_FLAT_REDUCE) && RTEST(lp->reduce)) {
-        trans_dim = 0;
-        for (i=0; i<max_nd; i++) {
-            if (na_test_reduce(lp->reduce, i)) {
-                lp->trans_map[i] = -1;
-            } else {
-                lp->trans_map[i] = trans_dim++;
-            }
-        }
-        j = trans_dim;
-        for (i=0; i<max_nd; i++) {
-            if (lp->trans_map[i] == -1) {
-                lp->trans_map[i] = j++;
-            }
-        }
-        lp->reduce_dim = max_nd - trans_dim;
-        f = 0;
-        for (i=trans_dim; i<max_nd; i++) {
-            f |= 1<<i;
-        }
-        lp->reduce = INT2FIX(f);
+        int trans_dim = ndloop_setup_lp_trans_map(lp, max_nd);        
+        ndloop_setup_lp_reduce(lp, max_nd, trans_dim);
     } else {
-        for (i=0; i<max_nd; i++) {
-            lp->trans_map[i] = i;
-        }
+        ndloop_set_trans_map_identity(lp->trans_map, max_nd);
         lp->reduce_dim = 0;
     }
 }
