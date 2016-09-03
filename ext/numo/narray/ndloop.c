@@ -210,7 +210,11 @@ ndloop_func_loop_spec(ndfunc_t *nf, int user_ndim)
     return f;
 }
 
-
+static int
+ndloop_max_nd(na_md_loop_t *lp)
+{
+    return lp->ndim + lp->user.ndim;
+}
 
 
 static int
@@ -368,9 +372,10 @@ ndloop_clear_loop_iter(na_loop_iter_t *iter)
 }
 
 static int
-ndloop_setup_lp_trans_map(na_md_loop_t *lp, int max_nd)
+ndloop_setup_lp_trans_map(na_md_loop_t *lp)
 {
     int trans_dim = 0;
+    int max_nd = ndloop_max_nd(lp);
     int i, j;
     
     for (i=0; i<max_nd; i++) {
@@ -391,11 +396,12 @@ ndloop_setup_lp_trans_map(na_md_loop_t *lp, int max_nd)
 }
 
 static void
-ndloop_setup_lp_reduce(na_md_loop_t *lp, int max_nd, int trans_dim)
+ndloop_setup_lp_reduce(na_md_loop_t *lp, int trans_dim)
 {
     int i;
     unsigned int f = 0;
-
+    int max_nd = ndloop_max_nd(lp);
+    
     lp->reduce_dim = max_nd - trans_dim;    
 
     for (i=trans_dim; i<max_nd; i++)
@@ -441,7 +447,7 @@ ndloop_alloc(na_md_loop_t *lp, ndfunc_t *nf, VALUE args,
 
     ndloop_find_max_dimension(lp, nf, args);
     narg = lp->nin + nf->nout;
-    max_nd = lp->ndim + lp->user.ndim;
+    max_nd = ndloop_max_nd(lp);
 
     lp->n    = lp->n_ptr = ALLOC_N(size_t, max_nd+1);
     lp->xargs = ALLOC_N(na_loop_xargs_t, narg);
@@ -467,8 +473,8 @@ ndloop_alloc(na_md_loop_t *lp, ndfunc_t *nf, VALUE args,
     // trans_map=[0,3,1,4,2] <= [0,1,2,3,4]
     lp->trans_map = ALLOC_N(int, max_nd+1);
     if (NDF_TEST(nf,NDF_FLAT_REDUCE) && RTEST(lp->reduce)) {
-        int trans_dim = ndloop_setup_lp_trans_map(lp, max_nd);        
-        ndloop_setup_lp_reduce(lp, max_nd, trans_dim);
+        int trans_dim = ndloop_setup_lp_trans_map(lp);
+        ndloop_setup_lp_reduce(lp, trans_dim);
     } else {
         ndloop_set_trans_map_identity(lp->trans_map, max_nd);
         lp->reduce_dim = 0;
@@ -653,7 +659,7 @@ ndloop_set_stepidx(na_md_loop_t *lp, int j, VALUE vna, int *dim_map, int rwflag)
 static int
 ndloop_lp_has_an_empty_element(na_md_loop_t *lp)
 {
-    int max_nd = lp->ndim + lp->user.ndim;
+    int max_nd = ndloop_max_nd(lp);
     int i;
 
     for (i=0; i<=max_nd; i++) 
@@ -683,7 +689,7 @@ ndloop_init_arg_by_narray(ndfunc_t *nf, na_md_loop_t *lp, int j, VALUE nary)
 {
     narray_t *na;
     const int ain_dim = nf->ain[j].dim;
-    const int max_nd = lp->ndim + lp->user.ndim;
+    const int max_nd = ndloop_max_nd(lp);
     int dim_beg;
     int *dim_map = ALLOCA_N(int, max_nd);
     int i;
@@ -706,7 +712,7 @@ ndloop_init_arg_by_narray(ndfunc_t *nf, na_md_loop_t *lp, int j, VALUE nary)
 static void
 ndloop_init_arg_by_array(na_md_loop_t *lp, int j, VALUE ary)
 {
-    int max_nd = lp->ndim + lp->user.ndim;
+    int max_nd = ndloop_max_nd(lp);
     int i;
     
     lp->user.args[j].value = ary;
@@ -719,7 +725,7 @@ ndloop_init_arg_by_array(na_md_loop_t *lp, int j, VALUE ary)
 static void
 ndloop_set_noloop(na_md_loop_t *lp)
 {
-    int max_nd = lp->ndim + lp->user.ndim;
+    int max_nd = ndloop_max_nd(lp);
     int i;
     for (i=0; i<=max_nd; i++)
         lp->n[i] = 0;
@@ -905,7 +911,7 @@ ndloop_set_output(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
     volatile VALUE v, t, results;
     VALUE init;
 
-    int max_nd = lp->ndim + lp->user.ndim;
+    int max_nd = ndloop_max_nd(lp);
 
     // output results
     results = rb_ary_new2(nf->nout);
