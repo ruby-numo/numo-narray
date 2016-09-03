@@ -572,15 +572,61 @@ get_pointer_for_rwflag(VALUE vna, int rwflag)
     rb_bug("invalid value for read-write flag");
 }
 
+static void
+ndloop_reject_no_data_array(narray_t *na)
+{
+    if (NA_DATA_PTR(na)==NULL && NA_SIZE(na)>0) {
+        rb_bug("cannot read no-data NArray");
+        rb_raise(rb_eRuntimeError,"cannot read no-data NArray");
+    }
+}
+
+static void
+ndloop_set_step_for_linear_data(na_md_loop_t *lp, int j, int *dim_map, narray_t *na)
+{
+    size_t s = LARG(lp,j).elmsz;
+    int k;
+    for (k=na->ndim; k--;) {
+        size_t n = na->shape[k];
+        if (n > 1) {
+            LITER(lp,dim_map[k],j).step = s;
+            LITER(lp,dim_map[k],j).idx = NULL;
+        }
+        s *= n;
+    }
+    LITER(lp,0,j).pos = 0;
+}
+
+static void
+ndloop_set_stepidx_for_view(na_md_loop_t *lp, int j, int *dim_map, narray_t *na)
+{
+    int k;
+    LITER(lp,0,j).pos = NA_VIEW_OFFSET(na);
+    for (k=0; k<na->ndim; k++) {
+        size_t n = na->shape[k];
+        stridx_t sdx = NA_VIEW_STRIDX(na)[k];
+        if (n > 1) {
+            if (SDX_IS_INDEX(sdx)) {
+                LITER(lp,dim_map[k],j).step = 0;
+                LITER(lp,dim_map[k],j).idx = SDX_GET_INDEX(sdx);
+            } else {
+                LITER(lp,dim_map[k],j).step = SDX_GET_STRIDE(sdx);
+                LITER(lp,dim_map[k],j).idx = NULL;
+            }
+        } else if (n==1) {
+            if (SDX_IS_INDEX(sdx)) {
+                LITER(lp,0,j).pos += SDX_GET_INDEX(sdx)[0];
+            }
+        }
+    }
+}
+
 /*
 na->shape[i] == lp->n[ dim_map[i] ]
  */
 static void
 ndloop_set_stepidx(na_md_loop_t *lp, int j, VALUE vna, int *dim_map, int rwflag)
 {
-    size_t n, s;
-    int i, k;
-    stridx_t sdx;
     narray_t *na;
 
     LARG(lp,j).value = vna;
@@ -590,45 +636,13 @@ ndloop_set_stepidx(na_md_loop_t *lp, int j, VALUE vna, int *dim_map, int rwflag)
 
     switch(NA_TYPE(na)) {
     case NARRAY_DATA_T:
-        if (NA_DATA_PTR(na)==NULL && NA_SIZE(na)>0) {
-            rb_bug("cannot read no-data NArray");
-            rb_raise(rb_eRuntimeError,"cannot read no-data NArray");
-        }
+        ndloop_reject_no_data_array(na);
         // through
     case NARRAY_FILEMAP_T:
-        s = LARG(lp,j).elmsz;
-        for (k=na->ndim; k--;) {
-            n = na->shape[k];
-            if (n > 1) {
-                i = dim_map[k];
-                //printf("n=%d k=%d i=%d\n",n,k,i);
-                LITER(lp,i,j).step = s;
-                LITER(lp,i,j).idx = NULL;
-            }
-            s *= n;
-        }
-        LITER(lp,0,j).pos = 0;
+        ndloop_set_step_for_linear_data(lp, j, dim_map, na);
         break;
     case NARRAY_VIEW_T:
-        LITER(lp,0,j).pos = NA_VIEW_OFFSET(na);
-        for (k=0; k<na->ndim; k++) {
-            n = na->shape[k];
-            sdx = NA_VIEW_STRIDX(na)[k];
-            if (n > 1) {
-                i = dim_map[k];
-                if (SDX_IS_INDEX(sdx)) {
-                    LITER(lp,i,j).step = 0;
-                    LITER(lp,i,j).idx = SDX_GET_INDEX(sdx);
-                } else {
-                    LITER(lp,i,j).step = SDX_GET_STRIDE(sdx);
-                    LITER(lp,i,j).idx = NULL;
-                }
-            } else if (n==1) {
-                if (SDX_IS_INDEX(sdx)) {
-                    LITER(lp,0,j).pos += SDX_GET_INDEX(sdx)[0];
-                }
-            }
-        }
+        ndloop_set_stepidx_for_view(lp, j, dim_map, na);
         break;
     default:
         rb_bug("invalid narray internal type");
@@ -656,6 +670,15 @@ ndloop_xarg_readwrite_flag(VALUE ain_type)
 }
 
 static void
+ndloop_check_ain_dim_bound(int ain_dim, int na_ndim)
+{
+    if (ain_dim > na_ndim) {
+        rb_raise(nary_eDimensionError,"requires >= %d-dimensioal array "
+                 "while %d-dimensional array is given",ain_dim,na_ndim);
+    }
+}
+    
+static void
 ndloop_init_arg_by_narray(ndfunc_t *nf, na_md_loop_t *lp, int j, VALUE nary)
 {
     narray_t *na;
@@ -666,11 +689,7 @@ ndloop_init_arg_by_narray(ndfunc_t *nf, na_md_loop_t *lp, int j, VALUE nary)
     int i;
         
     GetNArray(nary,na);
-
-    if (ain_dim > na->ndim) {
-        rb_raise(nary_eDimensionError,"requires >= %d-dimensioal array "
-                 "while %d-dimensional array is given",ain_dim,na->ndim);
-    }
+    ndloop_check_ain_dim_bound(ain_dim, na->ndim);
     ndloop_check_shape(lp, ain_dim, na);
     dim_beg = lp->ndim + nf->ain[j].dim - na->ndim;
     for (i=0; i<na->ndim; i++) {
@@ -682,15 +701,35 @@ ndloop_init_arg_by_narray(ndfunc_t *nf, na_md_loop_t *lp, int j, VALUE nary)
     if (ain_dim > 0) {
         lp->user.args[j].shape = na->shape + (na->ndim - ain_dim);
     }
-}  
+}
+
+static void
+ndloop_init_arg_by_array(na_md_loop_t *lp, int j, VALUE ary)
+{
+    int max_nd = lp->ndim + lp->user.ndim;
+    int i;
+    
+    lp->user.args[j].value = ary;
+    lp->user.args[j].elmsz = sizeof(VALUE);
+    lp->user.args[j].ptr = NULL;
+    for (i=0; i<=max_nd; i++) 
+        lp->xargs[j].iter[i].step = 1;
+}
+
+static void
+ndloop_set_noloop(na_md_loop_t *lp)
+{
+    int max_nd = lp->ndim + lp->user.ndim;
+    int i;
+    for (i=0; i<=max_nd; i++)
+        lp->n[i] = 0;
+}
+
 static void
 ndloop_init_args(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
-
 {
-    int i, j;
-    int max_nd = lp->ndim + lp->user.ndim;
+    int j;
 
-    // input arguments
     for (j=0; j<nf->nin; j++) {
         VALUE v;
         
@@ -701,19 +740,12 @@ ndloop_init_args(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
         if (IsNArray(v)) {
             ndloop_init_arg_by_narray(nf, lp, j, v);
         } else if (TYPE(v)==T_ARRAY) {
-            lp->user.args[j].value = v;
-            lp->user.args[j].elmsz = sizeof(VALUE);
-            lp->user.args[j].ptr = NULL;
-            for (i=0; i<=max_nd; i++) 
-                lp->xargs[j].iter[i].step = 1;
+            ndloop_init_arg_by_array(lp, j, v);
         }
     }
-    // check whether # of element is zero
-    if (ndloop_lp_has_an_empty_element(lp)) {
-        for (i=0; i<=max_nd; i++) {
-            lp->n[i] = 0;
-        }
-    }
+
+    if (ndloop_lp_has_an_empty_element(lp))
+        ndloop_set_noloop(lp);
 }
 
 
