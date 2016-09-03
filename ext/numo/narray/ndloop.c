@@ -588,41 +588,45 @@ ndloop_reject_no_data_array(narray_t *na)
 }
 
 static void
-ndloop_set_step_for_linear_data(na_md_loop_t *lp, int j, int *dim_map, narray_t *na)
+ndloop_set_step_for_linear_data(na_loop_xargs_t *xarg, size_t elmsz, int *dim_map, narray_t *na)
 {
-    size_t s = LARG(lp,j).elmsz;
+    size_t s = elmsz;
     int k;
     for (k=na->ndim; k--;) {
         size_t n = na->shape[k];
         if (n > 1) {
-            LITER(lp,dim_map[k],j).step = s;
-            LITER(lp,dim_map[k],j).idx = NULL;
+            xarg->iter[dim_map[k]].step = s;
+            xarg->iter[dim_map[k]].idx = NULL;
         }
         s *= n;
     }
-    LITER(lp,0,j).pos = 0;
+    xarg->iter[0].pos = 0;
 }
 
 static void
-ndloop_set_stepidx_for_view(na_md_loop_t *lp, int j, int *dim_map, narray_t *na)
+ndloop_set_stridex_to_iter(na_loop_iter_t *iter, stridx_t sdx)
+{
+    if (SDX_IS_INDEX(sdx)) {
+        iter->step = 0;
+        iter->idx = SDX_GET_INDEX(sdx);
+    } else {
+        iter->step = SDX_GET_STRIDE(sdx);
+        iter->idx = NULL;
+    }
+}
+
+static void
+ndloop_set_stepidx_for_view(na_loop_xargs_t *xarg, int *dim_map, narray_t *na)
 {
     int k;
-    LITER(lp,0,j).pos = NA_VIEW_OFFSET(na);
+    xarg->iter[0].pos = NA_VIEW_OFFSET(na);
     for (k=0; k<na->ndim; k++) {
         size_t n = na->shape[k];
         stridx_t sdx = NA_VIEW_STRIDX(na)[k];
         if (n > 1) {
-            if (SDX_IS_INDEX(sdx)) {
-                LITER(lp,dim_map[k],j).step = 0;
-                LITER(lp,dim_map[k],j).idx = SDX_GET_INDEX(sdx);
-            } else {
-                LITER(lp,dim_map[k],j).step = SDX_GET_STRIDE(sdx);
-                LITER(lp,dim_map[k],j).idx = NULL;
-            }
-        } else if (n==1) {
-            if (SDX_IS_INDEX(sdx)) {
-                LITER(lp,0,j).pos += SDX_GET_INDEX(sdx)[0];
-            }
+            ndloop_set_stridex_to_iter(&xarg->iter[dim_map[k]], sdx);
+        } else if (n==1 && SDX_IS_INDEX(sdx)) {
+            xarg->iter[0].pos += SDX_GET_INDEX(sdx)[0];
         }
     }
 }
@@ -634,9 +638,10 @@ static void
 ndloop_set_stepidx(na_md_loop_t *lp, int j, VALUE vna, int *dim_map, int rwflag)
 {
     narray_t *na;
+    size_t elmsz = na_get_elmsz(vna);
 
     LARG(lp,j).value = vna;
-    LARG(lp,j).elmsz = na_get_elmsz(vna);
+    LARG(lp,j).elmsz = elmsz;
     LARG(lp,j).ptr = get_pointer_for_rwflag(vna, rwflag);
     GetNArray(vna,na);
 
@@ -645,10 +650,10 @@ ndloop_set_stepidx(na_md_loop_t *lp, int j, VALUE vna, int *dim_map, int rwflag)
         ndloop_reject_no_data_array(na);
         // through
     case NARRAY_FILEMAP_T:
-        ndloop_set_step_for_linear_data(lp, j, dim_map, na);
+        ndloop_set_step_for_linear_data(&lp->xargs[j], elmsz, dim_map, na);
         break;
     case NARRAY_VIEW_T:
-        ndloop_set_stepidx_for_view(lp, j, dim_map, na);
+        ndloop_set_stepidx_for_view(&lp->xargs[j], dim_map, na);
         break;
     default:
         rb_bug("invalid narray internal type");
