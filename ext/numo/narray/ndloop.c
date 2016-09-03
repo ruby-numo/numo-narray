@@ -824,20 +824,21 @@ static VALUE
 ndloop_get_arg_type(ndfunc_t *nf, VALUE args, VALUE t)
 {
     int i;
+    VALUE type;
+
+    if (!FIXNUM_P(t))
+        return t;
 
     // if type is FIXNUM, get the type of i-th argument
-    if (FIXNUM_P(t)) {
-        i = FIX2INT(t);
-        if (i<0 || i>=nf->nin) {
-            rb_bug("invalid type: index (%d) out of # of args",i);
-        }
-        t = nf->ain[i].type;
-        // if i-th type is Qnil, get the type of i-th input value
-        if (!CASTABLE(t)) {
-            t = CLASS_OF(RARRAY_AREF(args,i));
-        }
-    }
-    return t;
+    i = FIX2INT(t);
+    if (i < 0 || i >= nf->nin)
+        rb_bug("invalid type: index (%d) out of # of args",i);
+
+    type = nf->ain[i].type;
+    if (CASTABLE(type))
+        return type;
+    else
+        return CLASS_OF(RARRAY_AREF(args,i)); // if i-th type is Qnil, get the type of i-th input value
 }
 
 
