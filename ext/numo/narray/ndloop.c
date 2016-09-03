@@ -1323,16 +1323,12 @@ loop_narray(ndfunc_t *nf, na_md_loop_t *lp);
 
 static VALUE
 ndloop_run(VALUE vlp)
-{
-    unsigned int loop_spec;
-    volatile VALUE args, orig_args, results;
+{    
     na_md_loop_t *lp = (na_md_loop_t*)(vlp);
-    ndfunc_t *nf;
-
-    orig_args = lp->vargs;
-    nf = lp->ndfunc;
-
-    args = rb_obj_dup(orig_args);
+    ndfunc_t *nf = lp->ndfunc;
+    VALUE orig_args = lp->vargs;
+    VALUE args = rb_obj_dup(orig_args);
+    VALUE results, extracted_results;
 
     // setup ndloop iterator with arguments
     ndloop_init_args(nf, lp, args);
@@ -1357,7 +1353,7 @@ ndloop_run(VALUE vlp)
 
     // setup buffering during loop
     if (lp->loop_func == loop_narray) {
-        loop_spec = ndloop_func_loop_spec(nf, lp->user.ndim);
+        unsigned int loop_spec = ndloop_func_loop_spec(nf, lp->user.ndim);
         ndfunc_set_bufcp(lp, loop_spec);
         if (na_debug_flag) {
             printf("-- ndfunc_set_bufcp --\n");
@@ -1381,7 +1377,10 @@ ndloop_run(VALUE vlp)
     ndfunc_write_back(nf, lp, orig_args, results);
 
     // extract result objects
-    return ndloop_extract(results, nf);
+    extracted_results = ndloop_extract(results, nf);
+    
+    RB_GC_GUARD(args); RB_GC_GUARD(orig_args); RB_GC_GUARD(results);
+    return extracted_results;
 }
 
 
