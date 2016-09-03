@@ -559,6 +559,19 @@ ndloop_check_shape(na_md_loop_t *lp, int nf_dim, narray_t *na)
 }
 
 
+static char*
+get_pointer_for_rwflag(VALUE vna, int rwflag)
+{
+    if (rwflag == NDL_READ) 
+        return na_get_pointer_for_read(vna);
+    if (rwflag == NDL_WRITE) 
+        return na_get_pointer_for_write(vna);
+    if (rwflag == NDL_READ_WRITE) 
+        return na_get_pointer_for_read_write(vna);
+    
+    rb_bug("invalid value for read-write flag");
+}
+
 /*
 na->shape[i] == lp->n[ dim_map[i] ]
  */
@@ -572,17 +585,7 @@ ndloop_set_stepidx(na_md_loop_t *lp, int j, VALUE vna, int *dim_map, int rwflag)
 
     LARG(lp,j).value = vna;
     LARG(lp,j).elmsz = na_get_elmsz(vna);
-    if (rwflag == NDL_READ) {
-        LARG(lp,j).ptr = na_get_pointer_for_read(vna);
-    } else
-    if (rwflag == NDL_WRITE) {
-        LARG(lp,j).ptr = na_get_pointer_for_write(vna);
-    } else
-    if (rwflag == NDL_READ_WRITE) {
-        LARG(lp,j).ptr = na_get_pointer_for_read_write(vna);
-    } else {
-        rb_bug("invalid value for read-write flag");
-    }
+    LARG(lp,j).ptr = get_pointer_for_rwflag(vna, rwflag);
     GetNArray(vna,na);
 
     switch(NA_TYPE(na)) {
