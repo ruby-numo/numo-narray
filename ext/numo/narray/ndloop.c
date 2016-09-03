@@ -909,36 +909,40 @@ ndloop_set_output_narray(ndfunc_t *nf, na_md_loop_t *lp, int k,
     return v;
 }
 
+static void
+ndloop_set_output_rarray(na_md_loop_t *lp, int k, VALUE t)
+{
+    int j = lp->nin + k;
+    int max_nd = ndloop_max_nd(lp);
+    int i;
+    for (i=0; i<=max_nd; i++) {
+        LITER(lp,i,j).step = sizeof(VALUE);
+    }
+    LARG(lp,j).value = t;
+    LARG(lp,j).elmsz = sizeof(VALUE);
+}
+
+static int
+ndloop_use_initializer(na_md_loop_t *lp)
+{
+    return lp->init_aidx > -1;
+}
+
 static VALUE
 ndloop_set_output(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
 {
-    int i, j, k, idx;
-    volatile VALUE v, t, results;
-    VALUE init;
-
-    int max_nd = ndloop_max_nd(lp);
-
-    // output results
-    results = rb_ary_new2(nf->nout);
+    int k;
+    VALUE results = rb_ary_new2(nf->nout); // output results
 
     for (k=0; k<nf->nout; k++) {
-        t = nf->aout[k].type;
-        t = ndloop_get_arg_type(nf,args,t);
+        VALUE t = ndloop_get_arg_type(nf, args, nf->aout[k].type);
 
         if (rb_obj_is_kind_of(t, rb_cClass)) {
             if (RTEST(rb_class_inherited_p(t, cNArray))) {
-                // NArray
-                v = ndloop_set_output_narray(nf,lp,k,t,args);
-                rb_ary_push(results, v);
+                rb_ary_push(results, ndloop_set_output_narray(nf,lp,k,t,args));
             }
             else if (RTEST(rb_class_inherited_p(t, rb_cArray))) {
-                // Ruby Array
-                j = lp->nin + k;
-                for (i=0; i<=max_nd; i++) {
-                    LITER(lp,i,j).step = sizeof(VALUE);
-                }
-                LARG(lp,j).value = t;
-                LARG(lp,j).elmsz = sizeof(VALUE);
+                ndloop_set_output_rarray(lp, k, t);
             } else {
                 rb_raise(rb_eRuntimeError,"ndloop_set_output: invalid for type");
             }
@@ -946,12 +950,9 @@ ndloop_set_output(ndfunc_t *nf, na_md_loop_t *lp, VALUE args)
     }
 
     // initialilzer
-    k = lp->init_aidx;
-    if (k > -1) {
-        idx = nf->ain[k].dim;
-        v = RARRAY_AREF(results,idx);
-        init = RARRAY_AREF(args,k);
-        na_store(v,init);
+    if (ndloop_use_initializer(lp)) {
+        na_store(RARRAY_AREF(results, nf->ain[lp->init_aidx].dim),
+                 RARRAY_AREF(args, lp->init_aidx));
     }
 
     return results;
