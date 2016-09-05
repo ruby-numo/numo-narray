@@ -87,6 +87,8 @@ static VALUE
     volatile VALUE idx_1, view;
     narray_data_t *nidx;
     narray_view_t *nv;
+    narray_t      *na;
+    narray_view_t *na1;
     stridx_t stridx0;
     size_t n_1;
     where_opt_t g;
@@ -112,6 +114,19 @@ static VALUE
     nv->stridx = ALLOC_N(stridx_t,1);
     nv->stridx[0] = stridx0;
     nv->offset = 0;
-    nv->data = val;
+
+    GetNArray(val, na);
+    switch(NA_TYPE(na)) {
+    case NARRAY_DATA_T:
+        nv->data = val;
+        break;
+    case NARRAY_VIEW_T:
+        GetNArrayView(val, na1);
+        nv->data = na1->data;
+        break;
+    default:
+        rb_raise(rb_eRuntimeError,"invalid NA_TYPE: %d",NA_TYPE(na));
+    }
+
     return view;
 }
