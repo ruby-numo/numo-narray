@@ -3,8 +3,6 @@ language:
 
 rvm:
   - '2.0'
-  - '2.1'
-  - '2.2'
   - '2.3.1'
 
 matrix:
@@ -20,9 +18,9 @@ cache: bundler
 
 
 before_script:
-  - rake compile
+  - bundle exec rake compile
 
 script:
-  - rake spec
-  - gem build numo-narray.gemspec
-  - gem install numo-narray-0.9.0.3.gem
+  - bundle exec rake spec
+  - bundle exec gem build numo-narray.gemspec
+  - bundle exec gem install numo-narray-0.9.0.3.gem
