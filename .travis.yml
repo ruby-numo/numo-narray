@@ -9,18 +9,22 @@ matrix:
   fast_finish:
     true
 
-# before_install:
-#   - sudo apt-get update -qq
-#   - sudo apt-get install ruby gcc ruby-dev rake make -y
+before_install:
+  - sudo apt-get install -y lcov
 
 cache: bundler
 
 
-
 before_script:
-  - bundle exec rake compile
+  - bundle exec rake compile -- --enable-gcov
 
 script:
   - bundle exec rake spec
   - bundle exec gem build numo-narray.gemspec
   - bundle exec gem install numo-narray-0.9.0.3.gem
+
+after_success:
+  - cd ${TRAVIS_BUILD_DIR}
+  - lcov --directory tmp --capture --output-file coverage.info # capture coverage info
+  - lcov --list coverage.info # debug before upload
+  - coveralls-lcov --repo-token ${COVERALLS_TOKEN} coverage.info # uploads to coveralls

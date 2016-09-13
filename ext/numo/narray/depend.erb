@@ -32,4 +32,4 @@ DEPENDS = $(C_TMPL) $(DTYPE) <%= __dir__ %>/gen/*.rb
 
 src : <%= type_c.join(" ") %>
 
-CLEANOBJS = *.o */*.o *.bak types/*.c
+CLEANOBJS = *.o */*.o *.bak types/*.c *.gcno *.gcda *.gcov types/*.gcno types/*.gcda types/*.gcov

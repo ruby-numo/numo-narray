@@ -32,4 +32,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 3"
   spec.add_development_dependency "rake-compiler", ">= 1.0.1"
   spec.add_development_dependency "rake-compiler-dock"
+  spec.add_development_dependency "coveralls-lcov"
 end
