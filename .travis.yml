@@ -27,4 +27,4 @@ after_success:
   - cd ${TRAVIS_BUILD_DIR}
   - lcov --directory tmp --capture --output-file coverage.info # capture coverage info
   - lcov --list coverage.info # debug before upload
-  - coveralls-lcov --repo-token ${COVERALLS_TOKEN} coverage.info # uploads to coveralls
+  - bundle exec coveralls-lcov --repo-token ${COVERALLS_TOKEN} coverage.info # uploads to coveralls
