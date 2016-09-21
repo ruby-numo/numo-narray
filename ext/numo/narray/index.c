@@ -67,7 +67,6 @@ na_index_preprocess(VALUE args, int na_ndim)
 {
     int i;
     int count_new=0, count_rest=0;
-    int count_other_indices;
     int nidx = RARRAY_LEN(args);
     VALUE a;
 
@@ -83,21 +82,26 @@ na_index_preprocess(VALUE args, int na_ndim)
         }
     }
 
-    count_other_indices = nidx - count_new - count_rest;
-
-    if (count_rest>1) {
-        rb_raise(rb_eIndexError,"multiple rest-dimension is not allowd");
-    }
-    else if (count_rest==0) {
-        // if (!(count_new==0 && nidx==1) && ..
-        if (count_other_indices != 1 && count_other_indices != na_ndim)
-            rb_raise(rb_eIndexError,"# of index(=%i) should be one or "
-                     "equal to narray.ndim(=%i)",count_rest,na_ndim);
+    if (count_rest==0) {
+        if (count_new==0) {
+            if (nidx != 1 && nidx != na_ndim)
+                rb_raise(rb_eIndexError,"# of index(=%i) should be one or "
+                         "equal to ndim(=%i)",nidx,na_ndim);
+        } else {
+            nidx -= count_new;
+            if (nidx != na_ndim)
+                rb_raise(rb_eIndexError,"# of index(=%i) should be "
+                         "equal to ndim(=%i)",nidx,na_ndim);
+        }
     }
     else if (count_rest==1) {
-        if (count_other_indices >= na_ndim)
-            rb_raise(rb_eIndexError,"# of index(=%i) >= narray.ndim(=%i) with :rest",
-                     count_other_indices,na_ndim);
+        nidx -= count_new + count_rest;
+        if (nidx >= na_ndim)
+            rb_raise(rb_eIndexError,"# of index(=%i) >= ndim(=%i) with :rest",
+                     nidx,na_ndim);
+    }
+    else { // if (count_rest>1)
+        rb_raise(rb_eIndexError,"multiple rest-dimension is not allowd");
     }
     return count_new;
 }
