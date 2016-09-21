@@ -559,8 +559,9 @@ VALUE na_aref_md_protected(VALUE data_value)
         na2->data = self;
         break;
     case NARRAY_VIEW_T:
-        na_index_aref_naview((narray_view_t *)na1,na2,q,ndim,keep_dim);
+        na2->offset = ((narray_view_t *)na1)->offset;
         na2->data = ((narray_view_t *)na1)->data;
+        na_index_aref_naview((narray_view_t *)na1,na2,q,ndim,keep_dim);
         break;
     }
     if (store) {
