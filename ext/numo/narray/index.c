@@ -171,18 +171,24 @@ na_parse_narray_index(VALUE a, int orig_dim, ssize_t size, na_index_arg_t *q)
     VALUE idx;
     narray_t *na;
     narray_data_t *nidx;
+    size_t k, n;
+    ssize_t *nidxp;
 
     GetNArray(a,na);
     if (NA_NDIM(na) != 1) {
         rb_raise(rb_eIndexError, "should be 1-d NArray");
     }
-    idx = rb_narray_new(cIndex,1,&NA_SIZE(na));
+    n = NA_SIZE(na);
+    idx = rb_narray_new(cIndex,1,&n);
     na_store(idx,a);
 
     GetNArrayData(idx,nidx);
-    q->idx  = (size_t*)nidx->ptr;
-    nidx->ptr = NULL;
-    q->n    = na->size;
+    nidxp   = (ssize_t*)nidx->ptr;
+    q->idx  = ALLOC_N(size_t, n);
+    for (k=0; k<n; k++) {
+        q->idx[k] = na_range_check(nidxp[k], size, orig_dim);
+    }
+    q->n    = n;
     q->beg  = 0;
     q->step = 1;
     q->reduce = 0;
