@@ -16,14 +16,13 @@ iter_bit_where(na_loop_t *const lp)
     ssize_t s;
     size_t *idx;
     BIT_DIGIT x=0;
-    char   *idx0, *idx1;
+    char   *idx1;
     size_t  count;
     size_t  e;
     where_opt_t *g;
 
     g = (where_opt_t*)(lp->opt_ptr);
     count = g->count;
-    idx0  = g->idx0;
     idx1  = g->idx1;
     e     = g->elmsz;
     INIT_COUNTER(lp, i);
@@ -32,16 +31,9 @@ iter_bit_where(na_loop_t *const lp)
         for (; i--;) {
             LOAD_BIT(a, p+*idx, x);
             idx++;
-            if (x==0) {
-                if (idx0) {
-                    STORE_INT(idx0,e,count);
-                    idx0 += e;
-                }
-            } else {
-                if (idx1) {
-                    STORE_INT(idx1,e,count);
-                    idx1 += e;
-                }
+            if (x!=0) {
+                STORE_INT(idx1,e,count);
+                idx1 += e;
             }
             count++;
         }
@@ -49,22 +41,14 @@ iter_bit_where(na_loop_t *const lp)
         for (; i--;) {
             LOAD_BIT(a, p, x);
             p+=s;
-            if (x==0) {
-                if (idx0) {
-                    STORE_INT(idx0,e,count);
-                    idx0 += e;
-                }
-            } else {
-                if (idx1) {
-                    STORE_INT(idx1,e,count);
-                    idx1 += e;
-                }
+            if (x!=0) {
+                STORE_INT(idx1,e,count);
+                idx1 += e;
             }
             count++;
         }
     }
     g->count = count;
-    g->idx0  = idx0;
     g->idx1  = idx1;
 }
 

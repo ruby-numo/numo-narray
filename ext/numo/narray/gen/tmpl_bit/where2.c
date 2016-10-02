@@ -1,3 +1,56 @@
+static void
+iter_bit_where2(na_loop_t *const lp)
+{
+    size_t  i;
+    BIT_DIGIT *a;
+    size_t  p;
+    ssize_t s;
+    size_t *idx;
+    BIT_DIGIT x=0;
+    char   *idx0, *idx1;
+    size_t  count;
+    size_t  e;
+    where_opt_t *g;
+
+    g = (where_opt_t*)(lp->opt_ptr);
+    count = g->count;
+    idx0  = g->idx0;
+    idx1  = g->idx1;
+    e     = g->elmsz;
+    INIT_COUNTER(lp, i);
+    INIT_PTR_BIT_IDX(lp, 0, a, p, s, idx);
+    if (idx) {
+        for (; i--;) {
+            LOAD_BIT(a, p+*idx, x);
+            idx++;
+            if (x==0) {
+                STORE_INT(idx0,e,count);
+                idx0 += e;
+            } else {
+                STORE_INT(idx1,e,count);
+                idx1 += e;
+            }
+            count++;
+        }
+    } else {
+        for (; i--;) {
+            LOAD_BIT(a, p, x);
+            p+=s;
+            if (x==0) {
+                STORE_INT(idx0,e,count);
+                idx0 += e;
+            } else {
+                STORE_INT(idx1,e,count);
+                idx1 += e;
+            }
+            count++;
+        }
+    }
+    g->count = count;
+    g->idx0  = idx0;
+    g->idx1  = idx1;
+}
+
 /*
   Returns two index arrays.
   The first array contains index where the bit is one (true).
@@ -13,7 +66,7 @@ numo_bit_where2(VALUE self)
     where_opt_t *g;
 
     ndfunc_arg_in_t ain[1] = {{cT,0}};
-    ndfunc_t ndf = { iter_bit_where, FULL_LOOP, 1, 0, ain, 0 };
+    ndfunc_t ndf = { iter_bit_where2, FULL_LOOP, 1, 0, ain, 0 };
 
     size = RNARRAY_SIZE(self);
     n_1 = NUM2SIZET(numo_bit_count_true(0, NULL, self));
