@@ -9,7 +9,7 @@ static VALUE
 numo_bit_where2(VALUE self)
 {
     VALUE idx_1, idx_0;
-    size_t size, n_1;
+    size_t size, n_1, n_0;
     where_opt_t *g;
 
     ndfunc_arg_in_t ain[1] = {{cT,0}};
@@ -17,15 +17,16 @@ numo_bit_where2(VALUE self)
 
     size = RNARRAY_SIZE(self);
     n_1 = NUM2SIZET(numo_bit_count_true(0, NULL, self));
+    n_0 = size - n_1;
     g = ALLOCA_N(where_opt_t,1);
     g->count = 0;
     if (size>4294967295ul) {
         idx_1 = rb_narray_new(numo_cInt64, 1, &n_1);
-        idx_0 = rb_narray_new(numo_cInt64, 1, &n_1);
+        idx_0 = rb_narray_new(numo_cInt64, 1, &n_0);
         g->elmsz = 8;
     } else {
         idx_1 = rb_narray_new(numo_cInt32, 1, &n_1);
-        idx_0 = rb_narray_new(numo_cInt32, 1, &n_1);
+        idx_0 = rb_narray_new(numo_cInt32, 1, &n_0);
         g->elmsz = 4;
     }
     g->idx1 = na_get_pointer_for_write(idx_1);
