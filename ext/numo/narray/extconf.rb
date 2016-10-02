@@ -20,6 +20,11 @@ if /cygwin|mingw/ =~ RUBY_PLATFORM
   $INSTALLFILES << ['libnarray.a', '$(archdir)']
 end
 
+if enable_config("gcov")
+  $CFLAGS += " -coverage"
+  $LDFLAGS += " -coverage"
+end
+
 srcs = %w(
 narray
 array
