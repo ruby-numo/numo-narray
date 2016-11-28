@@ -2,11 +2,6 @@
   index.c
   Numerical Array Extension for Ruby
     (C) Copyright 1999-2016 by Masahiro TANAKA
-
-  This program is free software.
-  You can distribute/modify this program
-  under the same terms as Ruby itself.
-  NO WARRANTY.
 */
 //#define NARRAY_C
 

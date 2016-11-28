@@ -1,12 +1,7 @@
 /*
   qsort.c
   Numerical Array Extension for Ruby
-    (C) Copyright 2007-2011 by Masahiro TANAKA
-
-  This program is free software.
-  You can distribute/modify this program
-  under the same terms as Ruby itself.
-  NO WARRANTY.
+    (C) Copyright 2007-2016 by Masahiro TANAKA
 */
 
 /*
@@ -146,4 +141,3 @@ void
         goto loop;
     }
 }
-

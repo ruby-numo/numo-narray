@@ -1,12 +1,7 @@
 /*
    kwarg.c : Process keyword arguments for Ruby
 
-   Copyright (c) 2001 Masahiro TANAKA <masa@ir.isas.ac.jp>
-
-   This program is free software.
-   You can distribute/modify this program
-   under the same terms as Ruby itself.
-   NO WARRANTY.
+   Copyright (c) 2001 Masahiro TANAKA
 */
 #include <ruby.h>
 #include "numo/compat.h"

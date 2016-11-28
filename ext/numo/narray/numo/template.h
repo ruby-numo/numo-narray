@@ -2,11 +2,6 @@
   template.h
   Numerical Array Extension for Ruby
     (C) Copyright 1999-2016 by Masahiro TANAKA
-
-  This program is free software.
-  You can distribute/modify this program
-  under the same terms as Ruby itself.
-  NO WARRANTY.
 */
 #ifndef TEMPLATE_H
 #define TEMPLATE_H
