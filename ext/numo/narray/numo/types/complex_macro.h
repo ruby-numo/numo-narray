@@ -132,6 +132,34 @@ static inline dtype f_sum(size_t n, char *p, ssize_t stride)
     return y;
 }
 
+static inline dtype f_kahan_sum(size_t n, char *p, ssize_t stride)
+{
+    size_t i=n;
+    dtype x;
+    volatile dtype y,t,r;
+
+    y = c_zero();
+    r = c_zero();
+    for (; i--;) {
+        x = *(dtype*)p;
+        if (!c_isnan(x)) {
+            if (fabs(REAL(x)) > fabs(REAL(y))) {
+                double z=REAL(x); REAL(x)=REAL(y); REAL(y)=z;
+            }
+            if (fabs(IMAG(x)) > fabs(IMAG(y))) {
+                double z=IMAG(x); IMAG(x)=IMAG(y); IMAG(y)=z;
+            }
+            r = c_add(x, r);
+            t = y;
+            y = c_add(r, y);
+            t = c_sub(y, t);
+            r = c_sub(r, t);
+        }
+        p += stride;
+    }
+    return y;
+}
+
 static inline dtype f_prod(size_t n, char *p, ssize_t stride)
 {
     size_t i=n;

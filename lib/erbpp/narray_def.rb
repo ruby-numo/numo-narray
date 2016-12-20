@@ -183,6 +183,7 @@ class DataType < ErbPP
     is_complex
     is_object
     is_comparable
+    is_double_precision
     mod_var
   ]
   define_attrs attrs

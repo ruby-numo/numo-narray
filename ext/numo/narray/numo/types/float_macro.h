@@ -133,6 +133,30 @@ static inline dtype f_sum(size_t n, char *p, ssize_t stride)
     return y;
 }
 
+static inline dtype f_kahan_sum(size_t n, char *p, ssize_t stride)
+{
+    size_t i=n;
+    dtype x;
+    volatile dtype y=0;
+    volatile dtype t,r=0;
+
+    for (; i--;) {
+        x = *(dtype*)p;
+        if (!m_isnan(x)) {
+            if (fabs(x) > fabs(y)) {
+                dtype z=x; x=y; y=z;
+            }
+            r += x;
+            t = y;
+            y += r;
+            t = y-t;
+            r -= t;
+        }
+        p += stride;
+    }
+    return y;
+}
+
 static inline dtype f_prod(size_t n, char *p, ssize_t stride)
 {
     size_t i=n;
