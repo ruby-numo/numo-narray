@@ -12,6 +12,7 @@ is_real       false
 is_complex    true
 is_object     false
 is_comparable false
+is_double_precision false
 
 upcast_rb "Integer"
 upcast_rb "Float"

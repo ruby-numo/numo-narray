@@ -211,6 +211,9 @@ end
 
 accum "sum","dtype","cT"
 accum "prod","dtype","cT"
+if is_double_precision
+  accum "kahan_sum","dtype","cT"
+end
 
 if is_float
   accum "mean","dtype","cT"
