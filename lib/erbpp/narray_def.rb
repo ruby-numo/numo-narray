@@ -249,13 +249,12 @@ class DataType < ErbPP
       t = "cT"
     end
     if c=="Integer"
-      if defined?(Fixnum) && Fixnum != Integer
-        @upcast << "rb_hash_aset(hCast, rb_cFixnum, #{t});"
-        @upcast << "rb_hash_aset(hCast, rb_cBignum, #{t});"
-      else
-        # RUBY_VERSION >= "2.4.0"
-        @upcast << "rb_hash_aset(hCast, rb_cInteger, #{t});"
-      end
+      @upcast << "#ifdef RUBY_INTEGER_UNIFICATION"
+      @upcast << "rb_hash_aset(hCast, rb_cInteger, #{t});"
+      @upcast << "#else"
+      @upcast << "rb_hash_aset(hCast, rb_cFixnum, #{t});"
+      @upcast << "rb_hash_aset(hCast, rb_cBignum, #{t});"
+      @upcast << "#endif"
     else
       @upcast << "rb_hash_aset(hCast, rb_c#{c}, #{t});"
     end

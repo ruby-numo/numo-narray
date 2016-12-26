@@ -128,11 +128,12 @@ Init_nary_math()
     rb_hash_aset(hCast, numo_cDComplex, numo_mDComplexMath);
     rb_hash_aset(hCast, numo_cSFloat,   numo_mSFloatMath);
     rb_hash_aset(hCast, numo_cSComplex, numo_mSComplexMath);
-#ifdef HAVE_RB_CFIXNUM
+#ifdef RUBY_INTEGER_UNIFICATION
+    rb_hash_aset(hCast, rb_cInteger, rb_mMath);
+#else
     rb_hash_aset(hCast, rb_cFixnum,  rb_mMath);
     rb_hash_aset(hCast, rb_cBignum,  rb_mMath);
 #endif
-    rb_hash_aset(hCast, rb_cInteger, rb_mMath);
     rb_hash_aset(hCast, rb_cFloat,   rb_mMath);
     rb_hash_aset(hCast, rb_cComplex, numo_mDComplexMath);
 

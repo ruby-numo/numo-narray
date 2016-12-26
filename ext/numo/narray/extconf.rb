@@ -79,7 +79,6 @@ end
 have_func("exp10")
 
 have_var("rb_cComplex")
-have_var("rb_cFixnum")
 
 $objs = srcs.collect{|i| i+".o"}
 
