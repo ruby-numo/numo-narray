@@ -22,8 +22,6 @@ namespace :build do
 
   desc "Build gems for Windows into the pkg directory"
   task :windows => pkg_dir do
-    ruby_versions = "2.1.6:2.2.2:2.3.0"
-
     build_dir = "tmp/windows"
     rm_rf build_dir
     mkdir_p build_dir
@@ -32,7 +30,7 @@ namespace :build do
       ["git", "clone", "file://#{Dir.pwd}/.git", build_dir],
       ["cd", build_dir],
       ["bundle"],
-      ["rake", "cross", "native", "gem", "RUBY_CC_VERSION=#{ruby_versions}"],
+      ["rake", "cross", "native", "gem"],
     ]
     raw_commands = commands.collect do |command|
       Shellwords.join(command)
@@ -44,16 +42,10 @@ namespace :build do
     cp(Dir.glob("#{build_dir}/#{pkg_dir}/*.gem"),
        "#{pkg_dir}/")
   end
-
-  windows_gem_paths.each do |path|
-    file path do
-      Rake::Task["build:windows"].invoke
-    end
-  end
 end
 
 namespace :release do
-  task :windows => windows_gem_paths do
+  task :windows => "build:windows" do
     windows_gem_paths.each do |path|
       ruby("-S", "gem", "push", path)
     end
