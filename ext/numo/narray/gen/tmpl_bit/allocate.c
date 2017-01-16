@@ -10,7 +10,7 @@ static VALUE
     case NARRAY_DATA_T:
         ptr = NA_DATA_PTR(na);
         if (na->size > 0 && ptr == NULL) {
-            ptr = xmalloc(((na->size-1)/sizeof(BIT_DIGIT)+1)*sizeof(BIT_DIGIT)/8);
+            ptr = xmalloc(((na->size-1)/8/sizeof(BIT_DIGIT)+1)*sizeof(BIT_DIGIT));
             NA_DATA_PTR(na) = ptr;
         }
         break;
