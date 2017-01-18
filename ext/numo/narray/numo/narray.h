@@ -89,7 +89,7 @@
 # endif
 #elif SIZEOF_INT==4
 # define NUM2INT32(x) NUM2INT(x)
-# define INT322NUM(x) UINT2NUM(x)
+# define INT322NUM(x) INT2NUM(x)
 # define NUM2UINT32(x) NUM2UINT(x)
 # define UINT322NUM(x) UINT2NUM(x)
 # ifndef PRId32
