@@ -1309,6 +1309,9 @@ na_reduce_dimension(int argc, VALUE *argv, int naryc, VALUE *naryv)
         rb_raise(rb_eRuntimeError,"must be positive: naryc=%d", naryc);
     }
     GetNArray(naryv[0],na);
+    if (na->size==0) {
+        rb_raise(nary_eShapeError,"cannot reduce empty NArray");
+    }
     reduce = na->reduce;
     if (argc==0) {
         //printf("pass argc=0 reduce=%d\n",NUM2INT(reduce));
@@ -1318,6 +1321,9 @@ na_reduce_dimension(int argc, VALUE *argv, int naryc, VALUE *naryv)
     row_major = TEST_COLUMN_MAJOR(naryv[0]);
     for (i=1; i<naryc; i++) {
         GetNArray(naryv[i],na);
+        if (na->size==0) {
+            rb_raise(nary_eShapeError,"cannot reduce empty NArray");
+        }
         if (TEST_COLUMN_MAJOR(naryv[i]) != row_major) {
             rb_raise(nary_eDimensionError,"dimension order is different");
         }
