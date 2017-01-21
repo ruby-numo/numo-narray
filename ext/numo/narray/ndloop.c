@@ -509,7 +509,7 @@ ndloop_check_shape(na_md_loop_t *lp, int nf_dim, narray_t *na)
                 lp->n[i] = n;
             } else if (lp->n[i] != n) {
                 // inconsistent array shape
-                rb_raise(rb_eTypeError,"shape1[%d](=%"SZF"u) != shape2[%d](=%"SZF"u)",
+                rb_raise(nary_eShapeError,"shape1[%d](=%"SZF"u) != shape2[%d](=%"SZF"u)",
                          i, lp->n[i], k, n);
             }
         }
