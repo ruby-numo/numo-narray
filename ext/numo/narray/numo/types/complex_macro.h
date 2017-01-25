@@ -5,7 +5,7 @@ EXTERN double log2(double);
 EXTERN double exp2(double);
 EXTERN double exp10(double);
 
-#define r_abs(x)   abs(x)
+#define r_abs(x)   fabs(x)
 #define r_sqrt(x)  sqrt(x)
 #define r_exp(x)   exp(x)
 #define r_log(x)   log(x)
