@@ -1463,7 +1463,7 @@ VALUE na_host_order_p( VALUE self )
 VALUE na_inplace( VALUE self )
 {
     VALUE view = self;
-    //view = na_clone(self);
+    view = na_make_view(self);
     SET_INPLACE(view);
     return view;
 }
