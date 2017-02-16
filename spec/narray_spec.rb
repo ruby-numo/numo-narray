@@ -243,7 +243,7 @@ types.each do |dtype|
     it "matrix.dot(matrix) with incorrect shape" do
       a = dtype[1..6].reshape(3,2)
       b = dtype[1..9].reshape(3,3)
-      expect{a.dot(b)}.to raise_error(TypeError)
+      expect{a.dot(b)}.to raise_error(Numo::NArray::ShapeError)
     end
   end
 end
