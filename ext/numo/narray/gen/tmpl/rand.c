@@ -11,7 +11,7 @@ if is_int && !is_object
   rand_type = "uint#{rand_bit}_t"
 %>
 
-#define HWID (sizeof(dtype)>>1)
+#define HWID (sizeof(dtype)*4)
 
 static int msb_pos(<%=rand_type%> a)
 {
@@ -131,6 +131,12 @@ static VALUE
     ndfunc_arg_in_t ain[1] = {{OVERWRITE,0}};
     ndfunc_t ndf = {<%=c_iter%>, FULL_LOOP, 1,0, ain,0};
 
+    <% if is_int && !is_object %>
+    rb_scan_args(argc, args, "11", &v1, &v2);
+    if (v2==Qnil) {
+        g.low = m_zero;
+        g.max = high = m_num_to_data(v1);
+    <% else %>
     rb_scan_args(argc, args, "02", &v1, &v2);
     if (v2==Qnil) {
         g.low = m_zero;
@@ -139,6 +145,7 @@ static VALUE
         } else {
             g.max = high = m_num_to_data(v1);
         }
+    <% end %>
     } else {
         g.low = m_num_to_data(v1);
         high = m_num_to_data(v2);
