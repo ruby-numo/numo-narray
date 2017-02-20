@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
   Class: Numo::NArray
-  
+
     &mdash; Documentation by YARD 0.9.8
-  
+
 </title>
 
   <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
@@ -35,16 +35,16 @@
     <div id="main" tabindex="-1">
       <div id="header">
         <div id="menu">
-  
-    <a href="../_index.html">Index (N)</a> &raquo;
+
+    <a href="../xindex.html">Index (N)</a> &raquo;
     <span class='title'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span>
-     &raquo; 
+     &raquo;
     <span class="title">NArray</span>
-  
+
 </div>
 
         <div id="search">
-  
+
     <a class="full_list_link" id="class_list_link"
         href="../class_list.html">
 
@@ -54,49 +54,49 @@
           <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
         </svg>
     </a>
-  
+
 </div>
         <div class="clear"></div>
       </div>
 
       <div id="content"><h1>Class: Numo::NArray
-  
-  
-  
+
+
+
 </h1>
 <div class="box_info">
-  
+
   <dl>
     <dt>Inherits:</dt>
     <dd>
       <span class="inheritName">Object</span>
-      
+
         <ul class="fullTree">
           <li>Object</li>
-          
+
             <li class="next">Numo::NArray</li>
-          
+
         </ul>
         <a href="#" class="inheritanceTree">show all</a>
-      
+
     </dd>
   </dl>
-  
 
-  
-  
-  
-  
-  
 
-  
 
-  
+
+
+
+
+
+
+
+
   <dl>
     <dt>Defined in:</dt>
     <dd>narray.c</dd>
   </dl>
-  
+
 </div>
 
 <div id="subclasses">
@@ -105,23 +105,23 @@
 </div>
 <h2>Defined Under Namespace</h2>
 <p class="children">
-  
-    
-  
-    
+
+
+
+
       <strong class="classes">Classes:</strong> <span class='object_link'><a href="NArray/CastError.html" title="Numo::NArray::CastError (class)">CastError</a></span>, <span class='object_link'><a href="NArray/DimensionError.html" title="Numo::NArray::DimensionError (class)">DimensionError</a></span>, <span class='object_link'><a href="NArray/OperationError.html" title="Numo::NArray::OperationError (class)">OperationError</a></span>, <span class='object_link'><a href="NArray/ShapeError.html" title="Numo::NArray::ShapeError (class)">ShapeError</a></span>
-    
-  
+
+
 </p>
 
   <h2>Constant Summary</h2>
   <dl class="constants">
-    
+
       <dt id="VERSION-constant" class="">VERSION =
-        
+
       </dt>
       <dd><pre class="code"><span class='id identifier rubyid_rb_str_new2'>rb_str_new2</span><span class='lparen'>(</span><span class='const'>NARRAY_VERSION</span><span class='rparen'>)</span></pre></dd>
-    
+
   </dl>
 
 
@@ -130,1308 +130,1308 @@
 
 
 
-  
+
     <h2>
       Class Method Summary
       <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
 
     <ul class="summary">
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#[]-class_method" title="[] (class method)">.<strong>[]</strong>(elements)  &#x21d2; NArray </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Generate NArray object.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#array_type-class_method" title="array_type (class method)">.<strong>array_type</strong>(ary)  &#x21d2; Object </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'></div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#byte_size-class_method" title="byte_size (class method)">.<strong>byte_size</strong>  &#x21d2; Numeric </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Returns byte size of one element of NArray.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#debug=-class_method" title="debug= (class method)">.<strong>debug=</strong>(flag)  &#x21d2; Object </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'></div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#eye-class_method" title="eye (class method)">.<strong>eye</strong>(n)  &#x21d2; Numo::NArray </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Returns a NArray with shape=(n,n) whose diagonal elements are 1, otherwise
 0.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#from_string-class_method" title="from_string (class method)">.<strong>from_string</strong>(string, [shape])  &#x21d2; Numo::NArray </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Returns a new 1-D array initialized from binary raw data in a string.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#inspect_cols-class_method" title="inspect_cols (class method)">.<strong>inspect_cols</strong>  &#x21d2; Integer or nil </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Returns the number of cols used for NArray#inspect.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#inspect_cols=-class_method" title="inspect_cols= (class method)">.<strong>inspect_cols=</strong>(cols)  &#x21d2; nil </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Set the number of cols used for NArray#inspect.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#inspect_rows-class_method" title="inspect_rows (class method)">.<strong>inspect_rows</strong>  &#x21d2; Integer or nil </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Returns the number of rows used for NArray#inspect.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#inspect_rows=-class_method" title="inspect_rows= (class method)">.<strong>inspect_rows=</strong>(rows)  &#x21d2; nil </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Set the number of rows used for NArray#inspect.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#linspace-class_method" title="linspace (class method)">.<strong>linspace</strong>(x1, x2, [n])  &#x21d2; Numo::NArray </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Returns an array of N linearly spaced points between x1 and x2.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#logspace-class_method" title="logspace (class method)">.<strong>logspace</strong>(a, b, [n, base])  &#x21d2; Numo::NArray </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Returns an array of N logarithmically spaced points between 10^a and 10^b.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#ones-class_method" title="ones (class method)">.<strong>ones</strong>(*args)  &#x21d2; Object </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Returns a one-filled narray with <em>shape</em>.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#profile-class_method" title="profile (class method)">.<strong>profile</strong>  &#x21d2; Object </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'></div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#profile=-class_method" title="profile= (class method)">.<strong>profile=</strong>(val)  &#x21d2; Object </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'></div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#srand-class_method" title="srand (class method)">.<strong>srand</strong>(*args)  &#x21d2; Object </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'></div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#upcast-class_method" title="upcast (class method)">.<strong>upcast</strong>(type2)  &#x21d2; Object </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>———————————————————————-.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#zeros-class_method" title="zeros (class method)">.<strong>zeros</strong>(*args)  &#x21d2; Object </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Returns a zero-filled narray with <em>shape</em>.</p>
 </div></span>
-  
+
 </li>
 
-      
+
     </ul>
-  
+
     <h2>
       Instance Method Summary
       <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
 
     <ul class="summary">
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#==-instance_method" title="#== (instance method)">#<strong>==</strong>(other)  &#x21d2; Boolean </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Equality of self and other in view of numerical array.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#[]=-instance_method" title="#[]= (instance method)">#<strong>[]=</strong>(*args)  &#x21d2; Object </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>method: []=(idx1,idx2,…,idxN,val).</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#byte_size-instance_method" title="#byte_size (instance method)">#<strong>byte_size</strong>  &#x21d2; Integer </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Returns total byte size of NArray.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#byte_swapped%3F-instance_method" title="#byte_swapped? (instance method)">#<strong>byte_swapped?</strong>  &#x21d2; Boolean </a>
-    
 
-    
+
+
       (also: #network_order?)
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+  </span>
+
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Return true if byte swapped.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#cast_to-instance_method" title="#cast_to (instance method)">#<strong>cast_to</strong>(datatype)  &#x21d2; Numo::NArray </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Cast self to another NArray datatype.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#coerce-instance_method" title="#coerce (instance method)">#<strong>coerce</strong>(other)  &#x21d2; Array </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Returns an array containing other and self, both are converted to upcasted
 type of NArray.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#column_major%3F-instance_method" title="#column_major? (instance method)">#<strong>column_major?</strong>  &#x21d2; Boolean </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Return true if column major.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#debug_info-instance_method" title="#debug_info (instance method)">#<strong>debug_info</strong>  &#x21d2; Object </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'></div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#diagonal-instance_method" title="#diagonal (instance method)">#<strong>diagonal</strong>([offset,axes])  &#x21d2; Numo::NArray </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Returns a diagonal view of NArray.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#dot-instance_method" title="#dot (instance method)">#<strong>dot</strong>(other)  &#x21d2; Object </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Returns dot product.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#empty%3F-instance_method" title="#empty? (instance method)">#<strong>empty?</strong>  &#x21d2; Boolean </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Returns true if self.size == 0.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#expand_dims-instance_method" title="#expand_dims (instance method)">#<strong>expand_dims</strong>(dim)  &#x21d2; Numo::NArray </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Expand the shape of an array.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#flatten-instance_method" title="#flatten (instance method)">#<strong>flatten</strong>  &#x21d2; Object </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'></div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#host_order%3F-instance_method" title="#host_order? (instance method)">#<strong>host_order?</strong>  &#x21d2; Boolean </a>
-    
 
-    
+
+
       (also: #little_endian?, #vacs_order?)
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+  </span>
+
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Return true if not byte swapped.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(args)  &#x21d2; Object </a>
-    
 
-    
+
+
   </span>
-  
-  
-    <span class="note title constructor">constructor</span>
-  
-  
-  
-  
-  
-  
 
-  
+
+    <span class="note title constructor">constructor</span>
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Constructs a narray using the given <em>DataType</em> and <em>shape</em> or
 <em>sizes</em>.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#initialize_copy-instance_method" title="#initialize_copy (instance method)">#<strong>initialize_copy</strong>(other)  &#x21d2; Numo::NArray </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Replaces the contents of self with the contents of other narray.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#inplace-instance_method" title="#inplace (instance method)">#<strong>inplace</strong>  &#x21d2; Numo::NArray </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Returns view of narray with inplace flagged.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#inplace!-instance_method" title="#inplace! (instance method)">#<strong>inplace!</strong>  &#x21d2; Numo::NArray </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Set inplace flag to self.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#inplace%3F-instance_method" title="#inplace? (instance method)">#<strong>inplace?</strong>  &#x21d2; Boolean </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Return true if inplace flagged.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#ndim-instance_method" title="#ndim (instance method)">#<strong>ndim</strong>  &#x21d2; Object </a>
-    
 
-    
+
+
       (also: #rank)
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+  </span>
+
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>method: size() – returns the total number of typeents.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#out_of_place!-instance_method" title="#out_of_place! (instance method)">#<strong>out_of_place!</strong>  &#x21d2; Numo::NArray </a>
-    
 
-    
+
+
       (also: #not_inplace!)
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+  </span>
+
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Unset inplace flag to self.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#reshape-instance_method" title="#reshape (instance method)">#<strong>reshape</strong>(*args)  &#x21d2; Object </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>private function for reshape.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#reverse-instance_method" title="#reverse (instance method)">#<strong>reverse</strong>([dim0,dim1,..])  &#x21d2; Object </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Return reversed view along specified dimeinsion.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#row_major%3F-instance_method" title="#row_major? (instance method)">#<strong>row_major?</strong>  &#x21d2; Boolean </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Return true if row major.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#shape-instance_method" title="#shape (instance method)">#<strong>shape</strong>  &#x21d2; Object </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>method: shape() – returns shape, array of the size of dimensions.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#size-instance_method" title="#size (instance method)">#<strong>size</strong>  &#x21d2; Object </a>
-    
 
-    
+
+
       (also: #length, #total)
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+  </span>
+
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>method: size() – returns the total number of typeents.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#slice-instance_method" title="#slice (instance method)">#<strong>slice</strong>(*args)  &#x21d2; Object </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>method: slice(idx1,idx2,…,idxN).</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#swap_byte-instance_method" title="#swap_byte (instance method)">#<strong>swap_byte</strong>  &#x21d2; Object </a>
-    
 
-    
+
+
       (also: #hton)
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+  </span>
+
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'></div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#to_host-instance_method" title="#to_host (instance method)">#<strong>to_host</strong>  &#x21d2; Object </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'></div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#to_network-instance_method" title="#to_network (instance method)">#<strong>to_network</strong>  &#x21d2; Object </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'></div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#to_string-instance_method" title="#to_string (instance method)">#<strong>to_string</strong>  &#x21d2; String </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Returns string containing the raw data bytes in NArray.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#to_swapped-instance_method" title="#to_swapped (instance method)">#<strong>to_swapped</strong>  &#x21d2; Object </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'></div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#to_vacs-instance_method" title="#to_vacs (instance method)">#<strong>to_vacs</strong>  &#x21d2; Object </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'></div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#transpose-instance_method" title="#transpose (instance method)">#<strong>transpose</strong>(*args)  &#x21d2; Object </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'></div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#view-instance_method" title="#view (instance method)">#<strong>view</strong>  &#x21d2; Object </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Return view of NArray.</p>
 </div></span>
-  
+
 </li>
 
-      
+
     </ul>
-  
+
 
 <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
-  
+
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
-  
-    
+
+
       <span class="overload">#<strong>Numo::DataType.new</strong>(shape)  &#x21d2; <tt>Object</tt> </span>
-    
+
       <span class="overload">#<strong>Numo::DataType.new</strong>(size1, size2, ...)  &#x21d2; <tt>Object</tt> </span>
-    
-  
 
-  
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Constructs a narray using the given <em>DataType</em> and <em>shape</em> or
 <em>sizes</em>.</p>
 
@@ -1439,7 +1439,7 @@ type of NArray.</p>
   </div>
 </div>
 <div class="tags">
-  
+
 
 </div><table class="source_code">
   <tr>
@@ -1507,62 +1507,62 @@ na_initialize(VALUE self, VALUE args)
   </tr>
 </table>
 </div>
-  
+
 </div>
 
 
   <div id="class_method_details" class="method_details_list">
     <h2>Class Method Details</h2>
 
-    
+
       <div class="method_details first">
   <h3 class="signature first" id="[]-class_method">
-  
-    .<strong>[]</strong>(elements)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">NArray</a></span></tt> 
-  
 
-  
+    .<strong>[]</strong>(elements)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">NArray</a></span></tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Generate NArray object. NArray datatype is automatically selected.</p>
 
 
   </div>
 </div>
 <div class="tags">
-  
-  
+
+
 <p class="tag_title">Parameters:</p>
 <ul class="param">
-  
+
     <li>
-      
+
         <span class='name'>elements</span>
-      
-      
+
+
         <span class='type'>(<tt>Numeric</tt>, <tt>Array</tt>)</span>
-      
-      
-      
+
+
+
     </li>
-  
+
 </ul>
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::NArray (class)">NArray</a></span></tt>)</span>
-      
-      
-      
+
+
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -1617,16 +1617,16 @@ nary_s_bracket(VALUE klass, VALUE ary)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="array_type-class_method">
-  
-    .<strong>array_type</strong>(ary)  &#x21d2; <tt>Object</tt> 
-  
 
-  
+    .<strong>array_type</strong>(ary)  &#x21d2; <tt>Object</tt>
 
-  
+
+
+
+
 </h3><table class="source_code">
   <tr>
     <td>
@@ -1651,43 +1651,43 @@ na_s_array_type(VALUE mod, VALUE ary)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="byte_size-class_method">
-  
-    .<strong>byte_size</strong>  &#x21d2; <tt>Numeric</tt> 
-  
 
-  
+    .<strong>byte_size</strong>  &#x21d2; <tt>Numeric</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Returns byte size of one element of NArray.</p>
 
 
   </div>
 </div>
 <div class="tags">
-  
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>Numeric</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>byte size.</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -1714,16 +1714,16 @@ nary_s_byte_size(VALUE type)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="debug=-class_method">
-  
-    .<strong>debug=</strong>(flag)  &#x21d2; <tt>Object</tt> 
-  
 
-  
+    .<strong>debug=</strong>(flag)  &#x21d2; <tt>Object</tt>
 
-  
+
+
+
+
 </h3><table class="source_code">
   <tr>
     <td>
@@ -1748,19 +1748,19 @@ VALUE na_debug_set(VALUE mod, VALUE flag)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="eye-class_method">
-  
-    .<strong>eye</strong>(n)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt> 
-  
 
-  
+    .<strong>eye</strong>(n)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Returns a NArray with shape=(n,n) whose diagonal elements are 1, otherwise
 0.</p>
 
@@ -1768,58 +1768,58 @@ VALUE na_debug_set(VALUE mod, VALUE flag)
   </div>
 </div>
 <div class="tags">
-  
+
   <div class="examples">
     <p class="tag_title">Examples:</p>
-    
-      
+
+
       <pre class="example code"><code>a = Numo::DFloat.eye(3)
 =&gt; Numo::DFloat#shape=[3,3]
 [[1, 0, 0],
  [0, 1, 0],
  [0, 0, 1]]</code></pre>
-    
+
   </div>
 
-  
+
 <p class="tag_title">Parameters:</p>
 <ul class="param">
-  
+
     <li>
-      
+
         <span class='name'>n</span>
-      
-      
+
+
         <span class='type'>(<tt>Integer</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>Size of NArray. Creates 2-D NArray with shape=(n,n)</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>created NArray.</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -1870,81 +1870,81 @@ na_s_eye(int argc, VALUE *argv, VALUE klass)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="from_string-class_method">
-  
-    .<strong>from_string</strong>(string, [shape])  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt> 
-  
 
-  
+    .<strong>from_string</strong>(string, [shape])  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Returns a new 1-D array initialized from binary raw data in a string.</p>
 
 
   </div>
 </div>
 <div class="tags">
-  
-  
+
+
 <p class="tag_title">Parameters:</p>
 <ul class="param">
-  
+
     <li>
-      
+
         <span class='name'>string</span>
-      
-      
+
+
         <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>Binary raw data.</p>
 </div>
-      
+
     </li>
-  
+
     <li>
-      
+
         <span class='name'>shape</span>
-      
-      
+
+
         <span class='type'>(<tt>Array</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>array of integers representing array shape.</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>NArray containing binary data.</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -2091,45 +2091,45 @@ nary_s_from_string(int argc, VALUE *argv, VALUE type)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="inspect_cols-class_method">
-  
-    .<strong>inspect_cols</strong>  &#x21d2; <tt>Integer or nil</tt> 
-  
 
-  
+    .<strong>inspect_cols</strong>  &#x21d2; <tt>Integer or nil</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Returns the number of cols used for NArray#inspect</p>
 
 
   </div>
 </div>
 <div class="tags">
-  
-  
+
+
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>Integer or nil</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>the number of cols.</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -2162,60 +2162,60 @@ static VALUE na_inspect_cols(VALUE mod)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="inspect_cols=-class_method">
-  
-    .<strong>inspect_cols=</strong>(cols)  &#x21d2; <tt>nil</tt> 
-  
 
-  
+    .<strong>inspect_cols=</strong>(cols)  &#x21d2; <tt>nil</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Set the number of cols used for NArray#inspect</p>
 
 
   </div>
 </div>
 <div class="tags">
-  
-  
+
+
 <p class="tag_title">Parameters:</p>
 <ul class="param">
-  
+
     <li>
-      
+
         <span class='name'>cols</span>
-      
-      
+
+
         <span class='type'>(<tt>Integer or nil</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>the number of cols</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>nil</tt>)</span>
-      
-      
-      
+
+
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -2250,45 +2250,45 @@ static VALUE na_inspect_cols_set(VALUE mod, VALUE num)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="inspect_rows-class_method">
-  
-    .<strong>inspect_rows</strong>  &#x21d2; <tt>Integer or nil</tt> 
-  
 
-  
+    .<strong>inspect_rows</strong>  &#x21d2; <tt>Integer or nil</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Returns the number of rows used for NArray#inspect</p>
 
 
   </div>
 </div>
 <div class="tags">
-  
-  
+
+
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>Integer or nil</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>the number of rows.</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -2321,60 +2321,60 @@ static VALUE na_inspect_rows(VALUE mod)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="inspect_rows=-class_method">
-  
-    .<strong>inspect_rows=</strong>(rows)  &#x21d2; <tt>nil</tt> 
-  
 
-  
+    .<strong>inspect_rows=</strong>(rows)  &#x21d2; <tt>nil</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Set the number of rows used for NArray#inspect</p>
 
 
   </div>
 </div>
 <div class="tags">
-  
-  
+
+
 <p class="tag_title">Parameters:</p>
 <ul class="param">
-  
+
     <li>
-      
+
         <span class='name'>rows</span>
-      
-      
+
+
         <span class='type'>(<tt>Integer or nil</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>the number of rows</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>nil</tt>)</span>
-      
-      
-      
+
+
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -2409,19 +2409,19 @@ static VALUE na_inspect_rows_set(VALUE mod, VALUE num)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="linspace-class_method">
-  
-    .<strong>linspace</strong>(x1, x2, [n])  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt> 
-  
 
-  
+    .<strong>linspace</strong>(x1, x2, [n])  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Returns an array of N linearly spaced points between x1 and x2. This
 singleton method is valid not for NArray class itself but for typed NArray
 subclasses, e.g., DFloat, Int64.</p>
@@ -2430,88 +2430,88 @@ subclasses, e.g., DFloat, Int64.</p>
   </div>
 </div>
 <div class="tags">
-  
+
   <div class="examples">
     <p class="tag_title">Examples:</p>
-    
-      
+
+
       <pre class="example code"><code>a = Numo::DFloat.linspace(-5,5,7)
 =&gt; Numo::DFloat#shape=[7]
 [-5, -3.33333, -1.66667, 0, 1.66667, 3.33333, 5]</code></pre>
-    
+
   </div>
 
-  
+
 <p class="tag_title">Parameters:</p>
 <ul class="param">
-  
+
     <li>
-      
+
         <span class='name'>x1</span>
-      
-      
+
+
         <span class='type'>(<tt>Numeric</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>The start value</p>
 </div>
-      
+
     </li>
-  
+
     <li>
-      
+
         <span class='name'>x2</span>
-      
-      
+
+
         <span class='type'>(<tt>Numeric</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>The end value</p>
 </div>
-      
+
     </li>
-  
+
     <li>
-      
+
         <span class='name'>n</span>
-      
-      
+
+
         <span class='type'>(<tt>Integer</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>The number of elements. (default is 100).</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>result array.</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -2570,19 +2570,19 @@ na_s_linspace(int argc, VALUE *argv, VALUE klass)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="logspace-class_method">
-  
-    .<strong>logspace</strong>(a, b, [n, base])  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt> 
-  
 
-  
+    .<strong>logspace</strong>(a, b, [n, base])  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Returns an array of N logarithmically spaced points between 10^a and 10^b.
 This singleton method is valid not for NArray having <code>logseq</code>
 method, i.e., DFloat, SFloat, DComplex, and SComplex.</p>
@@ -2591,107 +2591,107 @@ method, i.e., DFloat, SFloat, DComplex, and SComplex.</p>
   </div>
 </div>
 <div class="tags">
-  
+
   <div class="examples">
     <p class="tag_title">Examples:</p>
-    
-      
+
+
       <pre class="example code"><code>Numo::DFloat.logspace(4,0,5,2)
 =&gt; Numo::DFloat#shape=[5]
    [16, 8, 4, 2, 1]
 Numo::DComplex.logspace(0,1i*Math::PI,5,Math::E)
 =&gt; Numo::DComplex#shape=[5]
    [1+4.44659e-323i, 0.707107+0.707107i, 6.12323e-17+1i, -0.707107+0.707107i, ...]</code></pre>
-    
+
   </div>
 
-  
+
 <p class="tag_title">Parameters:</p>
 <ul class="param">
-  
+
     <li>
-      
+
         <span class='name'>a</span>
-      
-      
+
+
         <span class='type'>(<tt>Numeric</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>The start value</p>
 </div>
-      
+
     </li>
-  
+
     <li>
-      
+
         <span class='name'>b</span>
-      
-      
+
+
         <span class='type'>(<tt>Numeric</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>The end value</p>
 </div>
-      
+
     </li>
-  
+
     <li>
-      
+
         <span class='name'>n</span>
-      
-      
+
+
         <span class='type'>(<tt>Integer</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>The number of elements. (default is 50)</p>
 </div>
-      
+
     </li>
-  
+
     <li>
-      
+
         <span class='name'>base</span>
-      
-      
+
+
         <span class='type'>(<tt>Numeric</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>The base of log space. (default is 10)</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>result array.</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -2754,23 +2754,23 @@ na_s_logspace(int argc, VALUE *argv, VALUE klass)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="ones-class_method">
-  
-    
+
+
       <span class="overload">.<strong>ones</strong>(shape)  &#x21d2; <tt>Object</tt> </span>
-    
+
       <span class="overload">.<strong>ones</strong>(size1, size2, ...)  &#x21d2; <tt>Object</tt> </span>
-    
-  
 
-  
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Returns a one-filled narray with <em>shape</em>. This singleton method is
 valid not for NArray class itself but for typed NArray subclasses, e.g.,
 DFloat, Int64.</p>
@@ -2779,17 +2779,17 @@ DFloat, Int64.</p>
   </div>
 </div>
 <div class="tags">
-  
+
   <div class="examples">
     <p class="tag_title">Examples:</p>
-    
-      
+
+
       <pre class="example code"><code>a = Numo::DFloat.ones(3,5)
 =&gt; Numo::DFloat#shape=[3,5]
 [[1, 1, 1, 1, 1],
  [1, 1, 1, 1, 1],
  [1, 1, 1, 1, 1]]</code></pre>
-    
+
   </div>
 
 
@@ -2821,16 +2821,16 @@ na_s_ones(int argc, VALUE *argv, VALUE klass)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="profile-class_method">
-  
-    .<strong>profile</strong>  &#x21d2; <tt>Object</tt> 
-  
 
-  
+    .<strong>profile</strong>  &#x21d2; <tt>Object</tt>
 
-  
+
+
+
+
 </h3><table class="source_code">
   <tr>
     <td>
@@ -2853,16 +2853,16 @@ VALUE na_profile(VALUE mod)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="profile=-class_method">
-  
-    .<strong>profile=</strong>(val)  &#x21d2; <tt>Object</tt> 
-  
 
-  
+    .<strong>profile=</strong>(val)  &#x21d2; <tt>Object</tt>
 
-  
+
+
+
+
 </h3><table class="source_code">
   <tr>
     <td>
@@ -2887,16 +2887,16 @@ VALUE na_profile_set(VALUE mod, VALUE val)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="srand-class_method">
-  
-    .<strong>srand</strong>(*args)  &#x21d2; <tt>Object</tt> 
-  
 
-  
+    .<strong>srand</strong>(*args)  &#x21d2; <tt>Object</tt>
 
-  
+
+
+
+
 </h3><table class="source_code">
   <tr>
     <td>
@@ -2945,16 +2945,16 @@ static VALUE
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="upcast-class_method">
-  
-    .<strong>upcast</strong>(type2)  &#x21d2; <tt>Object</tt> 
-  
 
-  
+    .<strong>upcast</strong>(type2)  &#x21d2; <tt>Object</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <hr>
@@ -2963,7 +2963,7 @@ static VALUE
   </div>
 </div>
 <div class="tags">
-  
+
 
 </div><table class="source_code">
   <tr>
@@ -3021,23 +3021,23 @@ numo_na_upcast(VALUE type1, VALUE type2)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="zeros-class_method">
-  
-    
+
+
       <span class="overload">.<strong>zeros</strong>(shape)  &#x21d2; <tt>Object</tt> </span>
-    
+
       <span class="overload">.<strong>zeros</strong>(size1, size2, ...)  &#x21d2; <tt>Object</tt> </span>
-    
-  
 
-  
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Returns a zero-filled narray with <em>shape</em>. This singleton method is
 valid not for NArray class itself but for typed NArray subclasses, e.g.,
 DFloat, Int64.</p>
@@ -3046,17 +3046,17 @@ DFloat, Int64.</p>
   </div>
 </div>
 <div class="tags">
-  
+
   <div class="examples">
     <p class="tag_title">Examples:</p>
-    
-      
+
+
       <pre class="example code"><code>a = Numo::DFloat.zeros(3,5)
 =&gt; Numo::DFloat#shape=[3,5]
 [[0, 0, 0, 0, 0],
  [0, 0, 0, 0, 0],
  [0, 0, 0, 0, 0]]</code></pre>
-    
+
   </div>
 
 
@@ -3088,25 +3088,25 @@ na_s_zeros(int argc, VALUE *argv, VALUE klass)
   </tr>
 </table>
 </div>
-    
+
   </div>
 
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
 
-    
+
       <div class="method_details first">
   <h3 class="signature first" id="==-instance_method">
-  
-    #<strong>==</strong>(other)  &#x21d2; <tt>Boolean</tt> 
-  
 
-  
+    #<strong>==</strong>(other)  &#x21d2; <tt>Boolean</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Equality of self and other in view of numerical array. i.e., both arrays
 have same shape and corresponding elements are equal.</p>
 
@@ -3114,41 +3114,41 @@ have same shape and corresponding elements are equal.</p>
   </div>
 </div>
 <div class="tags">
-  
-  
+
+
 <p class="tag_title">Parameters:</p>
 <ul class="param">
-  
+
     <li>
-      
+
         <span class='name'>other</span>
-      
-      
+
+
         <span class='type'>(<tt>Object</tt>)</span>
-      
-      
-      
+
+
+
     </li>
-  
+
 </ul>
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>true if self and other is equal.</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -3215,26 +3215,26 @@ na_equal(VALUE self, volatile VALUE other)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="[]=-instance_method">
-  
-    #<strong>[]=</strong>(*args)  &#x21d2; <tt>Object</tt> 
-  
 
-  
+    #<strong>[]=</strong>(*args)  &#x21d2; <tt>Object</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>method: []=(idx1,idx2,…,idxN,val)</p>
 
 
   </div>
 </div>
 <div class="tags">
-  
+
 
 </div><table class="source_code">
   <tr>
@@ -3278,43 +3278,43 @@ na_aset(int argc, VALUE *argv, VALUE self)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="byte_size-instance_method">
-  
-    #<strong>byte_size</strong>  &#x21d2; <tt>Integer</tt> 
-  
 
-  
+    #<strong>byte_size</strong>  &#x21d2; <tt>Integer</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Returns total byte size of NArray.</p>
 
 
   </div>
 </div>
 <div class="tags">
-  
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>Integer</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>byte size.</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -3357,42 +3357,42 @@ nary_byte_size(VALUE self)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="byte_swapped?-instance_method">
-  
-    #<strong>byte_swapped?</strong>  &#x21d2; <tt>Boolean</tt> 
-  
 
-  
+    #<strong>byte_swapped?</strong>  &#x21d2; <tt>Boolean</tt>
+
+
+
     <span class="aliases">Also known as:
     <span class="names"><span id='network_order?-instance_method'>network_order?</span></span>
     </span>
-  
 
-  
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Return true if byte swapped.</p>
 
 
   </div>
 </div>
 <div class="tags">
-  
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-      
+
+
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -3421,60 +3421,60 @@ VALUE na_byte_swapped_p( VALUE self )
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="cast_to-instance_method">
-  
-    #<strong>cast_to</strong>(datatype)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt> 
-  
 
-  
+    #<strong>cast_to</strong>(datatype)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Cast self to another NArray datatype.</p>
 
 
   </div>
 </div>
 <div class="tags">
-  
-  
+
+
 <p class="tag_title">Parameters:</p>
 <ul class="param">
-  
+
     <li>
-      
+
         <span class='name'>datatype</span>
-      
-      
+
+
         <span class='type'>(<tt>Class</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>NArray datatype.</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>)</span>
-      
-      
-      
+
+
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -3501,19 +3501,19 @@ nary_cast_to(VALUE obj, VALUE type)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="coerce-instance_method">
-  
-    #<strong>coerce</strong>(other)  &#x21d2; <tt>Array</tt> 
-  
 
-  
+    #<strong>coerce</strong>(other)  &#x21d2; <tt>Array</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Returns an array containing other and self, both are converted to upcasted
 type of NArray. Note that NArray has distinct UPCAST mechanism. Coerce is
 used for operation between non-NArray and NArray.</p>
@@ -3522,46 +3522,46 @@ used for operation between non-NArray and NArray.</p>
   </div>
 </div>
 <div class="tags">
-  
-  
+
+
 <p class="tag_title">Parameters:</p>
 <ul class="param">
-  
+
     <li>
-      
+
         <span class='name'>other</span>
-      
-      
+
+
         <span class='type'>(<tt>Object</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>numeric object.</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>Array</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>NArray-casted [other,self]</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -3596,38 +3596,38 @@ nary_coerce(VALUE x, VALUE y)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="column_major?-instance_method">
-  
-    #<strong>column_major?</strong>  &#x21d2; <tt>Boolean</tt> 
-  
 
-  
+    #<strong>column_major?</strong>  &#x21d2; <tt>Boolean</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Return true if column major.</p>
 
 
   </div>
 </div>
 <div class="tags">
-  
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-      
+
+
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -3658,16 +3658,16 @@ VALUE na_column_major_p( VALUE self )
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="debug_info-instance_method">
-  
-    #<strong>debug_info</strong>  &#x21d2; <tt>Object</tt> 
-  
 
-  
+    #<strong>debug_info</strong>  &#x21d2; <tt>Object</tt>
 
-  
+
+
+
+
 </h3><table class="source_code">
   <tr>
     <td>
@@ -3746,30 +3746,30 @@ rb_narray_debug_info(VALUE self)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="diagonal-instance_method">
-  
-    #<strong>diagonal</strong>([offset,axes])  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt> 
-  
 
-  
+    #<strong>diagonal</strong>([offset,axes])  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Returns a diagonal view of NArray</p>
 
 
   </div>
 </div>
 <div class="tags">
-  
+
   <div class="examples">
     <p class="tag_title">Examples:</p>
-    
-      
+
+
       <pre class="example code"><code>a = Numo::DFloat.new(4,5).seq
 =&gt; Numo::DFloat#shape=[4,5]
 [[0, 1, 2, 3, 4],
@@ -3793,67 +3793,67 @@ a
  [5, 6, 2, 8, 9],
  [10, 11, 12, 3, 14],
  [15, 16, 17, 18, 4]]</code></pre>
-    
+
   </div>
 
-  
+
 <p class="tag_title">Parameters:</p>
 <ul class="param">
-  
+
     <li>
-      
+
         <span class='name'>offset</span>
-      
-      
+
+
         <span class='type'>(<tt>Integer</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>Diagonal offset from the main diagonal. The default is 0. k&gt;0 for
 diagonals above the main diagonal, and k&lt;0 for diagonals below the main
 diagonal.</p>
 </div>
-      
+
     </li>
-  
+
     <li>
-      
+
         <span class='name'>axes</span>
-      
-      
+
+
         <span class='type'>(<tt>Array</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>Array of axes to be used as the 2-d sub-arrays from which the diagonals
 should be taken. Defaults to last-two axes ([-2,-1]).</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>diagonal view of NArray.</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -4240,27 +4240,27 @@ na_diagonal(int argc, VALUE *argv, VALUE self)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="dot-instance_method">
-  
-    #<strong>dot</strong>(other)  &#x21d2; <tt>Object</tt> 
-  
 
-  
+    #<strong>dot</strong>(other)  &#x21d2; <tt>Object</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Returns dot product.</p>
 
 
   </div>
 </div>
 <div class="tags">
-  
-  
+
+
 
 
 </div><table class="source_code">
@@ -4325,40 +4325,40 @@ numo_na_dot(VALUE self, VALUE other)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="empty?-instance_method">
-  
-    #<strong>empty?</strong>  &#x21d2; <tt>Boolean</tt> 
-  
 
-  
+    #<strong>empty?</strong>  &#x21d2; <tt>Boolean</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Returns true if self.size == 0.</p>
 
 
   </div>
 </div>
 <div class="tags">
-  
-  
+
+
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-      
+
+
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -4395,19 +4395,19 @@ na_empty_p(VALUE self)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="expand_dims-instance_method">
-  
-    #<strong>expand_dims</strong>(dim)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt> 
-  
 
-  
+    #<strong>expand_dims</strong>(dim)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Expand the shape of an array. Insert a new axis with size=1 at a given
 dimension.</p>
 
@@ -4415,46 +4415,46 @@ dimension.</p>
   </div>
 </div>
 <div class="tags">
-  
-  
+
+
 <p class="tag_title">Parameters:</p>
 <ul class="param">
-  
+
     <li>
-      
+
         <span class='name'>dim</span>
-      
-      
+
+
         <span class='type'>(<tt>Integer</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>dimension at which new axis is inserted.</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>result narray view.</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -4571,16 +4571,16 @@ na_expand_dims(VALUE self, VALUE vdim)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="flatten-instance_method">
-  
-    #<strong>flatten</strong>  &#x21d2; <tt>Object</tt> 
-  
 
-  
+    #<strong>flatten</strong>  &#x21d2; <tt>Object</tt>
 
-  
+
+
+
+
 </h3><table class="source_code">
   <tr>
     <td>
@@ -4605,42 +4605,42 @@ na_flatten(VALUE self)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="host_order?-instance_method">
-  
-    #<strong>host_order?</strong>  &#x21d2; <tt>Boolean</tt> 
-  
 
-  
+    #<strong>host_order?</strong>  &#x21d2; <tt>Boolean</tt>
+
+
+
     <span class="aliases">Also known as:
     <span class="names"><span id='little_endian?-instance_method'>little_endian?</span>, <span id='vacs_order?-instance_method'>vacs_order?</span></span>
     </span>
-  
 
-  
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Return true if not byte swapped.</p>
 
 
   </div>
 </div>
 <div class="tags">
-  
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-      
+
+
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -4669,19 +4669,19 @@ VALUE na_host_order_p( VALUE self )
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="initialize_copy-instance_method">
-  
-    #<strong>initialize_copy</strong>(other)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt> 
-  
 
-  
+    #<strong>initialize_copy</strong>(other)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Replaces the contents of self with the contents of other narray. Used in
 dup and clone method.</p>
 
@@ -4689,41 +4689,41 @@ dup and clone method.</p>
   </div>
 </div>
 <div class="tags">
-  
-  
+
+
 <p class="tag_title">Parameters:</p>
 <ul class="param">
-  
+
     <li>
-      
+
         <span class='name'>other</span>
-      
-      
+
+
         <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>)</span>
-      
-      
-      
+
+
+
     </li>
-  
+
 </ul>
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>self</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -4762,43 +4762,43 @@ na_initialize_copy(VALUE self, VALUE orig)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="inplace-instance_method">
-  
-    #<strong>inplace</strong>  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt> 
-  
 
-  
+    #<strong>inplace</strong>  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Returns view of narray with inplace flagged.</p>
 
 
   </div>
 </div>
 <div class="tags">
-  
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>view of narray with inplace flag.</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -4829,43 +4829,43 @@ VALUE na_inplace( VALUE self )
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="inplace!-instance_method">
-  
-    #<strong>inplace!</strong>  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt> 
-  
 
-  
+    #<strong>inplace!</strong>  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Set inplace flag to self.</p>
 
 
   </div>
 </div>
 <div class="tags">
-  
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>self</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -4892,38 +4892,38 @@ VALUE na_inplace_bang( VALUE self )
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="inplace?-instance_method">
-  
-    #<strong>inplace?</strong>  &#x21d2; <tt>Boolean</tt> 
-  
 
-  
+    #<strong>inplace?</strong>  &#x21d2; <tt>Boolean</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Return true if inplace flagged.</p>
 
 
   </div>
 </div>
 <div class="tags">
-  
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-      
+
+
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -4954,30 +4954,30 @@ VALUE na_inplace_p( VALUE self )
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="ndim-instance_method">
-  
-    #<strong>ndim</strong>  &#x21d2; <tt>Object</tt> 
-  
 
-  
+    #<strong>ndim</strong>  &#x21d2; <tt>Object</tt>
+
+
+
     <span class="aliases">Also known as:
     <span class="names"><span id='rank-instance_method'>rank</span></span>
     </span>
-  
 
-  
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>method: size() – returns the total number of typeents</p>
 
 
   </div>
 </div>
 <div class="tags">
-  
+
 
 </div><table class="source_code">
   <tr>
@@ -5007,47 +5007,47 @@ na_ndim(VALUE self)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="out_of_place!-instance_method">
-  
-    #<strong>out_of_place!</strong>  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt> 
-  
 
-  
+    #<strong>out_of_place!</strong>  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>
+
+
+
     <span class="aliases">Also known as:
     <span class="names"><span id='not_inplace!-instance_method'>not_inplace!</span></span>
     </span>
-  
 
-  
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Unset inplace flag to self.</p>
 
 
   </div>
 </div>
 <div class="tags">
-  
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>self</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -5074,26 +5074,26 @@ VALUE na_out_of_place_bang( VALUE self )
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="reshape-instance_method">
-  
-    #<strong>reshape</strong>(*args)  &#x21d2; <tt>Object</tt> 
-  
 
-  
+    #<strong>reshape</strong>(*args)  &#x21d2; <tt>Object</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>private function for reshape</p>
 
 
   </div>
 </div>
 <div class="tags">
-  
+
 
 </div><table class="source_code">
   <tr>
@@ -5211,27 +5211,27 @@ na_reshape(int argc, VALUE *argv, VALUE self)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="reverse-instance_method">
-  
-    #<strong>reverse</strong>([dim0,dim1,..])  &#x21d2; <tt>Object</tt> 
-  
 
-  
+    #<strong>reverse</strong>([dim0,dim1,..])  &#x21d2; <tt>Object</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Return reversed view along specified dimeinsion</p>
 
 
   </div>
 </div>
 <div class="tags">
-  
-  
+
+
 
 
 </div><table class="source_code">
@@ -5408,38 +5408,38 @@ nary_reverse(int argc, VALUE *argv, VALUE self)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="row_major?-instance_method">
-  
-    #<strong>row_major?</strong>  &#x21d2; <tt>Boolean</tt> 
-  
 
-  
+    #<strong>row_major?</strong>  &#x21d2; <tt>Boolean</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Return true if row major.</p>
 
 
   </div>
 </div>
 <div class="tags">
-  
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-      
+
+
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -5470,26 +5470,26 @@ VALUE na_row_major_p( VALUE self )
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="shape-instance_method">
-  
-    #<strong>shape</strong>  &#x21d2; <tt>Object</tt> 
-  
 
-  
+    #<strong>shape</strong>  &#x21d2; <tt>Object</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>method: shape() – returns shape, array of the size of dimensions</p>
 
 
   </div>
 </div>
 <div class="tags">
-  
+
 
 </div><table class="source_code">
   <tr>
@@ -5551,30 +5551,30 @@ static VALUE
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="size-instance_method">
-  
-    #<strong>size</strong>  &#x21d2; <tt>Object</tt> 
-  
 
-  
+    #<strong>size</strong>  &#x21d2; <tt>Object</tt>
+
+
+
     <span class="aliases">Also known as:
     <span class="names"><span id='length-instance_method'>length</span>, <span id='total-instance_method'>total</span></span>
     </span>
-  
 
-  
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>method: size() – returns the total number of typeents</p>
 
 
   </div>
 </div>
 <div class="tags">
-  
+
 
 </div><table class="source_code">
   <tr>
@@ -5604,26 +5604,26 @@ na_size(VALUE self)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="slice-instance_method">
-  
-    #<strong>slice</strong>(*args)  &#x21d2; <tt>Object</tt> 
-  
 
-  
+    #<strong>slice</strong>(*args)  &#x21d2; <tt>Object</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>method: slice(idx1,idx2,…,idxN)</p>
 
 
   </div>
 </div>
 <div class="tags">
-  
+
 
 </div><table class="source_code">
   <tr>
@@ -5647,20 +5647,20 @@ static VALUE na_slice(int argc, VALUE *argv, VALUE self)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="swap_byte-instance_method">
-  
-    #<strong>swap_byte</strong>  &#x21d2; <tt>Object</tt> 
-  
 
-  
+    #<strong>swap_byte</strong>  &#x21d2; <tt>Object</tt>
+
+
+
     <span class="aliases">Also known as:
     <span class="names"><span id='hton-instance_method'>hton</span></span>
     </span>
-  
 
-  
+
+
 </h3><table class="source_code">
   <tr>
     <td>
@@ -5707,16 +5707,16 @@ nary_swap_byte(VALUE self)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="to_host-instance_method">
-  
-    #<strong>to_host</strong>  &#x21d2; <tt>Object</tt> 
-  
 
-  
+    #<strong>to_host</strong>  &#x21d2; <tt>Object</tt>
 
-  
+
+
+
+
 </h3><table class="source_code">
   <tr>
     <td>
@@ -5747,16 +5747,16 @@ nary_to_host(VALUE self)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="to_network-instance_method">
-  
-    #<strong>to_network</strong>  &#x21d2; <tt>Object</tt> 
-  
 
-  
+    #<strong>to_network</strong>  &#x21d2; <tt>Object</tt>
 
-  
+
+
+
+
 </h3><table class="source_code">
   <tr>
     <td>
@@ -5787,45 +5787,45 @@ nary_to_network(VALUE self)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="to_string-instance_method">
-  
-    #<strong>to_string</strong>  &#x21d2; <tt>String</tt> 
-  
 
-  
+    #<strong>to_string</strong>  &#x21d2; <tt>String</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Returns string containing the raw data bytes in NArray.</p>
 
 
   </div>
 </div>
 <div class="tags">
-  
-  
+
+
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>String object containing binary raw data.</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -5878,16 +5878,16 @@ nary_to_string(VALUE self)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="to_swapped-instance_method">
-  
-    #<strong>to_swapped</strong>  &#x21d2; <tt>Object</tt> 
-  
 
-  
+    #<strong>to_swapped</strong>  &#x21d2; <tt>Object</tt>
 
-  
+
+
+
+
 </h3><table class="source_code">
   <tr>
     <td>
@@ -5918,16 +5918,16 @@ nary_to_swapped(VALUE self)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="to_vacs-instance_method">
-  
-    #<strong>to_vacs</strong>  &#x21d2; <tt>Object</tt> 
-  
 
-  
+    #<strong>to_vacs</strong>  &#x21d2; <tt>Object</tt>
 
-  
+
+
+
+
 </h3><table class="source_code">
   <tr>
     <td>
@@ -5958,16 +5958,16 @@ nary_to_vacs(VALUE self)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="transpose-instance_method">
-  
-    #<strong>transpose</strong>(*args)  &#x21d2; <tt>Object</tt> 
-  
 
-  
+    #<strong>transpose</strong>(*args)  &#x21d2; <tt>Object</tt>
 
-  
+
+
+
+
 </h3><table class="source_code">
   <tr>
     <td>
@@ -6122,27 +6122,27 @@ na_transpose(int argc, VALUE *argv, VALUE self)
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="view-instance_method">
-  
-    #<strong>view</strong>  &#x21d2; <tt>Object</tt> 
-  
 
-  
+    #<strong>view</strong>  &#x21d2; <tt>Object</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Return view of NArray</p>
 
 
   </div>
 </div>
 <div class="tags">
-  
-  
+
+
 
 
 </div><table class="source_code">
@@ -6267,7 +6267,7 @@ na_make_view(VALUE self)
   </tr>
 </table>
 </div>
-    
+
   </div>
 
 </div>
