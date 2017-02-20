@@ -1,12 +1,12 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
   Class: Numo::NArray
   
-    &mdash; Documentation by YARD 0.8.7.6
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -15,9 +15,8 @@
   <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  hasFrames = window.top.frames.main ? true : false;
+  pathId = "Numo::NArray";
   relpath = '../';
-  framesUrl = "../frames.html#!Numo/NArray.html";
 </script>
 
 
@@ -28,51 +27,48 @@
 
   </head>
   <body>
-    <div id="header">
-      <div id="menu">
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
   
     <a href="../_index.html">Index (N)</a> &raquo;
     <span class='title'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span>
      &raquo; 
     <span class="title">NArray</span>
   
-
-  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
 </div>
 
-      <div id="search">
+        <div id="search">
   
     <a class="full_list_link" id="class_list_link"
         href="../class_list.html">
-      Class List
-    </a>
-  
-    <a class="full_list_link" id="method_list_link"
-        href="../method_list.html">
-      Method List
-    </a>
-  
-    <a class="full_list_link" id="file_list_link"
-        href="../file_list.html">
-      File List
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
     </a>
   
 </div>
-      <div class="clear"></div>
-    </div>
+        <div class="clear"></div>
+      </div>
 
-    <iframe id="search_frame"></iframe>
-
-    <div id="content"><h1>Class: Numo::NArray
+      <div id="content"><h1>Class: Numo::NArray
   
   
   
 </h1>
-
-<dl class="box">
+<div class="box_info">
   
-    <dt class="r1">Inherits:</dt>
-    <dd class="r1">
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
       <span class="inheritName">Object</span>
       
         <ul class="fullTree">
@@ -83,21 +79,25 @@
         </ul>
         <a href="#" class="inheritanceTree">show all</a>
       
-      </dd>
-    
+    </dd>
+  </dl>
   
-  
-    
-  
-    
+
   
   
   
-    <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">narray.c</dd>
   
-</dl>
-<div class="clear"></div>
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>narray.c</dd>
+  </dl>
+  
+</div>
 
 <div id="subclasses">
   <h2>Direct Known Subclasses</h2>
@@ -114,6 +114,16 @@
   
 </p>
 
+  <h2>Constant Summary</h2>
+  <dl class="constants">
+    
+      <dt id="VERSION-constant" class="">VERSION =
+        
+      </dt>
+      <dd><pre class="code"><span class='id identifier rubyid_rb_str_new2'>rb_str_new2</span><span class='lparen'>(</span><span class='const'>NARRAY_VERSION</span><span class='rparen'>)</span></pre></dd>
+    
+  </dl>
+
 
 
 
@@ -123,7 +133,7 @@
   
     <h2>
       Class Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+      <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
 
     <ul class="summary">
@@ -131,7 +141,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#%5B%5D-class_method" title="[] (class method)">+ (NArray) <strong>[]</strong>(elements) </a>
+      <a href="#[]-class_method" title="[] (class method)">.<strong>[]</strong>(elements)  &#x21d2; NArray </a>
     
 
     
@@ -155,7 +165,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#array_type-class_method" title="array_type (class method)">+ (Object) <strong>array_type</strong> </a>
+      <a href="#array_type-class_method" title="array_type (class method)">.<strong>array_type</strong>(ary)  &#x21d2; Object </a>
     
 
     
@@ -177,7 +187,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#byte_size-class_method" title="byte_size (class method)">+ (Numeric) <strong>byte_size</strong> </a>
+      <a href="#byte_size-class_method" title="byte_size (class method)">.<strong>byte_size</strong>  &#x21d2; Numeric </a>
     
 
     
@@ -201,7 +211,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#debug%3D-class_method" title="debug= (class method)">+ (Object) <strong>debug=</strong> </a>
+      <a href="#debug=-class_method" title="debug= (class method)">.<strong>debug=</strong>(flag)  &#x21d2; Object </a>
     
 
     
@@ -223,7 +233,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#eye-class_method" title="eye (class method)">+ (Numo::NArray) <strong>eye</strong>(n) </a>
+      <a href="#eye-class_method" title="eye (class method)">.<strong>eye</strong>(n)  &#x21d2; Numo::NArray </a>
     
 
     
@@ -248,7 +258,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#from_string-class_method" title="from_string (class method)">+ (Numo::NArray) <strong>from_string</strong>(string, [shape]) </a>
+      <a href="#from_string-class_method" title="from_string (class method)">.<strong>from_string</strong>(string, [shape])  &#x21d2; Numo::NArray </a>
     
 
     
@@ -272,7 +282,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#ones-class_method" title="ones (class method)">+ (Object) <strong>ones</strong> </a>
+      <a href="#inspect_cols-class_method" title="inspect_cols (class method)">.<strong>inspect_cols</strong>  &#x21d2; Integer or nil </a>
     
 
     
@@ -287,7 +297,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Returns a one-filled narray with shape.</p>
+<p>Returns the number of cols used for NArray#inspect.</p>
 </div></span>
   
 </li>
@@ -296,7 +306,151 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#profile-class_method" title="profile (class method)">+ (Object) <strong>profile</strong> </a>
+      <a href="#inspect_cols=-class_method" title="inspect_cols= (class method)">.<strong>inspect_cols=</strong>(cols)  &#x21d2; nil </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Set the number of cols used for NArray#inspect.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#inspect_rows-class_method" title="inspect_rows (class method)">.<strong>inspect_rows</strong>  &#x21d2; Integer or nil </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the number of rows used for NArray#inspect.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#inspect_rows=-class_method" title="inspect_rows= (class method)">.<strong>inspect_rows=</strong>(rows)  &#x21d2; nil </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Set the number of rows used for NArray#inspect.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#linspace-class_method" title="linspace (class method)">.<strong>linspace</strong>(x1, x2, [n])  &#x21d2; Numo::NArray </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns an array of N linearly spaced points between x1 and x2.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#logspace-class_method" title="logspace (class method)">.<strong>logspace</strong>(a, b, [n, base])  &#x21d2; Numo::NArray </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns an array of N logarithmically spaced points between 10^a and 10^b.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ones-class_method" title="ones (class method)">.<strong>ones</strong>(*args)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns a one-filled narray with <em>shape</em>.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#profile-class_method" title="profile (class method)">.<strong>profile</strong>  &#x21d2; Object </a>
     
 
     
@@ -318,7 +472,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#profile%3D-class_method" title="profile= (class method)">+ (Object) <strong>profile=</strong> </a>
+      <a href="#profile=-class_method" title="profile= (class method)">.<strong>profile=</strong>(val)  &#x21d2; Object </a>
     
 
     
@@ -340,7 +494,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#srand-class_method" title="srand (class method)">+ (Object) <strong>srand</strong> </a>
+      <a href="#srand-class_method" title="srand (class method)">.<strong>srand</strong>(*args)  &#x21d2; Object </a>
     
 
     
@@ -362,7 +516,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#step-class_method" title="step (class method)">+ (Object) <strong>step</strong> </a>
+      <a href="#step-class_method" title="step (class method)">.<strong>step</strong>(*args)  &#x21d2; Object </a>
     
 
     
@@ -384,7 +538,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#upcast-class_method" title="upcast (class method)">+ (Object) <strong>upcast</strong> </a>
+      <a href="#upcast-class_method" title="upcast (class method)">.<strong>upcast</strong>(type2)  &#x21d2; Object </a>
     
 
     
@@ -408,7 +562,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#zeros-class_method" title="zeros (class method)">+ (Object) <strong>zeros</strong> </a>
+      <a href="#zeros-class_method" title="zeros (class method)">.<strong>zeros</strong>(*args)  &#x21d2; Object </a>
     
 
     
@@ -423,7 +577,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Returns a zero-filled narray with shape.</p>
+<p>Returns a zero-filled narray with <em>shape</em>.</p>
 </div></span>
   
 </li>
@@ -433,7 +587,7 @@
   
     <h2>
       Instance Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+      <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
 
     <ul class="summary">
@@ -441,7 +595,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#%3D%3D-instance_method" title="#== (instance method)">- (Boolean) <strong>==</strong>(other) </a>
+      <a href="#==-instance_method" title="#== (instance method)">#<strong>==</strong>(other)  &#x21d2; Boolean </a>
     
 
     
@@ -465,7 +619,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#%5B%5D%3D-instance_method" title="#[]= (instance method)">- (Object) <strong>[]=</strong> </a>
+      <a href="#[]=-instance_method" title="#[]= (instance method)">#<strong>[]=</strong>(*args)  &#x21d2; Object </a>
     
 
     
@@ -489,7 +643,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#byte_size-instance_method" title="#byte_size (instance method)">- (Integer) <strong>byte_size</strong> </a>
+      <a href="#byte_size-instance_method" title="#byte_size (instance method)">#<strong>byte_size</strong>  &#x21d2; Integer </a>
     
 
     
@@ -513,7 +667,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#byte_swapped%3F-instance_method" title="#byte_swapped? (instance method)">- (Boolean) <strong>byte_swapped?</strong> </a>
+      <a href="#byte_swapped%3F-instance_method" title="#byte_swapped? (instance method)">#<strong>byte_swapped?</strong>  &#x21d2; Boolean </a>
     
 
     
@@ -539,7 +693,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#cast_to-instance_method" title="#cast_to (instance method)">- (Numo::NArray) <strong>cast_to</strong>(datatype) </a>
+      <a href="#cast_to-instance_method" title="#cast_to (instance method)">#<strong>cast_to</strong>(datatype)  &#x21d2; Numo::NArray </a>
     
 
     
@@ -563,7 +717,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#coerce-instance_method" title="#coerce (instance method)">- (Array) <strong>coerce</strong>(other) </a>
+      <a href="#coerce-instance_method" title="#coerce (instance method)">#<strong>coerce</strong>(other)  &#x21d2; Array </a>
     
 
     
@@ -588,7 +742,7 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#column_major%3F-instance_method" title="#column_major? (instance method)">- (Boolean) <strong>column_major?</strong> </a>
+      <a href="#column_major%3F-instance_method" title="#column_major? (instance method)">#<strong>column_major?</strong>  &#x21d2; Boolean </a>
     
 
     
@@ -612,7 +766,7 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#debug_info-instance_method" title="#debug_info (instance method)">- (Object) <strong>debug_info</strong> </a>
+      <a href="#debug_info-instance_method" title="#debug_info (instance method)">#<strong>debug_info</strong>  &#x21d2; Object </a>
     
 
     
@@ -634,7 +788,7 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#diagonal-instance_method" title="#diagonal (instance method)">- (Numo::NArray) <strong>diagonal</strong>([offset,axes]) </a>
+      <a href="#diagonal-instance_method" title="#diagonal (instance method)">#<strong>diagonal</strong>([offset,axes])  &#x21d2; Numo::NArray </a>
     
 
     
@@ -658,7 +812,7 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#dot-instance_method" title="#dot (instance method)">- (Object) <strong>dot</strong>(other) </a>
+      <a href="#dot-instance_method" title="#dot (instance method)">#<strong>dot</strong>(other)  &#x21d2; Object </a>
     
 
     
@@ -682,7 +836,31 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#expand_dims-instance_method" title="#expand_dims (instance method)">- (Numo::NArray) <strong>expand_dims</strong>(dim) </a>
+      <a href="#empty%3F-instance_method" title="#empty? (instance method)">#<strong>empty?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns true if self.size == 0.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#expand_dims-instance_method" title="#expand_dims (instance method)">#<strong>expand_dims</strong>(dim)  &#x21d2; Numo::NArray </a>
     
 
     
@@ -706,7 +884,7 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#flatten-instance_method" title="#flatten (instance method)">- (Object) <strong>flatten</strong> </a>
+      <a href="#flatten-instance_method" title="#flatten (instance method)">#<strong>flatten</strong>  &#x21d2; Object </a>
     
 
     
@@ -728,7 +906,7 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#host_order%3F-instance_method" title="#host_order? (instance method)">- (Boolean) <strong>host_order?</strong> </a>
+      <a href="#host_order%3F-instance_method" title="#host_order? (instance method)">#<strong>host_order?</strong>  &#x21d2; Boolean </a>
     
 
     
@@ -754,7 +932,7 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Object) <strong>initialize</strong> </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(args)  &#x21d2; Object </a>
     
 
     
@@ -771,7 +949,8 @@ type of NArray.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Constructs a narray using the given DataType and shape or sizes.</p>
+<p>Constructs a narray using the given <em>DataType</em> and <em>shape</em> or
+<em>sizes</em>.</p>
 </div></span>
   
 </li>
@@ -780,7 +959,7 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize_copy-instance_method" title="#initialize_copy (instance method)">- (Numo::NArray) <strong>initialize_copy</strong>(other) </a>
+      <a href="#initialize_copy-instance_method" title="#initialize_copy (instance method)">#<strong>initialize_copy</strong>(other)  &#x21d2; Numo::NArray </a>
     
 
     
@@ -804,7 +983,7 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#inplace-instance_method" title="#inplace (instance method)">- (Numo::NArray) <strong>inplace</strong> </a>
+      <a href="#inplace-instance_method" title="#inplace (instance method)">#<strong>inplace</strong>  &#x21d2; Numo::NArray </a>
     
 
     
@@ -828,7 +1007,7 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#inplace%21-instance_method" title="#inplace! (instance method)">- (Numo::NArray) <strong>inplace!</strong> </a>
+      <a href="#inplace!-instance_method" title="#inplace! (instance method)">#<strong>inplace!</strong>  &#x21d2; Numo::NArray </a>
     
 
     
@@ -852,7 +1031,7 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#inplace%3F-instance_method" title="#inplace? (instance method)">- (Boolean) <strong>inplace?</strong> </a>
+      <a href="#inplace%3F-instance_method" title="#inplace? (instance method)">#<strong>inplace?</strong>  &#x21d2; Boolean </a>
     
 
     
@@ -876,7 +1055,7 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#ndim-instance_method" title="#ndim (instance method)">- (Object) <strong>ndim</strong> </a>
+      <a href="#ndim-instance_method" title="#ndim (instance method)">#<strong>ndim</strong>  &#x21d2; Object </a>
     
 
     
@@ -902,7 +1081,7 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#out_of_place%21-instance_method" title="#out_of_place! (instance method)">- (Numo::NArray) <strong>out_of_place!</strong> </a>
+      <a href="#out_of_place!-instance_method" title="#out_of_place! (instance method)">#<strong>out_of_place!</strong>  &#x21d2; Numo::NArray </a>
     
 
     
@@ -928,7 +1107,7 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#reshape-instance_method" title="#reshape (instance method)">- (Object) <strong>reshape</strong> </a>
+      <a href="#reshape-instance_method" title="#reshape (instance method)">#<strong>reshape</strong>(*args)  &#x21d2; Object </a>
     
 
     
@@ -952,7 +1131,7 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#reverse-instance_method" title="#reverse (instance method)">- (Object) <strong>reverse</strong>([dim0,dim1,..]) </a>
+      <a href="#reverse-instance_method" title="#reverse (instance method)">#<strong>reverse</strong>([dim0,dim1,..])  &#x21d2; Object </a>
     
 
     
@@ -976,7 +1155,7 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#row_major%3F-instance_method" title="#row_major? (instance method)">- (Boolean) <strong>row_major?</strong> </a>
+      <a href="#row_major%3F-instance_method" title="#row_major? (instance method)">#<strong>row_major?</strong>  &#x21d2; Boolean </a>
     
 
     
@@ -1000,7 +1179,7 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#shape-instance_method" title="#shape (instance method)">- (Object) <strong>shape</strong> </a>
+      <a href="#shape-instance_method" title="#shape (instance method)">#<strong>shape</strong>  &#x21d2; Object </a>
     
 
     
@@ -1024,7 +1203,7 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#size-instance_method" title="#size (instance method)">- (Object) <strong>size</strong> </a>
+      <a href="#size-instance_method" title="#size (instance method)">#<strong>size</strong>  &#x21d2; Object </a>
     
 
     
@@ -1050,7 +1229,7 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#slice-instance_method" title="#slice (instance method)">- (Object) <strong>slice</strong> </a>
+      <a href="#slice-instance_method" title="#slice (instance method)">#<strong>slice</strong>(*args)  &#x21d2; Object </a>
     
 
     
@@ -1074,7 +1253,7 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#swap_byte-instance_method" title="#swap_byte (instance method)">- (Object) <strong>swap_byte</strong> </a>
+      <a href="#swap_byte-instance_method" title="#swap_byte (instance method)">#<strong>swap_byte</strong>  &#x21d2; Object </a>
     
 
     
@@ -1098,7 +1277,7 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#to_host-instance_method" title="#to_host (instance method)">- (Object) <strong>to_host</strong> </a>
+      <a href="#to_host-instance_method" title="#to_host (instance method)">#<strong>to_host</strong>  &#x21d2; Object </a>
     
 
     
@@ -1120,7 +1299,7 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#to_network-instance_method" title="#to_network (instance method)">- (Object) <strong>to_network</strong> </a>
+      <a href="#to_network-instance_method" title="#to_network (instance method)">#<strong>to_network</strong>  &#x21d2; Object </a>
     
 
     
@@ -1142,7 +1321,7 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#to_string-instance_method" title="#to_string (instance method)">- (String) <strong>to_string</strong> </a>
+      <a href="#to_string-instance_method" title="#to_string (instance method)">#<strong>to_string</strong>  &#x21d2; String </a>
     
 
     
@@ -1166,7 +1345,7 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#to_swapped-instance_method" title="#to_swapped (instance method)">- (Object) <strong>to_swapped</strong> </a>
+      <a href="#to_swapped-instance_method" title="#to_swapped (instance method)">#<strong>to_swapped</strong>  &#x21d2; Object </a>
     
 
     
@@ -1188,7 +1367,7 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#to_vacs-instance_method" title="#to_vacs (instance method)">- (Object) <strong>to_vacs</strong> </a>
+      <a href="#to_vacs-instance_method" title="#to_vacs (instance method)">#<strong>to_vacs</strong>  &#x21d2; Object </a>
     
 
     
@@ -1210,7 +1389,7 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#transpose-instance_method" title="#transpose (instance method)">- (Object) <strong>transpose</strong> </a>
+      <a href="#transpose-instance_method" title="#transpose (instance method)">#<strong>transpose</strong>(*args)  &#x21d2; Object </a>
     
 
     
@@ -1232,7 +1411,7 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#view-instance_method" title="#view (instance method)">- (Object) <strong>view</strong> </a>
+      <a href="#view-instance_method" title="#view (instance method)">#<strong>view</strong>  &#x21d2; Object </a>
     
 
     
@@ -1263,9 +1442,9 @@ type of NArray.</p>
   <h3 class="signature first" id="initialize-instance_method">
   
     
-      <span class="overload">- (<tt>Object</tt>) <strong>Numo::DataType.new</strong>(shape) </span>
+      <span class="overload">#<strong>Numo::DataType.new</strong>(shape)  &#x21d2; <tt>Object</tt> </span>
     
-      <span class="overload">- (<tt>Object</tt>) <strong>Numo::DataType.new</strong>(size1, size2, ...) </span>
+      <span class="overload">#<strong>Numo::DataType.new</strong>(size1, size2, ...)  &#x21d2; <tt>Object</tt> </span>
     
   
 
@@ -1290,6 +1469,10 @@ type of NArray.</p>
       <pre class="lines">
 
 
+318
+319
+320
+321
 322
 323
 324
@@ -1311,14 +1494,10 @@ type of NArray.</p>
 340
 341
 342
-343
-344
-345
-346
-347</pre>
+343</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 322</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 318</span>
 
 static VALUE
 na_initialize(VALUE self, VALUE args)
@@ -1335,13 +1514,13 @@ na_initialize(VALUE self, VALUE args)
     } else {
         v = args;
     }
-        ndim = RARRAY_LEN(v);
-        if (ndim &gt; NA_MAX_DIMENSION) {
-            rb_raise(rb_eArgError,&quot;ndim=%d exceeds maximum dimension&quot;,ndim);
-        }
-        shape = ALLOCA_N(size_t, ndim);
-        // setup size_t shape[] from VALUE shape argument
-        na_array_to_internal_shape(self, v, shape);
+    ndim = RARRAY_LEN(v);
+    if (ndim &gt; NA_MAX_DIMENSION) {
+        rb_raise(rb_eArgError,&quot;ndim=%d exceeds maximum dimension&quot;,ndim);
+    }
+    shape = ALLOCA_N(size_t, ndim);
+    // setup size_t shape[] from VALUE shape argument
+    na_array_to_internal_shape(self, v, shape);
     na_setup(self, ndim, shape);
 
     return self;
@@ -1361,7 +1540,7 @@ na_initialize(VALUE self, VALUE args)
       <div class="method_details first">
   <h3 class="signature first" id="[]-class_method">
   
-    + (<tt><span class='object_link'><a href="" title="Numo::NArray (class)">NArray</a></span></tt>) <strong>[]</strong>(elements) 
+    .<strong>[]</strong>(elements)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">NArray</a></span></tt> 
   
 
   
@@ -1414,6 +1593,11 @@ na_initialize(VALUE self, VALUE args)
       <pre class="lines">
 
 
+388
+389
+390
+391
+392
 393
 394
 395
@@ -1427,15 +1611,10 @@ na_initialize(VALUE self, VALUE args)
 403
 404
 405
-406
-407
-408
-409
-410
-411</pre>
+406</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'array.c', line 393</span>
+      <pre class="code"><span class="info file"># File 'array.c', line 388</span>
 
 static VALUE
 nary_s_bracket(VALUE klass, VALUE ary)
@@ -1464,7 +1643,7 @@ nary_s_bracket(VALUE klass, VALUE ary)
       <div class="method_details ">
   <h3 class="signature " id="array_type-class_method">
   
-    + (<tt>Object</tt>) <strong>array_type</strong> 
+    .<strong>array_type</strong>(ary)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1476,14 +1655,14 @@ nary_s_bracket(VALUE klass, VALUE ary)
       <pre class="lines">
 
 
-379
-380
-381
-382
-383</pre>
+374
+375
+376
+377
+378</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'array.c', line 379</span>
+      <pre class="code"><span class="info file"># File 'array.c', line 374</span>
 
 static VALUE
 na_s_array_type(VALUE mod, VALUE ary)
@@ -1498,7 +1677,7 @@ na_s_array_type(VALUE mod, VALUE ary)
       <div class="method_details ">
   <h3 class="signature " id="byte_size-class_method">
   
-    + (<tt>Numeric</tt>) <strong>byte_size</strong> 
+    .<strong>byte_size</strong>  &#x21d2; <tt>Numeric</tt> 
   
 
   
@@ -1539,14 +1718,14 @@ na_s_array_type(VALUE mod, VALUE ary)
       <pre class="lines">
 
 
-1052
-1053
-1054
-1055
-1056</pre>
+1157
+1158
+1159
+1160
+1161</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1052</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1157</span>
 
 static VALUE
 nary_s_byte_size(VALUE type)
@@ -1561,7 +1740,7 @@ nary_s_byte_size(VALUE type)
       <div class="method_details ">
   <h3 class="signature " id="debug=-class_method">
   
-    + (<tt>Object</tt>) <strong>debug=</strong> 
+    .<strong>debug=</strong>(flag)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1573,14 +1752,14 @@ nary_s_byte_size(VALUE type)
       <pre class="lines">
 
 
-1378
-1379
-1380
-1381
-1382</pre>
+1512
+1513
+1514
+1515
+1516</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1378</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1512</span>
 
 VALUE na_debug_set(VALUE mod, VALUE flag)
 {
@@ -1595,7 +1774,7 @@ VALUE na_debug_set(VALUE mod, VALUE flag)
       <div class="method_details ">
   <h3 class="signature " id="eye-class_method">
   
-    + (<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>) <strong>eye</strong>(n) 
+    .<strong>eye</strong>(n)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt> 
   
 
   
@@ -1671,29 +1850,29 @@ VALUE na_debug_set(VALUE mod, VALUE flag)
       <pre class="lines">
 
 
-452
-453
-454
-455
-456
-457
-458
-459
-460
-461
-462
-463
-464
-465
-466
-467
-468</pre>
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 452</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 531</span>
 
 static VALUE
-na_s_eye(int argc, const VALUE *argv, VALUE klass)
+na_s_eye(int argc, VALUE *argv, VALUE klass)
 {
     VALUE obj;
     VALUE tmp[2];
@@ -1717,7 +1896,7 @@ na_s_eye(int argc, const VALUE *argv, VALUE klass)
       <div class="method_details ">
   <h3 class="signature " id="from_string-class_method">
   
-    + (<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>) <strong>from_string</strong>(string, [shape]) 
+    .<strong>from_string</strong>(string, [shape])  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt> 
   
 
   
@@ -1796,91 +1975,802 @@ na_s_eye(int argc, const VALUE *argv, VALUE klass)
       <pre class="lines">
 
 
-1066
-1067
-1068
-1069
-1070
-1071
-1072
-1073
-1074
-1075
-1076
-1077
-1078
-1079
-1080
-1081
-1082
-1083
-1084
-1085
-1086
-1087
-1088
-1089
-1090
-1091
-1092
-1093
-1094
-1095
-1096
-1097
-1098
-1099
-1100
-1101
-1102
-1103
-1104
-1105
-1106</pre>
+1171
+1172
+1173
+1174
+1175
+1176
+1177
+1178
+1179
+1180
+1181
+1182
+1183
+1184
+1185
+1186
+1187
+1188
+1189
+1190
+1191
+1192
+1193
+1194
+1195
+1196
+1197
+1198
+1199
+1200
+1201
+1202
+1203
+1204
+1205
+1206
+1207
+1208
+1209
+1210
+1211
+1212
+1213
+1214
+1215
+1216
+1217
+1218
+1219
+1220
+1221
+1222
+1223
+1224
+1225
+1226
+1227
+1228
+1229
+1230
+1231
+1232
+1233
+1234
+1235</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1066</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1171</span>
 
 static VALUE
 nary_s_from_string(int argc, VALUE *argv, VALUE type)
 {
-    size_t len, str_len, elmsz;
+    size_t len, str_len, byte_size;
     size_t *shape;
     char *ptr;
-    int i, nd, narg;
-    VALUE vstr,vshape,vna;
+    int   i, nd, narg;
+    VALUE vstr, vshape, vna;
+    VALUE velmsz;
 
     narg = rb_scan_args(argc,argv,&quot;11&quot;,&amp;vstr,&amp;vshape);
     str_len = RSTRING_LEN(vstr);
-    elmsz = na_dtype_elmsz(type);
+    velmsz = rb_const_get(type, rb_intern(ELEMENT_BYTE_SIZE));
     if (narg==2) {
-        nd = RARRAY_LEN(vshape);
-        if (nd == 0 || nd &gt; NA_MAX_DIMENSION) {
-            rb_raise(nary_eDimensionError,&quot;too long or empty shape (%d)&quot;, nd);
+        switch(TYPE(vshape)) {
+        case T_FIXNUM:
+            nd = 1;
+            len = NUM2SIZET(vshape);
+            shape = &amp;len;
+            break;
+        case T_ARRAY:
+            nd = RARRAY_LEN(vshape);
+            if (nd == 0 || nd &gt; NA_MAX_DIMENSION) {
+                rb_raise(nary_eDimensionError,&quot;too long or empty shape (%d)&quot;, nd);
+            }
+            shape = ALLOCA_N(size_t,nd);
+            len = 1;
+            for (i=0; i&lt;nd; ++i) {
+                len *= shape[i] = NUM2SIZET(RARRAY_AREF(vshape,i));
+            }
+            break;
+        default:
+            rb_raise(rb_eArgError,&quot;second argument must be size or shape&quot;);
         }
-        shape = ALLOCA_N(size_t,nd);
-        len = 1;
-        for (i=0; i&lt;nd; ++i) {
-            len *= shape[i] = NUM2SIZE(RARRAY_AREF(vshape,i));
+        if (FIXNUM_P(velmsz)) {
+            byte_size = len * NUM2SIZET(velmsz);
+        } else {
+            byte_size = ceil(len * NUM2DBL(velmsz));
         }
-        if (len*elmsz != str_len) {
-            rb_raise(rb_eArgError, &quot;size mismatch&quot;);
+        if (byte_size &gt; str_len) {
+            rb_raise(rb_eArgError, &quot;specified size is too large&quot;);
         }
     } else {
         nd = 1;
-        shape = ALLOCA_N(size_t,nd);
-        shape[0] = len = str_len / elmsz;
+        if (FIXNUM_P(velmsz)) {
+            len = str_len / NUM2SIZET(velmsz);
+            byte_size = len * NUM2SIZET(velmsz);
+        } else {
+            len = floor(str_len / NUM2DBL(velmsz));
+            byte_size = str_len;
+        }
         if (len == 0) {
             rb_raise(rb_eArgError, &quot;string is empty or too short&quot;);
         }
+        shape = ALLOCA_N(size_t,nd);
+        shape[0] = len;
     }
 
     vna = rb_narray_new(type, nd, shape);
     ptr = na_get_pointer_for_write(vna);
 
-    memcpy(ptr, RSTRING_PTR(vstr), elmsz*len);
+    memcpy(ptr, RSTRING_PTR(vstr), byte_size);
 
     return vna;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="inspect_cols-class_method">
+  
+    .<strong>inspect_cols</strong>  &#x21d2; <tt>Integer or nil</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the number of cols used for NArray#inspect</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer or nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the number of cols.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1567
+1568
+1569
+1570
+1571
+1572
+1573
+1574</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1567</span>
+
+static VALUE na_inspect_cols(VALUE mod)
+{
+    if (numo_na_inspect_cols &gt; 0) {
+        return INT2NUM(numo_na_inspect_cols);
+    } else {
+        return Qnil;
+    }
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="inspect_cols=-class_method">
+  
+    .<strong>inspect_cols=</strong>(cols)  &#x21d2; <tt>nil</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Set the number of cols used for NArray#inspect</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>cols</span>
+      
+      
+        <span class='type'>(<tt>Integer or nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the number of cols</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1582
+1583
+1584
+1585
+1586
+1587
+1588
+1589
+1590</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1582</span>
+
+static VALUE na_inspect_cols_set(VALUE mod, VALUE num)
+{
+    if (RTEST(num)) {
+        numo_na_inspect_cols = NUM2INT(num);
+    } else {
+        numo_na_inspect_cols = 0;
+    }
+    return Qnil;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="inspect_rows-class_method">
+  
+    .<strong>inspect_rows</strong>  &#x21d2; <tt>Integer or nil</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the number of rows used for NArray#inspect</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer or nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the number of rows.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1537
+1538
+1539
+1540
+1541
+1542
+1543
+1544</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1537</span>
+
+static VALUE na_inspect_rows(VALUE mod)
+{
+    if (numo_na_inspect_rows &gt; 0) {
+        return INT2NUM(numo_na_inspect_rows);
+    } else {
+        return Qnil;
+    }
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="inspect_rows=-class_method">
+  
+    .<strong>inspect_rows=</strong>(rows)  &#x21d2; <tt>nil</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Set the number of rows used for NArray#inspect</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>rows</span>
+      
+      
+        <span class='type'>(<tt>Integer or nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the number of rows</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1552
+1553
+1554
+1555
+1556
+1557
+1558
+1559
+1560</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1552</span>
+
+static VALUE na_inspect_rows_set(VALUE mod, VALUE num)
+{
+    if (RTEST(num)) {
+        numo_na_inspect_rows = NUM2INT(num);
+    } else {
+        numo_na_inspect_rows = 0;
+    }
+    return Qnil;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="linspace-class_method">
+  
+    .<strong>linspace</strong>(x1, x2, [n])  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns an array of N linearly spaced points between x1 and x2. This
+singleton method is valid not for NArray class itself but for typed NArray
+subclasses, e.g., DFloat, Int64.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code>a = Numo::DFloat.linspace(-5,5,7)
+=&gt; Numo::DFloat#shape=[7]
+[-5, -3.33333, -1.66667, 0, 1.66667, 3.33333, 5]</code></pre>
+    
+  </div>
+
+  
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>x1</span>
+      
+      
+        <span class='type'>(<tt>Numeric</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The start value</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>x2</span>
+      
+      
+        <span class='type'>(<tt>Numeric</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The end value</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>n</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The number of elements. (default is 100).</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>result array.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'narray.c', line 452</span>
+
+static VALUE
+na_s_linspace(int argc, VALUE *argv, VALUE klass)
+{
+    VALUE obj, vx1, vx2, vstep, vsize;
+    double n;
+    int narg;
+
+    narg = rb_scan_args(argc,argv,&quot;21&quot;,&amp;vx1,&amp;vx2,&amp;vsize);
+    if (narg==3) {
+        n = NUM2DBL(vsize);
+    } else {
+        n = 100;
+        vsize = INT2FIX(100);
+    }
+
+    obj = rb_funcall(vx2, &#39;-&#39;, 1, vx1);
+    vstep = rb_funcall(obj, &#39;/&#39;, 1, DBL2NUM(n-1));
+
+    obj = rb_class_new_instance(1, &amp;vsize, klass);
+    return rb_funcall(obj, rb_intern(&quot;seq&quot;), 2, vx1, vstep);
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="logspace-class_method">
+  
+    .<strong>logspace</strong>(a, b, [n, base])  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns an array of N logarithmically spaced points between 10^a and 10^b.
+This singleton method is valid not for NArray having <code>logseq</code>
+method, i.e., DFloat, SFloat, DComplex, and SComplex.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code>Numo::DFloat.logspace(4,0,5,2)
+=&gt; Numo::DFloat#shape=[5]
+   [16, 8, 4, 2, 1]
+Numo::DComplex.logspace(0,1i*Math::PI,5,Math::E)
+=&gt; Numo::DComplex#shape=[5]
+   [1+4.44659e-323i, 0.707107+0.707107i, 6.12323e-17+1i, -0.707107+0.707107i, ...]</code></pre>
+    
+  </div>
+
+  
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>a</span>
+      
+      
+        <span class='type'>(<tt>Numeric</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The start value</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>b</span>
+      
+      
+        <span class='type'>(<tt>Numeric</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The end value</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>n</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The number of elements. (default is 50)</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>base</span>
+      
+      
+        <span class='type'>(<tt>Numeric</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The base of log space. (default is 10)</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>result array.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'narray.c', line 494</span>
+
+static VALUE
+na_s_logspace(int argc, VALUE *argv, VALUE klass)
+{
+    VALUE obj, vx1, vx2, vstep, vsize, vbase;
+    double n;
+
+    rb_scan_args(argc,argv,&quot;22&quot;,&amp;vx1,&amp;vx2,&amp;vsize,&amp;vbase);
+    if (vsize == Qnil) {
+        vsize = INT2FIX(50);
+        n = 50;
+    } else {
+        n = NUM2DBL(vsize);
+    }
+    if (vbase == Qnil) {
+        vbase = DBL2NUM(10);
+    }
+
+    obj = rb_funcall(vx2, &#39;-&#39;, 1, vx1);
+    vstep = rb_funcall(obj, &#39;/&#39;, 1, DBL2NUM(n-1));
+
+    obj = rb_class_new_instance(1, &amp;vsize, klass);
+    return rb_funcall(obj, rb_intern(&quot;logseq&quot;), 3, vx1, vstep, vbase);
 }</pre>
     </td>
   </tr>
@@ -1891,9 +2781,9 @@ nary_s_from_string(int argc, VALUE *argv, VALUE type)
   <h3 class="signature " id="ones-class_method">
   
     
-      <span class="overload">+ (<tt>Object</tt>) <strong>ones</strong>(shape) </span>
+      <span class="overload">.<strong>ones</strong>(shape)  &#x21d2; <tt>Object</tt> </span>
     
-      <span class="overload">+ (<tt>Object</tt>) <strong>ones</strong>(size1, size2, ...) </span>
+      <span class="overload">.<strong>ones</strong>(size1, size2, ...)  &#x21d2; <tt>Object</tt> </span>
     
   
 
@@ -1931,19 +2821,19 @@ DFloat, Int64.</p>
       <pre class="lines">
 
 
+427
+428
+429
+430
 431
 432
-433
-434
-435
-436
-437</pre>
+433</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 431</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 427</span>
 
 static VALUE
-na_s_ones(int argc, const VALUE *argv, VALUE klass)
+na_s_ones(int argc, VALUE *argv, VALUE klass)
 {
     VALUE obj;
     obj = rb_class_new_instance(argc, argv, klass);
@@ -1957,7 +2847,7 @@ na_s_ones(int argc, const VALUE *argv, VALUE klass)
       <div class="method_details ">
   <h3 class="signature " id="profile-class_method">
   
-    + (<tt>Object</tt>) <strong>profile</strong> 
+    .<strong>profile</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1969,13 +2859,13 @@ na_s_ones(int argc, const VALUE *argv, VALUE klass)
       <pre class="lines">
 
 
-1386
-1387
-1388
-1389</pre>
+1520
+1521
+1522
+1523</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1386</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1520</span>
 
 VALUE na_profile(VALUE mod)
 {
@@ -1989,7 +2879,7 @@ VALUE na_profile(VALUE mod)
       <div class="method_details ">
   <h3 class="signature " id="profile=-class_method">
   
-    + (<tt>Object</tt>) <strong>profile=</strong> 
+    .<strong>profile=</strong>(val)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -2001,14 +2891,14 @@ VALUE na_profile(VALUE mod)
       <pre class="lines">
 
 
-1391
-1392
-1393
-1394
-1395</pre>
+1525
+1526
+1527
+1528
+1529</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1391</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1525</span>
 
 VALUE na_profile_set(VALUE mod, VALUE val)
 {
@@ -2023,7 +2913,7 @@ VALUE na_profile_set(VALUE mod, VALUE val)
       <div class="method_details ">
   <h3 class="signature " id="srand-class_method">
   
-    + (<tt>Object</tt>) <strong>srand</strong> 
+    .<strong>srand</strong>(*args)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -2035,26 +2925,26 @@ VALUE na_profile_set(VALUE mod, VALUE val)
       <pre class="lines">
 
 
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
 65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81</pre>
+66</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'rand.c', line 65</span>
+      <pre class="code"><span class="info file"># File 'rand.c', line 50</span>
 
 static VALUE
  nary_s_srand(int argc, VALUE *argv, VALUE obj)
@@ -2081,7 +2971,7 @@ static VALUE
       <div class="method_details ">
   <h3 class="signature " id="step-class_method">
   
-    + (<tt>Object</tt>) <strong>step</strong> 
+    .<strong>step</strong>(*args)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -2093,16 +2983,16 @@ static VALUE
       <pre class="lines">
 
 
+449
+450
+451
+452
+453
 454
-455
-456
-457
-458
-459
-460</pre>
+455</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'step.c', line 454</span>
+      <pre class="code"><span class="info file"># File 'step.c', line 449</span>
 
 static VALUE
 nary_s_step( int argc, VALUE *argv, VALUE mod )
@@ -2119,7 +3009,7 @@ nary_s_step( int argc, VALUE *argv, VALUE mod )
       <div class="method_details ">
   <h3 class="signature " id="upcast-class_method">
   
-    + (<tt>Object</tt>) <strong>upcast</strong> 
+    .<strong>upcast</strong>(type2)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -2141,30 +3031,30 @@ nary_s_step( int argc, VALUE *argv, VALUE mod )
       <pre class="lines">
 
 
-989
-990
-991
-992
-993
-994
-995
-996
-997
-998
-999
-1000
-1001
-1002
-1003
-1004
-1005
-1006
-1007
-1008
-1009</pre>
+1093
+1094
+1095
+1096
+1097
+1098
+1099
+1100
+1101
+1102
+1103
+1104
+1105
+1106
+1107
+1108
+1109
+1110
+1111
+1112
+1113</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 989</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1093</span>
 
 VALUE
 numo_na_upcast(VALUE type1, VALUE type2)
@@ -2196,9 +3086,9 @@ numo_na_upcast(VALUE type1, VALUE type2)
   <h3 class="signature " id="zeros-class_method">
   
     
-      <span class="overload">+ (<tt>Object</tt>) <strong>zeros</strong>(shape) </span>
+      <span class="overload">.<strong>zeros</strong>(shape)  &#x21d2; <tt>Object</tt> </span>
     
-      <span class="overload">+ (<tt>Object</tt>) <strong>zeros</strong>(size1, size2, ...) </span>
+      <span class="overload">.<strong>zeros</strong>(size1, size2, ...)  &#x21d2; <tt>Object</tt> </span>
     
   
 
@@ -2236,19 +3126,19 @@ DFloat, Int64.</p>
       <pre class="lines">
 
 
+403
+404
+405
+406
 407
 408
-409
-410
-411
-412
-413</pre>
+409</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 407</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 403</span>
 
 static VALUE
-na_s_zeros(int argc, const VALUE *argv, VALUE klass)
+na_s_zeros(int argc, VALUE *argv, VALUE klass)
 {
     VALUE obj;
     obj = rb_class_new_instance(argc, argv, klass);
@@ -2268,7 +3158,7 @@ na_s_zeros(int argc, const VALUE *argv, VALUE klass)
       <div class="method_details first">
   <h3 class="signature first" id="==-instance_method">
   
-    - (<tt>Boolean</tt>) <strong>==</strong>(other) 
+    #<strong>==</strong>(other)  &#x21d2; <tt>Boolean</tt> 
   
 
   
@@ -2327,34 +3217,34 @@ have same shape and corresponding elements are equal.</p>
       <pre class="lines">
 
 
-1405
-1406
-1407
-1408
-1409
-1410
-1411
-1412
-1413
-1414
-1415
-1416
-1417
-1418
-1419
-1420
-1421
-1422
-1423
-1424
-1425
-1426
-1427
-1428
-1429</pre>
+1600
+1601
+1602
+1603
+1604
+1605
+1606
+1607
+1608
+1609
+1610
+1611
+1612
+1613
+1614
+1615
+1616
+1617
+1618
+1619
+1620
+1621
+1622
+1623
+1624</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1405</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1600</span>
 
 VALUE
 na_equal(VALUE self, volatile VALUE other)
@@ -2389,7 +3279,7 @@ na_equal(VALUE self, volatile VALUE other)
       <div class="method_details ">
   <h3 class="signature " id="[]=-instance_method">
   
-    - (<tt>Object</tt>) <strong>[]=</strong> 
+    #<strong>[]=</strong>(*args)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -2412,23 +3302,23 @@ na_equal(VALUE self, volatile VALUE other)
       <pre class="lines">
 
 
-669
-670
-671
-672
-673
-674
-675
-676
 677
 678
 679
 680
 681
-682</pre>
+682
+683
+684
+685
+686
+687
+688
+689
+690</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'index.c', line 669</span>
+      <pre class="code"><span class="info file"># File 'index.c', line 677</span>
 
 static VALUE
 na_aset(int argc, VALUE *argv, VALUE self)
@@ -2452,7 +3342,7 @@ na_aset(int argc, VALUE *argv, VALUE self)
       <div class="method_details ">
   <h3 class="signature " id="byte_size-instance_method">
   
-    - (<tt>Integer</tt>) <strong>byte_size</strong> 
+    #<strong>byte_size</strong>  &#x21d2; <tt>Integer</tt> 
   
 
   
@@ -2493,33 +3383,35 @@ na_aset(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-1035
-1036
-1037
-1038
-1039
-1040
-1041
-1042
-1043
-1044
-1045
-1046</pre>
+1139
+1140
+1141
+1142
+1143
+1144
+1145
+1146
+1147
+1148
+1149
+1150
+1151</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1035</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1139</span>
 
 static VALUE
 nary_byte_size(VALUE self)
 {
-    VALUE velmsz; //klass,
+    VALUE velmsz;
     narray_t *na;
-    size_t sz;
 
     GetNArray(self,na);
     velmsz = rb_const_get(CLASS_OF(self), rb_intern(ELEMENT_BYTE_SIZE));
-    sz = SIZE2NUM(NUM2SIZE(velmsz) * na-&gt;size);
-    return sz;
+    if (FIXNUM_P(velmsz)) {
+        return SIZET2NUM(NUM2SIZET(velmsz) * na-&gt;size);
+    }
+    return SIZET2NUM(ceil(NUM2DBL(velmsz) * na-&gt;size));
 }</pre>
     </td>
   </tr>
@@ -2529,7 +3421,7 @@ nary_byte_size(VALUE self)
       <div class="method_details ">
   <h3 class="signature " id="byte_swapped?-instance_method">
   
-    - (<tt>Boolean</tt>) <strong>byte_swapped?</strong> 
+    #<strong>byte_swapped?</strong>  &#x21d2; <tt>Boolean</tt> 
   
 
   
@@ -2569,15 +3461,15 @@ nary_byte_size(VALUE self)
       <pre class="lines">
 
 
-1307
-1308
-1309
-1310
-1311
-1312</pre>
+1441
+1442
+1443
+1444
+1445
+1446</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1307</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1441</span>
 
 VALUE na_byte_swapped_p( VALUE self )
 {
@@ -2593,7 +3485,7 @@ VALUE na_byte_swapped_p( VALUE self )
       <div class="method_details ">
   <h3 class="signature " id="cast_to-instance_method">
   
-    - (<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>) <strong>cast_to</strong>(datatype) 
+    #<strong>cast_to</strong>(datatype)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt> 
   
 
   
@@ -2651,14 +3543,14 @@ VALUE na_byte_swapped_p( VALUE self )
       <pre class="lines">
 
 
-1140
-1141
-1142
-1143
-1144</pre>
+1268
+1269
+1270
+1271
+1272</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1140</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1268</span>
 
 static VALUE
 nary_cast_to(VALUE obj, VALUE type)
@@ -2673,7 +3565,7 @@ nary_cast_to(VALUE obj, VALUE type)
       <div class="method_details ">
   <h3 class="signature " id="coerce-instance_method">
   
-    - (<tt>Array</tt>) <strong>coerce</strong>(other) 
+    #<strong>coerce</strong>(other)  &#x21d2; <tt>Array</tt> 
   
 
   
@@ -2738,18 +3630,18 @@ used for operation between non-NArray and NArray.</p>
       <pre class="lines">
 
 
-1020
-1021
-1022
-1023
-1024
-1025
-1026
-1027
-1028</pre>
+1124
+1125
+1126
+1127
+1128
+1129
+1130
+1131
+1132</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1020</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1124</span>
 
 static VALUE
 nary_coerce(VALUE x, VALUE y)
@@ -2768,7 +3660,7 @@ nary_coerce(VALUE x, VALUE y)
       <div class="method_details ">
   <h3 class="signature " id="column_major?-instance_method">
   
-    - (<tt>Boolean</tt>) <strong>column_major?</strong> 
+    #<strong>column_major?</strong>  &#x21d2; <tt>Boolean</tt> 
   
 
   
@@ -2804,16 +3696,16 @@ nary_coerce(VALUE x, VALUE y)
       <pre class="lines">
 
 
-1284
-1285
-1286
-1287
-1288
-1289
-1290</pre>
+1418
+1419
+1420
+1421
+1422
+1423
+1424</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1284</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1418</span>
 
 VALUE na_column_major_p( VALUE self )
 {
@@ -2830,7 +3722,7 @@ VALUE na_column_major_p( VALUE self )
       <div class="method_details ">
   <h3 class="signature " id="debug_info-instance_method">
   
-    - (<tt>Object</tt>) <strong>debug_info</strong> 
+    #<strong>debug_info</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -2842,6 +3734,9 @@ VALUE na_column_major_p( VALUE self )
       <pre class="lines">
 
 
+108
+109
+110
 111
 112
 113
@@ -2870,13 +3765,10 @@ VALUE na_column_major_p( VALUE self )
 136
 137
 138
-139
-140
-141
-142</pre>
+139</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 111</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 108</span>
 
 VALUE
 rb_narray_debug_info(VALUE self)
@@ -2886,7 +3778,7 @@ rb_narray_debug_info(VALUE self)
     GetNArray(self,na);
 
     printf(&quot;%s:\n&quot;,rb_class2name(CLASS_OF(self)));
-    printf(&quot;  id     = 0x%&quot;SZF&quot;x\n&quot;, self);
+    printf(&quot;  id     = 0x%&quot;PRI_VALUE_PREFIX&quot;x\n&quot;, self);
     printf(&quot;  type   = %d\n&quot;, na-&gt;type);
     printf(&quot;  flag   = [%d,%d]\n&quot;, na-&gt;flag[0], na-&gt;flag[1]);
     printf(&quot;  size   = %&quot;SZF&quot;d\n&quot;, na-&gt;size);
@@ -2918,7 +3810,7 @@ rb_narray_debug_info(VALUE self)
       <div class="method_details ">
   <h3 class="signature " id="diagonal-instance_method">
   
-    - (<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>) <strong>diagonal</strong>([offset,axes]) 
+    #<strong>diagonal</strong>([offset,axes])  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt> 
   
 
   
@@ -3030,7 +3922,6 @@ should be taken. Defaults to last-two axes ([-2,-1]).</p>
       <pre class="lines">
 
 
-555
 556
 557
 558
@@ -3214,10 +4105,11 @@ should be taken. Defaults to last-two axes ([-2,-1]).</p>
 736
 737
 738
-739</pre>
+739
+740</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'data.c', line 555</span>
+      <pre class="code"><span class="info file"># File 'data.c', line 556</span>
 
 VALUE
 na_diagonal(int argc, VALUE *argv, VALUE self)
@@ -3259,7 +4151,7 @@ na_diagonal(int argc, VALUE *argv, VALUE self)
     }
 
     if (vofs) {
-        kofs = NUM2SSIZE(vofs);
+        kofs = NUM2SSIZET(vofs);
     } else {
         kofs = 0;
     }
@@ -3294,15 +4186,15 @@ na_diagonal(int argc, VALUE *argv, VALUE self)
         k0 = 0;
         k1 = kofs;
         if (k1 &gt;= na-&gt;shape[ax[1]]) {
-            rb_raise(rb_eArgError,&quot;invalid diagonal offset(%ld) for &quot;
-                     &quot;last dimension size(%ld)&quot;,kofs,na-&gt;shape[ax[1]]);
+            rb_raise(rb_eArgError,&quot;invalid diagonal offset(%&quot;SZF&quot;d) for &quot;
+                     &quot;last dimension size(%&quot;SZF&quot;d)&quot;,kofs,na-&gt;shape[ax[1]]);
         }
     } else {
         k0 = -kofs;
         k1 = 0;
         if (k0 &gt;= na-&gt;shape[ax[0]]) {
-            rb_raise(rb_eArgError,&quot;invalid diagonal offset(=%ld) for &quot;
-                     &quot;last-1 dimension size(%ld)&quot;,kofs,na-&gt;shape[ax[0]]);
+            rb_raise(rb_eArgError,&quot;invalid diagonal offset(=%&quot;SZF&quot;d) for &quot;
+                     &quot;last-1 dimension size(%&quot;SZF&quot;d)&quot;,kofs,na-&gt;shape[ax[0]]);
         }
     }
 
@@ -3412,7 +4304,7 @@ na_diagonal(int argc, VALUE *argv, VALUE self)
       <div class="method_details ">
   <h3 class="signature " id="dot-instance_method">
   
-    - (<tt>Object</tt>) <strong>dot</strong>(other) 
+    #<strong>dot</strong>(other)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -3437,22 +4329,6 @@ na_diagonal(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-842
-843
-844
-845
-846
-847
-848
-849
-850
-851
-852
-853
-854
-855
-856
-857
 858
 859
 860
@@ -3460,10 +4336,26 @@ na_diagonal(int argc, VALUE *argv, VALUE self)
 862
 863
 864
-865</pre>
+865
+866
+867
+868
+869
+870
+871
+872
+873
+874
+875
+876
+877
+878
+879
+880
+881</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'data.c', line 842</span>
+      <pre class="code"><span class="info file"># File 'data.c', line 858</span>
 
 static VALUE
 numo_na_dot(VALUE self, VALUE other)
@@ -3495,9 +4387,79 @@ numo_na_dot(VALUE self, VALUE other)
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="empty?-instance_method">
+  
+    #<strong>empty?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns true if self.size == 0.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+762
+763
+764
+765
+766
+767
+768
+769
+770
+771</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'narray.c', line 762</span>
+
+static VALUE
+na_empty_p(VALUE self)
+{
+    narray_t *na;
+    GetNArray(self,na);
+    if (NA_SIZE(na)==0) {
+        return Qtrue;
+    }
+    return Qfalse;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="expand_dims-instance_method">
   
-    - (<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>) <strong>expand_dims</strong>(dim) 
+    #<strong>expand_dims</strong>(dim)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt> 
   
 
   
@@ -3561,57 +4523,59 @@ dimension.</p>
       <pre class="lines">
 
 
-849
-850
-851
-852
-853
-854
-855
-856
-857
-858
-859
-860
-861
-862
-863
-864
-865
-866
-867
-868
-869
-870
-871
-872
-873
-874
-875
-876
-877
-878
-879
-880
-881
-882
-883
-884
-885
-886
-887
-888
-889
-890
-891
-892
-893
-894
-895
-896</pre>
+951
+952
+953
+954
+955
+956
+957
+958
+959
+960
+961
+962
+963
+964
+965
+966
+967
+968
+969
+970
+971
+972
+973
+974
+975
+976
+977
+978
+979
+980
+981
+982
+983
+984
+985
+986
+987
+988
+989
+990
+991
+992
+993
+994
+995
+996
+997
+998
+999
+1000</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 849</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 951</span>
 
 VALUE
 na_expand_dims(VALUE self, VALUE vdim)
@@ -3657,7 +4621,9 @@ na_expand_dims(VALUE self, VALUE vdim)
     na2-&gt;stridx = stridx;
     xfree(na_stridx);
     na2-&gt;base.shape = shape;
-    xfree(na_shape);
+    if (na_shape != &amp;(na2-&gt;base.size)) {
+        xfree(na_shape);
+    }
     na2-&gt;base.ndim++;
     return view;
 }</pre>
@@ -3669,7 +4635,7 @@ na_expand_dims(VALUE self, VALUE vdim)
       <div class="method_details ">
   <h3 class="signature " id="flatten-instance_method">
   
-    - (<tt>Object</tt>) <strong>flatten</strong> 
+    #<strong>flatten</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -3681,14 +4647,14 @@ na_expand_dims(VALUE self, VALUE vdim)
       <pre class="lines">
 
 
-431
 432
 433
 434
-435</pre>
+435
+436</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'data.c', line 431</span>
+      <pre class="code"><span class="info file"># File 'data.c', line 432</span>
 
 VALUE
 na_flatten(VALUE self)
@@ -3703,7 +4669,7 @@ na_flatten(VALUE self)
       <div class="method_details ">
   <h3 class="signature " id="host_order?-instance_method">
   
-    - (<tt>Boolean</tt>) <strong>host_order?</strong> 
+    #<strong>host_order?</strong>  &#x21d2; <tt>Boolean</tt> 
   
 
   
@@ -3743,15 +4709,15 @@ na_flatten(VALUE self)
       <pre class="lines">
 
 
-1317
-1318
-1319
-1320
-1321
-1322</pre>
+1451
+1452
+1453
+1454
+1455
+1456</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1317</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1451</span>
 
 VALUE na_host_order_p( VALUE self )
 {
@@ -3767,7 +4733,7 @@ VALUE na_host_order_p( VALUE self )
       <div class="method_details ">
   <h3 class="signature " id="initialize_copy-instance_method">
   
-    - (<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>) <strong>initialize_copy</strong>(other) 
+    #<strong>initialize_copy</strong>(other)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt> 
   
 
   
@@ -3826,20 +4792,20 @@ dup and clone method.</p>
       <pre class="lines">
 
 
+375
+376
+377
+378
 379
 380
 381
 382
 383
 384
-385
-386
-387
-388
-389</pre>
+385</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 379</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 375</span>
 
 static VALUE
 na_initialize_copy(VALUE self, VALUE orig)
@@ -3860,7 +4826,7 @@ na_initialize_copy(VALUE self, VALUE orig)
       <div class="method_details ">
   <h3 class="signature " id="inplace-instance_method">
   
-    - (<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>) <strong>inplace</strong> 
+    #<strong>inplace</strong>  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt> 
   
 
   
@@ -3901,21 +4867,21 @@ na_initialize_copy(VALUE self, VALUE orig)
       <pre class="lines">
 
 
-1329
-1330
-1331
-1332
-1333
-1334
-1335</pre>
+1463
+1464
+1465
+1466
+1467
+1468
+1469</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1329</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1463</span>
 
 VALUE na_inplace( VALUE self )
 {
     VALUE view = self;
-    //view = na_clone(self);
+    view = na_make_view(self);
     SET_INPLACE(view);
     return view;
 }</pre>
@@ -3927,7 +4893,7 @@ VALUE na_inplace( VALUE self )
       <div class="method_details ">
   <h3 class="signature " id="inplace!-instance_method">
   
-    - (<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>) <strong>inplace!</strong> 
+    #<strong>inplace!</strong>  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt> 
   
 
   
@@ -3968,14 +4934,14 @@ VALUE na_inplace( VALUE self )
       <pre class="lines">
 
 
-1341
-1342
-1343
-1344
-1345</pre>
+1475
+1476
+1477
+1478
+1479</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1341</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1475</span>
 
 VALUE na_inplace_bang( VALUE self )
 {
@@ -3990,7 +4956,7 @@ VALUE na_inplace_bang( VALUE self )
       <div class="method_details ">
   <h3 class="signature " id="inplace?-instance_method">
   
-    - (<tt>Boolean</tt>) <strong>inplace?</strong> 
+    #<strong>inplace?</strong>  &#x21d2; <tt>Boolean</tt> 
   
 
   
@@ -4026,16 +4992,16 @@ VALUE na_inplace_bang( VALUE self )
       <pre class="lines">
 
 
-1358
-1359
-1360
-1361
-1362
-1363
-1364</pre>
+1492
+1493
+1494
+1495
+1496
+1497
+1498</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1358</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1492</span>
 
 VALUE na_inplace_p( VALUE self )
 {
@@ -4052,7 +5018,7 @@ VALUE na_inplace_p( VALUE self )
       <div class="method_details ">
   <h3 class="signature " id="ndim-instance_method">
   
-    - (<tt>Object</tt>) <strong>ndim</strong> 
+    #<strong>ndim</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -4079,16 +5045,16 @@ VALUE na_inplace_p( VALUE self )
       <pre class="lines">
 
 
-663
-664
-665
-666
-667
-668
-669</pre>
+749
+750
+751
+752
+753
+754
+755</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 663</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 749</span>
 
 static VALUE
 na_ndim(VALUE self)
@@ -4105,7 +5071,7 @@ na_ndim(VALUE self)
       <div class="method_details ">
   <h3 class="signature " id="out_of_place!-instance_method">
   
-    - (<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>) <strong>out_of_place!</strong> 
+    #<strong>out_of_place!</strong>  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt> 
   
 
   
@@ -4150,14 +5116,14 @@ na_ndim(VALUE self)
       <pre class="lines">
 
 
-1370
-1371
-1372
-1373
-1374</pre>
+1504
+1505
+1506
+1507
+1508</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1370</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1504</span>
 
 VALUE na_out_of_place_bang( VALUE self )
 {
@@ -4172,7 +5138,7 @@ VALUE na_out_of_place_bang( VALUE self )
       <div class="method_details ">
   <h3 class="signature " id="reshape-instance_method">
   
-    - (<tt>Object</tt>) <strong>reshape</strong> 
+    #<strong>reshape</strong>(*args)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -4195,7 +5161,6 @@ VALUE na_out_of_place_bang( VALUE self )
       <pre class="lines">
 
 
-265
 266
 267
 268
@@ -4245,10 +5210,11 @@ VALUE na_out_of_place_bang( VALUE self )
 312
 313
 314
-315</pre>
+315
+316</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'data.c', line 265</span>
+      <pre class="code"><span class="info file"># File 'data.c', line 266</span>
 
 static VALUE
 na_reshape(int argc, VALUE *argv, VALUE self)
@@ -4292,7 +5258,7 @@ na_reshape(int argc, VALUE *argv, VALUE self)
         rb_raise(rb_eArgError, &quot;Total size must be same&quot;);
     }
 
-    copy = na_copy(self);
+    copy = rb_funcall(self,rb_intern(&quot;copy&quot;),0);
     GetNArray(copy,na);
     //shape_save = NA_SHAPE(na);
     na_setup_shape(na,argc,shape);
@@ -4309,7 +5275,7 @@ na_reshape(int argc, VALUE *argv, VALUE self)
       <div class="method_details ">
   <h3 class="signature " id="reverse-instance_method">
   
-    - (<tt>Object</tt>) <strong>reverse</strong>([dim0,dim1,..]) 
+    #<strong>reverse</strong>([dim0,dim1,..])  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -4334,89 +5300,89 @@ na_reshape(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-906
-907
-908
-909
-910
-911
-912
-913
-914
-915
-916
-917
-918
-919
-920
-921
-922
-923
-924
-925
-926
-927
-928
-929
-930
-931
-932
-933
-934
-935
-936
-937
-938
-939
-940
-941
-942
-943
-944
-945
-946
-947
-948
-949
-950
-951
-952
-953
-954
-955
-956
-957
-958
-959
-960
-961
-962
-963
-964
-965
-966
-967
-968
-969
-970
-971
-972
-973
-974
-975
-976
-977
-978
-979
-980
-981
-982
-983
-984
-985</pre>
+1010
+1011
+1012
+1013
+1014
+1015
+1016
+1017
+1018
+1019
+1020
+1021
+1022
+1023
+1024
+1025
+1026
+1027
+1028
+1029
+1030
+1031
+1032
+1033
+1034
+1035
+1036
+1037
+1038
+1039
+1040
+1041
+1042
+1043
+1044
+1045
+1046
+1047
+1048
+1049
+1050
+1051
+1052
+1053
+1054
+1055
+1056
+1057
+1058
+1059
+1060
+1061
+1062
+1063
+1064
+1065
+1066
+1067
+1068
+1069
+1070
+1071
+1072
+1073
+1074
+1075
+1076
+1077
+1078
+1079
+1080
+1081
+1082
+1083
+1084
+1085
+1086
+1087
+1088
+1089</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 906</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1010</span>
 
 VALUE
 nary_reverse(int argc, VALUE *argv, VALUE self)
@@ -4506,7 +5472,7 @@ nary_reverse(int argc, VALUE *argv, VALUE self)
       <div class="method_details ">
   <h3 class="signature " id="row_major?-instance_method">
   
-    - (<tt>Boolean</tt>) <strong>row_major?</strong> 
+    #<strong>row_major?</strong>  &#x21d2; <tt>Boolean</tt> 
   
 
   
@@ -4542,16 +5508,16 @@ nary_reverse(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-1295
-1296
-1297
-1298
-1299
-1300
-1301</pre>
+1429
+1430
+1431
+1432
+1433
+1434
+1435</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1295</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1429</span>
 
 VALUE na_row_major_p( VALUE self )
 {
@@ -4568,7 +5534,7 @@ VALUE na_row_major_p( VALUE self )
       <div class="method_details ">
   <h3 class="signature " id="shape-instance_method">
   
-    - (<tt>Object</tt>) <strong>shape</strong> 
+    #<strong>shape</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -4591,32 +5557,32 @@ VALUE na_row_major_p( VALUE self )
       <pre class="lines">
 
 
-673
-674
-675
-676
-677
-678
-679
-680
-681
-682
-683
-684
-685
-686
-687
-688
-689
-690
-691
-692
-693
-694
-695</pre>
+775
+776
+777
+778
+779
+780
+781
+782
+783
+784
+785
+786
+787
+788
+789
+790
+791
+792
+793
+794
+795
+796
+797</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 673</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 775</span>
 
 static VALUE
  na_shape(VALUE self)
@@ -4636,7 +5602,7 @@ static VALUE
     }
     v = rb_ary_new2(n);
     for (i=0; i&lt;n; i++) {
-        rb_ary_push(v, SIZE2NUM(na-&gt;shape[c]));
+        rb_ary_push(v, SIZET2NUM(na-&gt;shape[c]));
         c += s;
     }
     return v;
@@ -4649,7 +5615,7 @@ static VALUE
       <div class="method_details ">
   <h3 class="signature " id="size-instance_method">
   
-    - (<tt>Object</tt>) <strong>size</strong> 
+    #<strong>size</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -4676,23 +5642,23 @@ static VALUE
       <pre class="lines">
 
 
-653
-654
-655
-656
-657
-658
-659</pre>
+739
+740
+741
+742
+743
+744
+745</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 653</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 739</span>
 
 static VALUE
 na_size(VALUE self)
 {
     narray_t *na;
     GetNArray(self,na);
-    return SIZE2NUM(na-&gt;size);
+    return SIZET2NUM(na-&gt;size);
 }</pre>
     </td>
   </tr>
@@ -4702,7 +5668,7 @@ na_size(VALUE self)
       <div class="method_details ">
   <h3 class="signature " id="slice-instance_method">
   
-    - (<tt>Object</tt>) <strong>slice</strong> 
+    #<strong>slice</strong>(*args)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -4725,13 +5691,13 @@ na_size(VALUE self)
       <pre class="lines">
 
 
-660
-661
-662
-663</pre>
+668
+669
+670
+671</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'index.c', line 660</span>
+      <pre class="code"><span class="info file"># File 'index.c', line 668</span>
 
 static VALUE na_slice(int argc, VALUE *argv, VALUE self)
 {
@@ -4745,7 +5711,7 @@ static VALUE na_slice(int argc, VALUE *argv, VALUE self)
       <div class="method_details ">
   <h3 class="signature " id="swap_byte-instance_method">
   
-    - (<tt>Object</tt>) <strong>swap_byte</strong> 
+    #<strong>swap_byte</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -4761,6 +5727,12 @@ static VALUE na_slice(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
+104
+105
+106
+107
+108
+109
 110
 111
 112
@@ -4770,16 +5742,10 @@ static VALUE na_slice(int argc, VALUE *argv, VALUE self)
 116
 117
 118
-119
-120
-121
-122
-123
-124
-125</pre>
+119</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'data.c', line 110</span>
+      <pre class="code"><span class="info file"># File 'data.c', line 104</span>
 
 static VALUE
 nary_swap_byte(VALUE self)
@@ -4805,7 +5771,7 @@ nary_swap_byte(VALUE self)
       <div class="method_details ">
   <h3 class="signature " id="to_host-instance_method">
   
-    - (<tt>Object</tt>) <strong>to_host</strong> 
+    #<strong>to_host</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -4817,17 +5783,17 @@ nary_swap_byte(VALUE self)
       <pre class="lines">
 
 
+140
+141
+142
+143
+144
+145
 146
-147
-148
-149
-150
-151
-152
-153</pre>
+147</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'data.c', line 146</span>
+      <pre class="code"><span class="info file"># File 'data.c', line 140</span>
 
 static VALUE
 nary_to_host(VALUE self)
@@ -4845,7 +5811,7 @@ nary_to_host(VALUE self)
       <div class="method_details ">
   <h3 class="signature " id="to_network-instance_method">
   
-    - (<tt>Object</tt>) <strong>to_network</strong> 
+    #<strong>to_network</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -4857,17 +5823,17 @@ nary_to_host(VALUE self)
       <pre class="lines">
 
 
+122
+123
+124
+125
+126
+127
 128
-129
-130
-131
-132
-133
-134
-135</pre>
+129</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'data.c', line 128</span>
+      <pre class="code"><span class="info file"># File 'data.c', line 122</span>
 
 static VALUE
 nary_to_network(VALUE self)
@@ -4885,7 +5851,7 @@ nary_to_network(VALUE self)
       <div class="method_details ">
   <h3 class="signature " id="to_string-instance_method">
   
-    - (<tt>String</tt>) <strong>to_string</strong> 
+    #<strong>to_string</strong>  &#x21d2; <tt>String</tt> 
   
 
   
@@ -4928,43 +5894,41 @@ nary_to_network(VALUE self)
       <pre class="lines">
 
 
-1113
-1114
-1115
-1116
-1117
-1118
-1119
-1120
-1121
-1122
-1123
-1124
-1125
-1126
-1127
-1128
-1129
-1130
-1131</pre>
+1242
+1243
+1244
+1245
+1246
+1247
+1248
+1249
+1250
+1251
+1252
+1253
+1254
+1255
+1256
+1257
+1258
+1259</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 1113</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 1242</span>
 
 static VALUE
 nary_to_string(VALUE self)
 {
-    size_t len, esz;
+    size_t len;
     char *ptr;
     VALUE str;
     narray_t *na;
 
     GetNArray(self,na);
     if (na-&gt;type == NARRAY_VIEW_T) {
-        self = na_copy(self);
+        self = rb_funcall(self,rb_intern(&quot;copy&quot;),0);
     }
-    esz = na_get_elmsz(self);
-    len = na-&gt;size * esz;
+    len = NUM2SIZET(nary_byte_size(self));
     ptr = na_get_pointer_for_read(self);
     str = rb_usascii_str_new(ptr,len);
     RB_GC_GUARD(self);
@@ -4978,7 +5942,7 @@ nary_to_string(VALUE self)
       <div class="method_details ">
   <h3 class="signature " id="to_swapped-instance_method">
   
-    - (<tt>Object</tt>) <strong>to_swapped</strong> 
+    #<strong>to_swapped</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -4990,17 +5954,17 @@ nary_to_string(VALUE self)
       <pre class="lines">
 
 
+149
+150
+151
+152
+153
+154
 155
-156
-157
-158
-159
-160
-161
-162</pre>
+156</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'data.c', line 155</span>
+      <pre class="code"><span class="info file"># File 'data.c', line 149</span>
 
 static VALUE
 nary_to_swapped(VALUE self)
@@ -5018,7 +5982,7 @@ nary_to_swapped(VALUE self)
       <div class="method_details ">
   <h3 class="signature " id="to_vacs-instance_method">
   
-    - (<tt>Object</tt>) <strong>to_vacs</strong> 
+    #<strong>to_vacs</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -5030,17 +5994,17 @@ nary_to_swapped(VALUE self)
       <pre class="lines">
 
 
+131
+132
+133
+134
+135
+136
 137
-138
-139
-140
-141
-142
-143
-144</pre>
+138</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'data.c', line 137</span>
+      <pre class="code"><span class="info file"># File 'data.c', line 131</span>
 
 static VALUE
 nary_to_vacs(VALUE self)
@@ -5058,7 +6022,7 @@ nary_to_vacs(VALUE self)
       <div class="method_details ">
   <h3 class="signature " id="transpose-instance_method">
   
-    - (<tt>Object</tt>) <strong>transpose</strong> 
+    #<strong>transpose</strong>(*args)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -5070,6 +6034,12 @@ nary_to_vacs(VALUE self)
       <pre class="lines">
 
 
+192
+193
+194
+195
+196
+197
 198
 199
 200
@@ -5132,73 +6102,81 @@ nary_to_vacs(VALUE self)
 257
 258
 259
-260</pre>
+260
+261</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'data.c', line 198</span>
+      <pre class="code"><span class="info file"># File 'data.c', line 192</span>
 
 VALUE
 na_transpose(int argc, VALUE *argv, VALUE self)
 {
-    int ndim, *map, tmp;
-    int row_major;
-    int i, j, c, r;
-    size_t len;
-    ssize_t beg, step;
-    volatile VALUE v, view;
+    int ndim, *map, *permute;
+    int i, d;
+    bool is_positive, is_negative;
     narray_t *na1;
 
     GetNArray(self,na1);
     ndim = na1-&gt;ndim;
-    row_major = TEST_COLUMN_MAJOR( self );
-
+    if (ndim &lt; 2) {
+        if (argc &gt; 0) {
+            rb_raise(rb_eArgError, &quot;unnecessary argument for 1-d array&quot;);
+        }
+        return na_make_view(self);
+    }
     map = ALLOCA_N(int,ndim);
-    for (i=0;i&lt;ndim;i++) {
-	map[i] = i;
+    if (argc == 0) {
+        for (i=0; i &lt; ndim; i++) {
+            map[i] = ndim-1-i;
+        }
+        return na_transpose_map(self,map);
     }
-    if (argc==0) {
-	SWAP(map[ndim-1], map[ndim-2], tmp);
-	goto new_object;
+    // with argument
+    if (argc &gt; ndim) {
+        rb_raise(rb_eArgError, &quot;more arguments than ndim&quot;);
     }
-    if (argc==2) {
-	if (TYPE(argv[0])==T_FIXNUM &amp;&amp; TYPE(argv[1])==T_FIXNUM) {
-	    i = FIX2INT(argv[0]);
-	    j = FIX2INT(argv[1]);
-	    if (row_major) {
-		i = ndim-1-i;
-		j = ndim-1-j;
-	    }
-	    SWAP( map[i], map[j], tmp );
-	    goto new_object;
-	}
+    for (i=0; i &lt; ndim; i++) {
+        map[i] = i;
     }
-    for (i=argc,c=ndim-1; i;) {
-	v = argv[--i];
-	if (TYPE(v)==T_FIXNUM) {
-	    beg = FIX2INT(v);
-	    len = 1;
-	    step = 0;
-	} else if (rb_obj_is_kind_of(v,rb_cRange) || rb_obj_is_kind_of(v,na_cStep)) {
-            // write me
-	    nary_step_array_index(v, ndim, &amp;len, &amp;beg, &amp;step);
-            //printf(&quot;len=%d beg=%d step=%d\n&quot;,len,beg,step);
-	}
-	for (j=len; j; ) {
-	    r = beg + step*(--j);
-	    if (row_major) {
-		r = ndim-1-r;
+    permute = ALLOCA_N(int,argc);
+    for (i=0; i &lt; argc; i++) {
+        permute[i] = 0;
+    }
+    is_positive = is_negative = 0;
+    for (i=0; i &lt; argc; i++) {
+	if (TYPE(argv[i]) != T_FIXNUM) {
+            rb_raise(rb_eArgError, &quot;invalid argument&quot;);
+        }
+        d = FIX2INT(argv[i]);
+        if (d &gt;= 0) {
+            if (d &gt;= argc) {
+                rb_raise(rb_eArgError, &quot;out of dimension range&quot;);
             }
-	    if ( c &lt; 0 ) {
-		rb_raise(rb_eArgError, &quot;too many dims&quot;);
+            if (is_negative) {
+                rb_raise(rb_eArgError, &quot;dimension must be non-negative only or negative only&quot;);
             }
-	    map[c--] = r;
-	    //printf(&quot;r=%d\n&quot;,r);
-	}
+            if (permute[d]) {
+                rb_raise(rb_eArgError, &quot;not permutation&quot;);
+            }
+            map[i] = d;
+            permute[d] = 1;
+            is_positive = 1;
+        } else {
+            if (d &lt; -argc) {
+                rb_raise(rb_eArgError, &quot;out of dimension range&quot;);
+            }
+            if (is_positive) {
+                rb_raise(rb_eArgError, &quot;dimension must be non-negative only or negative only&quot;);
+            }
+            if (permute[argc+d]) {
+                rb_raise(rb_eArgError, &quot;not permutation&quot;);
+            }
+            map[ndim-argc+i] = ndim+d;
+            permute[argc+d] = 1;
+            is_negative = 1;
+        }
     }
-
- new_object:
-    view = na_transpose_map(self,map);
-    return view;
+    return na_transpose_map(self,map);
 }</pre>
     </td>
   </tr>
@@ -5208,7 +6186,7 @@ na_transpose(int argc, VALUE *argv, VALUE self)
       <div class="method_details ">
   <h3 class="signature " id="view-instance_method">
   
-    - (<tt>Object</tt>) <strong>view</strong> 
+    #<strong>view</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -5233,63 +6211,63 @@ na_transpose(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-782
-783
-784
-785
-786
-787
-788
-789
-790
-791
-792
-793
-794
-795
-796
-797
-798
-799
-800
-801
-802
-803
-804
-805
-806
-807
-808
-809
-810
-811
-812
-813
-814
-815
-816
-817
-818
-819
-820
-821
-822
-823
-824
-825
-826
-827
-828
-829
-830
-831
-832
-833
-834
-835</pre>
+884
+885
+886
+887
+888
+889
+890
+891
+892
+893
+894
+895
+896
+897
+898
+899
+900
+901
+902
+903
+904
+905
+906
+907
+908
+909
+910
+911
+912
+913
+914
+915
+916
+917
+918
+919
+920
+921
+922
+923
+924
+925
+926
+927
+928
+929
+930
+931
+932
+933
+934
+935
+936
+937</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'narray.c', line 782</span>
+      <pre class="code"><span class="info file"># File 'narray.c', line 884</span>
 
 VALUE
 na_make_view(VALUE self)
@@ -5354,11 +6332,12 @@ na_make_view(VALUE self)
 
 </div>
 
-    <div id="footer">
-  Generated on Mon Jun 20 21:09:02 2016 by
+      <div id="footer">
+  Generated on Mon Feb 20 16:14:47 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.6 (ruby-2.3.0).
+  0.9.8 (ruby-2.4.0).
 </div>
 
+    </div>
   </body>
 </html>
