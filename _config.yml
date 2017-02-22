@@ -1,5 +1,5 @@
-title: Narray-devel
-description: Development repository of next NArray
+title: Ruby/Numo::NArray
+description: Numerical N-dimensional array class for Ruby, similar to numpy.ndarray.
 google_analytics: 
 show_downloads: true
 theme: jekyll-theme-cayman
