@@ -23,15 +23,15 @@ ndfunc_alloc関数で ndfunc_t構造体に登録し、
 ndfunc_do関数で多次元ループ処理を行う。
 配列のキャスト、出力配列の準備、および多次元ループ処理については、内部で自動的に行う。
 
-    #define cT cDFloat
+    #define cT numo_cDFloat
     // 最も内側のループごとに呼ばれるイテレータ関数
     static void
     iter_dfloat_add(na_loop_t *const lp)
     {
         size_t  n = lp->n[0];
-        double *a = (double*)(lp->args[0].ptr + lp->iter[0].pos);
-        double *b = (double*)(lp->args[1].ptr + lp->iter[1].pos);
-        double *c = (double*)(lp->args[2].ptr + lp->iter[2].pos);
+        double *a = (double*)(lp->args[0].ptr + lp->args[0].iter[0].pos);
+        double *b = (double*)(lp->args[1].ptr + lp->args[1].iter[0].pos);
+        double *c = (double*)(lp->args[2].ptr + lp->args[2].iter[0].pos);
         size_t  i;
 
         for (i=0; i<n; i++) {
@@ -90,14 +90,16 @@ malloc で確保すると例外が起きると回収されないので、スタ�
 * func: イテレータ関数
 * flag: イテレータのタイプをフラグで指定
 
-            #define NDF_CONTIGUOUS_LOOP     (1<<0) // x[i]
+            #define NDF_HAS_LOOP            (1<<0) // x[i]
             #define NDF_STRIDE_LOOP         (1<<1) // *(x+stride*i)
             #define NDF_INDEX_LOOP          (1<<2) // *(x+idx[i])
             #define NDF_KEEP_DIM            (1<<3)
-            #define NDF_ACCEPT_SWAP         (1<<4)
-            #define NDF_HAS_MARK_DIM        (1<<5)
-            (#define NDF_INPLACE)
-            #define NDF_FULL_LOOP (NDF_CONTIGUOUS_LOOP|NDF_STRIDE_LOOP|NDF_INDEX_LOOP)
+            #define NDF_INPLACE             (1<<4)
+            #define NDF_ACCEPT_BYTESWAP     (1<<5)
+
+* flagの複合例(他にもあり。詳細は ndloop.h を参照):
+
+  /* example */ #define FULL_LOOP_NIP (NDF_HAS_LOOP|NDF_STRIDE_LOOP|NDF_INDEX_LOOP)
 
 * nin: 引数として渡す入力NArrayの数
 * nout: 結果として戻る出力NArrayの数
@@ -148,7 +150,7 @@ typedef struct NDF_ARG_OUT {
 ### イテレータ関数
 配列情報を格納した na_loop_t 構造体へのポインタが引数として渡される。
 
-    iter_dfloat_add(na_loop_t *const lp)
+    例: iter_dfloat_add(na_loop_t *const lp)
 
 ### na_loop_t 構造体
 引数の配列と、配列へのアクセス方法の情報を格納する。
@@ -158,19 +160,22 @@ typedef struct NDF_ARG_OUT {
         int  ndim;             // n of user dimention
         size_t *n;             // n of elements for each dim
         na_loop_args_t *args;  // for each arg
-        na_loop_iter_t *iter;  // for each dim, each arg
         VALUE  option;
         void  *opt_ptr;
+        VALUE  err_type;//* ??? これは非公開？ ???
     } na_loop_t;
 
     typedef struct NA_LOOP_ARGS {
         VALUE    value;
         ssize_t  elmsz;
         char    *ptr;
+        int      ndim;       // required for each argument.
+        size_t  *shape;
+        na_loop_iter_t *iter; (moved from na_loop_t)
     } na_loop_args_t;
 
     typedef struct NA_LOOP_ITER {
-        ssize_t    pos;
+        ssize_t    pos; // - required for each dimension.
         ssize_t    step;
         size_t    *idx;
     } na_loop_iter_t;
