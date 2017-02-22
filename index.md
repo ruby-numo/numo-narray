@@ -9,7 +9,7 @@
 Numo::NArray is an Numerical N-dimensional Array class
 for fast processing and easy manipulation of multi-dimensional numerical data,
 similar to numpy.ndaray.
-This project is a successor to [Ruby/NArray](http://masa16.github.io/narray/).
+This project is the successor to [Ruby/NArray](http://masa16.github.io/narray/).
 
 under development
 
