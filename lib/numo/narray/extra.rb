@@ -115,6 +115,8 @@ module Numo
           refs[axis] = i*div_axis ... (i+1)*div_axis
           self[*refs]
         end
+      when NArray
+        split(indices_or_sections.to_a,axis:axis)
       when Array
         refs = [true]*ndim
         fst = 0
@@ -127,6 +129,50 @@ module Numo
       else
         raise TypeError,"argument must be Integer or Array"
       end
+    end
+
+    # p x = Numo::DFloat.new(4,4).seq
+    # # Numo::DFloat#shape=[4,4]
+    # # [[0, 1, 2, 3],
+    # #  [4, 5, 6, 7],
+    # #  [8, 9, 10, 11],
+    # #  [12, 13, 14, 15]]
+    #
+    # pp x.hsplit(2)
+    # # [Numo::DFloat(view)#shape=[4,2]
+    # # [[0, 1],
+    # #  [4, 5],
+    # #  [8, 9],
+    # #  [12, 13]],
+    # #  Numo::DFloat(view)#shape=[4,2]
+    # # [[2, 3],
+    # #  [6, 7],
+    # #  [10, 11],
+    # #  [14, 15]]]
+    #
+    # pp x.hsplit([3, 6])
+    # # [Numo::DFloat(view)#shape=[4,3]
+    # # [[0, 1, 2],
+    # #  [4, 5, 6],
+    # #  [8, 9, 10],
+    # #  [12, 13, 14]],
+    # #  Numo::DFloat(view)#shape=[4,1]
+    # # [[3],
+    # #  [7],
+    # #  [11],
+    # #  [15]],
+    # #  Numo::DFloat(view)#shape=[4,0][]]
+
+    def vsplit(indices_or_sections)
+      split(indices_or_sections, axis:0)
+    end
+
+    def hsplit(indices_or_sections)
+      split(indices_or_sections, axis:1)
+    end
+
+    def dsplit(indices_or_sections)
+      split(indices_or_sections, axis:2)
     end
 
   end
