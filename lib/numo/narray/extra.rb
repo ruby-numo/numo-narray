@@ -22,15 +22,6 @@ module Numo
     # # [[1, 2, 5],
     # #  [3, 4, 6]]
 
-    def check_axis(axis)
-      if axis < 0
-        axis += ndim
-      end
-      if axis < 0 || axis >= ndim
-        raise ArgumentError,"invalid axis"
-      end
-    end
-
     def concatenate(*arrays,axis:0)
       check_axis(axis)
       self_shape = shape
@@ -173,6 +164,16 @@ module Numo
 
     def dsplit(indices_or_sections)
       split(indices_or_sections, axis:2)
+    end
+
+
+    def check_axis(axis)
+      if axis < 0
+        axis += ndim
+      end
+      if axis < 0 || axis >= ndim
+        raise ArgumentError,"invalid axis"
+      end
     end
 
   end
