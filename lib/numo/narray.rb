@@ -4,3 +4,5 @@ begin
 rescue LoadError
   require "numo/narray.so"
 end
+
+require "numo/narray/extra"
