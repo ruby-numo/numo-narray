@@ -9,7 +9,7 @@
 Numo::NArray is an Numerical N-dimensional Array class
 for fast processing and easy manipulation of multi-dimensional numerical data,
 similar to numpy.ndaray.
-This project is a successor to [Ruby/NArray](http://masa16.github.io/narray/).
+This project is the successor to [Ruby/NArray](http://masa16.github.io/narray/).
 
 under development
 
@@ -57,23 +57,3 @@ All documents are primitive.
 * [Numo::NArray API Doc](http://ruby-numo.github.io/narray/narray/frames.html)
 * [Numo::NArray概要](https://github.com/ruby-numo/narray/wiki/Numo::NArray%E6%A6%82%E8%A6%81) (in Japanese)
 * [Numo::NArray vs numpy](https://github.com/ruby-numo/narray/wiki/Numo-vs-numpy)
-
-## Running RSpec
-
-(in advance, install gem with --development option)
-
-  ```shell
-$ "${HOME}/.gem/ruby/2.?/bin/rspec" "${HOME}/.gem/ruby/2.?/gems/numo-narray-0.9.?.?/spec/bit_spec.rb"
-$ "${HOME}/.gem/ruby/2.?/bin/rspec" "${HOME}/.gem/ruby/2.?/gems/numo-narray-0.9.?.?/spec/narray_spec.rb"
-```
-
-## YARD documents generation
-
-(in advance, install yard gem)
-
-  ```shell
-$ cd "${HOME}/.gem/ruby/2.?/gems/numo-narray-0.9.?.?/ext/numo/narray"
-$ make doc
-yard doc *.c types/*.c
-...
-```
