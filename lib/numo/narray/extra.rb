@@ -32,8 +32,7 @@ module Numo
         when NArray
           # ok
         when Numeric
-          a = self.class.new(1)
-          a.store(1)
+          a = self.class.new(1).store(a)
         when Array
           a = self.class.cast(a)
         else
