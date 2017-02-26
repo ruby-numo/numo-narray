@@ -166,6 +166,89 @@ module Numo
     end
 
 
+    # p a = Numo::NArray[0,1,2]
+    # # Numo::Int32#shape=[3]
+    # # [0, 1, 2]
+    #
+    # p a.tile(2)
+    # # Numo::Int32#shape=[6]
+    # # [0, 1, 2, 0, 1, 2]
+    #
+    # p a.tile(2,2)
+    # # Numo::Int32#shape=[2,6]
+    # # [[0, 1, 2, 0, 1, 2],
+    # #  [0, 1, 2, 0, 1, 2]]
+    #
+    # p a.tile(2,1,2)
+    # # Numo::Int32#shape=[2,1,6]
+    # # [[[0, 1, 2, 0, 1, 2]],
+    # #  [[0, 1, 2, 0, 1, 2]]]
+    #
+    # p b = Numo::NArray[[1, 2], [3, 4]]
+    # # Numo::Int32#shape=[2,2]
+    # # [[1, 2],
+    # #  [3, 4]]
+    #
+    # p b.tile(2)
+    # # Numo::Int32#shape=[2,4]
+    # # [[1, 2, 1, 2],
+    # #  [3, 4, 3, 4]]
+    #
+    # p b.tile(2,1)
+    # # Numo::Int32#shape=[4,2]
+    # # [[1, 2],
+    # #  [3, 4],
+    # #  [1, 2],
+    # #  [3, 4]]
+    #
+    # p c = Numo::NArray[1,2,3,4]
+    # # Numo::Int32#shape=[4]
+    # # [1, 2, 3, 4]
+    #
+    # p c.tile(4,1)
+    # # Numo::Int32#shape=[4,4]
+    # # [[1, 2, 3, 4],
+    # #  [1, 2, 3, 4],
+    # #  [1, 2, 3, 4],
+    # #  [1, 2, 3, 4]]
+
+    def tile(*arg)
+      arg.each do |i|
+        if !i.kind_of?(Integer) || i<1
+          raise ArgumentError,"argument should be positive integer"
+        end
+      end
+      ns = arg.size
+      nd = self.ndim
+      shp = self.shape
+      new_shp = []
+      src_shp = []
+      res_shp = []
+      (nd-ns).times do
+        new_shp << 1
+        new_shp << (n = shp.shift)
+        src_shp << :new
+        src_shp << true
+        res_shp << n
+      end
+      (ns-nd).times do
+        new_shp << (m = arg.shift)
+        new_shp << 1
+        src_shp << :new
+        src_shp << :new
+        res_shp << m
+      end
+      [nd,ns].min.times do
+        new_shp << (m = arg.shift)
+        new_shp << (n = shp.shift)
+        src_shp << :new
+        src_shp << true
+        res_shp << n*m
+      end
+      self.class.new(*new_shp).store(self[*src_shp]).reshape(*res_shp)
+    end
+
+
     def check_axis(axis)
       if axis < 0
         axis += ndim
