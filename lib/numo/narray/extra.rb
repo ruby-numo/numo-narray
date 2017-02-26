@@ -249,6 +249,65 @@ module Numo
     end
 
 
+    # p Numo::NArray[3].repeat(4)
+    # # Numo::Int32#shape=[4]
+    # # [3, 3, 3, 3]
+    #
+    # p x = Numo::NArray[[1,2],[3,4]]
+    # # Numo::Int32#shape=[2,2]
+    # # [[1, 2],
+    # #  [3, 4]]
+    #
+    # p x.repeat(2)
+    # # Numo::Int32#shape=[8]
+    # # [1, 1, 2, 2, 3, 3, 4, 4]
+    #
+    # p x.repeat(3,axis:1)
+    # # Numo::Int32#shape=[2,6]
+    # # [[1, 1, 1, 2, 2, 2],
+    # #  [3, 3, 3, 4, 4, 4]]
+    #
+    # p x.repeat([1,2],axis:0)
+    # # Numo::Int32#shape=[3,2]
+    # # [[1, 2],
+    # #  [3, 4],
+    # #  [3, 4]]
+
+    def repeat(arg,axis:nil)
+      case axis
+      when Integer
+        check_axis(axis)
+        c = self
+      when NilClass
+        c = self.flatten
+        axis = 0
+      else
+        raise ArgumentError,"invalid axis"
+      end
+      case arg
+      when Integer
+        if !arg.kind_of?(Integer) || arg<1
+          raise ArgumentError,"argument should be positive integer"
+        end
+        idx = c.shape[axis].times.map{|i| [i]*arg}.flatten
+      else
+        arg = arg.to_a
+        if arg.size != c.shape[axis]
+          raise ArgumentError,"repeat size shoud be equal to size along axis"
+        end
+        arg.each do |i|
+          if !i.kind_of?(Integer) || i<0
+            raise ArgumentError,"argument should be non-negative integer"
+          end
+        end
+        idx = arg.each_with_index.map{|a,i| [i]*a}.flatten
+      end
+      ref = [true] * c.ndim
+      ref[axis] = idx
+      c[*ref].copy
+    end
+
+
     def check_axis(axis)
       if axis < 0
         axis += ndim
