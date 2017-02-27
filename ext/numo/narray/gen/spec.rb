@@ -72,6 +72,8 @@ store_from "UInt32","u_int32_t","m_from_real"
 store_from "UInt16","u_int16_t","m_from_real"
 store_from "UInt8", "u_int8_t", "m_from_real"
 
+store_from "RObject", "VALUE",  "m_num_to_data"
+
 def_method "store", 1
 def_singleton "cast", 1
 
