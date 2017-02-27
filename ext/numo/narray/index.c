@@ -16,6 +16,24 @@
 #define cIndex numo_cInt32
 #endif
 
+// from ruby/enumerator.c
+struct enumerator {
+    VALUE obj;
+    ID    meth;
+    VALUE args;
+    // use only above in this source
+    VALUE fib;
+    VALUE dst;
+    VALUE lookahead;
+    VALUE feedvalue;
+    VALUE stop_exc;
+    VALUE size;
+    // incompatible below according to ruby version
+    //VALUE (*size_fn)(ANYARGS);        // ruby 2.0
+    //VALUE procs;                      // ruby 2.4
+    //rb_enumerator_size_func *size_fn; // ruby 2.1-2.4
+};
+
 // note: the memory refed by this pointer is not freed and causes memroy leak.
 typedef struct {
     size_t  n; // the number of elements of the dimesnion
@@ -53,9 +71,10 @@ static VALUE sym_plus;
 static VALUE sym_sum;
 static VALUE sym_tilde;
 static VALUE sym_rest;
-static VALUE id_beg;
-static VALUE id_end;
-static VALUE id_exclude_end;
+static ID id_beg;
+static ID id_end;
+static ID id_exclude_end;
+static ID id_each, id_step;
 
 static int
 na_index_preprocess(VALUE args, int na_ndim)
@@ -191,7 +210,7 @@ na_parse_narray_index(VALUE a, int orig_dim, ssize_t size, na_index_arg_t *q)
 }
 
 static void
-na_parse_range(VALUE range, int orig_dim, ssize_t size, na_index_arg_t *q)
+na_parse_range(VALUE range, ssize_t step, int orig_dim, ssize_t size, na_index_arg_t *q)
 {
     int n;
     ssize_t beg, end;
@@ -215,10 +234,44 @@ na_parse_range(VALUE range, int orig_dim, ssize_t size, na_index_arg_t *q)
                  "beg=%"SZF"d,end=%"SZF"d is out of array size (%"SZF"d)",
                  beg, end, size);
     }
-    n = end-beg+1;
+    n = (end-beg)/step+1;
     if (n<0) n=0;
-    na_index_set_step(q,orig_dim,n,beg,1);
+    na_index_set_step(q,orig_dim,n,beg,step);
 
+}
+
+static void
+na_parse_enumerator(VALUE enum_obj, int orig_dim, ssize_t size, na_index_arg_t *q)
+{
+    int len;
+    ssize_t step;
+    struct enumerator *e;
+
+    if (!RB_TYPE_P(enum_obj, T_DATA)) {
+        rb_raise(rb_eTypeError,"wrong argument type (not T_DATA)");
+    }
+    e = (struct enumerator *)DATA_PTR(enum_obj);
+
+    if (rb_obj_is_kind_of(e->obj, rb_cRange)) {
+        if (e->meth == id_each) {
+            na_parse_range(e->obj, 1, orig_dim, size, q);
+        }
+        else if (e->meth == id_step) {
+            if (TYPE(e->args) != T_ARRAY) {
+                rb_raise(rb_eArgError,"no argument for step");
+            }
+            len = RARRAY_LEN(e->args);
+            if (len != 1) {
+                rb_raise(rb_eArgError,"invalid number of step argument (1 for %d)",len);
+            }
+            step = NUM2SSIZET(RARRAY_AREF(e->args,0));
+            na_parse_range(e->obj, step, orig_dim, size, q);
+        } else {
+            rb_raise(rb_eTypeError,"unknown Range method: %s",rb_id2name(e->meth));
+        }
+    } else {
+        rb_raise(rb_eTypeError,"not Range object");
+    }
 }
 
 // Analyze *a* which is *i*-th index object and store the information to q
@@ -273,7 +326,10 @@ na_index_parse_each(volatile VALUE a, ssize_t size, int i, na_index_arg_t *q)
 
     default:
         if (rb_obj_is_kind_of(a, rb_cRange)) {
-            na_parse_range(a, i, size, q);
+            na_parse_range(a, 1, i, size, q);
+        }
+        else if (rb_obj_is_kind_of(a, rb_cEnumerator)) {
+            na_parse_enumerator(a, i, size, q);
         }
         else if (rb_obj_is_kind_of(a, na_cStep)) {
             ssize_t beg, step, n;
@@ -827,4 +883,6 @@ Init_nary_index()
     id_beg = rb_intern("begin");
     id_end = rb_intern("end");
     id_exclude_end = rb_intern("exclude_end?");
+    id_each = rb_intern("each");
+    id_step = rb_intern("step");
 }
