@@ -1,7 +1,11 @@
 static VALUE
 <%=c_iter%>(char *ptr, size_t pos, VALUE fmt)
 {
+<% if is_object %>
+    return rb_inspect(*(VALUE*)(ptr+pos));
+<% else %>
     return format_<%=tp%>(fmt, (dtype*)(ptr+pos));
+<% end %>
 }
 
 /*
