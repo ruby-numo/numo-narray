@@ -42,7 +42,6 @@ static void
                 }
             }
             else if (TYPE(x) != T_ARRAY) {
-                if (x == Qnil) x = INT2FIX(0);
                 z = m_num_to_data(x);
                 <%= x %>
             }
