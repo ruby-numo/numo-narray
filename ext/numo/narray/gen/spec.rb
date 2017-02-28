@@ -103,6 +103,7 @@ if is_bit
   binary "eq"
   bit_count "count_true"
   def_alias "count_1","count_true"
+  def_alias "count","count_true"
   bit_count "count_false"
   def_alias "count_0","count_false"
   bit_reduce "all?", 1
