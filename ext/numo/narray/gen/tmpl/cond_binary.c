@@ -40,6 +40,9 @@ static VALUE
 static VALUE
 <%=c_func%>(VALUE self, VALUE other)
 {
+    <% if is_object %>
+    return <%=c_func%>_self(self, other);
+    <% else %>
     VALUE klass, v;
     klass = na_upcast(CLASS_OF(self),CLASS_OF(other));
     if (klass==cT) {
@@ -48,4 +51,5 @@ static VALUE
         v = rb_funcall(klass, id_cast, 1, self);
         return rb_funcall(v, id_<%=method%>, 1, other);
     }
+    <% end %>
 }

@@ -61,10 +61,15 @@ static VALUE
 static VALUE
 <%=c_func%>(int argc, VALUE *argv, VALUE self)
 {
+    <% if !is_object %>
     VALUE klass, v;
+    <% end %>
     if (argc < 1) {
         rb_raise(rb_eArgError,"wrong number of arguments (%d for >=1)",argc);
     }
+    <% if is_object %>
+    return <%=c_func%>_self(argc, argv, self);
+    <% else %>
     klass = na_upcast(CLASS_OF(self),CLASS_OF(argv[0]));
     if (klass==cT) {
         return <%=c_func%>_self(argc, argv, self);
@@ -72,4 +77,5 @@ static VALUE
         v = rb_funcall(klass, id_cast, 1, self);
         return rb_funcall2(v, rb_intern("<%=method%>"), argc, argv);
     }
+    <% end %>
 }
