@@ -24,8 +24,12 @@ static VALUE
         }
     }
 
+    <% if is_object %>
+    numo_robject_store_numeric(self,obj);
+    <% else %>
     rb_raise(nary_eCastError, "unknown conversion from %s to %s",
              rb_class2name(CLASS_OF(obj)),
              rb_class2name(CLASS_OF(self)));
+    <% end %>
     return self;
 }

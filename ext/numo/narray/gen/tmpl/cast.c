@@ -32,6 +32,10 @@ static VALUE
         }
         return v;
     }
+    <% if is_object %>
+    return numo_robject_new_dim0(obj);
+    <% else %>
     rb_raise(nary_eCastError,"cannot cast to %s",rb_class2name(type));
     return Qnil;
+    <% end %>
 }
