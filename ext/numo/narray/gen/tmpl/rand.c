@@ -109,7 +109,7 @@ static void
   Generate uniformly distributed random numbers on self narray.
   @overload rand([[low],high])
   @param [Numeric] low  lower inclusive boundary of random numbers. (default=0)
-  @param [Numeric] high  upper exclusive boundary of random numbers. (default=1)
+  @param [Numeric] high  upper exclusive boundary of random numbers. (default=1 or 1+1i for complex types)
   @return [Numo::<%=class_name%>] self.
   @example
     Numo::DFloat.new(6).rand
@@ -141,7 +141,11 @@ static VALUE
     if (v2==Qnil) {
         g.low = m_zero;
         if (v1==Qnil) {
+            <% if is_complex %>
+            g.max = high = c_new(1,1);
+            <% else %>
             g.max = high = m_one;
+            <% end %>
         } else {
             g.max = high = m_num_to_data(v1);
         }
