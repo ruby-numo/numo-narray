@@ -28,8 +28,8 @@
 #define m_trunc(x)     rb_funcall(x,id_truncate,0)
 #define m_sign(x)      rb_funcall(x,id_op_ufo,1,INT2FIX(0))
 
-#define m_eq(x,y)      RTEST(rb_funcall(x,id_eq,1,y))
-#define m_ne(x,y)      RTEST(rb_funcall(x,id_ne,1,y))
+#define m_eq(x,y)      RTEST(rb_funcall(x,id_op_eq,1,y))
+#define m_ne(x,y)      RTEST(rb_funcall(x,id_op_ne,1,y))
 #define m_gt(x,y)      RTEST(rb_funcall(x,id_op_gt,1,y))
 #define m_ge(x,y)      RTEST(rb_funcall(x,id_op_ge,1,y))
 #define m_lt(x,y)      RTEST(rb_funcall(x,id_op_lt,1,y))
