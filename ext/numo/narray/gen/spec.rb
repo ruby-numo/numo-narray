@@ -235,6 +235,10 @@ if is_comparable
   def_method "minmax",-1
 end
 
+if is_int && !is_object
+  def_method "bincount",-1
+end
+
 cum "cumsum","add"
 cum "cumprod","mul"
 
