@@ -45,6 +45,10 @@ if is_object
   def_id "<=>","op_ufo"
 end
 
+if is_int && !is_object
+  def_id "minlength" # for bincount
+end
+
 # Allocation
 
 if is_object
