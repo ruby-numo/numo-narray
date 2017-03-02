@@ -103,6 +103,7 @@ static VALUE
 
 /*
   Count the number of occurrences of each non-negative integer value.
+  Only Integer-types has this method.
 
   @overload <%=method%>([weight], minlength:nil)
   @param [SFloat or DFloat or Array] weight (optional) Array of
