@@ -178,6 +178,7 @@ class DataType < ErbPP
     has_math
     is_bit
     is_int
+    is_unsigned
     is_float
     is_real
     is_complex

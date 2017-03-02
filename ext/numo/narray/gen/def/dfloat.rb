@@ -5,6 +5,7 @@ ctype           "double"
 has_math      true
 is_bit        false
 is_int        false
+is_unsigned   false
 is_float      true
 is_complex    false
 is_object     false

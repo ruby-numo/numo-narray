@@ -6,6 +6,7 @@ template_dir  "tmpl_bit"
 has_math      false
 is_bit        true
 is_int        false
+is_unsigned   true
 is_float      false
 is_complex    false
 is_object     false

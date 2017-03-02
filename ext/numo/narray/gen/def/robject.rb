@@ -6,6 +6,7 @@ real_ctype      "VALUE"
 has_math      false
 is_bit        false
 is_int        true
+is_unsigned   false
 is_float      true
 is_real       true
 is_complex    false

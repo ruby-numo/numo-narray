@@ -4,6 +4,7 @@ ctype         "int32_t"
 has_math      false
 is_bit        false
 is_int        true
+is_unsigned   false
 is_float      false
 is_complex    false
 is_object     false
