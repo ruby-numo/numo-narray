@@ -36,7 +36,7 @@ static void
 }
 
 static VALUE
-<%=c_func%>_<%=bits%>_wo_weight(VALUE self, size_t length)
+<%=c_func%>_<%=bits%>(VALUE self, size_t length)
 {
     size_t shape_out[1] = {length};
     ndfunc_arg_in_t ain[1] = {{cT,1}};
@@ -88,7 +88,7 @@ static void
 }
 
 static VALUE
-<%=c_func%>_<%=fn%>_w_weight(VALUE self, VALUE weight, size_t length)
+<%=c_func%>_<%=fn%>(VALUE self, VALUE weight, size_t length)
 {
     size_t shape_out[1] = {length};
     ndfunc_arg_in_t ain[2] = {{cT,1},{<%=cnt_cT%>,1}};
@@ -102,10 +102,35 @@ static VALUE
 // ------- end of Float count with weights -------
 
 /*
-  <%=method.capitalize%> of self.
-  @overload <%=method%>(*args)
-  @param [Array of Numeric,Range] args  Affected dimensions.
-  @return [Numo::<%=class_name%>] <%=method%> of self.
+  Count the number of occurrences of each non-negative integer value.
+
+  @overload <%=method%>([weight], minlength:nil)
+  @param [SFloat or DFloat or Array] weight (optional) Array of
+    float values. Its size along last axis should be same as that of self.
+  @param [Integer] minlength (keyword, optional) Minimum size along
+    last axis for the output array.
+  @return [UInt32 or UInt64 or SFloat or DFloat]
+    Returns Float NArray if weight array is supplied,
+    otherwise returns UInt32 or UInt64 depending on the size along last axis.
+  @example
+    Numo::Int32[0..4].bincount
+    => Numo::UInt32#shape=[5]
+       [1, 1, 1, 1, 1]
+
+    Numo::Int32[0, 1, 1, 3, 2, 1, 7].bincount
+    => Numo::UInt32#shape=[8]
+       [1, 3, 1, 1, 0, 0, 0, 1]
+
+    x = Numo::Int32[0, 1, 1, 3, 2, 1, 7, 23]
+    x.bincount.size == x.max+1
+    => true
+
+    w = Numo::DFloat[0.3, 0.5, 0.2, 0.7, 1.0, -0.6]
+    x = Numo::Int32[0, 1, 1, 2, 2, 2]
+    x.bincount(w)
+    => Numo::DFloat#shape=[3]
+       [0.3, 0.7, 1.1]
+
 */
 static VALUE
 <%=c_func%>(int argc, VALUE *argv, VALUE self)
@@ -141,16 +166,16 @@ static VALUE
 
     if (NIL_P(weight)) {
         if (length > 4294967295ul) {
-            return <%=c_func%>_64_wo_weight(self, length);
+            return <%=c_func%>_64(self, length);
         } else {
-            return <%=c_func%>_32_wo_weight(self, length);
+            return <%=c_func%>_32(self, length);
         }
     } else {
         wclass = CLASS_OF(weight);
         if (wclass == numo_cSFloat) {
-            return <%=c_func%>_sf_w_weight(self, weight, length);
+            return <%=c_func%>_sf(self, weight, length);
         } else {
-            return <%=c_func%>_df_w_weight(self, weight, length);
+            return <%=c_func%>_df(self, weight, length);
         }
     }
 }
