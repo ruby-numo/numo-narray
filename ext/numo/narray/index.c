@@ -28,10 +28,10 @@ struct enumerator {
     VALUE feedvalue;
     VALUE stop_exc;
     VALUE size;
-    // incompatible below according to ruby version
-    //VALUE (*size_fn)(ANYARGS);        // ruby 2.0
+    // incompatible below depending on ruby version
     //VALUE procs;                      // ruby 2.4
     //rb_enumerator_size_func *size_fn; // ruby 2.1-2.4
+    //VALUE (*size_fn)(ANYARGS);        // ruby 2.0
 };
 
 // note: the memory refed by this pointer is not freed and causes memroy leak.

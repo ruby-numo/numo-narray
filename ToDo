@@ -18,7 +18,7 @@
 
 * switch to TypedData.
 
-* inspect Enumerable#step object, delete Numo::Step class.
+* inspect Enumerable#step object - done, delete Numo::Step class.
 
 * move "reduce" field from RNArray to RNArrayView.
 
@@ -73,12 +73,12 @@ partition
 searchsorted
 compress
 pad
-tile
+tile - done
 copysign
-bincount
+bincount - done
 unique
 roll
-repeat
+repeat - done
 logical_and/or/not
 minimum,maximum
 shuffle
