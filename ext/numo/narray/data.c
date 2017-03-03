@@ -114,7 +114,7 @@ nary_swap_byte(VALUE self)
     if (self!=v) {
         na_copy_flags(self, v);
     }
-    REVERSE_BYTE_SWAPPED(v);
+    REVERSE_ENDIAN(v);
     return v;
 }
 
@@ -122,7 +122,7 @@ nary_swap_byte(VALUE self)
 static VALUE
 nary_to_network(VALUE self)
 {
-    if (TEST_NETWORK_ORDER(self)) {
+    if (TEST_BIG_ENDIAN(self)) {
         return self;
     }
     return rb_funcall(self, rb_intern("swap_byte"), 0);
@@ -131,7 +131,7 @@ nary_to_network(VALUE self)
 static VALUE
 nary_to_vacs(VALUE self)
 {
-    if (TEST_VACS_ORDER(self)) {
+    if (TEST_LITTLE_ENDIAN(self)) {
         return self;
     }
     return rb_funcall(self, rb_intern("swap_byte"), 0);
@@ -901,7 +901,6 @@ Init_nary_data()
 #else
 #ifdef WORDS_BIGENDIAN
 #else // LITTLE_ENDIAN
-    rb_define_alias(cNArray, "hton", "swap_byte");
     rb_define_alias(cNArray, "hton", "swap_byte");
     rb_define_alias(cNArray, "network_order?", "byte_swapped?");
     rb_define_alias(cNArray, "little_endian?", "host_order?");

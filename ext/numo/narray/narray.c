@@ -188,8 +188,8 @@ na_s_allocate(VALUE klass)
 
     na->base.ndim = 0;
     na->base.type = NARRAY_DATA_T;
-    na->base.flag[0] = 0;
-    na->base.flag[1] = 0;
+    na->base.flag[0] = NA_FL0_INIT;
+    na->base.flag[1] = NA_FL1_INIT;
     na->base.size = 0;
     na->base.shape = NULL;
     na->base.reduce = INT2FIX(0);
@@ -205,8 +205,8 @@ na_s_allocate_view(VALUE klass)
 
     na->base.ndim = 0;
     na->base.type = NARRAY_VIEW_T;
-    na->base.flag[0] = 0;
-    na->base.flag[1] = 0;
+    na->base.flag[0] = NA_FL0_INIT;
+    na->base.flag[1] = NA_FL1_INIT;
     na->base.size = 0;
     na->base.shape = NULL;
     na->base.reduce = INT2FIX(0);
@@ -225,14 +225,12 @@ na_array_to_internal_shape(VALUE self, VALUE ary, size_t *shape)
     size_t    i, n, c, s;
     ssize_t   x;
     VALUE     v;
-    narray_t *na;
     int       flag = 0;
 
     n = RARRAY_LEN(ary);
 
     if (RTEST(self)) {
-        GetNArray(self, na);
-        flag = TEST_COLUMN_MAJOR(na);
+        flag = TEST_COLUMN_MAJOR(self);
     }
     if (flag) {
         c = n-1;
@@ -637,9 +635,9 @@ void
 na_release_lock(VALUE self)
 {
     narray_t *na;
-    GetNArray(self,na);
 
-    NA_UNSET_LOCK(na);
+    UNSET_LOCK(self);
+    GetNArray(self,na);
 
     switch(NA_TYPE(na)) {
     case NARRAY_VIEW_T:
@@ -781,7 +779,7 @@ static VALUE
 
     GetNArray(self,na);
     n = NA_NDIM(na);
-    if (TEST_COLUMN_MAJOR(na)) {
+    if (TEST_COLUMN_MAJOR(self)) {
         c = n-1;
         s = -1;
     } else {
@@ -850,7 +848,7 @@ na_copy_flags(VALUE src, VALUE dst)
     GetNArray(dst,na2);
 
     na2->flag[0] = na1->flag[0];
-    na2->flag[1] = na1->flag[1];
+    //na2->flag[1] = NA_FL1_INIT;
 
     RBASIC(dst)->flags |= (RBASIC(src)->flags) &
         (FL_USER1|FL_USER2|FL_USER3|FL_USER4|FL_USER5|FL_USER6|FL_USER7);

@@ -274,12 +274,13 @@ _na_get_narray_t(VALUE obj, unsigned char na_type)
 
 #define NA_NDIM(na)	(((narray_t*)na)->ndim)
 #define NA_TYPE(na)	(((narray_t*)na)->type)
-#define NA_FLAG(na)	(((narray_t*)na)->flag)
-#define NA_FLAG0(na)	(((narray_t*)na)->flag[0])
-#define NA_FLAG1(na)	(((narray_t*)na)->flag[1])
 #define NA_SIZE(na)	(((narray_t*)na)->size)
 #define NA_SHAPE(na)	(((narray_t*)na)->shape)
 #define NA_REDUCE(na)	(((narray_t*)na)->reduce)
+
+#define NA_FLAG(na)	(na_get_narray_t(na)->flag)
+#define NA_FLAG0(na)	(NA_FLAG(na)[0])
+#define NA_FLAG1(na)	(NA_FLAG(na)[1])
 
 #define NA_DATA_PTR(na)         (((narray_data_t*)na)->ptr)
 #define NA_VIEW_DATA(na)	(((narray_view_t*)na)->data)
@@ -301,10 +302,6 @@ _na_get_narray_t(VALUE obj, unsigned char na_type)
 #define NA_FL0_REVERSE(x,f) do {NA_FLAG0(x) ^= (f);} while(0)
 #define NA_FL1_REVERSE(x,f) do {NA_FLAG1(x) ^= (f);} while(0)
 
-#define NA_TEST_LOCK(x)  NA_FL0_TEST(x,NA_FL_LOCK)
-#define NA_SET_LOCK(x)   NA_FL0_SET(x,NA_FL_LOCK)
-#define NA_UNSET_LOCK(x) NA_FL0_UNSET(x,NA_FL_LOCK)
-
 
 /* FLAGS
    - row-major / column-major
@@ -314,31 +311,60 @@ _na_get_narray_t(VALUE obj, unsigned char na_type)
    - matrix or not
 */
 
-#define NA_FL_LOCK         (0x1<<0)
-#define NA_FL_COLUMN_MAJOR (0x1<<1)
-#define NA_FL_BYTE_SWAPPED (0x1<<2)
-#define NA_FL_INPLACE      (0x1<<3)
+#define NA_FL0_BIG_ENDIAN     (0x1<<0)
+#define NA_FL0_COLUMN_MAJOR   (0x1<<1)
+#define NA_FL1_LOCK           (0x1<<0)
+#define NA_FL1_INPLACE        (0x1<<1)
 
-#define TEST_COLUMN_MAJOR(x)   NA_FL0_TEST(x,NA_FL_COLUMN_MAJOR)
-#define TEST_ROW_MAJOR(x)    (!NA_FL0_TEST(x,NA_FL_COLUMN_MAJOR))
-#define TEST_BYTE_SWAPPED(x)   NA_FL0_TEST(x,NA_FL_BYTE_SWAPPED)
-#define TEST_HOST_ORDER(x)   (!TEST_BYTE_SWAPPED(x))
+#define TEST_COLUMN_MAJOR(x)   NA_FL0_TEST(x,NA_FL0_COLUMN_MAJOR)
+#define SET_COLUMN_MAJOR(x)    NA_FL0_SET(x,NA_FL0_COLUMN_MAJOR)
+#define UNSET_COLUMN_MAJOR(x)  NA_FL0_UNSET(x,NA_FL0_COLUMN_MAJOR)
 
-#define TEST_INPLACE(x)        NA_FL0_TEST(x,NA_FL_INPLACE)
-#define SET_INPLACE(x)         NA_FL0_SET(x,NA_FL_INPLACE)
-#define UNSET_INPLACE(x)       NA_FL0_UNSET(x,NA_FL_INPLACE)
+#define TEST_ROW_MAJOR(x)      (!TEST_COLUMN_MAJOR(x))
+#define SET_ROW_MAJOR(x)       UNSET_COLUMN_MAJOR(x)
+#define UNSET_ROW_MAJOR(x)     SET_COLUMN_MAJOR(x)
 
-#define REVERSE_BYTE_SWAPPED(x)	NA_FL0_REVERSE((x),NA_FL_BYTE_SWAPPED)
+#define TEST_BIG_ENDIAN(x)     NA_FL0_TEST(x,NA_FL0_BIG_ENDIAN)
+#define SET_BIG_ENDIAN(x)      NA_FL0_SET(x,NA_FL0_BIG_ENDIAN)
+#define UNSET_BIG_ENDIAN(x)    NA_FL0_UNSET(x,NA_FL0_BIG_ENDIAN)
+
+#define TEST_LITTLE_ENDIAN(x)  (!TEST_BIG_ENDIAN(x))
+#define SET_LITTLE_ENDIAN(x)   UNSET_BIG_ENDIAN(x)
+#define UNSET_LITTLE_ENDIAN(x) SET_BIG_ENDIAN(x)
+
+#define REVERSE_ENDIAN(x)      NA_FL0_REVERSE((x),NA_FL0_BIG_ENDIAN)
+
+#define TEST_LOCK(x)           NA_FL1_TEST(x,NA_FL1_LOCK)
+#define SET_LOCK(x)            NA_FL1_SET(x,NA_FL1_LOCK)
+#define UNSET_LOCK(x)          NA_FL1_UNSET(x,NA_FL1_LOCK)
+
+#define TEST_INPLACE(x)        NA_FL1_TEST(x,NA_FL1_INPLACE)
+#define SET_INPLACE(x)         NA_FL1_SET(x,NA_FL1_INPLACE)
+#define UNSET_INPLACE(x)       NA_FL1_UNSET(x,NA_FL1_INPLACE)
 
 #ifdef DYNAMIC_ENDIAN
+// not supported
 #else
 #ifdef WORDS_BIGENDIAN
-#else // LITTLE_ENDIAN
+#define TEST_HOST_ORDER(x)     TEST_BIG_ENDIAN(x)
+#define SET_HOST_ORDER(x)      SET_BIG_ENDIAN(x)
+#define UNSET_HOST_ORDER(x)    UNSET_BIG_ENDIAN(x)
+#define TEST_BYTE_SWAPPED(x)   TEST_LITTLE_ENDIAN(x)
+#define SET_BYTE_SWAPPED(x)    SET_LITTLE_ENDIAN(x)
+#define UNSET_BYTE_SWAPPED(x)  UNSET_LITTLE_ENDIAN(x)
+#define NA_FL0_INIT            NA_FL0_BIG_ENDIAN
+#else // LITTLE ENDIAN
+#define TEST_HOST_ORDER(x)     TEST_LITTLE_ENDIAN(x)
+#define SET_HOST_ORDER(x)      SET_LITTLE_ENDIAN(x)
+#define UNSET_HOST_ORDER(x)    UNSET_LITTLE_ENDIAN(x)
+#define TEST_BYTE_SWAPPED(x)   TEST_BIG_ENDIAN(x)
+#define SET_BYTE_SWAPPED(x)    SET_BIG_ENDIAN(x)
+#define UNSET_BYTE_SWAPPED(x)  UNSET_BIG_ENDIAN(x)
+#define NA_FL0_INIT            0
+#endif
+#endif
+#define NA_FL1_INIT            0
 
-#define TEST_NETWORK_ORDER(x) TEST_BYTE_SWAPPED(x)
-#define TEST_VACS_ORDER(x)    TEST_HOST_ORDER(x)
-#endif
-#endif
 
 #define IsNArray(obj) (rb_obj_is_kind_of(obj,cNArray)==Qtrue)
 
