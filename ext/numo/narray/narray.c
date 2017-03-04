@@ -1161,13 +1161,13 @@ nary_s_byte_size(VALUE type)
 
 /*
   Returns a new 1-D array initialized from binary raw data in a string.
-  @overload from_string(string,[shape])
+  @overload from_binary(string,[shape])
   @param [String] string  Binary raw data.
   @param [Array] shape  array of integers representing array shape.
   @return [Numo::NArray] NArray containing binary data.
  */
 static VALUE
-nary_s_from_string(int argc, VALUE *argv, VALUE type)
+nary_s_from_binary(int argc, VALUE *argv, VALUE type)
 {
     size_t len, str_len, byte_size;
     size_t *shape;
@@ -1233,12 +1233,59 @@ nary_s_from_string(int argc, VALUE *argv, VALUE type)
 }
 
 /*
+  Returns a new 1-D array initialized from binary raw data in a string.
+  @overload store_binary(string,[offset])
+  @param [String] string  Binary raw data.
+  @param [Integer] (optional) offset  Byte offset in string.
+  @return [Integer] stored length.
+ */
+static VALUE
+nary_store_binary(int argc, VALUE *argv, VALUE self)
+{
+    size_t size, str_len, byte_size, offset;
+    char *ptr;
+    int   narg;
+    VALUE vstr, voffset;
+    VALUE velmsz;
+    narray_t *na;
+
+    narg = rb_scan_args(argc,argv,"11",&vstr,&voffset);
+    str_len = RSTRING_LEN(vstr);
+    if (narg==2) {
+        offset = NUM2SIZET(voffset);
+        if (str_len < offset) {
+            rb_raise(rb_eArgError, "offset is larger than string length");
+        }
+        str_len -= offset;
+    } else {
+        offset = 0;
+    }
+
+    GetNArray(self,na);
+    size = NA_SIZE(na);
+    velmsz = rb_const_get(CLASS_OF(self), rb_intern(ELEMENT_BYTE_SIZE));
+    if (FIXNUM_P(velmsz)) {
+        byte_size = size * NUM2SIZET(velmsz);
+    } else {
+        byte_size = ceil(size * NUM2DBL(velmsz));
+    }
+    if (byte_size > str_len) {
+        rb_raise(rb_eArgError, "string is too short to store");
+    }
+
+    ptr = na_get_pointer_for_write(self);
+    memcpy(ptr, RSTRING_PTR(vstr)+offset, byte_size);
+
+    return SIZET2NUM(byte_size);
+}
+
+/*
   Returns string containing the raw data bytes in NArray.
-  @overload to_string()
+  @overload to_binary()
   @return [String] String object containing binary raw data.
  */
 static VALUE
-nary_to_string(VALUE self)
+nary_to_binary(VALUE self)
 {
     size_t len;
     char *ptr;
@@ -1254,6 +1301,71 @@ nary_to_string(VALUE self)
     str = rb_usascii_str_new(ptr,len);
     RB_GC_GUARD(self);
     return str;
+}
+
+/*
+  Dump marshal data.
+  @overload marshal_dump()
+  @return [Array] Array containing marshal data.
+ */
+static VALUE
+nary_marshal_dump(VALUE self)
+{
+    VALUE a;
+
+    a = rb_ary_new();
+    rb_ary_push(a, na_shape(self));
+    rb_ary_push(a, INT2FIX(NA_FLAG0(self)));
+    if (CLASS_OF(self) == numo_cRObject) {
+        narray_t *na;
+        VALUE *ptr;
+        GetNArray(self,na);
+        ptr = (VALUE*)na_get_pointer_for_read(self);
+        rb_ary_push(a, rb_ary_new4(NA_SIZE(na), ptr));
+    } else {
+        rb_ary_push(a, nary_to_binary(self));
+    }
+    RB_GC_GUARD(self);
+    return a;
+}
+
+/*
+  Load marshal data.
+  @overload marshal_load(data)
+  @params [Array] Array containing marshal data.
+  @return [nil]
+ */
+static VALUE
+nary_marshal_load(VALUE self, VALUE a)
+{
+    VALUE v;
+
+    if (TYPE(a) != T_ARRAY) {
+        rb_raise(rb_eArgError,"argument should be array");
+    }
+    if (RARRAY_LEN(a) != 3) {
+        rb_raise(rb_eArgError,"array size should be 3");
+    }
+    na_initialize(self,RARRAY_AREF(a,0));
+    NA_FL0_SET(self,FIX2INT(RARRAY_AREF(a,1)));
+    v = RARRAY_AREF(a,2);
+    if (CLASS_OF(self) == numo_cRObject) {
+        narray_t *na;
+        char *ptr;
+        if (TYPE(v) != T_ARRAY) {
+            rb_raise(rb_eArgError,"RObject content should be array");
+        }
+        GetNArray(self,na);
+        if (RARRAY_LEN(v) != (long)NA_SIZE(na)) {
+            rb_raise(rb_eArgError,"RObject content size mismatch");
+        }
+        ptr = na_get_pointer_for_write(self);
+        memcpy(ptr, RARRAY_PTR(v), NA_SIZE(na)*sizeof(VALUE));
+    } else {
+        nary_store_binary(1,&v,self);
+    }
+    RB_GC_GUARD(a);
+    return self;
 }
 
 
@@ -1681,8 +1793,13 @@ Init_narray()
     rb_define_singleton_method(cNArray, "upcast", numo_na_upcast, 1);
     rb_define_singleton_method(cNArray, "byte_size", nary_s_byte_size, 0);
 
-    rb_define_singleton_method(cNArray, "from_string", nary_s_from_string, -1);
-    rb_define_method(cNArray, "to_string",  nary_to_string, 0);
+    rb_define_singleton_method(cNArray, "from_binary", nary_s_from_binary, -1);
+    rb_define_alias (rb_singleton_class(cNArray), "from_string", "from_binary");
+    rb_define_method(cNArray, "store_binary",  nary_store_binary, -1);
+    rb_define_method(cNArray, "to_binary",  nary_to_binary, 0);
+    rb_define_alias (cNArray, "to_string", "to_binary");
+    rb_define_method(cNArray, "marshal_dump",  nary_marshal_dump, 0);
+    rb_define_method(cNArray, "marshal_load",  nary_marshal_load, 1);
 
     rb_define_method(cNArray, "byte_size",  nary_byte_size, 0);
 
