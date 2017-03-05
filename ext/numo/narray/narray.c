@@ -877,6 +877,9 @@ na_check_contiguous(VALUE self)
     case NARRAY_FILEMAP_T:
         return Qtrue;
     case NARRAY_VIEW_T:
+        if (NA_VIEW_STRIDX(na)==0) {
+            return Qtrue;
+        }
         if (na_check_ladder(self,0)==Qtrue) {
             elmsz = na_get_elmsz(self);
             if (elmsz == NA_STRIDE_AT(na,NA_NDIM(na)-1)) {

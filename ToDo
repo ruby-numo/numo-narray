@@ -17,7 +17,7 @@
 
 * Frozen array -- has OBJ_FROZEN.
 
-* Marshaling -- not yet done. (byte swap)
+* Marshaling -- not yet done. (byte swap, view)
 
 * inspect Enumerable#step object -- done.
 
