@@ -652,37 +652,32 @@ na_check_ladder(VALUE self, int start_dim)
 {
     int i;
     ssize_t st0, st1;
-    narray_t *na1;
-    narray_view_t *na;
-    GetNArray(self,na1);
+    narray_t *na;
+    GetNArray(self,na);
 
-    //puts("pass ladder");
-
-    if (start_dim < -na1->ndim || start_dim >= na1->ndim) {
+    if (start_dim < -na->ndim || start_dim >= na->ndim) {
         rb_bug("start_dim (%d) out of range",start_dim);
     }
 
-    switch(na1->type) {
+    switch(na->type) {
     case NARRAY_DATA_T:
     case NARRAY_FILEMAP_T:
         return Qtrue;
     case NARRAY_VIEW_T:
-        GetNArrayView(self,na);
         // negative dim -> position from last dim
         if (start_dim < 0) {
-            start_dim += na->base.ndim;
+            start_dim += NA_NDIM(na);
         }
         // not ladder if it has index
-        for (i=start_dim; i<na->base.ndim; i++) {
-            if (SDX_IS_INDEX(na->stridx[i]))
+        for (i=start_dim; i<NA_NDIM(na); i++) {
+            if (NA_IS_INDEX_AT(na,i))
                 return Qfalse;
         }
         // check stride
-        i = start_dim;
-        st0 = SDX_GET_STRIDE(na->stridx[i]);
-        for (i++; i<na->base.ndim; i++) {
-            st1 = SDX_GET_STRIDE(na->stridx[i]);
-            if (st0 != (ssize_t)(st1*na->base.shape[i])) {
+        st0 = NA_STRIDE_AT(na,start_dim);
+        for (i=start_dim+1; i<NA_NDIM(na); i++) {
+            st1 = NA_STRIDE_AT(na,i);
+            if (st0 != (ssize_t)(st1 * NA_SHAPE(na)[i])) {
                 return Qfalse;
             }
             st0 = st1;
