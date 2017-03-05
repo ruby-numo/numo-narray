@@ -290,8 +290,8 @@ _na_get_narray_t(VALUE obj, unsigned char na_type)
 #define NA_VIEW_OFFSET(na)      (NA_VIEW(na)->offset)
 #define NA_VIEW_STRIDX(na)      (NA_VIEW(na)->stridx)
 
-#define NA_IS_INDEX_AT(na,i)    (SDX_IS_STRIDE(NA_VIEW_STRIDX(na)[i]))
-#define NA_IS_STRIDE_AT(na,i)   (SDX_IS_INDEX(NA_VIEW_STRIDX(na)[i]))
+#define NA_IS_INDEX_AT(na,i)    (SDX_IS_INDEX(NA_VIEW_STRIDX(na)[i]))
+#define NA_IS_STRIDE_AT(na,i)   (SDX_IS_STRIDE(NA_VIEW_STRIDX(na)[i]))
 #define NA_INDEX_AT(na,i)       (SDX_GET_INDEX(NA_VIEW_STRIDX(na)[i]))
 #define NA_STRIDE_AT(na,i)      (SDX_GET_STRIDE(NA_VIEW_STRIDX(na)[i]))
 

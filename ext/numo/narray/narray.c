@@ -861,7 +861,6 @@ na_check_ladder(VALUE self, int start_dim)
             }
             st0 = st1;
         }
-        return Qtrue;
     }
     return Qtrue;
 }
@@ -1802,6 +1801,8 @@ Init_narray()
     rb_define_method(cNArray, "empty?", na_empty_p, 0);
 
     rb_define_method(cNArray, "debug_info", rb_narray_debug_info, 0);
+
+    rb_define_method(cNArray, "contiguous?", na_check_contiguous, 0);
 
     rb_define_method(cNArray, "view", na_make_view, 0);
     rb_define_method(cNArray, "expand_dims", na_expand_dims, 1);
