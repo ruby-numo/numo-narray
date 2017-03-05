@@ -62,6 +62,11 @@ Init_nary_<%=tp%>()
     <% if is_object %>
     rb_undef_method(rb_singleton_class(cT),"from_binary");
     rb_undef_method(cT,"to_binary");
+    rb_undef_method(cT,"swap_byte");
+    rb_undef_method(cT,"to_network");
+    rb_undef_method(cT,"to_vacs");
+    rb_undef_method(cT,"to_host");
+    rb_undef_method(cT,"to_swapped");
     <% end %>
 
     <% Function.definitions.each do |x| %>
