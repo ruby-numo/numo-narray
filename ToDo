@@ -15,10 +15,16 @@
 
 * Complex#seq allows complex step -- done.
 
+* Frozen array -- has OBJ_FROZEN.
+
+* Marshaling -- not yet done. (byte swap)
+
+* inspect Enumerable#step object -- done.
+
 
 * switch to TypedData.
 
-* inspect Enumerable#step object - done, delete Numo::Step class.
+* delete Numo::Step class.
 
 * move "reduce" field from RNArray to RNArrayView.
 
@@ -26,11 +32,9 @@
 
 * how to get the element size value effectively??
 
-* Frozen array, Thread-locked array
+* Thread-locked array??
 
-* Marshaling
-
-* parsing keyword arguments
+* parsing keyword arguments -- use ruby api.
 
 * alignment
 
