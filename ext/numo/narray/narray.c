@@ -1306,18 +1306,22 @@ nary_store_binary(int argc, VALUE *argv, VALUE self)
 static VALUE
 nary_to_binary(VALUE self)
 {
-    size_t len;
+    size_t len, offset=0;
     char *ptr;
     VALUE str;
     narray_t *na;
 
     GetNArray(self,na);
     if (na->type == NARRAY_VIEW_T) {
-        self = rb_funcall(self,rb_intern("copy"),0);
+        if (na_check_contiguous(self)==Qtrue) {
+            offset = NA_VIEW_OFFSET(na);
+        } else {
+            self = rb_funcall(self,rb_intern("copy"),0);
+        }
     }
     len = NUM2SIZET(nary_byte_size(self));
     ptr = na_get_pointer_for_read(self);
-    str = rb_usascii_str_new(ptr,len);
+    str = rb_usascii_str_new(ptr+offset,len);
     RB_GC_GUARD(self);
     return str;
 }
@@ -1348,6 +1352,7 @@ nary_marshal_dump(VALUE self)
     return a;
 }
 
+VALUE na_inplace( VALUE self );
 /*
   Load marshal data.
   @overload marshal_load(data)
@@ -1382,6 +1387,10 @@ nary_marshal_load(VALUE self, VALUE a)
         memcpy(ptr, RARRAY_PTR(v), NA_SIZE(na)*sizeof(VALUE));
     } else {
         nary_store_binary(1,&v,self);
+        if (TEST_BYTE_SWAPPED(self)) {
+            rb_funcall(na_inplace(self),rb_intern("to_host"),0);
+            REVERSE_ENDIAN(self); // correct behavior??
+        }
     }
     RB_GC_GUARD(a);
     return self;
