@@ -235,7 +235,7 @@ _na_get_narray_t(VALUE obj, unsigned char na_type)
     Check_Type(obj, T_DATA);
     na = (narray_t*)DATA_PTR(obj);
     if (na->type != na_type) {
-	rb_bug("unknown type 0x%x (0x%x given)", na_type, na->type);
+        rb_bug("unknown type 0x%x (0x%x given)", na_type, na->type);
     }
     return na;
 }
@@ -256,32 +256,32 @@ _na_get_narray_t(VALUE obj, unsigned char na_type)
 #define SDX_SET_STRIDE(x,s) ((x).stride=((s)<<1)|0x1)
 #define SDX_SET_INDEX(x,idx) ((x).index=idx)
 
-#define RNARRAY(val)		((narray_t*)DATA_PTR(val))
-#define RNARRAY_DATA(val)	((narray_data_t*)DATA_PTR(val))
-#define RNARRAY_VIEW(val)	((narray_view_t*)DATA_PTR(val))
-#define RNARRAY_FILEMAP(val)	((narray_filemap_t*)DATA_PTR(val))
+#define RNARRAY(val)            ((narray_t*)DATA_PTR(val))
+#define RNARRAY_DATA(val)       ((narray_data_t*)DATA_PTR(val))
+#define RNARRAY_VIEW(val)       ((narray_view_t*)DATA_PTR(val))
+#define RNARRAY_FILEMAP(val)    ((narray_filemap_t*)DATA_PTR(val))
 
-#define RNARRAY_NDIM(val)	(RNARRAY(val)->ndim)
-#define RNARRAY_TYPE(val)	(RNARRAY(val)->type)
-#define RNARRAY_FLAG(val)	(RNARRAY(val)->flag)
-#define RNARRAY_SIZE(val)	(RNARRAY(val)->size)
-#define RNARRAY_SHAPE(val)	(RNARRAY(val)->shape)
-#define RNARRAY_REDUCE(val)	(RNARRAY(val)->reduce)
+#define RNARRAY_NDIM(val)       (RNARRAY(val)->ndim)
+#define RNARRAY_TYPE(val)       (RNARRAY(val)->type)
+#define RNARRAY_FLAG(val)       (RNARRAY(val)->flag)
+#define RNARRAY_SIZE(val)       (RNARRAY(val)->size)
+#define RNARRAY_SHAPE(val)      (RNARRAY(val)->shape)
+#define RNARRAY_REDUCE(val)     (RNARRAY(val)->reduce)
 
-#define RNARRAY_DATA_PTR(val)	 (RNARRAY_DATA(val)->ptr)
-#define RNARRAY_VIEW_DATA(val)	 (RNARRAY_VIEW(val)->data)
+#define RNARRAY_DATA_PTR(val)    (RNARRAY_DATA(val)->ptr)
+#define RNARRAY_VIEW_DATA(val)   (RNARRAY_VIEW(val)->data)
 #define RNARRAY_VIEW_OFFSET(val) (RNARRAY_VIEW(val)->offset)
 #define RNARRAY_VIEW_STRIDX(val) (RNARRAY_VIEW(val)->stridx)
 
-#define NA_NDIM(na)	(((narray_t*)na)->ndim)
-#define NA_TYPE(na)	(((narray_t*)na)->type)
-#define NA_SIZE(na)	(((narray_t*)na)->size)
-#define NA_SHAPE(na)	(((narray_t*)na)->shape)
-#define NA_REDUCE(na)	(((narray_t*)na)->reduce)
+#define NA_NDIM(na)     (((narray_t*)na)->ndim)
+#define NA_TYPE(na)     (((narray_t*)na)->type)
+#define NA_SIZE(na)     (((narray_t*)na)->size)
+#define NA_SHAPE(na)    (((narray_t*)na)->shape)
+#define NA_REDUCE(na)   (((narray_t*)na)->reduce)
 
-#define NA_FLAG(obj)	(na_get_narray_t(obj)->flag)
-#define NA_FLAG0(obj)	(NA_FLAG(obj)[0])
-#define NA_FLAG1(obj)	(NA_FLAG(obj)[1])
+#define NA_FLAG(obj)    (na_get_narray_t(obj)->flag)
+#define NA_FLAG0(obj)   (NA_FLAG(obj)[0])
+#define NA_FLAG1(obj)   (NA_FLAG(obj)[1])
 
 #define NA_DATA(na)             ((narray_data_t*)(na))
 #define NA_VIEW(na)             ((narray_view_t*)(na))
@@ -295,7 +295,7 @@ _na_get_narray_t(VALUE obj, unsigned char na_type)
 #define NA_INDEX_AT(na,i)       (SDX_GET_INDEX(NA_VIEW_STRIDX(na)[i]))
 #define NA_STRIDE_AT(na,i)      (SDX_GET_STRIDE(NA_VIEW_STRIDX(na)[i]))
 
-#define NA_FILEMAP_PTR(na)	(((narray_filemap_t*)na)->ptr)
+#define NA_FILEMAP_PTR(na)      (((narray_filemap_t*)na)->ptr)
 
 
 #define NA_FL0_TEST(x,f) (NA_FLAG0(x)&(f))
