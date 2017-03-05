@@ -196,6 +196,7 @@ typedef struct RNArrayView {
 } narray_view_t;
 
 
+// filemap is unimplemented
 typedef struct RNArrayFileMap {
     narray_t base;
     char    *ptr;
@@ -278,14 +279,21 @@ _na_get_narray_t(VALUE obj, unsigned char na_type)
 #define NA_SHAPE(na)	(((narray_t*)na)->shape)
 #define NA_REDUCE(na)	(((narray_t*)na)->reduce)
 
-#define NA_FLAG(na)	(na_get_narray_t(na)->flag)
-#define NA_FLAG0(na)	(NA_FLAG(na)[0])
-#define NA_FLAG1(na)	(NA_FLAG(na)[1])
+#define NA_FLAG(obj)	(na_get_narray_t(obj)->flag)
+#define NA_FLAG0(obj)	(NA_FLAG(obj)[0])
+#define NA_FLAG1(obj)	(NA_FLAG(obj)[1])
 
-#define NA_DATA_PTR(na)         (((narray_data_t*)na)->ptr)
-#define NA_VIEW_DATA(na)	(((narray_view_t*)na)->data)
-#define NA_VIEW_OFFSET(na)	(((narray_view_t*)na)->offset)
-#define NA_VIEW_STRIDX(na)	(((narray_view_t*)na)->stridx)
+#define NA_DATA(na)             ((narray_data_t*)(na))
+#define NA_VIEW(na)             ((narray_view_t*)(na))
+#define NA_DATA_PTR(na)         (NA_DATA(na)->ptr)
+#define NA_VIEW_DATA(na)        (NA_VIEW(na)->data)
+#define NA_VIEW_OFFSET(na)      (NA_VIEW(na)->offset)
+#define NA_VIEW_STRIDX(na)      (NA_VIEW(na)->stridx)
+
+#define NA_IS_INDEX_AT(na,i)    (SDX_IS_STRIDE(NA_VIEW_STRIDX(na)[i]))
+#define NA_IS_STRIDE_AT(na,i)   (SDX_IS_INDEX(NA_VIEW_STRIDX(na)[i]))
+#define NA_INDEX_AT(na,i)       (SDX_GET_INDEX(NA_VIEW_STRIDX(na)[i]))
+#define NA_STRIDE_AT(na,i)      (SDX_GET_STRIDE(NA_VIEW_STRIDX(na)[i]))
 
 #define NA_FILEMAP_PTR(na)	(((narray_filemap_t*)na)->ptr)
 
