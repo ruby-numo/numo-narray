@@ -1342,9 +1342,17 @@ nary_marshal_dump(VALUE self)
     if (CLASS_OF(self) == numo_cRObject) {
         narray_t *na;
         VALUE *ptr;
+        size_t offset=0;
         GetNArray(self,na);
+        if (na->type == NARRAY_VIEW_T) {
+            if (na_check_contiguous(self)==Qtrue) {
+                offset = NA_VIEW_OFFSET(na);
+            } else {
+                self = rb_funcall(self,rb_intern("copy"),0);
+            }
+        }
         ptr = (VALUE*)na_get_pointer_for_read(self);
-        rb_ary_push(a, rb_ary_new4(NA_SIZE(na), ptr));
+        rb_ary_push(a, rb_ary_new4(NA_SIZE(na), ptr+offset));
     } else {
         rb_ary_push(a, nary_to_binary(self));
     }
