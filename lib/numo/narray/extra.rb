@@ -1,6 +1,80 @@
 module Numo
   class NArray
 
+    # p a = Numo::DFloat[[1, 2], [3, 4]]
+    # # Numo::DFloat#shape=[2,2]
+    # # [[1, 2],
+    # #  [3, 4]]
+    #
+    # p b = Numo::DFloat[[5, 6]]
+    # # Numo::DFloat#shape=[1,2]
+    # # [[5, 6]]
+    #
+    # p Numo::NArray.concatenate([a,b],axis:0)
+    # # Numo::DFloat#shape=[3,2]
+    # # [[1, 2],
+    # #  [3, 4],
+    # #  [5, 6]]
+    #
+    # p Numo::NArray.concatenate([a,b.transpose], axis:1)
+    # # Numo::DFloat#shape=[2,3]
+    # # [[1, 2, 5],
+    # #  [3, 4, 6]]
+
+    def self.concatenate(arrays,axis:0)
+      klass = (self==NArray) ? NArray.array_type(arrays) : self
+      nd = 0
+      arrays.map! do |a|
+        case a
+        when NArray
+          # ok
+        when Numeric
+          a = klass.new(1).store(a)
+        when Array
+          a = klass.cast(a)
+        else
+          raise TypeError,"not Numo::NArray"
+        end
+        if a.ndim > nd
+          nd = a.ndim
+        end
+        a
+      end
+      if axis < 0
+        axis += nd
+      end
+      if axis < 0 || axis >= nd
+        raise ArgumentError,"axis is out of range"
+      end
+      new_shape = nil
+      sum_size = 0
+      arrays.each do |a|
+        a_shape = a.shape
+        if nd != a_shape.size
+          a_shape = [1]*(nd-a_shape.size) + a_shape
+        end
+        sum_size += a_shape.delete_at(axis)
+        if new_shape
+          if new_shape != a_shape
+            raise ShapeError,"shape mismatch"
+          end
+        else
+          new_shape = a_shape
+        end
+      end
+      new_shape.insert(axis,sum_size)
+      result = klass.zeros(*new_shape)
+      lst = 0
+      refs = [true] * nd
+      arrays.each do |a|
+        fst = lst
+        lst = fst + (a.shape[axis-nd]||1)
+        refs[axis] = fst...lst
+        result[*refs] = a
+      end
+      result
+    end
+=begin
     # arrays = 10.times.map{Numo::DFloat.new(3,4).rand(10)}
     # p Numo::NArray.stack(arrays, axis:0).shape
     # # [10, 3, 4]
@@ -58,6 +132,19 @@ module Numo
     def self.dstack(arrays)
       self.stack(arrays,axis:2)
     end
+=end
+
+    def self.vstack(arrays)
+      self.concatenate(arrays,axis:0)
+    end
+
+    def self.hstack(arrays)
+      self.concatenate(arrays,axis:1)
+    end
+
+    def self.dstack(arrays)
+      self.concatenate(arrays,axis:2)
+    end
 
     # p a = Numo::DFloat[[1, 2], [3, 4]]
     # # Numo::DFloat#shape=[2,2]
@@ -67,7 +154,6 @@ module Numo
     # p b = Numo::DFloat[[5, 6]]
     # # Numo::DFloat#shape=[1,2]
     # # [[5, 6]]
-    # # [[2], [2]]
     #
     # p a.concatenate(b,axis:0)
     # # Numo::DFloat#shape=[3,2]
@@ -96,15 +182,14 @@ module Numo
         else
           raise TypeError,"not Numo::NArray"
         end
-        if a.ndim != ndim
+        if a.ndim > ndim
           raise ShapeError,"dimension mismatch"
         end
         a_shape = a.shape
-        a_shape.delete_at(axis)
+        sum_size += a_shape.delete_at(axis-ndim) || 1
         if self_shape != a_shape
           raise ShapeError,"shape mismatch"
         end
-        sum_size += a.shape[axis]
         a
       end
       self_shape.insert(axis,sum_size)
@@ -115,7 +200,7 @@ module Numo
       result[*refs] = self
       arrays.each do |a|
         fst = lst
-        lst = fst + a.shape[axis]
+        lst = fst + (a.shape[axis-ndim] || 1)
         refs[axis] = fst...lst
         result[*refs] = a
       end
