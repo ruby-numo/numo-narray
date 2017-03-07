@@ -20,13 +20,11 @@ under development
 * [Numo::Gnuplot](https://github.com/ruby-numo/gnuplot) - Simple and easy-to-use Gnuplot interface.
 
 ## Installation
-### Ubuntu, Debian
+### Ubuntu, Debian, Bash on Windows
 ```shell
 apt install -y git ruby gcc ruby-dev rake make
-git clone git://github.com/ruby-numo/narray
-cd narray
-gem build numo-narray.gemspec
-gem install numo-narray-0.9.0.3.gem
+gem install specific_install
+gem specific_install https://github.com/ruby-numo/narray.git
 ```
 
 ## Quick start
