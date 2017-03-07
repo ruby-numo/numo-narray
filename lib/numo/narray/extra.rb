@@ -1,6 +1,60 @@
 module Numo
   class NArray
 
+    # arrays = 10.times.map{Numo::DFloat.new(3,4).rand(10)}
+    # p Numo::NArray.stack(arrays, axis:0).shape
+    # # [10, 3, 4]
+    # p Numo::NArray.stack(arrays, axis:1).shape
+    # # [3, 10, 4]
+    # p Numo::NArray.stack(arrays, axis:2).shape
+    # # [3, 4, 10]
+    # a = Numo::NArray[1,2,3]
+    # b = Numo::NArray[2,3,4]
+    # p Numo::NArray.stack([a,b])
+    # # Numo::Int32#shape=[2,3]
+    # # [[1, 2, 3],
+    # #  [2, 3, 4]]
+    # p Numo::NArray.stack([a,b],axis:-1)
+    # # Numo::Int32#shape=[3,2]
+    # # [[1, 2],
+    # #  [2, 3],
+    # #  [3, 4]]
+
+    def self.stack(arrays,axis:0)
+      if !arrays.kind_of?(Array)
+        raise TypeError, "argument should be array"
+      end
+      klass = self.array_type(arrays)
+      new_shape = self.array_shape(arrays)[1..-1]
+      nd = new_shape.length + 1
+      if axis < 0
+        axis += nd
+      end
+      if axis < 0 || axis >= nd
+        raise ArgumentError,"axis is out of range"
+      end
+      new_shape.insert(axis, arrays.length)
+      result = klass.zeros(*new_shape)
+      refs = [true] * nd
+      arrays.each_with_index do |a,i|
+        refs[axis] = i
+        result[*refs] = a
+      end
+      result
+    end
+
+    def self.vstack(arrays)
+      self.stack(arrays,axis:0)
+    end
+
+    def self.hstack(arrays)
+      self.stack(arrays,axis:1)
+    end
+
+    def self.dstack(arrays)
+      self.stack(arrays,axis:2)
+    end
+
     # p a = Numo::DFloat[[1, 2], [3, 4]]
     # # Numo::DFloat#shape=[2,2]
     # # [[1, 2],
@@ -23,7 +77,7 @@ module Numo
     # #  [3, 4, 6]]
 
     def concatenate(*arrays,axis:0)
-      check_axis(axis)
+      axis = check_axis(axis)
       self_shape = shape
       self_shape.delete_at(axis)
       sum_size = shape[axis]
@@ -92,7 +146,7 @@ module Numo
     # #  Numo::DFloat(view)#shape=[0][]]
 
     def split(indices_or_sections, axis:0)
-      check_axis(axis)
+      axis = check_axis(axis)
       size_axis = shape[axis]
       case indices_or_sections
       when Integer
@@ -276,7 +330,7 @@ module Numo
     def repeat(arg,axis:nil)
       case axis
       when Integer
-        check_axis(axis)
+        axis = check_axis(axis)
         c = self
       when NilClass
         c = self.flatten
@@ -315,6 +369,7 @@ module Numo
       if axis < 0 || axis >= ndim
         raise ArgumentError,"invalid axis"
       end
+      axis
     end
 
   end
