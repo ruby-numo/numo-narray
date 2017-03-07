@@ -15,12 +15,16 @@
 
 * Complex#seq allows complex step -- done.
 
-* Frozen array -- has OBJ_FROZEN.
+* Frozen array -- checking OBJ_FROZEN.
 
-* Marshaling -- not yet done. (byte swap, view)
+* Marshaling -- perhaps done except Bit, Struct.
 
 * inspect Enumerable#step object -- done.
 
+
+* contiguous if na_view->stridx == NULL ?
+
+* store_binary with bite_swap.
 
 * switch to TypedData.
 
