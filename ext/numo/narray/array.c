@@ -115,7 +115,7 @@ void na_mdai_object_type(na_mdai_t *mdai, VALUE v)
 	if (NIL_P(mdai->na_type)) {
 	    mdai->na_type = CLASS_OF(v);
 	} else {
-            mdai->na_type = na_upcast(CLASS_OF(v), CLASS_OF(mdai->na_type));
+            mdai->na_type = na_upcast(CLASS_OF(v), mdai->na_type);
 	}
     } else if (rb_obj_is_kind_of(v, rb_cRange)) {
         MDAI_ATTR_TYPE(mdai->type,v,"begin");
