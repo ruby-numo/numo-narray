@@ -24,7 +24,11 @@ module Numo
       if !arrays.kind_of?(Array)
         raise TypeError, "argument should be array"
       end
-      klass = self.array_type(arrays)
+      if self == NArray
+        klass = self.array_type(arrays)
+      else
+        klass = self
+      end
       new_shape = self.array_shape(arrays)[1..-1]
       nd = new_shape.length + 1
       if axis < 0
