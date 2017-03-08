@@ -340,4 +340,12 @@ class CastArray < StoreArray
   def condition
     nil
   end
+
+  def c_func
+    "numo_#{tp}_cast_#{tpname}"
+  end
+
+  def c_iter
+    "iter_#{tp}_cast_#{tpname}"
+  end
 end
