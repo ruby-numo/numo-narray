@@ -1611,7 +1611,7 @@ loop_inspect(ndfunc_t *nf, na_md_loop_t *lp)
             }
         }
     }
-    loop_end:
+ loop_end:
     ;
 }
 
@@ -1652,7 +1652,63 @@ na_ndloop_inspect(VALUE nary, na_text_func_t func, VALUE opt)
 //----------------------------------------------------------------------
 
 static void
-loop_rarray_to_narray(ndfunc_t *nf, na_md_loop_t *lp)
+loop_store_subnarray(ndfunc_t *nf, na_md_loop_t *lp, int i0, size_t *c, VALUE a)
+{
+    int nd = lp->ndim;
+    int i, j;
+    narray_t *na;
+    int *dim_map;
+    VALUE a_type;
+
+    a_type = CLASS_OF(LARG(lp,0).value);
+    if (CLASS_OF(a) != a_type) {
+        a = rb_funcall(a_type, rb_intern("cast"), 1, a);
+    }
+    GetNArray(a,na);
+    if (na->ndim != nd-i0+1) {
+        rb_raise(nary_eShapeError, "mismatched dimension of sub-narray: "
+                 "nd_src=%d, nd_dst=%d", na->ndim, nd-i0+1);
+    }
+    dim_map = ALLOCA_N(int, na->ndim);
+    for (i=0; i<na->ndim; i++) {
+        dim_map[i] = lp->trans_map[i+i0];
+        //printf("dim_map[i=%d] = %d, i0=%d\n", i, dim_map[i], i0);
+    }
+    ndloop_set_stepidx(lp, 1, a, dim_map, NDL_READ);
+    LARG(lp,1).shape = &(na->shape[na->ndim-1]);
+
+    // loop body
+    for (i=i0;;) {
+        LARG(lp,1).value = Qtrue;
+        for (; i<nd; i++) {
+            for (j=0; j<2; j++) {
+                if (LITER(lp,i,j).idx) {
+                    LITER(lp,i+1,j).pos = LITER(lp,i,j).pos + LITER(lp,i,j).idx[c[i]];
+                } else {
+                    LITER(lp,i+1,j).pos = LITER(lp,i,j).pos + LITER(lp,i,j).step*c[i];
+                }
+            }
+            if (c[i] >= na->shape[i-i0]) {
+                LARG(lp,1).value = Qfalse;
+            }
+        }
+
+        (*(nf->func))(&(lp->user));
+
+        for (;;) {
+            if (i<=i0) goto loop_end;
+            i--; c[i]++;
+            if (c[i] < lp->n[i]) break;
+            c[i] = 0;
+        }
+    }
+ loop_end:
+    LARG(lp,1).ptr = NULL;
+}
+
+
+static void
+loop_store_rarray(ndfunc_t *nf, na_md_loop_t *lp)
 {
     size_t *c;
     int     i;
@@ -1665,38 +1721,47 @@ loop_rarray_to_narray(ndfunc_t *nf, na_md_loop_t *lp)
 
     // array at each dimension
     a = ALLOCA_N(VALUE, nd+1);
-    a[0] = LARG(lp,0).value;
+    a[0] = LARG(lp,1).value;
+
+    //print_ndloop(lp);
 
     // loop body
     for (i=0;;) {
         for (; i<nd; i++) {
-            if (LITER(lp,i,1).idx) {
-                LITER(lp,i+1,1).pos = LITER(lp,i,1).pos + LITER(lp,i,1).idx[c[i]];
+            if (LITER(lp,i,0).idx) {
+                LITER(lp,i+1,0).pos = LITER(lp,i,0).pos + LITER(lp,i,0).idx[c[i]];
             } else {
-                LITER(lp,i+1,1).pos = LITER(lp,i,1).pos + LITER(lp,i,1).step*c[i];
+                LITER(lp,i+1,0).pos = LITER(lp,i,0).pos + LITER(lp,i,0).step*c[i];
             }
-            //LITER(lp,i+1,0).pos = LITER(lp,i,0).pos + c[i];
             if (TYPE(a[i])==T_ARRAY) {
                 if (c[i] < (size_t)RARRAY_LEN(a[i])) {
                     a[i+1] = RARRAY_AREF(a[i],c[i]);
                 } else {
                     a[i+1] = Qnil;
                 }
-            } else { // not Array -- what about narray?
+            } else if (IsNArray(a[i])) {
+                //printf("a[i=%d]=0x%lx\n",i,a[i]);
+                loop_store_subnarray(nf,lp,i,c,a[i]);
+                goto loop_next;
+            } else {
                 if (c[i]==0) {
                     a[i+1] = a[i];
                 } else {
                     a[i+1] = Qnil;
                 }
             }
-            //printf("c[i]=%d, i=%d\n",c[i],i);
+            //printf("c[%d]=%lu\n",i,c[i]);
         }
 
-        //printf("a[i]=0x%x, i=%d\n",a[i],i);
-        LARG(lp,0).value = a[i];
+        //printf("a[i=%d]=0x%lx\n",i,a[i]);
+        if (IsNArray(a[i])) {
+            loop_store_subnarray(nf,lp,i,c,a[i]);
+        } else {
+            LARG(lp,1).value = a[i];
+            (*(nf->func))(&(lp->user));
+        }
 
-        (*(nf->func))(&(lp->user));
-
+    loop_next:
         for (;;) {
             if (i<=0) goto loop_end;
             i--; c[i]++;
@@ -1704,12 +1769,12 @@ loop_rarray_to_narray(ndfunc_t *nf, na_md_loop_t *lp)
             c[i] = 0;
         }
     }
-    loop_end:
+ loop_end:
     ;
 }
 
 VALUE
-na_ndloop_cast_rarray_to_narray(ndfunc_t *nf, VALUE rary, VALUE nary)
+na_ndloop_store_rarray(ndfunc_t *nf, VALUE nary, VALUE rary)
 {
     na_md_loop_t lp;
     VALUE args;
@@ -1717,20 +1782,20 @@ na_ndloop_cast_rarray_to_narray(ndfunc_t *nf, VALUE rary, VALUE nary)
     //rb_p(args);
     if (na_debug_flag) print_ndfunc(nf);
 
-    args = rb_assoc_new(rary,nary);
+    args = rb_assoc_new(nary,rary);
 
     // cast arguments to NArray
     //ndloop_cast_args(nf, args);
 
     // allocate ndloop struct
-    ndloop_alloc(&lp, nf, args, NULL, 0, loop_rarray_to_narray);
+    ndloop_alloc(&lp, nf, args, NULL, 0, loop_store_rarray);
 
     return rb_ensure(ndloop_run, (VALUE)&lp, ndloop_release, (VALUE)&lp);
 }
 
 
 VALUE
-na_ndloop_cast_rarray_to_narray2(ndfunc_t *nf, VALUE rary, VALUE nary, VALUE opt)
+na_ndloop_store_rarray2(ndfunc_t *nf, VALUE nary, VALUE rary, VALUE opt)
 {
     na_md_loop_t lp;
     VALUE args;
@@ -1739,13 +1804,13 @@ na_ndloop_cast_rarray_to_narray2(ndfunc_t *nf, VALUE rary, VALUE nary, VALUE opt
     if (na_debug_flag) print_ndfunc(nf);
 
     //args = rb_assoc_new(rary,nary);
-    args = rb_ary_new3(3,rary,nary,opt);
+    args = rb_ary_new3(3,nary,rary,opt);
 
     // cast arguments to NArray
     //ndloop_cast_args(nf, args);
 
     // allocate ndloop struct
-    ndloop_alloc(&lp, nf, args, NULL, 0, loop_rarray_to_narray);
+    ndloop_alloc(&lp, nf, args, NULL, 0, loop_store_rarray);
 
     return rb_ensure(ndloop_run, (VALUE)&lp, ndloop_release, (VALUE)&lp);
 }

@@ -449,7 +449,7 @@ nary_struct_to_a(VALUE self)
     volatile VALUE opt;
     ndfunc_arg_in_t ain[3] = {{Qnil,0},{sym_loop_opt},{sym_option}};
     ndfunc_arg_out_t aout[1] = {{rb_cArray,0}}; // dummy?
-    ndfunc_t ndf = { iter_nstruct_to_a, NO_LOOP, 3, 1, ain, aout };
+    ndfunc_t ndf = {iter_nstruct_to_a, NO_LOOP, 3, 1, ain, aout};
 
     opt = nst_create_member_views(self);
     return na_ndloop_cast_narray_to_rarray(&ndf, self, opt);
@@ -582,7 +582,7 @@ iter_nstruct_from_a(na_loop_t *const lp)
     defs = RARRAY_AREF(lp->option,1);
 
     len = RARRAY_LEN(types);
-    ary = lp->args[0].value;
+    ary = lp->args[1].value;
     //rb_p(CLASS_OF(ary));rb_p(ary);
 
     for (i=0; i<len; i++) {
@@ -590,7 +590,7 @@ iter_nstruct_from_a(na_loop_t *const lp)
         ofs  = NUM2SIZET(RARRAY_AREF(def,2));
         elmt = RARRAY_AREF(types,i);
         GetNArrayView(elmt,ne);
-        ne->offset = lp->args[1].iter[0].pos + ofs;
+        ne->offset = lp->args[0].iter[0].pos + ofs;
         item = RARRAY_AREF(ary,i);
         //rb_p(ary);
         //rb_p(item);
@@ -607,8 +607,8 @@ nary_struct_cast_array(VALUE klass, VALUE rary)
     narray_t *na;
     na_compose_t *nc;
     VALUE opt;
-    ndfunc_arg_in_t ain[3] = {{rb_cArray,0},{Qnil,0},{sym_option}};
-    ndfunc_t ndf = { iter_nstruct_from_a, NO_LOOP, 3, 0, ain, 0 };
+    ndfunc_arg_in_t ain[3] = {{OVERWRITE,0},{rb_cArray,0},{sym_option}};
+    ndfunc_t ndf = {iter_nstruct_from_a, NO_LOOP, 3, 0, ain, 0};
 
     //fprintf(stderr,"rary:");rb_p(rary);
     //fprintf(stderr,"class_of(rary):");rb_p(CLASS_OF(rary));
@@ -622,7 +622,7 @@ nary_struct_cast_array(VALUE klass, VALUE rary)
     if (na->size>0) {
         opt = nst_create_member_views(nary);
         rb_funcall(nary, rb_intern("allocate"), 0);
-        na_ndloop_cast_rarray_to_narray2(&ndf, rary, nary, opt);
+        na_ndloop_store_rarray2(&ndf, nary, rary, opt);
     }
     return nary;
 }
@@ -684,7 +684,7 @@ static VALUE
 nary_struct_store_struct(VALUE self, VALUE obj)
 {
     ndfunc_arg_in_t ain[2] = {{OVERWRITE,0},{Qnil,0}};
-    ndfunc_t ndf = { iter_struct_store_struct, FULL_LOOP, 2, 0, ain, 0 };
+    ndfunc_t ndf = {iter_struct_store_struct, FULL_LOOP, 2, 0, ain, 0};
 
     na_ndloop(&ndf, 2, self, obj);
     return self;

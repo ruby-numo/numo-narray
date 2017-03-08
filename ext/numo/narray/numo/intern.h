@@ -19,6 +19,7 @@ VALUE na_expand_dims(VALUE self, VALUE vdim);
 VALUE na_reduce_dimension(int argc, VALUE *argv, int naryc, VALUE *naryv);
 
 VALUE na_check_ladder(VALUE self, int start_dim);
+VALUE na_check_contiguous(VALUE self);
 void na_setup_shape(narray_t *na, int ndim, size_t *shape);
 
 VALUE na_transpose_map(VALUE self, int *map);
@@ -65,8 +66,8 @@ VALUE na_ndloop3(ndfunc_t *nf, void *ptr, int argc, ...);
 VALUE na_ndloop4(ndfunc_t *nf, void *ptr, VALUE args);
 
 VALUE na_ndloop_cast_narray_to_rarray(ndfunc_t *nf, VALUE nary, VALUE fmt);
-VALUE na_ndloop_cast_rarray_to_narray(ndfunc_t *nf, VALUE rary, VALUE nary);
-VALUE na_ndloop_cast_rarray_to_narray2(ndfunc_t *nf, VALUE rary, VALUE nary, VALUE opt);
+VALUE na_ndloop_store_rarray(ndfunc_t *nf, VALUE nary, VALUE rary);
+VALUE na_ndloop_store_rarray2(ndfunc_t *nf, VALUE nary, VALUE rary, VALUE opt);
 
 VALUE na_ndloop_inspect(VALUE nary, na_text_func_t func, VALUE opt);
 
