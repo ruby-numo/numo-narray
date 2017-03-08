@@ -13,7 +13,7 @@ TAGS : $(TAGSRC)
 doc :
 	yard doc *.c types/*.c
 
-C_TMPL = <%=Dir.glob("#{__dir__}/gen/tmpl/*.c").join(" ")%>
+C_TMPL = <%=Dir.glob("#{__dir__}/gen/tmpl*/*.c").join(" ")%>
 
 COGEN = <%= __dir__ %>/gen/cogen.rb
 DTYPE = <%= __dir__ %>/gen/dtype.erb.c
