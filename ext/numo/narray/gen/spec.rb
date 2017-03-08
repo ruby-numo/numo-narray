@@ -60,8 +60,6 @@ def_method "allocate", 0
 
 def_method "extract", 0
 store_numeric
-cast_array
-store_array
 store_bit "Bit"
 if is_complex
   store_from "DComplex","dcomplex","m_from_dcomplex"
@@ -79,6 +77,9 @@ store_from "UInt16","u_int16_t","m_from_real"
 store_from "UInt8", "u_int8_t", "m_from_real"
 
 store_from "RObject", "VALUE",  "m_num_to_data"
+
+store_array
+cast_array
 
 def_method "store", 1
 def_singleton "cast", 1
