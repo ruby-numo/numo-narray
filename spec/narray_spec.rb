@@ -205,7 +205,7 @@ types.each do |dtype|
     end
 
     it{expect(@a[0, 1, 1]).to eq 4}
-    #it{expect(@a[:rest]).to eq @a} # note: this spec probably shows the correct behaviour
+    it{expect(@a[:rest]).to eq @a}
     it{expect(@a[0, :rest]).to eq [[1,2],[3,4]]}
     it{expect(@a[0, false]).to eq [[1,2],[3,4]]}
     it{expect(@a[0, 1, :rest]).to eq [3,4]}
@@ -213,9 +213,10 @@ types.each do |dtype|
     it{expect(@a[:rest, 0]).to eq [[1,3],[5,7]]}
     it{expect(@a[:rest, 0, 1]).to eq [2,6]}
     it{expect(@a[1, :rest, 0]).to eq [5,7]}
-    it{expect{@a[1, 1, :rest, 0]}.to raise_error IndexError}
+    it{expect(@a[1, 1, :rest, 0]).to eq 7}
     it{expect{@a[1, 1, 1, 1, :rest]}.to raise_error IndexError}
     it{expect{@a[1, 1, 1, :rest, 1]}.to raise_error IndexError}
+    it{expect{@a[:rest, 1, :rest, 0]}.to raise_error IndexError}
   end
 
   describe dtype, "#dot" do

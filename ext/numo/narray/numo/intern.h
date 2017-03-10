@@ -99,10 +99,10 @@ VALUE nary_init_accum_aref0(VALUE self, VALUE reduce);
 VALUE nary_mathcast(int argc, VALUE *argv);
 
 
-ssize_t
-na_get_scalar_position(VALUE self, int argc, VALUE *argv, ssize_t stride);
+int
+na_get_result_dimension(VALUE self, int argc, VALUE *argv, ssize_t stride, size_t *pos_idx);
 VALUE
-na_aref_main(int nidx, VALUE *idx, VALUE self, int keep_dim);
+na_aref_main(int nidx, VALUE *idx, VALUE self, int keep_dim, int nd);
 
 
 #endif /* ifndef INTERN_H */

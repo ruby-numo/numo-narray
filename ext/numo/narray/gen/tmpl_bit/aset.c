@@ -8,6 +8,7 @@
   --- Replace element(s) at +dim0+, +dim1+, ... (index/range/array/true
   for each dimention). Broadcasting mechanism is applied.
 
+  @example
       a = Numo::DFloat.new(3,4).seq
       => Numo::DFloat#shape=[3,4]
       [[0, 1, 2, 3],
@@ -39,7 +40,8 @@
 static VALUE
 <%=c_func%>(int argc, VALUE *argv, VALUE self)
 {
-    ssize_t pos;
+    int nd;
+    size_t pos;
     char *ptr;
     VALUE a;
     dtype x;
@@ -48,9 +50,9 @@ static VALUE
     if (argc==0) {
         <%=c_func.sub(/_aset/,"_store")%>(self, argv[argc]);
     } else {
-        pos = na_get_scalar_position(self, argc, argv, sizeof(dtype));
-        if (pos == -1) {
-            a = na_aref_main(argc, argv, self, 0);
+        nd = na_get_result_dimension(self, argc, argv, 1, &pos);
+        if (nd) {
+            a = na_aref_main(argc, argv, self, 0, nd);
             <%=c_func.sub(/_aset/,"_store")%>(a, argv[argc]);
         } else {
             ptr = na_get_pointer_for_read_write(self);

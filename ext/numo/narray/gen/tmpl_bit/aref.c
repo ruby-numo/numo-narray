@@ -9,6 +9,7 @@
   +dim0+, +dim1+, ... includes other than Numeric index, e.g., Range
   or Array or true.
 
+  @example
       a = Numo::DFloat.new(4,5).seq
       => Numo::DFloat#shape=[4,5]
       [[0, 1, 2, 3, 4],
@@ -38,13 +39,14 @@
 static VALUE
 <%=c_func%>(int argc, VALUE *argv, VALUE self)
 {
-    ssize_t pos;
+    int nd;
+    size_t pos;
     char *ptr;
     dtype x;
 
-    pos = na_get_scalar_position(self, argc, argv, 1);
-    if (pos == -1) {
-        return na_aref_main(argc, argv, self, 0);
+    nd = na_get_result_dimension(self, argc, argv, 1, &pos);
+    if (nd) {
+        return na_aref_main(argc, argv, self, 0, nd);
     } else {
         ptr = na_get_pointer_for_read(self);
         LOAD_BIT(ptr,pos,x);
