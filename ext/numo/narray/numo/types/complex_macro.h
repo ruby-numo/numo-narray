@@ -73,6 +73,7 @@ static inline dtype c_from_dcomplex(dcomplex x) {
 #define m_sign(x)  c_new( \
  ((REAL(x)==0) ? 0.0:((REAL(x)>0) ? 1.0:((REAL(x)<0) ? -1.0:REAL(x)))), \
  ((IMAG(x)==0) ? 0.0:((IMAG(x)>0) ? 1.0:((IMAG(x)<0) ? -1.0:IMAG(x)))))
+#define m_copysign(x,y) c_new(copysign(REAL(x),REAL(y)),copysign(IMAG(x),IMAG(y)))
 
 #define m_im(x)    c_im(x)
 #define m_conj(x)  c_new(REAL(x),-IMAG(x))

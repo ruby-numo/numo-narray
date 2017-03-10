@@ -13,6 +13,7 @@ else
 end
 if is_float
   def_id "nearly_eq"
+  def_id "copysign"
 end
 if is_comparable
   def_id "gt"
@@ -197,6 +198,7 @@ if is_float
   unary "trunc"
   if !is_object
     unary "rint"
+    binary "copysign"
   end
 end
 

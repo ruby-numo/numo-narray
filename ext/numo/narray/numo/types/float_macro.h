@@ -38,6 +38,7 @@ EXTERN double pow(double, double);
 #define m_trunc(x)   trunc(x)
 #define m_rint(x)    rint(x)
 #define m_sign(x)    (((x)==0) ? 0.0:(((x)>0) ? 1.0:(((x)<0) ? -1.0:(x))))
+#define m_copysign(x,y) copysign(x,y)
 
 #define m_eq(x,y) ((x)==(y))
 #define m_ne(x,y) ((x)!=(y))
