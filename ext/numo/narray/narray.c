@@ -1196,6 +1196,7 @@ nary_s_from_binary(int argc, VALUE *argv, VALUE type)
     VALUE velmsz;
 
     narg = rb_scan_args(argc,argv,"11",&vstr,&vshape);
+    Check_Type(vstr,T_STRING);
     str_len = RSTRING_LEN(vstr);
     velmsz = rb_const_get(type, rb_intern(ELEMENT_BYTE_SIZE));
     if (narg==2) {
