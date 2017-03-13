@@ -34,7 +34,7 @@ class CountLnString < String
     end
     return if n == @current
     if @current != @countln || @postpone
-      if /^\s*$/ =~ @str || /\A#line / =~ @buf
+      if /\A\s*\z/ =~ @str || /\A#line / =~ @buf || /\n\z/ !~ self
         @postpone = true
       elsif @in_comment
         @postpone = false
@@ -79,9 +79,9 @@ class CountLnString < String
   end
 
   def d(s)
-  p [s, [x,y], r]
-  r
-end
+    p [s, [x,y], r]
+    r
+  end
 
 end
 
