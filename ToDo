@@ -21,22 +21,26 @@
 
 * inspect Enumerable#step object -- done.
 
+* contiguous check -- done.
+
 
 * contiguous if na_view->stridx == NULL ?
 
 * store_binary with bite_swap.
 
-* switch to TypedData.
+* switch to TypedData., write barrier.
 
 * delete Numo::Step class.
 
-* move "reduce" field from RNArray to RNArrayView.
+* move "reduce" field from RNArray to RNArrayView?
 
 * unify RNArrayBase and RNArrayView structure??
 
 * how to get the element size value effectively??
 
 * Thread-locked array??
+
+* use rb_thread_call_without_gvl??
 
 * parsing keyword arguments -- use ruby api.
 
@@ -45,8 +49,6 @@
 * force buffering option
 
 * update MT Random Number Generator
-
-* contiguous check
 
 * GVL release
 * Ctrl-C stop during method
@@ -82,7 +84,7 @@ searchsorted
 compress
 pad
 tile - done
-copysign
+copysign - done
 bincount - done
 unique
 roll
