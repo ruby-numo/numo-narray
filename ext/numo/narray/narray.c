@@ -1338,6 +1338,7 @@ nary_marshal_dump(VALUE self)
     VALUE a;
 
     a = rb_ary_new();
+    rb_ary_push(a, INT2FIX(1));     // version
     rb_ary_push(a, na_shape(self));
     rb_ary_push(a, INT2FIX(NA_FLAG0(self)));
     if (CLASS_OF(self) == numo_cRObject) {
@@ -1374,14 +1375,18 @@ nary_marshal_load(VALUE self, VALUE a)
     VALUE v;
 
     if (TYPE(a) != T_ARRAY) {
-        rb_raise(rb_eArgError,"argument should be array");
+        rb_raise(rb_eArgError,"marshal argument should be array");
     }
-    if (RARRAY_LEN(a) != 3) {
-        rb_raise(rb_eArgError,"array size should be 3");
+    if (RARRAY_LEN(a) != 4) {
+        rb_raise(rb_eArgError,"marshal array size should be 4");
     }
-    na_initialize(self,RARRAY_AREF(a,0));
-    NA_FL0_SET(self,FIX2INT(RARRAY_AREF(a,1)));
-    v = RARRAY_AREF(a,2);
+    if (RARRAY_AREF(a,0) != INT2FIX(1)) {
+        rb_raise(rb_eArgError,"NArray marshal version %d is not supported "
+                 "(only version 1)", NUM2INT(RARRAY_AREF(a,0)));
+    }
+    na_initialize(self,RARRAY_AREF(a,1));
+    NA_FL0_SET(self,FIX2INT(RARRAY_AREF(a,2)));
+    v = RARRAY_AREF(a,3);
     if (CLASS_OF(self) == numo_cRObject) {
         narray_t *na;
         char *ptr;
