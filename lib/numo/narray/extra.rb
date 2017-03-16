@@ -1,25 +1,26 @@
 module Numo
   class NArray
 
-    # p a = Numo::DFloat[[1, 2], [3, 4]]
-    # # Numo::DFloat#shape=[2,2]
-    # # [[1, 2],
-    # #  [3, 4]]
+    # @example
+    #   p a = Numo::DFloat[[1, 2], [3, 4]]
+    #   # Numo::DFloat#shape=[2,2]
+    #   # [[1, 2],
+    #   #  [3, 4]]
     #
-    # p b = Numo::DFloat[[5, 6]]
-    # # Numo::DFloat#shape=[1,2]
-    # # [[5, 6]]
+    #   p b = Numo::DFloat[[5, 6]]
+    #   # Numo::DFloat#shape=[1,2]
+    #   # [[5, 6]]
     #
-    # p Numo::NArray.concatenate([a,b],axis:0)
-    # # Numo::DFloat#shape=[3,2]
-    # # [[1, 2],
-    # #  [3, 4],
-    # #  [5, 6]]
+    #   p Numo::NArray.concatenate([a,b],axis:0)
+    #   # Numo::DFloat#shape=[3,2]
+    #   # [[1, 2],
+    #   #  [3, 4],
+    #   #  [5, 6]]
     #
-    # p Numo::NArray.concatenate([a,b.transpose], axis:1)
-    # # Numo::DFloat#shape=[2,3]
-    # # [[1, 2, 5],
-    # #  [3, 4, 6]]
+    #   p Numo::NArray.concatenate([a,b.transpose], axis:1)
+    #   # Numo::DFloat#shape=[2,3]
+    #   # [[1, 2, 5],
+    #   #  [3, 4, 6]]
 
     def self.concatenate(arrays,axis:0)
       klass = (self==NArray) ? NArray.array_type(arrays) : self
@@ -74,65 +75,6 @@ module Numo
       end
       result
     end
-=begin
-    # arrays = 10.times.map{Numo::DFloat.new(3,4).rand(10)}
-    # p Numo::NArray.stack(arrays, axis:0).shape
-    # # [10, 3, 4]
-    # p Numo::NArray.stack(arrays, axis:1).shape
-    # # [3, 10, 4]
-    # p Numo::NArray.stack(arrays, axis:2).shape
-    # # [3, 4, 10]
-    # a = Numo::NArray[1,2,3]
-    # b = Numo::NArray[2,3,4]
-    # p Numo::NArray.stack([a,b])
-    # # Numo::Int32#shape=[2,3]
-    # # [[1, 2, 3],
-    # #  [2, 3, 4]]
-    # p Numo::NArray.stack([a,b],axis:-1)
-    # # Numo::Int32#shape=[3,2]
-    # # [[1, 2],
-    # #  [2, 3],
-    # #  [3, 4]]
-
-    def self.stack(arrays,axis:0)
-      if !arrays.kind_of?(Array)
-        raise TypeError, "argument should be array"
-      end
-      if self == NArray
-        klass = self.array_type(arrays)
-      else
-        klass = self
-      end
-      new_shape = self.array_shape(arrays)[1..-1]
-      nd = new_shape.length + 1
-      if axis < 0
-        axis += nd
-      end
-      if axis < 0 || axis >= nd
-        raise ArgumentError,"axis is out of range"
-      end
-      new_shape.insert(axis, arrays.length)
-      result = klass.zeros(*new_shape)
-      refs = [true] * nd
-      arrays.each_with_index do |a,i|
-        refs[axis] = i
-        result[*refs] = a
-      end
-      result
-    end
-
-    def self.vstack(arrays)
-      self.stack(arrays,axis:0)
-    end
-
-    def self.hstack(arrays)
-      self.stack(arrays,axis:1)
-    end
-
-    def self.dstack(arrays)
-      self.stack(arrays,axis:2)
-    end
-=end
 
     def self.vstack(arrays)
       self.concatenate(arrays,axis:0)
@@ -146,25 +88,26 @@ module Numo
       self.concatenate(arrays,axis:2)
     end
 
-    # p a = Numo::DFloat[[1, 2], [3, 4]]
-    # # Numo::DFloat#shape=[2,2]
-    # # [[1, 2],
-    # #  [3, 4]]
+    # @example
+    #   p a = Numo::DFloat[[1, 2], [3, 4]]
+    #   # Numo::DFloat#shape=[2,2]
+    #   # [[1, 2],
+    #   #  [3, 4]]
     #
-    # p b = Numo::DFloat[[5, 6]]
-    # # Numo::DFloat#shape=[1,2]
-    # # [[5, 6]]
+    #   p b = Numo::DFloat[[5, 6]]
+    #   # Numo::DFloat#shape=[1,2]
+    #   # [[5, 6]]
     #
-    # p a.concatenate(b,axis:0)
-    # # Numo::DFloat#shape=[3,2]
-    # # [[1, 2],
-    # #  [3, 4],
-    # #  [5, 6]]
+    #   p a.concatenate(b,axis:0)
+    #   # Numo::DFloat#shape=[3,2]
+    #   # [[1, 2],
+    #   #  [3, 4],
+    #   #  [5, 6]]
     #
-    # p a.concatenate(b.transpose, axis:1)
-    # # Numo::DFloat#shape=[2,3]
-    # # [[1, 2, 5],
-    # #  [3, 4, 6]]
+    #   p a.concatenate(b.transpose, axis:1)
+    #   # Numo::DFloat#shape=[2,3]
+    #   # [[1, 2, 5],
+    #   #  [3, 4, 6]]
 
     def concatenate(*arrays,axis:0)
       axis = check_axis(axis)
@@ -207,32 +150,33 @@ module Numo
       result
     end
 
-    # p x = Numo::DFloat.new(9).seq
-    # # Numo::DFloat#shape=[9]
-    # # [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    # @example
+    #   p x = Numo::DFloat.new(9).seq
+    #   # Numo::DFloat#shape=[9]
+    #   # [0, 1, 2, 3, 4, 5, 6, 7, 8]
     #
-    # pp x.split(3)
-    # # [Numo::DFloat(view)#shape=[3]
-    # # [0, 1, 2],
-    # #  Numo::DFloat(view)#shape=[3]
-    # # [3, 4, 5],
-    # #  Numo::DFloat(view)#shape=[3]
-    # # [6, 7, 8]]
+    #   pp x.split(3)
+    #   # [Numo::DFloat(view)#shape=[3]
+    #   # [0, 1, 2],
+    #   #  Numo::DFloat(view)#shape=[3]
+    #   # [3, 4, 5],
+    #   #  Numo::DFloat(view)#shape=[3]
+    #   # [6, 7, 8]]
     #
-    # p x = Numo::DFloat.new(8).seq
-    # # Numo::DFloat#shape=[8]
-    # # [0, 1, 2, 3, 4, 5, 6, 7]
+    #   p x = Numo::DFloat.new(8).seq
+    #   # Numo::DFloat#shape=[8]
+    #   # [0, 1, 2, 3, 4, 5, 6, 7]
     #
-    # pp x.split([3, 5, 6, 10])
-    # # [Numo::DFloat(view)#shape=[3]
-    # # [0, 1, 2],
-    # #  Numo::DFloat(view)#shape=[2]
-    # # [3, 4],
-    # #  Numo::DFloat(view)#shape=[1]
-    # # [5],
-    # #  Numo::DFloat(view)#shape=[2]
-    # # [6, 7],
-    # #  Numo::DFloat(view)#shape=[0][]]
+    #   pp x.split([3, 5, 6, 10])
+    #   # [Numo::DFloat(view)#shape=[3]
+    #   # [0, 1, 2],
+    #   #  Numo::DFloat(view)#shape=[2]
+    #   # [3, 4],
+    #   #  Numo::DFloat(view)#shape=[1]
+    #   # [5],
+    #   #  Numo::DFloat(view)#shape=[2]
+    #   # [6, 7],
+    #   #  Numo::DFloat(view)#shape=[0][]]
 
     def split(indices_or_sections, axis:0)
       axis = check_axis(axis)
@@ -264,37 +208,38 @@ module Numo
       end
     end
 
-    # p x = Numo::DFloat.new(4,4).seq
-    # # Numo::DFloat#shape=[4,4]
-    # # [[0, 1, 2, 3],
-    # #  [4, 5, 6, 7],
-    # #  [8, 9, 10, 11],
-    # #  [12, 13, 14, 15]]
+    # @example
+    #   p x = Numo::DFloat.new(4,4).seq
+    #   # Numo::DFloat#shape=[4,4]
+    #   # [[0, 1, 2, 3],
+    #   #  [4, 5, 6, 7],
+    #   #  [8, 9, 10, 11],
+    #   #  [12, 13, 14, 15]]
     #
-    # pp x.hsplit(2)
-    # # [Numo::DFloat(view)#shape=[4,2]
-    # # [[0, 1],
-    # #  [4, 5],
-    # #  [8, 9],
-    # #  [12, 13]],
-    # #  Numo::DFloat(view)#shape=[4,2]
-    # # [[2, 3],
-    # #  [6, 7],
-    # #  [10, 11],
-    # #  [14, 15]]]
+    #   pp x.hsplit(2)
+    #   # [Numo::DFloat(view)#shape=[4,2]
+    #   # [[0, 1],
+    #   #  [4, 5],
+    #   #  [8, 9],
+    #   #  [12, 13]],
+    #   #  Numo::DFloat(view)#shape=[4,2]
+    #   # [[2, 3],
+    #   #  [6, 7],
+    #   #  [10, 11],
+    #   #  [14, 15]]]
     #
-    # pp x.hsplit([3, 6])
-    # # [Numo::DFloat(view)#shape=[4,3]
-    # # [[0, 1, 2],
-    # #  [4, 5, 6],
-    # #  [8, 9, 10],
-    # #  [12, 13, 14]],
-    # #  Numo::DFloat(view)#shape=[4,1]
-    # # [[3],
-    # #  [7],
-    # #  [11],
-    # #  [15]],
-    # #  Numo::DFloat(view)#shape=[4,0][]]
+    #   pp x.hsplit([3, 6])
+    #   # [Numo::DFloat(view)#shape=[4,3]
+    #   # [[0, 1, 2],
+    #   #  [4, 5, 6],
+    #   #  [8, 9, 10],
+    #   #  [12, 13, 14]],
+    #   #  Numo::DFloat(view)#shape=[4,1]
+    #   # [[3],
+    #   #  [7],
+    #   #  [11],
+    #   #  [15]],
+    #   #  Numo::DFloat(view)#shape=[4,0][]]
 
     def vsplit(indices_or_sections)
       split(indices_or_sections, axis:0)
@@ -308,52 +253,52 @@ module Numo
       split(indices_or_sections, axis:2)
     end
 
-
-    # p a = Numo::NArray[0,1,2]
-    # # Numo::Int32#shape=[3]
-    # # [0, 1, 2]
+    # @example
+    #   p a = Numo::NArray[0,1,2]
+    #   # Numo::Int32#shape=[3]
+    #   # [0, 1, 2]
     #
-    # p a.tile(2)
-    # # Numo::Int32#shape=[6]
-    # # [0, 1, 2, 0, 1, 2]
+    #   p a.tile(2)
+    #   # Numo::Int32#shape=[6]
+    #   # [0, 1, 2, 0, 1, 2]
     #
-    # p a.tile(2,2)
-    # # Numo::Int32#shape=[2,6]
-    # # [[0, 1, 2, 0, 1, 2],
-    # #  [0, 1, 2, 0, 1, 2]]
+    #   p a.tile(2,2)
+    #   # Numo::Int32#shape=[2,6]
+    #   # [[0, 1, 2, 0, 1, 2],
+    #   #  [0, 1, 2, 0, 1, 2]]
     #
-    # p a.tile(2,1,2)
-    # # Numo::Int32#shape=[2,1,6]
-    # # [[[0, 1, 2, 0, 1, 2]],
-    # #  [[0, 1, 2, 0, 1, 2]]]
+    #   p a.tile(2,1,2)
+    #   # Numo::Int32#shape=[2,1,6]
+    #   # [[[0, 1, 2, 0, 1, 2]],
+    #   #  [[0, 1, 2, 0, 1, 2]]]
     #
-    # p b = Numo::NArray[[1, 2], [3, 4]]
-    # # Numo::Int32#shape=[2,2]
-    # # [[1, 2],
-    # #  [3, 4]]
+    #   p b = Numo::NArray[[1, 2], [3, 4]]
+    #   # Numo::Int32#shape=[2,2]
+    #   # [[1, 2],
+    #   #  [3, 4]]
     #
-    # p b.tile(2)
-    # # Numo::Int32#shape=[2,4]
-    # # [[1, 2, 1, 2],
-    # #  [3, 4, 3, 4]]
+    #   p b.tile(2)
+    #   # Numo::Int32#shape=[2,4]
+    #   # [[1, 2, 1, 2],
+    #   #  [3, 4, 3, 4]]
     #
-    # p b.tile(2,1)
-    # # Numo::Int32#shape=[4,2]
-    # # [[1, 2],
-    # #  [3, 4],
-    # #  [1, 2],
-    # #  [3, 4]]
+    #   p b.tile(2,1)
+    #   # Numo::Int32#shape=[4,2]
+    #   # [[1, 2],
+    #   #  [3, 4],
+    #   #  [1, 2],
+    #   #  [3, 4]]
     #
-    # p c = Numo::NArray[1,2,3,4]
-    # # Numo::Int32#shape=[4]
-    # # [1, 2, 3, 4]
+    #   p c = Numo::NArray[1,2,3,4]
+    #   # Numo::Int32#shape=[4]
+    #   # [1, 2, 3, 4]
     #
-    # p c.tile(4,1)
-    # # Numo::Int32#shape=[4,4]
-    # # [[1, 2, 3, 4],
-    # #  [1, 2, 3, 4],
-    # #  [1, 2, 3, 4],
-    # #  [1, 2, 3, 4]]
+    #   p c.tile(4,1)
+    #   # Numo::Int32#shape=[4,4]
+    #   # [[1, 2, 3, 4],
+    #   #  [1, 2, 3, 4],
+    #   #  [1, 2, 3, 4],
+    #   #  [1, 2, 3, 4]]
 
     def tile(*arg)
       arg.each do |i|
@@ -391,30 +336,30 @@ module Numo
       self.class.new(*new_shp).store(self[*src_shp]).reshape(*res_shp)
     end
 
-
-    # p Numo::NArray[3].repeat(4)
-    # # Numo::Int32#shape=[4]
-    # # [3, 3, 3, 3]
+    # @example
+    #   p Numo::NArray[3].repeat(4)
+    #   # Numo::Int32#shape=[4]
+    #   # [3, 3, 3, 3]
     #
-    # p x = Numo::NArray[[1,2],[3,4]]
-    # # Numo::Int32#shape=[2,2]
-    # # [[1, 2],
-    # #  [3, 4]]
+    #   p x = Numo::NArray[[1,2],[3,4]]
+    #   # Numo::Int32#shape=[2,2]
+    #   # [[1, 2],
+    #   #  [3, 4]]
     #
-    # p x.repeat(2)
-    # # Numo::Int32#shape=[8]
-    # # [1, 1, 2, 2, 3, 3, 4, 4]
+    #   p x.repeat(2)
+    #   # Numo::Int32#shape=[8]
+    #   # [1, 1, 2, 2, 3, 3, 4, 4]
     #
-    # p x.repeat(3,axis:1)
-    # # Numo::Int32#shape=[2,6]
-    # # [[1, 1, 1, 2, 2, 2],
-    # #  [3, 3, 3, 4, 4, 4]]
+    #   p x.repeat(3,axis:1)
+    #   # Numo::Int32#shape=[2,6]
+    #   # [[1, 1, 1, 2, 2, 2],
+    #   #  [3, 3, 3, 4, 4, 4]]
     #
-    # p x.repeat([1,2],axis:0)
-    # # Numo::Int32#shape=[3,2]
-    # # [[1, 2],
-    # #  [3, 4],
-    # #  [3, 4]]
+    #   p x.repeat([1,2],axis:0)
+    #   # Numo::Int32#shape=[3,2]
+    #   # [[1, 2],
+    #   #  [3, 4],
+    #   #  [3, 4]]
 
     def repeat(arg,axis:nil)
       case axis
