@@ -6,8 +6,8 @@
 #ifndef NARRAY_H
 #define NARRAY_H
 
-#define NARRAY_VERSION "0.9.0.3"
-#define NARRAY_VERSION_CODE 903
+#define NARRAY_VERSION "0.9.0.4"
+#define NARRAY_VERSION_CODE 904
 
 #include <math.h>
 #include "numo/compat.h"
