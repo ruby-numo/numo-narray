@@ -334,6 +334,9 @@ na_flatten_dim(VALUE self, int sd)
     GetNArray(self,na);
     nd = na->ndim;
 
+    if (nd==0) {
+        return na_make_view(self);
+    }
     if (sd<0 || sd>=nd) {
         rb_bug("na_flaten_dim: start_dim (%d) out of range",sd);
     }
@@ -363,7 +366,7 @@ na_flatten_dim(VALUE self, int sd)
     case NARRAY_FILEMAP_T:
         stride = na_get_elmsz(self);
         for (i=sd+1; i--; ) {
-            //printf("data: i=%d stride=%d\n",i,stride);
+            //printf("data: i=%d shpae[i]=%ld stride=%ld\n",i,shape[i],stride);
             SDX_SET_STRIDE(na2->stridx[i],stride);
             stride *= shape[i];
         }
