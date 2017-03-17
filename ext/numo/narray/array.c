@@ -314,8 +314,15 @@ na_ary_composition(VALUE ary)
     if (TYPE(ary) == T_ARRAY) {
         mdai = na_mdai_alloc(ary);
         vmdai = Data_Wrap_Struct(rb_cData, 0, na_mdai_free, mdai);
-        na_mdai_investigate(mdai, 1);
-        na_mdai_result(mdai, nc);
+        if ( na_mdai_investigate(mdai, 1) ) {
+            // empty
+            nc->ndim = 1;
+            nc->shape = ALLOC_N(size_t, 1);
+            nc->shape[0] = 0;
+            nc->dtype = Qnil;
+        } else {
+            na_mdai_result(mdai, nc);
+        }
         rb_gc_force_recycle(vmdai);
     } else if (IsNArray(ary)) {
         narray_t *na;
