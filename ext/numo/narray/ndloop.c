@@ -70,10 +70,13 @@ typedef struct NA_MD_LOOP {
 #define NDL_WRITE 2
 #define NDL_READ_WRITE (NDL_READ|NDL_WRITE)
 
+static ID id_cast;
+static ID id_extract;
+
 static inline VALUE
 nary_type_s_cast(VALUE type, VALUE obj)
 {
-    return rb_funcall(type,rb_intern("cast"),1,obj);
+    return rb_funcall(type,id_cast,1,obj);
 }
 
 static void
@@ -1226,7 +1229,7 @@ ndloop_extract(VALUE results, ndfunc_t *nf)
     narray_t *na;
 
     if (id_extract==0) {
-        id_extract = rb_intern("extract");
+        id_extract = id_extract;
     }
 
     // extract result objects
@@ -1662,7 +1665,7 @@ loop_store_subnarray(ndfunc_t *nf, na_md_loop_t *lp, int i0, size_t *c, VALUE a)
 
     a_type = CLASS_OF(LARG(lp,0).value);
     if (CLASS_OF(a) != a_type) {
-        a = rb_funcall(a_type, rb_intern("cast"), 1, a);
+        a = rb_funcall(a_type, id_cast, 1, a);
     }
     GetNArray(a,na);
     if (na->ndim != nd-i0+1) {
@@ -1970,4 +1973,12 @@ na_ndloop(nf, argc, va_alist)
     ndloop_alloc(&lp, nf, args, 0, 0, loop_narray_with_index);
 
     return rb_ensure(ndloop_run, (VALUE)&lp, ndloop_release, (VALUE)&lp);
+}
+
+
+void
+Init_nary_ndloop()
+{
+    id_cast    = rb_intern("cast");
+    id_extract = rb_intern("extract");
 }

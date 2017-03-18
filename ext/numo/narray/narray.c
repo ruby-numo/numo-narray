@@ -18,11 +18,23 @@ VALUE nary_eDimensionError;
 
 static ID id_contiguous_stride;
 //static ID id_element_bit_size;
-//static ID id_element_byte_size;
+static ID id_element_byte_size;
+static ID id_allocate;
+static ID id_element_byte_size;
+static ID id_fill;
+static ID id_seq;
+static ID id_logseq;
+static ID id_eye;
+static ID id_UPCAST;
+static ID id_cast;
+static ID id_copy;
+static ID id_to_host;
+static ID id_bracket;
+static ID id_shift_left;
+static ID id_eq;
+static ID id_count_false;
 
 VALUE cPointer;
-
-static ID id_allocate;
 
 VALUE sym_reduce;
 VALUE sym_option;
@@ -38,6 +50,7 @@ int numo_na_inspect_rows=20;
 int numo_na_inspect_cols=80;
 
 void Init_nary_data();
+void Init_nary_ndloop();
 void Init_nary_step();
 void Init_nary_index();
 void Init_nary_bit();
@@ -403,7 +416,7 @@ na_s_zeros(int argc, VALUE *argv, VALUE klass)
 {
     VALUE obj;
     obj = rb_class_new_instance(argc, argv, klass);
-    return rb_funcall(obj, rb_intern("fill"), 1, INT2FIX(0));
+    return rb_funcall(obj, id_fill, 1, INT2FIX(0));
 }
 
 
@@ -427,7 +440,7 @@ na_s_ones(int argc, VALUE *argv, VALUE klass)
 {
     VALUE obj;
     obj = rb_class_new_instance(argc, argv, klass);
-    return rb_funcall(obj, rb_intern("fill"), 1, INT2FIX(1));
+    return rb_funcall(obj, id_fill, 1, INT2FIX(1));
 }
 
 
@@ -466,7 +479,7 @@ na_s_linspace(int argc, VALUE *argv, VALUE klass)
     vstep = rb_funcall(obj, '/', 1, DBL2NUM(n-1));
 
     obj = rb_class_new_instance(1, &vsize, klass);
-    return rb_funcall(obj, rb_intern("seq"), 2, vx1, vstep);
+    return rb_funcall(obj, id_seq, 2, vx1, vstep);
 }
 
 /*
@@ -510,7 +523,7 @@ na_s_logspace(int argc, VALUE *argv, VALUE klass)
     vstep = rb_funcall(obj, '/', 1, DBL2NUM(n-1));
 
     obj = rb_class_new_instance(1, &vsize, klass);
-    return rb_funcall(obj, rb_intern("logseq"), 3, vx1, vstep, vbase);
+    return rb_funcall(obj, id_logseq, 3, vx1, vstep, vbase);
 }
 
 
@@ -541,7 +554,7 @@ na_s_eye(int argc, VALUE *argv, VALUE klass)
         argc = 2;
     }
     obj = rb_class_new_instance(argc, argv, klass);
-    return rb_funcall(obj, rb_intern("eye"), 0);
+    return rb_funcall(obj, id_eye, 0);
 }
 
 
@@ -1116,12 +1129,12 @@ numo_na_upcast(VALUE type1, VALUE type2)
     if (type1==type2) {
         return type1;
     }
-    upcast_hash = rb_const_get(type1, rb_intern("UPCAST"));
+    upcast_hash = rb_const_get(type1, id_UPCAST);
     result_type = rb_hash_aref(upcast_hash, type2);
     if (NIL_P(result_type)) {
         if (TYPE(type2)==T_CLASS) {
             if (RTEST(rb_class_inherited_p(type2,cNArray))) {
-                upcast_hash = rb_const_get(type2, rb_intern("UPCAST"));
+                upcast_hash = rb_const_get(type2, id_UPCAST);
                 result_type = rb_hash_aref(upcast_hash, type1);
             }
         }
@@ -1144,7 +1157,7 @@ nary_coerce(VALUE x, VALUE y)
     VALUE type;
 
     type = numo_na_upcast(CLASS_OF(x), CLASS_OF(y));
-    y = rb_funcall(type,rb_intern("cast"),1,y);
+    y = rb_funcall(type,id_cast,1,y);
     return rb_assoc_new(y , x);
 }
 
@@ -1160,7 +1173,7 @@ nary_byte_size(VALUE self)
     narray_t *na;
 
     GetNArray(self,na);
-    velmsz = rb_const_get(CLASS_OF(self), rb_intern(ELEMENT_BYTE_SIZE));
+    velmsz = rb_const_get(CLASS_OF(self), id_element_byte_size);
     if (FIXNUM_P(velmsz)) {
         return SIZET2NUM(NUM2SIZET(velmsz) * na->size);
     }
@@ -1174,7 +1187,7 @@ nary_byte_size(VALUE self)
 static VALUE
 nary_s_byte_size(VALUE type)
 {
-    return rb_const_get(type, rb_intern(ELEMENT_BYTE_SIZE));
+    return rb_const_get(type, id_element_byte_size);
 }
 
 
@@ -1198,7 +1211,7 @@ nary_s_from_binary(int argc, VALUE *argv, VALUE type)
     narg = rb_scan_args(argc,argv,"11",&vstr,&vshape);
     Check_Type(vstr,T_STRING);
     str_len = RSTRING_LEN(vstr);
-    velmsz = rb_const_get(type, rb_intern(ELEMENT_BYTE_SIZE));
+    velmsz = rb_const_get(type, id_element_byte_size);
     if (narg==2) {
         switch(TYPE(vshape)) {
         case T_FIXNUM:
@@ -1283,7 +1296,7 @@ nary_store_binary(int argc, VALUE *argv, VALUE self)
 
     GetNArray(self,na);
     size = NA_SIZE(na);
-    velmsz = rb_const_get(CLASS_OF(self), rb_intern(ELEMENT_BYTE_SIZE));
+    velmsz = rb_const_get(CLASS_OF(self), id_element_byte_size);
     if (FIXNUM_P(velmsz)) {
         byte_size = size * NUM2SIZET(velmsz);
     } else {
@@ -1317,7 +1330,7 @@ nary_to_binary(VALUE self)
         if (na_check_contiguous(self)==Qtrue) {
             offset = NA_VIEW_OFFSET(na);
         } else {
-            self = rb_funcall(self,rb_intern("copy"),0);
+            self = rb_funcall(self,id_copy,0);
         }
     }
     len = NUM2SIZET(nary_byte_size(self));
@@ -1350,7 +1363,7 @@ nary_marshal_dump(VALUE self)
             if (na_check_contiguous(self)==Qtrue) {
                 offset = NA_VIEW_OFFSET(na);
             } else {
-                self = rb_funcall(self,rb_intern("copy"),0);
+                self = rb_funcall(self,id_copy,0);
             }
         }
         ptr = (VALUE*)na_get_pointer_for_read(self);
@@ -1402,7 +1415,7 @@ nary_marshal_load(VALUE self, VALUE a)
     } else {
         nary_store_binary(1,&v,self);
         if (TEST_BYTE_SWAPPED(self)) {
-            rb_funcall(na_inplace(self),rb_intern("to_host"),0);
+            rb_funcall(na_inplace(self),id_to_host,0);
             REVERSE_ENDIAN(self); // correct behavior??
         }
     }
@@ -1420,7 +1433,7 @@ nary_marshal_load(VALUE self, VALUE a)
 static VALUE
 nary_cast_to(VALUE obj, VALUE type)
 {
-    return rb_funcall(type, rb_intern("cast"), 1, obj);
+    return rb_funcall(type, id_cast, 1, obj);
 }
 
 
@@ -1437,7 +1450,7 @@ na_test_reduce(VALUE reduce, int dim)
         if (m==0) return 1;
         return (m & (1u<<dim)) ? 1 : 0;
     } else {
-        return (rb_funcall(reduce,rb_intern("[]"),1,INT2FIX(dim))==INT2FIX(1)) ?
+        return (rb_funcall(reduce,id_bracket,1,INT2FIX(dim))==INT2FIX(1)) ?
             1 : 0 ;
     }
 }
@@ -1525,8 +1538,8 @@ na_reduce_dimension(int argc, VALUE *argv, int naryc, VALUE *naryv)
                     reduce = SIZET2NUM(m);
                 }
             }
-            v = rb_funcall( INT2FIX(1), rb_intern("<<"), 1, INT2FIX(r) );
-            reduce = rb_funcall( reduce, rb_intern("|"), 1, v );
+            v = rb_funcall( INT2FIX(1), id_shift_left, 1, INT2FIX(r) );
+            reduce = rb_funcall( reduce, '|', 1, v );
         }
     }
     if (reduce==Qnil) reduce = SIZET2NUM(m);
@@ -1759,7 +1772,7 @@ na_equal(VALUE self, volatile VALUE other)
     GetNArray(self,na1);
 
     if (!rb_obj_is_kind_of(other,cNArray)) {
-        other = rb_funcall(CLASS_OF(self), rb_intern("cast"), 1, other);
+        other = rb_funcall(CLASS_OF(self), id_cast, 1, other);
     }
 
     GetNArray(other,na2);
@@ -1771,8 +1784,8 @@ na_equal(VALUE self, volatile VALUE other)
             return Qfalse;
         }
     }
-    vbool = rb_funcall(self, rb_intern("eq"), 1, other);
-    return (rb_funcall(vbool, rb_intern("count_false"), 0)==INT2FIX(0)) ? Qtrue : Qfalse;
+    vbool = rb_funcall(self, id_eq, 1, other);
+    return (rb_funcall(vbool, id_count_false, 0)==INT2FIX(0)) ? Qtrue : Qfalse;
 }
 
 
@@ -1867,7 +1880,20 @@ Init_narray()
     id_allocate = rb_intern("allocate");
     id_contiguous_stride = rb_intern(CONTIGUOUS_STRIDE);
     //id_element_bit_size = rb_intern(ELEMENT_BIT_SIZE);
-    //id_element_byte_size = rb_intern(ELEMENT_BYTE_SIZE);
+    id_element_byte_size = rb_intern(ELEMENT_BYTE_SIZE);
+
+    id_fill        = rb_intern("fill");
+    id_seq         = rb_intern("seq");
+    id_logseq      = rb_intern("logseq");
+    id_eye         = rb_intern("eye");
+    id_UPCAST      = rb_intern("UPCAST");
+    id_cast        = rb_intern("cast");
+    id_copy        = rb_intern("copy");
+    id_to_host     = rb_intern("to_host");
+    id_bracket     = rb_intern("[]");
+    id_shift_left  = rb_intern("<<");
+    id_eq          = rb_intern("eq");
+    id_count_false = rb_intern("count_false");
 
     sym_reduce   = ID2SYM(rb_intern("reduce"));
     sym_option   = ID2SYM(rb_intern("option"));
@@ -1878,6 +1904,7 @@ Init_narray()
     Init_nary_index();
 
     Init_nary_data();
+    Init_nary_ndloop();
 
     Init_nary_dcomplex();
     Init_nary_dfloat();

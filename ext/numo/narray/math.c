@@ -10,6 +10,9 @@ VALUE numo_mNMath;
 EXTERN VALUE numo_mDFloatMath, numo_mDComplexMath;
 EXTERN VALUE numo_mSFloatMath, numo_mSComplexMath;
 static ID id_send;
+static ID id_UPCAST;
+static ID id_DISPATCH;
+static ID id_extract;
 
 VALUE
 nary_type_s_upcast(VALUE type1, VALUE type2)
@@ -18,12 +21,12 @@ nary_type_s_upcast(VALUE type1, VALUE type2)
     VALUE result_type;
 
     if (type1==type2) return type1;
-    upcast_hash = rb_const_get(type1, rb_intern("UPCAST"));
+    upcast_hash = rb_const_get(type1, id_UPCAST);
     result_type = rb_hash_aref(upcast_hash, type2);
     if (NIL_P(result_type)) {
         if (TYPE(type2)==T_CLASS) {
             if ( RTEST(rb_class_inherited_p(type2,cNArray)) ) {
-                upcast_hash = rb_const_get(type2, rb_intern("UPCAST"));
+                upcast_hash = rb_const_get(type2, id_UPCAST);
                 result_type = rb_hash_aref(upcast_hash, type1);
             }
         }
@@ -85,7 +88,7 @@ VALUE nary_math_method_missing(int argc, VALUE *argv, VALUE mod)
     if (argc>1) {
 	type = nary_mathcast(argc-1,argv+1);
 
-	hash = rb_const_get(mod, rb_intern("DISPATCH"));
+	hash = rb_const_get(mod, id_DISPATCH);
 	typemod = rb_hash_aref( hash, type );
 	if (NIL_P(typemod)) {
 	    rb_raise(rb_eTypeError,"%s is unknown for Numo::NMath",
@@ -96,7 +99,7 @@ VALUE nary_math_method_missing(int argc, VALUE *argv, VALUE mod)
 
 	if (!RTEST(rb_class_inherited_p(type,cNArray)) &&
 	    IsNArray(ans) ) {
-	    ans = rb_funcall(ans,rb_intern("extract"),0);
+	    ans = rb_funcall(ans,id_extract,0);
 	}
 	return ans;
     }
@@ -137,5 +140,8 @@ Init_nary_math()
     rb_hash_aset(hCast, rb_cFloat,   rb_mMath);
     rb_hash_aset(hCast, rb_cComplex, numo_mDComplexMath);
 
-    id_send = rb_intern("send");
+    id_send     = rb_intern("send");
+    id_UPCAST   = rb_intern("UPCAST");
+    id_DISPATCH = rb_intern("DISPATCH");
+    id_extract  = rb_intern("extract");
 }

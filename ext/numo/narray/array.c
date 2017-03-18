@@ -25,6 +25,14 @@ typedef struct {
 enum { NA_NONE, NA_BIT, NA_INT32, NA_INT64, NA_RATIONAL,
        NA_DFLOAT, NA_DCOMPLEX, NA_ROBJ, NA_NTYPES };
 
+static ID id_begin;
+static ID id_end;
+static ID id_step;
+static ID id_abs;
+static ID id_cast;
+static ID id_le;
+static ID id_Complex;
+
 static VALUE
  na_object_type(int type, VALUE v)
 {
@@ -47,8 +55,8 @@ static VALUE
 	return type;
     case T_BIGNUM:
 	if (type<NA_INT64) {
-	    v = rb_funcall(v,rb_intern("abs"),0);
-	    if (RTEST(rb_funcall(v,rb_intern("<="),1,int32_max))) {
+	    v = rb_funcall(v,id_abs,0);
+	    if (RTEST(rb_funcall(v,id_le,1,int32_max))) {
 		if (type<NA_INT32)
 		    return NA_INT32;
 	    } else {
@@ -78,8 +86,8 @@ static VALUE
     case T_FIXNUM:
     case T_BIGNUM:
 	if (type<NA_INT64) {
-	    v = rb_funcall(v,rb_intern("abs"),0);
-	    if (RTEST(rb_funcall(v,rb_intern("<="),1,int32_max))) {
+	    v = rb_funcall(v,id_abs,0);
+	    if (RTEST(rb_funcall(v,id_le,1,int32_max))) {
 		if (type<NA_INT32)
 		    return NA_INT32;
 	    } else {
@@ -98,7 +106,7 @@ static VALUE
 	return type;
 
     default:
-	if (CLASS_OF(v) == rb_const_get( rb_cObject, rb_intern("Complex") )) {
+	if (CLASS_OF(v) == rb_const_get( rb_cObject, id_Complex )) {
 	    return NA_DCOMPLEX;
 	}
     }
@@ -107,7 +115,7 @@ static VALUE
 
 
 #define MDAI_ATTR_TYPE(tp,v,attr) \
- {tp = na_object_type(tp,rb_funcall(v,rb_intern(attr),0));}
+ {tp = na_object_type(tp,rb_funcall(v,id_##attr,0));}
 
 void na_mdai_object_type(na_mdai_t *mdai, VALUE v)
 {
@@ -118,12 +126,12 @@ void na_mdai_object_type(na_mdai_t *mdai, VALUE v)
             mdai->na_type = na_upcast(CLASS_OF(v), mdai->na_type);
 	}
     } else if (rb_obj_is_kind_of(v, rb_cRange)) {
-        MDAI_ATTR_TYPE(mdai->type,v,"begin");
-        MDAI_ATTR_TYPE(mdai->type,v,"end");
+        MDAI_ATTR_TYPE(mdai->type,v,begin);
+        MDAI_ATTR_TYPE(mdai->type,v,end);
     } else if (rb_obj_is_kind_of(v, na_cStep)) {
-        MDAI_ATTR_TYPE(mdai->type,v,"begin");
-        MDAI_ATTR_TYPE(mdai->type,v,"end");
-        MDAI_ATTR_TYPE(mdai->type,v,"step");
+        MDAI_ATTR_TYPE(mdai->type,v,begin);
+        MDAI_ATTR_TYPE(mdai->type,v,end);
+        MDAI_ATTR_TYPE(mdai->type,v,step);
     } else {
 	mdai->type = na_object_type(mdai->type,v);
     }
@@ -404,8 +412,8 @@ nary_s_bracket(VALUE klass, VALUE ary)
     dtype = na_ary_composition_dtype(ary);
 
     if (RTEST(rb_obj_is_kind_of(dtype,rb_cClass))) {
-        if (RTEST(rb_funcall(dtype,rb_intern("<="),1,cNArray))) {
-            return rb_funcall(dtype,rb_intern("cast"),1,ary);
+        if (RTEST(rb_funcall(dtype,id_le,1,cNArray))) {
+            return rb_funcall(dtype,id_cast,1,ary);
         }
     }
     rb_raise(nary_eCastError, "cannot convert to NArray");
@@ -524,4 +532,12 @@ Init_nary_array()
     rb_define_singleton_method(cNArray, "array_type", na_s_array_type, 1);
 
     rb_define_singleton_method(cNArray, "[]", nary_s_bracket, -2);
+
+    id_begin   = rb_intern("begin");
+    id_end     = rb_intern("end");
+    id_step    = rb_intern("step");
+    id_cast    = rb_intern("cast");
+    id_abs     = rb_intern("abs");
+    id_le      = rb_intern("<=");
+    id_Complex = rb_intern("Complex");
 }

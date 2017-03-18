@@ -74,7 +74,12 @@ static VALUE sym_rest;
 static ID id_beg;
 static ID id_end;
 static ID id_exclude_end;
-static ID id_each, id_step;
+static ID id_each;
+static ID id_step;
+static ID id_copy;
+static ID id_bracket;
+static ID id_shift_left;
+static ID id_mask;
 
 
 void
@@ -382,8 +387,8 @@ na_index_aref_nadata(narray_data_t *na1, narray_view_t *na2,
         na2->base.shape[j] = size = q[i].n;
 
         if (q[i].reduce != 0) {
-            m = rb_funcall(INT2FIX(1),rb_intern("<<"),1,INT2FIX(j));
-            na2->base.reduce = rb_funcall(m,rb_intern("|"),1,na2->base.reduce);
+            m = rb_funcall(INT2FIX(1),id_shift_left,1,INT2FIX(j));
+            na2->base.reduce = rb_funcall(m,'|',1,na2->base.reduce);
         }
 
         // array index
@@ -431,8 +436,8 @@ na_index_aref_naview(narray_view_t *na1, narray_view_t *na2,
         na2->base.shape[j] = size = q[i].n;
 
         if (q[i].reduce != 0) {
-            VALUE m = rb_funcall(INT2FIX(1),rb_intern("<<"),1,INT2FIX(j));
-            na2->base.reduce = rb_funcall(m,rb_intern("|"),1,na2->base.reduce);
+            VALUE m = rb_funcall(INT2FIX(1),id_shift_left,1,INT2FIX(j));
+            na2->base.reduce = rb_funcall(m,'|',1,na2->base.reduce);
         }
 
         if (q[i].idx != NULL && SDX_IS_INDEX(sdx1)) {
@@ -614,7 +619,7 @@ na_aref_md(int argc, VALUE *argv, VALUE self, int keep_dim, int result_nd)
     if (argc == 1 && result_nd == 1) {
         idx = argv[0];
         if (rb_obj_is_kind_of(idx, rb_cArray)) {
-            idx = rb_apply(numo_cNArray,rb_intern("[]"),idx);
+            idx = rb_apply(numo_cNArray,id_bracket,idx);
         }
         if (rb_obj_is_kind_of(idx, numo_cNArray)) {
             GetNArray(idx,nidx);
@@ -650,11 +655,11 @@ na_aref_main(int nidx, VALUE *idx, VALUE self, int keep_dim, int nd)
     na_index_arg_to_internal_order(nidx, idx, self);
 
     if (nidx==0) {
-        return rb_funcall(self,rb_intern("copy"),0);
+        return rb_funcall(self,id_copy,0);
     }
     if (nidx==1) {
         if (CLASS_OF(*idx)==numo_cBit) {
-            return rb_funcall(*idx,rb_intern("mask"),1,self);
+            return rb_funcall(*idx,id_mask,1,self);
         }
     }
     return na_aref_md(nidx, idx, self, keep_dim, nd);
@@ -808,19 +813,23 @@ Init_nary_index()
 {
     rb_define_method(cNArray, "slice", na_slice, -1);
 
-    sym_ast = ID2SYM(rb_intern("*"));
-    sym_all = ID2SYM(rb_intern("all"));
-    sym_minus = ID2SYM(rb_intern("-"));
-    sym_new = ID2SYM(rb_intern("new"));
-    sym_reverse = ID2SYM(rb_intern("reverse"));
-    sym_plus = ID2SYM(rb_intern("+"));
-    //sym_reduce = ID2SYM(rb_intern("reduce"));
-    sym_sum = ID2SYM(rb_intern("sum"));
-    sym_tilde = ID2SYM(rb_intern("~"));
-    sym_rest = ID2SYM(rb_intern("rest"));
-    id_beg = rb_intern("begin");
-    id_end = rb_intern("end");
+    sym_ast        = ID2SYM(rb_intern("*"));
+    sym_all        = ID2SYM(rb_intern("all"));
+    sym_minus      = ID2SYM(rb_intern("-"));
+    sym_new        = ID2SYM(rb_intern("new"));
+    sym_reverse    = ID2SYM(rb_intern("reverse"));
+    sym_plus       = ID2SYM(rb_intern("+"));
+    //sym_reduce   = ID2SYM(rb_intern("reduce"));
+    sym_sum        = ID2SYM(rb_intern("sum"));
+    sym_tilde      = ID2SYM(rb_intern("~"));
+    sym_rest       = ID2SYM(rb_intern("rest"));
+    id_beg         = rb_intern("begin");
+    id_end         = rb_intern("end");
     id_exclude_end = rb_intern("exclude_end?");
-    id_each = rb_intern("each");
-    id_step = rb_intern("step");
+    id_each        = rb_intern("each");
+    id_step        = rb_intern("step");
+    id_copy        = rb_intern("copy");
+    id_bracket     = rb_intern("[]");
+    id_shift_left  = rb_intern("<<");
+    id_mask        = rb_intern("mask");
 }
