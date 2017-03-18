@@ -881,6 +881,10 @@ numo_na_dot(VALUE self, VALUE other)
         rb_raise(nary_eDimensionError,"zero dimensional narray");
     }
     if (na2->ndim > 1) {
+        if (na1->shape[na1->ndim-1] != na2->shape[na2->ndim-2]) {
+            rb_raise(nary_eShapeError,"shape mismatch: self.shape[-1](=%"SZF"d) != other.shape[-2](=%"SZF"d)",
+                     na1->shape[na1->ndim-1], na2->shape[na2->ndim-2]);
+        }
         // insert new axis [ ..., last-1-dim, newaxis*other.ndim, last-dim ]
         a1 = na_new_dimension_for_dot(a1, na1->ndim-1, na2->ndim-1, 0);
         // insert & transpose [ newaxis*self.ndim, ..., last-dim, last-1-dim ]
