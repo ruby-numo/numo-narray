@@ -874,6 +874,9 @@ numo_na_dot(VALUE self, VALUE other)
     }
     GetNArray(a1,na1);
     GetNArray(a2,na2);
+    if (na1->ndim==0 || na2->ndim==0) {
+        rb_raise(nary_eDimensionError,"zero dimensional narray");
+    }
     if (na2->ndim > 1) {
         // insert new axis [ ..., last-1-dim, newaxis*other.ndim, last-dim ]
         a1 = na_new_dimension_for_dot(a1, na1->ndim-1, na2->ndim-1, 0);
