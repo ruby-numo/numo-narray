@@ -414,7 +414,7 @@ na_index_aref_nadata(narray_data_t *na1, narray_view_t *na2,
 
 static void
 na_index_aref_naview(narray_view_t *na1, narray_view_t *na2,
-                   na_index_arg_t *q, int ndim, int keep_dim)
+                     na_index_arg_t *q, ssize_t elmsz, int ndim, int keep_dim)
 {
     int i, j;
     ssize_t total=1;
@@ -440,7 +440,11 @@ na_index_aref_naview(narray_view_t *na1, narray_view_t *na2,
             na2->base.reduce = rb_funcall(m,'|',1,na2->base.reduce);
         }
 
-        if (q[i].idx != NULL && SDX_IS_INDEX(sdx1)) {
+        if (q[i].orig_dim >= na1->base.ndim) {
+            // new dimension
+            SDX_SET_STRIDE(na2->stridx[j], elmsz);
+        }
+        else if (q[i].idx != NULL && SDX_IS_INDEX(sdx1)) {
             // index <- index
             int k;
             size_t *index = q[i].idx;
@@ -551,6 +555,7 @@ VALUE na_aref_md_protected(VALUE data_value)
     int ndim_new;
     VALUE view;
     narray_view_t *na2;
+    ssize_t elmsz;
 
     na_index_parse_args(args, na1, q, ndim);
 
@@ -570,16 +575,18 @@ VALUE na_aref_md_protected(VALUE data_value)
 
     na2->stridx = ALLOC_N(stridx_t,ndim_new);
 
+    elmsz = na_get_elmsz(self);
+
     switch(na1->type) {
     case NARRAY_DATA_T:
     case NARRAY_FILEMAP_T:
-        na_index_aref_nadata((narray_data_t *)na1,na2,q,na_get_elmsz(self),ndim,keep_dim);
+        na_index_aref_nadata((narray_data_t *)na1,na2,q,elmsz,ndim,keep_dim);
         na2->data = self;
         break;
     case NARRAY_VIEW_T:
         na2->offset = ((narray_view_t *)na1)->offset;
         na2->data = ((narray_view_t *)na1)->data;
-        na_index_aref_naview((narray_view_t *)na1,na2,q,ndim,keep_dim);
+        na_index_aref_naview((narray_view_t *)na1,na2,q,elmsz,ndim,keep_dim);
         break;
     }
     if (store) {
