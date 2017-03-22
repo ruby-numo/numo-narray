@@ -7,7 +7,7 @@ class CountLnString < String
     @str = ""
     @countln = 1
     @current = 1
-    super(report_line)
+    super("\n"+report_line)
   end
 
   def report_line
@@ -34,11 +34,14 @@ class CountLnString < String
     end
     return if n == @current
     if @current != @countln || @postpone
-      if /\A\s*\z/ =~ @str || /\A#line / =~ @buf || /\n\z/ !~ self
+      if /\A\s*\z/ =~ @str || /\A#line / =~ @buf
         @postpone = true
       elsif @in_comment
         @postpone = false
       else
+        if self[-1] != "\n"
+          concat("\n")
+        end
         concat(report_line)
         @postpone = false
       end
@@ -83,6 +86,10 @@ class CountLnString < String
     r
   end
 
+  def final
+    concat(@buf)
+  end
+
 end
 
 class ERB
@@ -120,7 +127,7 @@ class ERB
         line.sub!(/^;/,";_erbout.ln(#{num});")
       end
       line
-    end.join
+    end.join+";_erbout.final;"
   end
 
 end
