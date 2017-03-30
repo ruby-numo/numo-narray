@@ -6,6 +6,13 @@
 #ifndef NARRAY_H
 #define NARRAY_H
 
+#if defined(__cplusplus)
+extern "C" {
+#if 0
+} /* satisfy cc-mode */
+#endif
+#endif
+
 #define NARRAY_VERSION "0.9.0.4"
 #define NARRAY_VERSION_CODE 904
 
@@ -400,5 +407,12 @@ typedef unsigned int BIT_DIGIT;
 
 #include "numo/ndloop.h"
 #include "numo/intern.h"
+
+#if defined(__cplusplus)
+#if 0
+{ /* satisfy cc-mode */
+#endif
+}  /* extern "C" { */
+#endif
 
 #endif /* ifndef NARRAY_H */
