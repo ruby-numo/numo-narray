@@ -78,6 +78,9 @@ EXTERN double pow(double, double);
 #else
 #define m_exp10(x)   pow(10, x)
 #endif
+#define m_expm1(x)   expm1(x)
+#define m_log1p(x)   log1p(x)
+
 #define m_sin(x)     sin(x)
 #define m_cos(x)     cos(x)
 #define m_tan(x)     tan(x)

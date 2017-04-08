@@ -310,7 +310,10 @@ if has_math
     math "hypot",2
     math "erf"
     math "erfc"
+    math "log1p"
+    math "expm1"
     math "ldexp",2
+    math "frexp",1,"frexp"
   end
 end
 end
