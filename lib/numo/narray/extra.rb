@@ -1,6 +1,36 @@
 module Numo
   class NArray
 
+    # Return an unallocated array with the same shape and type as self.
+    def new_narray
+      self.class.new(*shape)
+    end
+
+    # Return an array of zeros with the same shape and type as self.
+    def new_zeros
+      self.class.zeros(*shape)
+    end
+
+    # Return an array of ones with the same shape and type as self.
+    def new_ones
+      self.class.ones(*shape)
+    end
+
+    # Return an array filled with value with the same shape and type as self.
+    def new_fill(value)
+      self.class.new(*shape).fill(value)
+    end
+
+    # Convert angles from radians to degrees.
+    def rad2deg
+      self * (180/Math::PI)
+    end
+
+    # Convert angles from degrees to radians.
+    def deg2rad
+      self * (Math::PI/180)
+    end
+
     # @example
     #   p a = Numo::DFloat[[1, 2], [3, 4]]
     #   # Numo::DFloat#shape=[2,2]
