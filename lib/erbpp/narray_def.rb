@@ -94,18 +94,34 @@ module DefMethod
     NodefFunction.new(self, "qsort", h)
   end
 
-  def math(meth, n=1)
-    h = {:meth => meth, :mod_var => 'mTM', :n_arg => n}
-    case n
-    when 1
-      ModuleFunction.new(self, "unary_s", h)
-    when 2
-      ModuleFunction.new(self, "binary_s", h)
-    when 3
-      ModuleFunction.new(self, "ternary_s", h)
-    else
-      raise "invalid n=#{n}"
+  def def_mod_func(meth, n_arg, tmpl=nil, opts={})
+    h = {:meth => meth, :n_arg => n_arg}
+    h.merge!(opts)
+    tmpl ||= meth
+    ModuleFunction.new(self, tmpl, h)
+  end
+
+  def math(meth, n=1, tmpl=nil)
+    h = {:mod_var => 'mTM'}
+    if tmpl.nil?
+      case n
+      when 1
+        tmpl = "unary_s"
+        #def_mod_func(meth, n, "unary_s", h)
+        #ModuleFunction.new(self, "unary_s", h)
+      when 2
+        tmpl = "binary_s"
+        #def_mod_func(meth, n, "binary_s", h)
+        #ModuleFunction.new(self, "binary_s", h)
+      when 3
+        tmpl = "ternary_s"
+        #def_mod_func(meth, n, "ternary_s", h)
+        #ModuleFunction.new(self, "ternary_s", h)
+      else
+        raise "invalid n=#{n}"
+      end
     end
+    def_mod_func(meth, n, tmpl, h)
   end
 
   def store_numeric
