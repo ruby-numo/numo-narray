@@ -305,6 +305,7 @@ if has_math
   math "asinh"
   math "acosh"
   math "atanh"
+  math "sinc"
   if !is_complex
     math "atan2",2
     math "hypot",2
