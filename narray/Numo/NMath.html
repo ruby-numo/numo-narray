@@ -223,9 +223,6 @@
       <pre class="lines">
 
 
-82
-83
-84
 85
 86
 87
@@ -246,10 +243,13 @@
 102
 103
 104
-105</pre>
+105
+106
+107
+108</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/math.c', line 82</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/math.c', line 85</span>
 
 VALUE nary_math_method_missing(int argc, VALUE *argv, VALUE mod)
 {
@@ -257,7 +257,7 @@ VALUE nary_math_method_missing(int argc, VALUE *argv, VALUE mod)
     if (argc&gt;1) {
 	type = nary_mathcast(argc-1,argv+1);
 
-	hash = rb_const_get(mod, rb_intern(&quot;DISPATCH&quot;));
+	hash = rb_const_get(mod, id_DISPATCH);
 	typemod = rb_hash_aref( hash, type );
 	if (NIL_P(typemod)) {
 	    rb_raise(rb_eTypeError,&quot;%s is unknown for Numo::NMath&quot;,
@@ -268,7 +268,7 @@ VALUE nary_math_method_missing(int argc, VALUE *argv, VALUE mod)
 
 	if (!RTEST(rb_class_inherited_p(type,cNArray)) &amp;&amp;
 	    IsNArray(ans) ) {
-	    ans = rb_funcall(ans,rb_intern(&quot;extract&quot;),0);
+	    ans = rb_funcall(ans,id_extract,0);
 	}
 	return ans;
     }
@@ -285,7 +285,7 @@ VALUE nary_math_method_missing(int argc, VALUE *argv, VALUE mod)
 </div>
 
       <div id="footer">
-  Generated on Thu Mar 16 20:46:48 2017 by
+  Generated on Sat Apr  8 18:52:48 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.4.0).
 </div>
