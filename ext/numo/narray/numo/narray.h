@@ -405,6 +405,13 @@ typedef unsigned int BIT_DIGIT;
 #define ELEMENT_BYTE_SIZE "ELEMENT_BYTE_SIZE"
 #define CONTIGUOUS_STRIDE "CONTIGUOUS_STRIDE"
 
+
+#ifdef RUBY_INTEGER_UNIFICATION
+#define IS_INTEGER_CLASS(c) ((c)==rb_cInteger)
+#else
+#define IS_INTEGER_CLASS(c) ((c)==rb_cFixnum||(c)==rb_cBignum)
+#endif
+
 #include "numo/ndloop.h"
 #include "numo/intern.h"
 
