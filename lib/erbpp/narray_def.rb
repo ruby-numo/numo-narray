@@ -107,16 +107,10 @@ module DefMethod
       case n
       when 1
         tmpl = "unary_s"
-        #def_mod_func(meth, n, "unary_s", h)
-        #ModuleFunction.new(self, "unary_s", h)
       when 2
         tmpl = "binary_s"
-        #def_mod_func(meth, n, "binary_s", h)
-        #ModuleFunction.new(self, "binary_s", h)
       when 3
         tmpl = "ternary_s"
-        #def_mod_func(meth, n, "ternary_s", h)
-        #ModuleFunction.new(self, "ternary_s", h)
       else
         raise "invalid n=#{n}"
       end
@@ -315,14 +309,33 @@ class Store < Function
     nil
   end
 
-  def condition
-    "rb_obj_is_kind_of(obj,#{tpclass})"
+  def condition(klass)
+    "#{klass}==#{tpclass}"
+  end
+
+  def extract_data(ptr,pos,x)
+    case tpname
+    when "bit"
+      "{BIT_DIGIT b; LOAD_BIT(#{ptr},#{pos},b); x = m_from_real(b);}"
+    when "robject"
+      "#{x} = m_num_to_data(*(#{dtype}*)(#{ptr}+#{pos}))"
+    when /complex/
+      "{#{dtype} *p = (#{dtype}*)(#{ptr}+#{pos}); #{x} = c_new(REAL(*p),IMAG(*p));}"
+    else
+      "#{x} = m_from_real(*(#{dtype}*)(#{ptr}+#{pos}))"
+    end
   end
 
   def self.definitions
     a = []
-    DEFS.each do |i|
-      a.push(i) if i.condition
+    DEFS.each do |x|
+      if x.condition("")
+        if x.tpname == x.parents[0].class_name.downcase
+          a.unshift(x)
+        else
+          a.push(x)
+        end
+      end
     end
     a
   end
@@ -333,8 +346,8 @@ class StoreNum < Store
     super(parent,tmpl,"numeric",nil,nil,nil)
   end
 
-  def condition
-    "FIXNUM_P(obj) || TYPE(obj)==T_FLOAT || TYPE(obj)==T_BIGNUM || rb_obj_is_kind_of(obj,rb_cComplex)"
+  def condition(klass)
+    "IS_INTEGER_CLASS(#{klass}) || #{klass}==rb_cFloat || #{klass}==rb_cComplex"
   end
 end
 
@@ -347,13 +360,13 @@ class StoreArray < Store
     "numo_#{tp}_#{tmpl}"
   end
 
-  def condition
-    "TYPE(obj)==T_ARRAY"
+  def condition(klass)
+    "#{klass}==rb_cArray"
   end
 end
 
 class CastArray < StoreArray
-  def condition
+  def condition(klass)
     nil
   end
 

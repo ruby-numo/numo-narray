@@ -55,8 +55,8 @@ static VALUE
             a = na_aref_main(argc, argv, self, 0, nd);
             <%=c_func.sub(/_aset/,"_store")%>(a, argv[argc]);
         } else {
+            x = numo_<%=tp%>_extract_data(argv[argc]);
             ptr = na_get_pointer_for_read_write(self);
-            x = m_num_to_data(argv[argc]);
             STORE_BIT(ptr,pos,x);
         }
 

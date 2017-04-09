@@ -7,10 +7,12 @@
 static VALUE
 <%=c_func%>(VALUE self, VALUE obj)
 {
-    VALUE r;
+    VALUE r, klass;
+
+    klass = CLASS_OF(obj);
 
     <% Store.definitions.each do |x| %>
-    if (<%=x.condition%>) {
+    if (<%=x.condition("klass")%>) {
         <%=x.c_func%>(self,obj);
         return self;
     }

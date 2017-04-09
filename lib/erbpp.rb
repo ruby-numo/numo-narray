@@ -207,6 +207,7 @@ class Function < ErbPP
   end
 
   def definition
+    return nil if n_arg <= -9
     s = singleton ? "_singleton" : ""
     check_params(:mod_var, :op_map, :c_func, :n_arg)
     m = op_map

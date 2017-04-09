@@ -44,6 +44,7 @@ static VALUE
     size_t pos;
     char *ptr;
     VALUE a;
+    dtype x;
 
     argc--;
     if (argc==0) {
@@ -54,8 +55,9 @@ static VALUE
             a = na_aref_main(argc, argv, self, 0, nd);
             <%=c_func.sub(/_aset/,"_store")%>(a, argv[argc]);
         } else {
+            x = numo_<%=tp%>_extract_data(argv[argc]);
             ptr = na_get_pointer_for_read_write(self) + pos;
-            *(dtype*)ptr = m_num_to_data(argv[argc]);
+            *(dtype*)ptr = x;
         }
 
     }

@@ -83,6 +83,7 @@ store_array
 cast_array
 
 def_method "store", 1
+def_method "extract_data", -99
 def_singleton "cast", 1
 
 def_method "aref", -1, "aref", :op=>"[]"
