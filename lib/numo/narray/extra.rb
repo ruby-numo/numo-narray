@@ -31,6 +31,71 @@ module Numo
       self * (Math::PI/180)
     end
 
+    def to_i
+      if size==1
+        self[0].to_i
+      else
+        # convert to Int?
+        raise TypeError, "can't convert #{self.class} into Integer"
+      end
+    end
+
+    def to_f
+      if size==1
+        self[0].to_f
+      else
+        # convert to DFloat?
+        raise TypeError, "can't convert #{self.class} into Float"
+      end
+    end
+
+    def to_c
+      if size==1
+        Complex(self[0])
+      else
+        # convert to DComplex?
+        raise TypeError, "can't convert #{self.class} into Complex"
+      end
+    end
+
+    # Convert the argument to an narray if not an narray.
+    def self.cast(a)
+      a.kind_of?(NArray) ? a : NArray.array_type(a).cast(a)
+    end
+
+    # Append values to the end of an narray.
+    # @example
+    #   a = Numo::DFloat[1, 2, 3]
+    #   p a.append([[4, 5, 6], [7, 8, 9]])
+    #   # Numo::DFloat#shape=[9]
+    #   # [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    #
+    #   a = Numo::DFloat[[1, 2, 3]]
+    #   p a.append([[4, 5, 6], [7, 8, 9]],axis:0)
+    #   # Numo::DFloat#shape=[3,3]
+    #   # [[1, 2, 3],
+    #   #  [4, 5, 6],
+    #   #  [7, 8, 9]]
+    #
+    #   a = Numo::DFloat[[1, 2, 3], [4, 5, 6]]
+    #   p a.append([7, 8, 9], axis:0)
+    #   # in `append': dimension mismatch (Numo::NArray::DimensionError)
+
+    def append(other,axis:nil)
+      other = self.class.cast(other)
+      if axis
+        if ndim != other.ndim
+          raise DimensionError, "dimension mismatch"
+        end
+        return concatenate(other,axis:axis)
+      else
+        a = self.class.zeros(size+other.size)
+        a[0...size] = self[true]
+        a[size..-1] = other[true]
+        return a
+      end
+    end
+
     # @example
     #   p a = Numo::DFloat[[1, 2], [3, 4]]
     #   # Numo::DFloat#shape=[2,2]
@@ -425,7 +490,7 @@ module Numo
       c[*ref].copy
     end
 
-
+    private
     def check_axis(axis)
       if axis < 0
         axis += ndim
