@@ -13,6 +13,13 @@ This project is the successor to [Ruby/NArray](http://masa16.github.io/narray/).
 
 under development
 
+## Documentation
+All documents are primitive.
+
+* [Numo::NArray API Doc](http://ruby-numo.github.io/narray/narray/frames.html)
+* [Numo::NArray概要](https://github.com/ruby-numo/narray/wiki/Numo::NArray%E6%A6%82%E8%A6%81) (in Japanese)
+* [Numo::NArray vs numpy](https://github.com/ruby-numo/narray/wiki/Numo-vs-numpy)
+
 ## Related Projects
 * [Numo::Linalg](https://github.com/ruby-numo/linalg) - Linear Algebra library with [LAPACK](http://www.netlib.org/lapack/).
 * [Numo::GSL](https://github.com/ruby-numo/gsl) - Ruby interface for [GSL (GNU Scientific Library)](http://www.gnu.org/software/gsl/).
@@ -47,11 +54,3 @@ An example
 => 15
 ```
 For more examples, check out this [narray version of 100 numpy exercises](https://github.com/ruby-numo/narray/wiki/100-narray-exercises) (and the [IRuby Notebook](https://github.com/ruby-numo/narray/blob/master/100-narray-exercises.ipynb)).
-
-## Documentation
-
-All documents are primitive.
-
-* [Numo::NArray API Doc](http://ruby-numo.github.io/narray/narray/frames.html)
-* [Numo::NArray概要](https://github.com/ruby-numo/narray/wiki/Numo::NArray%E6%A6%82%E8%A6%81) (in Japanese)
-* [Numo::NArray vs numpy](https://github.com/ruby-numo/narray/wiki/Numo-vs-numpy)
