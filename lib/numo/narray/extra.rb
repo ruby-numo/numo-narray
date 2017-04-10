@@ -63,6 +63,17 @@ module Numo
       a.kind_of?(NArray) ? a : NArray.array_type(a).cast(a)
     end
 
+    def self.asarray(a)
+      case a
+      when NArray
+        a
+      when Numeric,Range
+        self[a]
+      else
+        cast(a)
+      end
+    end
+
     # Append values to the end of an narray.
     # @example
     #   a = Numo::DFloat[1, 2, 3]
@@ -94,6 +105,155 @@ module Numo
         a[size..-1] = other[true]
         return a
       end
+    end
+
+    # Return a new array with sub-arrays along an axis deleted.
+    # If axis is not given, obj is applied to the flattened array.
+
+    # @example
+    #   a = Numo::DFloat[[1,2,3,4], [5,6,7,8], [9,10,11,12]]
+    #   p a.delete(1,0)
+    #   # Numo::DFloat(view)#shape=[2,4]
+    #   # [[1, 2, 3, 4],
+    #   #  [9, 10, 11, 12]]
+    #
+    #   p a.delete((0..-1).step(2),1)
+    #   # Numo::DFloat(view)#shape=[3,2]
+    #   # [[2, 4],
+    #   #  [6, 8],
+    #   #  [10, 12]]
+    #
+    #   p a.delete([1,3,5])
+    #   # Numo::DFloat(view)#shape=[9]
+    #   # [1, 3, 5, 7, 8, 9, 10, 11, 12]
+
+    def delete(indice,axis=nil)
+      if axis
+        bit = Bit.ones(shape[axis])
+        bit[indice] = 0
+        idx = [true]*ndim
+        idx[axis] = bit.where
+        return self[*idx].copy
+      else
+        bit = Bit.ones(size)
+        bit[indice] = 0
+        return self[bit.where].copy
+      end
+    end
+
+    # Insert values along the axis before the indices.
+    # @example
+    #   p a = Numo::DFloat[[1, 2], [3, 4]]
+    #   a = Numo::Int32[[1, 1], [2, 2], [3, 3]]
+    #
+    #   p a.insert(1,5)
+    #   # Numo::Int32#shape=[7]
+    #   # [1, 5, 1, 2, 2, 3, 3]
+    #
+    #   p a.insert(1, 5, axis:1)
+    #   # Numo::Int32#shape=[3,3]
+    #   # [[1, 5, 1],
+    #   #  [2, 5, 2],
+    #   #  [3, 5, 3]]
+    #
+    #   p a.insert([1], [[11],[12],[13]], axis:1)
+    #   # Numo::Int32#shape=[3,3]
+    #   # [[1, 11, 1],
+    #   #  [2, 12, 2],
+    #   #  [3, 13, 3]]
+    #
+    #   p a.insert(1, [11, 12, 13], axis:1)
+    #   # Numo::Int32#shape=[3,3]
+    #   # [[1, 11, 1],
+    #   #  [2, 12, 2],
+    #   #  [3, 13, 3]]
+    #
+    #   p a.insert([1], [11, 12, 13], axis:1)
+    #   # Numo::Int32#shape=[3,5]
+    #   # [[1, 11, 12, 13, 1],
+    #   #  [2, 11, 12, 13, 2],
+    #   #  [3, 11, 12, 13, 3]]
+    #
+    #   p b = a.flatten
+    #   # Numo::Int32(view)#shape=[6]
+    #   # [1, 1, 2, 2, 3, 3]
+    #
+    #   p b.insert([2],[15,16])
+    #   # Numo::Int32#shape=[8]
+    #   # [1, 1, 15, 16, 2, 2, 3, 3]
+    #
+    #   p b.insert([2,2],[15,16])
+    #   # Numo::Int32#shape=[8]
+    #   # [1, 1, 15, 16, 2, 2, 3, 3]
+    #
+    #   p b.insert([2,1],[15,16])
+    #   # Numo::Int32#shape=[8]
+    #   # [1, 16, 1, 15, 2, 2, 3, 3]
+    #
+    #   p b.insert([2,0,1],[15,16,17])
+    #   # Numo::Int32#shape=[9]
+    #   # [16, 1, 17, 1, 15, 2, 2, 3, 3]
+    #
+    #   p b.insert(2..3, [15, 16])
+    #   # Numo::Int32#shape=[8]
+    #   # [1, 1, 15, 2, 16, 2, 3, 3]
+    #
+    #   p b.insert(2, [7.13, 0.5])
+    #   # Numo::Int32#shape=[8]
+    #   # [1, 1, 7, 0, 2, 2, 3, 3]
+    #
+    #   p x = Numo::DFloat.new(2,4).seq
+    #   # Numo::DFloat#shape=[2,4]
+    #   # [[0, 1, 2, 3],
+    #   #  [4, 5, 6, 7]]
+    #
+    #   p x.insert([1,3],999,axis:1)
+    #   # Numo::DFloat#shape=[2,6]
+    #   # [[0, 999, 1, 2, 999, 3],
+    #   #  [4, 999, 5, 6, 999, 7]]
+
+    def insert(indice,values,axis:nil)
+      if axis
+        values = self.class.asarray(values)
+        nd = values.ndim
+        midx = [:new]*(ndim-nd) + [true]*nd
+        case indice
+        when Numeric
+          midx[-nd-1] = true
+          midx[axis] = :new
+        end
+        values = values[*midx]
+      else
+        values = self.class.asarray(values).flatten
+      end
+      idx = Int64.asarray(indice)
+      nidx = idx.size
+      if nidx == 1
+        nidx = values.shape[axis||0]
+        idx = idx + Int64.new(nidx).seq
+      else
+        sidx = idx.sort_index
+        idx[sidx] += Int64.new(nidx).seq
+      end
+      if axis
+        bit = Bit.ones(shape[axis]+nidx)
+        bit[idx] = 0
+        new_shape = shape
+        new_shape[axis] += nidx
+        a = self.class.zeros(new_shape)
+        mdidx = [true]*ndim
+        mdidx[axis] = bit.where
+        a[*mdidx] = self
+        mdidx[axis] = idx
+        a[*mdidx] = values
+      else
+        bit = Bit.ones(size+nidx)
+        bit[idx] = 0
+        a = self.class.zeros(size+nidx)
+        a[bit.where] = self.flatten
+        a[idx] = values
+      end
+      return a
     end
 
     # @example
