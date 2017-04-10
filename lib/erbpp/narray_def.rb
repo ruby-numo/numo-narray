@@ -166,11 +166,11 @@ class DataType < ErbPP
     @upcast = []
     @mod_var = "cT"
     load_type(type_file) if type_file
-    dir = template_dir || "tmpl"
-    @tmpl_dir = File.join(File.dirname(erb_path),dir)
+    dirs = template_dir || ["tmpl"]
+    @tmpl_dirs = dirs.map{|d| File.join(File.dirname(erb_path),d)}
   end
 
-  attr_reader :tmpl_dir
+  attr_reader :tmpl_dirs
 
   def load_type(file)
     eval File.read(file)

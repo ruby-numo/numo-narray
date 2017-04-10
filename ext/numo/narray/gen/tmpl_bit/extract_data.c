@@ -1,1 +1,0 @@
-../tmpl/extract_data.c

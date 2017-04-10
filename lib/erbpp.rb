@@ -168,7 +168,10 @@ class Function < ErbPP
   def initialize(parent,tmpl,**opts)
     super
     @aliases = opts[:aliases] || []
-    @erb_path = File.join(parent.tmpl_dir, tmpl+".c")
+    parent.tmpl_dirs.each do |d|
+      @erb_path = File.join(d, tmpl+".c")
+      break if File.exist?(@erb_path)
+    end
     DEFS.push(self)
   end
 
