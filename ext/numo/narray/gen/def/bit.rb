@@ -1,7 +1,7 @@
 class_name    "Bit"
 #ctype         ""
 
-template_dir  "tmpl_bit"
+template_dir  ["tmpl_bit","tmpl"]
 
 has_math      false
 is_bit        true
