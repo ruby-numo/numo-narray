@@ -189,6 +189,28 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#asarray-class_method" title="asarray (class method)">.<strong>asarray</strong>(a)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#byte_size-class_method" title="byte_size (class method)">.<strong>byte_size</strong>  &#x21d2; Numeric </a>
     
 
@@ -205,6 +227,30 @@
   
     <span class="summary_desc"><div class='inline'>
 <p>Returns byte size of one element of NArray.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#cast-class_method" title="cast (class method)">.<strong>cast</strong>(a)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Convert the argument to an narray if not an narray.</p>
 </div></span>
   
 </li>
@@ -687,6 +733,30 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#append-instance_method" title="#append (instance method)">#<strong>append</strong>(other, axis: nil)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Append values to the end of an narray.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#byte_size-instance_method" title="#byte_size (instance method)">#<strong>byte_size</strong>  &#x21d2; Integer </a>
     
 
@@ -754,28 +824,6 @@
     <span class="summary_desc"><div class='inline'>
 <p>Cast self to another NArray datatype.</p>
 </div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#check_axis-instance_method" title="#check_axis (instance method)">#<strong>check_axis</strong>(axis)  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -915,6 +963,28 @@ type of NArray.</p>
     <span class="summary_desc"><div class='inline'>
 <p>Convert angles from degrees to radians.</p>
 </div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete-instance_method" title="#delete (instance method)">#<strong>delete</strong>(indice, axis = nil)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -1225,6 +1295,30 @@ type of NArray.</p>
   
     <span class="summary_desc"><div class='inline'>
 <p>Return true if inplace flagged.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#insert-instance_method" title="#insert (instance method)">#<strong>insert</strong>(indice, values, axis: nil)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Insert values along the axis before the indices.</p>
 </div></span>
   
 </li>
@@ -1715,7 +1809,73 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#to_c-instance_method" title="#to_c (instance method)">#<strong>to_c</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_f-instance_method" title="#to_f (instance method)">#<strong>to_f</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#to_host-instance_method" title="#to_host (instance method)">#<strong>to_host</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_i-instance_method" title="#to_i (instance method)">#<strong>to_i</strong>  &#x21d2; Object </a>
     
 
     
@@ -2111,6 +2271,50 @@ na_s_array_type(VALUE mod, VALUE ary)
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="asarray-class_method">
+  
+    .<strong>asarray</strong>(a)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 66</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_asarray'>asarray</span><span class='lparen'>(</span><span class='id identifier rubyid_a'>a</span><span class='rparen'>)</span>
+  <span class='kw'>case</span> <span class='id identifier rubyid_a'>a</span>
+  <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="" title="Numo::NArray (class)">NArray</a></span></span>
+    <span class='id identifier rubyid_a'>a</span>
+  <span class='kw'>when</span> <span class='const'>Numeric</span><span class='comma'>,</span><span class='const'>Range</span>
+    <span class='kw'>self</span><span class='lbracket'>[</span><span class='id identifier rubyid_a'>a</span><span class='rbracket'>]</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_cast'>cast</span><span class='lparen'>(</span><span class='id identifier rubyid_a'>a</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="byte_size-class_method">
   
     .<strong>byte_size</strong>  &#x21d2; <tt>Numeric</tt> 
@@ -2174,6 +2378,47 @@ nary_s_byte_size(VALUE type)
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="cast-class_method">
+  
+    .<strong>cast</strong>(a)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Convert the argument to an narray if not an narray.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+62
+63
+64</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 62</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_cast'>cast</span><span class='lparen'>(</span><span class='id identifier rubyid_a'>a</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_a'>a</span><span class='period'>.</span><span class='id identifier rubyid_kind_of?'>kind_of?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="" title="Numo::NArray (class)">NArray</a></span></span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_a'>a</span> <span class='op'>:</span> <span class='const'><span class='object_link'><a href="" title="Numo::NArray (class)">NArray</a></span></span><span class='period'>.</span><span class='id identifier rubyid_array_type'><span class='object_link'><a href="#array_type-class_method" title="Numo::NArray.array_type (method)">array_type</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_a'>a</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_cast'>cast</span><span class='lparen'>(</span><span class='id identifier rubyid_a'>a</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="concatenate-class_method">
   
     .<strong>concatenate</strong>(arrays, axis: 0)  &#x21d2; <tt>Object</tt> 
@@ -2223,62 +2468,62 @@ nary_s_byte_size(VALUE type)
       <pre class="lines">
 
 
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107</pre>
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 55</span>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 280</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_concatenate'>concatenate</span><span class='lparen'>(</span><span class='id identifier rubyid_arrays'>arrays</span><span class='comma'>,</span><span class='label'>axis:</span><span class='int'>0</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_klass'>klass</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='kw'>self</span><span class='op'>==</span><span class='const'><span class='object_link'><a href="" title="Numo::NArray (class)">NArray</a></span></span><span class='rparen'>)</span> <span class='op'>?</span> <span class='const'><span class='object_link'><a href="" title="Numo::NArray (class)">NArray</a></span></span><span class='period'>.</span><span class='id identifier rubyid_array_type'><span class='object_link'><a href="#array_type-class_method" title="Numo::NArray.array_type (method)">array_type</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_arrays'>arrays</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='kw'>self</span>
@@ -2387,12 +2632,12 @@ VALUE na_debug_set(VALUE mod, VALUE flag)
       <pre class="lines">
 
 
-117
-118
-119</pre>
+342
+343
+344</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 117</span>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 342</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_dstack'>dstack</span><span class='lparen'>(</span><span class='id identifier rubyid_arrays'>arrays</span><span class='rparen'>)</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_concatenate'>concatenate</span><span class='lparen'>(</span><span class='id identifier rubyid_arrays'>arrays</span><span class='comma'>,</span><span class='label'>axis:</span><span class='int'>2</span><span class='rparen'>)</span>
@@ -2762,12 +3007,12 @@ nary_s_from_binary(int argc, VALUE *argv, VALUE type)
       <pre class="lines">
 
 
-113
-114
-115</pre>
+338
+339
+340</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 113</span>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 338</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_hstack'>hstack</span><span class='lparen'>(</span><span class='id identifier rubyid_arrays'>arrays</span><span class='rparen'>)</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_concatenate'>concatenate</span><span class='lparen'>(</span><span class='id identifier rubyid_arrays'>arrays</span><span class='comma'>,</span><span class='label'>axis:</span><span class='int'>1</span><span class='rparen'>)</span>
@@ -3722,12 +3967,12 @@ numo_na_upcast(VALUE type1, VALUE type2)
       <pre class="lines">
 
 
-109
-110
-111</pre>
+334
+335
+336</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 109</span>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 334</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_vstack'>vstack</span><span class='lparen'>(</span><span class='id identifier rubyid_arrays'>arrays</span><span class='rparen'>)</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_concatenate'>concatenate</span><span class='lparen'>(</span><span class='id identifier rubyid_arrays'>arrays</span><span class='comma'>,</span><span class='label'>axis:</span><span class='int'>0</span><span class='rparen'>)</span>
@@ -3926,6 +4171,91 @@ na_equal(VALUE self, volatile VALUE other)
     vbool = rb_funcall(self, id_eq, 1, other);
     return (rb_funcall(vbool, id_count_false, 0)==INT2FIX(0)) ? Qtrue : Qfalse;
 }</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="append-instance_method">
+  
+    #<strong>append</strong>(other, axis: nil)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Append values to the end of an narray.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_a'>a</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DFloat.html" title="Numo::DFloat (class)">DFloat</a></span></span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span> <span class='int'>2</span><span class='comma'>,</span> <span class='int'>3</span><span class='rbracket'>]</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_a'>a</span><span class='period'>.</span><span class='id identifier rubyid_append'>append</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='lbracket'>[</span><span class='int'>4</span><span class='comma'>,</span> <span class='int'>5</span><span class='comma'>,</span> <span class='int'>6</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>7</span><span class='comma'>,</span> <span class='int'>8</span><span class='comma'>,</span> <span class='int'>9</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+<span class='comment'># Numo::DFloat#shape=[9]
+</span><span class='comment'># [1, 2, 3, 4, 5, 6, 7, 8, 9]
+</span>
+<span class='id identifier rubyid_a'>a</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DFloat.html" title="Numo::DFloat (class)">DFloat</a></span></span><span class='lbracket'>[</span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span> <span class='int'>2</span><span class='comma'>,</span> <span class='int'>3</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_a'>a</span><span class='period'>.</span><span class='id identifier rubyid_append'>append</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='lbracket'>[</span><span class='int'>4</span><span class='comma'>,</span> <span class='int'>5</span><span class='comma'>,</span> <span class='int'>6</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>7</span><span class='comma'>,</span> <span class='int'>8</span><span class='comma'>,</span> <span class='int'>9</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='comma'>,</span><span class='label'>axis:</span><span class='int'>0</span><span class='rparen'>)</span>
+<span class='comment'># Numo::DFloat#shape=[3,3]
+</span><span class='comment'># [[1, 2, 3],
+</span><span class='comment'>#  [4, 5, 6],
+</span><span class='comment'>#  [7, 8, 9]]
+</span>
+<span class='id identifier rubyid_a'>a</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DFloat.html" title="Numo::DFloat (class)">DFloat</a></span></span><span class='lbracket'>[</span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span> <span class='int'>2</span><span class='comma'>,</span> <span class='int'>3</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>4</span><span class='comma'>,</span> <span class='int'>5</span><span class='comma'>,</span> <span class='int'>6</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_a'>a</span><span class='period'>.</span><span class='id identifier rubyid_append'>append</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>7</span><span class='comma'>,</span> <span class='int'>8</span><span class='comma'>,</span> <span class='int'>9</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>axis:</span><span class='int'>0</span><span class='rparen'>)</span>
+<span class='comment'># in `append&#39;: dimension mismatch (Numo::NArray::DimensionError)</span></code></pre>
+    
+  </div>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 95</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_append'>append</span><span class='lparen'>(</span><span class='id identifier rubyid_other'>other</span><span class='comma'>,</span><span class='label'>axis:</span><span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_other'>other</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_cast'>cast</span><span class='lparen'>(</span><span class='id identifier rubyid_other'>other</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_axis'>axis</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_ndim'>ndim</span> <span class='op'>!=</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_ndim'>ndim</span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="NArray/DimensionError.html" title="Numo::NArray::DimensionError (class)">DimensionError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>dimension mismatch</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_concatenate'>concatenate</span><span class='lparen'>(</span><span class='id identifier rubyid_other'>other</span><span class='comma'>,</span><span class='label'>axis:</span><span class='id identifier rubyid_axis'>axis</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_a'>a</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_zeros'>zeros</span><span class='lparen'>(</span><span class='id identifier rubyid_size'>size</span><span class='op'>+</span><span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='int'>0</span><span class='op'>...</span><span class='id identifier rubyid_size'>size</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>self</span><span class='lbracket'>[</span><span class='kw'>true</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='id identifier rubyid_size'>size</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_other'>other</span><span class='lbracket'>[</span><span class='kw'>true</span><span class='rbracket'>]</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_a'>a</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -4155,48 +4485,6 @@ nary_cast_to(VALUE obj, VALUE type)
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="check_axis-instance_method">
-  
-    #<strong>check_axis</strong>(axis)  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-429
-430
-431
-432
-433
-434
-435
-436
-437</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 429</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_check_axis'>check_axis</span><span class='lparen'>(</span><span class='id identifier rubyid_axis'>axis</span><span class='rparen'>)</span>
-  <span class='kw'>if</span> <span class='id identifier rubyid_axis'>axis</span> <span class='op'>&lt;</span> <span class='int'>0</span>
-    <span class='id identifier rubyid_axis'>axis</span> <span class='op'>+=</span> <span class='id identifier rubyid_ndim'>ndim</span>
-  <span class='kw'>end</span>
-  <span class='kw'>if</span> <span class='id identifier rubyid_axis'>axis</span> <span class='op'>&lt;</span> <span class='int'>0</span> <span class='op'>||</span> <span class='id identifier rubyid_axis'>axis</span> <span class='op'>&gt;=</span> <span class='id identifier rubyid_ndim'>ndim</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>invalid axis</span><span class='tstring_end'>&quot;</span></span>
-  <span class='kw'>end</span>
-  <span class='id identifier rubyid_axis'>axis</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
   <h3 class="signature " id="coerce-instance_method">
   
     #<strong>coerce</strong>(other)  &#x21d2; <tt>Array</tt> 
@@ -4403,49 +4691,49 @@ VALUE na_column_major_p( VALUE self )
       <pre class="lines">
 
 
-142
-143
-144
-145
-146
-147
-148
-149
-150
-151
-152
-153
-154
-155
-156
-157
-158
-159
-160
-161
-162
-163
-164
-165
-166
-167
-168
-169
-170
-171
-172
-173
-174
-175
-176
-177
-178
-179
-180
-181</pre>
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 142</span>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 367</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_concatenate'>concatenate</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_arrays'>arrays</span><span class='comma'>,</span><span class='label'>axis:</span><span class='int'>0</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_axis'>axis</span> <span class='op'>=</span> <span class='id identifier rubyid_check_axis'>check_axis</span><span class='lparen'>(</span><span class='id identifier rubyid_axis'>axis</span><span class='rparen'>)</span>
@@ -4709,6 +4997,87 @@ rb_narray_debug_info(VALUE self)
 
 <span class='kw'>def</span> <span class='id identifier rubyid_deg2rad'>deg2rad</span>
   <span class='kw'>self</span> <span class='op'>*</span> <span class='lparen'>(</span><span class='const'>Math</span><span class='op'>::</span><span class='const'>PI</span><span class='op'>/</span><span class='int'>180</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="delete-instance_method">
+  
+    #<strong>delete</strong>(indice, axis = nil)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_a'>a</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DFloat.html" title="Numo::DFloat (class)">DFloat</a></span></span><span class='lbracket'>[</span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span><span class='int'>2</span><span class='comma'>,</span><span class='int'>3</span><span class='comma'>,</span><span class='int'>4</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>5</span><span class='comma'>,</span><span class='int'>6</span><span class='comma'>,</span><span class='int'>7</span><span class='comma'>,</span><span class='int'>8</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>9</span><span class='comma'>,</span><span class='int'>10</span><span class='comma'>,</span><span class='int'>11</span><span class='comma'>,</span><span class='int'>12</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_a'>a</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='int'>1</span><span class='comma'>,</span><span class='int'>0</span><span class='rparen'>)</span>
+<span class='comment'># Numo::DFloat(view)#shape=[2,4]
+</span><span class='comment'># [[1, 2, 3, 4],
+</span><span class='comment'>#  [9, 10, 11, 12]]
+</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_a'>a</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='lparen'>(</span><span class='int'>0</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_step'>step</span><span class='lparen'>(</span><span class='int'>2</span><span class='rparen'>)</span><span class='comma'>,</span><span class='int'>1</span><span class='rparen'>)</span>
+<span class='comment'># Numo::DFloat(view)#shape=[3,2]
+</span><span class='comment'># [[2, 4],
+</span><span class='comment'>#  [6, 8],
+</span><span class='comment'>#  [10, 12]]
+</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_a'>a</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span><span class='int'>3</span><span class='comma'>,</span><span class='int'>5</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+<span class='comment'># Numo::DFloat(view)#shape=[9]
+</span><span class='comment'># [1, 3, 5, 7, 8, 9, 10, 11, 12]</span></code></pre>
+    
+  </div>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 130</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_indice'>indice</span><span class='comma'>,</span><span class='id identifier rubyid_axis'>axis</span><span class='op'>=</span><span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_axis'>axis</span>
+    <span class='id identifier rubyid_bit'>bit</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Bit.html" title="Numo::Bit (class)">Bit</a></span></span><span class='period'>.</span><span class='id identifier rubyid_ones'><span class='object_link'><a href="#ones-class_method" title="Numo::NArray.ones (method)">ones</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_shape'>shape</span><span class='lbracket'>[</span><span class='id identifier rubyid_axis'>axis</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_bit'>bit</span><span class='lbracket'>[</span><span class='id identifier rubyid_indice'>indice</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='int'>0</span>
+    <span class='id identifier rubyid_idx'>idx</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='kw'>true</span><span class='rbracket'>]</span><span class='op'>*</span><span class='id identifier rubyid_ndim'>ndim</span>
+    <span class='id identifier rubyid_idx'>idx</span><span class='lbracket'>[</span><span class='id identifier rubyid_axis'>axis</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_bit'>bit</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span>
+    <span class='kw'>return</span> <span class='kw'>self</span><span class='lbracket'>[</span><span class='op'>*</span><span class='id identifier rubyid_idx'>idx</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_copy'>copy</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_bit'>bit</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Bit.html" title="Numo::Bit (class)">Bit</a></span></span><span class='period'>.</span><span class='id identifier rubyid_ones'><span class='object_link'><a href="#ones-class_method" title="Numo::NArray.ones (method)">ones</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_bit'>bit</span><span class='lbracket'>[</span><span class='id identifier rubyid_indice'>indice</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='int'>0</span>
+    <span class='kw'>return</span> <span class='kw'>self</span><span class='lbracket'>[</span><span class='id identifier rubyid_bit'>bit</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_copy'>copy</span>
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -5317,12 +5686,12 @@ numo_na_dot(VALUE self, VALUE other)
       <pre class="lines">
 
 
-282
-283
-284</pre>
+507
+508
+509</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 282</span>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 507</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_dsplit'>dsplit</span><span class='lparen'>(</span><span class='id identifier rubyid_indices_or_sections'>indices_or_sections</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='id identifier rubyid_indices_or_sections'>indices_or_sections</span><span class='comma'>,</span> <span class='label'>axis:</span><span class='int'>2</span><span class='rparen'>)</span>
@@ -5691,12 +6060,12 @@ VALUE na_host_order_p( VALUE self )
       <pre class="lines">
 
 
-278
-279
-280</pre>
+503
+504
+505</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 278</span>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 503</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hsplit'>hsplit</span><span class='lparen'>(</span><span class='id identifier rubyid_indices_or_sections'>indices_or_sections</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='id identifier rubyid_indices_or_sections'>indices_or_sections</span><span class='comma'>,</span> <span class='label'>axis:</span><span class='int'>1</span><span class='rparen'>)</span>
@@ -5986,6 +6355,202 @@ VALUE na_inplace_p( VALUE self )
     else
         return Qfalse;
 }</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="insert-instance_method">
+  
+    #<strong>insert</strong>(indice, values, axis: nil)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Insert values along the axis before the indices.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_a'>a</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DFloat.html" title="Numo::DFloat (class)">DFloat</a></span></span><span class='lbracket'>[</span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span> <span class='int'>2</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>3</span><span class='comma'>,</span> <span class='int'>4</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
+<span class='id identifier rubyid_a'>a</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Int32.html" title="Numo::Int32 (class)">Int32</a></span></span><span class='lbracket'>[</span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span> <span class='int'>1</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>2</span><span class='comma'>,</span> <span class='int'>2</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>3</span><span class='comma'>,</span> <span class='int'>3</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
+
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_a'>a</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='int'>1</span><span class='comma'>,</span><span class='int'>5</span><span class='rparen'>)</span>
+<span class='comment'># Numo::Int32#shape=[7]
+</span><span class='comment'># [1, 5, 1, 2, 2, 3, 3]
+</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_a'>a</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='int'>1</span><span class='comma'>,</span> <span class='int'>5</span><span class='comma'>,</span> <span class='label'>axis:</span><span class='int'>1</span><span class='rparen'>)</span>
+<span class='comment'># Numo::Int32#shape=[3,3]
+</span><span class='comment'># [[1, 5, 1],
+</span><span class='comment'>#  [2, 5, 2],
+</span><span class='comment'>#  [3, 5, 3]]
+</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_a'>a</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='lbracket'>[</span><span class='int'>11</span><span class='rbracket'>]</span><span class='comma'>,</span><span class='lbracket'>[</span><span class='int'>12</span><span class='rbracket'>]</span><span class='comma'>,</span><span class='lbracket'>[</span><span class='int'>13</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>axis:</span><span class='int'>1</span><span class='rparen'>)</span>
+<span class='comment'># Numo::Int32#shape=[3,3]
+</span><span class='comment'># [[1, 11, 1],
+</span><span class='comment'>#  [2, 12, 2],
+</span><span class='comment'>#  [3, 13, 3]]
+</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_a'>a</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='int'>1</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>11</span><span class='comma'>,</span> <span class='int'>12</span><span class='comma'>,</span> <span class='int'>13</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>axis:</span><span class='int'>1</span><span class='rparen'>)</span>
+<span class='comment'># Numo::Int32#shape=[3,3]
+</span><span class='comment'># [[1, 11, 1],
+</span><span class='comment'>#  [2, 12, 2],
+</span><span class='comment'>#  [3, 13, 3]]
+</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_a'>a</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>11</span><span class='comma'>,</span> <span class='int'>12</span><span class='comma'>,</span> <span class='int'>13</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>axis:</span><span class='int'>1</span><span class='rparen'>)</span>
+<span class='comment'># Numo::Int32#shape=[3,5]
+</span><span class='comment'># [[1, 11, 12, 13, 1],
+</span><span class='comment'>#  [2, 11, 12, 13, 2],
+</span><span class='comment'>#  [3, 11, 12, 13, 3]]
+</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_b'>b</span> <span class='op'>=</span> <span class='id identifier rubyid_a'>a</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span>
+<span class='comment'># Numo::Int32(view)#shape=[6]
+</span><span class='comment'># [1, 1, 2, 2, 3, 3]
+</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_b'>b</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>2</span><span class='rbracket'>]</span><span class='comma'>,</span><span class='lbracket'>[</span><span class='int'>15</span><span class='comma'>,</span><span class='int'>16</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+<span class='comment'># Numo::Int32#shape=[8]
+</span><span class='comment'># [1, 1, 15, 16, 2, 2, 3, 3]
+</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_b'>b</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>2</span><span class='comma'>,</span><span class='int'>2</span><span class='rbracket'>]</span><span class='comma'>,</span><span class='lbracket'>[</span><span class='int'>15</span><span class='comma'>,</span><span class='int'>16</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+<span class='comment'># Numo::Int32#shape=[8]
+</span><span class='comment'># [1, 1, 15, 16, 2, 2, 3, 3]
+</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_b'>b</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>2</span><span class='comma'>,</span><span class='int'>1</span><span class='rbracket'>]</span><span class='comma'>,</span><span class='lbracket'>[</span><span class='int'>15</span><span class='comma'>,</span><span class='int'>16</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+<span class='comment'># Numo::Int32#shape=[8]
+</span><span class='comment'># [1, 16, 1, 15, 2, 2, 3, 3]
+</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_b'>b</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>2</span><span class='comma'>,</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>1</span><span class='rbracket'>]</span><span class='comma'>,</span><span class='lbracket'>[</span><span class='int'>15</span><span class='comma'>,</span><span class='int'>16</span><span class='comma'>,</span><span class='int'>17</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+<span class='comment'># Numo::Int32#shape=[9]
+</span><span class='comment'># [16, 1, 17, 1, 15, 2, 2, 3, 3]
+</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_b'>b</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='int'>2</span><span class='op'>..</span><span class='int'>3</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>15</span><span class='comma'>,</span> <span class='int'>16</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+<span class='comment'># Numo::Int32#shape=[8]
+</span><span class='comment'># [1, 1, 15, 2, 16, 2, 3, 3]
+</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_b'>b</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='int'>2</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='float'>7.13</span><span class='comma'>,</span> <span class='float'>0.5</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+<span class='comment'># Numo::Int32#shape=[8]
+</span><span class='comment'># [1, 1, 7, 0, 2, 2, 3, 3]
+</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_x'>x</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DFloat.html" title="Numo::DFloat (class)">DFloat</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Numo::NArray#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>2</span><span class='comma'>,</span><span class='int'>4</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_seq'>seq</span>
+<span class='comment'># Numo::DFloat#shape=[2,4]
+</span><span class='comment'># [[0, 1, 2, 3],
+</span><span class='comment'>#  [4, 5, 6, 7]]
+</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_x'>x</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span><span class='int'>3</span><span class='rbracket'>]</span><span class='comma'>,</span><span class='int'>999</span><span class='comma'>,</span><span class='label'>axis:</span><span class='int'>1</span><span class='rparen'>)</span>
+<span class='comment'># Numo::DFloat#shape=[2,6]
+</span><span class='comment'># [[0, 999, 1, 2, 999, 3],
+</span><span class='comment'>#  [4, 999, 5, 6, 999, 7]]</span></code></pre>
+    
+  </div>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 215</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='id identifier rubyid_indice'>indice</span><span class='comma'>,</span><span class='id identifier rubyid_values'>values</span><span class='comma'>,</span><span class='label'>axis:</span><span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_axis'>axis</span>
+    <span class='id identifier rubyid_values'>values</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_asarray'>asarray</span><span class='lparen'>(</span><span class='id identifier rubyid_values'>values</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_nd'>nd</span> <span class='op'>=</span> <span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_ndim'>ndim</span>
+    <span class='id identifier rubyid_midx'>midx</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='symbol'>:new</span><span class='rbracket'>]</span><span class='op'>*</span><span class='lparen'>(</span><span class='id identifier rubyid_ndim'>ndim</span><span class='op'>-</span><span class='id identifier rubyid_nd'>nd</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='lbracket'>[</span><span class='kw'>true</span><span class='rbracket'>]</span><span class='op'>*</span><span class='id identifier rubyid_nd'>nd</span>
+    <span class='kw'>case</span> <span class='id identifier rubyid_indice'>indice</span>
+    <span class='kw'>when</span> <span class='const'>Numeric</span>
+      <span class='id identifier rubyid_midx'>midx</span><span class='lbracket'>[</span><span class='op'>-</span><span class='id identifier rubyid_nd'>nd</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>true</span>
+      <span class='id identifier rubyid_midx'>midx</span><span class='lbracket'>[</span><span class='id identifier rubyid_axis'>axis</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='symbol'>:new</span>
+    <span class='kw'>end</span>
+    <span class='id identifier rubyid_values'>values</span> <span class='op'>=</span> <span class='id identifier rubyid_values'>values</span><span class='lbracket'>[</span><span class='op'>*</span><span class='id identifier rubyid_midx'>midx</span><span class='rbracket'>]</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_values'>values</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_asarray'>asarray</span><span class='lparen'>(</span><span class='id identifier rubyid_values'>values</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_idx'>idx</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Int64.html" title="Numo::Int64 (class)">Int64</a></span></span><span class='period'>.</span><span class='id identifier rubyid_asarray'><span class='object_link'><a href="#asarray-class_method" title="Numo::NArray.asarray (method)">asarray</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_indice'>indice</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_nidx'>nidx</span> <span class='op'>=</span> <span class='id identifier rubyid_idx'>idx</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_nidx'>nidx</span> <span class='op'>==</span> <span class='int'>1</span>
+    <span class='id identifier rubyid_nidx'>nidx</span> <span class='op'>=</span> <span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_shape'>shape</span><span class='lbracket'>[</span><span class='id identifier rubyid_axis'>axis</span><span class='op'>||</span><span class='int'>0</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_idx'>idx</span> <span class='op'>=</span> <span class='id identifier rubyid_idx'>idx</span> <span class='op'>+</span> <span class='const'><span class='object_link'><a href="Int64.html" title="Numo::Int64 (class)">Int64</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Numo::NArray#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_nidx'>nidx</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_seq'>seq</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_sidx'>sidx</span> <span class='op'>=</span> <span class='id identifier rubyid_idx'>idx</span><span class='period'>.</span><span class='id identifier rubyid_sort_index'>sort_index</span>
+    <span class='id identifier rubyid_idx'>idx</span><span class='lbracket'>[</span><span class='id identifier rubyid_sidx'>sidx</span><span class='rbracket'>]</span> <span class='op'>+=</span> <span class='const'><span class='object_link'><a href="Int64.html" title="Numo::Int64 (class)">Int64</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Numo::NArray#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_nidx'>nidx</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_seq'>seq</span>
+  <span class='kw'>end</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_axis'>axis</span>
+    <span class='id identifier rubyid_bit'>bit</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Bit.html" title="Numo::Bit (class)">Bit</a></span></span><span class='period'>.</span><span class='id identifier rubyid_ones'><span class='object_link'><a href="#ones-class_method" title="Numo::NArray.ones (method)">ones</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_shape'>shape</span><span class='lbracket'>[</span><span class='id identifier rubyid_axis'>axis</span><span class='rbracket'>]</span><span class='op'>+</span><span class='id identifier rubyid_nidx'>nidx</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_bit'>bit</span><span class='lbracket'>[</span><span class='id identifier rubyid_idx'>idx</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='int'>0</span>
+    <span class='id identifier rubyid_new_shape'>new_shape</span> <span class='op'>=</span> <span class='id identifier rubyid_shape'>shape</span>
+    <span class='id identifier rubyid_new_shape'>new_shape</span><span class='lbracket'>[</span><span class='id identifier rubyid_axis'>axis</span><span class='rbracket'>]</span> <span class='op'>+=</span> <span class='id identifier rubyid_nidx'>nidx</span>
+    <span class='id identifier rubyid_a'>a</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_zeros'>zeros</span><span class='lparen'>(</span><span class='id identifier rubyid_new_shape'>new_shape</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_mdidx'>mdidx</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='kw'>true</span><span class='rbracket'>]</span><span class='op'>*</span><span class='id identifier rubyid_ndim'>ndim</span>
+    <span class='id identifier rubyid_mdidx'>mdidx</span><span class='lbracket'>[</span><span class='id identifier rubyid_axis'>axis</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_bit'>bit</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span>
+    <span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='op'>*</span><span class='id identifier rubyid_mdidx'>mdidx</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>self</span>
+    <span class='id identifier rubyid_mdidx'>mdidx</span><span class='lbracket'>[</span><span class='id identifier rubyid_axis'>axis</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_idx'>idx</span>
+    <span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='op'>*</span><span class='id identifier rubyid_mdidx'>mdidx</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_values'>values</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_bit'>bit</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Bit.html" title="Numo::Bit (class)">Bit</a></span></span><span class='period'>.</span><span class='id identifier rubyid_ones'><span class='object_link'><a href="#ones-class_method" title="Numo::NArray.ones (method)">ones</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_size'>size</span><span class='op'>+</span><span class='id identifier rubyid_nidx'>nidx</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_bit'>bit</span><span class='lbracket'>[</span><span class='id identifier rubyid_idx'>idx</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='int'>0</span>
+    <span class='id identifier rubyid_a'>a</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_zeros'>zeros</span><span class='lparen'>(</span><span class='id identifier rubyid_size'>size</span><span class='op'>+</span><span class='id identifier rubyid_nidx'>nidx</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='id identifier rubyid_bit'>bit</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span>
+    <span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='id identifier rubyid_idx'>idx</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_values'>values</span>
+  <span class='kw'>end</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_a'>a</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -6613,42 +7178,42 @@ VALUE na_out_of_place_bang( VALUE self )
       <pre class="lines">
 
 
-394
-395
-396
-397
-398
-399
-400
-401
-402
-403
-404
-405
-406
-407
-408
-409
-410
-411
-412
-413
-414
-415
-416
-417
-418
-419
-420
-421
-422
-423
-424
-425
-426</pre>
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+629
+630
+631
+632
+633
+634
+635
+636
+637
+638
+639
+640
+641
+642
+643
+644
+645
+646
+647
+648
+649
+650
+651</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 394</span>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 619</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_repeat'>repeat</span><span class='lparen'>(</span><span class='id identifier rubyid_arg'>arg</span><span class='comma'>,</span><span class='label'>axis:</span><span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>case</span> <span class='id identifier rubyid_axis'>axis</span>
@@ -7275,38 +7840,38 @@ na_size(VALUE self)
       <pre class="lines">
 
 
-211
-212
-213
-214
-215
-216
-217
-218
-219
-220
-221
-222
-223
-224
-225
-226
-227
-228
-229
-230
-231
-232
-233
-234
-235
-236
-237
-238
-239</pre>
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 211</span>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 436</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='id identifier rubyid_indices_or_sections'>indices_or_sections</span><span class='comma'>,</span> <span class='label'>axis:</span><span class='int'>0</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_axis'>axis</span> <span class='op'>=</span> <span class='id identifier rubyid_check_axis'>check_axis</span><span class='lparen'>(</span><span class='id identifier rubyid_axis'>axis</span><span class='rparen'>)</span>
@@ -7647,44 +8212,44 @@ nary_swap_byte(VALUE self)
       <pre class="lines">
 
 
-333
-334
-335
-336
-337
-338
-339
-340
-341
-342
-343
-344
-345
-346
-347
-348
-349
-350
-351
-352
-353
-354
-355
-356
-357
-358
-359
-360
-361
-362
-363
-364
-365
-366
-367</pre>
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 333</span>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 558</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_tile'>tile</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_arg'>arg</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
@@ -7830,6 +8395,86 @@ nary_to_binary(VALUE self)
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="to_c-instance_method">
+  
+    #<strong>to_c</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+52
+53
+54
+55
+56
+57
+58
+59</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 52</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_to_c'>to_c</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_size'>size</span><span class='op'>==</span><span class='int'>1</span>
+    <span class='const'>Complex</span><span class='lparen'>(</span><span class='kw'>self</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='comment'># convert to DComplex?
+</span>    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>TypeError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>can&#39;t convert </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='embexpr_end'>}</span><span class='tstring_content'> into Complex</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_f-instance_method">
+  
+    #<strong>to_f</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+43
+44
+45
+46
+47
+48
+49
+50</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 43</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_to_f'>to_f</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_size'>size</span><span class='op'>==</span><span class='int'>1</span>
+    <span class='kw'>self</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span>
+  <span class='kw'>else</span>
+    <span class='comment'># convert to DFloat?
+</span>    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>TypeError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>can&#39;t convert </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='embexpr_end'>}</span><span class='tstring_content'> into Float</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="to_host-instance_method">
   
     #<strong>to_host</strong>  &#x21d2; <tt>Object</tt> 
@@ -7864,6 +8509,46 @@ nary_to_host(VALUE self)
     }
     return rb_funcall(self, id_swap_byte, 0);
 }</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_i-instance_method">
+  
+    #<strong>to_i</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+34
+35
+36
+37
+38
+39
+40
+41</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 34</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_to_i'>to_i</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_size'>size</span><span class='op'>==</span><span class='int'>1</span>
+    <span class='kw'>self</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+  <span class='kw'>else</span>
+    <span class='comment'># convert to Int?
+</span>    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>TypeError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>can&#39;t convert </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='embexpr_end'>}</span><span class='tstring_content'> into Integer</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -8360,12 +9045,12 @@ na_make_view(VALUE self)
       <pre class="lines">
 
 
-274
-275
-276</pre>
+499
+500
+501</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 274</span>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 499</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_vsplit'>vsplit</span><span class='lparen'>(</span><span class='id identifier rubyid_indices_or_sections'>indices_or_sections</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='id identifier rubyid_indices_or_sections'>indices_or_sections</span><span class='comma'>,</span> <span class='label'>axis:</span><span class='int'>0</span><span class='rparen'>)</span>
@@ -8380,7 +9065,7 @@ na_make_view(VALUE self)
 </div>
 
       <div id="footer">
-  Generated on Sat Apr  8 18:52:49 2017 by
+  Generated on Tue Apr 11 14:06:18 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.4.0).
 </div>
