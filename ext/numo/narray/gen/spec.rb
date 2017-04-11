@@ -200,6 +200,9 @@ if is_float
   if !is_object
     unary "rint"
     binary "copysign"
+    if !is_complex
+      cond_unary "signbit"
+    end
   end
 end
 
