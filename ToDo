@@ -24,6 +24,12 @@
 * contiguous check -- done.
 
 
+* propagate_nan for min,max,sum,...
+
+* use erbpp2
+
+* NMath.sin => DFloat.sin ??
+
 * contiguous if na_view->stridx == NULL ?
 
 * store_binary with bite_swap.
@@ -64,12 +70,13 @@ EPS
 logspace - done
 meshgrid
 rot90
-rad2deg
-deg2rad
-expm1
+rad2deg - done
+deg2rad - done
+expm1 - done
 histcount
 
 * from numpy
+<<,>>
 swapaxis
 squeeze
 trace
@@ -79,8 +86,10 @@ ravel
 take
 put
 choose choise
+select
+
 partition
-searchsorted
+searchsorted / bsearch
 compress
 pad
 tile - done
@@ -89,12 +98,12 @@ bincount - done
 unique
 roll
 repeat - done
-logical_and/or/not
+logical_and/or/not - Bit & | ^
 minimum,maximum
 shuffle
 interp
 intersect1d
-asarray
+asarray - cast
 persentile
 
 Math

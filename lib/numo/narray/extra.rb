@@ -178,7 +178,7 @@ module Numo
     #   # Numo::Int32(view)#shape=[6]
     #   # [1, 1, 2, 2, 3, 3]
     #
-    #   p b.insert([2],[15,16])
+    #   p b.insert(2,[15,16])
     #   # Numo::Int32#shape=[8]
     #   # [1, 1, 15, 16, 2, 2, 3, 3]
     #
