@@ -299,6 +299,7 @@ module Numo
       return a
     end
 
+    class << self
     # @example
     #   p a = Numo::DFloat[[1, 2], [3, 4]]
     #   # Numo::DFloat#shape=[2,2]
@@ -320,19 +321,19 @@ module Numo
     #   # [[1, 2, 5],
     #   #  [3, 4, 6]]
 
-    def self.concatenate(arrays,axis:0)
+    def concatenate(arrays,axis:0)
       klass = (self==NArray) ? NArray.array_type(arrays) : self
       nd = 0
-      arrays.map! do |a|
+      arrays = arrays.map do |a|
         case a
         when NArray
           # ok
         when Numeric
-          a = klass.new(1).store(a)
+          a = klass[a]
         when Array
           a = klass.cast(a)
         else
-          raise TypeError,"not Numo::NArray"
+          raise TypeError,"not Numo::NArray: #{a.inspect[0..48]}"
         end
         if a.ndim > nd
           nd = a.ndim
@@ -374,17 +375,127 @@ module Numo
       result
     end
 
-    def self.vstack(arrays)
-      self.concatenate(arrays,axis:0)
+    # Stack arrays vertically (row wise).
+    # @example
+    #   a = Numo::Int32[1,2,3]
+    #   b = Numo::Int32[2,3,4]
+    #   p Numo::NArray.vstack([a,b])
+    #   # Numo::Int32#shape=[2,3]
+    #   # [[1, 2, 3],
+    #   #  [2, 3, 4]]
+    #   a = Numo::Int32[[1],[2],[3]]
+    #   b = Numo::Int32[[2],[3],[4]]
+    #   p Numo::NArray.vstack([a,b])
+    #   # Numo::Int32#shape=[6,1]
+    #   # [[1],
+    #   #  [2],
+    #   #  [3],
+    #   #  [2],
+    #   #  [3],
+    #   #  [4]]
+
+    def vstack(arrays)
+      arys = arrays.map do |a|
+        _atleast_2d(cast(a))
+      end
+      concatenate(arys,axis:0)
     end
 
-    def self.hstack(arrays)
-      self.concatenate(arrays,axis:1)
+    # Stack arrays horizontally (column wise).
+    # @example
+    #   x = Numo::Int32[1,2,3]
+    #   a = Numo::Int32[1,2,3]
+    #   b = Numo::Int32[2,3,4]
+    #   p Numo::NArray.hstack([a,b])
+    #   # Numo::Int32#shape=[6]
+    #   # [1, 2, 3, 2, 3, 4]
+    #   a = Numo::Int32[[1],[2],[3]]
+    #   b = Numo::Int32[[2],[3],[4]]
+    #   p Numo::NArray.hstack([a,b])
+    #   # Numo::Int32#shape=[3,2]
+    #   # [[1, 2],
+    #   #  [2, 3],
+    #   #  [3, 4]]
+
+    def hstack(arrays)
+      klass = (self==NArray) ? NArray.array_type(arrays) : self
+      nd = 0
+      arys = arrays.map do |a|
+        a = klass.cast(a)
+        nd = a.ndim if a.ndim > nd
+        a
+      end
+      dim = (nd >= 2) ? 1 : 0
+      concatenate(arys,axis:dim)
     end
 
-    def self.dstack(arrays)
-      self.concatenate(arrays,axis:2)
+    # Stack arrays in depth wise (along third axis).
+    # @example
+    #   a = Numo::Int32[1,2,3]
+    #   b = Numo::Int32[2,3,4]
+    #   p Numo::NArray.dstack([a,b])
+    #   # Numo::Int32#shape=[1,3,2]
+    #   # [[[1, 2],
+    #   #   [2, 3],
+    #   #   [3, 4]]]
+    #   a = Numo::Int32[[1],[2],[3]]
+    #   b = Numo::Int32[[2],[3],[4]]
+    #   p Numo::NArray.dstack([a,b])
+    #   # Numo::Int32#shape=[3,1,2]
+    #   # [[[1, 2]],
+    #   #  [[2, 3]],
+    #   #  [[3, 4]]]
+
+    def dstack(arrays)
+      arys = arrays.map do |a|
+        _atleast_3d(cast(a))
+      end
+      concatenate(arys,axis:2)
     end
+
+    # Stack 1-d arrays into columns of a 2-d array.
+    # @example
+    #   x = Numo::Int32[1,2,3]
+    #   y = Numo::Int32[2,3,4]
+    #   p Numo::NArray.column_stack([x,y])
+    #   # Numo::Int32#shape=[3,2]
+    #   # [[1, 2],
+    #   #  [2, 3],
+    #   #  [3, 4]]
+
+    def column_stack(arrays)
+      arys = arrays.map do |a|
+        a = cast(a)
+        case a.ndim
+        when 0; a[:new,:new]
+        when 1; a[true,:new]
+        else; a
+        end
+      end
+      concatenate(arys,axis:1)
+    end
+
+    private
+    # Return an narray with at least two dimension.
+    def _atleast_2d(a)
+      case a.ndim
+      when 0; a[:new,:new]
+      when 1; a[:new,true]
+      else;   a
+      end
+    end
+
+    # Return an narray with at least three dimension.
+    def _atleast_3d(a)
+      case a.ndim
+      when 0; a[:new,:new,:new]
+      when 1; a[:new,true,:new]
+      when 2; a[true,true,:new]
+      else;   a
+      end
+    end
+
+    end # class << self
 
     # @example
     #   p a = Numo::DFloat[[1, 2], [3, 4]]
@@ -421,7 +532,7 @@ module Numo
         when Array
           a = self.class.cast(a)
         else
-          raise TypeError,"not Numo::NArray"
+          raise TypeError,"not Numo::NArray: #{a.inspect[0..48]}"
         end
         if a.ndim > ndim
           raise ShapeError,"dimension mismatch"
