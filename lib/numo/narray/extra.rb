@@ -31,6 +31,50 @@ module Numo
       self * (Math::PI/180)
     end
 
+    # Flip each row in the left/right direction.
+    # Same as a[true, (-1..0).step(-1), ...].
+    def fliplr
+      reverse(1)
+    end
+
+    # Flip each column in the up/down direction.
+    # Same as a[(-1..0).step(-1), ...].
+    def flipud
+      reverse(0)
+    end
+
+    # Rotate in the plane specified by axes.
+    # @examples
+    #   p a = Numo::Int32.new(2,2).seq
+    #   # Numo::Int32#shape=[2,2]
+    #   # [[0, 1],
+    #   #  [2, 3]]
+    #   p a.rot90
+    #   # Numo::Int32(view)#shape=[2,2]
+    #   # [[1, 3],
+    #   #  [0, 2]]
+    #   p a.rot90(2)
+    #   # Numo::Int32(view)#shape=[2,2]
+    #   # [[3, 2],
+    #   #  [1, 0]]
+    #   p a.rot90(3)
+    #   # Numo::Int32(view)#shape=[2,2]
+    #   # [[2, 0],
+    #   #  [3, 1]]
+    def rot90(k=1,axes=[0,1])
+      k %= 4
+      case k
+      when 0
+        view
+      when 1
+        swapaxes(*axes).reverse(axes[0])
+      when 2
+        reverse(*axes)
+      when 3
+        swapaxes(*axes).reverse(axes[1])
+      end
+    end
+
     def to_i
       if size==1
         self[0].to_i
