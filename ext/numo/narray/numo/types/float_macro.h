@@ -40,6 +40,7 @@ EXTERN double pow(double, double);
 #define m_sign(x)    (((x)==0) ? 0.0:(((x)>0) ? 1.0:(((x)<0) ? -1.0:(x))))
 #define m_copysign(x,y) copysign(x,y)
 #define m_signbit(x) signbit(x)
+#define m_modf(x,y,z) {double d; y=modf(x,&d); z=d;}
 
 #define m_eq(x,y) ((x)==(y))
 #define m_ne(x,y) ((x)!=(y))

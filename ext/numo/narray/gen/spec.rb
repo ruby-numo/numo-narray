@@ -202,6 +202,7 @@ if is_float
     binary "copysign"
     if !is_complex
       cond_unary "signbit"
+      def_method "modf", 0, "unary_ret2"
     end
   end
 end
