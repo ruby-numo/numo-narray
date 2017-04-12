@@ -164,6 +164,73 @@ nary_to_swapped(VALUE self)
 
 //----------------------------------------------------------------------
 
+static inline int
+check_axis(int axis, int ndim)
+{
+    if (axis < -ndim || axis >= ndim) {
+        rb_raise(nary_eDimensionError,"invalid axis (%d for %d-dimension)",
+                 axis, ndim);
+    }
+    if (axis < 0) {
+        axis += ndim;
+    }
+    return axis;
+}
+
+/*
+  Interchange two axes.
+  @overload  swapaxes(axis1,axis2)
+  @param [Integer] axis1
+  @param [Integer] axis2
+  @return [Numo::NArray]  view of NArray.
+  @example
+    x = Numo::Int32[[1,2,3]]
+
+    p x.swapaxes(0,1)
+    # Numo::Int32(view)#shape=[3,1]
+    # [[1],
+    #  [2],
+    #  [3]]
+
+    p x = Numo::Int32[[[0,1],[2,3]],[[4,5],[6,7]]]
+    # Numo::Int32#shape=[2,2,2]
+    # [[[0, 1],
+    #   [2, 3]],
+    #  [[4, 5],
+    #   [6, 7]]]
+
+    p x.swapaxes(0,2)
+    # Numo::Int32(view)#shape=[2,2,2]
+    # [[[0, 4],
+    #   [2, 6]],
+    #  [[1, 5],
+    #   [3, 7]]]
+*/
+VALUE
+na_swapaxes(VALUE self, VALUE a1, VALUE a2)
+{
+    int  i, j, ndim;
+    size_t tmp_shape;
+    stridx_t tmp_stridx;
+    narray_view_t *na;
+    volatile VALUE view;
+
+    view = na_make_view(self);
+    GetNArrayView(view,na);
+
+    ndim = na->base.ndim;
+    i = check_axis(NUM2INT(a1), ndim);
+    j = check_axis(NUM2INT(a2), ndim);
+
+    tmp_shape = na->base.shape[i];
+    tmp_stridx = na->stridx[i];
+    na->base.shape[i] = na->base.shape[j];
+    na->stridx[i] = na->stridx[j];
+    na->base.shape[j] = tmp_shape;
+    na->stridx[j] = tmp_stridx;
+
+    return view;
+}
 
 VALUE
 na_transpose_map(VALUE self, int *map)
@@ -900,6 +967,7 @@ Init_nary_data()
     rb_define_method(cNArray, "copy", na_copy, 0);
 
     rb_define_method(cNArray, "flatten", na_flatten, 0);
+    rb_define_method(cNArray, "swapaxes", na_swapaxes, 2);
     rb_define_method(cNArray, "transpose", na_transpose, -1);
 
     rb_define_method(cNArray, "reshape", na_reshape,-1);
