@@ -270,18 +270,18 @@ na_alloc_shape(narray_t *na, int ndim)
 {
     na->ndim = ndim;
     na->size = 0;
-    if (ndim == 0) {
-        na->shape = NULL;
-    }
-    else if (ndim == 1) {
+    switch(ndim) {
+    case 0:
+    case 1:
         na->shape = &(na->size);
-    }
-    else if (ndim < 0) {
-        rb_raise(nary_eDimensionError,"ndim=%d is negative", ndim);
-    }
-    else if (ndim > NA_MAX_DIMENSION) {
-        rb_raise(nary_eDimensionError,"ndim=%d is too many", ndim);
-    } else {
+        break;
+    default:
+        if (ndim < 0) {
+            rb_raise(nary_eDimensionError,"ndim=%d is negative", ndim);
+        }
+        if (ndim > NA_MAX_DIMENSION) {
+            rb_raise(nary_eDimensionError,"ndim=%d is too many", ndim);
+        }
         na->shape = ALLOC_N(size_t, ndim);
     }
 }
