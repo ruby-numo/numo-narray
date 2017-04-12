@@ -1132,6 +1132,54 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#fliplr-instance_method" title="#fliplr (instance method)">#<strong>fliplr</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Flip each row in the left/right direction.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#flipud-instance_method" title="#flipud (instance method)">#<strong>flipud</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Flip each column in the up/down direction.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#host_order%3F-instance_method" title="#host_order? (instance method)">#<strong>host_order?</strong>  &#x21d2; Boolean </a>
     
 
@@ -1617,6 +1665,30 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#rot90-instance_method" title="#rot90 (instance method)">#<strong>rot90</strong>(k = 1, axes = [0,1])  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Rotate in the plane specified by axes.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#row_major%3F-instance_method" title="#row_major? (instance method)">#<strong>row_major?</strong>  &#x21d2; Boolean </a>
     
 
@@ -1754,6 +1826,30 @@ type of NArray.</p>
 
   
     <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#swapaxes-instance_method" title="#swapaxes (instance method)">#<strong>swapaxes</strong>(axis1, axis2)  &#x21d2; Numo::NArray </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Interchange two axes.</p>
+</div></span>
   
 </li>
 
@@ -2285,19 +2381,19 @@ na_s_array_type(VALUE mod, VALUE ary)
       <pre class="lines">
 
 
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75</pre>
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 66</span>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 110</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_asarray'>asarray</span><span class='lparen'>(</span><span class='id identifier rubyid_a'>a</span><span class='rparen'>)</span>
   <span class='kw'>case</span> <span class='id identifier rubyid_a'>a</span>
@@ -2403,12 +2499,12 @@ nary_s_byte_size(VALUE type)
       <pre class="lines">
 
 
-62
-63
-64</pre>
+106
+107
+108</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 62</span>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 106</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_cast'>cast</span><span class='lparen'>(</span><span class='id identifier rubyid_a'>a</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_a'>a</span><span class='period'>.</span><span class='id identifier rubyid_kind_of?'>kind_of?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="" title="Numo::NArray (class)">NArray</a></span></span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_a'>a</span> <span class='op'>:</span> <span class='const'><span class='object_link'><a href="" title="Numo::NArray (class)">NArray</a></span></span><span class='period'>.</span><span class='id identifier rubyid_array_type'><span class='object_link'><a href="#array_type-class_method" title="Numo::NArray.array_type (method)">array_type</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_a'>a</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_cast'>cast</span><span class='lparen'>(</span><span class='id identifier rubyid_a'>a</span><span class='rparen'>)</span>
@@ -2468,50 +2564,6 @@ nary_s_byte_size(VALUE type)
       <pre class="lines">
 
 
-280
-281
-282
-283
-284
-285
-286
-287
-288
-289
-290
-291
-292
-293
-294
-295
-296
-297
-298
-299
-300
-301
-302
-303
-304
-305
-306
-307
-308
-309
-310
-311
-312
-313
-314
-315
-316
-317
-318
-319
-320
-321
-322
-323
 324
 325
 326
@@ -2520,10 +2572,54 @@ nary_s_byte_size(VALUE type)
 329
 330
 331
-332</pre>
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 280</span>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 324</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_concatenate'>concatenate</span><span class='lparen'>(</span><span class='id identifier rubyid_arrays'>arrays</span><span class='comma'>,</span><span class='label'>axis:</span><span class='int'>0</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_klass'>klass</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='kw'>self</span><span class='op'>==</span><span class='const'><span class='object_link'><a href="" title="Numo::NArray (class)">NArray</a></span></span><span class='rparen'>)</span> <span class='op'>?</span> <span class='const'><span class='object_link'><a href="" title="Numo::NArray (class)">NArray</a></span></span><span class='period'>.</span><span class='id identifier rubyid_array_type'><span class='object_link'><a href="#array_type-class_method" title="Numo::NArray.array_type (method)">array_type</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_arrays'>arrays</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='kw'>self</span>
@@ -2632,12 +2728,12 @@ VALUE na_debug_set(VALUE mod, VALUE flag)
       <pre class="lines">
 
 
-342
-343
-344</pre>
+386
+387
+388</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 342</span>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 386</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_dstack'>dstack</span><span class='lparen'>(</span><span class='id identifier rubyid_arrays'>arrays</span><span class='rparen'>)</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_concatenate'>concatenate</span><span class='lparen'>(</span><span class='id identifier rubyid_arrays'>arrays</span><span class='comma'>,</span><span class='label'>axis:</span><span class='int'>2</span><span class='rparen'>)</span>
@@ -3007,12 +3103,12 @@ nary_s_from_binary(int argc, VALUE *argv, VALUE type)
       <pre class="lines">
 
 
-338
-339
-340</pre>
+382
+383
+384</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 338</span>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 382</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_hstack'>hstack</span><span class='lparen'>(</span><span class='id identifier rubyid_arrays'>arrays</span><span class='rparen'>)</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_concatenate'>concatenate</span><span class='lparen'>(</span><span class='id identifier rubyid_arrays'>arrays</span><span class='comma'>,</span><span class='label'>axis:</span><span class='int'>1</span><span class='rparen'>)</span>
@@ -3967,12 +4063,12 @@ numo_na_upcast(VALUE type1, VALUE type2)
       <pre class="lines">
 
 
-334
-335
-336</pre>
+378
+379
+380</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 334</span>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 378</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_vstack'>vstack</span><span class='lparen'>(</span><span class='id identifier rubyid_arrays'>arrays</span><span class='rparen'>)</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_concatenate'>concatenate</span><span class='lparen'>(</span><span class='id identifier rubyid_arrays'>arrays</span><span class='comma'>,</span><span class='label'>axis:</span><span class='int'>0</span><span class='rparen'>)</span>
@@ -4224,23 +4320,23 @@ na_equal(VALUE self, volatile VALUE other)
       <pre class="lines">
 
 
-95
-96
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107
-108</pre>
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 95</span>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 139</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_append'>append</span><span class='lparen'>(</span><span class='id identifier rubyid_other'>other</span><span class='comma'>,</span><span class='label'>axis:</span><span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_other'>other</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_cast'>cast</span><span class='lparen'>(</span><span class='id identifier rubyid_other'>other</span><span class='rparen'>)</span>
@@ -4691,49 +4787,49 @@ VALUE na_column_major_p( VALUE self )
       <pre class="lines">
 
 
-367
-368
-369
-370
-371
-372
-373
-374
-375
-376
-377
-378
-379
-380
-381
-382
-383
-384
-385
-386
-387
-388
-389
-390
-391
-392
-393
-394
-395
-396
-397
-398
-399
-400
-401
-402
-403
-404
-405
-406</pre>
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 367</span>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 411</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_concatenate'>concatenate</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_arrays'>arrays</span><span class='comma'>,</span><span class='label'>axis:</span><span class='int'>0</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_axis'>axis</span> <span class='op'>=</span> <span class='id identifier rubyid_check_axis'>check_axis</span><span class='lparen'>(</span><span class='id identifier rubyid_axis'>axis</span><span class='rparen'>)</span>
@@ -5049,22 +5145,22 @@ rb_narray_debug_info(VALUE self)
       <pre class="lines">
 
 
-130
-131
-132
-133
-134
-135
-136
-137
-138
-139
-140
-141
-142</pre>
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 130</span>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 174</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_indice'>indice</span><span class='comma'>,</span><span class='id identifier rubyid_axis'>axis</span><span class='op'>=</span><span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_axis'>axis</span>
@@ -5199,73 +5295,6 @@ should be taken. Defaults to last-two axes ([-2,-1]).</p>
       <pre class="lines">
 
 
-565
-566
-567
-568
-569
-570
-571
-572
-573
-574
-575
-576
-577
-578
-579
-580
-581
-582
-583
-584
-585
-586
-587
-588
-589
-590
-591
-592
-593
-594
-595
-596
-597
-598
-599
-600
-601
-602
-603
-604
-605
-606
-607
-608
-609
-610
-611
-612
-613
-614
-615
-616
-617
-618
-619
-620
-621
-622
-623
-624
-625
-626
-627
-628
-629
-630
-631
 632
 633
 634
@@ -5383,10 +5412,77 @@ should be taken. Defaults to last-two axes ([-2,-1]).</p>
 746
 747
 748
-749</pre>
+749
+750
+751
+752
+753
+754
+755
+756
+757
+758
+759
+760
+761
+762
+763
+764
+765
+766
+767
+768
+769
+770
+771
+772
+773
+774
+775
+776
+777
+778
+779
+780
+781
+782
+783
+784
+785
+786
+787
+788
+789
+790
+791
+792
+793
+794
+795
+796
+797
+798
+799
+800
+801
+802
+803
+804
+805
+806
+807
+808
+809
+810
+811
+812
+813
+814
+815
+816</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/data.c', line 565</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/data.c', line 632</span>
 
 VALUE
 na_diagonal(int argc, VALUE *argv, VALUE self)
@@ -5606,37 +5702,37 @@ na_diagonal(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-867
-868
-869
-870
-871
-872
-873
-874
-875
-876
-877
-878
-879
-880
-881
-882
-883
-884
-885
-886
-887
-888
-889
-890
-891
-892
-893
-894</pre>
+934
+935
+936
+937
+938
+939
+940
+941
+942
+943
+944
+945
+946
+947
+948
+949
+950
+951
+952
+953
+954
+955
+956
+957
+958
+959
+960
+961</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/data.c', line 867</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/data.c', line 934</span>
 
 static VALUE
 numo_na_dot(VALUE self, VALUE other)
@@ -5686,12 +5782,12 @@ numo_na_dot(VALUE self, VALUE other)
       <pre class="lines">
 
 
-507
-508
-509</pre>
+551
+552
+553</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 507</span>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 551</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_dsplit'>dsplit</span><span class='lparen'>(</span><span class='id identifier rubyid_indices_or_sections'>indices_or_sections</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='id identifier rubyid_indices_or_sections'>indices_or_sections</span><span class='comma'>,</span> <span class='label'>axis:</span><span class='int'>2</span><span class='rparen'>)</span>
@@ -5962,20 +6058,103 @@ na_expand_dims(VALUE self, VALUE vdim)
       <pre class="lines">
 
 
-441
-442
-443
-444
-445</pre>
+508
+509
+510
+511
+512</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/data.c', line 441</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/data.c', line 508</span>
 
 VALUE
 na_flatten(VALUE self)
 {
     return na_flatten_dim(self,0);
 }</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="fliplr-instance_method">
+  
+    #<strong>fliplr</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Flip each row in the left/right direction. Same as a[true,
+(-1..0).step(-1), …].</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+36
+37
+38</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 36</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_fliplr'>fliplr</span>
+  <span class='id identifier rubyid_reverse'>reverse</span><span class='lparen'>(</span><span class='int'>1</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="flipud-instance_method">
+  
+    #<strong>flipud</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Flip each column in the up/down direction. Same as a[(-1..0).step(-1), …].</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+42
+43
+44</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 42</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_flipud'>flipud</span>
+  <span class='id identifier rubyid_reverse'>reverse</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -6060,12 +6239,12 @@ VALUE na_host_order_p( VALUE self )
       <pre class="lines">
 
 
-503
-504
-505</pre>
+547
+548
+549</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 503</span>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 547</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hsplit'>hsplit</span><span class='lparen'>(</span><span class='id identifier rubyid_indices_or_sections'>indices_or_sections</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='id identifier rubyid_indices_or_sections'>indices_or_sections</span><span class='comma'>,</span> <span class='label'>axis:</span><span class='int'>1</span><span class='rparen'>)</span>
@@ -6418,7 +6597,7 @@ VALUE na_inplace_p( VALUE self )
 <span class='comment'># Numo::Int32(view)#shape=[6]
 </span><span class='comment'># [1, 1, 2, 2, 3, 3]
 </span>
-<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_b'>b</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>2</span><span class='rbracket'>]</span><span class='comma'>,</span><span class='lbracket'>[</span><span class='int'>15</span><span class='comma'>,</span><span class='int'>16</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_b'>b</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='int'>2</span><span class='comma'>,</span><span class='lbracket'>[</span><span class='int'>15</span><span class='comma'>,</span><span class='int'>16</span><span class='rbracket'>]</span><span class='rparen'>)</span>
 <span class='comment'># Numo::Int32#shape=[8]
 </span><span class='comment'># [1, 1, 15, 16, 2, 2, 3, 3]
 </span>
@@ -6461,52 +6640,52 @@ VALUE na_inplace_p( VALUE self )
       <pre class="lines">
 
 
-215
-216
-217
-218
-219
-220
-221
-222
-223
-224
-225
-226
-227
-228
-229
-230
-231
-232
-233
-234
-235
-236
-237
-238
-239
-240
-241
-242
-243
-244
-245
-246
-247
-248
-249
-250
-251
-252
-253
-254
-255
-256
-257</pre>
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 215</span>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 259</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='id identifier rubyid_indice'>indice</span><span class='comma'>,</span><span class='id identifier rubyid_values'>values</span><span class='comma'>,</span><span class='label'>axis:</span><span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_axis'>axis</span>
@@ -7178,42 +7357,42 @@ VALUE na_out_of_place_bang( VALUE self )
       <pre class="lines">
 
 
-619
-620
-621
-622
-623
-624
-625
-626
-627
-628
-629
-630
-631
-632
-633
-634
-635
-636
-637
-638
-639
-640
-641
-642
-643
-644
-645
-646
-647
-648
-649
-650
-651</pre>
+663
+664
+665
+666
+667
+668
+669
+670
+671
+672
+673
+674
+675
+676
+677
+678
+679
+680
+681
+682
+683
+684
+685
+686
+687
+688
+689
+690
+691
+692
+693
+694
+695</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 619</span>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 663</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_repeat'>repeat</span><span class='lparen'>(</span><span class='id identifier rubyid_arg'>arg</span><span class='comma'>,</span><span class='label'>axis:</span><span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>case</span> <span class='id identifier rubyid_axis'>axis</span>
@@ -7279,60 +7458,60 @@ VALUE na_out_of_place_bang( VALUE self )
       <pre class="lines">
 
 
-272
-273
-274
-275
-276
-277
-278
-279
-280
-281
-282
-283
-284
-285
-286
-287
-288
-289
-290
-291
-292
-293
-294
-295
-296
-297
-298
-299
-300
-301
-302
-303
-304
-305
-306
-307
-308
-309
-310
-311
-312
-313
-314
-315
-316
-317
-318
-319
-320
-321
-322</pre>
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/data.c', line 272</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/data.c', line 339</span>
 
 static VALUE
 na_reshape(int argc, VALUE *argv, VALUE self)
@@ -7582,6 +7761,67 @@ nary_reverse(int argc, VALUE *argv, VALUE self)
 
     return view;
 }</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="rot90-instance_method">
+  
+    #<strong>rot90</strong>(k = 1, axes = [0,1])  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Rotate in the plane specified by axes.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 64</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_rot90'>rot90</span><span class='lparen'>(</span><span class='id identifier rubyid_k'>k</span><span class='op'>=</span><span class='int'>1</span><span class='comma'>,</span><span class='id identifier rubyid_axes'>axes</span><span class='op'>=</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_k'>k</span> <span class='op'>%=</span> <span class='int'>4</span>
+  <span class='kw'>case</span> <span class='id identifier rubyid_k'>k</span>
+  <span class='kw'>when</span> <span class='int'>0</span>
+    <span class='id identifier rubyid_view'>view</span>
+  <span class='kw'>when</span> <span class='int'>1</span>
+    <span class='id identifier rubyid_swapaxes'>swapaxes</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_axes'>axes</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_reverse'>reverse</span><span class='lparen'>(</span><span class='id identifier rubyid_axes'>axes</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='kw'>when</span> <span class='int'>2</span>
+    <span class='id identifier rubyid_reverse'>reverse</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_axes'>axes</span><span class='rparen'>)</span>
+  <span class='kw'>when</span> <span class='int'>3</span>
+    <span class='id identifier rubyid_swapaxes'>swapaxes</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_axes'>axes</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_reverse'>reverse</span><span class='lparen'>(</span><span class='id identifier rubyid_axes'>axes</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -7840,38 +8080,38 @@ na_size(VALUE self)
       <pre class="lines">
 
 
-436
-437
-438
-439
-440
-441
-442
-443
-444
-445
-446
-447
-448
-449
-450
-451
-452
-453
-454
-455
-456
-457
-458
-459
-460
-461
-462
-463
-464</pre>
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 436</span>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 480</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='id identifier rubyid_indices_or_sections'>indices_or_sections</span><span class='comma'>,</span> <span class='label'>axis:</span><span class='int'>0</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_axis'>axis</span> <span class='op'>=</span> <span class='id identifier rubyid_check_axis'>check_axis</span><span class='lparen'>(</span><span class='id identifier rubyid_axis'>axis</span><span class='rparen'>)</span>
@@ -8137,6 +8377,165 @@ nary_swap_byte(VALUE self)
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="swapaxes-instance_method">
+  
+    #<strong>swapaxes</strong>(axis1, axis2)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Interchange two axes.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_x'>x</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Int32.html" title="Numo::Int32 (class)">Int32</a></span></span><span class='lbracket'>[</span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span><span class='int'>2</span><span class='comma'>,</span><span class='int'>3</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
+
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_x'>x</span><span class='period'>.</span><span class='id identifier rubyid_swapaxes'>swapaxes</span><span class='lparen'>(</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>1</span><span class='rparen'>)</span>
+<span class='comment'># Numo::Int32(view)#shape=[3,1]
+</span><span class='comment'># [[1],
+</span><span class='comment'>#  [2],
+</span><span class='comment'>#  [3]]
+</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_x'>x</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Int32.html" title="Numo::Int32 (class)">Int32</a></span></span><span class='lbracket'>[</span><span class='lbracket'>[</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>1</span><span class='rbracket'>]</span><span class='comma'>,</span><span class='lbracket'>[</span><span class='int'>2</span><span class='comma'>,</span><span class='int'>3</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='comma'>,</span><span class='lbracket'>[</span><span class='lbracket'>[</span><span class='int'>4</span><span class='comma'>,</span><span class='int'>5</span><span class='rbracket'>]</span><span class='comma'>,</span><span class='lbracket'>[</span><span class='int'>6</span><span class='comma'>,</span><span class='int'>7</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
+<span class='comment'># Numo::Int32#shape=[2,2,2]
+</span><span class='comment'># [[[0, 1],
+</span><span class='comment'>#   [2, 3]],
+</span><span class='comment'>#  [[4, 5],
+</span><span class='comment'>#   [6, 7]]]
+</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_x'>x</span><span class='period'>.</span><span class='id identifier rubyid_swapaxes'>swapaxes</span><span class='lparen'>(</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>2</span><span class='rparen'>)</span>
+<span class='comment'># Numo::Int32(view)#shape=[2,2,2]
+</span><span class='comment'># [[[0, 4],
+</span><span class='comment'>#   [2, 6]],
+</span><span class='comment'>#  [[1, 5],
+</span><span class='comment'>#   [3, 7]]]</span></code></pre>
+    
+  </div>
+
+  
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>axis1</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>axis2</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>view of NArray.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/data.c', line 209</span>
+
+VALUE
+na_swapaxes(VALUE self, VALUE a1, VALUE a2)
+{
+    int  i, j, ndim;
+    size_t tmp_shape;
+    stridx_t tmp_stridx;
+    narray_view_t *na;
+    volatile VALUE view;
+
+    view = na_make_view(self);
+    GetNArrayView(view,na);
+
+    ndim = na-&gt;base.ndim;
+    i = check_axis(NUM2INT(a1), ndim);
+    j = check_axis(NUM2INT(a2), ndim);
+
+    tmp_shape = na-&gt;base.shape[i];
+    tmp_stridx = na-&gt;stridx[i];
+    na-&gt;base.shape[i] = na-&gt;base.shape[j];
+    na-&gt;stridx[i] = na-&gt;stridx[j];
+    na-&gt;base.shape[j] = tmp_shape;
+    na-&gt;stridx[j] = tmp_stridx;
+
+    return view;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="tile-instance_method">
   
     #<strong>tile</strong>(*arg)  &#x21d2; <tt>Object</tt> 
@@ -8212,44 +8611,44 @@ nary_swap_byte(VALUE self)
       <pre class="lines">
 
 
-558
-559
-560
-561
-562
-563
-564
-565
-566
-567
-568
-569
-570
-571
-572
-573
-574
-575
-576
-577
-578
-579
-580
-581
-582
-583
-584
-585
-586
-587
-588
-589
-590
-591
-592</pre>
+602
+603
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+629
+630
+631
+632
+633
+634
+635
+636</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 558</span>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 602</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_tile'>tile</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_arg'>arg</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
@@ -8409,17 +8808,17 @@ nary_to_binary(VALUE self)
       <pre class="lines">
 
 
-52
-53
-54
-55
-56
-57
-58
-59</pre>
+96
+97
+98
+99
+100
+101
+102
+103</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 52</span>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 96</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_c'>to_c</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_size'>size</span><span class='op'>==</span><span class='int'>1</span>
@@ -8449,17 +8848,17 @@ nary_to_binary(VALUE self)
       <pre class="lines">
 
 
-43
-44
-45
-46
-47
-48
-49
-50</pre>
+87
+88
+89
+90
+91
+92
+93
+94</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 87</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_f'>to_f</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_size'>size</span><span class='op'>==</span><span class='int'>1</span>
@@ -8529,17 +8928,17 @@ nary_to_host(VALUE self)
       <pre class="lines">
 
 
-34
-35
-36
-37
-38
-39
-40
-41</pre>
+78
+79
+80
+81
+82
+83
+84
+85</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 78</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_i'>to_i</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_size'>size</span><span class='op'>==</span><span class='int'>1</span>
@@ -8689,79 +9088,79 @@ nary_to_vacs(VALUE self)
       <pre class="lines">
 
 
-198
-199
-200
-201
-202
-203
-204
-205
-206
-207
-208
-209
-210
-211
-212
-213
-214
-215
-216
-217
-218
-219
-220
-221
-222
-223
-224
-225
-226
-227
-228
-229
-230
-231
-232
-233
-234
-235
-236
-237
-238
-239
-240
-241
-242
-243
-244
-245
-246
-247
-248
-249
-250
-251
-252
-253
-254
-255
-256
-257
-258
-259
-260
-261
-262
-263
-264
 265
 266
-267</pre>
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/data.c', line 198</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/data.c', line 265</span>
 
 VALUE
 na_transpose(int argc, VALUE *argv, VALUE self)
@@ -9045,12 +9444,12 @@ na_make_view(VALUE self)
       <pre class="lines">
 
 
-499
-500
-501</pre>
+543
+544
+545</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 499</span>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 543</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_vsplit'>vsplit</span><span class='lparen'>(</span><span class='id identifier rubyid_indices_or_sections'>indices_or_sections</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='id identifier rubyid_indices_or_sections'>indices_or_sections</span><span class='comma'>,</span> <span class='label'>axis:</span><span class='int'>0</span><span class='rparen'>)</span>
@@ -9065,7 +9464,7 @@ na_make_view(VALUE self)
 </div>
 
       <div id="footer">
-  Generated on Tue Apr 11 14:06:18 2017 by
+  Generated on Wed Apr 12 12:59:11 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.4.0).
 </div>
