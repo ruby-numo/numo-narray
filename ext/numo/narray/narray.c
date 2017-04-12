@@ -27,7 +27,7 @@ static ID id_logseq;
 static ID id_eye;
 static ID id_UPCAST;
 static ID id_cast;
-static ID id_copy;
+static ID id_dup;
 static ID id_to_host;
 static ID id_bracket;
 static ID id_shift_left;
@@ -1330,7 +1330,7 @@ nary_to_binary(VALUE self)
         if (na_check_contiguous(self)==Qtrue) {
             offset = NA_VIEW_OFFSET(na);
         } else {
-            self = rb_funcall(self,id_copy,0);
+            self = rb_funcall(self,id_dup,0);
         }
     }
     len = NUM2SIZET(nary_byte_size(self));
@@ -1363,7 +1363,7 @@ nary_marshal_dump(VALUE self)
             if (na_check_contiguous(self)==Qtrue) {
                 offset = NA_VIEW_OFFSET(na);
             } else {
-                self = rb_funcall(self,id_copy,0);
+                self = rb_funcall(self,id_dup,0);
             }
         }
         ptr = (VALUE*)na_get_pointer_for_read(self);
@@ -1888,7 +1888,7 @@ Init_narray()
     id_eye         = rb_intern("eye");
     id_UPCAST      = rb_intern("UPCAST");
     id_cast        = rb_intern("cast");
-    id_copy        = rb_intern("copy");
+    id_dup         = rb_intern("dup");
     id_to_host     = rb_intern("to_host");
     id_bracket     = rb_intern("[]");
     id_shift_left  = rb_intern("<<");

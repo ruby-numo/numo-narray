@@ -76,7 +76,7 @@ static ID id_end;
 static ID id_exclude_end;
 static ID id_each;
 static ID id_step;
-static ID id_copy;
+static ID id_dup;
 static ID id_bracket;
 static ID id_shift_left;
 static ID id_mask;
@@ -662,7 +662,7 @@ na_aref_main(int nidx, VALUE *idx, VALUE self, int keep_dim, int nd)
     na_index_arg_to_internal_order(nidx, idx, self);
 
     if (nidx==0) {
-        return rb_funcall(self,id_copy,0);
+        return rb_funcall(self,id_dup,0);
     }
     if (nidx==1) {
         if (CLASS_OF(*idx)==numo_cBit) {
@@ -835,7 +835,7 @@ Init_nary_index()
     id_exclude_end = rb_intern("exclude_end?");
     id_each        = rb_intern("each");
     id_step        = rb_intern("step");
-    id_copy        = rb_intern("copy");
+    id_dup         = rb_intern("dup");
     id_bracket     = rb_intern("[]");
     id_shift_left  = rb_intern("<<");
     id_mask        = rb_intern("mask");

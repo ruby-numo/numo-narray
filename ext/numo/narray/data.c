@@ -378,7 +378,7 @@ na_reshape(int argc, VALUE *argv, VALUE self)
         rb_raise(rb_eArgError, "Total size must be same");
     }
 
-    copy = rb_funcall(self,rb_intern("copy"),0);
+    copy = rb_funcall(self,rb_intern("dup"),0);
     GetNArray(copy,na);
     //shape_save = NA_SHAPE(na);
     na_setup_shape(na,argc,shape);
@@ -964,7 +964,7 @@ numo_na_dot(VALUE self, VALUE other)
 void
 Init_nary_data()
 {
-    rb_define_method(cNArray, "copy", na_copy, 0);
+    rb_define_method(cNArray, "copy", na_copy, 0); // deprecated
 
     rb_define_method(cNArray, "flatten", na_flatten, 0);
     rb_define_method(cNArray, "swapaxes", na_swapaxes, 2);

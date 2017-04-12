@@ -158,8 +158,8 @@ if is_complex
   def_alias "imag=","set_imag"
   def_alias "real=","set_real"
 else
-  def_alias "conj", "copy"
-  def_alias "im", "copy"
+  def_alias "conj", "view"
+  def_alias "im", "view"
 end
 
 def_alias "conjugate","conj"
@@ -184,11 +184,11 @@ if is_int
   binary "bit_xor", "^"
   unary  "bit_not", "~"
   if !is_object
-    def_alias "floor", "copy"
-    def_alias "round", "copy"
-    def_alias "ceil",  "copy"
-    def_alias "trunc", "copy"
-    def_alias "rint",  "copy"
+    def_alias "floor", "view"
+    def_alias "round", "view"
+    def_alias "ceil",  "view"
+    def_alias "trunc", "view"
+    def_alias "rint",  "view"
   end
 end
 
