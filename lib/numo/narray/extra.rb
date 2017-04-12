@@ -44,7 +44,7 @@ module Numo
     end
 
     # Rotate in the plane specified by axes.
-    # @examples
+    # @example
     #   p a = Numo::Int32.new(2,2).seq
     #   # Numo::Int32#shape=[2,2]
     #   # [[0, 1],
@@ -62,8 +62,7 @@ module Numo
     #   # [[2, 0],
     #   #  [3, 1]]
     def rot90(k=1,axes=[0,1])
-      k %= 4
-      case k
+      case k % 4
       when 0
         view
       when 1
@@ -483,12 +482,18 @@ module Numo
       case indices_or_sections
       when Integer
         div_axis, mod_axis = size_axis.divmod(indices_or_sections)
-        if mod_axis != 0
-          raise "not equally divide the axis"
-        end
         refs = [true]*ndim
-        indices_or_sections.times.map do |i|
-          refs[axis] = i*div_axis ... (i+1)*div_axis
+        beg_idx = 0
+        mod_axis.times.map do |i|
+          end_idx = beg_idx + div_axis + 1
+          refs[axis] = beg_idx ... end_idx
+          beg_idx = end_idx
+          self[*refs]
+        end +
+        (indices_or_sections-mod_axis).times.map do |i|
+          end_idx = beg_idx + div_axis
+          refs[axis] = beg_idx ... end_idx
+          beg_idx = end_idx
           self[*refs]
         end
       when NArray
