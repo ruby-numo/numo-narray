@@ -223,6 +223,7 @@ if is_comparable
   def_alias ">=","ge"
   def_alias "<", "lt"
   def_alias "<=","le"
+  def_method "clip", 2
 end
 
 # Float
