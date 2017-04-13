@@ -848,48 +848,25 @@ module Numo
       if n < 0 || n >= shape[axis]
         raise ShapeError,"n=#{n} is invalid for shape[#{axis}]=#{shape[axis]}"
       end
-      case n
-      when 0
-        self
-      when 1
-        a1 = [true]*ndim
-        a1[axis] = 0..-2
-        a2 = [true]*ndim
-        a2[axis] = 1..-1
-        self[*a2] - self[*a1]
-      when 2
-        a1 = [true]*ndim
-        a1[axis] = 0..-3
-        a2 = [true]*ndim
-        a2[axis] = 1..-2
-        a3 = [true]*ndim
-        a3[axis] = 2..-1
-        self[*a3] - 2*self[*a2] + self[*a1]
-      when 3
-        a1 = [true]*ndim
-        a1[axis] = 0..-4
-        a2 = [true]*ndim
-        a2[axis] = 1..-3
-        a3 = [true]*ndim
-        a3[axis] = 2..-2
-        a4 = [true]*ndim
-        a4[axis] = 3..-1
-        self[*a4] - 3*self[*a3] + 3*self[*a2] - self[*a1]
-      when 4
-        a1 = [true]*ndim
-        a1[axis] = 0..-5
-        a2 = [true]*ndim
-        a2[axis] = 1..-4
-        a3 = [true]*ndim
-        a3[axis] = 2..-3
-        a4 = [true]*ndim
-        a4[axis] = 3..-2
-        a5 = [true]*ndim
-        a5[axis] = 4..-1
-        self[*a5] - 4*self[*a4] + 6*self[*a3] - 4*self[*a2] + self[*a1]
-      else
-        diff(n-4).diff(4)
+      # calculate polynomial coefficient
+      c = self.class[-1,1]
+      2.upto(n) do |i|
+        x = self.class.zeros(i+1)
+        x[0..-2] = c
+        y = self.class.zeros(i+1)
+        y[1..-1] = c
+        c = y - x
       end
+      s = [true]*ndim
+      s[axis] = n..-1
+      result = self[*s].dup
+      sum = result.inplace
+      (n-1).downto(0) do |i|
+        s = [true]*ndim
+        s[axis] = i..-n-1+i
+        sum + self[*s] * c[i] # inplace addition
+      end
+      return result
     end
 
     private
