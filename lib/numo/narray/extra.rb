@@ -815,6 +815,83 @@ module Numo
       c[*ref].copy
     end
 
+    # Calculate the n-th discrete difference along given axis.
+    # @example
+    #   p x = Numo::DFloat[1, 2, 4, 7, 0]
+    #   # Numo::DFloat#shape=[5]
+    #   # [1, 2, 4, 7, 0]
+    #
+    #   p x.diff
+    #   # Numo::DFloat#shape=[4]
+    #   # [1, 2, 3, -7]
+    #
+    #   p x.diff(2)
+    #   # Numo::DFloat#shape=[3]
+    #   # [1, 1, -10]
+    #
+    #   p x = Numo::DFloat[[1, 3, 6, 10], [0, 5, 6, 8]]
+    #   # Numo::DFloat#shape=[2,4]
+    #   # [[1, 3, 6, 10],
+    #   #  [0, 5, 6, 8]]
+    #
+    #   p x.diff
+    #   # Numo::DFloat#shape=[2,3]
+    #   # [[2, 3, 4],
+    #   #  [5, 1, 2]]
+    #
+    #   p x.diff(axis:0)
+    #   # Numo::DFloat#shape=[1,4]
+    #   # [[-1, 2, 0, -2]]
+
+    def diff(n=1,axis:-1)
+      axis = check_axis(axis)
+      if n < 0 || n >= shape[axis]
+        raise ShapeError,"n=#{n} is invalid for shape[#{axis}]=#{shape[axis]}"
+      end
+      case n
+      when 0
+        self
+      when 1
+        a1 = [true]*ndim
+        a1[axis] = 0..-2
+        a2 = [true]*ndim
+        a2[axis] = 1..-1
+        self[*a2] - self[*a1]
+      when 2
+        a1 = [true]*ndim
+        a1[axis] = 0..-3
+        a2 = [true]*ndim
+        a2[axis] = 1..-2
+        a3 = [true]*ndim
+        a3[axis] = 2..-1
+        self[*a3] - 2*self[*a2] + self[*a1]
+      when 3
+        a1 = [true]*ndim
+        a1[axis] = 0..-4
+        a2 = [true]*ndim
+        a2[axis] = 1..-3
+        a3 = [true]*ndim
+        a3[axis] = 2..-2
+        a4 = [true]*ndim
+        a4[axis] = 3..-1
+        self[*a4] - 3*self[*a3] + 3*self[*a2] - self[*a1]
+      when 4
+        a1 = [true]*ndim
+        a1[axis] = 0..-5
+        a2 = [true]*ndim
+        a2[axis] = 1..-4
+        a3 = [true]*ndim
+        a3[axis] = 2..-3
+        a4 = [true]*ndim
+        a4[axis] = 3..-2
+        a5 = [true]*ndim
+        a5[axis] = 4..-1
+        self[*a5] - 4*self[*a4] + 6*self[*a3] - 4*self[*a2] + self[*a1]
+      else
+        diff(n-4).diff(4)
+      end
+    end
+
     private
     def check_axis(axis)
       if axis < 0
