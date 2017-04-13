@@ -384,6 +384,54 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#<<-instance_method" title="#&lt;&lt; (instance method)">#<strong>&lt;&lt;</strong>(other)  &#x21d2; Numo::NArray </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Binary left_shift.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#>>-instance_method" title="#&gt;&gt; (instance method)">#<strong>&gt;&gt;</strong>(other)  &#x21d2; Numo::NArray </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Binary right_shift.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#[]-instance_method" title="#[] (instance method)">#<strong>[]</strong>(dim0, ..., dimL)  &#x21d2; Numeric, NArray::Int64 </a>
     
 
@@ -1377,6 +1425,30 @@ and indices along each axis as parameters.</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#square-instance_method" title="#square (instance method)">#<strong>square</strong>  &#x21d2; Numo::Int64 </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Unary square.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#store-instance_method" title="#store (instance method)">#<strong>store</strong>(other)  &#x21d2; Numo::Int64 </a>
     
 
@@ -1589,8 +1661,6 @@ and indices along each axis as parameters.</p>
       <pre class="lines">
 
 
-1205
-1206
 1207
 1208
 1209
@@ -1620,10 +1690,12 @@ and indices along each axis as parameters.</p>
 1233
 1234
 1235
-1236</pre>
+1236
+1237
+1238</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 1205</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 1207</span>
 
 static VALUE
 numo_int64_s_cast(VALUE type, VALUE obj)
@@ -1731,8 +1803,6 @@ numo_int64_s_cast(VALUE type, VALUE obj)
       <pre class="lines">
 
 
-1205
-1206
 1207
 1208
 1209
@@ -1762,10 +1832,12 @@ numo_int64_s_cast(VALUE type, VALUE obj)
 1233
 1234
 1235
-1236</pre>
+1236
+1237
+1238</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 1205</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 1207</span>
 
 static VALUE
 numo_int64_s_cast(VALUE type, VALUE obj)
@@ -1871,8 +1943,6 @@ numo_int64_s_cast(VALUE type, VALUE obj)
       <pre class="lines">
 
 
-2224
-2225
 2226
 2227
 2228
@@ -1885,10 +1955,12 @@ numo_int64_s_cast(VALUE type, VALUE obj)
 2235
 2236
 2237
-2238</pre>
+2238
+2239
+2240</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 2224</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 2226</span>
 
 static VALUE
 numo_int64_mod(VALUE self, VALUE other)
@@ -1971,24 +2043,24 @@ numo_int64_mod(VALUE self, VALUE other)
       <pre class="lines">
 
 
-2732
-2733
-2734
-2735
-2736
-2737
-2738
-2739
-2740
-2741
-2742
-2743
-2744
-2745
-2746</pre>
+2797
+2798
+2799
+2800
+2801
+2802
+2803
+2804
+2805
+2806
+2807
+2808
+2809
+2810
+2811</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 2732</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 2797</span>
 
 static VALUE
 numo_int64_bit_and(VALUE self, VALUE other)
@@ -2071,8 +2143,6 @@ numo_int64_bit_and(VALUE self, VALUE other)
       <pre class="lines">
 
 
-2102
-2103
 2104
 2105
 2106
@@ -2085,10 +2155,12 @@ numo_int64_bit_and(VALUE self, VALUE other)
 2113
 2114
 2115
-2116</pre>
+2116
+2117
+2118</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 2102</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 2104</span>
 
 static VALUE
 numo_int64_mul(VALUE self, VALUE other)
@@ -2171,8 +2243,6 @@ numo_int64_mul(VALUE self, VALUE other)
       <pre class="lines">
 
 
-2369
-2370
 2371
 2372
 2373
@@ -2185,10 +2255,12 @@ numo_int64_mul(VALUE self, VALUE other)
 2380
 2381
 2382
-2383</pre>
+2383
+2384
+2385</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 2369</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 2371</span>
 
 static VALUE
 numo_int64_pow(VALUE self, VALUE other)
@@ -2271,8 +2343,6 @@ numo_int64_pow(VALUE self, VALUE other)
       <pre class="lines">
 
 
-1990
-1991
 1992
 1993
 1994
@@ -2285,10 +2355,12 @@ numo_int64_pow(VALUE self, VALUE other)
 2001
 2002
 2003
-2004</pre>
+2004
+2005
+2006</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 1990</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 1992</span>
 
 static VALUE
 numo_int64_add(VALUE self, VALUE other)
@@ -2371,8 +2443,6 @@ numo_int64_add(VALUE self, VALUE other)
       <pre class="lines">
 
 
-2046
-2047
 2048
 2049
 2050
@@ -2385,10 +2455,12 @@ numo_int64_add(VALUE self, VALUE other)
 2057
 2058
 2059
-2060</pre>
+2060
+2061
+2062</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 2046</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 2048</span>
 
 static VALUE
 numo_int64_sub(VALUE self, VALUE other)
@@ -2456,18 +2528,18 @@ numo_int64_sub(VALUE self, VALUE other)
       <pre class="lines">
 
 
-2438
-2439
 2440
 2441
 2442
 2443
 2444
 2445
-2446</pre>
+2446
+2447
+2448</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 2438</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 2440</span>
 
 static VALUE
 numo_int64_minus(VALUE self)
@@ -2544,8 +2616,6 @@ numo_int64_minus(VALUE self)
       <pre class="lines">
 
 
-2163
-2164
 2165
 2166
 2167
@@ -2558,10 +2628,12 @@ numo_int64_minus(VALUE self)
 2174
 2175
 2176
-2177</pre>
+2177
+2178
+2179</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 2163</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 2165</span>
 
 static VALUE
 numo_int64_div(VALUE self, VALUE other)
@@ -2575,6 +2647,206 @@ numo_int64_div(VALUE self, VALUE other)
     } else {
         v = rb_funcall(klass, id_cast, 1, self);
         return rb_funcall(v, &#39;/&#39;, 1, other);
+    }
+    
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="<<-instance_method">
+  
+    #<strong>&lt;&lt;</strong>(other)  &#x21d2; <tt><span class='object_link'><a href="NArray.html" title="Numo::NArray (class)">Numo::NArray</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Binary left_shift.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>other</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="NArray.html" title="Numo::NArray (class)">Numo::NArray</a></span></tt>, <tt>Numeric</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="NArray.html" title="Numo::NArray (class)">Numo::NArray</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>self &lt;&lt; other</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+3028
+3029
+3030
+3031
+3032
+3033
+3034
+3035
+3036
+3037
+3038
+3039
+3040
+3041
+3042</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 3028</span>
+
+static VALUE
+numo_int64_left_shift(VALUE self, VALUE other)
+{
+    
+#line 48 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/binary.c&quot;
+    VALUE klass, v;
+    klass = na_upcast(CLASS_OF(self),CLASS_OF(other));
+    if (klass==cT) {
+        return numo_int64_left_shift_self(self, other);
+    } else {
+        v = rb_funcall(klass, id_cast, 1, self);
+        return rb_funcall(v, id_left_shift, 1, other);
+    }
+    
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id=">>-instance_method">
+  
+    #<strong>&gt;&gt;</strong>(other)  &#x21d2; <tt><span class='object_link'><a href="NArray.html" title="Numo::NArray (class)">Numo::NArray</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Binary right_shift.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>other</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="NArray.html" title="Numo::NArray (class)">Numo::NArray</a></span></tt>, <tt>Numeric</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="NArray.html" title="Numo::NArray (class)">Numo::NArray</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>self &gt;&gt; other</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+3084
+3085
+3086
+3087
+3088
+3089
+3090
+3091
+3092
+3093
+3094
+3095
+3096
+3097
+3098</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 3084</span>
+
+static VALUE
+numo_int64_right_shift(VALUE self, VALUE other)
+{
+    
+#line 48 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/binary.c&quot;
+    VALUE klass, v;
+    klass = na_upcast(CLASS_OF(self),CLASS_OF(other));
+    if (klass==cT) {
+        return numo_int64_right_shift_self(self, other);
+    } else {
+        v = rb_funcall(klass, id_cast, 1, self);
+        return rb_funcall(v, id_right_shift, 1, other);
     }
     
 }</pre>
@@ -2685,8 +2957,6 @@ a
       <pre class="lines">
 
 
-1280
-1281
 1282
 1283
 1284
@@ -2699,10 +2969,12 @@ a
 1291
 1292
 1293
-1294</pre>
+1294
+1295
+1296</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 1280</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 1282</span>
 
 static VALUE
 numo_int64_aref(int argc, VALUE *argv, VALUE self)
@@ -2841,8 +3113,6 @@ a
       <pre class="lines">
 
 
-1339
-1340
 1341
 1342
 1343
@@ -2866,10 +3136,12 @@ a
 1361
 1362
 1363
-1364</pre>
+1364
+1365
+1366</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 1339</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 1341</span>
 
 static VALUE
 numo_int64_aset(int argc, VALUE *argv, VALUE self)
@@ -2963,24 +3235,24 @@ numo_int64_aset(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-2844
-2845
-2846
-2847
-2848
-2849
-2850
-2851
-2852
-2853
-2854
-2855
-2856
-2857
-2858</pre>
+2909
+2910
+2911
+2912
+2913
+2914
+2915
+2916
+2917
+2918
+2919
+2920
+2921
+2922
+2923</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 2844</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 2909</span>
 
 static VALUE
 numo_int64_bit_xor(VALUE self, VALUE other)
@@ -3048,18 +3320,18 @@ numo_int64_bit_xor(VALUE self, VALUE other)
       <pre class="lines">
 
 
-1940
-1941
 1942
 1943
 1944
 1945
 1946
 1947
-1948</pre>
+1948
+1949
+1950</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 1940</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 1942</span>
 
 static VALUE
 numo_int64_abs(VALUE self)
@@ -3090,8 +3362,6 @@ numo_int64_abs(VALUE self)
       <pre class="lines">
 
 
-43
-44
 45
 46
 47
@@ -3118,10 +3388,12 @@ numo_int64_abs(VALUE self)
 68
 69
 70
-71</pre>
+71
+72
+73</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 43</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 45</span>
 
 static VALUE
 numo_int64_allocate(VALUE self)
@@ -3266,53 +3538,53 @@ or UInt64 depending on the size along last axis.</p>
       <pre class="lines">
 
 
-3751
-3752
-3753
-3754
-3755
-3756
-3757
-3758
-3759
-3760
-3761
-3762
-3763
-3764
-3765
-3766
-3767
-3768
-3769
-3770
-3771
-3772
-3773
-3774
-3775
-3776
-3777
-3778
-3779
-3780
-3781
-3782
-3783
-3784
-3785
-3786
-3787
-3788
-3789
-3790
-3791
-3792
-3793
-3794</pre>
+3928
+3929
+3930
+3931
+3932
+3933
+3934
+3935
+3936
+3937
+3938
+3939
+3940
+3941
+3942
+3943
+3944
+3945
+3946
+3947
+3948
+3949
+3950
+3951
+3952
+3953
+3954
+3955
+3956
+3957
+3958
+3959
+3960
+3961
+3962
+3963
+3964
+3965
+3966
+3967
+3968
+3969
+3970
+3971</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 3751</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 3928</span>
 
 static VALUE
 numo_int64_bincount(int argc, VALUE *argv, VALUE self)
@@ -3400,14 +3672,14 @@ numo_int64_bincount(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-1373
-1374
 1375
 1376
-1377</pre>
+1377
+1378
+1379</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 1373</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 1375</span>
 
 static VALUE
 numo_int64_coerce_cast(VALUE value, VALUE type)
@@ -3485,21 +3757,21 @@ numo_int64_coerce_cast(VALUE value, VALUE type)
       <pre class="lines">
 
 
-3877
-3878
-3879
-3880
-3881
-3882
-3883
-3884
-3885
-3886
-3887
-3888</pre>
+4054
+4055
+4056
+4057
+4058
+4059
+4060
+4061
+4062
+4063
+4064
+4065</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 3877</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 4054</span>
 
 static VALUE
 numo_int64_cumprod(int argc, VALUE *argv, VALUE self)
@@ -3584,21 +3856,21 @@ numo_int64_cumprod(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-3830
-3831
-3832
-3833
-3834
-3835
-3836
-3837
-3838
-3839
-3840
-3841</pre>
+4007
+4008
+4009
+4010
+4011
+4012
+4013
+4014
+4015
+4016
+4017
+4018</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 3830</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 4007</span>
 
 static VALUE
 numo_int64_cumsum(int argc, VALUE *argv, VALUE self)
@@ -3678,8 +3950,6 @@ numo_int64_cumsum(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-2287
-2288
 2289
 2290
 2291
@@ -3692,10 +3962,12 @@ numo_int64_cumsum(int argc, VALUE *argv, VALUE self)
 2298
 2299
 2300
-2301</pre>
+2301
+2302
+2303</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 2287</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 2289</span>
 
 static VALUE
 numo_int64_divmod(VALUE self, VALUE other)
@@ -3782,18 +4054,18 @@ as a parameter. For a block {|x| … }</p>
       <pre class="lines">
 
 
-1646
-1647
 1648
 1649
 1650
 1651
 1652
 1653
-1654</pre>
+1654
+1655
+1656</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 1646</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 1648</span>
 
 static VALUE
 numo_int64_each(VALUE self)
@@ -3874,18 +4146,18 @@ and indices along each axis as parameters. For a block {|x,i,j,…| … }</p>
       <pre class="lines">
 
 
-1778
-1779
 1780
 1781
 1782
 1783
 1784
 1785
-1786</pre>
+1786
+1787
+1788</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 1778</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 1780</span>
 
 static VALUE
 numo_int64_each_with_index(VALUE self)
@@ -3966,24 +4238,24 @@ numo_int64_each_with_index(VALUE self)
       <pre class="lines">
 
 
-2617
-2618
-2619
-2620
-2621
-2622
-2623
-2624
-2625
-2626
-2627
-2628
-2629
-2630
-2631</pre>
+2682
+2683
+2684
+2685
+2686
+2687
+2688
+2689
+2690
+2691
+2692
+2693
+2694
+2695
+2696</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 2617</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 2682</span>
 
 static VALUE
 numo_int64_eq(VALUE self, VALUE other)
@@ -4048,8 +4320,6 @@ returns self.</p>
       <pre class="lines">
 
 
-84
-85
 86
 87
 88
@@ -4063,10 +4333,12 @@ returns self.</p>
 96
 97
 98
-99</pre>
+99
+100
+101</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 84</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 86</span>
 
 VALUE
 numo_int64_extract(VALUE self)
@@ -4173,60 +4445,60 @@ diagonal.</p>
       <pre class="lines">
 
 
-4108
-4109
-4110
-4111
-4112
-4113
-4114
-4115
-4116
-4117
-4118
-4119
-4120
-4121
-4122
-4123
-4124
-4125
-4126
-4127
-4128
-4129
-4130
-4131
-4132
-4133
-4134
-4135
-4136
-4137
-4138
-4139
-4140
-4141
-4142
-4143
-4144
-4145
-4146
-4147
-4148
-4149
-4150
-4151
-4152
-4153
-4154
-4155
-4156
-4157
-4158</pre>
+4285
+4286
+4287
+4288
+4289
+4290
+4291
+4292
+4293
+4294
+4295
+4296
+4297
+4298
+4299
+4300
+4301
+4302
+4303
+4304
+4305
+4306
+4307
+4308
+4309
+4310
+4311
+4312
+4313
+4314
+4315
+4316
+4317
+4318
+4319
+4320
+4321
+4322
+4323
+4324
+4325
+4326
+4327
+4328
+4329
+4330
+4331
+4332
+4333
+4334
+4335</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 4108</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 4285</span>
 
 static VALUE
 numo_int64_eye(int argc, VALUE *argv, VALUE self)
@@ -4345,18 +4617,18 @@ numo_int64_eye(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-1458
-1459
 1460
 1461
 1462
 1463
 1464
 1465
-1466</pre>
+1466
+1467
+1468</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 1458</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 1460</span>
 
 static VALUE
 numo_int64_fill(VALUE self, VALUE val)
@@ -4433,8 +4705,6 @@ numo_int64_fill(VALUE self, VALUE val)
       <pre class="lines">
 
 
-1520
-1521
 1522
 1523
 1524
@@ -4444,10 +4714,12 @@ numo_int64_fill(VALUE self, VALUE val)
 1528
 1529
 1530
-1531</pre>
+1531
+1532
+1533</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 1520</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 1522</span>
 
 static VALUE
 numo_int64_format(int argc, VALUE *argv, VALUE self)
@@ -4527,8 +4799,6 @@ numo_int64_format(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-1573
-1574
 1575
 1576
 1577
@@ -4537,10 +4807,12 @@ numo_int64_format(int argc, VALUE *argv, VALUE self)
 1580
 1581
 1582
-1583</pre>
+1583
+1584
+1585</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 1573</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 1575</span>
 
 static VALUE
 numo_int64_format_to_a(int argc, VALUE *argv, VALUE self)
@@ -4623,24 +4895,24 @@ numo_int64_format_to_a(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-3025
-3026
-3027
-3028
-3029
-3030
-3031
-3032
-3033
-3034
-3035
-3036
-3037
-3038
-3039</pre>
+3202
+3203
+3204
+3205
+3206
+3207
+3208
+3209
+3210
+3211
+3212
+3213
+3214
+3215
+3216</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 3025</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 3202</span>
 
 static VALUE
 numo_int64_ge(VALUE self, VALUE other)
@@ -4727,24 +4999,24 @@ numo_int64_ge(VALUE self, VALUE other)
       <pre class="lines">
 
 
-2966
-2967
-2968
-2969
-2970
-2971
-2972
-2973
-2974
-2975
-2976
-2977
-2978
-2979
-2980</pre>
+3143
+3144
+3145
+3146
+3147
+3148
+3149
+3150
+3151
+3152
+3153
+3154
+3155
+3156
+3157</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 2966</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 3143</span>
 
 static VALUE
 numo_int64_gt(VALUE self, VALUE other)
@@ -4807,14 +5079,14 @@ numo_int64_gt(VALUE self, VALUE other)
       <pre class="lines">
 
 
-1602
-1603
 1604
 1605
-1606</pre>
+1606
+1607
+1608</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 1602</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 1604</span>
 
 VALUE
 numo_int64_inspect(VALUE ary)
@@ -4891,24 +5163,24 @@ numo_int64_inspect(VALUE ary)
       <pre class="lines">
 
 
-3143
-3144
-3145
-3146
-3147
-3148
-3149
-3150
-3151
-3152
-3153
-3154
-3155
-3156
-3157</pre>
+3320
+3321
+3322
+3323
+3324
+3325
+3326
+3327
+3328
+3329
+3330
+3331
+3332
+3333
+3334</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 3143</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 3320</span>
 
 static VALUE
 numo_int64_le(VALUE self, VALUE other)
@@ -4995,24 +5267,24 @@ numo_int64_le(VALUE self, VALUE other)
       <pre class="lines">
 
 
-3084
-3085
-3086
-3087
-3088
-3089
-3090
-3091
-3092
-3093
-3094
-3095
-3096
-3097
-3098</pre>
+3261
+3262
+3263
+3264
+3265
+3266
+3267
+3268
+3269
+3270
+3271
+3272
+3273
+3274
+3275</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 3084</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 3261</span>
 
 static VALUE
 numo_int64_lt(VALUE self, VALUE other)
@@ -5080,18 +5352,18 @@ numo_int64_lt(VALUE self, VALUE other)
       <pre class="lines">
 
 
-1709
-1710
 1711
 1712
 1713
 1714
 1715
 1716
-1717</pre>
+1717
+1718
+1719</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 1709</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 1711</span>
 
 static VALUE
 numo_int64_map(VALUE self)
@@ -5176,18 +5448,18 @@ the values returned by the block. Inplace option is allowed, i.e.,
       <pre class="lines">
 
 
-1877
-1878
 1879
 1880
 1881
 1882
 1883
 1884
-1885</pre>
+1885
+1886
+1887</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 1877</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 1879</span>
 
 static VALUE
 numo_int64_map_with_index(VALUE self)
@@ -5269,23 +5541,23 @@ numo_int64_map_with_index(VALUE self)
       <pre class="lines">
 
 
-3300
-3301
-3302
-3303
-3304
-3305
-3306
-3307
-3308
-3309
-3310
-3311
-3312
-3313</pre>
+3477
+3478
+3479
+3480
+3481
+3482
+3483
+3484
+3485
+3486
+3487
+3488
+3489
+3490</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 3300</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 3477</span>
 
 static VALUE
 numo_int64_max(int argc, VALUE *argv, VALUE self)
@@ -5399,37 +5671,37 @@ numo_int64_max(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-3368
-3369
-3370
-3371
-3372
-3373
-3374
-3375
-3376
-3377
-3378
-3379
-3380
-3381
-3382
-3383
-3384
-3385
-3386
-3387
-3388
-3389
-3390
-3391
-3392
-3393
-3394
-3395</pre>
+3545
+3546
+3547
+3548
+3549
+3550
+3551
+3552
+3553
+3554
+3555
+3556
+3557
+3558
+3559
+3560
+3561
+3562
+3563
+3564
+3565
+3566
+3567
+3568
+3569
+3570
+3571
+3572</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 3368</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 3545</span>
 
 static VALUE
 numo_int64_max_index(int argc, VALUE *argv, VALUE self)
@@ -5479,22 +5751,22 @@ numo_int64_max_index(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-4843
-4844
-4845
-4846
-4847
-4848
-4849
-4850
-4851
-4852
-4853
-4854
-4855</pre>
+5020
+5021
+5022
+5023
+5024
+5025
+5026
+5027
+5028
+5029
+5030
+5031
+5032</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 4843</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 5020</span>
 
 static VALUE
 numo_int64_median(int argc, VALUE *argv, VALUE self)
@@ -5580,23 +5852,23 @@ numo_int64_median(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-3261
-3262
-3263
-3264
-3265
-3266
-3267
-3268
-3269
-3270
-3271
-3272
-3273
-3274</pre>
+3438
+3439
+3440
+3441
+3442
+3443
+3444
+3445
+3446
+3447
+3448
+3449
+3450
+3451</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 3261</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 3438</span>
 
 static VALUE
 numo_int64_min(int argc, VALUE *argv, VALUE self)
@@ -5710,37 +5982,37 @@ numo_int64_min(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-3450
-3451
-3452
-3453
-3454
-3455
-3456
-3457
-3458
-3459
-3460
-3461
-3462
-3463
-3464
-3465
-3466
-3467
-3468
-3469
-3470
-3471
-3472
-3473
-3474
-3475
-3476
-3477</pre>
+3627
+3628
+3629
+3630
+3631
+3632
+3633
+3634
+3635
+3636
+3637
+3638
+3639
+3640
+3641
+3642
+3643
+3644
+3645
+3646
+3647
+3648
+3649
+3650
+3651
+3652
+3653
+3654</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 3450</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 3627</span>
 
 static VALUE
 numo_int64_min_index(int argc, VALUE *argv, VALUE self)
@@ -5841,20 +6113,20 @@ numo_int64_min_index(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-3519
-3520
-3521
-3522
-3523
-3524
-3525
-3526
-3527
-3528
-3529</pre>
+3696
+3697
+3698
+3699
+3700
+3701
+3702
+3703
+3704
+3705
+3706</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 3519</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 3696</span>
 
 static VALUE
 numo_int64_minmax(int argc, VALUE *argv, VALUE self)
@@ -5933,29 +6205,29 @@ numo_int64_minmax(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-3954
-3955
-3956
-3957
-3958
-3959
-3960
-3961
-3962
-3963
-3964
-3965
-3966
-3967
-3968
-3969
-3970
-3971
-3972
-3973</pre>
+4131
+4132
+4133
+4134
+4135
+4136
+4137
+4138
+4139
+4140
+4141
+4142
+4143
+4144
+4145
+4146
+4147
+4148
+4149
+4150</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 3954</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 4131</span>
 
 static VALUE
 numo_int64_mulsum(int argc, VALUE *argv, VALUE self)
@@ -6043,24 +6315,24 @@ numo_int64_mulsum(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-2676
-2677
-2678
-2679
-2680
-2681
-2682
-2683
-2684
-2685
-2686
-2687
-2688
-2689
-2690</pre>
+2741
+2742
+2743
+2744
+2745
+2746
+2747
+2748
+2749
+2750
+2751
+2752
+2753
+2754
+2755</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 2676</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 2741</span>
 
 static VALUE
 numo_int64_ne(VALUE self, VALUE other)
@@ -6154,33 +6426,33 @@ numo_int64_ne(VALUE self, VALUE other)
       <pre class="lines">
 
 
-4320
-4321
-4322
-4323
-4324
-4325
-4326
-4327
-4328
-4329
-4330
-4331
-4332
-4333
-4334
-4335
-4336
-4337
-4338
-4339
-4340
-4341
-4342
-4343</pre>
+4497
+4498
+4499
+4500
+4501
+4502
+4503
+4504
+4505
+4506
+4507
+4508
+4509
+4510
+4511
+4512
+4513
+4514
+4515
+4516
+4517
+4518
+4519
+4520</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 4320</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 4497</span>
 
 static VALUE
 numo_int64_poly(VALUE self, VALUE args)
@@ -6277,23 +6549,23 @@ numo_int64_poly(VALUE self, VALUE args)
       <pre class="lines">
 
 
-3222
-3223
-3224
-3225
-3226
-3227
-3228
-3229
-3230
-3231
-3232
-3233
-3234
-3235</pre>
+3399
+3400
+3401
+3402
+3403
+3404
+3405
+3406
+3407
+3408
+3409
+3410
+3411
+3412</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 3222</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 3399</span>
 
 static VALUE
 numo_int64_prod(int argc, VALUE *argv, VALUE self)
@@ -6413,38 +6685,38 @@ types)</p>
       <pre class="lines">
 
 
-4261
-4262
-4263
-4264
-4265
-4266
-4267
-4268
-4269
-4270
-4271
-4272
-4273
-4274
-4275
-4276
-4277
-4278
-4279
-4280
-4281
-4282
-4283
-4284
-4285
-4286
-4287
-4288
-4289</pre>
+4438
+4439
+4440
+4441
+4442
+4443
+4444
+4445
+4446
+4447
+4448
+4449
+4450
+4451
+4452
+4453
+4454
+4455
+4456
+4457
+4458
+4459
+4460
+4461
+4462
+4463
+4464
+4465
+4466</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 4261</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 4438</span>
 
 static VALUE
 numo_int64_rand(int argc, VALUE *args, VALUE self)
@@ -6526,18 +6798,18 @@ numo_int64_rand(int argc, VALUE *args, VALUE self)
       <pre class="lines">
 
 
-2501
-2502
 2503
 2504
 2505
 2506
 2507
 2508
-2509</pre>
+2509
+2510
+2511</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 2501</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 2503</span>
 
 static VALUE
 numo_int64_reciprocal(VALUE self)
@@ -6657,30 +6929,30 @@ Numo::DComplex.new(6).seq(1,-0.2+0.2i)
       <pre class="lines">
 
 
-4042
-4043
-4044
-4045
-4046
-4047
-4048
-4049
-4050
-4051
-4052
-4053
-4054
-4055
-4056
-4057
-4058
-4059
-4060
-4061
-4062</pre>
+4219
+4220
+4221
+4222
+4223
+4224
+4225
+4226
+4227
+4228
+4229
+4230
+4231
+4232
+4233
+4234
+4235
+4236
+4237
+4238
+4239</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 4042</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 4219</span>
 
 static VALUE
 numo_int64_seq(int argc, VALUE *args, VALUE self)
@@ -6754,18 +7026,18 @@ numo_int64_seq(int argc, VALUE *args, VALUE self)
       <pre class="lines">
 
 
-2564
-2565
 2566
 2567
 2568
 2569
 2570
 2571
-2572</pre>
+2572
+2573
+2574</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 2564</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 2566</span>
 
 static VALUE
 numo_int64_sign(VALUE self)
@@ -6813,24 +7085,24 @@ numo_int64_sign(VALUE self)
       <pre class="lines">
 
 
-4518
-4519
-4520
-4521
-4522
-4523
-4524
-4525
-4526
-4527
-4528
-4529
-4530
-4531
-4532</pre>
+4695
+4696
+4697
+4698
+4699
+4700
+4701
+4702
+4703
+4704
+4705
+4706
+4707
+4708
+4709</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 4518</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 4695</span>
 
 static VALUE
 numo_int64_sort(int argc, VALUE *argv, VALUE self)
@@ -6884,45 +7156,45 @@ numo_int64_sort(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-4774
-4775
-4776
-4777
-4778
-4779
-4780
-4781
-4782
-4783
-4784
-4785
-4786
-4787
-4788
-4789
-4790
-4791
-4792
-4793
-4794
-4795
-4796
-4797
-4798
-4799
-4800
-4801
-4802
-4803
-4804
-4805
-4806
-4807
-4808
-4809</pre>
+4951
+4952
+4953
+4954
+4955
+4956
+4957
+4958
+4959
+4960
+4961
+4962
+4963
+4964
+4965
+4966
+4967
+4968
+4969
+4970
+4971
+4972
+4973
+4974
+4975
+4976
+4977
+4978
+4979
+4980
+4981
+4982
+4983
+4984
+4985
+4986</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 4774</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 4951</span>
 
 static VALUE
 numo_int64_sort_index(int argc, VALUE *argv, VALUE self)
@@ -6959,6 +7231,79 @@ numo_int64_sort_index(int argc, VALUE *argv, VALUE self)
     res = na_ndloop3(&amp;ndf, buf, 3, self, idx, reduce);
     rb_free_tmp_buffer(&amp;tmp);
     return res;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="square-instance_method">
+  
+    #<strong>square</strong>  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::Int64 (class)">Numo::Int64</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Unary square.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::Int64 (class)">Numo::Int64</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>square of self.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+2629
+2630
+2631
+2632
+2633
+2634
+2635
+2636
+2637</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 2629</span>
+
+static VALUE
+numo_int64_square(VALUE self)
+{
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = {iter_int64_square, FULL_LOOP, 1,1, ain,aout};
+
+    return na_ndloop(&amp;ndf, 1, self);
 }</pre>
     </td>
   </tr>
@@ -7026,8 +7371,6 @@ numo_int64_sort_index(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-966
-967
 968
 969
 970
@@ -7133,10 +7476,12 @@ numo_int64_sort_index(int argc, VALUE *argv, VALUE self)
 1070
 1071
 1072
-1073</pre>
+1073
+1074
+1075</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 966</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 968</span>
 
 static VALUE
 numo_int64_store(VALUE self, VALUE obj)
@@ -7317,23 +7662,23 @@ numo_int64_store(VALUE self, VALUE obj)
       <pre class="lines">
 
 
-3183
-3184
-3185
-3186
-3187
-3188
-3189
-3190
-3191
-3192
-3193
-3194
-3195
-3196</pre>
+3360
+3361
+3362
+3363
+3364
+3365
+3366
+3367
+3368
+3369
+3370
+3371
+3372
+3373</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 3183</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 3360</span>
 
 static VALUE
 numo_int64_sum(int argc, VALUE *argv, VALUE self)
@@ -7395,17 +7740,17 @@ numo_int64_sum(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-1416
-1417
 1418
 1419
 1420
 1421
 1422
-1423</pre>
+1423
+1424
+1425</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 1416</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 1418</span>
 
 static VALUE
 numo_int64_to_a(VALUE self)
@@ -7481,24 +7826,24 @@ numo_int64_to_a(VALUE self)
       <pre class="lines">
 
 
-2788
-2789
-2790
-2791
-2792
-2793
-2794
-2795
-2796
-2797
-2798
-2799
-2800
-2801
-2802</pre>
+2853
+2854
+2855
+2856
+2857
+2858
+2859
+2860
+2861
+2862
+2863
+2864
+2865
+2866
+2867</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 2788</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 2853</span>
 
 static VALUE
 numo_int64_bit_or(VALUE self, VALUE other)
@@ -7566,18 +7911,18 @@ numo_int64_bit_or(VALUE self, VALUE other)
       <pre class="lines">
 
 
-2913
-2914
-2915
-2916
-2917
-2918
-2919
-2920
-2921</pre>
+2978
+2979
+2980
+2981
+2982
+2983
+2984
+2985
+2986</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 2913</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int64.c', line 2978</span>
 
 static VALUE
 numo_int64_bit_not(VALUE self)
@@ -7598,7 +7943,7 @@ numo_int64_bit_not(VALUE self)
 </div>
 
       <div id="footer">
-  Generated on Wed Apr 12 20:45:13 2017 by
+  Generated on Thu Apr 13 11:25:27 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.4.0).
 </div>

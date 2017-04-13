@@ -1676,6 +1676,30 @@ Box-Muller Transformation.</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#square-instance_method" title="#square (instance method)">#<strong>square</strong>  &#x21d2; Numo::SFloat </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Unary square.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#stddev-instance_method" title="#stddev (instance method)">#<strong>stddev</strong>(*args)  &#x21d2; Numo::SFloat </a>
     
 
@@ -3326,18 +3350,18 @@ numo_sfloat_allocate(VALUE self)
       <pre class="lines">
 
 
-2916
-2917
-2918
-2919
-2920
-2921
-2922
-2923
-2924</pre>
+2979
+2980
+2981
+2982
+2983
+2984
+2985
+2986
+2987</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 2916</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 2979</span>
 
 static VALUE
 numo_sfloat_ceil(VALUE self)
@@ -3470,24 +3494,24 @@ numo_sfloat_coerce_cast(VALUE value, VALUE type)
       <pre class="lines">
 
 
-3092
-3093
-3094
-3095
-3096
-3097
-3098
-3099
-3100
-3101
-3102
-3103
-3104
-3105
-3106</pre>
+3155
+3156
+3157
+3158
+3159
+3160
+3161
+3162
+3163
+3164
+3165
+3166
+3167
+3168
+3169</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3092</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3155</span>
 
 static VALUE
 numo_sfloat_copysign(VALUE self, VALUE other)
@@ -3575,21 +3599,21 @@ numo_sfloat_copysign(VALUE self, VALUE other)
       <pre class="lines">
 
 
-4191
-4192
-4193
-4194
-4195
-4196
-4197
-4198
-4199
-4200
-4201
-4202</pre>
+4254
+4255
+4256
+4257
+4258
+4259
+4260
+4261
+4262
+4263
+4264
+4265</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 4191</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 4254</span>
 
 static VALUE
 numo_sfloat_cumprod(int argc, VALUE *argv, VALUE self)
@@ -3674,21 +3698,21 @@ numo_sfloat_cumprod(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-4144
-4145
-4146
-4147
-4148
-4149
-4150
-4151
-4152
-4153
-4154
-4155</pre>
+4207
+4208
+4209
+4210
+4211
+4212
+4213
+4214
+4215
+4216
+4217
+4218</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 4144</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 4207</span>
 
 static VALUE
 numo_sfloat_cumsum(int argc, VALUE *argv, VALUE self)
@@ -4052,24 +4076,24 @@ numo_sfloat_each_with_index(VALUE self)
       <pre class="lines">
 
 
-2603
-2604
-2605
-2606
-2607
-2608
-2609
-2610
-2611
-2612
-2613
-2614
-2615
-2616
-2617</pre>
+2666
+2667
+2668
+2669
+2670
+2671
+2672
+2673
+2674
+2675
+2676
+2677
+2678
+2679
+2680</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 2603</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 2666</span>
 
 static VALUE
 numo_sfloat_eq(VALUE self, VALUE other)
@@ -4259,60 +4283,60 @@ diagonal.</p>
       <pre class="lines">
 
 
-4509
-4510
-4511
-4512
-4513
-4514
-4515
-4516
-4517
-4518
-4519
-4520
-4521
-4522
-4523
-4524
-4525
-4526
-4527
-4528
-4529
-4530
-4531
-4532
-4533
-4534
-4535
-4536
-4537
-4538
-4539
-4540
-4541
-4542
-4543
-4544
-4545
-4546
-4547
-4548
-4549
-4550
-4551
-4552
-4553
-4554
-4555
-4556
-4557
-4558
-4559</pre>
+4572
+4573
+4574
+4575
+4576
+4577
+4578
+4579
+4580
+4581
+4582
+4583
+4584
+4585
+4586
+4587
+4588
+4589
+4590
+4591
+4592
+4593
+4594
+4595
+4596
+4597
+4598
+4599
+4600
+4601
+4602
+4603
+4604
+4605
+4606
+4607
+4608
+4609
+4610
+4611
+4612
+4613
+4614
+4615
+4616
+4617
+4618
+4619
+4620
+4621
+4622</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 4509</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 4572</span>
 
 static VALUE
 numo_sfloat_eye(int argc, VALUE *argv, VALUE self)
@@ -4504,18 +4528,18 @@ numo_sfloat_fill(VALUE self, VALUE val)
       <pre class="lines">
 
 
-2790
-2791
-2792
-2793
-2794
-2795
-2796
-2797
-2798</pre>
+2853
+2854
+2855
+2856
+2857
+2858
+2859
+2860
+2861</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 2790</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 2853</span>
 
 static VALUE
 numo_sfloat_floor(VALUE self)
@@ -4782,24 +4806,24 @@ numo_sfloat_format_to_a(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-3298
-3299
-3300
-3301
-3302
-3303
-3304
-3305
-3306
-3307
-3308
-3309
-3310
-3311
-3312</pre>
+3361
+3362
+3363
+3364
+3365
+3366
+3367
+3368
+3369
+3370
+3371
+3372
+3373
+3374
+3375</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3298</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3361</span>
 
 static VALUE
 numo_sfloat_ge(VALUE self, VALUE other)
@@ -4886,24 +4910,24 @@ numo_sfloat_ge(VALUE self, VALUE other)
       <pre class="lines">
 
 
-3239
-3240
-3241
-3242
-3243
-3244
-3245
-3246
-3247
-3248
-3249
-3250
-3251
-3252
-3253</pre>
+3302
+3303
+3304
+3305
+3306
+3307
+3308
+3309
+3310
+3311
+3312
+3313
+3314
+3315
+3316</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3239</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3302</span>
 
 static VALUE
 numo_sfloat_gt(VALUE self, VALUE other)
@@ -5031,18 +5055,18 @@ numo_sfloat_inspect(VALUE ary)
       <pre class="lines">
 
 
-3572
-3573
-3574
-3575
-3576
-3577
-3578
-3579
-3580</pre>
+3635
+3636
+3637
+3638
+3639
+3640
+3641
+3642
+3643</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3572</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3635</span>
 
 static VALUE
 numo_sfloat_isfinite(VALUE self)
@@ -5104,18 +5128,18 @@ numo_sfloat_isfinite(VALUE self)
       <pre class="lines">
 
 
-3522
-3523
-3524
-3525
-3526
-3527
-3528
-3529
-3530</pre>
+3585
+3586
+3587
+3588
+3589
+3590
+3591
+3592
+3593</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3522</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3585</span>
 
 static VALUE
 numo_sfloat_isinf(VALUE self)
@@ -5177,18 +5201,18 @@ numo_sfloat_isinf(VALUE self)
       <pre class="lines">
 
 
-3472
-3473
-3474
-3475
-3476
-3477
-3478
-3479
-3480</pre>
+3535
+3536
+3537
+3538
+3539
+3540
+3541
+3542
+3543</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3472</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3535</span>
 
 static VALUE
 numo_sfloat_isnan(VALUE self)
@@ -5269,24 +5293,24 @@ numo_sfloat_isnan(VALUE self)
       <pre class="lines">
 
 
-3416
-3417
-3418
-3419
-3420
-3421
-3422
-3423
-3424
-3425
-3426
-3427
-3428
-3429
-3430</pre>
+3479
+3480
+3481
+3482
+3483
+3484
+3485
+3486
+3487
+3488
+3489
+3490
+3491
+3492
+3493</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3416</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3479</span>
 
 static VALUE
 numo_sfloat_le(VALUE self, VALUE other)
@@ -5425,29 +5449,29 @@ Numo::DComplex.new(5).logseq(0,1i*Math::PI/3,Math::E)
       <pre class="lines">
 
 
-4444
-4445
-4446
-4447
-4448
-4449
-4450
-4451
-4452
-4453
-4454
-4455
-4456
-4457
-4458
-4459
-4460
-4461
-4462
-4463</pre>
+4507
+4508
+4509
+4510
+4511
+4512
+4513
+4514
+4515
+4516
+4517
+4518
+4519
+4520
+4521
+4522
+4523
+4524
+4525
+4526</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 4444</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 4507</span>
 
 static VALUE
 numo_sfloat_logseq(int argc, VALUE *args, VALUE self)
@@ -5539,24 +5563,24 @@ numo_sfloat_logseq(int argc, VALUE *args, VALUE self)
       <pre class="lines">
 
 
-3357
-3358
-3359
-3360
-3361
-3362
-3363
-3364
-3365
-3366
-3367
-3368
-3369
-3370
-3371</pre>
+3420
+3421
+3422
+3423
+3424
+3425
+3426
+3427
+3428
+3429
+3430
+3431
+3432
+3433
+3434</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3357</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3420</span>
 
 static VALUE
 numo_sfloat_lt(VALUE self, VALUE other)
@@ -5813,23 +5837,23 @@ numo_sfloat_map_with_index(VALUE self)
       <pre class="lines">
 
 
-3879
-3880
-3881
-3882
-3883
-3884
-3885
-3886
-3887
-3888
-3889
-3890
-3891
-3892</pre>
+3942
+3943
+3944
+3945
+3946
+3947
+3948
+3949
+3950
+3951
+3952
+3953
+3954
+3955</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3879</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3942</span>
 
 static VALUE
 numo_sfloat_max(int argc, VALUE *argv, VALUE self)
@@ -5943,37 +5967,37 @@ numo_sfloat_max(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-3947
-3948
-3949
-3950
-3951
-3952
-3953
-3954
-3955
-3956
-3957
-3958
-3959
-3960
-3961
-3962
-3963
-3964
-3965
-3966
-3967
-3968
-3969
-3970
-3971
-3972
-3973
-3974</pre>
+4010
+4011
+4012
+4013
+4014
+4015
+4016
+4017
+4018
+4019
+4020
+4021
+4022
+4023
+4024
+4025
+4026
+4027
+4028
+4029
+4030
+4031
+4032
+4033
+4034
+4035
+4036
+4037</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3947</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 4010</span>
 
 static VALUE
 numo_sfloat_max_index(int argc, VALUE *argv, VALUE self)
@@ -6074,23 +6098,23 @@ numo_sfloat_max_index(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-3684
-3685
-3686
-3687
-3688
-3689
-3690
-3691
-3692
-3693
-3694
-3695
-3696
-3697</pre>
+3747
+3748
+3749
+3750
+3751
+3752
+3753
+3754
+3755
+3756
+3757
+3758
+3759
+3760</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3684</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3747</span>
 
 static VALUE
 numo_sfloat_mean(int argc, VALUE *argv, VALUE self)
@@ -6126,22 +6150,22 @@ numo_sfloat_mean(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-5326
-5327
-5328
-5329
-5330
-5331
-5332
-5333
-5334
-5335
-5336
-5337
-5338</pre>
+5389
+5390
+5391
+5392
+5393
+5394
+5395
+5396
+5397
+5398
+5399
+5400
+5401</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 5326</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 5389</span>
 
 static VALUE
 numo_sfloat_median(int argc, VALUE *argv, VALUE self)
@@ -6227,23 +6251,23 @@ numo_sfloat_median(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-3840
-3841
-3842
-3843
-3844
-3845
-3846
-3847
-3848
-3849
-3850
-3851
-3852
-3853</pre>
+3903
+3904
+3905
+3906
+3907
+3908
+3909
+3910
+3911
+3912
+3913
+3914
+3915
+3916</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3840</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3903</span>
 
 static VALUE
 numo_sfloat_min(int argc, VALUE *argv, VALUE self)
@@ -6357,37 +6381,37 @@ numo_sfloat_min(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-4029
-4030
-4031
-4032
-4033
-4034
-4035
-4036
-4037
-4038
-4039
-4040
-4041
-4042
-4043
-4044
-4045
-4046
-4047
-4048
-4049
-4050
-4051
-4052
-4053
-4054
-4055
-4056</pre>
+4092
+4093
+4094
+4095
+4096
+4097
+4098
+4099
+4100
+4101
+4102
+4103
+4104
+4105
+4106
+4107
+4108
+4109
+4110
+4111
+4112
+4113
+4114
+4115
+4116
+4117
+4118
+4119</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 4029</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 4092</span>
 
 static VALUE
 numo_sfloat_min_index(int argc, VALUE *argv, VALUE self)
@@ -6488,20 +6512,20 @@ numo_sfloat_min_index(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-4098
-4099
-4100
-4101
-4102
-4103
-4104
-4105
-4106
-4107
-4108</pre>
+4161
+4162
+4163
+4164
+4165
+4166
+4167
+4168
+4169
+4170
+4171</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 4098</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 4161</span>
 
 static VALUE
 numo_sfloat_minmax(int argc, VALUE *argv, VALUE self)
@@ -6565,18 +6589,18 @@ numo_sfloat_minmax(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-3186
-3187
-3188
-3189
-3190
-3191
-3192
-3193
-3194</pre>
+3249
+3250
+3251
+3252
+3253
+3254
+3255
+3256
+3257</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3186</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3249</span>
 
 static VALUE
 numo_sfloat_modf(VALUE self)
@@ -6653,29 +6677,29 @@ numo_sfloat_modf(VALUE self)
       <pre class="lines">
 
 
-4268
-4269
-4270
-4271
-4272
-4273
-4274
-4275
-4276
-4277
-4278
-4279
-4280
-4281
-4282
-4283
-4284
-4285
-4286
-4287</pre>
+4331
+4332
+4333
+4334
+4335
+4336
+4337
+4338
+4339
+4340
+4341
+4342
+4343
+4344
+4345
+4346
+4347
+4348
+4349
+4350</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 4268</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 4331</span>
 
 static VALUE
 numo_sfloat_mulsum(int argc, VALUE *argv, VALUE self)
@@ -6763,24 +6787,24 @@ numo_sfloat_mulsum(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-2662
-2663
-2664
-2665
-2666
-2667
-2668
-2669
-2670
-2671
-2672
-2673
-2674
-2675
-2676</pre>
+2725
+2726
+2727
+2728
+2729
+2730
+2731
+2732
+2733
+2734
+2735
+2736
+2737
+2738
+2739</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 2662</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 2725</span>
 
 static VALUE
 numo_sfloat_ne(VALUE self, VALUE other)
@@ -6867,24 +6891,24 @@ numo_sfloat_ne(VALUE self, VALUE other)
       <pre class="lines">
 
 
-2721
-2722
-2723
-2724
-2725
-2726
-2727
-2728
-2729
-2730
-2731
-2732
-2733
-2734
-2735</pre>
+2784
+2785
+2786
+2787
+2788
+2789
+2790
+2791
+2792
+2793
+2794
+2795
+2796
+2797
+2798</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 2721</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 2784</span>
 
 static VALUE
 numo_sfloat_nearly_eq(VALUE self, VALUE other)
@@ -6978,33 +7002,33 @@ numo_sfloat_nearly_eq(VALUE self, VALUE other)
       <pre class="lines">
 
 
-4800
-4801
-4802
-4803
-4804
-4805
-4806
-4807
-4808
-4809
-4810
-4811
-4812
-4813
-4814
-4815
-4816
-4817
-4818
-4819
-4820
-4821
-4822
-4823</pre>
+4863
+4864
+4865
+4866
+4867
+4868
+4869
+4870
+4871
+4872
+4873
+4874
+4875
+4876
+4877
+4878
+4879
+4880
+4881
+4882
+4883
+4884
+4885
+4886</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 4800</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 4863</span>
 
 static VALUE
 numo_sfloat_poly(VALUE self, VALUE args)
@@ -7101,23 +7125,23 @@ numo_sfloat_poly(VALUE self, VALUE args)
       <pre class="lines">
 
 
-3645
-3646
-3647
-3648
-3649
-3650
-3651
-3652
-3653
-3654
-3655
-3656
-3657
-3658</pre>
+3708
+3709
+3710
+3711
+3712
+3713
+3714
+3715
+3716
+3717
+3718
+3719
+3720
+3721</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3645</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3708</span>
 
 static VALUE
 numo_sfloat_prod(int argc, VALUE *argv, VALUE self)
@@ -7237,42 +7261,42 @@ types)</p>
       <pre class="lines">
 
 
-4624
-4625
-4626
-4627
-4628
-4629
-4630
-4631
-4632
-4633
-4634
-4635
-4636
-4637
-4638
-4639
-4640
-4641
-4642
-4643
-4644
-4645
-4646
-4647
-4648
-4649
-4650
-4651
-4652
-4653
-4654
-4655
-4656</pre>
+4687
+4688
+4689
+4690
+4691
+4692
+4693
+4694
+4695
+4696
+4697
+4698
+4699
+4700
+4701
+4702
+4703
+4704
+4705
+4706
+4707
+4708
+4709
+4710
+4711
+4712
+4713
+4714
+4715
+4716
+4717
+4718
+4719</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 4624</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 4687</span>
 
 static VALUE
 numo_sfloat_rand(int argc, VALUE *args, VALUE self)
@@ -7421,32 +7445,32 @@ Numo::DComplex.new(3,3).rand_norm(5+5i)
       <pre class="lines">
 
 
-4747
-4748
-4749
-4750
-4751
-4752
-4753
-4754
-4755
-4756
-4757
-4758
-4759
-4760
-4761
-4762
-4763
-4764
-4765
-4766
-4767
-4768
-4769</pre>
+4810
+4811
+4812
+4813
+4814
+4815
+4816
+4817
+4818
+4819
+4820
+4821
+4822
+4823
+4824
+4825
+4826
+4827
+4828
+4829
+4830
+4831
+4832</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 4747</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 4810</span>
 
 static VALUE
 numo_sfloat_rand_norm(int argc, VALUE *args, VALUE self)
@@ -7595,18 +7619,18 @@ numo_sfloat_reciprocal(VALUE self)
       <pre class="lines">
 
 
-3042
-3043
-3044
-3045
-3046
-3047
-3048
-3049
-3050</pre>
+3105
+3106
+3107
+3108
+3109
+3110
+3111
+3112
+3113</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3042</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3105</span>
 
 static VALUE
 numo_sfloat_rint(VALUE self)
@@ -7688,23 +7712,23 @@ numo_sfloat_rint(VALUE self)
       <pre class="lines">
 
 
-3801
-3802
-3803
-3804
-3805
-3806
-3807
-3808
-3809
-3810
-3811
-3812
-3813
-3814</pre>
+3864
+3865
+3866
+3867
+3868
+3869
+3870
+3871
+3872
+3873
+3874
+3875
+3876
+3877</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3801</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3864</span>
 
 static VALUE
 numo_sfloat_rms(int argc, VALUE *argv, VALUE self)
@@ -7771,18 +7795,18 @@ numo_sfloat_rms(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-2853
-2854
-2855
-2856
-2857
-2858
-2859
-2860
-2861</pre>
+2916
+2917
+2918
+2919
+2920
+2921
+2922
+2923
+2924</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 2853</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 2916</span>
 
 static VALUE
 numo_sfloat_round(VALUE self)
@@ -7902,30 +7926,30 @@ Numo::DComplex.new(6).seq(1,-0.2+0.2i)
       <pre class="lines">
 
 
-4356
-4357
-4358
-4359
-4360
-4361
-4362
-4363
-4364
-4365
-4366
-4367
-4368
-4369
-4370
-4371
-4372
-4373
-4374
-4375
-4376</pre>
+4419
+4420
+4421
+4422
+4423
+4424
+4425
+4426
+4427
+4428
+4429
+4430
+4431
+4432
+4433
+4434
+4435
+4436
+4437
+4438
+4439</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 4356</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 4419</span>
 
 static VALUE
 numo_sfloat_seq(int argc, VALUE *args, VALUE self)
@@ -8072,18 +8096,18 @@ numo_sfloat_sign(VALUE self)
       <pre class="lines">
 
 
-3148
-3149
-3150
-3151
-3152
-3153
-3154
-3155
-3156</pre>
+3211
+3212
+3213
+3214
+3215
+3216
+3217
+3218
+3219</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3148</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3211</span>
 
 static VALUE
 numo_sfloat_signbit(VALUE self)
@@ -8131,24 +8155,24 @@ numo_sfloat_signbit(VALUE self)
       <pre class="lines">
 
 
-4998
-4999
-5000
-5001
-5002
-5003
-5004
-5005
-5006
-5007
-5008
-5009
-5010
-5011
-5012</pre>
+5061
+5062
+5063
+5064
+5065
+5066
+5067
+5068
+5069
+5070
+5071
+5072
+5073
+5074
+5075</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 4998</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 5061</span>
 
 static VALUE
 numo_sfloat_sort(int argc, VALUE *argv, VALUE self)
@@ -8202,45 +8226,45 @@ numo_sfloat_sort(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-5254
-5255
-5256
-5257
-5258
-5259
-5260
-5261
-5262
-5263
-5264
-5265
-5266
-5267
-5268
-5269
-5270
-5271
-5272
-5273
-5274
-5275
-5276
-5277
-5278
-5279
-5280
-5281
-5282
-5283
-5284
-5285
-5286
-5287
-5288
-5289</pre>
+5317
+5318
+5319
+5320
+5321
+5322
+5323
+5324
+5325
+5326
+5327
+5328
+5329
+5330
+5331
+5332
+5333
+5334
+5335
+5336
+5337
+5338
+5339
+5340
+5341
+5342
+5343
+5344
+5345
+5346
+5347
+5348
+5349
+5350
+5351
+5352</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 5254</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 5317</span>
 
 static VALUE
 numo_sfloat_sort_index(int argc, VALUE *argv, VALUE self)
@@ -8277,6 +8301,79 @@ numo_sfloat_sort_index(int argc, VALUE *argv, VALUE self)
     res = na_ndloop3(&amp;ndf, buf, 3, self, idx, reduce);
     rb_free_tmp_buffer(&amp;tmp);
     return res;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="square-instance_method">
+  
+    #<strong>square</strong>  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::SFloat (class)">Numo::SFloat</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Unary square.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::SFloat (class)">Numo::SFloat</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>square of self.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+2613
+2614
+2615
+2616
+2617
+2618
+2619
+2620
+2621</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 2613</span>
+
+static VALUE
+numo_sfloat_square(VALUE self)
+{
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = {iter_sfloat_square, FULL_LOOP, 1,1, ain,aout};
+
+    return na_ndloop(&amp;ndf, 1, self);
 }</pre>
     </td>
   </tr>
@@ -8349,23 +8446,23 @@ numo_sfloat_sort_index(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-3723
-3724
-3725
-3726
-3727
-3728
-3729
-3730
-3731
-3732
-3733
-3734
-3735
-3736</pre>
+3786
+3787
+3788
+3789
+3790
+3791
+3792
+3793
+3794
+3795
+3796
+3797
+3798
+3799</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3723</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3786</span>
 
 static VALUE
 numo_sfloat_stddev(int argc, VALUE *argv, VALUE self)
@@ -8738,23 +8835,23 @@ numo_sfloat_store(VALUE self, VALUE obj)
       <pre class="lines">
 
 
-3606
-3607
-3608
-3609
-3610
-3611
-3612
-3613
-3614
-3615
-3616
-3617
-3618
-3619</pre>
+3669
+3670
+3671
+3672
+3673
+3674
+3675
+3676
+3677
+3678
+3679
+3680
+3681
+3682</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3606</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3669</span>
 
 static VALUE
 numo_sfloat_sum(int argc, VALUE *argv, VALUE self)
@@ -8887,18 +8984,18 @@ numo_sfloat_to_a(VALUE self)
       <pre class="lines">
 
 
-2979
-2980
-2981
-2982
-2983
-2984
-2985
-2986
-2987</pre>
+3042
+3043
+3044
+3045
+3046
+3047
+3048
+3049
+3050</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 2979</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3042</span>
 
 static VALUE
 numo_sfloat_trunc(VALUE self)
@@ -8980,23 +9077,23 @@ numo_sfloat_trunc(VALUE self)
       <pre class="lines">
 
 
-3762
-3763
-3764
-3765
-3766
-3767
-3768
-3769
-3770
-3771
-3772
-3773
-3774
-3775</pre>
+3825
+3826
+3827
+3828
+3829
+3830
+3831
+3832
+3833
+3834
+3835
+3836
+3837
+3838</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3762</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/sfloat.c', line 3825</span>
 
 static VALUE
 numo_sfloat_var(int argc, VALUE *argv, VALUE self)
@@ -9022,7 +9119,7 @@ numo_sfloat_var(int argc, VALUE *argv, VALUE self)
 </div>
 
       <div id="footer">
-  Generated on Wed Apr 12 20:45:16 2017 by
+  Generated on Thu Apr 13 11:25:30 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.4.0).
 </div>
