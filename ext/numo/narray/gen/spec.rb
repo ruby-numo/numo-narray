@@ -147,6 +147,7 @@ pow
 unary "minus", "-@"
 unary "reciprocal"
 unary "sign"
+unary "square"
 
 # Complex
 
