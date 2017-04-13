@@ -28,6 +28,9 @@
 #define m_ge(x,y) ((x)>=(y))
 #define m_lt(x,y) ((x)<(y))
 #define m_le(x,y) ((x)<=(y))
+#define m_left_shift(x,y) ((x)<<(y))
+#define m_right_shift(x,y) ((x)>>(y))
+
 #define m_isnan(x) 0
 
 #define m_mulsum(x,y,z) {z += x*y;}

@@ -15,6 +15,10 @@ if is_float
   def_id "nearly_eq"
   def_id "copysign"
 end
+if is_int
+  def_id "<<","left_shift"
+  def_id ">>","right_shift"
+end
 if is_comparable
   def_id "gt"
   def_id "ge"
@@ -37,13 +41,13 @@ if is_object
   def_id "nan?"
   def_id "infinite?"
   def_id "finite?"
-  def_id "==","op_eq"
-  def_id "!=","op_ne"
-  def_id ">" ,"op_gt"
-  def_id ">=","op_ge"
-  def_id "<" ,"op_lt"
-  def_id "<=","op_le"
-  def_id "<=>","op_ufo"
+  def_id "==","eq"
+  def_id "!=","ne"
+  def_id ">" ,"gt"
+  def_id ">=","ge"
+  def_id "<" ,"lt"
+  def_id "<=","le"
+  def_id "<=>","ufo"
 end
 
 if is_int && !is_object
@@ -183,6 +187,8 @@ if is_int
   binary "bit_or" , "|"
   binary "bit_xor", "^"
   unary  "bit_not", "~"
+  binary "left_shift", "<<"
+  binary "right_shift", ">>"
   if !is_object
     def_alias "floor", "view"
     def_alias "round", "view"

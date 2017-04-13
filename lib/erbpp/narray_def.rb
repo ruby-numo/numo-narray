@@ -55,6 +55,7 @@ module DefMethod
   end
 
   def cond_binary(meth,op=nil)
+    op = meth unless op
     def_method(meth, 1, "cond_binary", :op => op)
   end
 

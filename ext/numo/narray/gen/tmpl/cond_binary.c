@@ -49,7 +49,7 @@ static VALUE
         return <%=c_func%>_self(self, other);
     } else {
         v = rb_funcall(klass, id_cast, 1, self);
-        return rb_funcall(v, id_<%=method%>, 1, other);
+        return rb_funcall(v, <%=id_op%>, 1, other);
     }
     <% end %>
 }
