@@ -252,6 +252,7 @@ end
 if is_comparable
   accum "min","dtype","cT"
   accum "max","dtype","cT"
+  accum "ptp","dtype","cT"
   accum_index "max_index"
   accum_index "min_index"
   def_method "minmax",-1

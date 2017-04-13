@@ -309,6 +309,29 @@ static inline size_t f_max_index(size_t n, char *p, ssize_t stride)
     return j;
 }
 
+static inline dtype f_ptp(size_t n, char *p, ssize_t stride)
+{
+    dtype x,min,max;
+    size_t i=n;
+
+    min = max = *(dtype*)p;
+    p += stride;
+    i--;
+    for (; i--;) {
+        x = *(dtype*)p;
+        if (!m_isnan(x)) {
+            if (m_isnan(min) || x<min) {
+                min = x;
+            }
+            if (m_isnan(max) || x>max) {
+                max = x;
+            }
+        }
+        p += stride;
+    }
+    return max-min;
+}
+
 static inline dtype f_seq(dtype x, dtype y, double c)
 {
     return x + y * c;
