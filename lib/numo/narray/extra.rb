@@ -49,14 +49,17 @@ module Numo
     #   # Numo::Int32#shape=[2,2]
     #   # [[0, 1],
     #   #  [2, 3]]
+    #
     #   p a.rot90
     #   # Numo::Int32(view)#shape=[2,2]
     #   # [[1, 3],
     #   #  [0, 2]]
+    #
     #   p a.rot90(2)
     #   # Numo::Int32(view)#shape=[2,2]
     #   # [[3, 2],
     #   #  [1, 0]]
+    #
     #   p a.rot90(3)
     #   # Numo::Int32(view)#shape=[2,2]
     #   # [[2, 0],
@@ -383,6 +386,7 @@ module Numo
     #   # Numo::Int32#shape=[2,3]
     #   # [[1, 2, 3],
     #   #  [2, 3, 4]]
+    #
     #   a = Numo::Int32[[1],[2],[3]]
     #   b = Numo::Int32[[2],[3],[4]]
     #   p Numo::NArray.vstack([a,b])
@@ -403,12 +407,12 @@ module Numo
 
     # Stack arrays horizontally (column wise).
     # @example
-    #   x = Numo::Int32[1,2,3]
     #   a = Numo::Int32[1,2,3]
     #   b = Numo::Int32[2,3,4]
     #   p Numo::NArray.hstack([a,b])
     #   # Numo::Int32#shape=[6]
     #   # [1, 2, 3, 2, 3, 4]
+    #
     #   a = Numo::Int32[[1],[2],[3]]
     #   b = Numo::Int32[[2],[3],[4]]
     #   p Numo::NArray.hstack([a,b])
@@ -438,6 +442,7 @@ module Numo
     #   # [[[1, 2],
     #   #   [2, 3],
     #   #   [3, 4]]]
+    #
     #   a = Numo::Int32[[1],[2],[3]]
     #   b = Numo::Int32[[2],[3],[4]]
     #   p Numo::NArray.dstack([a,b])
