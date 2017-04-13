@@ -35,6 +35,8 @@
 
 #define m_mulsum(x,y,z) {z += x*y;}
 #define m_mulsum_init INT2FIX(0)
+#define m_cumsum(x,y) {x += y;}
+#define m_cumprod(x,y) {x *= y;}
 
 #define cmp(a,b)                                        \
     ((qsort_cast(a)==qsort_cast(b)) ? 0 :               \

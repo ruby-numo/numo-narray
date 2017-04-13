@@ -92,8 +92,13 @@ static inline dtype c_from_dcomplex(dcomplex x) {
 #define m_sum(x,y) {if (!c_isnan(x)) {y=c_add(x,y);}}
 #define m_sum_init INT2FIX(0)
 
-#define m_mulsum(x,y,z) {z = c_add(c_mul(x,y),z);}
 #define m_mulsum_init INT2FIX(0)
+#define m_mulsum(x,y,z) {z = c_add(c_mul(x,y),z);}
+#define m_mulsum_nan(x,y,z) {if(!m_isnan(x) && !m_isnan(y)){z = c_add(c_mul(x,y),z);}}
+#define m_cumsum(x,y) {(x)=c_add(x,y);}
+#define m_cumsum_nan(x,y) {if (c_isnan(x)) {(x)=(y);} else if (!c_isnan(y)) {(x)=c_add(x,y);}}
+#define m_cumprod(x,y) {(x)=c_mul(x,y);}
+#define m_cumprod_nan(x,y) {if (c_isnan(x)) {(x)=(y);} else if (!c_isnan(y)) {(x)=c_mul(x,y);}}
 
 #define m_sprintf(s,x) sprintf(s,"%g%+gi",REAL(x),IMAG(x))
 
@@ -128,6 +133,20 @@ static inline dtype f_sum(size_t n, char *p, ssize_t stride)
     y = c_zero();
     for (; i--;) {
         x = *(dtype*)p;
+        y = c_add(x,y);
+        p += stride;
+    }
+    return y;
+}
+
+static inline dtype f_sum_nan(size_t n, char *p, ssize_t stride)
+{
+    size_t i=n;
+    dtype x,y;
+
+    y = c_zero();
+    for (; i--;) {
+        x = *(dtype*)p;
         if (!c_isnan(x)) {
             y = c_add(x,y);
         }
@@ -137,6 +156,32 @@ static inline dtype f_sum(size_t n, char *p, ssize_t stride)
 }
 
 static inline dtype f_kahan_sum(size_t n, char *p, ssize_t stride)
+{
+    size_t i=n;
+    dtype x;
+    volatile dtype y,t,r;
+
+    y = c_zero();
+    r = c_zero();
+    for (; i--;) {
+        x = *(dtype*)p;
+        if (fabs(REAL(x)) > fabs(REAL(y))) {
+            double z=REAL(x); REAL(x)=REAL(y); REAL(y)=z;
+        }
+        if (fabs(IMAG(x)) > fabs(IMAG(y))) {
+            double z=IMAG(x); IMAG(x)=IMAG(y); IMAG(y)=z;
+        }
+        r = c_add(x, r);
+        t = y;
+        y = c_add(r, y);
+        t = c_sub(y, t);
+        r = c_sub(r, t);
+        p += stride;
+    }
+    return y;
+}
+
+static inline dtype f_kahan_sum_nan(size_t n, char *p, ssize_t stride)
 {
     size_t i=n;
     dtype x;
@@ -172,6 +217,20 @@ static inline dtype f_prod(size_t n, char *p, ssize_t stride)
     y = c_one();
     for (; i--;) {
         x = *(dtype*)p;
+        y = c_mul(x,y);
+        p += stride;
+    }
+    return y;
+}
+
+static inline dtype f_prod_nan(size_t n, char *p, ssize_t stride)
+{
+    size_t i=n;
+    dtype x,y;
+
+    y = c_one();
+    for (; i--;) {
+        x = *(dtype*)p;
         if (!c_isnan(x)) {
             y = c_mul(x,y);
         }
@@ -181,6 +240,22 @@ static inline dtype f_prod(size_t n, char *p, ssize_t stride)
 }
 
 static inline dtype f_mean(size_t n, char *p, ssize_t stride)
+{
+    size_t i=n;
+    size_t count=0;
+    dtype x,y;
+
+    y = c_zero();
+    for (; i--;) {
+        x = *(dtype*)p;
+        y = c_add(x,y);
+        count++;
+        p += stride;
+    }
+    return c_div_r(y,count);
+}
+
+static inline dtype f_mean_nan(size_t n, char *p, ssize_t stride)
 {
     size_t i=n;
     size_t count=0;
@@ -209,6 +284,24 @@ static inline rtype f_var(size_t n, char *p, ssize_t stride)
 
     for (; i--;) {
         x = *(dtype*)p;
+        y += c_abs_square(c_sub(x,m));
+        count++;
+        p += stride;
+    }
+    return y/(count-1);
+}
+
+static inline rtype f_var_nan(size_t n, char *p, ssize_t stride)
+{
+    size_t i=n;
+    size_t count=0;
+    dtype x,m;
+    rtype y=0;
+
+    m = f_mean_nan(n,p,stride);
+
+    for (; i--;) {
+        x = *(dtype*)p;
         if (!c_isnan(x)) {
             y += c_abs_square(c_sub(x,m));
             count++;
@@ -223,7 +316,28 @@ static inline rtype f_stddev(size_t n, char *p, ssize_t stride)
     return r_sqrt(f_var(n,p,stride));
 }
 
+static inline rtype f_stddev_nan(size_t n, char *p, ssize_t stride)
+{
+    return r_sqrt(f_var_nan(n,p,stride));
+}
+
 static inline rtype f_rms(size_t n, char *p, ssize_t stride)
+{
+    size_t i=n;
+    size_t count=0;
+    dtype x;
+    rtype y=0;
+
+    for (; i--;) {
+        x = *(dtype*)p;
+        y += c_abs_square(x);
+        count++;
+        p += stride;
+    }
+    return r_sqrt(y/count);
+}
+
+static inline rtype f_rms_nan(size_t n, char *p, ssize_t stride)
 {
     size_t i=n;
     size_t count=0;

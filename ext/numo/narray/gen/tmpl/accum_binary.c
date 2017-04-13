@@ -1,5 +1,6 @@
+<% (is_float ? ["","_nan"] : [""]).each do |j| %>
 static void
-<%=c_iter%>(na_loop_t *const lp)
+<%=c_iter%><%=j%>(na_loop_t *const lp)
 {
     size_t   i;
     char    *p1, *p2, *p3;
@@ -16,7 +17,7 @@ static void
         for (; i--;) {
             GET_DATA_STRIDE(p1,s1,dtype,x);
             GET_DATA_STRIDE(p2,s2,dtype,y);
-            m_<%=method%>(x,y,z);
+            m_<%=method%><%=j%>(x,y,z);
         }
         SET_DATA(p3,dtype,z);
     } else {
@@ -24,16 +25,17 @@ static void
             GET_DATA_STRIDE(p1,s1,dtype,x);
             GET_DATA_STRIDE(p2,s2,dtype,y);
             GET_DATA(p3,dtype,z);
-            m_<%=method%>(x,y,z);
+            m_<%=method%><%=j%>(x,y,z);
             SET_DATA_STRIDE(p3,s3,dtype,z);
         }
     }
 }
-
+<% end %>
 
 static VALUE
 <%=c_func%>_self(int argc, VALUE *argv, VALUE self)
 {
+    int ignore_nan = 0;
     VALUE v, reduce;
     VALUE naryv[2];
     ndfunc_arg_in_t ain[4] = {{cT,0},{cT,0},{sym_reduce,0},{sym_init,0}};
@@ -46,11 +48,15 @@ static VALUE
     // should fix below: [self.ndim,other.ndim].max or?
     naryv[0] = self;
     naryv[1] = argv[0];
-    reduce = na_reduce_dimension(argc-1, argv+1, 2, naryv);
+    reduce = na_reduce_dimension(argc-1, argv+1, 2, naryv, &ignore_nan);
+<% if is_float %>
+    if (ignore_nan) {
+        ndf.func = <%=c_iter%>_nan;
+    }
+<% end %>
     v =  na_ndloop(&ndf, 4, self, argv[0], reduce, m_<%=method%>_init);
     return numo_<%=tp%>_extract(v);
 }
-
 
 /*
   Binary <%=method%>.

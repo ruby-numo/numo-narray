@@ -1,8 +1,8 @@
-
-<% [64,32].each do |i| %>
+<% (is_float ? ["","_nan"] : [""]).each do |j|
+   [64,32].each do |i| %>
 #define idx_t int<%=i%>_t
 static void
-<%=tp%>_index<%=i%>_qsort(na_loop_t *const lp)
+<%=tp%>_index<%=i%>_qsort<%=j%>(na_loop_t *const lp)
 {
     size_t   i, n, idx;
     char    *d_ptr, *i_ptr, *o_ptr;
@@ -37,7 +37,7 @@ static void
     //printf("\n");
 }
 #undef idx_t
-<% end %>
+<% end;end %>
 
 /*
  *  call-seq:
@@ -51,6 +51,7 @@ static void
 static VALUE
 <%=c_func%>(int argc, VALUE *argv, VALUE self)
 {
+    int ignore_nan = 0;
     size_t size;
     narray_t *na;
     VALUE idx, tmp, reduce, res;
@@ -58,6 +59,8 @@ static VALUE
     ndfunc_arg_in_t ain[3] = {{cT,0},{0,0},{sym_reduce,0}};
     ndfunc_arg_out_t aout[1] = {{0,0,0}};
     ndfunc_t ndf = {0, STRIDE_LOOP_NIP|NDF_FLAT_REDUCE|NDF_CUM, 3,1, ain,aout};
+
+    reduce = na_reduce_dimension(argc, argv, 1, &self, &ignore_nan); // v[0] = self
 
     GetNArray(self,na);
     if (na->ndim==0) {
@@ -67,16 +70,30 @@ static VALUE
         ain[1].type =
         aout[0].type = numo_cInt64;
         idx = rb_narray_new(numo_cInt64, na->ndim, na->shape);
+<% if is_float %>
+        if (ignore_nan) {
+            ndf.func = <%=tp%>_index64_qsort_nan;
+        } else {
+            ndf.func = <%=tp%>_index64_qsort;
+        }
+<% else %>
         ndf.func = <%=tp%>_index64_qsort;
+<% end %>
     } else {
         ain[1].type =
         aout[0].type = numo_cInt32;
         idx = rb_narray_new(numo_cInt32, na->ndim, na->shape);
+<% if is_float %>
+        if (ignore_nan) {
+            ndf.func = <%=tp%>_index32_qsort_nan;
+        } else {
+            ndf.func = <%=tp%>_index32_qsort;
+        }
+<% else %>
         ndf.func = <%=tp%>_index32_qsort;
+<% end %>
     }
     rb_funcall(idx, rb_intern("seq"), 0);
-
-    reduce = na_reduce_dimension(argc, argv, 1, &self); // v[0] = self
 
     size = na->size*sizeof(void*);
     buf = rb_alloc_tmp_buffer(&tmp, size);

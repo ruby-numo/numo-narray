@@ -525,7 +525,7 @@ VALUE
 
     //puts("pass1");
     //rb_p(self);
-    reduce = na_reduce_dimension(argc, argv, 1, &self);
+    reduce = na_reduce_dimension(argc, argv, 1, &self, 0);
     //reduce = INT2FIX(1);
     //rb_p(self);
     //puts("pass2");

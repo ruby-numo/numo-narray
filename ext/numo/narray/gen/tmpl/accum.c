@@ -1,5 +1,6 @@
+<% (is_float ? ["","_nan"] : [""]).each do |j| %>
 static void
-<%=c_iter%>(na_loop_t *const lp)
+<%=c_iter%><%=j%>(na_loop_t *const lp)
 {
     size_t   n;
     char    *p1, *p2;
@@ -9,8 +10,9 @@ static void
     INIT_PTR(lp, 0, p1, s1);
     p2 = lp->args[1].ptr + lp->args[1].iter[0].pos;
 
-    *(<%=dtype%>*)p2 = f_<%=method%>(n,p1,s1);
+    *(<%=dtype%>*)p2 = f_<%=method%><%=j%>(n,p1,s1);
 }
+<% end %>
 
 /*
   <%=method.capitalize%> of self.
@@ -21,12 +23,18 @@ static void
 static VALUE
 <%=c_func%>(int argc, VALUE *argv, VALUE self)
 {
+    int ignore_nan = 0;
     VALUE v, reduce;
     ndfunc_arg_in_t ain[2] = {{cT,0},{sym_reduce,0}};
     ndfunc_arg_out_t aout[1] = {{<%=tpclass%>,0}};
     ndfunc_t ndf = { <%=c_iter%>, STRIDE_LOOP_NIP|NDF_FLAT_REDUCE, 2, 1, ain, aout };
 
-    reduce = na_reduce_dimension(argc, argv, 1, &self);
+    reduce = na_reduce_dimension(argc, argv, 1, &self, &ignore_nan);
+<% if is_float %>
+    if (ignore_nan) {
+        ndf.func = <%=c_iter%>_nan;
+    }
+<% end %>
     v =  na_ndloop(&ndf, 2, self, reduce);
 <% if tpclass == "cT" %>
     return numo_<%=tp%>_extract(v);
