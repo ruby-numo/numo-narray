@@ -40,8 +40,8 @@
 #define m_bit_xor(x,y) rb_funcall(x,id_bit_xor,1,y)
 #define m_bit_not(x)   rb_funcall(x,id_bit_not,0)
 
-#define m_left_shift(x,y) RTEST(rb_funcall(x,id_left_shift,1,y))
-#define m_right_shift(x,y) RTEST(rb_funcall(x,id_right_shift,1,y))
+#define m_left_shift(x,y) rb_funcall(x,id_left_shift,1,y)
+#define m_right_shift(x,y) rb_funcall(x,id_right_shift,1,y)
 
 #define m_isnan(x)     ((rb_respond_to(x,id_nan_p)) ? RTEST(rb_funcall(x,id_nan_p,0)) : 0)
 #define m_isinf(x)     ((rb_respond_to(x,id_infinite_p)) ? RTEST(rb_funcall(x,id_infinite_p,0)) : 0)
