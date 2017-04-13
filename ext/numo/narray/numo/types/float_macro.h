@@ -51,6 +51,8 @@ EXTERN double pow(double, double);
 
 #define m_isnan(x) isnan(x)
 #define m_isinf(x) isinf(x)
+#define m_isposinf(x) (isinf(x) && signbit(x)==0)
+#define m_isneginf(x) (isinf(x) && signbit(x))
 #define m_isfinite(x) isfinite(x)
 
 #define m_mulsum(x,y,z) {z += x*y;}

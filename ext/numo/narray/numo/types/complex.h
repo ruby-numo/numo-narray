@@ -39,9 +39,13 @@ static inline dtype NUM2COMP(VALUE v) {
 #define c_is_zero(x) (REAL(x)==0 && IMAG(x)==0)
 #define c_eq(x,y) (REAL(x)==REAL(y) && IMAG(x)==IMAG(y))
 #define c_ne(x,y) (REAL(x)!=REAL(y) || IMAG(x)!=IMAG(y))
-#define c_isnan(x) (isnan(REAL(x))||isnan(IMAG(x)))
-#define c_isinf(x) (isinf(REAL(x))||isinf(IMAG(x)))
-#define c_isfinite(x) (isfinite(REAL(x))&&isfinite(IMAG(x)))
+#define c_isnan(x) (isnan(REAL(x)) || isnan(IMAG(x)))
+#define c_isinf(x) (isinf(REAL(x)) || isinf(IMAG(x)))
+#define c_isposinf(x) ((isinf(REAL(x)) && signbit(REAL(x))==0) || \
+                       (isinf(IMAG(x)) && signbit(IMAG(x))==0))
+#define c_isneginf(x) ((isinf(REAL(x)) && signbit(REAL(x))) || \
+                       (isinf(IMAG(x)) && signbit(IMAG(x))))
+#define c_isfinite(x) (isfinite(REAL(x)) && isfinite(IMAG(x)))
 
 static inline dtype c_zero() {
     dtype z;

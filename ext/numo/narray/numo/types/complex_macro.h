@@ -85,6 +85,8 @@ static inline dtype c_from_dcomplex(dcomplex x) {
 
 #define m_isnan(x)    c_isnan(x)
 #define m_isinf(x)    c_isinf(x)
+#define m_isposinf(x) c_isposinf(x)
+#define m_isneginf(x) c_isneginf(x)
 #define m_isfinite(x) c_isfinite(x)
 
 #define m_sum(x,y) {if (!c_isnan(x)) {y=c_add(x,y);}}

@@ -230,6 +230,8 @@ end
 if is_float
   cond_unary "isnan"
   cond_unary "isinf"
+  cond_unary "isposinf"
+  cond_unary "isneginf"
   cond_unary "isfinite"
 end
 

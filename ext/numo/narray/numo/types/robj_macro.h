@@ -45,6 +45,12 @@
 
 #define m_isnan(x)     ((rb_respond_to(x,id_nan_p)) ? RTEST(rb_funcall(x,id_nan_p,0)) : 0)
 #define m_isinf(x)     ((rb_respond_to(x,id_infinite_p)) ? RTEST(rb_funcall(x,id_infinite_p,0)) : 0)
+#define m_isposinf(x)  ((rb_respond_to(x,id_infinite_p)) ?        \
+                        ((RTEST(rb_funcall(x,id_infinite_p,0))) ? \
+                         m_gt(x,INT2FIX(0)) : 0) : 0)
+#define m_isneginf(x)  ((rb_respond_to(x,id_infinite_p)) ?              \
+                        ((RTEST(rb_funcall(x,id_infinite_p,0))) ?       \
+                         m_lt(x,INT2FIX(0)) : 0) : 0)
 #define m_isfinite(x)  ((rb_respond_to(x,id_finite_p)) ? RTEST(rb_funcall(x,id_finite_p,0)) : 0)
 
 #define m_mulsum(x,y,z) {z = m_add(m_mul(x,y),z);}
