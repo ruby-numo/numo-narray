@@ -68,9 +68,15 @@
 #define qsort_dtype <%=dtype%>
 #undef qsort_cast
 #define qsort_cast <%=dcast%>
+<% if "#{suffix}" != "" %>
+#undef cmp
+#undef cmpgt
+#define cmp(a,b) cmp<%=suffix%>(a,b)
+#define cmpgt(a,b) cmpgt<%=suffix%>(a,b)
+<% end %>
 
 void
-<%=tp%>_qsort(void *a, size_t n, ssize_t es)
+<%=tp%>_qsort<%=suffix%>(void *a, size_t n, ssize_t es)
 {
     char *pa, *pb, *pc, *pd, *pl, *pm, *pn;
     int  d, r, presorted;
@@ -134,7 +140,7 @@ void
     r = Min(pd - pc, pn - pd - es);
     vecswap(qsort_dtype, pb, pn - r, r);
     if ((r = pb - pa) > es)
-        <%=tp%>_qsort(a, r / es, es);
+        <%=tp%>_qsort<%=suffix%>(a, r / es, es);
     if ((r = pd - pc) > es) {
         a = pn - r;
         n = r / es;

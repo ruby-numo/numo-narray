@@ -2,38 +2,16 @@
 static void
 <%=c_iter%><%=j%>(na_loop_t *const lp)
 {
-    size_t   i;
+    size_t   n;
     char    *p1;
     ssize_t  s1;
-    dtype    x,xmin,xmax;
+    dtype    xmin,xmax;
 
-    INIT_COUNTER(lp, i);
+    INIT_COUNTER(lp, n);
     INIT_PTR(lp, 0, p1, s1);
 
-    xmin = xmax = *(dtype*)p1;
-    p1 += s1;
-    i--;
-    for (; i--;) {
-        x = *(dtype*)p1;
-<% if j=="" %>
-        if (m_gt(x,xmax)) {
-            xmax = x;
-        }
-        if (m_lt(x,xmin)) {
-            xmin = x;
-        }
-<% else %>
-        if (!m_isnan(x)) {
-            if (m_isnan(xmax) || m_gt(x,xmax)) {
-                xmax = x;
-            }
-            if (m_isnan(xmin) || m_lt(x,xmin)) {
-                xmin = x;
-            }
-        }
-<% end %>
-        p1 += s1;
-    }
+    f_<%=method%><%=j%>(n,p1,s1,&xmin,&xmax);
+
     *(dtype*)(lp->args[1].ptr + lp->args[1].iter[0].pos) = xmin;
     *(dtype*)(lp->args[2].ptr + lp->args[2].iter[0].pos) = xmax;
 }
@@ -41,8 +19,9 @@ static void
 
 /*
   <%=method.capitalize%> of self.
-  @overload <%=method%>(*args)
-  @param [Array of Numeric,Range] args  Affected dimensions.
+  @overload <%=method%>(axis:nil, nan:false)
+  @param [Numeric,Array,Range] axis  Affected dimensions.
+  @param [TrueClass] nan  If true, propagete NaN. If false, ignore NaN.
   @return [Numo::<%=class_name%>,Numo::<%=class_name%>] min and max of self.
 */
 static VALUE

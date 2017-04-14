@@ -60,8 +60,10 @@ static VALUE
 
 /*
   Binary <%=method%>.
-  @overload <%=op_map%> other
+  @overload <%=op_map%>(other, axis:nil, nan:false)
   @param [Numo::NArray,Numeric] other
+  @param [Numeric,Array,Range] axis  Affected dimensions.
+  @param [TrueClass] nan  If true, propagete NaN. If false, ignore NaN.
   @return [Numo::NArray] <%=method%> of self and other.
 */
 static VALUE

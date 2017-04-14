@@ -137,25 +137,34 @@ static inline size_t f_max_index(size_t n, char *p, ssize_t stride)
     return j;
 }
 
-static inline dtype f_ptp(size_t n, char *p, ssize_t stride)
+static inline void
+f_minmax(size_t n, char *p, ssize_t stride, dtype* amin, dtype* amax)
 {
     dtype x,min,max;
     size_t i=n;
 
     min = max = *(dtype*)p;
     p += stride;
-    i--;
-    for (; i--;) {
+    for (i--; i--;) {
         x = *(dtype*)p;
-        if (x < min) {
-            min = x;
-        } else
-        if (x > max) {
+        if (m_gt(x,max)) {
             max = x;
+        }
+        if (m_lt(x,min)) {
+            min = x;
         }
         p += stride;
     }
-    return max-min;
+    *amin = min;
+    *amax = max;
+    return;
+}
+
+static inline dtype f_ptp(size_t n, char *p, ssize_t stride)
+{
+    dtype min,max;
+    f_minmax(n,p,stride,&min,&max);
+    return m_sub(max,min);
 }
 
 static inline double f_seq(double x, double y, double c)

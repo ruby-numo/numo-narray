@@ -26,8 +26,9 @@ static void
 
 /*
   <%=method.capitalize%> of self.
-  @overload <%=method%>(*args)
-  @param [Array of Numeric,Range] args  Affected dimensions.
+  @overload <%=method%>(axis:nil, nan:false)
+  @param [Numeric,Array,Range] axis  Affected dimensions.
+  @param [TrueClass] nan  If true, propagete NaN. If false, ignore NaN.
   @return [Numo::<%=class_name%>] <%=method%> of self.
 */
 static VALUE

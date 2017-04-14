@@ -290,9 +290,19 @@ end
 def_method "poly",-2
 
 if is_comparable && !is_object
-  qsort type_name,"dtype","*(dtype*)"
+  if is_float
+    qsort type_name,"dtype","*(dtype*)","_prnan"
+    qsort type_name,"dtype","*(dtype*)","_ignan"
+  else
+    qsort type_name,"dtype","*(dtype*)"
+  end
   def_method "sort",-1
-  qsort type_name+"_index","dtype*","**(dtype**)"
+  if is_float
+    qsort type_name+"_index","dtype*","**(dtype**)","_prnan"
+    qsort type_name+"_index","dtype*","**(dtype**)","_ignan"
+  else
+    qsort type_name+"_index","dtype*","**(dtype**)"
+  end
   def_method "sort_index",-1
   def_method "median",-1
 end

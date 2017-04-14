@@ -90,8 +90,8 @@ module DefMethod
     def_method(meth, -1, "accum_binary", :op => ope)
   end
 
-  def qsort(tp, dtype, dcast)
-    h = {:tp => tp, :dtype => dtype, :dcast => dcast}
+  def qsort(tp, dtype, dcast, suffix="")
+    h = {:tp => tp, :dtype => dtype, :dcast => dcast, :suffix => suffix}
     NodefFunction.new(self, "qsort", h)
   end
 

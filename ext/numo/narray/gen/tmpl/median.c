@@ -1,4 +1,4 @@
-<% (is_float ? ["","_nan"] : [""]).each do |j| %>
+<% (is_float ? ["_ignan","_prnan"] : [""]).each do |j| %>
 static void
 <%=c_iter%><%=j%>(na_loop_t *const lp)
 {
@@ -11,7 +11,7 @@ static void
     p2 = (lp->args[1]).ptr + (lp->args[1].iter[0]).pos;
     buf = (dtype*)p1;
 
-    <%=tp%>_qsort(buf, n, sizeof(dtype));
+    <%=tp%>_qsort<%=j%>(buf, n, sizeof(dtype));
 
     <% if is_float %>
     for (; n; n--) {
@@ -31,21 +31,33 @@ static void
 }
 <% end %>
 
+/*
+  <%=method.capitalize%> of self.
+  @overload <%=method%>(axis:nil, nan:false)
+  @param [Numeric,Array,Range] axis  Affected dimensions.
+  @param [TrueClass] nan  If true, propagete NaN. If false, ignore NaN.
+  @return [Numo::<%=class_name%>] returns <%=method%> of self.
+*/
+
 static VALUE
 <%=c_func%>(int argc, VALUE *argv, VALUE self)
 {
-    int ignore_nan = 0;
+    int nan = 0;
     VALUE reduce;
     ndfunc_arg_in_t ain[2] = {{OVERWRITE,0},{sym_reduce,0}};
     ndfunc_arg_out_t aout[1] = {{INT2FIX(0),0}};
-    ndfunc_t ndf = {<%=c_iter%>, NDF_HAS_LOOP|NDF_FLAT_REDUCE, 2,1, ain,aout};
+    ndfunc_t ndf = {0, NDF_HAS_LOOP|NDF_FLAT_REDUCE, 2,1, ain,aout};
 
     self = na_copy(self); // as temporary buffer
-    reduce = na_reduce_dimension(argc, argv, 1, &self, &ignore_nan); // v[0] = self
+    reduce = na_reduce_dimension(argc, argv, 1, &self, &nan); // v[0] = self
 <% if is_float %>
-    if (ignore_nan) {
-        ndf.func = <%=c_iter%>_nan;
+    if (nan) {
+        ndf.func = <%=c_iter%>_prnan;
+    } else {
+        ndf.func = <%=c_iter%>_ignan;
     }
+<% else %>
+    ndf.func = <%=c_iter%>;
 <% end %>
     return na_ndloop(&ndf, 2, self, reduce);
 }

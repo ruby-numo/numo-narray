@@ -34,7 +34,7 @@ static ID id_shift_left;
 static ID id_eq;
 static ID id_count_false;
 static ID id_axis;
-static ID id_ignore_nan;
+static ID id_nan;
 
 VALUE cPointer;
 
@@ -1459,7 +1459,7 @@ na_test_reduce(VALUE reduce, int dim)
 
 
 VALUE
-na_reduce_dimension(int argc, VALUE *argv, int naryc, VALUE *naryv, int *ignore_nan)
+na_reduce_dimension(int argc, VALUE *argv, int naryc, VALUE *naryv, int *propagate_nan)
 {
     int ndim, ndim0;
     int row_major;
@@ -1473,7 +1473,7 @@ na_reduce_dimension(int argc, VALUE *argv, int naryc, VALUE *naryv, int *ignore_
     size_t m;
     VALUE reduce;
     VALUE kw_hash = Qnil;
-    ID kw_table[2] = {id_axis,id_ignore_nan};
+    ID kw_table[2] = {id_axis,id_nan};
     VALUE opts[2] = {Qundef,Qundef};
     VALUE axes;
 
@@ -1492,8 +1492,8 @@ na_reduce_dimension(int argc, VALUE *argv, int naryc, VALUE *naryv, int *ignore_
         }
     }
     // option: ignore_none
-    if (ignore_nan) {
-        *ignore_nan = (opts[1] != Qundef && RTEST(opts[1])) ? 1 : 0;
+    if (propagate_nan) {
+        *propagate_nan = (opts[1] != Qundef && RTEST(opts[1])) ? 1 : 0;
     }
 
     if (naryc<1) {
@@ -1923,7 +1923,7 @@ Init_narray()
     id_eq          = rb_intern("eq");
     id_count_false = rb_intern("count_false");
     id_axis        = rb_intern("axis");
-    id_ignore_nan  = rb_intern("ignore_nan");
+    id_nan         = rb_intern("nan");
 
     sym_reduce   = ID2SYM(rb_intern("reduce"));
     sym_option   = ID2SYM(rb_intern("option"));

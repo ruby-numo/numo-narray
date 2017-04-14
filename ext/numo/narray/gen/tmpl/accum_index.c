@@ -21,13 +21,13 @@ static void
 <% end;end %>
 
 /*
- *  call-seq:
- *     narray.<%=method%>() => Integer
- *     narray.<%=method%>(dim0,dim1,..) => Integer or Numo::Int32/64
- *
- *  Return an index of result.
- *
- *     Numo::NArray[3,4,1,2].min_index => 3
+  <%=method%>. Return an index of result.
+  @overload <%=method%>(axis:nil, nan:false)
+  @param [Numeric,Array,Range] axis  Affected dimensions.
+  @param [TrueClass] nan  If true, propagete NaN. If false, ignore NaN.
+  @return [Integer,Numo::Int] returns result index of <%=method%>.
+  @example
+      Numo::NArray[3,4,1,2].min_index => 3
  */
 static VALUE
 <%=c_func%>(int argc, VALUE *argv, VALUE self)
