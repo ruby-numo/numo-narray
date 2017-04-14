@@ -574,6 +574,30 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#clip-instance_method" title="#clip (instance method)">#<strong>clip</strong>(min, max)  &#x21d2; Numo::NArray </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Clip array elements by [min,max].</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#coerce_cast-instance_method" title="#coerce_cast (instance method)">#<strong>coerce_cast</strong>(type)  &#x21d2; nil </a>
     
 
@@ -596,7 +620,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#cumprod-instance_method" title="#cumprod (instance method)">#<strong>cumprod</strong>(*args)  &#x21d2; Numo::RObject </a>
+      <a href="#cumprod-instance_method" title="#cumprod (instance method)">#<strong>cumprod</strong>(axis: nil, nan: false)  &#x21d2; Numo::RObject </a>
     
 
     
@@ -620,7 +644,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#cumsum-instance_method" title="#cumsum (instance method)">#<strong>cumsum</strong>(*args)  &#x21d2; Numo::RObject </a>
+      <a href="#cumsum-instance_method" title="#cumsum (instance method)">#<strong>cumsum</strong>(axis: nil, nan: false)  &#x21d2; Numo::RObject </a>
     
 
     
@@ -1034,6 +1058,54 @@ and indices along each axis as parameters.</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#isneginf-instance_method" title="#isneginf (instance method)">#<strong>isneginf</strong>  &#x21d2; Numo::Bit </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Condition of isneginf.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#isposinf-instance_method" title="#isposinf (instance method)">#<strong>isposinf</strong>  &#x21d2; Numo::Bit </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Condition of isposinf.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#le-instance_method" title="#le (instance method)">#<strong>le</strong>(other)  &#x21d2; Numo::Bit </a>
     
 
@@ -1159,7 +1231,7 @@ and indices along each axis as parameters.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#max-instance_method" title="#max (instance method)">#<strong>max</strong>(*args)  &#x21d2; Numo::RObject </a>
+      <a href="#max-instance_method" title="#max (instance method)">#<strong>max</strong>(axis: nil, nan: false)  &#x21d2; Numo::RObject </a>
     
 
     
@@ -1183,7 +1255,7 @@ and indices along each axis as parameters.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#max_index-instance_method" title="#max_index (instance method)">#<strong>max_index</strong>(*args)  &#x21d2; Object </a>
+      <a href="#max_index-instance_method" title="#max_index (instance method)">#<strong>max_index</strong>(axis: nil, nan: false)  &#x21d2; Integer, Numo::Int </a>
     
 
     
@@ -1198,7 +1270,7 @@ and indices along each axis as parameters.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Return an index of result.</p>
+<p>max_index.</p>
 </div></span>
   
 </li>
@@ -1207,7 +1279,7 @@ and indices along each axis as parameters.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#mean-instance_method" title="#mean (instance method)">#<strong>mean</strong>(*args)  &#x21d2; Numo::RObject </a>
+      <a href="#mean-instance_method" title="#mean (instance method)">#<strong>mean</strong>(axis: nil, nan: false)  &#x21d2; Numo::RObject </a>
     
 
     
@@ -1231,7 +1303,7 @@ and indices along each axis as parameters.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#min-instance_method" title="#min (instance method)">#<strong>min</strong>(*args)  &#x21d2; Numo::RObject </a>
+      <a href="#min-instance_method" title="#min (instance method)">#<strong>min</strong>(axis: nil, nan: false)  &#x21d2; Numo::RObject </a>
     
 
     
@@ -1255,7 +1327,7 @@ and indices along each axis as parameters.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#min_index-instance_method" title="#min_index (instance method)">#<strong>min_index</strong>(*args)  &#x21d2; Object </a>
+      <a href="#min_index-instance_method" title="#min_index (instance method)">#<strong>min_index</strong>(axis: nil, nan: false)  &#x21d2; Integer, Numo::Int </a>
     
 
     
@@ -1270,7 +1342,7 @@ and indices along each axis as parameters.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Return an index of result.</p>
+<p>min_index.</p>
 </div></span>
   
 </li>
@@ -1279,7 +1351,7 @@ and indices along each axis as parameters.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#minmax-instance_method" title="#minmax (instance method)">#<strong>minmax</strong>(*args)  &#x21d2; Numo::RObject </a>
+      <a href="#minmax-instance_method" title="#minmax (instance method)">#<strong>minmax</strong>(axis: nil, nan: false)  &#x21d2; Numo::RObject </a>
     
 
     
@@ -1303,7 +1375,7 @@ and indices along each axis as parameters.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#mulsum-instance_method" title="#mulsum (instance method)">#<strong>mulsum</strong>(other)  &#x21d2; Numo::NArray </a>
+      <a href="#mulsum-instance_method" title="#mulsum (instance method)">#<strong>mulsum</strong>(other, axis: nil, nan: false)  &#x21d2; Numo::NArray </a>
     
 
     
@@ -1401,7 +1473,7 @@ and indices along each axis as parameters.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#prod-instance_method" title="#prod (instance method)">#<strong>prod</strong>(*args)  &#x21d2; Numo::RObject </a>
+      <a href="#prod-instance_method" title="#prod (instance method)">#<strong>prod</strong>(axis: nil, nan: false)  &#x21d2; Numo::RObject </a>
     
 
     
@@ -1417,6 +1489,30 @@ and indices along each axis as parameters.</p>
   
     <span class="summary_desc"><div class='inline'>
 <p>Prod of self.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ptp-instance_method" title="#ptp (instance method)">#<strong>ptp</strong>(axis: nil, nan: false)  &#x21d2; Numo::RObject </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Ptp of self.</p>
 </div></span>
   
 </li>
@@ -1473,7 +1569,7 @@ and indices along each axis as parameters.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#rms-instance_method" title="#rms (instance method)">#<strong>rms</strong>(*args)  &#x21d2; Numo::RObject </a>
+      <a href="#rms-instance_method" title="#rms (instance method)">#<strong>rms</strong>(axis: nil, nan: false)  &#x21d2; Numo::RObject </a>
     
 
     
@@ -1595,7 +1691,7 @@ and indices along each axis as parameters.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#stddev-instance_method" title="#stddev (instance method)">#<strong>stddev</strong>(*args)  &#x21d2; Numo::RObject </a>
+      <a href="#stddev-instance_method" title="#stddev (instance method)">#<strong>stddev</strong>(axis: nil, nan: false)  &#x21d2; Numo::RObject </a>
     
 
     
@@ -1643,7 +1739,7 @@ and indices along each axis as parameters.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#sum-instance_method" title="#sum (instance method)">#<strong>sum</strong>(*args)  &#x21d2; Numo::RObject </a>
+      <a href="#sum-instance_method" title="#sum (instance method)">#<strong>sum</strong>(axis: nil, nan: false)  &#x21d2; Numo::RObject </a>
     
 
     
@@ -1715,7 +1811,7 @@ and indices along each axis as parameters.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#var-instance_method" title="#var (instance method)">#<strong>var</strong>(*args)  &#x21d2; Numo::RObject </a>
+      <a href="#var-instance_method" title="#var (instance method)">#<strong>var</strong>(axis: nil, nan: false)  &#x21d2; Numo::RObject </a>
     
 
     
@@ -1797,7 +1893,7 @@ and indices along each axis as parameters.</p>
   
   
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="NArray.html" title="Numo::NArray (class)">NArray</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="NArray.html#==-instance_method" title="Numo::NArray#== (method)">#==</a></span>, <span class='object_link'><a href="NArray.html#append-instance_method" title="Numo::NArray#append (method)">#append</a></span>, <span class='object_link'><a href="NArray.html#array_type-class_method" title="Numo::NArray.array_type (method)">array_type</a></span>, <span class='object_link'><a href="NArray.html#asarray-class_method" title="Numo::NArray.asarray (method)">asarray</a></span>, <span class='object_link'><a href="NArray.html#byte_size-class_method" title="Numo::NArray.byte_size (method)">byte_size</a></span>, <span class='object_link'><a href="NArray.html#byte_size-instance_method" title="Numo::NArray#byte_size (method)">#byte_size</a></span>, <span class='object_link'><a href="NArray.html#byte_swapped%3F-instance_method" title="Numo::NArray#byte_swapped? (method)">#byte_swapped?</a></span>, <span class='object_link'><a href="NArray.html#cast_to-instance_method" title="Numo::NArray#cast_to (method)">#cast_to</a></span>, <span class='object_link'><a href="NArray.html#coerce-instance_method" title="Numo::NArray#coerce (method)">#coerce</a></span>, <span class='object_link'><a href="NArray.html#column_major%3F-instance_method" title="Numo::NArray#column_major? (method)">#column_major?</a></span>, <span class='object_link'><a href="NArray.html#column_stack-class_method" title="Numo::NArray.column_stack (method)">column_stack</a></span>, <span class='object_link'><a href="NArray.html#concatenate-class_method" title="Numo::NArray.concatenate (method)">concatenate</a></span>, <span class='object_link'><a href="NArray.html#concatenate-instance_method" title="Numo::NArray#concatenate (method)">#concatenate</a></span>, <span class='object_link'><a href="NArray.html#contiguous%3F-instance_method" title="Numo::NArray#contiguous? (method)">#contiguous?</a></span>, <span class='object_link'><a href="NArray.html#debug=-class_method" title="Numo::NArray.debug= (method)">debug=</a></span>, <span class='object_link'><a href="NArray.html#debug_info-instance_method" title="Numo::NArray#debug_info (method)">#debug_info</a></span>, <span class='object_link'><a href="NArray.html#deg2rad-instance_method" title="Numo::NArray#deg2rad (method)">#deg2rad</a></span>, <span class='object_link'><a href="NArray.html#delete-instance_method" title="Numo::NArray#delete (method)">#delete</a></span>, <span class='object_link'><a href="NArray.html#diagonal-instance_method" title="Numo::NArray#diagonal (method)">#diagonal</a></span>, <span class='object_link'><a href="NArray.html#dot-instance_method" title="Numo::NArray#dot (method)">#dot</a></span>, <span class='object_link'><a href="NArray.html#dsplit-instance_method" title="Numo::NArray#dsplit (method)">#dsplit</a></span>, <span class='object_link'><a href="NArray.html#dstack-class_method" title="Numo::NArray.dstack (method)">dstack</a></span>, <span class='object_link'><a href="NArray.html#empty%3F-instance_method" title="Numo::NArray#empty? (method)">#empty?</a></span>, <span class='object_link'><a href="NArray.html#expand_dims-instance_method" title="Numo::NArray#expand_dims (method)">#expand_dims</a></span>, <span class='object_link'><a href="NArray.html#eye-class_method" title="Numo::NArray.eye (method)">eye</a></span>, <span class='object_link'><a href="NArray.html#flatten-instance_method" title="Numo::NArray#flatten (method)">#flatten</a></span>, <span class='object_link'><a href="NArray.html#fliplr-instance_method" title="Numo::NArray#fliplr (method)">#fliplr</a></span>, <span class='object_link'><a href="NArray.html#flipud-instance_method" title="Numo::NArray#flipud (method)">#flipud</a></span>, <span class='object_link'><a href="NArray.html#from_binary-class_method" title="Numo::NArray.from_binary (method)">from_binary</a></span>, <span class='object_link'><a href="NArray.html#host_order%3F-instance_method" title="Numo::NArray#host_order? (method)">#host_order?</a></span>, <span class='object_link'><a href="NArray.html#hsplit-instance_method" title="Numo::NArray#hsplit (method)">#hsplit</a></span>, <span class='object_link'><a href="NArray.html#hstack-class_method" title="Numo::NArray.hstack (method)">hstack</a></span>, <span class='object_link'><a href="NArray.html#initialize-instance_method" title="Numo::NArray#initialize (method)">#initialize</a></span>, <span class='object_link'><a href="NArray.html#initialize_copy-instance_method" title="Numo::NArray#initialize_copy (method)">#initialize_copy</a></span>, <span class='object_link'><a href="NArray.html#inplace-instance_method" title="Numo::NArray#inplace (method)">#inplace</a></span>, <span class='object_link'><a href="NArray.html#inplace!-instance_method" title="Numo::NArray#inplace! (method)">#inplace!</a></span>, <span class='object_link'><a href="NArray.html#inplace%3F-instance_method" title="Numo::NArray#inplace? (method)">#inplace?</a></span>, <span class='object_link'><a href="NArray.html#insert-instance_method" title="Numo::NArray#insert (method)">#insert</a></span>, <span class='object_link'><a href="NArray.html#inspect_cols-class_method" title="Numo::NArray.inspect_cols (method)">inspect_cols</a></span>, <span class='object_link'><a href="NArray.html#inspect_cols=-class_method" title="Numo::NArray.inspect_cols= (method)">inspect_cols=</a></span>, <span class='object_link'><a href="NArray.html#inspect_rows-class_method" title="Numo::NArray.inspect_rows (method)">inspect_rows</a></span>, <span class='object_link'><a href="NArray.html#inspect_rows=-class_method" title="Numo::NArray.inspect_rows= (method)">inspect_rows=</a></span>, <span class='object_link'><a href="NArray.html#linspace-class_method" title="Numo::NArray.linspace (method)">linspace</a></span>, <span class='object_link'><a href="NArray.html#logspace-class_method" title="Numo::NArray.logspace (method)">logspace</a></span>, <span class='object_link'><a href="NArray.html#marshal_dump-instance_method" title="Numo::NArray#marshal_dump (method)">#marshal_dump</a></span>, <span class='object_link'><a href="NArray.html#marshal_load-instance_method" title="Numo::NArray#marshal_load (method)">#marshal_load</a></span>, <span class='object_link'><a href="NArray.html#ndim-instance_method" title="Numo::NArray#ndim (method)">#ndim</a></span>, <span class='object_link'><a href="NArray.html#new_fill-instance_method" title="Numo::NArray#new_fill (method)">#new_fill</a></span>, <span class='object_link'><a href="NArray.html#new_narray-instance_method" title="Numo::NArray#new_narray (method)">#new_narray</a></span>, <span class='object_link'><a href="NArray.html#new_ones-instance_method" title="Numo::NArray#new_ones (method)">#new_ones</a></span>, <span class='object_link'><a href="NArray.html#new_zeros-instance_method" title="Numo::NArray#new_zeros (method)">#new_zeros</a></span>, <span class='object_link'><a href="NArray.html#ones-class_method" title="Numo::NArray.ones (method)">ones</a></span>, <span class='object_link'><a href="NArray.html#out_of_place!-instance_method" title="Numo::NArray#out_of_place! (method)">#out_of_place!</a></span>, <span class='object_link'><a href="NArray.html#profile-class_method" title="Numo::NArray.profile (method)">profile</a></span>, <span class='object_link'><a href="NArray.html#profile=-class_method" title="Numo::NArray.profile= (method)">profile=</a></span>, <span class='object_link'><a href="NArray.html#rad2deg-instance_method" title="Numo::NArray#rad2deg (method)">#rad2deg</a></span>, <span class='object_link'><a href="NArray.html#repeat-instance_method" title="Numo::NArray#repeat (method)">#repeat</a></span>, <span class='object_link'><a href="NArray.html#reshape-instance_method" title="Numo::NArray#reshape (method)">#reshape</a></span>, <span class='object_link'><a href="NArray.html#reverse-instance_method" title="Numo::NArray#reverse (method)">#reverse</a></span>, <span class='object_link'><a href="NArray.html#rot90-instance_method" title="Numo::NArray#rot90 (method)">#rot90</a></span>, <span class='object_link'><a href="NArray.html#row_major%3F-instance_method" title="Numo::NArray#row_major? (method)">#row_major?</a></span>, <span class='object_link'><a href="NArray.html#shape-instance_method" title="Numo::NArray#shape (method)">#shape</a></span>, <span class='object_link'><a href="NArray.html#size-instance_method" title="Numo::NArray#size (method)">#size</a></span>, <span class='object_link'><a href="NArray.html#split-instance_method" title="Numo::NArray#split (method)">#split</a></span>, <span class='object_link'><a href="NArray.html#srand-class_method" title="Numo::NArray.srand (method)">srand</a></span>, <span class='object_link'><a href="NArray.html#store_binary-instance_method" title="Numo::NArray#store_binary (method)">#store_binary</a></span>, <span class='object_link'><a href="NArray.html#swap_byte-instance_method" title="Numo::NArray#swap_byte (method)">#swap_byte</a></span>, <span class='object_link'><a href="NArray.html#swapaxes-instance_method" title="Numo::NArray#swapaxes (method)">#swapaxes</a></span>, <span class='object_link'><a href="NArray.html#tile-instance_method" title="Numo::NArray#tile (method)">#tile</a></span>, <span class='object_link'><a href="NArray.html#to_binary-instance_method" title="Numo::NArray#to_binary (method)">#to_binary</a></span>, <span class='object_link'><a href="NArray.html#to_c-instance_method" title="Numo::NArray#to_c (method)">#to_c</a></span>, <span class='object_link'><a href="NArray.html#to_f-instance_method" title="Numo::NArray#to_f (method)">#to_f</a></span>, <span class='object_link'><a href="NArray.html#to_host-instance_method" title="Numo::NArray#to_host (method)">#to_host</a></span>, <span class='object_link'><a href="NArray.html#to_i-instance_method" title="Numo::NArray#to_i (method)">#to_i</a></span>, <span class='object_link'><a href="NArray.html#to_network-instance_method" title="Numo::NArray#to_network (method)">#to_network</a></span>, <span class='object_link'><a href="NArray.html#to_swapped-instance_method" title="Numo::NArray#to_swapped (method)">#to_swapped</a></span>, <span class='object_link'><a href="NArray.html#to_vacs-instance_method" title="Numo::NArray#to_vacs (method)">#to_vacs</a></span>, <span class='object_link'><a href="NArray.html#transpose-instance_method" title="Numo::NArray#transpose (method)">#transpose</a></span>, <span class='object_link'><a href="NArray.html#upcast-class_method" title="Numo::NArray.upcast (method)">upcast</a></span>, <span class='object_link'><a href="NArray.html#view-instance_method" title="Numo::NArray#view (method)">#view</a></span>, <span class='object_link'><a href="NArray.html#vsplit-instance_method" title="Numo::NArray#vsplit (method)">#vsplit</a></span>, <span class='object_link'><a href="NArray.html#vstack-class_method" title="Numo::NArray.vstack (method)">vstack</a></span>, <span class='object_link'><a href="NArray.html#zeros-class_method" title="Numo::NArray.zeros (method)">zeros</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="NArray.html#==-instance_method" title="Numo::NArray#== (method)">#==</a></span>, <span class='object_link'><a href="NArray.html#append-instance_method" title="Numo::NArray#append (method)">#append</a></span>, <span class='object_link'><a href="NArray.html#array_type-class_method" title="Numo::NArray.array_type (method)">array_type</a></span>, <span class='object_link'><a href="NArray.html#asarray-class_method" title="Numo::NArray.asarray (method)">asarray</a></span>, <span class='object_link'><a href="NArray.html#byte_size-class_method" title="Numo::NArray.byte_size (method)">byte_size</a></span>, <span class='object_link'><a href="NArray.html#byte_size-instance_method" title="Numo::NArray#byte_size (method)">#byte_size</a></span>, <span class='object_link'><a href="NArray.html#byte_swapped%3F-instance_method" title="Numo::NArray#byte_swapped? (method)">#byte_swapped?</a></span>, <span class='object_link'><a href="NArray.html#cast_to-instance_method" title="Numo::NArray#cast_to (method)">#cast_to</a></span>, <span class='object_link'><a href="NArray.html#coerce-instance_method" title="Numo::NArray#coerce (method)">#coerce</a></span>, <span class='object_link'><a href="NArray.html#column_major%3F-instance_method" title="Numo::NArray#column_major? (method)">#column_major?</a></span>, <span class='object_link'><a href="NArray.html#column_stack-class_method" title="Numo::NArray.column_stack (method)">column_stack</a></span>, <span class='object_link'><a href="NArray.html#concatenate-class_method" title="Numo::NArray.concatenate (method)">concatenate</a></span>, <span class='object_link'><a href="NArray.html#concatenate-instance_method" title="Numo::NArray#concatenate (method)">#concatenate</a></span>, <span class='object_link'><a href="NArray.html#contiguous%3F-instance_method" title="Numo::NArray#contiguous? (method)">#contiguous?</a></span>, <span class='object_link'><a href="NArray.html#debug=-class_method" title="Numo::NArray.debug= (method)">debug=</a></span>, <span class='object_link'><a href="NArray.html#debug_info-instance_method" title="Numo::NArray#debug_info (method)">#debug_info</a></span>, <span class='object_link'><a href="NArray.html#deg2rad-instance_method" title="Numo::NArray#deg2rad (method)">#deg2rad</a></span>, <span class='object_link'><a href="NArray.html#delete-instance_method" title="Numo::NArray#delete (method)">#delete</a></span>, <span class='object_link'><a href="NArray.html#diagonal-instance_method" title="Numo::NArray#diagonal (method)">#diagonal</a></span>, <span class='object_link'><a href="NArray.html#diff-instance_method" title="Numo::NArray#diff (method)">#diff</a></span>, <span class='object_link'><a href="NArray.html#dot-instance_method" title="Numo::NArray#dot (method)">#dot</a></span>, <span class='object_link'><a href="NArray.html#dsplit-instance_method" title="Numo::NArray#dsplit (method)">#dsplit</a></span>, <span class='object_link'><a href="NArray.html#dstack-class_method" title="Numo::NArray.dstack (method)">dstack</a></span>, <span class='object_link'><a href="NArray.html#empty%3F-instance_method" title="Numo::NArray#empty? (method)">#empty?</a></span>, <span class='object_link'><a href="NArray.html#expand_dims-instance_method" title="Numo::NArray#expand_dims (method)">#expand_dims</a></span>, <span class='object_link'><a href="NArray.html#eye-class_method" title="Numo::NArray.eye (method)">eye</a></span>, <span class='object_link'><a href="NArray.html#flatten-instance_method" title="Numo::NArray#flatten (method)">#flatten</a></span>, <span class='object_link'><a href="NArray.html#fliplr-instance_method" title="Numo::NArray#fliplr (method)">#fliplr</a></span>, <span class='object_link'><a href="NArray.html#flipud-instance_method" title="Numo::NArray#flipud (method)">#flipud</a></span>, <span class='object_link'><a href="NArray.html#from_binary-class_method" title="Numo::NArray.from_binary (method)">from_binary</a></span>, <span class='object_link'><a href="NArray.html#host_order%3F-instance_method" title="Numo::NArray#host_order? (method)">#host_order?</a></span>, <span class='object_link'><a href="NArray.html#hsplit-instance_method" title="Numo::NArray#hsplit (method)">#hsplit</a></span>, <span class='object_link'><a href="NArray.html#hstack-class_method" title="Numo::NArray.hstack (method)">hstack</a></span>, <span class='object_link'><a href="NArray.html#initialize-instance_method" title="Numo::NArray#initialize (method)">#initialize</a></span>, <span class='object_link'><a href="NArray.html#initialize_copy-instance_method" title="Numo::NArray#initialize_copy (method)">#initialize_copy</a></span>, <span class='object_link'><a href="NArray.html#inplace-instance_method" title="Numo::NArray#inplace (method)">#inplace</a></span>, <span class='object_link'><a href="NArray.html#inplace!-instance_method" title="Numo::NArray#inplace! (method)">#inplace!</a></span>, <span class='object_link'><a href="NArray.html#inplace%3F-instance_method" title="Numo::NArray#inplace? (method)">#inplace?</a></span>, <span class='object_link'><a href="NArray.html#insert-instance_method" title="Numo::NArray#insert (method)">#insert</a></span>, <span class='object_link'><a href="NArray.html#inspect_cols-class_method" title="Numo::NArray.inspect_cols (method)">inspect_cols</a></span>, <span class='object_link'><a href="NArray.html#inspect_cols=-class_method" title="Numo::NArray.inspect_cols= (method)">inspect_cols=</a></span>, <span class='object_link'><a href="NArray.html#inspect_rows-class_method" title="Numo::NArray.inspect_rows (method)">inspect_rows</a></span>, <span class='object_link'><a href="NArray.html#inspect_rows=-class_method" title="Numo::NArray.inspect_rows= (method)">inspect_rows=</a></span>, <span class='object_link'><a href="NArray.html#linspace-class_method" title="Numo::NArray.linspace (method)">linspace</a></span>, <span class='object_link'><a href="NArray.html#logspace-class_method" title="Numo::NArray.logspace (method)">logspace</a></span>, <span class='object_link'><a href="NArray.html#marshal_dump-instance_method" title="Numo::NArray#marshal_dump (method)">#marshal_dump</a></span>, <span class='object_link'><a href="NArray.html#marshal_load-instance_method" title="Numo::NArray#marshal_load (method)">#marshal_load</a></span>, <span class='object_link'><a href="NArray.html#ndim-instance_method" title="Numo::NArray#ndim (method)">#ndim</a></span>, <span class='object_link'><a href="NArray.html#new_fill-instance_method" title="Numo::NArray#new_fill (method)">#new_fill</a></span>, <span class='object_link'><a href="NArray.html#new_narray-instance_method" title="Numo::NArray#new_narray (method)">#new_narray</a></span>, <span class='object_link'><a href="NArray.html#new_ones-instance_method" title="Numo::NArray#new_ones (method)">#new_ones</a></span>, <span class='object_link'><a href="NArray.html#new_zeros-instance_method" title="Numo::NArray#new_zeros (method)">#new_zeros</a></span>, <span class='object_link'><a href="NArray.html#ones-class_method" title="Numo::NArray.ones (method)">ones</a></span>, <span class='object_link'><a href="NArray.html#out_of_place!-instance_method" title="Numo::NArray#out_of_place! (method)">#out_of_place!</a></span>, <span class='object_link'><a href="NArray.html#profile-class_method" title="Numo::NArray.profile (method)">profile</a></span>, <span class='object_link'><a href="NArray.html#profile=-class_method" title="Numo::NArray.profile= (method)">profile=</a></span>, <span class='object_link'><a href="NArray.html#rad2deg-instance_method" title="Numo::NArray#rad2deg (method)">#rad2deg</a></span>, <span class='object_link'><a href="NArray.html#repeat-instance_method" title="Numo::NArray#repeat (method)">#repeat</a></span>, <span class='object_link'><a href="NArray.html#reshape-instance_method" title="Numo::NArray#reshape (method)">#reshape</a></span>, <span class='object_link'><a href="NArray.html#reverse-instance_method" title="Numo::NArray#reverse (method)">#reverse</a></span>, <span class='object_link'><a href="NArray.html#rot90-instance_method" title="Numo::NArray#rot90 (method)">#rot90</a></span>, <span class='object_link'><a href="NArray.html#row_major%3F-instance_method" title="Numo::NArray#row_major? (method)">#row_major?</a></span>, <span class='object_link'><a href="NArray.html#shape-instance_method" title="Numo::NArray#shape (method)">#shape</a></span>, <span class='object_link'><a href="NArray.html#size-instance_method" title="Numo::NArray#size (method)">#size</a></span>, <span class='object_link'><a href="NArray.html#split-instance_method" title="Numo::NArray#split (method)">#split</a></span>, <span class='object_link'><a href="NArray.html#srand-class_method" title="Numo::NArray.srand (method)">srand</a></span>, <span class='object_link'><a href="NArray.html#store_binary-instance_method" title="Numo::NArray#store_binary (method)">#store_binary</a></span>, <span class='object_link'><a href="NArray.html#swap_byte-instance_method" title="Numo::NArray#swap_byte (method)">#swap_byte</a></span>, <span class='object_link'><a href="NArray.html#swapaxes-instance_method" title="Numo::NArray#swapaxes (method)">#swapaxes</a></span>, <span class='object_link'><a href="NArray.html#tile-instance_method" title="Numo::NArray#tile (method)">#tile</a></span>, <span class='object_link'><a href="NArray.html#to_binary-instance_method" title="Numo::NArray#to_binary (method)">#to_binary</a></span>, <span class='object_link'><a href="NArray.html#to_c-instance_method" title="Numo::NArray#to_c (method)">#to_c</a></span>, <span class='object_link'><a href="NArray.html#to_f-instance_method" title="Numo::NArray#to_f (method)">#to_f</a></span>, <span class='object_link'><a href="NArray.html#to_host-instance_method" title="Numo::NArray#to_host (method)">#to_host</a></span>, <span class='object_link'><a href="NArray.html#to_i-instance_method" title="Numo::NArray#to_i (method)">#to_i</a></span>, <span class='object_link'><a href="NArray.html#to_network-instance_method" title="Numo::NArray#to_network (method)">#to_network</a></span>, <span class='object_link'><a href="NArray.html#to_swapped-instance_method" title="Numo::NArray#to_swapped (method)">#to_swapped</a></span>, <span class='object_link'><a href="NArray.html#to_vacs-instance_method" title="Numo::NArray#to_vacs (method)">#to_vacs</a></span>, <span class='object_link'><a href="NArray.html#transpose-instance_method" title="Numo::NArray#transpose (method)">#transpose</a></span>, <span class='object_link'><a href="NArray.html#upcast-class_method" title="Numo::NArray.upcast (method)">upcast</a></span>, <span class='object_link'><a href="NArray.html#view-instance_method" title="Numo::NArray#view (method)">#view</a></span>, <span class='object_link'><a href="NArray.html#vsplit-instance_method" title="Numo::NArray#vsplit (method)">#vsplit</a></span>, <span class='object_link'><a href="NArray.html#vstack-class_method" title="Numo::NArray.vstack (method)">vstack</a></span>, <span class='object_link'><a href="NArray.html#zeros-class_method" title="Numo::NArray.zeros (method)">zeros</a></span></p>
 <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
@@ -3589,6 +3685,165 @@ numo_robject_ceil(VALUE self)
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="clip-instance_method">
+  
+    #<strong>clip</strong>(min, max)  &#x21d2; <tt><span class='object_link'><a href="NArray.html" title="Numo::NArray (class)">Numo::NArray</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Clip array elements by [min,max]. If either of min or max is nil, one side
+is clipped.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_a'>a</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Int32.html" title="Numo::Int32 (class)">Int32</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="NArray.html#initialize-instance_method" title="Numo::NArray#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>10</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_seq'>seq</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_a'>a</span><span class='period'>.</span><span class='id identifier rubyid_clip'>clip</span><span class='lparen'>(</span><span class='int'>1</span><span class='comma'>,</span><span class='int'>8</span><span class='rparen'>)</span>
+<span class='comment'># Numo::Int32#shape=[10]
+</span><span class='comment'># [1, 1, 2, 3, 4, 5, 6, 7, 8, 8]
+</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_a'>a</span>
+<span class='comment'># Numo::Int32#shape=[10]
+</span><span class='comment'># [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_a'>a</span><span class='period'>.</span><span class='id identifier rubyid_inplace'>inplace</span><span class='period'>.</span><span class='id identifier rubyid_clip'>clip</span><span class='lparen'>(</span><span class='int'>3</span><span class='comma'>,</span><span class='int'>6</span><span class='rparen'>)</span>
+<span class='comment'># Numo::Int32(view)#shape=[10]
+</span><span class='comment'># [3, 3, 3, 3, 4, 5, 6, 6, 6, 6]
+</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_a'>a</span>
+<span class='comment'># Numo::Int32#shape=[10]
+</span><span class='comment'># [3, 3, 3, 3, 4, 5, 6, 6, 6, 6]
+</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_a'>a</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Int32.html" title="Numo::Int32 (class)">Int32</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="NArray.html#initialize-instance_method" title="Numo::NArray#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>10</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_seq'>seq</span>
+<span class='comment'># Numo::Int32#shape=[10]
+</span><span class='comment'># [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_a'>a</span><span class='period'>.</span><span class='id identifier rubyid_clip'>clip</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>3</span><span class='comma'>,</span><span class='int'>4</span><span class='comma'>,</span><span class='int'>1</span><span class='comma'>,</span><span class='int'>1</span><span class='comma'>,</span><span class='int'>1</span><span class='comma'>,</span><span class='int'>4</span><span class='comma'>,</span><span class='int'>4</span><span class='comma'>,</span><span class='int'>4</span><span class='comma'>,</span><span class='int'>4</span><span class='comma'>,</span><span class='int'>4</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='int'>8</span><span class='rparen'>)</span>
+<span class='comment'># Numo::Int32#shape=[10]
+</span><span class='comment'># [3, 4, 2, 3, 4, 5, 6, 7, 8, 8]</span></code></pre>
+    
+  </div>
+
+  
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>min</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="NArray.html" title="Numo::NArray (class)">Numo::NArray</a></span></tt>, <tt>Numeric</tt>)</span>
+      
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>max</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="NArray.html" title="Numo::NArray (class)">Numo::NArray</a></span></tt>, <tt>Numeric</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="NArray.html" title="Numo::NArray (class)">Numo::NArray</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>result of clip.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+3674
+3675
+3676
+3677
+3678
+3679
+3680
+3681
+3682
+3683
+3684
+3685
+3686
+3687
+3688
+3689
+3690
+3691
+3692
+3693
+3694
+3695
+3696</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3674</span>
+
+static VALUE
+numo_robject_clip(VALUE self, VALUE min, VALUE max)
+{
+    ndfunc_arg_in_t ain[3] = {{Qnil,0},{cT,0},{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf_min = { iter_robject_clip_min, STRIDE_LOOP, 2, 1, ain, aout };
+    ndfunc_t ndf_max = { iter_robject_clip_max, STRIDE_LOOP, 2, 1, ain, aout };
+    ndfunc_t ndf_both = { iter_robject_clip, STRIDE_LOOP, 3, 1, ain, aout };
+
+    if (RTEST(min)) {
+        if (RTEST(max)) {
+            return na_ndloop(&amp;ndf_both, 3, self, min, max);
+        } else {
+            return na_ndloop(&amp;ndf_min, 2, self, min);
+        }
+    } else {
+        if (RTEST(max)) {
+            return na_ndloop(&amp;ndf_max, 2, self, max);
+        }
+    }
+    rb_raise(rb_eArgError,&quot;min and max are not given&quot;);
+    return Qnil;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="coerce_cast-instance_method">
   
     #<strong>coerce_cast</strong>(type)  &#x21d2; <tt>nil</tt> 
@@ -3647,7 +3902,7 @@ numo_robject_coerce_cast(VALUE value, VALUE type)
       <div class="method_details ">
   <h3 class="signature " id="cumprod-instance_method">
   
-    #<strong>cumprod</strong>(*args)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::RObject (class)">Numo::RObject</a></span></tt> 
+    #<strong>cumprod</strong>(axis: nil, nan: false)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::RObject (class)">Numo::RObject</a></span></tt> 
   
 
   
@@ -3669,16 +3924,32 @@ numo_robject_coerce_cast(VALUE value, VALUE type)
   
     <li>
       
-        <span class='name'>args</span>
+        <span class='name'>axis</span>
       
       
-        <span class='type'>(<tt>Array of Numeric</tt>, <tt>Range</tt>)</span>
+        <span class='type'>(<tt>Numeric</tt>, <tt>Array</tt>, <tt>Range</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
 <p>Affected dimensions.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>nan</span>
+      
+      
+        <span class='type'>(<tt>TrueClass</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If true, propagete NaN. If false, ignore NaN.</p>
 </div>
       
     </li>
@@ -3710,32 +3981,44 @@ numo_robject_coerce_cast(VALUE value, VALUE type)
       <pre class="lines">
 
 
-4334
-4335
-4336
-4337
-4338
-4339
-4340
-4341
-4342
-4343
-4344
-4345</pre>
+4986
+4987
+4988
+4989
+4990
+4991
+4992
+4993
+4994
+4995
+4996
+4997
+4998
+4999
+5000
+5001
+5002
+5003</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4334</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4986</span>
 
 static VALUE
 numo_robject_cumprod(int argc, VALUE *argv, VALUE self)
 {
+    int ignore_nan = 0;
     VALUE reduce;
     ndfunc_arg_in_t ain[2] = {{cT,0},{sym_reduce,0}};
     ndfunc_arg_out_t aout[1] = {{cT,0}};
     ndfunc_t ndf = { iter_robject_cumprod, STRIDE_LOOP_NIP|NDF_INPLACE|NDF_FLAT_REDUCE|NDF_CUM,
                      2, 1, ain, aout };
 
-    reduce = na_reduce_dimension(argc, argv, 1, &amp;self);
+    reduce = na_reduce_dimension(argc, argv, 1, &amp;self, &amp;ignore_nan);
+#line 46 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/cum.c&quot;
+    if (ignore_nan) {
+        ndf.func = iter_robject_cumprod_nan;
+    }
+#line 50 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/cum.c&quot;
     return na_ndloop(&amp;ndf, 2, self, reduce);
 }</pre>
     </td>
@@ -3746,7 +4029,7 @@ numo_robject_cumprod(int argc, VALUE *argv, VALUE self)
       <div class="method_details ">
   <h3 class="signature " id="cumsum-instance_method">
   
-    #<strong>cumsum</strong>(*args)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::RObject (class)">Numo::RObject</a></span></tt> 
+    #<strong>cumsum</strong>(axis: nil, nan: false)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::RObject (class)">Numo::RObject</a></span></tt> 
   
 
   
@@ -3768,16 +4051,32 @@ numo_robject_cumprod(int argc, VALUE *argv, VALUE self)
   
     <li>
       
-        <span class='name'>args</span>
+        <span class='name'>axis</span>
       
       
-        <span class='type'>(<tt>Array of Numeric</tt>, <tt>Range</tt>)</span>
+        <span class='type'>(<tt>Numeric</tt>, <tt>Array</tt>, <tt>Range</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
 <p>Affected dimensions.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>nan</span>
+      
+      
+        <span class='type'>(<tt>TrueClass</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If true, propagete NaN. If false, ignore NaN.</p>
 </div>
       
     </li>
@@ -3809,32 +4108,44 @@ numo_robject_cumprod(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-4287
-4288
-4289
-4290
-4291
-4292
-4293
-4294
-4295
-4296
-4297
-4298</pre>
+4906
+4907
+4908
+4909
+4910
+4911
+4912
+4913
+4914
+4915
+4916
+4917
+4918
+4919
+4920
+4921
+4922
+4923</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4287</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4906</span>
 
 static VALUE
 numo_robject_cumsum(int argc, VALUE *argv, VALUE self)
 {
+    int ignore_nan = 0;
     VALUE reduce;
     ndfunc_arg_in_t ain[2] = {{cT,0},{sym_reduce,0}};
     ndfunc_arg_out_t aout[1] = {{cT,0}};
     ndfunc_t ndf = { iter_robject_cumsum, STRIDE_LOOP_NIP|NDF_INPLACE|NDF_FLAT_REDUCE|NDF_CUM,
                      2, 1, ain, aout };
 
-    reduce = na_reduce_dimension(argc, argv, 1, &amp;self);
+    reduce = na_reduce_dimension(argc, argv, 1, &amp;self, &amp;ignore_nan);
+#line 46 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/cum.c&quot;
+    if (ignore_nan) {
+        ndf.func = iter_robject_cumsum_nan;
+    }
+#line 50 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/cum.c&quot;
     return na_ndloop(&amp;ndf, 2, self, reduce);
 }</pre>
     </td>
@@ -4366,60 +4677,60 @@ diagonal.</p>
       <pre class="lines">
 
 
-4645
-4646
-4647
-4648
-4649
-4650
-4651
-4652
-4653
-4654
-4655
-4656
-4657
-4658
-4659
-4660
-4661
-4662
-4663
-4664
-4665
-4666
-4667
-4668
-4669
-4670
-4671
-4672
-4673
-4674
-4675
-4676
-4677
-4678
-4679
-4680
-4681
-4682
-4683
-4684
-4685
-4686
-4687
-4688
-4689
-4690
-4691
-4692
-4693
-4694
-4695</pre>
+5343
+5344
+5345
+5346
+5347
+5348
+5349
+5350
+5351
+5352
+5353
+5354
+5355
+5356
+5357
+5358
+5359
+5360
+5361
+5362
+5363
+5364
+5365
+5366
+5367
+5368
+5369
+5370
+5371
+5372
+5373
+5374
+5375
+5376
+5377
+5378
+5379
+5380
+5381
+5382
+5383
+5384
+5385
+5386
+5387
+5388
+5389
+5390
+5391
+5392
+5393</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4645</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 5343</span>
 
 static VALUE
 numo_robject_eye(int argc, VALUE *argv, VALUE self)
@@ -5110,18 +5421,18 @@ numo_robject_inspect(VALUE ary)
       <pre class="lines">
 
 
-3715
-3716
-3717
-3718
-3719
-3720
-3721
-3722
-3723</pre>
+3938
+3939
+3940
+3941
+3942
+3943
+3944
+3945
+3946</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3715</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3938</span>
 
 static VALUE
 numo_robject_isfinite(VALUE self)
@@ -5183,18 +5494,18 @@ numo_robject_isfinite(VALUE self)
       <pre class="lines">
 
 
-3665
-3666
-3667
-3668
-3669
-3670
-3671
-3672
-3673</pre>
+3788
+3789
+3790
+3791
+3792
+3793
+3794
+3795
+3796</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3665</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3788</span>
 
 static VALUE
 numo_robject_isinf(VALUE self)
@@ -5256,18 +5567,18 @@ numo_robject_isinf(VALUE self)
       <pre class="lines">
 
 
-3615
-3616
-3617
-3618
-3619
-3620
-3621
-3622
-3623</pre>
+3738
+3739
+3740
+3741
+3742
+3743
+3744
+3745
+3746</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3615</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3738</span>
 
 static VALUE
 numo_robject_isnan(VALUE self)
@@ -5275,6 +5586,152 @@ numo_robject_isnan(VALUE self)
     ndfunc_arg_in_t ain[1] = {{cT,0}};
     ndfunc_arg_out_t aout[1] = {{numo_cBit,0}};
     ndfunc_t ndf = { iter_robject_isnan, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, self);
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="isneginf-instance_method">
+  
+    #<strong>isneginf</strong>  &#x21d2; <tt><span class='object_link'><a href="Bit.html" title="Numo::Bit (class)">Numo::Bit</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Condition of isneginf.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Bit.html" title="Numo::Bit (class)">Numo::Bit</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Condition of isneginf.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+3888
+3889
+3890
+3891
+3892
+3893
+3894
+3895
+3896</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3888</span>
+
+static VALUE
+numo_robject_isneginf(VALUE self)
+{
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{numo_cBit,0}};
+    ndfunc_t ndf = { iter_robject_isneginf, FULL_LOOP, 1, 1, ain, aout };
+
+    return na_ndloop(&amp;ndf, 1, self);
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="isposinf-instance_method">
+  
+    #<strong>isposinf</strong>  &#x21d2; <tt><span class='object_link'><a href="Bit.html" title="Numo::Bit (class)">Numo::Bit</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Condition of isposinf.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Bit.html" title="Numo::Bit (class)">Numo::Bit</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Condition of isposinf.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+3838
+3839
+3840
+3841
+3842
+3843
+3844
+3845
+3846</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3838</span>
+
+static VALUE
+numo_robject_isposinf(VALUE self)
+{
+    ndfunc_arg_in_t ain[1] = {{cT,0}};
+    ndfunc_arg_out_t aout[1] = {{numo_cBit,0}};
+    ndfunc_t ndf = { iter_robject_isposinf, FULL_LOOP, 1, 1, ain, aout };
 
     return na_ndloop(&amp;ndf, 1, self);
 }</pre>
@@ -5490,29 +5947,29 @@ Numo::DComplex.new(5).logseq(0,1i*Math::PI/3,Math::E)
       <pre class="lines">
 
 
-4580
-4581
-4582
-4583
-4584
-4585
-4586
-4587
-4588
-4589
-4590
-4591
-4592
-4593
-4594
-4595
-4596
-4597
-4598
-4599</pre>
+5278
+5279
+5280
+5281
+5282
+5283
+5284
+5285
+5286
+5287
+5288
+5289
+5290
+5291
+5292
+5293
+5294
+5295
+5296
+5297</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4580</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 5278</span>
 
 static VALUE
 numo_robject_logseq(int argc, VALUE *args, VALUE self)
@@ -5801,7 +6258,7 @@ numo_robject_map_with_index(VALUE self)
       <div class="method_details ">
   <h3 class="signature " id="max-instance_method">
   
-    #<strong>max</strong>(*args)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::RObject (class)">Numo::RObject</a></span></tt> 
+    #<strong>max</strong>(axis: nil, nan: false)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::RObject (class)">Numo::RObject</a></span></tt> 
   
 
   
@@ -5823,16 +6280,32 @@ numo_robject_map_with_index(VALUE self)
   
     <li>
       
-        <span class='name'>args</span>
+        <span class='name'>axis</span>
       
       
-        <span class='type'>(<tt>Array of Numeric</tt>, <tt>Range</tt>)</span>
+        <span class='type'>(<tt>Numeric</tt>, <tt>Array</tt>, <tt>Range</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
 <p>Affected dimensions.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>nan</span>
+      
+      
+        <span class='type'>(<tt>TrueClass</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If true, propagete NaN. If false, ignore NaN.</p>
 </div>
       
     </li>
@@ -5851,7 +6324,7 @@ numo_robject_map_with_index(VALUE self)
       
         &mdash;
         <div class='inline'>
-<p>max of self.</p>
+<p>returns max of self.</p>
 </div>
       
     </li>
@@ -5864,37 +6337,49 @@ numo_robject_map_with_index(VALUE self)
       <pre class="lines">
 
 
-4022
-4023
-4024
-4025
-4026
-4027
-4028
-4029
-4030
-4031
-4032
-4033
-4034
-4035</pre>
+4423
+4424
+4425
+4426
+4427
+4428
+4429
+4430
+4431
+4432
+4433
+4434
+4435
+4436
+4437
+4438
+4439
+4440
+4441
+4442</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4022</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4423</span>
 
 static VALUE
 numo_robject_max(int argc, VALUE *argv, VALUE self)
 {
+    int ignore_nan = 0;
     VALUE v, reduce;
     ndfunc_arg_in_t ain[2] = {{cT,0},{sym_reduce,0}};
     ndfunc_arg_out_t aout[1] = {{cT,0}};
     ndfunc_t ndf = { iter_robject_max, STRIDE_LOOP_NIP|NDF_FLAT_REDUCE, 2, 1, ain, aout };
 
-    reduce = na_reduce_dimension(argc, argv, 1, &amp;self);
+    reduce = na_reduce_dimension(argc, argv, 1, &amp;self, &amp;ignore_nan);
+#line 35 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
+    if (ignore_nan) {
+        ndf.func = iter_robject_max_nan;
+    }
+#line 39 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
     v =  na_ndloop(&amp;ndf, 2, self, reduce);
-#line 32 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
+#line 41 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
     return numo_robject_extract(v);
-#line 36 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
+#line 45 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
 }</pre>
     </td>
   </tr>
@@ -5904,11 +6389,7 @@ numo_robject_max(int argc, VALUE *argv, VALUE self)
       <div class="method_details ">
   <h3 class="signature " id="max_index-instance_method">
   
-    
-      <span class="overload">#<strong>max_index</strong>  &#x21d2; <tt>Integer</tt> </span>
-    
-      <span class="overload">#<strong>max_index</strong>(dim0, dim1, ..)  &#x21d2; <tt>Integer</tt>, <tt><span class='object_link'><a href="Int32.html" title="Numo::Int32 (class)">Numo::Int32</a></span>/64</tt> </span>
-    
+    #<strong>max_index</strong>(axis: nil, nan: false)  &#x21d2; <tt>Integer</tt>, <tt>Numo::Int</tt> 
   
 
   
@@ -5917,76 +6398,77 @@ numo_robject_max(int argc, VALUE *argv, VALUE self)
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Return an index of result.</p>
-
-<pre class="code"><code class="">Numo::NArray[3,4,1,2].min_index =&gt; 3</code></pre>
+<p>max_index. Return an index of result.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
-  <p class="tag_title">Overloads:</p>
-  <ul class="overload">
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
     
       
-      <li class="overload_item">
-        <span class="signature">#<strong>max_index</strong>  &#x21d2; <tt>Integer</tt> </span>
-        <div class="docstring">
-  <div class="discussion">
+      <pre class="example code"><code>Numo::NArray[3,4,1,2].min_index =&gt; 3</code></pre>
     
-
   </div>
-</div>
-<div class="tags">
+
   
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>axis</span>
+      
+      
+        <span class='type'>(<tt>Numeric</tt>, <tt>Array</tt>, <tt>Range</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Affected dimensions.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>nan</span>
+      
+      
+        <span class='type'>(<tt>TrueClass</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If true, propagete NaN. If false, ignore NaN.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
       
       
-        <span class='type'>(<tt>Integer</tt>)</span>
+        <span class='type'>(<tt>Integer</tt>, <tt>Numo::Int</tt>)</span>
       
       
+      
+        &mdash;
+        <div class='inline'>
+<p>returns result index of max_index.</p>
+</div>
       
     </li>
   
 </ul>
-
-</div>
-      </li>
-    
-      
-      <li class="overload_item">
-        <span class="signature">#<strong>max_index</strong>(dim0, dim1, ..)  &#x21d2; <tt>Integer</tt>, <tt><span class='object_link'><a href="Int32.html" title="Numo::Int32 (class)">Numo::Int32</a></span>/64</tt> </span>
-        <div class="docstring">
-  <div class="discussion">
-    
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>Integer</tt>, <tt><span class='object_link'><a href="Int32.html" title="Numo::Int32 (class)">Numo::Int32</a></span>/64</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div>
-      </li>
-    
-  </ul>
-
 
 </div><table class="source_code">
   <tr>
@@ -5994,46 +6476,62 @@ numo_robject_max(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-4090
-4091
-4092
-4093
-4094
-4095
-4096
-4097
-4098
-4099
-4100
-4101
-4102
-4103
-4104
-4105
-4106
-4107
-4108
-4109
-4110
-4111
-4112
-4113
-4114
-4115
-4116
-4117</pre>
+4601
+4602
+4603
+4604
+4605
+4606
+4607
+4608
+4609
+4610
+4611
+4612
+4613
+4614
+4615
+4616
+4617
+4618
+4619
+4620
+4621
+4622
+4623
+4624
+4625
+4626
+4627
+4628
+4629
+4630
+4631
+4632
+4633
+4634
+4635
+4636
+4637
+4638
+4639
+4640
+4641</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4090</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4601</span>
 
 static VALUE
 numo_robject_max_index(int argc, VALUE *argv, VALUE self)
 {
+    int ignore_nan = 0;
     narray_t *na;
     VALUE idx, reduce;
     ndfunc_arg_in_t ain[3] = {{Qnil,0},{Qnil,0},{sym_reduce,0}};
     ndfunc_arg_out_t aout[1] = {{0,0,0}};
     ndfunc_t ndf = {0, STRIDE_LOOP_NIP|NDF_FLAT_REDUCE|NDF_EXTRACT, 3,1, ain,aout};
+
+    reduce = na_reduce_dimension(argc, argv, 1, &amp;self, &amp;ignore_nan);
 
     GetNArray(self,na);
     if (na-&gt;ndim==0) {
@@ -6042,15 +6540,25 @@ numo_robject_max_index(int argc, VALUE *argv, VALUE self)
     if (na-&gt;size &gt; (~(u_int32_t)0)) {
         aout[0].type = numo_cInt64;
         idx = rb_narray_new(numo_cInt64, na-&gt;ndim, na-&gt;shape);
-        ndf.func = iter_robject_max_index_index64;
+#line 52 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum_index.c&quot;
+        if (ignore_nan) {
+            ndf.func = iter_robject_max_index_index64_nan;
+        } else {
+            ndf.func = iter_robject_max_index_index64;
+        }
+#line 60 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum_index.c&quot;
     } else {
         aout[0].type = numo_cInt32;
         idx = rb_narray_new(numo_cInt32, na-&gt;ndim, na-&gt;shape);
-        ndf.func = iter_robject_max_index_index32;
+#line 64 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum_index.c&quot;
+        if (ignore_nan) {
+            ndf.func = iter_robject_max_index_index32_nan;
+        } else {
+            ndf.func = iter_robject_max_index_index32;
+        }
+#line 72 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum_index.c&quot;
     }
     rb_funcall(idx, rb_intern(&quot;seq&quot;), 0);
-
-    reduce = na_reduce_dimension(argc, argv, 1, &amp;self);
 
     return na_ndloop(&amp;ndf, 3, self, idx, reduce);
 }</pre>
@@ -6062,7 +6570,7 @@ numo_robject_max_index(int argc, VALUE *argv, VALUE self)
       <div class="method_details ">
   <h3 class="signature " id="mean-instance_method">
   
-    #<strong>mean</strong>(*args)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::RObject (class)">Numo::RObject</a></span></tt> 
+    #<strong>mean</strong>(axis: nil, nan: false)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::RObject (class)">Numo::RObject</a></span></tt> 
   
 
   
@@ -6084,16 +6592,32 @@ numo_robject_max_index(int argc, VALUE *argv, VALUE self)
   
     <li>
       
-        <span class='name'>args</span>
+        <span class='name'>axis</span>
       
       
-        <span class='type'>(<tt>Array of Numeric</tt>, <tt>Range</tt>)</span>
+        <span class='type'>(<tt>Numeric</tt>, <tt>Array</tt>, <tt>Range</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
 <p>Affected dimensions.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>nan</span>
+      
+      
+        <span class='type'>(<tt>TrueClass</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If true, propagete NaN. If false, ignore NaN.</p>
 </div>
       
     </li>
@@ -6112,7 +6636,7 @@ numo_robject_max_index(int argc, VALUE *argv, VALUE self)
       
         &mdash;
         <div class='inline'>
-<p>mean of self.</p>
+<p>returns mean of self.</p>
 </div>
       
     </li>
@@ -6125,37 +6649,49 @@ numo_robject_max_index(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-3827
-3828
-3829
-3830
-3831
-3832
-3833
-3834
-3835
-3836
-3837
-3838
-3839
-3840</pre>
+4113
+4114
+4115
+4116
+4117
+4118
+4119
+4120
+4121
+4122
+4123
+4124
+4125
+4126
+4127
+4128
+4129
+4130
+4131
+4132</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3827</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4113</span>
 
 static VALUE
 numo_robject_mean(int argc, VALUE *argv, VALUE self)
 {
+    int ignore_nan = 0;
     VALUE v, reduce;
     ndfunc_arg_in_t ain[2] = {{cT,0},{sym_reduce,0}};
     ndfunc_arg_out_t aout[1] = {{cT,0}};
     ndfunc_t ndf = { iter_robject_mean, STRIDE_LOOP_NIP|NDF_FLAT_REDUCE, 2, 1, ain, aout };
 
-    reduce = na_reduce_dimension(argc, argv, 1, &amp;self);
+    reduce = na_reduce_dimension(argc, argv, 1, &amp;self, &amp;ignore_nan);
+#line 35 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
+    if (ignore_nan) {
+        ndf.func = iter_robject_mean_nan;
+    }
+#line 39 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
     v =  na_ndloop(&amp;ndf, 2, self, reduce);
-#line 32 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
+#line 41 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
     return numo_robject_extract(v);
-#line 36 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
+#line 45 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
 }</pre>
     </td>
   </tr>
@@ -6165,7 +6701,7 @@ numo_robject_mean(int argc, VALUE *argv, VALUE self)
       <div class="method_details ">
   <h3 class="signature " id="min-instance_method">
   
-    #<strong>min</strong>(*args)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::RObject (class)">Numo::RObject</a></span></tt> 
+    #<strong>min</strong>(axis: nil, nan: false)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::RObject (class)">Numo::RObject</a></span></tt> 
   
 
   
@@ -6187,16 +6723,32 @@ numo_robject_mean(int argc, VALUE *argv, VALUE self)
   
     <li>
       
-        <span class='name'>args</span>
+        <span class='name'>axis</span>
       
       
-        <span class='type'>(<tt>Array of Numeric</tt>, <tt>Range</tt>)</span>
+        <span class='type'>(<tt>Numeric</tt>, <tt>Array</tt>, <tt>Range</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
 <p>Affected dimensions.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>nan</span>
+      
+      
+        <span class='type'>(<tt>TrueClass</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If true, propagete NaN. If false, ignore NaN.</p>
 </div>
       
     </li>
@@ -6215,7 +6767,7 @@ numo_robject_mean(int argc, VALUE *argv, VALUE self)
       
         &mdash;
         <div class='inline'>
-<p>min of self.</p>
+<p>returns min of self.</p>
 </div>
       
     </li>
@@ -6228,37 +6780,49 @@ numo_robject_mean(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-3983
-3984
-3985
-3986
-3987
-3988
-3989
-3990
-3991
-3992
-3993
-3994
-3995
-3996</pre>
+4361
+4362
+4363
+4364
+4365
+4366
+4367
+4368
+4369
+4370
+4371
+4372
+4373
+4374
+4375
+4376
+4377
+4378
+4379
+4380</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3983</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4361</span>
 
 static VALUE
 numo_robject_min(int argc, VALUE *argv, VALUE self)
 {
+    int ignore_nan = 0;
     VALUE v, reduce;
     ndfunc_arg_in_t ain[2] = {{cT,0},{sym_reduce,0}};
     ndfunc_arg_out_t aout[1] = {{cT,0}};
     ndfunc_t ndf = { iter_robject_min, STRIDE_LOOP_NIP|NDF_FLAT_REDUCE, 2, 1, ain, aout };
 
-    reduce = na_reduce_dimension(argc, argv, 1, &amp;self);
+    reduce = na_reduce_dimension(argc, argv, 1, &amp;self, &amp;ignore_nan);
+#line 35 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
+    if (ignore_nan) {
+        ndf.func = iter_robject_min_nan;
+    }
+#line 39 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
     v =  na_ndloop(&amp;ndf, 2, self, reduce);
-#line 32 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
+#line 41 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
     return numo_robject_extract(v);
-#line 36 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
+#line 45 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
 }</pre>
     </td>
   </tr>
@@ -6268,11 +6832,7 @@ numo_robject_min(int argc, VALUE *argv, VALUE self)
       <div class="method_details ">
   <h3 class="signature " id="min_index-instance_method">
   
-    
-      <span class="overload">#<strong>min_index</strong>  &#x21d2; <tt>Integer</tt> </span>
-    
-      <span class="overload">#<strong>min_index</strong>(dim0, dim1, ..)  &#x21d2; <tt>Integer</tt>, <tt><span class='object_link'><a href="Int32.html" title="Numo::Int32 (class)">Numo::Int32</a></span>/64</tt> </span>
-    
+    #<strong>min_index</strong>(axis: nil, nan: false)  &#x21d2; <tt>Integer</tt>, <tt>Numo::Int</tt> 
   
 
   
@@ -6281,76 +6841,77 @@ numo_robject_min(int argc, VALUE *argv, VALUE self)
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Return an index of result.</p>
-
-<pre class="code"><code class="">Numo::NArray[3,4,1,2].min_index =&gt; 3</code></pre>
+<p>min_index. Return an index of result.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
-  <p class="tag_title">Overloads:</p>
-  <ul class="overload">
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
     
       
-      <li class="overload_item">
-        <span class="signature">#<strong>min_index</strong>  &#x21d2; <tt>Integer</tt> </span>
-        <div class="docstring">
-  <div class="discussion">
+      <pre class="example code"><code>Numo::NArray[3,4,1,2].min_index =&gt; 3</code></pre>
     
-
   </div>
-</div>
-<div class="tags">
+
   
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>axis</span>
+      
+      
+        <span class='type'>(<tt>Numeric</tt>, <tt>Array</tt>, <tt>Range</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Affected dimensions.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>nan</span>
+      
+      
+        <span class='type'>(<tt>TrueClass</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If true, propagete NaN. If false, ignore NaN.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
       
       
-        <span class='type'>(<tt>Integer</tt>)</span>
+        <span class='type'>(<tt>Integer</tt>, <tt>Numo::Int</tt>)</span>
       
       
+      
+        &mdash;
+        <div class='inline'>
+<p>returns result index of min_index.</p>
+</div>
       
     </li>
   
 </ul>
-
-</div>
-      </li>
-    
-      
-      <li class="overload_item">
-        <span class="signature">#<strong>min_index</strong>(dim0, dim1, ..)  &#x21d2; <tt>Integer</tt>, <tt><span class='object_link'><a href="Int32.html" title="Numo::Int32 (class)">Numo::Int32</a></span>/64</tt> </span>
-        <div class="docstring">
-  <div class="discussion">
-    
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>Integer</tt>, <tt><span class='object_link'><a href="Int32.html" title="Numo::Int32 (class)">Numo::Int32</a></span>/64</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div>
-      </li>
-    
-  </ul>
-
 
 </div><table class="source_code">
   <tr>
@@ -6358,46 +6919,62 @@ numo_robject_min(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-4172
-4173
-4174
-4175
-4176
-4177
-4178
-4179
-4180
-4181
-4182
-4183
-4184
-4185
-4186
-4187
-4188
-4189
-4190
-4191
-4192
-4193
-4194
-4195
-4196
-4197
-4198
-4199</pre>
+4738
+4739
+4740
+4741
+4742
+4743
+4744
+4745
+4746
+4747
+4748
+4749
+4750
+4751
+4752
+4753
+4754
+4755
+4756
+4757
+4758
+4759
+4760
+4761
+4762
+4763
+4764
+4765
+4766
+4767
+4768
+4769
+4770
+4771
+4772
+4773
+4774
+4775
+4776
+4777
+4778</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4172</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4738</span>
 
 static VALUE
 numo_robject_min_index(int argc, VALUE *argv, VALUE self)
 {
+    int ignore_nan = 0;
     narray_t *na;
     VALUE idx, reduce;
     ndfunc_arg_in_t ain[3] = {{Qnil,0},{Qnil,0},{sym_reduce,0}};
     ndfunc_arg_out_t aout[1] = {{0,0,0}};
     ndfunc_t ndf = {0, STRIDE_LOOP_NIP|NDF_FLAT_REDUCE|NDF_EXTRACT, 3,1, ain,aout};
+
+    reduce = na_reduce_dimension(argc, argv, 1, &amp;self, &amp;ignore_nan);
 
     GetNArray(self,na);
     if (na-&gt;ndim==0) {
@@ -6406,15 +6983,25 @@ numo_robject_min_index(int argc, VALUE *argv, VALUE self)
     if (na-&gt;size &gt; (~(u_int32_t)0)) {
         aout[0].type = numo_cInt64;
         idx = rb_narray_new(numo_cInt64, na-&gt;ndim, na-&gt;shape);
-        ndf.func = iter_robject_min_index_index64;
+#line 52 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum_index.c&quot;
+        if (ignore_nan) {
+            ndf.func = iter_robject_min_index_index64_nan;
+        } else {
+            ndf.func = iter_robject_min_index_index64;
+        }
+#line 60 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum_index.c&quot;
     } else {
         aout[0].type = numo_cInt32;
         idx = rb_narray_new(numo_cInt32, na-&gt;ndim, na-&gt;shape);
-        ndf.func = iter_robject_min_index_index32;
+#line 64 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum_index.c&quot;
+        if (ignore_nan) {
+            ndf.func = iter_robject_min_index_index32_nan;
+        } else {
+            ndf.func = iter_robject_min_index_index32;
+        }
+#line 72 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum_index.c&quot;
     }
     rb_funcall(idx, rb_intern(&quot;seq&quot;), 0);
-
-    reduce = na_reduce_dimension(argc, argv, 1, &amp;self);
 
     return na_ndloop(&amp;ndf, 3, self, idx, reduce);
 }</pre>
@@ -6426,7 +7013,7 @@ numo_robject_min_index(int argc, VALUE *argv, VALUE self)
       <div class="method_details ">
   <h3 class="signature " id="minmax-instance_method">
   
-    #<strong>minmax</strong>(*args)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::RObject (class)">Numo::RObject</a></span></tt> 
+    #<strong>minmax</strong>(axis: nil, nan: false)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::RObject (class)">Numo::RObject</a></span></tt> 
   
 
   
@@ -6448,16 +7035,32 @@ numo_robject_min_index(int argc, VALUE *argv, VALUE self)
   
     <li>
       
-        <span class='name'>args</span>
+        <span class='name'>axis</span>
       
       
-        <span class='type'>(<tt>Array of Numeric</tt>, <tt>Range</tt>)</span>
+        <span class='type'>(<tt>Numeric</tt>, <tt>Array</tt>, <tt>Range</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
 <p>Affected dimensions.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>nan</span>
+      
+      
+        <span class='type'>(<tt>TrueClass</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If true, propagete NaN. If false, ignore NaN.</p>
 </div>
       
     </li>
@@ -6489,30 +7092,42 @@ numo_robject_min_index(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-4241
-4242
-4243
-4244
-4245
-4246
-4247
-4248
-4249
-4250
-4251</pre>
+4827
+4828
+4829
+4830
+4831
+4832
+4833
+4834
+4835
+4836
+4837
+4838
+4839
+4840
+4841
+4842
+4843</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4241</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4827</span>
 
 static VALUE
 numo_robject_minmax(int argc, VALUE *argv, VALUE self)
 {
+    int ignore_nan = 0;
     VALUE reduce;
     ndfunc_arg_in_t ain[2] = {{cT,0},{sym_reduce,0}};
     ndfunc_arg_out_t aout[2] = {{cT,0},{cT,0}};
     ndfunc_t ndf = {iter_robject_minmax, STRIDE_LOOP_NIP|NDF_FLAT_REDUCE|NDF_EXTRACT, 2,2, ain,aout};
 
-    reduce = na_reduce_dimension(argc, argv, 1, &amp;self);
+    reduce = na_reduce_dimension(argc, argv, 1, &amp;self, &amp;ignore_nan);
+#line 38 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/minmax.c&quot;
+    if (ignore_nan) {
+        ndf.func = iter_robject_minmax_nan;
+    }
+#line 42 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/minmax.c&quot;
     return na_ndloop(&amp;ndf, 2, self, reduce);
 }</pre>
     </td>
@@ -6523,7 +7138,7 @@ numo_robject_minmax(int argc, VALUE *argv, VALUE self)
       <div class="method_details ">
   <h3 class="signature " id="mulsum-instance_method">
   
-    #<strong>mulsum</strong>(other)  &#x21d2; <tt><span class='object_link'><a href="NArray.html" title="Numo::NArray (class)">Numo::NArray</a></span></tt> 
+    #<strong>mulsum</strong>(other, axis: nil, nan: false)  &#x21d2; <tt><span class='object_link'><a href="NArray.html" title="Numo::NArray (class)">Numo::NArray</a></span></tt> 
   
 
   
@@ -6554,6 +7169,38 @@ numo_robject_minmax(int argc, VALUE *argv, VALUE self)
       
     </li>
   
+    <li>
+      
+        <span class='name'>axis</span>
+      
+      
+        <span class='type'>(<tt>Numeric</tt>, <tt>Array</tt>, <tt>Range</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Affected dimensions.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>nan</span>
+      
+      
+        <span class='type'>(<tt>TrueClass</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If true, propagete NaN. If false, ignore NaN.</p>
+</div>
+      
+    </li>
+  
 </ul>
 
 <p class="tag_title">Returns:</p>
@@ -6581,35 +7228,35 @@ numo_robject_minmax(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-4411
-4412
-4413
-4414
-4415
-4416
-4417
-4418
-4419
-4420
-4421
-4422
-4423</pre>
+5109
+5110
+5111
+5112
+5113
+5114
+5115
+5116
+5117
+5118
+5119
+5120
+5121</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4411</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 5109</span>
 
 static VALUE
 numo_robject_mulsum(int argc, VALUE *argv, VALUE self)
 {
     
-#line 67 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum_binary.c&quot;
+#line 75 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum_binary.c&quot;
     if (argc &lt; 1) {
         rb_raise(rb_eArgError,&quot;wrong number of arguments (%d for &gt;=1)&quot;,argc);
     }
     
     return numo_robject_mulsum_self(argc, argv, self);
     
-#line 81 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum_binary.c&quot;
+#line 89 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum_binary.c&quot;
 }</pre>
     </td>
   </tr>
@@ -6864,33 +7511,33 @@ numo_robject_nearly_eq(VALUE self, VALUE other)
       <pre class="lines">
 
 
-4823
-4824
-4825
-4826
-4827
-4828
-4829
-4830
-4831
-4832
-4833
-4834
-4835
-4836
-4837
-4838
-4839
-4840
-4841
-4842
-4843
-4844
-4845
-4846</pre>
+5521
+5522
+5523
+5524
+5525
+5526
+5527
+5528
+5529
+5530
+5531
+5532
+5533
+5534
+5535
+5536
+5537
+5538
+5539
+5540
+5541
+5542
+5543
+5544</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4823</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 5521</span>
 
 static VALUE
 numo_robject_poly(VALUE self, VALUE args)
@@ -6924,7 +7571,7 @@ numo_robject_poly(VALUE self, VALUE args)
       <div class="method_details ">
   <h3 class="signature " id="prod-instance_method">
   
-    #<strong>prod</strong>(*args)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::RObject (class)">Numo::RObject</a></span></tt> 
+    #<strong>prod</strong>(axis: nil, nan: false)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::RObject (class)">Numo::RObject</a></span></tt> 
   
 
   
@@ -6946,16 +7593,32 @@ numo_robject_poly(VALUE self, VALUE args)
   
     <li>
       
-        <span class='name'>args</span>
+        <span class='name'>axis</span>
       
       
-        <span class='type'>(<tt>Array of Numeric</tt>, <tt>Range</tt>)</span>
+        <span class='type'>(<tt>Numeric</tt>, <tt>Array</tt>, <tt>Range</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
 <p>Affected dimensions.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>nan</span>
+      
+      
+        <span class='type'>(<tt>TrueClass</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If true, propagete NaN. If false, ignore NaN.</p>
 </div>
       
     </li>
@@ -6974,7 +7637,7 @@ numo_robject_poly(VALUE self, VALUE args)
       
         &mdash;
         <div class='inline'>
-<p>prod of self.</p>
+<p>returns prod of self.</p>
 </div>
       
     </li>
@@ -6987,37 +7650,180 @@ numo_robject_poly(VALUE self, VALUE args)
       <pre class="lines">
 
 
-3788
-3789
-3790
-3791
-3792
-3793
-3794
-3795
-3796
-3797
-3798
-3799
-3800
-3801</pre>
+4051
+4052
+4053
+4054
+4055
+4056
+4057
+4058
+4059
+4060
+4061
+4062
+4063
+4064
+4065
+4066
+4067
+4068
+4069
+4070</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3788</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4051</span>
 
 static VALUE
 numo_robject_prod(int argc, VALUE *argv, VALUE self)
 {
+    int ignore_nan = 0;
     VALUE v, reduce;
     ndfunc_arg_in_t ain[2] = {{cT,0},{sym_reduce,0}};
     ndfunc_arg_out_t aout[1] = {{cT,0}};
     ndfunc_t ndf = { iter_robject_prod, STRIDE_LOOP_NIP|NDF_FLAT_REDUCE, 2, 1, ain, aout };
 
-    reduce = na_reduce_dimension(argc, argv, 1, &amp;self);
+    reduce = na_reduce_dimension(argc, argv, 1, &amp;self, &amp;ignore_nan);
+#line 35 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
+    if (ignore_nan) {
+        ndf.func = iter_robject_prod_nan;
+    }
+#line 39 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
     v =  na_ndloop(&amp;ndf, 2, self, reduce);
-#line 32 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
+#line 41 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
     return numo_robject_extract(v);
-#line 36 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
+#line 45 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="ptp-instance_method">
+  
+    #<strong>ptp</strong>(axis: nil, nan: false)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::RObject (class)">Numo::RObject</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Ptp of self.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>axis</span>
+      
+      
+        <span class='type'>(<tt>Numeric</tt>, <tt>Array</tt>, <tt>Range</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Affected dimensions.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>nan</span>
+      
+      
+        <span class='type'>(<tt>TrueClass</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If true, propagete NaN. If false, ignore NaN.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::RObject (class)">Numo::RObject</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>returns ptp of self.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+4485
+4486
+4487
+4488
+4489
+4490
+4491
+4492
+4493
+4494
+4495
+4496
+4497
+4498
+4499
+4500
+4501
+4502
+4503
+4504</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4485</span>
+
+static VALUE
+numo_robject_ptp(int argc, VALUE *argv, VALUE self)
+{
+    int ignore_nan = 0;
+    VALUE v, reduce;
+    ndfunc_arg_in_t ain[2] = {{cT,0},{sym_reduce,0}};
+    ndfunc_arg_out_t aout[1] = {{cT,0}};
+    ndfunc_t ndf = { iter_robject_ptp, STRIDE_LOOP_NIP|NDF_FLAT_REDUCE, 2, 1, ain, aout };
+
+    reduce = na_reduce_dimension(argc, argv, 1, &amp;self, &amp;ignore_nan);
+#line 35 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
+    if (ignore_nan) {
+        ndf.func = iter_robject_ptp_nan;
+    }
+#line 39 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
+    v =  na_ndloop(&amp;ndf, 2, self, reduce);
+#line 41 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
+    return numo_robject_extract(v);
+#line 45 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
 }</pre>
     </td>
   </tr>
@@ -7123,42 +7929,42 @@ types)</p>
       <pre class="lines">
 
 
-4760
-4761
-4762
-4763
-4764
-4765
-4766
-4767
-4768
-4769
-4770
-4771
-4772
-4773
-4774
-4775
-4776
-4777
-4778
-4779
-4780
-4781
-4782
-4783
-4784
-4785
-4786
-4787
-4788
-4789
-4790
-4791
-4792</pre>
+5458
+5459
+5460
+5461
+5462
+5463
+5464
+5465
+5466
+5467
+5468
+5469
+5470
+5471
+5472
+5473
+5474
+5475
+5476
+5477
+5478
+5479
+5480
+5481
+5482
+5483
+5484
+5485
+5486
+5487
+5488
+5489
+5490</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4760</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 5458</span>
 
 static VALUE
 numo_robject_rand(int argc, VALUE *args, VALUE self)
@@ -7274,7 +8080,7 @@ numo_robject_reciprocal(VALUE self)
       <div class="method_details ">
   <h3 class="signature " id="rms-instance_method">
   
-    #<strong>rms</strong>(*args)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::RObject (class)">Numo::RObject</a></span></tt> 
+    #<strong>rms</strong>(axis: nil, nan: false)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::RObject (class)">Numo::RObject</a></span></tt> 
   
 
   
@@ -7296,16 +8102,32 @@ numo_robject_reciprocal(VALUE self)
   
     <li>
       
-        <span class='name'>args</span>
+        <span class='name'>axis</span>
       
       
-        <span class='type'>(<tt>Array of Numeric</tt>, <tt>Range</tt>)</span>
+        <span class='type'>(<tt>Numeric</tt>, <tt>Array</tt>, <tt>Range</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
 <p>Affected dimensions.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>nan</span>
+      
+      
+        <span class='type'>(<tt>TrueClass</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If true, propagete NaN. If false, ignore NaN.</p>
 </div>
       
     </li>
@@ -7324,7 +8146,7 @@ numo_robject_reciprocal(VALUE self)
       
         &mdash;
         <div class='inline'>
-<p>rms of self.</p>
+<p>returns rms of self.</p>
 </div>
       
     </li>
@@ -7337,37 +8159,49 @@ numo_robject_reciprocal(VALUE self)
       <pre class="lines">
 
 
-3944
-3945
-3946
-3947
-3948
-3949
-3950
-3951
-3952
-3953
-3954
-3955
-3956
-3957</pre>
+4299
+4300
+4301
+4302
+4303
+4304
+4305
+4306
+4307
+4308
+4309
+4310
+4311
+4312
+4313
+4314
+4315
+4316
+4317
+4318</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3944</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4299</span>
 
 static VALUE
 numo_robject_rms(int argc, VALUE *argv, VALUE self)
 {
+    int ignore_nan = 0;
     VALUE v, reduce;
     ndfunc_arg_in_t ain[2] = {{cT,0},{sym_reduce,0}};
     ndfunc_arg_out_t aout[1] = {{cRT,0}};
     ndfunc_t ndf = { iter_robject_rms, STRIDE_LOOP_NIP|NDF_FLAT_REDUCE, 2, 1, ain, aout };
 
-    reduce = na_reduce_dimension(argc, argv, 1, &amp;self);
+    reduce = na_reduce_dimension(argc, argv, 1, &amp;self, &amp;ignore_nan);
+#line 35 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
+    if (ignore_nan) {
+        ndf.func = iter_robject_rms_nan;
+    }
+#line 39 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
     v =  na_ndloop(&amp;ndf, 2, self, reduce);
-#line 34 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
+#line 43 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
     return rb_funcall(v,rb_intern(&quot;extract&quot;),0);
-#line 36 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
+#line 45 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
 }</pre>
     </td>
   </tr>
@@ -7551,30 +8385,30 @@ Numo::DComplex.new(6).seq(1,-0.2+0.2i)
       <pre class="lines">
 
 
-4492
-4493
-4494
-4495
-4496
-4497
-4498
-4499
-4500
-4501
-4502
-4503
-4504
-4505
-4506
-4507
-4508
-4509
-4510
-4511
-4512</pre>
+5190
+5191
+5192
+5193
+5194
+5195
+5196
+5197
+5198
+5199
+5200
+5201
+5202
+5203
+5204
+5205
+5206
+5207
+5208
+5209
+5210</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4492</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 5190</span>
 
 static VALUE
 numo_robject_seq(int argc, VALUE *args, VALUE self)
@@ -7751,7 +8585,7 @@ numo_robject_square(VALUE self)
       <div class="method_details ">
   <h3 class="signature " id="stddev-instance_method">
   
-    #<strong>stddev</strong>(*args)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::RObject (class)">Numo::RObject</a></span></tt> 
+    #<strong>stddev</strong>(axis: nil, nan: false)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::RObject (class)">Numo::RObject</a></span></tt> 
   
 
   
@@ -7773,16 +8607,32 @@ numo_robject_square(VALUE self)
   
     <li>
       
-        <span class='name'>args</span>
+        <span class='name'>axis</span>
       
       
-        <span class='type'>(<tt>Array of Numeric</tt>, <tt>Range</tt>)</span>
+        <span class='type'>(<tt>Numeric</tt>, <tt>Array</tt>, <tt>Range</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
 <p>Affected dimensions.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>nan</span>
+      
+      
+        <span class='type'>(<tt>TrueClass</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If true, propagete NaN. If false, ignore NaN.</p>
 </div>
       
     </li>
@@ -7801,7 +8651,7 @@ numo_robject_square(VALUE self)
       
         &mdash;
         <div class='inline'>
-<p>stddev of self.</p>
+<p>returns stddev of self.</p>
 </div>
       
     </li>
@@ -7814,37 +8664,49 @@ numo_robject_square(VALUE self)
       <pre class="lines">
 
 
-3866
-3867
-3868
-3869
-3870
-3871
-3872
-3873
-3874
-3875
-3876
-3877
-3878
-3879</pre>
+4175
+4176
+4177
+4178
+4179
+4180
+4181
+4182
+4183
+4184
+4185
+4186
+4187
+4188
+4189
+4190
+4191
+4192
+4193
+4194</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3866</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4175</span>
 
 static VALUE
 numo_robject_stddev(int argc, VALUE *argv, VALUE self)
 {
+    int ignore_nan = 0;
     VALUE v, reduce;
     ndfunc_arg_in_t ain[2] = {{cT,0},{sym_reduce,0}};
     ndfunc_arg_out_t aout[1] = {{cRT,0}};
     ndfunc_t ndf = { iter_robject_stddev, STRIDE_LOOP_NIP|NDF_FLAT_REDUCE, 2, 1, ain, aout };
 
-    reduce = na_reduce_dimension(argc, argv, 1, &amp;self);
+    reduce = na_reduce_dimension(argc, argv, 1, &amp;self, &amp;ignore_nan);
+#line 35 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
+    if (ignore_nan) {
+        ndf.func = iter_robject_stddev_nan;
+    }
+#line 39 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
     v =  na_ndloop(&amp;ndf, 2, self, reduce);
-#line 34 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
+#line 43 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
     return rb_funcall(v,rb_intern(&quot;extract&quot;),0);
-#line 36 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
+#line 45 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
 }</pre>
     </td>
   </tr>
@@ -8136,7 +8998,7 @@ numo_robject_store(VALUE self, VALUE obj)
       <div class="method_details ">
   <h3 class="signature " id="sum-instance_method">
   
-    #<strong>sum</strong>(*args)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::RObject (class)">Numo::RObject</a></span></tt> 
+    #<strong>sum</strong>(axis: nil, nan: false)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::RObject (class)">Numo::RObject</a></span></tt> 
   
 
   
@@ -8158,16 +9020,32 @@ numo_robject_store(VALUE self, VALUE obj)
   
     <li>
       
-        <span class='name'>args</span>
+        <span class='name'>axis</span>
       
       
-        <span class='type'>(<tt>Array of Numeric</tt>, <tt>Range</tt>)</span>
+        <span class='type'>(<tt>Numeric</tt>, <tt>Array</tt>, <tt>Range</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
 <p>Affected dimensions.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>nan</span>
+      
+      
+        <span class='type'>(<tt>TrueClass</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If true, propagete NaN. If false, ignore NaN.</p>
 </div>
       
     </li>
@@ -8186,7 +9064,7 @@ numo_robject_store(VALUE self, VALUE obj)
       
         &mdash;
         <div class='inline'>
-<p>sum of self.</p>
+<p>returns sum of self.</p>
 </div>
       
     </li>
@@ -8199,37 +9077,49 @@ numo_robject_store(VALUE self, VALUE obj)
       <pre class="lines">
 
 
-3749
-3750
-3751
-3752
-3753
-3754
-3755
-3756
-3757
-3758
-3759
-3760
-3761
-3762</pre>
+3989
+3990
+3991
+3992
+3993
+3994
+3995
+3996
+3997
+3998
+3999
+4000
+4001
+4002
+4003
+4004
+4005
+4006
+4007
+4008</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3749</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3989</span>
 
 static VALUE
 numo_robject_sum(int argc, VALUE *argv, VALUE self)
 {
+    int ignore_nan = 0;
     VALUE v, reduce;
     ndfunc_arg_in_t ain[2] = {{cT,0},{sym_reduce,0}};
     ndfunc_arg_out_t aout[1] = {{cT,0}};
     ndfunc_t ndf = { iter_robject_sum, STRIDE_LOOP_NIP|NDF_FLAT_REDUCE, 2, 1, ain, aout };
 
-    reduce = na_reduce_dimension(argc, argv, 1, &amp;self);
+    reduce = na_reduce_dimension(argc, argv, 1, &amp;self, &amp;ignore_nan);
+#line 35 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
+    if (ignore_nan) {
+        ndf.func = iter_robject_sum_nan;
+    }
+#line 39 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
     v =  na_ndloop(&amp;ndf, 2, self, reduce);
-#line 32 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
+#line 41 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
     return numo_robject_extract(v);
-#line 36 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
+#line 45 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
 }</pre>
     </td>
   </tr>
@@ -8378,7 +9268,7 @@ numo_robject_trunc(VALUE self)
       <div class="method_details ">
   <h3 class="signature " id="var-instance_method">
   
-    #<strong>var</strong>(*args)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::RObject (class)">Numo::RObject</a></span></tt> 
+    #<strong>var</strong>(axis: nil, nan: false)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::RObject (class)">Numo::RObject</a></span></tt> 
   
 
   
@@ -8400,16 +9290,32 @@ numo_robject_trunc(VALUE self)
   
     <li>
       
-        <span class='name'>args</span>
+        <span class='name'>axis</span>
       
       
-        <span class='type'>(<tt>Array of Numeric</tt>, <tt>Range</tt>)</span>
+        <span class='type'>(<tt>Numeric</tt>, <tt>Array</tt>, <tt>Range</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
 <p>Affected dimensions.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>nan</span>
+      
+      
+        <span class='type'>(<tt>TrueClass</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If true, propagete NaN. If false, ignore NaN.</p>
 </div>
       
     </li>
@@ -8428,7 +9334,7 @@ numo_robject_trunc(VALUE self)
       
         &mdash;
         <div class='inline'>
-<p>var of self.</p>
+<p>returns var of self.</p>
 </div>
       
     </li>
@@ -8441,37 +9347,49 @@ numo_robject_trunc(VALUE self)
       <pre class="lines">
 
 
-3905
-3906
-3907
-3908
-3909
-3910
-3911
-3912
-3913
-3914
-3915
-3916
-3917
-3918</pre>
+4237
+4238
+4239
+4240
+4241
+4242
+4243
+4244
+4245
+4246
+4247
+4248
+4249
+4250
+4251
+4252
+4253
+4254
+4255
+4256</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3905</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4237</span>
 
 static VALUE
 numo_robject_var(int argc, VALUE *argv, VALUE self)
 {
+    int ignore_nan = 0;
     VALUE v, reduce;
     ndfunc_arg_in_t ain[2] = {{cT,0},{sym_reduce,0}};
     ndfunc_arg_out_t aout[1] = {{cRT,0}};
     ndfunc_t ndf = { iter_robject_var, STRIDE_LOOP_NIP|NDF_FLAT_REDUCE, 2, 1, ain, aout };
 
-    reduce = na_reduce_dimension(argc, argv, 1, &amp;self);
+    reduce = na_reduce_dimension(argc, argv, 1, &amp;self, &amp;ignore_nan);
+#line 35 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
+    if (ignore_nan) {
+        ndf.func = iter_robject_var_nan;
+    }
+#line 39 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
     v =  na_ndloop(&amp;ndf, 2, self, reduce);
-#line 34 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
+#line 43 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
     return rb_funcall(v,rb_intern(&quot;extract&quot;),0);
-#line 36 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
+#line 45 &quot;/home/masa/numo/narray/ext/numo/narray/gen/tmpl/accum.c&quot;
 }</pre>
     </td>
   </tr>
@@ -8642,7 +9560,7 @@ numo_robject_bit_not(VALUE self)
 </div>
 
       <div id="footer">
-  Generated on Thu Apr 13 11:25:29 2017 by
+  Generated on Fri Apr 14 12:22:23 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.4.0).
 </div>

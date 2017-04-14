@@ -1046,6 +1046,30 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#diff-instance_method" title="#diff (instance method)">#<strong>diff</strong>(n = 1, axis: -1))  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Calculate the n-th discrete difference along given axis.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#dot-instance_method" title="#dot (instance method)">#<strong>dot</strong>(other)  &#x21d2; Object </a>
     
 
@@ -2193,8 +2217,6 @@ type of NArray.</p>
       <pre class="lines">
 
 
-329
-330
 331
 332
 333
@@ -2218,10 +2240,12 @@ type of NArray.</p>
 351
 352
 353
-354</pre>
+354
+355
+356</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 329</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 331</span>
 
 static VALUE
 na_initialize(VALUE self, VALUE args)
@@ -2486,14 +2510,14 @@ na_s_array_type(VALUE mod, VALUE ary)
       <pre class="lines">
 
 
-1187
-1188
 1189
 1190
-1191</pre>
+1191
+1192
+1193</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1187</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1189</span>
 
 static VALUE
 nary_s_byte_size(VALUE type)
@@ -2797,14 +2821,14 @@ nary_s_byte_size(VALUE type)
       <pre class="lines">
 
 
-1677
-1678
-1679
-1680
-1681</pre>
+1705
+1706
+1707
+1708
+1709</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1677</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1705</span>
 
 VALUE na_debug_set(VALUE mod, VALUE flag)
 {
@@ -2964,8 +2988,6 @@ VALUE na_debug_set(VALUE mod, VALUE flag)
       <pre class="lines">
 
 
-542
-543
 544
 545
 546
@@ -2980,10 +3002,12 @@ VALUE na_debug_set(VALUE mod, VALUE flag)
 555
 556
 557
-558</pre>
+558
+559
+560</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 542</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 544</span>
 
 static VALUE
 na_s_eye(int argc, VALUE *argv, VALUE klass)
@@ -3089,8 +3113,6 @@ na_s_eye(int argc, VALUE *argv, VALUE klass)
       <pre class="lines">
 
 
-1201
-1202
 1203
 1204
 1205
@@ -3154,10 +3176,12 @@ na_s_eye(int argc, VALUE *argv, VALUE klass)
 1263
 1264
 1265
-1266</pre>
+1266
+1267
+1268</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1201</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1203</span>
 
 static VALUE
 nary_s_from_binary(int argc, VALUE *argv, VALUE type)
@@ -3353,17 +3377,17 @@ nary_s_from_binary(int argc, VALUE *argv, VALUE type)
       <pre class="lines">
 
 
-1732
-1733
-1734
-1735
-1736
-1737
-1738
-1739</pre>
+1760
+1761
+1762
+1763
+1764
+1765
+1766
+1767</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1732</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1760</span>
 
 static VALUE na_inspect_cols(VALUE mod)
 {
@@ -3439,18 +3463,18 @@ static VALUE na_inspect_cols(VALUE mod)
       <pre class="lines">
 
 
-1747
-1748
-1749
-1750
-1751
-1752
-1753
-1754
-1755</pre>
+1775
+1776
+1777
+1778
+1779
+1780
+1781
+1782
+1783</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1747</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1775</span>
 
 static VALUE na_inspect_cols_set(VALUE mod, VALUE num)
 {
@@ -3512,17 +3536,17 @@ static VALUE na_inspect_cols_set(VALUE mod, VALUE num)
       <pre class="lines">
 
 
-1702
-1703
-1704
-1705
-1706
-1707
-1708
-1709</pre>
+1730
+1731
+1732
+1733
+1734
+1735
+1736
+1737</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1702</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1730</span>
 
 static VALUE na_inspect_rows(VALUE mod)
 {
@@ -3598,18 +3622,18 @@ static VALUE na_inspect_rows(VALUE mod)
       <pre class="lines">
 
 
-1717
-1718
-1719
-1720
-1721
-1722
-1723
-1724
-1725</pre>
+1745
+1746
+1747
+1748
+1749
+1750
+1751
+1752
+1753</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1717</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1745</span>
 
 static VALUE na_inspect_rows_set(VALUE mod, VALUE num)
 {
@@ -3735,8 +3759,6 @@ subclasses, e.g., DFloat, Int64.</p>
       <pre class="lines">
 
 
-463
-464
 465
 466
 467
@@ -3755,10 +3777,12 @@ subclasses, e.g., DFloat, Int64.</p>
 480
 481
 482
-483</pre>
+483
+484
+485</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 463</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 465</span>
 
 static VALUE
 na_s_linspace(int argc, VALUE *argv, VALUE klass)
@@ -3915,8 +3939,6 @@ Numo::DComplex.logspace(0,1i*Math::PI,5,Math::E)
       <pre class="lines">
 
 
-505
-506
 507
 508
 509
@@ -3937,10 +3959,12 @@ Numo::DComplex.logspace(0,1i*Math::PI,5,Math::E)
 524
 525
 526
-527</pre>
+527
+528
+529</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 505</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 507</span>
 
 static VALUE
 na_s_logspace(int argc, VALUE *argv, VALUE klass)
@@ -4014,16 +4038,16 @@ DFloat, Int64.</p>
       <pre class="lines">
 
 
-438
-439
 440
 441
 442
 443
-444</pre>
+444
+445
+446</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 438</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 440</span>
 
 static VALUE
 na_s_ones(int argc, VALUE *argv, VALUE klass)
@@ -4052,13 +4076,13 @@ na_s_ones(int argc, VALUE *argv, VALUE klass)
       <pre class="lines">
 
 
-1685
-1686
-1687
-1688</pre>
+1713
+1714
+1715
+1716</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1685</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1713</span>
 
 VALUE na_profile(VALUE mod)
 {
@@ -4084,14 +4108,14 @@ VALUE na_profile(VALUE mod)
       <pre class="lines">
 
 
-1690
-1691
-1692
-1693
-1694</pre>
+1718
+1719
+1720
+1721
+1722</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1690</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1718</span>
 
 VALUE na_profile_set(VALUE mod, VALUE val)
 {
@@ -4186,8 +4210,6 @@ static VALUE
       <pre class="lines">
 
 
-1123
-1124
 1125
 1126
 1127
@@ -4206,10 +4228,12 @@ static VALUE
 1140
 1141
 1142
-1143</pre>
+1143
+1144
+1145</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1123</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1125</span>
 
 VALUE
 numo_na_upcast(VALUE type1, VALUE type2)
@@ -4352,16 +4376,16 @@ DFloat, Int64.</p>
       <pre class="lines">
 
 
-414
-415
 416
 417
 418
 419
-420</pre>
+420
+421
+422</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 414</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 416</span>
 
 static VALUE
 na_s_zeros(int argc, VALUE *argv, VALUE klass)
@@ -4443,34 +4467,34 @@ have same shape and corresponding elements are equal.</p>
       <pre class="lines">
 
 
-1765
-1766
-1767
-1768
-1769
-1770
-1771
-1772
-1773
-1774
-1775
-1776
-1777
-1778
-1779
-1780
-1781
-1782
-1783
-1784
-1785
-1786
-1787
-1788
-1789</pre>
+1793
+1794
+1795
+1796
+1797
+1798
+1799
+1800
+1801
+1802
+1803
+1804
+1805
+1806
+1807
+1808
+1809
+1810
+1811
+1812
+1813
+1814
+1815
+1816
+1817</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1765</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1793</span>
 
 VALUE
 na_equal(VALUE self, volatile VALUE other)
@@ -4631,8 +4655,6 @@ na_equal(VALUE self, volatile VALUE other)
       <pre class="lines">
 
 
-1169
-1170
 1171
 1172
 1173
@@ -4643,10 +4665,12 @@ na_equal(VALUE self, volatile VALUE other)
 1178
 1179
 1180
-1181</pre>
+1181
+1182
+1183</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1169</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1171</span>
 
 static VALUE
 nary_byte_size(VALUE self)
@@ -4709,15 +4733,15 @@ nary_byte_size(VALUE self)
       <pre class="lines">
 
 
-1606
-1607
-1608
-1609
-1610
-1611</pre>
+1634
+1635
+1636
+1637
+1638
+1639</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1606</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1634</span>
 
 VALUE na_byte_swapped_p( VALUE self )
 {
@@ -4791,14 +4815,14 @@ VALUE na_byte_swapped_p( VALUE self )
       <pre class="lines">
 
 
-1433
-1434
 1435
 1436
-1437</pre>
+1437
+1438
+1439</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1433</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1435</span>
 
 static VALUE
 nary_cast_to(VALUE obj, VALUE type)
@@ -4878,18 +4902,18 @@ used for operation between non-NArray and NArray.</p>
       <pre class="lines">
 
 
-1154
-1155
 1156
 1157
 1158
 1159
 1160
 1161
-1162</pre>
+1162
+1163
+1164</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1154</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1156</span>
 
 static VALUE
 nary_coerce(VALUE x, VALUE y)
@@ -4944,16 +4968,16 @@ nary_coerce(VALUE x, VALUE y)
       <pre class="lines">
 
 
-1583
-1584
-1585
-1586
-1587
-1588
-1589</pre>
+1611
+1612
+1613
+1614
+1615
+1616
+1617</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1583</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1611</span>
 
 VALUE na_column_major_p( VALUE self )
 {
@@ -5143,8 +5167,6 @@ VALUE na_column_major_p( VALUE self )
       <pre class="lines">
 
 
-881
-882
 883
 884
 885
@@ -5166,10 +5188,12 @@ VALUE na_column_major_p( VALUE self )
 901
 902
 903
-904</pre>
+904
+905
+906</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 881</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 883</span>
 
 VALUE
 na_check_contiguous(VALUE self)
@@ -5215,8 +5239,6 @@ na_check_contiguous(VALUE self)
       <pre class="lines">
 
 
-121
-122
 123
 124
 125
@@ -5246,10 +5268,12 @@ na_check_contiguous(VALUE self)
 149
 150
 151
-152</pre>
+152
+153
+154</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 121</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 123</span>
 
 VALUE
 rb_narray_debug_info(VALUE self)
@@ -5905,6 +5929,123 @@ na_diagonal(int argc, VALUE *argv, VALUE self)
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="diff-instance_method">
+  
+    #<strong>diff</strong>(n = 1, axis: -1))  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Calculate the n-th discrete difference along given axis.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_x'>x</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DFloat.html" title="Numo::DFloat (class)">DFloat</a></span></span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span> <span class='int'>2</span><span class='comma'>,</span> <span class='int'>4</span><span class='comma'>,</span> <span class='int'>7</span><span class='comma'>,</span> <span class='int'>0</span><span class='rbracket'>]</span>
+<span class='comment'># Numo::DFloat#shape=[5]
+</span><span class='comment'># [1, 2, 4, 7, 0]
+</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_x'>x</span><span class='period'>.</span><span class='id identifier rubyid_diff'>diff</span>
+<span class='comment'># Numo::DFloat#shape=[4]
+</span><span class='comment'># [1, 2, 3, -7]
+</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_x'>x</span><span class='period'>.</span><span class='id identifier rubyid_diff'>diff</span><span class='lparen'>(</span><span class='int'>2</span><span class='rparen'>)</span>
+<span class='comment'># Numo::DFloat#shape=[3]
+</span><span class='comment'># [1, 1, -10]
+</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_x'>x</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DFloat.html" title="Numo::DFloat (class)">DFloat</a></span></span><span class='lbracket'>[</span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span> <span class='int'>3</span><span class='comma'>,</span> <span class='int'>6</span><span class='comma'>,</span> <span class='int'>10</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>5</span><span class='comma'>,</span> <span class='int'>6</span><span class='comma'>,</span> <span class='int'>8</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
+<span class='comment'># Numo::DFloat#shape=[2,4]
+</span><span class='comment'># [[1, 3, 6, 10],
+</span><span class='comment'>#  [0, 5, 6, 8]]
+</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_x'>x</span><span class='period'>.</span><span class='id identifier rubyid_diff'>diff</span>
+<span class='comment'># Numo::DFloat#shape=[2,3]
+</span><span class='comment'># [[2, 3, 4],
+</span><span class='comment'>#  [5, 1, 2]]
+</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_x'>x</span><span class='period'>.</span><span class='id identifier rubyid_diff'>diff</span><span class='lparen'>(</span><span class='label'>axis:</span><span class='int'>0</span><span class='rparen'>)</span>
+<span class='comment'># Numo::DFloat#shape=[1,4]
+</span><span class='comment'># [[-1, 2, 0, -2]]</span></code></pre>
+    
+  </div>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+846
+847
+848
+849
+850
+851
+852
+853
+854
+855
+856
+857
+858
+859
+860
+861
+862
+863
+864
+865
+866
+867
+868
+869
+870</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 846</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_diff'>diff</span><span class='lparen'>(</span><span class='id identifier rubyid_n'>n</span><span class='op'>=</span><span class='int'>1</span><span class='comma'>,</span><span class='label'>axis:</span><span class='op'>-</span><span class='int'>1</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_axis'>axis</span> <span class='op'>=</span> <span class='id identifier rubyid_check_axis'>check_axis</span><span class='lparen'>(</span><span class='id identifier rubyid_axis'>axis</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_n'>n</span> <span class='op'>&lt;</span> <span class='int'>0</span> <span class='op'>||</span> <span class='id identifier rubyid_n'>n</span> <span class='op'>&gt;=</span> <span class='id identifier rubyid_shape'>shape</span><span class='lbracket'>[</span><span class='id identifier rubyid_axis'>axis</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="NArray/ShapeError.html" title="Numo::NArray::ShapeError (class)">ShapeError</a></span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>n=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_n'>n</span><span class='embexpr_end'>}</span><span class='tstring_content'> is invalid for shape[</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_axis'>axis</span><span class='embexpr_end'>}</span><span class='tstring_content'>]=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_shape'>shape</span><span class='lbracket'>[</span><span class='id identifier rubyid_axis'>axis</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='comment'># calculate polynomial coefficient
+</span>  <span class='id identifier rubyid_c'>c</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>1</span><span class='comma'>,</span><span class='int'>1</span><span class='rbracket'>]</span>
+  <span class='int'>2</span><span class='period'>.</span><span class='id identifier rubyid_upto'>upto</span><span class='lparen'>(</span><span class='id identifier rubyid_n'>n</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
+    <span class='id identifier rubyid_x'>x</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_zeros'>zeros</span><span class='lparen'>(</span><span class='id identifier rubyid_i'>i</span><span class='op'>+</span><span class='int'>1</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_x'>x</span><span class='lbracket'>[</span><span class='int'>0</span><span class='op'>..</span><span class='op'>-</span><span class='int'>2</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_c'>c</span>
+    <span class='id identifier rubyid_y'>y</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_zeros'>zeros</span><span class='lparen'>(</span><span class='id identifier rubyid_i'>i</span><span class='op'>+</span><span class='int'>1</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_y'>y</span><span class='lbracket'>[</span><span class='int'>1</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_c'>c</span>
+    <span class='id identifier rubyid_c'>c</span> <span class='op'>=</span> <span class='id identifier rubyid_y'>y</span> <span class='op'>-</span> <span class='id identifier rubyid_x'>x</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_s'>s</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='kw'>true</span><span class='rbracket'>]</span><span class='op'>*</span><span class='id identifier rubyid_ndim'>ndim</span>
+  <span class='id identifier rubyid_s'>s</span><span class='lbracket'>[</span><span class='id identifier rubyid_axis'>axis</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_n'>n</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span>
+  <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='kw'>self</span><span class='lbracket'>[</span><span class='op'>*</span><span class='id identifier rubyid_s'>s</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span>
+  <span class='id identifier rubyid_sum'>sum</span> <span class='op'>=</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_inplace'>inplace</span>
+  <span class='lparen'>(</span><span class='id identifier rubyid_n'>n</span><span class='op'>-</span><span class='int'>1</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_downto'>downto</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
+    <span class='id identifier rubyid_s'>s</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='kw'>true</span><span class='rbracket'>]</span><span class='op'>*</span><span class='id identifier rubyid_ndim'>ndim</span>
+    <span class='id identifier rubyid_s'>s</span><span class='lbracket'>[</span><span class='id identifier rubyid_axis'>axis</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_i'>i</span><span class='op'>..</span><span class='op'>-</span><span class='id identifier rubyid_n'>n</span><span class='op'>-</span><span class='int'>1</span><span class='op'>+</span><span class='id identifier rubyid_i'>i</span>
+    <span class='id identifier rubyid_sum'>sum</span> <span class='op'>+</span> <span class='kw'>self</span><span class='lbracket'>[</span><span class='op'>*</span><span class='id identifier rubyid_s'>s</span><span class='rbracket'>]</span> <span class='op'>*</span> <span class='id identifier rubyid_c'>c</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span> <span class='comment'># inplace addition
+</span>  <span class='kw'>end</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_result'>result</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="dot-instance_method">
   
     #<strong>dot</strong>(other)  &#x21d2; <tt>Object</tt> 
@@ -6068,8 +6209,6 @@ numo_na_dot(VALUE self, VALUE other)
       <pre class="lines">
 
 
-728
-729
 730
 731
 732
@@ -6077,10 +6216,12 @@ numo_na_dot(VALUE self, VALUE other)
 734
 735
 736
-737</pre>
+737
+738
+739</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 728</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 730</span>
 
 static VALUE
 na_empty_p(VALUE self)
@@ -6164,8 +6305,6 @@ dimension.</p>
       <pre class="lines">
 
 
-981
-982
 983
 984
 985
@@ -6213,10 +6352,12 @@ dimension.</p>
 1027
 1028
 1029
-1030</pre>
+1030
+1031
+1032</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 981</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 983</span>
 
 VALUE
 na_expand_dims(VALUE self, VALUE vdim)
@@ -6444,15 +6585,15 @@ na_flatten(VALUE self)
       <pre class="lines">
 
 
-1616
-1617
-1618
-1619
-1620
-1621</pre>
+1644
+1645
+1646
+1647
+1648
+1649</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1616</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1644</span>
 
 VALUE na_host_order_p( VALUE self )
 {
@@ -6557,8 +6698,6 @@ dup and clone method.</p>
       <pre class="lines">
 
 
-386
-387
 388
 389
 390
@@ -6567,10 +6706,12 @@ dup and clone method.</p>
 393
 394
 395
-396</pre>
+396
+397
+398</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 386</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 388</span>
 
 static VALUE
 na_initialize_copy(VALUE self, VALUE orig)
@@ -6632,16 +6773,16 @@ na_initialize_copy(VALUE self, VALUE orig)
       <pre class="lines">
 
 
-1628
-1629
-1630
-1631
-1632
-1633
-1634</pre>
+1656
+1657
+1658
+1659
+1660
+1661
+1662</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1628</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1656</span>
 
 VALUE na_inplace( VALUE self )
 {
@@ -6699,14 +6840,14 @@ VALUE na_inplace( VALUE self )
       <pre class="lines">
 
 
-1640
-1641
-1642
-1643
-1644</pre>
+1668
+1669
+1670
+1671
+1672</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1640</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1668</span>
 
 VALUE na_inplace_bang( VALUE self )
 {
@@ -6757,16 +6898,16 @@ VALUE na_inplace_bang( VALUE self )
       <pre class="lines">
 
 
-1657
-1658
-1659
-1660
-1661
-1662
-1663</pre>
+1685
+1686
+1687
+1688
+1689
+1690
+1691</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1657</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1685</span>
 
 VALUE na_inplace_p( VALUE self )
 {
@@ -7022,8 +7163,6 @@ VALUE na_inplace_p( VALUE self )
       <pre class="lines">
 
 
-1348
-1349
 1350
 1351
 1352
@@ -7050,10 +7189,12 @@ VALUE na_inplace_p( VALUE self )
 1373
 1374
 1375
-1376</pre>
+1376
+1377
+1378</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1348</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1350</span>
 
 static VALUE
 nary_marshal_dump(VALUE self)
@@ -7130,8 +7271,6 @@ nary_marshal_dump(VALUE self)
       <pre class="lines">
 
 
-1385
-1386
 1387
 1388
 1389
@@ -7169,10 +7308,12 @@ nary_marshal_dump(VALUE self)
 1421
 1422
 1423
-1424</pre>
+1424
+1425
+1426</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1385</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1387</span>
 
 static VALUE
 nary_marshal_load(VALUE self, VALUE a)
@@ -7249,16 +7390,16 @@ nary_marshal_load(VALUE self, VALUE a)
       <pre class="lines">
 
 
-715
-716
 717
 718
 719
 720
-721</pre>
+721
+722
+723</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 715</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 717</span>
 
 static VALUE
 na_ndim(VALUE self)
@@ -7484,14 +7625,14 @@ na_ndim(VALUE self)
       <pre class="lines">
 
 
-1669
-1670
-1671
-1672
-1673</pre>
+1697
+1698
+1699
+1700
+1701</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1669</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1697</span>
 
 VALUE na_out_of_place_bang( VALUE self )
 {
@@ -7838,8 +7979,6 @@ na_reshape(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-1040
-1041
 1042
 1043
 1044
@@ -7917,10 +8056,12 @@ na_reshape(int argc, VALUE *argv, VALUE self)
 1116
 1117
 1118
-1119</pre>
+1119
+1120
+1121</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1040</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1042</span>
 
 VALUE
 nary_reverse(int argc, VALUE *argv, VALUE self)
@@ -7936,7 +8077,7 @@ nary_reverse(int argc, VALUE *argv, VALUE self)
     VALUE view;
     VALUE reduce;
 
-    reduce = na_reduce_dimension(argc, argv, 1, &amp;self);
+    reduce = na_reduce_dimension(argc, argv, 1, &amp;self, 0);
 
     GetNArray(self,na);
     nd = na-&gt;ndim;
@@ -8131,16 +8272,16 @@ nary_reverse(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-1594
-1595
-1596
-1597
-1598
-1599
-1600</pre>
+1622
+1623
+1624
+1625
+1626
+1627
+1628</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1594</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1622</span>
 
 VALUE na_row_major_p( VALUE self )
 {
@@ -8180,8 +8321,6 @@ VALUE na_row_major_p( VALUE self )
       <pre class="lines">
 
 
-741
-742
 743
 744
 745
@@ -8202,10 +8341,12 @@ VALUE na_row_major_p( VALUE self )
 760
 761
 762
-763</pre>
+763
+764
+765</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 741</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 743</span>
 
 static VALUE
  na_shape(VALUE self)
@@ -8265,16 +8406,16 @@ static VALUE
       <pre class="lines">
 
 
-705
-706
 707
 708
 709
 710
-711</pre>
+711
+712
+713</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 705</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 707</span>
 
 static VALUE
 na_size(VALUE self)
@@ -8506,8 +8647,6 @@ na_size(VALUE self)
       <pre class="lines">
 
 
-1275
-1276
 1277
 1278
 1279
@@ -8544,10 +8683,12 @@ na_size(VALUE self)
 1310
 1311
 1312
-1313</pre>
+1313
+1314
+1315</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1275</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1277</span>
 
 static VALUE
 nary_store_binary(int argc, VALUE *argv, VALUE self)
@@ -9017,8 +9158,6 @@ na_swapaxes(VALUE self, VALUE a1, VALUE a2)
       <pre class="lines">
 
 
-1320
-1321
 1322
 1323
 1324
@@ -9038,10 +9177,12 @@ na_swapaxes(VALUE self, VALUE a1, VALUE a2)
 1338
 1339
 1340
-1341</pre>
+1341
+1342
+1343</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1320</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1322</span>
 
 static VALUE
 nary_to_binary(VALUE self)
@@ -9542,8 +9683,6 @@ na_transpose(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-914
-915
 916
 917
 918
@@ -9595,10 +9734,12 @@ na_transpose(int argc, VALUE *argv, VALUE self)
 964
 965
 966
-967</pre>
+967
+968
+969</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 914</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 916</span>
 
 VALUE
 na_make_view(VALUE self)
@@ -9741,7 +9882,7 @@ na_make_view(VALUE self)
 </div>
 
       <div id="footer">
-  Generated on Thu Apr 13 11:25:23 2017 by
+  Generated on Fri Apr 14 12:22:16 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.4.0).
 </div>
