@@ -115,7 +115,7 @@ static VALUE
     if (argc > 0) {
         return v;
     }
-    v = numo_bit_extract(v);
+    v = <%=find_tmpl("extract").c_func%>(v);
     switch (v) {
     case INT2FIX(0):
         return Qfalse;

@@ -1,5 +1,5 @@
 static void
-iter_bit_where2(na_loop_t *const lp)
+<%=c_iter%>(na_loop_t *const lp)
 {
     size_t  i;
     BIT_DIGIT *a;
@@ -59,17 +59,17 @@ iter_bit_where2(na_loop_t *const lp)
   @return [Numo::Int32,Numo::Int64]*2
 */
 static VALUE
-numo_bit_where2(VALUE self)
+<%=c_func(0)%>(VALUE self)
 {
     VALUE idx_1, idx_0;
     size_t size, n_1, n_0;
     where_opt_t *g;
 
     ndfunc_arg_in_t ain[1] = {{cT,0}};
-    ndfunc_t ndf = { iter_bit_where2, FULL_LOOP, 1, 0, ain, 0 };
+    ndfunc_t ndf = { <%=c_iter%>, FULL_LOOP, 1, 0, ain, 0 };
 
     size = RNARRAY_SIZE(self);
-    n_1 = NUM2SIZET(numo_bit_count_true(0, NULL, self));
+    n_1 = NUM2SIZET(<%=find_tmpl("count_true").c_func%>(0, NULL, self));
     n_0 = size - n_1;
     g = ALLOCA_N(where_opt_t,1);
     g->count = 0;

@@ -1,5 +1,5 @@
 static void
-iter_bit_pointer(na_loop_t *const lp)
+<%=c_iter%>(na_loop_t *const lp)
 {
     size_t  i;
     BIT_DIGIT *a;
@@ -82,7 +82,7 @@ iter_bit_pointer(na_loop_t *const lp)
   @return [Numo::NArray]  view of masked array.
 */
 static VALUE
- numo_bit_mask(VALUE mask, VALUE val)
+<%=c_func(1)%>(VALUE mask, VALUE val)
 {
     volatile VALUE idx_1, view;
     narray_data_t *nidx;
@@ -93,9 +93,9 @@ static VALUE
     size_t n_1;
     where_opt_t g;
     ndfunc_arg_in_t ain[2] = {{cT,0},{Qnil,0}};
-    ndfunc_t ndf = {iter_bit_pointer, FULL_LOOP, 2, 0, ain, 0};
+    ndfunc_t ndf = {<%=c_iter%>, FULL_LOOP, 2, 0, ain, 0};
 
-    n_1 = NUM2SIZET(numo_bit_count_true(0, NULL, mask));
+    n_1 = NUM2SIZET(<%=find_tmpl("count_true").c_func%>(0, NULL, mask));
     idx_1 = rb_narray_new(cIndex, 1, &n_1);
     g.count = 0;
     g.elmsz = SIZEOF_VOIDP;

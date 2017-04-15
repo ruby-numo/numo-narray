@@ -7,7 +7,7 @@
 */
 
 static VALUE
-numo_bit_extract(VALUE self)
+<%=c_func(0)%>(VALUE self)
 {
     BIT_DIGIT *ptr, val;
     size_t pos;
