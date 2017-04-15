@@ -23,10 +23,10 @@
 
 * contiguous check -- done.
 
+* propagate_nan for min,max,sum,... -- done
 
-* propagate_nan for min,max,sum,...
+* use erbpp2 -- done
 
-* use erbpp2
 
 * NMath.sin => DFloat.sin ??
 
