@@ -175,9 +175,16 @@ na_free(narray_data_t* na)
 static void
 na_free_view(narray_view_t* na)
 {
+    int i;
+
     assert(na->base.type==NARRAY_VIEW_T);
 
     if (na->stridx != NULL) {
+        for (i=0; i<na->base.ndim; i++) {
+            if (SDX_IS_INDEX(na->stridx[i])) {
+                xfree(SDX_GET_INDEX(na->stridx[i]));
+            }
+        }
         xfree(na->stridx);
         na->stridx = NULL;
     }
