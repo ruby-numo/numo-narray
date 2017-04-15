@@ -401,7 +401,7 @@ _na_get_narray_t(VALUE obj, unsigned char na_type)
 #define NUM2IMAG(v)  NUM2DBL( rb_funcall((v),na_id_imag,0) )
 
 #define NA_MAX_DIMENSION (int)(sizeof(VALUE)*8-2)
-#deifne NA_MAX_ELMSZ     65535
+#define NA_MAX_ELMSZ     65535
 
 typedef unsigned int BIT_DIGIT;
 //#define BYTE_BIT_DIGIT sizeof(BIT_DIGIT)
