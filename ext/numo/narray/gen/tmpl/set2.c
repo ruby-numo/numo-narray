@@ -15,14 +15,14 @@ static void
             for (; i--;) {
                 GET_DATA_INDEX(p1,idx1,dtype,x);
                 GET_DATA_INDEX(p2,idx2,<%=dtype%>,y);
-                x = m_<%=method%>(x,y);
+                x = m_<%=name%>(x,y);
                 SET_DATA_INDEX(p1,idx1,dtype,x);
             }
         } else {
             for (; i--;) {
                 GET_DATA_INDEX(p1,idx1,dtype,x);
                 GET_DATA_STRIDE(p2,s2,<%=dtype%>,y);
-                x = m_<%=method%>(x,y);
+                x = m_<%=name%>(x,y);
                 SET_DATA_INDEX(p1,idx1,dtype,x);
             }
         }
@@ -31,14 +31,14 @@ static void
             for (; i--;) {
                 GET_DATA(p1,dtype,x);
                 GET_DATA_INDEX(p2,idx2,<%=dtype%>,y);
-                x = m_<%=method%>(x,y);
+                x = m_<%=name%>(x,y);
                 SET_DATA_STRIDE(p1,s1,dtype,x);
             }
         } else {
             for (; i--;) {
                 GET_DATA(p1,dtype,x);
                 GET_DATA_STRIDE(p2,s2,<%=dtype%>,y);
-                x = m_<%=method%>(x,y);
+                x = m_<%=name%>(x,y);
                 SET_DATA_STRIDE(p1,s1,dtype,x);
             }
         }
@@ -46,7 +46,7 @@ static void
 }
 
 static VALUE
-<%=c_func%>(VALUE self, VALUE a1)
+<%=c_func(1)%>(VALUE self, VALUE a1)
 {
     ndfunc_arg_in_t ain[2] = {{OVERWRITE,0},{<%=tpclass%>,0}};
     ndfunc_t ndf = { <%=c_iter%>, FULL_LOOP, 2, 0, ain, 0 };

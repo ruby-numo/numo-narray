@@ -38,7 +38,7 @@
 
 */
 static VALUE
-<%=c_func%>(int argc, VALUE *argv, VALUE self)
+<%=c_func(-1)%>(int argc, VALUE *argv, VALUE self)
 {
     int nd;
     size_t pos;
@@ -55,7 +55,7 @@ static VALUE
             a = na_aref_main(argc, argv, self, 0, nd);
             <%=c_func.sub(/_aset/,"_store")%>(a, argv[argc]);
         } else {
-            x = numo_<%=tp%>_extract_data(argv[argc]);
+            x = <%=type_name%>_extract_data(argv[argc]);
             ptr = na_get_pointer_for_read_write(self);
             STORE_BIT(ptr,pos,x);
         }

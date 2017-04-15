@@ -20,7 +20,7 @@ static void
 
     if (lp->args[1].ptr) {
         if (v1 == Qtrue) {
-            iter_<%=tp%>_store_<%=tp%>(lp);
+            iter_<%=type_name%>_store_<%=type_name%>(lp);
             i = lp->args[1].shape[0];
             if (idx1) {
                 idx1 += i;
@@ -94,7 +94,7 @@ static void
 }
 
 static VALUE
-<%=c_func%>(VALUE self, VALUE rary)
+<%=c_func(:nodef)%>(VALUE self, VALUE rary)
 {
     ndfunc_arg_in_t ain[2] = {{OVERWRITE,0}, {rb_cArray,0}};
     ndfunc_t ndf = {<%=c_iter%>, FULL_LOOP, 2, 0, ain, 0};

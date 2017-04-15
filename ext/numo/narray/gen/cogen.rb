@@ -1,9 +1,11 @@
 #! /usr/bin/env ruby
 
+thisdir = File.dirname(__FILE__)
 libpath = File.absolute_path(File.dirname(__FILE__))+"/../../../../lib"
 $LOAD_PATH.unshift libpath
 
-require "erbpp/narray_def"
+require_relative "./narray_def"
+
 while true
   if ARGV[0] == "-l"
     require "erbpp/line_number"
@@ -18,16 +20,37 @@ while true
   end
 end
 
-unless (1..2) === ARGV.size
-  puts "usage:\n  ruby #{$0} [-l] erb_path [type_file]"
+if ARGV.size != 1
+  puts "usage:\n  ruby #{$0} [-l] erb_base [type_file]"
   exit 1
 end
 
-erb_path, type_file = ARGV
+type_file, = ARGV
+type_name = File.basename(type_file,".rb")
+
+erb_dir = ["tmpl"]
+erb_dir.unshift("tmpl_bit") if (type_name == "bit")
+erb_dir.map!{|d| File.join(thisdir,d)}
+
+code = DefLib.new do
+  set erb_dir: erb_dir
+  set erb_suffix: ".c"
+  set ns_var: "mNumo"
+
+  set file_name: $output||""
+  set include_files: ["numo/types/#{type_name}.h"]
+  set lib_name: "numo_"+type_name
+
+  def_class do
+    extend NArrayMethod
+    extend NArrayType
+    eval File.read(type_file), binding, type_file
+    eval File.read(File.join(thisdir,"spec.rb")), binding, "spec.rb"
+  end
+end.result
 
 if $output
-  s = DataType.new(erb_path, type_file).result
-  open($output,"w").write(s)
+  open($output,"w").write(code)
 else
-  DataType.new(erb_path, type_file).run
+  $stdout.write(code)
 end

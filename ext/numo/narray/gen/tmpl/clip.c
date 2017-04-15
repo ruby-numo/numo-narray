@@ -62,7 +62,7 @@ static void
 /*
   Clip array elements by [min,max].
   If either of min or max is nil, one side is clipped.
-  @overload <%=method%>(min,max)
+  @overload <%=name%>(min,max)
   @param [Numo::NArray,Numeric] min
   @param [Numo::NArray,Numeric] max
   @return [Numo::NArray] result of clip.
@@ -94,7 +94,7 @@ static void
       # [3, 4, 2, 3, 4, 5, 6, 7, 8, 8]
 */
 static VALUE
-<%=c_func%>(VALUE self, VALUE min, VALUE max)
+<%=c_func(2)%>(VALUE self, VALUE min, VALUE max)
 {
     ndfunc_arg_in_t ain[3] = {{Qnil,0},{cT,0},{cT,0}};
     ndfunc_arg_out_t aout[1] = {{cT,0}};

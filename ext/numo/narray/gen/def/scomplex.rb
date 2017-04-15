@@ -1,19 +1,23 @@
-class_name      "SComplex"
-class_alias     "Complex64"
-ctype           "scomplex"
-real_class_name "SFloat"
-real_ctype      "float"
+set name:                "scomplex"
+set type_name:           "scomplex"
+set full_class_name:     "Numo::SComplex"
+set class_name:          "SComplex"
+set class_alias:         "Complex32"
+set class_var:           "cT"
+set ctype:               "Scomplex"
+set real_class_name:     "SFloat"
+set real_ctype:          "float"
 
-has_math      true
-is_bit        false
-is_int        false
-is_unsigned   false
-is_float      true
-is_real       false
-is_complex    true
-is_object     false
-is_comparable false
-is_double_precision false
+set has_math:            true
+set is_bit:              false
+set is_int:              false
+set is_unsigned:         false
+set is_float:            true
+set is_real:             false
+set is_complex:          true
+set is_object:           false
+set is_comparable:       false
+set is_double_precision: false
 
 upcast_rb "Integer"
 upcast_rb "Float"

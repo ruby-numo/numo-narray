@@ -15,14 +15,14 @@ static void
     if (idx1) {
         for (; i--;) {
             GET_DATA_INDEX(p1,idx1,dtype,x);
-            b = (m_<%=method%>(x)) ? 1:0;
+            b = (m_<%=name%>(x)) ? 1:0;
             STORE_BIT(a2,p2,b);
             p2+=s2;
         }
     } else {
         for (; i--;) {
             GET_DATA_STRIDE(p1,s1,dtype,x);
-            b = (m_<%=method%>(x)) ? 1:0;
+            b = (m_<%=name%>(x)) ? 1:0;
             STORE_BIT(a2,p2,b);
             p2+=s2;
         }
@@ -30,12 +30,12 @@ static void
 }
 
 /*
-  Condition of <%=method%>.
-  @overload <%=method%>
-  @return [Numo::Bit] Condition of <%=method%>.
+  Condition of <%=name%>.
+  @overload <%=name%>
+  @return [Numo::Bit] Condition of <%=name%>.
 */
 static VALUE
-<%=c_func%>(VALUE self)
+<%=c_func(0)%>(VALUE self)
 {
     ndfunc_arg_in_t ain[1] = {{cT,0}};
     ndfunc_arg_out_t aout[1] = {{numo_cBit,0}};

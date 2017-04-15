@@ -22,7 +22,7 @@ static void
             for (; i--;) {
                 LOAD_BIT(a1, p1+*idx1, x);
                 idx1++;
-                if (m_<%=method%>(x)) {
+                if (m_<%=name%>(x)) {
                     y++;
                 }
             }
@@ -30,7 +30,7 @@ static void
             for (; i--;) {
                 LOAD_BIT(a1, p1, x);
                 p1 += s1;
-                if (m_<%=method%>(x)) {
+                if (m_<%=name%>(x)) {
                     y++;
                 }
             }
@@ -41,7 +41,7 @@ static void
             for (; i--;) {
                 LOAD_BIT(a1, p1+*idx1, x);
                 idx1++;
-                if (m_<%=method%>(x)) {
+                if (m_<%=name%>(x)) {
                     GET_DATA(p2, int_t, y);
                     y++;
                     SET_DATA(p2, int_t, y);
@@ -52,7 +52,7 @@ static void
             for (; i--;) {
                 LOAD_BIT(a1, p1, x);
                 p1+=s1;
-                if (m_<%=method%>(x)) {
+                if (m_<%=name%>(x)) {
                     GET_DATA(p2, int_t, y);
                     y++;
                     SET_DATA(p2, int_t, y);
@@ -66,12 +66,12 @@ static void
 /*
   Returns the number of bits.
   If argument is supplied, return Int-array counted along the axes.
-  @overload <%=op_map%>([axis,..])
-  @param [Integer] axis  axes to be counted.
+  @overload <%=op_map%>(axis:nil)
+  @param [Integer,Array,Range] axis  axes to be counted.
   @return [Numo::Int64]
 */
 static VALUE
-<%=c_func%>(int argc, VALUE *argv, VALUE self)
+<%=c_func(-1)%>(int argc, VALUE *argv, VALUE self)
 {
     VALUE v, reduce;
     ndfunc_arg_in_t ain[3] = {{cT,0},{sym_reduce,0},{sym_init,0}};

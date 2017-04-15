@@ -17,7 +17,7 @@ static void
         for (; n--;) {
             LOAD_BIT_STEP(a1, p1, s1, idx1, x);
             LOAD_BIT_STEP(a2, p2, s2, idx2, y);
-            x = m_<%=method%>(x,y);
+            x = m_<%=name%>(x,y);
             STORE_BIT_STEP(a3, p3, s3, idx3, x);
         }
     } else {
@@ -40,7 +40,7 @@ static void
             else       y = *a2<<-o2;
             if (p2+len>NB)  y |= *(a2+1)<<r2;
             a2++;
-            x = m_<%=method%>(x,y);
+            x = m_<%=name%>(x,y);
             *a3 = (x & (SLB(len)<<p3)) | (*a3 & ~(SLB(len)<<p3));
             a3++;
             n -= len;
@@ -49,7 +49,7 @@ static void
             for (; n>=NB; n-=NB) {
                 x = *(a1++);
                 y = *(a2++);
-                x = m_<%=method%>(x,y);
+                x = m_<%=name%>(x,y);
                 *(a3++) = x;
             }
         } else {
@@ -62,7 +62,7 @@ static void
                 if (o2<0)  y |= *(a2-1)>>l2;
                 if (o2>0)  y |= *(a2+1)<<r2;
                 a2++;
-                x = m_<%=method%>(x,y);
+                x = m_<%=name%>(x,y);
                 *(a3++) = x;
             }
         }
@@ -71,20 +71,20 @@ static void
             if (o1<0)  x |= *(a1-1)>>l1;
             y = *a2>>o2;
             if (o2<0)  y |= *(a2-1)>>l2;
-            x = m_<%=method%>(x,y);
+            x = m_<%=name%>(x,y);
             *a3 = (x & SLB(n)) | (*a3 & BALL<<n);
         }
     }
 }
 
 /*
-  Binary <%=method%>.
+  Binary <%=name%>.
   @overload <%=op_map%> other
   @param [Numo::NArray,Numeric] other
-  @return [Numo::NArray] <%=method%> of self and other.
+  @return [Numo::NArray] <%=name%> of self and other.
 */
 static VALUE
-<%=c_func%>(VALUE self, VALUE other)
+<%=c_func(1)%>(VALUE self, VALUE other)
 {
     ndfunc_arg_in_t ain[2] = {{cT,0},{cT,0}};
     ndfunc_arg_out_t aout[1] = {{cT,0}};

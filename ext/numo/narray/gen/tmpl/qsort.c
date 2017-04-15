@@ -74,9 +74,10 @@
 #define cmp(a,b) cmp<%=suffix%>(a,b)
 #define cmpgt(a,b) cmpgt<%=suffix%>(a,b)
 <% end %>
+<% c_func(:nodef)%>
 
 void
-<%=tp%>_qsort<%=suffix%>(void *a, size_t n, ssize_t es)
+<%=type_name%>_qsort<%=suffix%>(void *a, size_t n, ssize_t es)
 {
     char *pa, *pb, *pc, *pd, *pl, *pm, *pn;
     int  d, r, presorted;
@@ -140,7 +141,7 @@ void
     r = Min(pd - pc, pn - pd - es);
     vecswap(qsort_dtype, pb, pn - r, r);
     if ((r = pb - pa) > es)
-        <%=tp%>_qsort<%=suffix%>(a, r / es, es);
+        <%=type_name%>_qsort<%=suffix%>(a, r / es, es);
     if ((r = pd - pc) > es) {
         a = pn - r;
         n = r / es;

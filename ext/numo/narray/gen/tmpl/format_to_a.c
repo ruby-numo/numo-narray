@@ -16,13 +16,13 @@ static void
     if (idx1) {
         for (; i--;) {
             x = (dtype*)(p1 + *idx1);  idx1++;
-            y = format_<%=tp%>(fmt, x);
+            y = format_<%=type_name%>(fmt, x);
             rb_ary_push(a,y);
         }
     } else {
         for (; i--;) {
             x = (dtype*)p1;  p1+=s1;
-            y = format_<%=tp%>(fmt, x);
+            y = format_<%=type_name%>(fmt, x);
             rb_ary_push(a,y);
         }
     }
@@ -30,12 +30,12 @@ static void
 
 /*
   Format elements into strings.
-  @overload <%=method%> format
+  @overload <%=name%> format
   @param [String] format
   @return [Array] array of formated strings.
 */
 static VALUE
-<%=c_func%>(int argc, VALUE *argv, VALUE self)
+<%=c_func(-1)%>(int argc, VALUE *argv, VALUE self)
 {
     volatile VALUE fmt=Qnil;
     ndfunc_arg_in_t ain[3] = {{Qnil,0},{sym_loop_opt},{sym_option}};

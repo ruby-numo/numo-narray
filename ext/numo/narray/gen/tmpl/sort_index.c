@@ -2,7 +2,7 @@
    [64,32].each do |i| %>
 #define idx_t int<%=i%>_t
 static void
-<%=tp%>_index<%=i%>_qsort<%=j%>(na_loop_t *const lp)
+<%=type_name%>_index<%=i%>_qsort<%=j%>(na_loop_t *const lp)
 {
     size_t   i, n, idx;
     char    *d_ptr, *i_ptr, *o_ptr;
@@ -23,7 +23,7 @@ static void
         //printf("(%ld,%.3f)",i,*(double*)ptr[i]);
     }
 
-    <%=tp%>_index_qsort<%=j%>(ptr, n, sizeof(dtype*));
+    <%=type_name%>_index_qsort<%=j%>(ptr, n, sizeof(dtype*));
 
     //d_ptr = lp->args[0].ptr;
     //printf("(d_ptr=%lx)\n",(size_t)d_ptr);
@@ -40,16 +40,20 @@ static void
 <% end;end %>
 
 /*
-  <%=method%>. Returns an index array of sort result.
-  @overload <%=method%>(axis:nil, nan:false)
-  @param [Numeric,Array,Range] axis  Affected dimensions.
+  <%=name%>. Returns an index array of sort result.
+<% if is_float %>
+  @overload <%=name%>(axis:nil, nan:false)
   @param [TrueClass] nan  If true, propagete NaN. If false, ignore NaN.
-  @return [Integer,Numo::Int] returns result index of <%=method%>.
+<% else %>
+  @overload <%=name%>(axis:nil)
+<% end %>
+  @param [Numeric,Array,Range] axis  Affected dimensions.
+  @return [Integer,Numo::Int] returns result index of <%=name%>.
   @example
       Numo::NArray[3,4,1,2].sort_index => Numo::Int32[2,3,0,1]
 */
 static VALUE
-<%=c_func%>(int argc, VALUE *argv, VALUE self)
+<%=c_func(-1)%>(int argc, VALUE *argv, VALUE self)
 {
     int nan = 0;
     size_t size;
@@ -72,12 +76,12 @@ static VALUE
         idx = rb_narray_new(numo_cInt64, na->ndim, na->shape);
 <% if is_float %>
         if (nan) {
-            ndf.func = <%=tp%>_index64_qsort_prnan;
+            ndf.func = <%=type_name%>_index64_qsort_prnan;
         } else {
-            ndf.func = <%=tp%>_index64_qsort_ignan;
+            ndf.func = <%=type_name%>_index64_qsort_ignan;
         }
 <% else %>
-        ndf.func = <%=tp%>_index64_qsort;
+        ndf.func = <%=type_name%>_index64_qsort;
 <% end %>
     } else {
         ain[1].type =
@@ -85,12 +89,12 @@ static VALUE
         idx = rb_narray_new(numo_cInt32, na->ndim, na->shape);
 <% if is_float %>
         if (nan) {
-            ndf.func = <%=tp%>_index32_qsort_prnan;
+            ndf.func = <%=type_name%>_index32_qsort_prnan;
         } else {
-            ndf.func = <%=tp%>_index32_qsort_ignan;
+            ndf.func = <%=type_name%>_index32_qsort_ignan;
         }
 <% else %>
-        ndf.func = <%=tp%>_index32_qsort;
+        ndf.func = <%=type_name%>_index32_qsort;
 <% end %>
     }
     rb_funcall(idx, rb_intern("seq"), 0);

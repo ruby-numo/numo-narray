@@ -1,5 +1,5 @@
 static VALUE
-<%=c_func%>(VALUE self)
+<%=c_func(0)%>(VALUE self)
 {
     narray_t *na;
     char *ptr;

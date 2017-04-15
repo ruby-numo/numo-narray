@@ -1,5 +1,5 @@
 static VALUE
-format_<%=tp%>(VALUE fmt, dtype* x)
+format_<%=type_name%>(VALUE fmt, dtype* x)
 {
     // fix-me
     char s[48];
@@ -28,13 +28,13 @@ static void
     if (idx1) {
         for (; i--;) {
             x = (dtype*)(p1+*idx1); idx1++;
-            y = format_<%=tp%>(fmt, x);
+            y = format_<%=type_name%>(fmt, x);
             SET_DATA_STRIDE(p2, s2, VALUE, y);
         }
     } else {
         for (; i--;) {
             x = (dtype*)p1;         p1+=s1;
-            y = format_<%=tp%>(fmt, x);
+            y = format_<%=type_name%>(fmt, x);
             SET_DATA_STRIDE(p2, s2, VALUE, y);
         }
     }
@@ -42,12 +42,12 @@ static void
 
 /*
   Format elements into strings.
-  @overload <%=method%> format
+  @overload <%=name%> format
   @param [String] format
   @return [Numo::RObject] array of formated strings.
 */
 static VALUE
-<%=c_func%>(int argc, VALUE *argv, VALUE self)
+<%=c_func(-1)%>(int argc, VALUE *argv, VALUE self)
 {
     VALUE fmt=Qnil;
 

@@ -16,7 +16,7 @@ na_gc_mark_robj(narray_data_t* na)
 void na_free(narray_data_t* na);
 
 VALUE
-<%=c_func%>(VALUE klass)
+<%=c_func(0)%>(VALUE klass)
 {
     narray_data_t *na = ALLOC(narray_data_t);
 

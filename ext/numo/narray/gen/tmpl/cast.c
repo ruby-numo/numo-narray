@@ -1,13 +1,17 @@
+<% children.each do |c|%>
+<%= c.result %>
+
+<% end %>
 /*
   Cast object to Numo::<%=class_name%>.
   @overload [](elements)
-  @overload <%=method%>(array)
+  @overload <%=name%>(array)
   @param [Numeric,Array] elements
   @param [Array] array
   @return [Numo::<%=class_name%>]
 */
 static VALUE
-<%=c_func%>(VALUE type, VALUE obj)
+<%=c_func(1)%>(VALUE type, VALUE obj)
 {
     VALUE v;
     narray_t *na;
@@ -18,7 +22,7 @@ static VALUE
     }
     if (RTEST(rb_obj_is_kind_of(obj,rb_cNumeric))) {
         x = m_num_to_data(obj);
-        return numo_<%=tp%>_new_dim0(x);
+        return <%=type_name%>_new_dim0(x);
     }
     if (RTEST(rb_obj_is_kind_of(obj,rb_cArray))) {
         return <%=find_tmpl("cast_array").c_func%>(obj);
@@ -33,7 +37,7 @@ static VALUE
         return v;
     }
     <% if is_object %>
-    return numo_robject_new_dim0(obj);
+    return robject_new_dim0(obj);
     <% else %>
     rb_raise(nary_eCastError,"cannot cast to %s",rb_class2name(type));
     return Qnil;

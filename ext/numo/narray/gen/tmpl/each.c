@@ -27,13 +27,13 @@ void
 /*
   Calls the given block once for each element in self,
   passing that element as a parameter.
-  @overload <%=method%>
+  @overload <%=name%>
   @return [Numo::NArray] self
   For a block {|x| ... }
   @yield [x]  x is element of NArray.
 */
 static VALUE
-<%=c_func%>(VALUE self)
+<%=c_func(0)%>(VALUE self)
 {
     ndfunc_arg_in_t ain[1] = {{Qnil,0}};
     ndfunc_t ndf = {<%=c_iter%>, FULL_LOOP_NIP, 1,0, ain,0};

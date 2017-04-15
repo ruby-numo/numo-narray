@@ -16,7 +16,7 @@ static void
     if (s1!=1 || s3!=1 || idx1 || idx3) {
         for (; n--;) {
             LOAD_BIT_STEP(a1, p1, s1, idx1, x);
-            y = m_<%=method%>(x);
+            y = m_<%=name%>(x);
             STORE_BIT_STEP(a3, p3, s3, idx3, y);
         }
     } else {
@@ -31,7 +31,7 @@ static void
             else       x = *a1<<-o1;
             if (p1+len>NB)  x |= *(a1+1)<<r1;
             a1++;
-            y = m_<%=method%>(x);
+            y = m_<%=name%>(x);
             *a3 = (y & (SLB(len)<<p3)) | (*a3 & ~(SLB(len)<<p3));
             a3++;
             n -= len;
@@ -39,7 +39,7 @@ static void
         if (o1==0) {
             for (; n>=NB; n-=NB) {
                 x = *(a1++);
-                y = m_<%=method%>(x);
+                y = m_<%=name%>(x);
                 *(a3++) = y;
             }
         } else {
@@ -48,26 +48,26 @@ static void
                 if (o1<0)  x |= *(a1-1)>>l1;
                 if (o1>0)  x |= *(a1+1)<<r1;
                 a1++;
-                y = m_<%=method%>(x);
+                y = m_<%=name%>(x);
                 *(a3++) = y;
             }
         }
         if (n>0) {
             x = *a1>>o1;
             if (o1<0)  x |= *(a1-1)>>l1;
-            y = m_<%=method%>(x);
+            y = m_<%=name%>(x);
             *a3 = (y & SLB(n)) | (*a3 & BALL<<n);
         }
     }
 }
 
 /*
-  Unary <%=method%>.
-  @overload <%=method%>
-  @return [Numo::<%=class_name%>] <%=method%> of self.
+  Unary <%=name%>.
+  @overload <%=name%>
+  @return [Numo::<%=class_name%>] <%=name%> of self.
 */
 static VALUE
-<%=c_func%>(VALUE self)
+<%=c_func(0)%>(VALUE self)
 {
     ndfunc_arg_in_t ain[1] = {{cT,0}};
     ndfunc_arg_out_t aout[1] = {{cT,0}};

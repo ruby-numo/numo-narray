@@ -4,7 +4,7 @@ static VALUE
 <% if is_object %>
     return rb_inspect(*(VALUE*)(ptr+pos));
 <% else %>
-    return format_<%=tp%>(fmt, (dtype*)(ptr+pos));
+    return format_<%=type_name%>(fmt, (dtype*)(ptr+pos));
 <% end %>
 }
 
@@ -14,7 +14,7 @@ static VALUE
   @return [String]
 */
 VALUE
-<%=c_func%>(VALUE ary)
+<%=c_func(0)%>(VALUE ary)
 {
     return na_ndloop_inspect(ary, <%=c_iter%>, Qnil);
 }

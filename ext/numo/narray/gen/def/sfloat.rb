@@ -1,17 +1,21 @@
-class_name      "SFloat"
-class_alias     "Float32"
-ctype           "float"
+set name:                "sfloat"
+set type_name:           "sfloat"
+set full_class_name:     "Numo::SFloat"
+set class_name:          "SFloat"
+set class_alias:         "Float32"
+set class_var:           "cT"
+set ctype:               "float"
 
-has_math      true
-is_bit        false
-is_int        false
-is_unsigned   false
-is_float      true
-is_complex    false
-is_object     false
-is_real       true
-is_comparable true
-is_double_precision false
+set has_math:            true
+set is_bit:              false
+set is_int:              false
+set is_unsigned:         false
+set is_float:            true
+set is_complex:          false
+set is_object:           false
+set is_real:             true
+set is_comparable:       true
+set is_double_precision: false
 
 upcast_rb "Integer"
 upcast_rb "Float"

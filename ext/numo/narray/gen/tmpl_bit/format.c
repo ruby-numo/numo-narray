@@ -1,5 +1,5 @@
 static VALUE
-format_<%=tp%>(VALUE fmt, dtype x)
+format_<%=type_name%>(VALUE fmt, dtype x)
 {
     if (NIL_P(fmt)) {
         char s[4];
@@ -29,13 +29,13 @@ static void
     if (idx1) {
         for (; i--;) {
             LOAD_BIT(a1, p1+*idx1, x); idx1++;
-            y = format_<%=tp%>(fmt, x);
+            y = format_<%=type_name%>(fmt, x);
             SET_DATA_STRIDE(p2, s2, VALUE, y);
         }
     } else {
         for (; i--;) {
             LOAD_BIT(a1, p1, x); p1+=s1;
-            y = format_<%=tp%>(fmt, x);
+            y = format_<%=type_name%>(fmt, x);
             SET_DATA_STRIDE(p2, s2, VALUE, y);
         }
     }
@@ -43,12 +43,12 @@ static void
 
 /*
   Format elements into strings.
-  @overload <%=method%> format
+  @overload <%=name%> format
   @param [String] format
   @return [Numo::RObject] array of formated strings.
 */
 static VALUE
-<%=c_func%>(int argc, VALUE *argv, VALUE self)
+<%=c_func(-1)%>(int argc, VALUE *argv, VALUE self)
 {
     VALUE fmt=Qnil;
 

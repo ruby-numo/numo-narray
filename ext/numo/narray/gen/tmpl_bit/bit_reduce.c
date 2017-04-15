@@ -91,19 +91,19 @@ static void
 }
 
 /*
-<% case method
+<% case name
    when /^any/ %>
   Return true if any of bits is one (true).
 <% when /^all/ %>
   Return true if all of bits are one (true).
 <% end %>
   If argument is supplied, return Bit-array reduced along the axes.
-  @overload <%=op_map%>([axis,..])
-  @param [Integer] axis  axes to be reduced.
+  @overload <%=op_map%>(axis:nil)
+  @param [Integer,Array,Range] axis  axes to be reduced.
   @return [Numo::Bit] .
 */
 static VALUE
-<%=c_func%>(int argc, VALUE *argv, VALUE self)
+<%=c_func(-1)%>(int argc, VALUE *argv, VALUE self)
 {
     VALUE v, reduce;
     ndfunc_arg_in_t ain[3] = {{cT,0},{sym_reduce,0},{sym_init,0}};

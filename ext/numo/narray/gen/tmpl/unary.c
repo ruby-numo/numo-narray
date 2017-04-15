@@ -15,13 +15,13 @@ static void
         if (idx2) {
             for (; i--;) {
                 GET_DATA_INDEX(p1,idx1,dtype,x);
-                x = m_<%=method%>(x);
+                x = m_<%=name%>(x);
                 SET_DATA_INDEX(p2,idx2,dtype,x);
             }
         } else {
             for (; i--;) {
                 GET_DATA_INDEX(p1,idx1,dtype,x);
-                x = m_<%=method%>(x);
+                x = m_<%=name%>(x);
                 SET_DATA_STRIDE(p2,s2,dtype,x);
             }
         }
@@ -29,13 +29,13 @@ static void
         if (idx2) {
             for (; i--;) {
                 GET_DATA_STRIDE(p1,s1,dtype,x);
-                x = m_<%=method%>(x);
+                x = m_<%=name%>(x);
                 SET_DATA_INDEX(p2,idx2,dtype,x);
             }
         } else {
             for (; i--;) {
                 GET_DATA_STRIDE(p1,s1,dtype,x);
-                x = m_<%=method%>(x);
+                x = m_<%=name%>(x);
                 SET_DATA_STRIDE(p2,s2,dtype,x);
             }
         }
@@ -43,12 +43,12 @@ static void
 }
 
 /*
-  Unary <%=method%>.
+  Unary <%=name%>.
   @overload <%=op_map%>
-  @return [Numo::<%=class_name%>] <%=method%> of self.
+  @return [Numo::<%=class_name%>] <%=name%> of self.
 */
 static VALUE
-<%=c_func%>(VALUE self)
+<%=c_func(0)%>(VALUE self)
 {
     ndfunc_arg_in_t ain[1] = {{cT,0}};
     ndfunc_arg_out_t aout[1] = {{cT,0}};

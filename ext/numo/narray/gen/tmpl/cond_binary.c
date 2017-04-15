@@ -15,7 +15,7 @@ static void
     for (; i--;) {
         GET_DATA_STRIDE(p1,s1,dtype,x);
         GET_DATA_STRIDE(p2,s2,dtype,y);
-        b = (m_<%=method%>(x,y)) ? 1:0;
+        b = (m_<%=name%>(x,y)) ? 1:0;
         STORE_BIT(a3,p3,b);
         p3+=s3;
     }
@@ -32,13 +32,13 @@ static VALUE
 }
 
 /*
-  Comparison <%=method%> other.
+  Comparison <%=name%> other.
   @overload <%=op_map%> other
   @param [Numo::NArray,Numeric] other
-  @return [Numo::Bit] result of self <%=method%> other.
+  @return [Numo::Bit] result of self <%=name%> other.
 */
 static VALUE
-<%=c_func%>(VALUE self, VALUE other)
+<%=c_func(1)%>(VALUE self, VALUE other)
 {
     <% if is_object %>
     return <%=c_func%>_self(self, other);

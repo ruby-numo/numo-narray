@@ -12,7 +12,7 @@ static void
     INIT_PTR(lp, 2, p3, s3);
     for (; i--;) {
         GET_DATA_STRIDE(p1,s1,dtype,x);
-        x = m_<%=method%>(x,&y);
+        x = m_<%=name%>(x,&y);
         SET_DATA_STRIDE(p2,s2,dtype,x);
         SET_DATA_STRIDE(p3,s3,int32_t,y);
     }
@@ -22,13 +22,13 @@ static void
   split the number x into a normalized fraction and an exponent.
   Returns [mantissa, exponent], where x = mantissa * 2**exponent.
 
-  @overload <%=method%>(x)
+  @overload <%=name%>(x)
   @param [Numo::NArray,Numeric]  x
   @return [Numo::<%=class_name%>,Numo::Int32]  mantissa and exponent.
 
 */
 static VALUE
-<%=c_func%>(VALUE mod, VALUE a1)
+<%=c_func(1)%>(VALUE mod, VALUE a1)
 {
     ndfunc_arg_in_t ain[1] = {{cT,0}};
     ndfunc_arg_out_t aout[2] = {{cT,0},{numo_cInt32,0}};

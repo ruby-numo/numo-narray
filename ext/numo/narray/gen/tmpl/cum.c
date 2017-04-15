@@ -17,7 +17,7 @@ static void
     //printf("i=%lu x=%f\n",i,x);
     for (i--; i--;) {
         GET_DATA_STRIDE(p1,s1,dtype,y);
-        m_<%=method%><%=j%>(x,y);
+        m_<%=name%><%=j%>(x,y);
         SET_DATA_STRIDE(p2,s2,dtype,x);
         //printf("i=%lu x=%f\n",i,x);
     }
@@ -25,20 +25,20 @@ static void
 <% end %>
 
 /*
-  <%=method.capitalize%> of self.
-  @overload <%=method%>(axis:nil, nan:false)
+  <%=name%> of self.
+  @overload <%=name%>(axis:nil, nan:false)
   @param [Numeric,Array,Range] axis  Affected dimensions.
   @param [TrueClass] nan  If true, propagete NaN. If false, ignore NaN.
-  @return [Numo::<%=class_name%>] <%=method%> of self.
+  @return [Numo::<%=class_name%>] <%=name%> of self.
 */
 static VALUE
-<%=c_func%>(int argc, VALUE *argv, VALUE self)
+<%=c_func(-1)%>(int argc, VALUE *argv, VALUE self)
 {
     int ignore_nan = 0;
     VALUE reduce;
     ndfunc_arg_in_t ain[2] = {{cT,0},{sym_reduce,0}};
     ndfunc_arg_out_t aout[1] = {{cT,0}};
-    ndfunc_t ndf = { <%=c_iter%>, STRIDE_LOOP_NIP|NDF_INPLACE|NDF_FLAT_REDUCE|NDF_CUM,
+    ndfunc_t ndf = { <%=c_iter%>, STRIDE_LOOP|NDF_FLAT_REDUCE|NDF_CUM,
                      2, 1, ain, aout };
 
     reduce = na_reduce_dimension(argc, argv, 1, &self, &ignore_nan);

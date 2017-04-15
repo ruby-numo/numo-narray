@@ -37,7 +37,7 @@
        [15, 16, 99, 18, 19]]
  */
 static VALUE
-<%=c_func%>(int argc, VALUE *argv, VALUE self)
+<%=c_func(-1)%>(int argc, VALUE *argv, VALUE self)
 {
     int nd;
     size_t pos;

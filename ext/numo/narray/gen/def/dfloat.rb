@@ -1,17 +1,21 @@
-class_name      "DFloat"
-class_alias     "Float64"
-ctype           "double"
+set name:                "dfloat"
+set type_name:           "dfloat"
+set full_class_name:     "Numo::DFloat"
+set class_name:          "DFloat"
+set class_alias:         "Float64"
+set class_var:           "cT"
+set ctype:               "double"
 
-has_math      true
-is_bit        false
-is_int        false
-is_unsigned   false
-is_float      true
-is_complex    false
-is_object     false
-is_real       true
-is_comparable true
-is_double_precision true
+set has_math:            true
+set is_bit:              false
+set is_int:              false
+set is_unsigned:         false
+set is_float:            true
+set is_complex:          false
+set is_object:           false
+set is_real:             true
+set is_comparable:       true
+set is_double_precision: true
 
 upcast_rb "Integer"
 upcast_rb "Float"

@@ -11,7 +11,7 @@ static void
     p2 = (lp->args[1]).ptr + (lp->args[1].iter[0]).pos;
     buf = (dtype*)p1;
 
-    <%=tp%>_qsort<%=j%>(buf, n, sizeof(dtype));
+    <%=type_name%>_qsort<%=j%>(buf, n, sizeof(dtype));
 
     <% if is_float %>
     for (; n; n--) {
@@ -32,15 +32,19 @@ static void
 <% end %>
 
 /*
-  <%=method.capitalize%> of self.
-  @overload <%=method%>(axis:nil, nan:false)
-  @param [Numeric,Array,Range] axis  Affected dimensions.
+  <%=name%> of self.
+<% if is_float %>
+  @overload <%=name%>(axis:nil, nan:false)
   @param [TrueClass] nan  If true, propagete NaN. If false, ignore NaN.
-  @return [Numo::<%=class_name%>] returns <%=method%> of self.
+<% else %>
+  @overload <%=name%>(axis:nil)
+<% end %>
+  @param [Numeric,Array,Range] axis  Affected dimensions.
+  @return [Numo::<%=class_name%>] returns <%=name%> of self.
 */
 
 static VALUE
-<%=c_func%>(int argc, VALUE *argv, VALUE self)
+<%=c_func(-1)%>(int argc, VALUE *argv, VALUE self)
 {
     int nan = 0;
     VALUE reduce;

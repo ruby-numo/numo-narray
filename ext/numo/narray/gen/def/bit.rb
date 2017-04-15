@@ -1,18 +1,21 @@
-class_name    "Bit"
-#ctype         ""
+set name:                "bit"
+set type_name:           "bit"
+set full_class_name:     "Numo::Bit"
+set class_name:          "Bit"
+set class_alias:         nil
+set class_var:           "cT"
+set ctype:               "BIT_DIGIT"
 
-template_dir  ["tmpl_bit","tmpl"]
-
-has_math      false
-is_bit        true
-is_int        false
-is_unsigned   true
-is_float      false
-is_complex    false
-is_object     false
-is_real       false
-is_comparable false
-is_double_precision false
+set has_math:      false
+set is_bit:        true
+set is_int:        false
+set is_unsigned:   true
+set is_float:      false
+set is_complex:    false
+set is_object:     false
+set is_real:       false
+set is_comparable: false
+set is_double_precision: false
 
 upcast_rb "Integer"
 upcast_rb "Float", "DFloat"

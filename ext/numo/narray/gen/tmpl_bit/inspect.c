@@ -3,7 +3,7 @@ static VALUE
 {
     dtype x;
     LOAD_BIT(ptr,pos,x);
-    return format_<%=tp%>(fmt, x);
+    return format_<%=type_name%>(fmt, x);
 }
 
 /*
@@ -12,7 +12,7 @@ static VALUE
   @return [String]
 */
 VALUE
-<%=c_func%>(VALUE ary)
+<%=c_func(0)%>(VALUE ary)
 {
     return na_ndloop_inspect(ary, <%=c_iter%>, Qnil);
 }

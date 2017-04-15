@@ -10,7 +10,7 @@ static void
     INIT_COUNTER(lp, n);
     INIT_PTR(lp, 0, p1, s1);
 
-    f_<%=method%><%=j%>(n,p1,s1,&xmin,&xmax);
+    f_<%=name%><%=j%>(n,p1,s1,&xmin,&xmax);
 
     *(dtype*)(lp->args[1].ptr + lp->args[1].iter[0].pos) = xmin;
     *(dtype*)(lp->args[2].ptr + lp->args[2].iter[0].pos) = xmax;
@@ -18,14 +18,18 @@ static void
 <% end %>
 
 /*
-  <%=method.capitalize%> of self.
-  @overload <%=method%>(axis:nil, nan:false)
-  @param [Numeric,Array,Range] axis  Affected dimensions.
+  <%=name%> of self.
+<% if is_float %>
+  @overload <%=name%>(axis:nil, nan:false)
   @param [TrueClass] nan  If true, propagete NaN. If false, ignore NaN.
+<% else %>
+  @overload <%=name%>(axis:nil)
+<% end %>
+  @param [Numeric,Array,Range] axis  Affected dimensions.
   @return [Numo::<%=class_name%>,Numo::<%=class_name%>] min and max of self.
 */
 static VALUE
-<%=c_func%>(int argc, VALUE *argv, VALUE self)
+<%=c_func(-1)%>(int argc, VALUE *argv, VALUE self)
 {
     int ignore_nan = 0;
     VALUE reduce;

@@ -1,3 +1,7 @@
+<% children.each do |c|%>
+<%= c.result %>
+
+<% end %>
 /*
   Store elements to Numo::<%=class_name%> from other.
   @overload store(other)
@@ -5,13 +9,13 @@
   @return [Numo::<%=class_name%>] self
 */
 static VALUE
-<%=c_func%>(VALUE self, VALUE obj)
+<%=c_func(1)%>(VALUE self, VALUE obj)
 {
     VALUE r, klass;
 
     klass = CLASS_OF(obj);
 
-    <% Store.definitions.each do |x| %>
+    <% definitions.each do |x| %>
     if (<%=x.condition("klass")%>) {
         <%=x.c_func%>(self,obj);
         return self;
@@ -27,7 +31,7 @@ static VALUE
     }
 
     <% if is_object %>
-    numo_robject_store_numeric(self,obj);
+    robject_store_numeric(self,obj);
     <% else %>
     rb_raise(nary_eCastError, "unknown conversion from %s to %s",
              rb_class2name(CLASS_OF(obj)),

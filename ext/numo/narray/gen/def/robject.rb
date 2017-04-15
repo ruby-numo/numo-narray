@@ -1,18 +1,22 @@
-class_name      "RObject"
-ctype           "VALUE"
-real_class_name "RObject"
-real_ctype      "VALUE"
+set name:                "robject"
+set type_name:           "robject"
+set full_class_name:     "Numo::RObject"
+set class_name:          "RObject"
+set class_var:           "cT"
+set ctype:               "VALUE"
+set real_class_name:     "RObject"
+set real_ctype:          "VALUE"
 
-has_math      false
-is_bit        false
-is_int        true
-is_unsigned   false
-is_float      true
-is_real       true
-is_complex    false
-is_object     true
-is_comparable true
-is_double_precision false
+set has_math:            false
+set is_bit:              false
+set is_int:              true
+set is_unsigned:         false
+set is_float:            true
+set is_real:             true
+set is_complex:          false
+set is_object:           true
+set is_comparable:       true
+set is_double_precision: false
 
 upcast_rb "Integer"
 upcast_rb "Float"

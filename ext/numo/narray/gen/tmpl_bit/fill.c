@@ -50,12 +50,12 @@ static void
 
 /*
   Fill elements with other.
-  @overload <%=method%> other
+  @overload <%=name%> other
   @param [Numeric] other
   @return [Numo::<%=class_name%>] self.
 */
 static VALUE
-<%=c_func%>(VALUE self, VALUE val)
+<%=c_func(1)%>(VALUE self, VALUE val)
 {
     ndfunc_arg_in_t ain[2] = {{OVERWRITE,0},{sym_option}};
     ndfunc_t ndf = {<%=c_iter%>, FULL_LOOP, 2,0, ain,0};

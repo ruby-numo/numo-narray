@@ -61,7 +61,7 @@ static VALUE
   @return [Numo::NArray] self to the other-th power.
 */
 static VALUE
-<%=c_func%>(VALUE self, VALUE other)
+<%=c_func(1)%>(VALUE self, VALUE other)
 {
     <% if is_object %>
     return <%=c_func%>_self(self,other);

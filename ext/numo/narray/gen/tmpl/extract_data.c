@@ -2,7 +2,7 @@
   Convert a data value of obj (with a single element) to dtype.
 */
 static dtype
-<%=c_func%>(VALUE obj)
+<%=c_func(:nodef)%>(VALUE obj)
 {
     narray_t *na;
     dtype  x;
@@ -18,7 +18,7 @@ static dtype
         klass = CLASS_OF(obj);
         ptr = na_get_pointer_for_read(obj);
         pos = na_get_offset(obj);
-        <% Store.definitions.select{|x| x.class==Store}.each do |x| %>
+        <% find_tmpl("store").definitions.select{|x| x.class==Store}.each do |x| %>
         if (<%=x.condition("klass")%>) {
             <%=x.extract_data("ptr","pos","x")%>;
             return x;

@@ -19,7 +19,7 @@ static void
 
     if (lp->args[1].ptr) {
         if (v1 == Qtrue) {
-            iter_<%=tp%>_store_<%=tp%>(lp);
+            iter_<%=type_name%>_store_<%=type_name%>(lp);
             i = lp->args[1].shape[0];
             if (idx1) {
                 idx1 += i;

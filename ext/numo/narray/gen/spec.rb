@@ -1,5 +1,3 @@
-# Define ID
-
 def_id "cast"
 def_id "eq"
 def_id "ne"
@@ -57,55 +55,58 @@ end
 # Allocation
 
 if is_object
-  def_allocate "robj_allocate"
+  def_alloc_func "robj_allocate"
 end
-def_method "allocate", 0
+def_method "allocate"
 
 # Type conversion
 
-def_method "extract", 0
-store_numeric
-store_bit "Bit"
-if is_complex
-  store_from "DComplex","dcomplex","m_from_dcomplex"
-  store_from "SComplex","scomplex","m_from_scomplex"
+def_method "extract"
+def_method "new_dim0"
+
+def_method "store" do
+  extend StoreFrom
+  store_numeric
+  store_from "Bit"
+  if is_complex
+    store_from "DComplex","dcomplex","m_from_dcomplex"
+    store_from "SComplex","scomplex","m_from_scomplex"
+  end
+  store_from "DFloat","double",   "m_from_real"
+  store_from "SFloat","float",    "m_from_real"
+  store_from "Int64", "int64_t",  "m_from_real"
+  store_from "Int32", "int32_t",  "m_from_real"
+  store_from "Int16", "int16_t",  "m_from_real"
+  store_from "Int8",  "int8_t",   "m_from_real"
+  store_from "UInt64","u_int64_t","m_from_real"
+  store_from "UInt32","u_int32_t","m_from_real"
+  store_from "UInt16","u_int16_t","m_from_real"
+  store_from "UInt8", "u_int8_t", "m_from_real"
+  store_from "RObject", "VALUE",  "m_num_to_data"
+  store_array
 end
-store_from "DFloat","double",   "m_from_real"
-store_from "SFloat","float",    "m_from_real"
-store_from "Int64", "int64_t",  "m_from_real"
-store_from "Int32", "int32_t",  "m_from_real"
-store_from "Int16", "int16_t",  "m_from_real"
-store_from "Int8",  "int8_t",   "m_from_real"
-store_from "UInt64","u_int64_t","m_from_real"
-store_from "UInt32","u_int32_t","m_from_real"
-store_from "UInt16","u_int16_t","m_from_real"
-store_from "UInt8", "u_int8_t", "m_from_real"
 
-store_from "RObject", "VALUE",  "m_num_to_data"
+def_method "extract_data"
 
-store_array
-cast_array
+def_method "cast_array"
+def_singleton_method "cast"
 
-def_method "store", 1
-def_method "extract_data", -99
-def_singleton "cast", 1
+def_method "aref", op:"[]"
+def_method "aset", op:"[]="
 
-def_method "aref", -1, "aref", :op=>"[]"
-def_method "aset", -1, "aset", :op=>"[]="
-
-def_method "coerce_cast", 1
-def_method "to_a", 0
-def_method "fill", 1
-def_method "format", -1
-def_method "format_to_a", -1
-def_method "inspect", 0
+def_method "coerce_cast"
+def_method "to_a"
+def_method "fill"
+def_method "format"
+def_method "format_to_a"
+def_method "inspect"
 
 
 # Array manipulation
 
-def_method "each", 0
+def_method "each"
 unary "map" if !is_bit
-def_method "each_with_index", 0
+def_method "each_with_index"
 
 if is_bit
   unary  "copy"
@@ -121,12 +122,13 @@ if is_bit
   def_alias "count_0","count_false"
   bit_reduce "all?", 1
   bit_reduce "any?", 0
-  def_method "none?", -1, "none_p"
-  def_method "where", 0
-  def_method "where2", 0
-  def_method "mask", 1
+  def_method "none?", "none_p"
+  def_method "where"
+  def_method "where2"
+  def_method "mask"
 else
-def_method "map_with_index", 0
+
+def_method "map_with_index"
 
 # Arithmetic
 
@@ -209,7 +211,7 @@ if is_float
     binary "copysign"
     if !is_complex
       cond_unary "signbit"
-      def_method "modf", 0, "unary_ret2"
+      def_method "modf", "unary_ret2"
     end
   end
 end
@@ -223,7 +225,7 @@ if is_comparable
   def_alias ">=","ge"
   def_alias "<", "lt"
   def_alias "<=","le"
-  def_method "clip", 2
+  def_method "clip"
 end
 
 # Float
@@ -255,11 +257,11 @@ if is_comparable
   accum "ptp","dtype","cT"
   accum_index "max_index"
   accum_index "min_index"
-  def_method "minmax",-1
+  def_method "minmax"
 end
 
 if is_int && !is_object
-  def_method "bincount",-1
+  def_method "bincount"
 end
 
 cum "cumsum","add"
@@ -274,20 +276,20 @@ accum_binary "mulsum"
 # shuffle
 # histogram
 
-def_method "seq",-1
+def_method "seq"
 if is_float
-  def_method "logseq",-1
+  def_method "logseq"
 end
-def_method "eye",-1
+def_method "eye"
 def_alias  "indgen", "seq"
 
-def_method "rand", -1
+def_method "rand"
 if is_float && !is_object
-  def_method "rand_norm", -1
+  def_method "rand_norm"
 end
 
 # y = a[0] + a[1]*x + a[2]*x^2 + a[3]*x^3 + ... + a[n]*x^n
-def_method "poly",-2
+def_method "poly"
 
 if is_comparable && !is_object
   if is_float
@@ -296,15 +298,15 @@ if is_comparable && !is_object
   else
     qsort type_name,"dtype","*(dtype*)"
   end
-  def_method "sort",-1
+  def_method "sort"
   if is_float
     qsort type_name+"_index","dtype*","**(dtype**)","_prnan"
     qsort type_name+"_index","dtype*","**(dtype**)","_ignan"
   else
     qsort type_name+"_index","dtype*","**(dtype**)"
   end
-  def_method "sort_index",-1
-  def_method "median",-1
+  def_method "sort_index"
+  def_method "median"
 end
 
 # Math
@@ -343,4 +345,5 @@ if has_math
     math "frexp",1,"frexp"
   end
 end
-end
+
+end # other than Bit

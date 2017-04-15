@@ -31,12 +31,12 @@ static void
 
 /*
   Format elements into strings.
-  @overload <%=method%> format
+  @overload <%=name%> format
   @param [String] format
   @return [Array] array of formated strings.
 */
 static VALUE
-<%=c_func%>(int argc, VALUE *argv, VALUE self)
+<%=c_func(-1)%>(int argc, VALUE *argv, VALUE self)
 {
     volatile VALUE fmt=Qnil;
     ndfunc_arg_in_t ain[3] = {{Qnil,0},{sym_loop_opt},{sym_option}};

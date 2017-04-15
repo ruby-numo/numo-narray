@@ -12,20 +12,20 @@ static void
     for (; i--;) {
         GET_DATA_STRIDE(p1,s1,dtype,x);
         GET_DATA_STRIDE(p2,s2,dtype,y);
-        x = m_<%=method%>(x,y);
+        x = m_<%=name%>(x,y);
         SET_DATA_STRIDE(p3,s3,dtype,x);
     }
 }
 
 /*
-  Calculate <%=method%>(a1,a2).
-  @overload <%=method%>(a1,a2)
+  Calculate <%=name%>(a1,a2).
+  @overload <%=name%>(a1,a2)
   @param [Numo::NArray,Numeric] a1  first value
   @param [Numo::NArray,Numeric] a2  second value
-  @return [Numo::<%=class_name%>] <%=method%>(a1,a2).
+  @return [Numo::<%=class_name%>] <%=name%>(a1,a2).
 */
 static VALUE
-<%=c_func%>(VALUE mod, VALUE a1, VALUE a2)
+<%=c_func(2)%>(VALUE mod, VALUE a1, VALUE a2)
 {
     ndfunc_arg_in_t ain[2] = {{cT,0},{cT,0}};
     ndfunc_arg_out_t aout[1] = {{cT,0}};

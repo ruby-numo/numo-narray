@@ -95,7 +95,7 @@ static void
         [4.5528+7.11003i, 5.62117+6.69094i, 5.05443+5.35133i]]
 */
 static VALUE
-<%=c_func%>(int argc, VALUE *args, VALUE self)
+<%=c_func(-1)%>(int argc, VALUE *args, VALUE self)
 {
     int n;
     randn_opt_t g;

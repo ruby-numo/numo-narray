@@ -105,7 +105,7 @@ static VALUE
   Count the number of occurrences of each non-negative integer value.
   Only Integer-types has this method.
 
-  @overload <%=method%>([weight], minlength:nil)
+  @overload <%=name%>([weight], minlength:nil)
   @param [SFloat or DFloat or Array] weight (optional) Array of
     float values. Its size along last axis should be same as that of self.
   @param [Integer] minlength (keyword, optional) Minimum size along
@@ -134,7 +134,7 @@ static VALUE
 
 */
 static VALUE
-<%=c_func%>(int argc, VALUE *argv, VALUE self)
+<%=c_func(-1)%>(int argc, VALUE *argv, VALUE self)
 {
     VALUE weight=Qnil, kw=Qnil;
     VALUE opts[1] = {Qundef};
@@ -146,9 +146,9 @@ static VALUE
     rb_get_kwargs(kw, table, 0, 1, opts);
 
   <% if is_unsigned %>
-    v = numo_<%=type_name%>_max(0,0,self);
+    v = <%=type_name%>_max(0,0,self);
   <% else %>
-    v = numo_<%=type_name%>_minmax(0,0,self);
+    v = <%=type_name%>_minmax(0,0,self);
     if (m_num_to_data(RARRAY_AREF(v,0)) < 0) {
         rb_raise(rb_eArgError,"array items must be non-netagive");
     }

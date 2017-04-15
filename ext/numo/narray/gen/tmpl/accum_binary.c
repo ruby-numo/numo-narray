@@ -17,7 +17,7 @@ static void
         for (; i--;) {
             GET_DATA_STRIDE(p1,s1,dtype,x);
             GET_DATA_STRIDE(p2,s2,dtype,y);
-            m_<%=method%><%=j%>(x,y,z);
+            m_<%=name%><%=j%>(x,y,z);
         }
         SET_DATA(p3,dtype,z);
     } else {
@@ -25,7 +25,7 @@ static void
             GET_DATA_STRIDE(p1,s1,dtype,x);
             GET_DATA_STRIDE(p2,s2,dtype,y);
             GET_DATA(p3,dtype,z);
-            m_<%=method%><%=j%>(x,y,z);
+            m_<%=name%><%=j%>(x,y,z);
             SET_DATA_STRIDE(p3,s3,dtype,z);
         }
     }
@@ -54,20 +54,28 @@ static VALUE
         ndf.func = <%=c_iter%>_nan;
     }
 <% end %>
-    v =  na_ndloop(&ndf, 4, self, argv[0], reduce, m_<%=method%>_init);
-    return numo_<%=tp%>_extract(v);
+    v =  na_ndloop(&ndf, 4, self, argv[0], reduce, m_<%=name%>_init);
+    return <%=type_name%>_extract(v);
 }
 
 /*
-  Binary <%=method%>.
+  Binary <%=name%>.
+
+<% if is_float %>
   @overload <%=op_map%>(other, axis:nil, nan:false)
+  @param [TrueClass] nan  If true, propagete NaN. If false, ignore NaN.
+<% else %>
+  @overload <%=op_map%>(other, axis:nil)
+<% end %>
   @param [Numo::NArray,Numeric] other
   @param [Numeric,Array,Range] axis  Affected dimensions.
+<% if is_float %>
   @param [TrueClass] nan  If true, propagete NaN. If false, ignore NaN.
-  @return [Numo::NArray] <%=method%> of self and other.
+<% end %>
+  @return [Numo::NArray] <%=name%> of self and other.
 */
 static VALUE
-<%=c_func%>(int argc, VALUE *argv, VALUE self)
+<%=c_func(-1)%>(int argc, VALUE *argv, VALUE self)
 {
     <% if !is_object %>
     VALUE klass, v;
@@ -83,7 +91,7 @@ static VALUE
         return <%=c_func%>_self(argc, argv, self);
     } else {
         v = rb_funcall(klass, id_cast, 1, self);
-        return rb_funcall2(v, rb_intern("<%=method%>"), argc, argv);
+        return rb_funcall2(v, rb_intern("<%=name%>"), argc, argv);
     }
     <% end %>
 }

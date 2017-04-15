@@ -10,19 +10,23 @@ static void
     INIT_PTR(lp, 0, p1, s1);
     p2 = lp->args[1].ptr + lp->args[1].iter[0].pos;
 
-    *(<%=dtype%>*)p2 = f_<%=method%><%=j%>(n,p1,s1);
+    *(<%=dtype%>*)p2 = f_<%=name%><%=j%>(n,p1,s1);
 }
 <% end %>
 
 /*
-  <%=method.capitalize%> of self.
-  @overload <%=method%>(axis:nil, nan:false)
-  @param [Numeric,Array,Range] axis  Affected dimensions.
+  <%=name%> of self.
+<% if is_float %>
+  @overload <%=name%>(axis:nil, nan:false)
   @param [TrueClass] nan  If true, propagete NaN. If false, ignore NaN.
-  @return [Numo::<%=class_name%>] returns result of <%=method%>.
+<% else %>
+  @overload <%=name%>(axis:nil)
+<% end %>
+  @param [Numeric,Array,Range] axis  Affected dimensions.
+  @return [Numo::<%=class_name%>] returns result of <%=name%>.
 */
 static VALUE
-<%=c_func%>(int argc, VALUE *argv, VALUE self)
+<%=c_func(-1)%>(int argc, VALUE *argv, VALUE self)
 {
     int ignore_nan = 0;
     VALUE v, reduce;
@@ -38,7 +42,7 @@ static VALUE
 <% end %>
     v =  na_ndloop(&ndf, 2, self, reduce);
 <% if tpclass == "cT" %>
-    return numo_<%=tp%>_extract(v);
+    return <%=type_name%>_extract(v);
 <% else %>
     return rb_funcall(v,rb_intern("extract"),0);
 <% end %>

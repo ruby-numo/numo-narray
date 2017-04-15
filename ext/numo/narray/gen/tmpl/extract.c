@@ -5,8 +5,8 @@
   --- Extract element value as Ruby Object if self is a dimensionless NArray,
   otherwise returns self.
 */
-VALUE
-numo_<%=tp%>_extract(VALUE self)
+static VALUE
+<%=c_func(0)%>(VALUE self)
 {
     volatile VALUE v;
     char *ptr;

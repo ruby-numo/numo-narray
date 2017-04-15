@@ -8,21 +8,25 @@ static void
 
     INIT_COUNTER(lp, n);
     INIT_PTR(lp, 0, ptr, step);
-    <%=tp%>_qsort<%=j%>(ptr, n, step);
+    <%=type_name%>_qsort<%=j%>(ptr, n, step);
 }
 <% end %>
 
 /*
-  <%=method.capitalize%> of self.
-  @overload <%=method%>(axis:nil, nan:false)
-  @param [Numeric,Array,Range] axis  Affected dimensions.
+  <%=name%> of self.
+<% if is_float %>
+  @overload <%=name%>(axis:nil, nan:false)
   @param [TrueClass] nan  If true, propagete NaN. If false, ignore NaN.
-  @return [Numo::<%=class_name%>] returns result of <%=method%>.
+<% else %>
+  @overload <%=name%>(axis:nil)
+<% end %>
+  @param [Numeric,Array,Range] axis  Affected dimensions.
+  @return [Numo::<%=class_name%>] returns result of <%=name%>.
   @example
       Numo::DFloat[3,4,1,2].sort => Numo::DFloat[1,2,3,4]
 */
 static VALUE
-<%=c_func%>(int argc, VALUE *argv, VALUE self)
+<%=c_func(-1)%>(int argc, VALUE *argv, VALUE self)
 {
     int nan = 0;
     VALUE reduce;

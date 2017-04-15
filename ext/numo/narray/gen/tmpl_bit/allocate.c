@@ -1,5 +1,5 @@
 static VALUE
-<%=c_func%>(VALUE self)
+<%=c_func(0)%>(VALUE self)
 {
     narray_t *na;
     char *ptr;
@@ -14,10 +14,6 @@ static VALUE
             NA_DATA_PTR(na) = ptr;
         }
         break;
-    //case NARRAY_FILEMAP_T:
-    // to be implemented
-    //    ptr = ((narray_filemap_t*)na)->ptr;
-    //    break;
     case NARRAY_VIEW_T:
         rb_funcall(NA_VIEW_DATA(na), rb_intern("allocate"), 0);
         break;

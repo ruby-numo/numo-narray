@@ -28,11 +28,11 @@ void
 
 /*
   Convert self to Array.
-  @overload <%=method%>
+  @overload <%=name%>
   @return [Array]
 */
 static VALUE
-<%=c_func%>(VALUE self)
+<%=c_func(0)%>(VALUE self)
 {
     ndfunc_arg_in_t ain[3] = {{Qnil,0},{sym_loop_opt},{sym_option}};
     ndfunc_arg_out_t aout[1] = {{rb_cArray,0}}; // dummy?

@@ -13,21 +13,20 @@ TAGS : $(TAGSRC)
 doc :
 	yard doc *.c types/*.c
 
-C_TMPL = <%=Dir.glob("#{__dir__}/gen/tmpl*/*.c").join(" ")%>
+C_TMPL = <%=Dir.glob("gen/tmpl*/*.c").join(" ")%>
 
-COGEN = <%= __dir__ %>/gen/cogen.rb
-DTYPE = <%= __dir__ %>/gen/dtype.erb.c
-DEPENDS = $(C_TMPL) $(DTYPE) <%= __dir__ %>/gen/*.rb
+COGEN = gen/cogen.rb
+DEPENDS = $(C_TMPL) gen/*.rb
 
 <%
-   type_c = ["types/bit.c"]
-   type_rb = Dir.glob("#{__dir__}/gen/def/*.rb")
+   type_c = []
+   type_rb = Dir.glob("gen/def/*.rb")
    type_rb.each do |s|
      type_c << c = "types/"+File.basename(s,".rb")+".c"
 %>
 <%=c%>: <%=s%> $(DEPENDS)
 	$(MAKEDIRS) $(@D) types
-	ruby $(COGEN) -l -o $@ $(DTYPE) <%=s%>
+	ruby $(COGEN) -l -o $@ <%=s%>
 <% end %>
 
 src : <%= type_c.join(" ") %>

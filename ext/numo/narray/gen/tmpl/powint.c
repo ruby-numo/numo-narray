@@ -1,4 +1,4 @@
-static dtype pow_<%=tp%>(dtype x, int p)
+static dtype pow_<%=type_name%>(dtype x, int p)
 {
     dtype r = m_one;
     switch(p) {

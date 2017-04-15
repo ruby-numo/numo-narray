@@ -61,7 +61,7 @@ static void
       [1+7.26156e-310i, 0.5+0.866025i, -0.5+0.866025i, -1+1.22465e-16i, ...]
 */
 static VALUE
-<%=c_func%>(int argc, VALUE *args, VALUE self)
+<%=c_func(-1)%>(int argc, VALUE *args, VALUE self)
 {
     logseq_opt_t *g;
     VALUE vbeg, vstep, vbase;

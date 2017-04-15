@@ -1,5 +1,5 @@
 static VALUE
-<%=c_func%>(VALUE rary)
+<%=c_func(:nodef)%>(VALUE rary)
 {
     VALUE vnc, nary;
     narray_t *na;
@@ -12,7 +12,7 @@ static VALUE
     GetNArray(nary,na);
     if (na->size > 0) {
         <%=find_tmpl("allocate").c_func%>(nary);
-        <%=find_tmpl("store_array").c_func%>(nary,rary);
+        <%=find_tmpl("store").find("array").c_func%>(nary,rary);
     }
     return nary;
 }

@@ -12,13 +12,13 @@ static void
     for (i=n; i--;) {
         GET_DATA_STRIDE(p1,s1,dtype,x);
         GET_DATA_STRIDE(p2,s2,dtype,y);
-<% if is_int and %w[div mod divmod].include? method %>
+<% if is_int and %w[div mod divmod].include? name %>
         if (y==0) {
             lp->err_type = rb_eZeroDivError;
             return;
         }
 <% end %>
-        x = m_<%=method%>(x,y);
+        x = m_<%=name%>(x,y);
         SET_DATA_STRIDE(p3,s3,dtype,x);
     }
 }
@@ -34,13 +34,13 @@ static VALUE
 }
 
 /*
-  Binary <%=method%>.
+  Binary <%=name%>.
   @overload <%=op_map%> other
   @param [Numo::NArray,Numeric] other
   @return [Numo::NArray] self <%=op_map%> other
 */
 static VALUE
-<%=c_func%>(VALUE self, VALUE other)
+<%=c_func(1)%>(VALUE self, VALUE other)
 {
     <% if is_object %>
     return <%=c_func%>_self(self, other);

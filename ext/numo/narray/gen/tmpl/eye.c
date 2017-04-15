@@ -31,15 +31,15 @@ static void
 
 /*
   Eye: Set a value to diagonal components, set 0 to non-diagonal components.
-  @overload <%=method%>([element,offset])
+  @overload <%=name%>([element,offset])
   @param [Numeric] element  Diagonal element to be stored. Default is 1.
   @param [Integer] offset Diagonal offset from the main diagonal.  The
       default is 0. k>0 for diagonals above the main diagonal, and k<0
       for diagonals below the main diagonal.
-  @return [Numo::<%=class_name%>] <%=method%> of self.
+  @return [Numo::<%=class_name%>] <%=name%> of self.
 */
 static VALUE
-<%=c_func%>(int argc, VALUE *argv, VALUE self)
+<%=c_func(-1)%>(int argc, VALUE *argv, VALUE self)
 {
     ndfunc_arg_in_t ain[1] = {{OVERWRITE,2}};
     ndfunc_t ndf = {<%=c_iter%>, NO_LOOP, 1,0, ain,0};

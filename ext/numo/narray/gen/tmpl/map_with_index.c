@@ -75,7 +75,7 @@ void
   Creates a new NArray containing the values returned by the block.
   Inplace option is allowed, i.e., `nary.inplace.map` overwrites `nary`.
 
-  @overload <%=method%>
+  @overload <%=name%>
 
   For a block {|x,i,j,...| ... }
   @yield [x,i,j,...]  x is an element, i,j,... are multidimensional indices.
@@ -84,7 +84,7 @@ void
 
 */
 static VALUE
-<%=c_func%>(VALUE self)
+<%=c_func(0)%>(VALUE self)
 {
     ndfunc_arg_in_t ain[1] = {{Qnil,0}};
     ndfunc_arg_out_t aout[1] = {{cT,0}};

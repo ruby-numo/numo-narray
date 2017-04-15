@@ -11,7 +11,7 @@ static void
     INIT_COUNTER(lp, n);
     INIT_PTR(lp, 0, d_ptr, d_step);
 
-    idx = f_<%=method%><%=j%>(n,d_ptr,d_step);
+    idx = f_<%=name%><%=j%>(n,d_ptr,d_step);
 
     INIT_PTR(lp, 1, i_ptr, i_step);
     o_ptr = NDL_PTR(lp,2);
@@ -21,16 +21,20 @@ static void
 <% end;end %>
 
 /*
-  <%=method%>. Return an index of result.
-  @overload <%=method%>(axis:nil, nan:false)
-  @param [Numeric,Array,Range] axis  Affected dimensions.
+  <%=name%>. Return an index of result.
+<% if is_float %>
+  @overload <%=name%>(axis:nil, nan:false)
   @param [TrueClass] nan  If true, propagete NaN. If false, ignore NaN.
-  @return [Integer,Numo::Int] returns result index of <%=method%>.
+<% else %>
+  @overload <%=name%>(axis:nil)
+<% end %>
+  @param [Numeric,Array,Range] axis  Affected dimensions.
+  @return [Integer,Numo::Int] returns result index of <%=name%>.
   @example
       Numo::NArray[3,4,1,2].min_index => 3
  */
 static VALUE
-<%=c_func%>(int argc, VALUE *argv, VALUE self)
+<%=c_func(-1)%>(int argc, VALUE *argv, VALUE self)
 {
     int ignore_nan = 0;
     narray_t *na;

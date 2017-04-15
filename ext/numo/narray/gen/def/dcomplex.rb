@@ -1,19 +1,23 @@
-class_name      "DComplex"
-class_alias     "Complex128"
-ctype           "dcomplex"
-real_class_name "DFloat"
-real_ctype      "double"
+set name:                "dcomplex"
+set type_name:           "dcomplex"
+set full_class_name:     "Numo::DComplex"
+set class_name:          "DComplex"
+set class_alias:         "Complex64"
+set class_var:           "cT"
+set ctype:               "dcomplex"
+set real_class_name:     "DFloat"
+set real_ctype:          "double"
 
-has_math      true
-is_bit        false
-is_int        false
-is_unsigned   false
-is_float      true
-is_real       false
-is_complex    true
-is_object     false
-is_comparable false
-is_double_precision true
+set has_math:            true
+set is_bit:              false
+set is_int:              false
+set is_unsigned:         false
+set is_float:            true
+set is_real:             false
+set is_complex:          true
+set is_object:           false
+set is_comparable:       false
+set is_double_precision: true
 
 upcast_rb "Integer"
 upcast_rb "Float"

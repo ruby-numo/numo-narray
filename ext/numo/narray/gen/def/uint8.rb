@@ -1,16 +1,20 @@
-class_name    "UInt8"
-ctype         "u_int8_t"
+set name:                "uint8"
+set type_name:           "uint8"
+set full_class_name:     "Numo::UInt8"
+set class_name:          "UInt8"
+set class_var:           "cT"
+set ctype:               "u_int8_t"
 
-has_math      false
-is_bit        false
-is_int        true
-is_unsigned   true
-is_float      false
-is_complex    false
-is_object     false
-is_real       true
-is_comparable true
-is_double_precision false
+set has_math:            false
+set is_bit:              false
+set is_int:              true
+set is_unsigned:         true
+set is_float:            false
+set is_complex:          false
+set is_object:           false
+set is_real:             true
+set is_comparable:       true
+set is_double_precision: false
 
 upcast_rb "Integer"
 upcast_rb "Float", "DFloat"

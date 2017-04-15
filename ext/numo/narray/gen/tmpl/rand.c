@@ -123,7 +123,7 @@ static void
        [4, 3, 3, 2, 4, 2]
 */
 static VALUE
-<%=c_func%>(int argc, VALUE *args, VALUE self)
+<%=c_func(-1)%>(int argc, VALUE *args, VALUE self)
 {
     rand_opt_t g;
     VALUE v1=Qnil, v2=Qnil;

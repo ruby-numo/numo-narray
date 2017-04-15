@@ -14,13 +14,13 @@ static void
         if (idx2) {
             for (; i--;) {
                 GET_DATA_INDEX(p1,idx1,dtype,x);
-                y = m_<%=method%>(x);
+                y = m_<%=name%>(x);
                 SET_DATA_INDEX(p2,idx2,<%=dtype%>,y);
             }
         } else {
             for (; i--;) {
                 GET_DATA_INDEX(p1,idx1,dtype,x);
-                y = m_<%=method%>(x);
+                y = m_<%=name%>(x);
                 SET_DATA_STRIDE(p2,s2,<%=dtype%>,y);
             }
         }
@@ -28,13 +28,13 @@ static void
         if (idx2) {
             for (; i--;) {
                 GET_DATA_STRIDE(p1,s1,dtype,x);
-                y = m_<%=method%>(x);
+                y = m_<%=name%>(x);
                 SET_DATA_INDEX(p2,idx2,<%=dtype%>,y);
             }
         } else {
             for (; i--;) {
                 GET_DATA_STRIDE(p1,s1,dtype,x);
-                y = m_<%=method%>(x);
+                y = m_<%=name%>(x);
                 SET_DATA_STRIDE(p2,s2,<%=dtype%>,y);
             }
         }
@@ -43,12 +43,12 @@ static void
 
 
 /*
-  <%=method%> of self.
-  @overload <%=method%>
-  @return [Numo::<%=real_class_name%>] <%=method%> of self.
+  <%=name%> of self.
+  @overload <%=name%>
+  @return [Numo::<%=real_class_name%>] <%=name%> of self.
 */
 static VALUE
-<%=c_func%>(VALUE self)
+<%=c_func(0)%>(VALUE self)
 {
     ndfunc_arg_in_t ain[1] = {{cT,0}};
     ndfunc_arg_out_t aout[1] = {{<%=tpclass%>,0}};
