@@ -133,6 +133,7 @@ extern VALUE nary_eCastError;
 extern VALUE nary_eShapeError;
 extern VALUE nary_eOperationError;
 extern VALUE nary_eDimensionError;
+extern const rb_data_type_t na_data_type;
 
 //EXTERN const int na_sizeof[NA_NTYPES+1];
 #endif
@@ -174,6 +175,7 @@ typedef struct RNArray {
     unsigned char ndim;     // # of dimensions
     unsigned char type;
     unsigned char flag[2];  // flags
+    unsigned short elmsz;    // element size
     size_t   size;          // # of total elements
     size_t  *shape;         // # of elements for each dimension
     VALUE    reduce;
@@ -228,8 +230,8 @@ static inline narray_t *
 na_get_narray_t(VALUE obj)
 {
     narray_t *na;
-
-    Check_Type(obj, T_DATA);
+    //Check_Type(obj, T_DATA);
+    if (TYPE(obj)!=T_DATA) {rb_raise(rb_eTypeError,"wrong type");}
     na = (narray_t*)DATA_PTR(obj);
     return na;
 }
@@ -239,7 +241,8 @@ _na_get_narray_t(VALUE obj, unsigned char na_type)
 {
     narray_t *na;
 
-    Check_Type(obj, T_DATA);
+    //Check_Type(obj, T_DATA);
+    if (TYPE(obj)!=T_DATA) {rb_raise(rb_eTypeError,"wrong type");}
     na = (narray_t*)DATA_PTR(obj);
     if (na->type != na_type) {
         rb_bug("unknown type 0x%x (0x%x given)", na_type, na->type);
@@ -251,9 +254,13 @@ _na_get_narray_t(VALUE obj, unsigned char na_type)
 #define na_get_narray_view_t(obj) (narray_view_t*)_na_get_narray_t(obj,NARRAY_VIEW_T)
 #define na_get_narray_filemap_t(obj) (narray_filemap_t*)_na_get_narray_t(obj,NARRAY_FILEMAP_T)
 
-#define GetNArray(obj,var)  Data_Get_Struct(obj, narray_t, var)
-#define GetNArrayView(obj,var)  Data_Get_Struct(obj, narray_view_t, var)
-#define GetNArrayData(obj,var)  Data_Get_Struct(obj, narray_data_t, var)
+//#define GetNArray(obj,var)  Data_Get_Struct(obj, narray_t, var)
+//#define GetNArrayView(obj,var)  Data_Get_Struct(obj, narray_view_t, var)
+//#define GetNArrayData(obj,var)  Data_Get_Struct(obj, narray_data_t, var)
+
+#define GetNArray(obj,var)      TypedData_Get_Struct(obj, narray_t, &na_data_type, var)
+#define GetNArrayView(obj,var)  TypedData_Get_Struct(obj, narray_view_t, &na_data_type, var)
+#define GetNArrayData(obj,var)  TypedData_Get_Struct(obj, narray_data_t, &na_data_type, var)
 
 #define SDX_IS_STRIDE(x) ((x).stride&0x1)
 #define SDX_IS_INDEX(x)  (!SDX_IS_STRIDE(x))
@@ -394,6 +401,7 @@ _na_get_narray_t(VALUE obj, unsigned char na_type)
 #define NUM2IMAG(v)  NUM2DBL( rb_funcall((v),na_id_imag,0) )
 
 #define NA_MAX_DIMENSION (int)(sizeof(VALUE)*8-2)
+#deifne NA_MAX_ELMSZ     65535
 
 typedef unsigned int BIT_DIGIT;
 //#define BYTE_BIT_DIGIT sizeof(BIT_DIGIT)

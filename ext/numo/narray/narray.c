@@ -74,6 +74,17 @@ void Init_nary_rand();
 void Init_nary_array();
 void Init_nary_struct();
 
+static void na_gc_mark(void* na);
+       void na_free(void* na);
+static size_t na_memsize(const void* na);
+
+
+const rb_data_type_t na_data_type = {
+    "Numo::NArray",
+    {na_gc_mark, na_free, na_memsize,},
+    0, 0, RUBY_TYPED_FREE_IMMEDIATELY|RUBY_TYPED_WB_PROTECTED
+};
+
 
 static void
 rb_narray_debug_info_nadata(VALUE self)
@@ -154,53 +165,107 @@ rb_narray_debug_info(VALUE self)
 }
 
 
-void
-na_free(narray_data_t* na)
-{
-    assert(na->base.type==NARRAY_DATA_T);
+size_t na_get_elmsz(VALUE vna);
 
-    if (na->ptr != NULL) {
-        xfree(na->ptr);
-        na->ptr = NULL;
-    }
-    if (na->base.size > 0) {
-        if (na->base.shape != NULL && na->base.shape != &(na->base.size)) {
-            xfree(na->base.shape);
-            na->base.shape = NULL;
-        }
-    }
-    xfree(na);
-}
 
-static void
-na_free_view(narray_view_t* na)
+static size_t
+na_memsize(const void* na)
 {
     int i;
+    size_t size = 0;
+    narray_data_t *nd;
+    narray_view_t *nv;
 
-    assert(na->base.type==NARRAY_VIEW_T);
-
-    if (na->stridx != NULL) {
-        for (i=0; i<na->base.ndim; i++) {
-            if (SDX_IS_INDEX(na->stridx[i])) {
-                xfree(SDX_GET_INDEX(na->stridx[i]));
+    switch(((narray_t*)na)->type) {
+    case NARRAY_DATA_T:
+        size = sizeof(narray_data_t);
+        nd = (narray_data_t*)na;
+        if (nd->ptr != NULL) {
+            size += nd->base.size * sizeof(double);
+        }
+        if (nd->base.size > 0) {
+            if (nd->base.shape != NULL && nd->base.shape != &(nd->base.size)) {
+                size += sizeof(size_t) * nd->base.ndim;
             }
         }
-        xfree(na->stridx);
-        na->stridx = NULL;
-    }
-    if (na->base.size > 0) {
-        if (na->base.shape != NULL && na->base.shape != &(na->base.size)) {
-            xfree(na->base.shape);
-            na->base.shape = NULL;
+        break;
+    case NARRAY_VIEW_T:
+        size = sizeof(narray_view_t);
+        nv = (narray_view_t*)na;
+        if (nv->stridx != NULL) {
+            for (i=0; i<nv->base.ndim; i++) {
+                if (SDX_IS_INDEX(nv->stridx[i])) {
+                    size += sizeof(size_t) * nv->base.shape[i];
+                }
+            }
+            size += sizeof(stridx_t) * nv->base.ndim;
         }
+        if (nv->base.size > 0) {
+            if (nv->base.shape != NULL && nv->base.shape != &(nv->base.size)) {
+                size += sizeof(size_t) * nv->base.ndim;
+            }
+        }
+        break;
+    default:
+        rb_bug("invalid NArray type");
     }
-    xfree(na);
+    return size;
 }
 
-static void
-na_gc_mark_view(narray_view_t* na)
+
+void
+na_free(void* na)
 {
-    rb_gc_mark(na->data);
+    int i;
+    narray_data_t *nd;
+    narray_view_t *nv;
+
+    switch(((narray_t*)na)->type) {
+    case NARRAY_DATA_T:
+        nd = (narray_data_t*)na;
+        if (nd->ptr != NULL) {
+            xfree(nd->ptr);
+            nd->ptr = NULL;
+        }
+        if (nd->base.size > 0) {
+            if (nd->base.shape != NULL && nd->base.shape != &(nd->base.size)) {
+                xfree(nd->base.shape);
+                nd->base.shape = NULL;
+            }
+        }
+        xfree(nd);
+        break;
+    case NARRAY_VIEW_T:
+        nv = (narray_view_t*)na;
+        if (nv->stridx != NULL) {
+            for (i=0; i<nv->base.ndim; i++) {
+                if (SDX_IS_INDEX(nv->stridx[i])) {
+                    xfree(SDX_GET_INDEX(nv->stridx[i]));
+                }
+            }
+            xfree(nv->stridx);
+            nv->stridx = NULL;
+        }
+        if (nv->base.size > 0) {
+            if (nv->base.shape != NULL && nv->base.shape != &(nv->base.size)) {
+                xfree(nv->base.shape);
+                nv->base.shape = NULL;
+            }
+        }
+        xfree(nv);
+        break;
+    default:
+        rb_bug("invalid NArray type");
+    }
+}
+
+
+static void
+na_gc_mark(void* na)
+{
+    if (((narray_t*)na)->type == NARRAY_VIEW_T) {
+        rb_gc_mark(((narray_view_t*)na)->data);
+    }
 }
 
 VALUE
@@ -216,9 +281,9 @@ na_s_allocate(VALUE klass)
     na->base.shape = NULL;
     na->base.reduce = INT2FIX(0);
     na->ptr = NULL;
-    return Data_Wrap_Struct(klass, 0, na_free, na);
+    //return Data_Wrap_Struct(klass, 0, na_free, na);
+    return TypedData_Wrap_Struct(klass, &na_data_type, (void*)na);
 }
-
 
 VALUE
 na_s_allocate_view(VALUE klass)
@@ -235,7 +300,8 @@ na_s_allocate_view(VALUE klass)
     na->data = Qnil;
     na->offset = 0;
     na->stridx = NULL;
-    return Data_Wrap_Struct(klass, na_gc_mark_view, na_free_view, na);
+    //return Data_Wrap_Struct(klass, na_gc_mark_view, na_free_view, na);
+    return TypedData_Wrap_Struct(klass, &na_data_type, (void*)na);
 }
 
 
