@@ -17,7 +17,7 @@ if is_int
   def_id "<<","left_shift"
   def_id ">>","right_shift"
 end
-if is_comparable
+if is_comparable && !is_object
   def_id "gt"
   def_id "ge"
   def_id "lt"
