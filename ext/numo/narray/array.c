@@ -5,9 +5,8 @@
 */
 #include <ruby.h>
 #include "numo/narray.h"
-//#include "narray_local.h"
 
-/* Multi-Dimensional Array Investigation */
+// mdai: Multi-Dimensional Array Investigation
 typedef struct {
   size_t shape;
   VALUE  val;
@@ -174,8 +173,9 @@ na_mdai_realloc(na_mdai_t *mdai, int n_extra)
 }
 
 static void
-na_mdai_free(na_mdai_t *mdai)
+na_mdai_free(void *ptr)
 {
+    na_mdai_t *mdai = (na_mdai_t*)ptr;
     xfree(mdai->item);
     xfree(mdai);
 }
@@ -309,6 +309,20 @@ na_mdai_result(na_mdai_t *mdai, na_compose_t *nc)
 }
 
 
+static size_t
+na_mdai_memsize(const void *ptr)
+{
+    const na_mdai_t *mdai = (const na_mdai_t*)ptr;
+
+    return sizeof(na_mdai_t) + mdai->capa * sizeof(na_mdai_item_t);
+}
+
+static const rb_data_type_t mdai_data_type = {
+    "Numo::NArray/mdai",
+    {NULL, na_mdai_free, na_mdai_memsize,},
+    0, 0, RUBY_TYPED_FREE_IMMEDIATELY|RUBY_TYPED_WB_PROTECTED
+};
+
 VALUE
 na_ary_composition(VALUE ary)
 {
@@ -321,7 +335,7 @@ na_ary_composition(VALUE ary)
     vnc = Data_Wrap_Struct(rb_cData, 0, -1, nc);
     if (TYPE(ary) == T_ARRAY) {
         mdai = na_mdai_alloc(ary);
-        vmdai = Data_Wrap_Struct(rb_cData, 0, na_mdai_free, mdai);
+        vmdai = TypedData_Wrap_Struct(rb_cData, &mdai_data_type, (void*)mdai);
         if ( na_mdai_investigate(mdai, 1) ) {
             // empty
             nc->ndim = 1;
@@ -512,7 +526,7 @@ na_ary_composition_for_struct(VALUE nstruct, VALUE ary)
 
     mdai = na_mdai_alloc(ary);
     mdai->na_type = nstruct;
-    vmdai = Data_Wrap_Struct(rb_cData, 0, na_mdai_free, mdai);
+    vmdai = TypedData_Wrap_Struct(rb_cData, &mdai_data_type, (void*)mdai);
     na_mdai_for_struct(mdai, 0);
     nc = ALLOC(na_compose_t);
     vnc = Data_Wrap_Struct(rb_cData, 0, -1, nc);
