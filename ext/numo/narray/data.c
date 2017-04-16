@@ -437,7 +437,7 @@ na_flatten_dim(VALUE self, int sd)
     switch(na->type) {
     case NARRAY_DATA_T:
     case NARRAY_FILEMAP_T:
-        stride = na_get_elmsz(self);
+        stride = na_element_stride(self);
         for (i=sd+1; i--; ) {
             //printf("data: i=%d shpae[i]=%ld stride=%ld\n",i,shape[i],stride);
             SDX_SET_STRIDE(na2->stridx[i],stride);
@@ -741,7 +741,7 @@ na_diagonal(int argc, VALUE *argv, VALUE self)
     case NARRAY_FILEMAP_T:
         na2->offset = 0;
         na2->data = self;
-        stride = stride0 = stride1 = na_get_elmsz(self);
+        stride = stride0 = stride1 = na_element_stride(self);
         for (i=nd,k=nd-2; i--; ) {
             if (i==ax[1]) {
                 stride1 = stride;
@@ -868,7 +868,7 @@ na_new_dimension_for_dot(VALUE self, int pos, int len, bool transpose)
             }
         }
         na_setup_shape((narray_t*)na2, nd, shape);
-        stride = na_get_elmsz(self);
+        stride = na_element_stride(self);
         for (i=nd; i--;) {
             SDX_SET_STRIDE(na2->stridx[i], stride);
             stride *= shape[i];

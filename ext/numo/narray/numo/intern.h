@@ -6,6 +6,10 @@
 #ifndef INTERN_H
 #define INTERN_H
 
+#define rb_narray_new numo_narray_new
+#define rb_narray_view_new numo_narray_view_new
+#define rb_narray_debug_info numo_narray_debug_info
+
 VALUE rb_narray_new(VALUE elem, int ndim, size_t *shape);
 VALUE rb_narray_view_new(VALUE elem, int ndim, size_t *shape);
 VALUE rb_narray_debug_info(VALUE);
@@ -76,7 +80,7 @@ VALUE na_ndloop_with_index(ndfunc_t *nf, int argc, ...);
 
 VALUE na_info_str(VALUE);
 
-size_t na_get_elmsz(VALUE nary);
+unsigned int na_element_stride(VALUE nary);
 size_t na_dtype_elmsz(VALUE klass);
 
 bool na_test_reduce(VALUE reduce, int dim);

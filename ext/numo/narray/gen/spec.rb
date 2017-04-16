@@ -54,9 +54,7 @@ end
 
 # Allocation
 
-if is_object
-  def_alloc_func "robj_allocate"
-end
+def_alloc_func "alloc_func"
 def_method "allocate"
 
 # Type conversion

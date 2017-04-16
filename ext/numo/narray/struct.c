@@ -136,7 +136,7 @@ na_make_view_struct(VALUE self, VALUE dtype, VALUE offset)
     switch(na->type) {
     case NARRAY_DATA_T:
     case NARRAY_FILEMAP_T:
-        stride = na_get_elmsz(self);
+        stride = na_element_stride(self);
         for (j=na->ndim; j--;) {
             SDX_SET_STRIDE(na2->stridx[j], stride);
             stride *= na->shape[j];

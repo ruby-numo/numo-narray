@@ -575,7 +575,7 @@ VALUE na_aref_md_protected(VALUE data_value)
 
     na2->stridx = ALLOC_N(stridx_t,ndim_new);
 
-    elmsz = na_get_elmsz(self);
+    elmsz = na_element_stride(self);
 
     switch(na1->type) {
     case NARRAY_DATA_T:
@@ -793,7 +793,7 @@ na_get_result_dimension(VALUE self, int argc, VALUE *argv, ssize_t stride, size_
         break;
     default:
         if (!stride) {
-            stride = na_get_elmsz(self);
+            stride = na_element_stride(self);
         }
         if (argc==1 && j==1) {
             x = na_range_check(idx[0], na->size, 0);

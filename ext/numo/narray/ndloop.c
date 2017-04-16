@@ -532,7 +532,7 @@ ndloop_set_stepidx(na_md_loop_t *lp, int j, VALUE vna, int *dim_map, int rwflag)
     narray_t *na;
 
     LARG(lp,j).value = vna;
-    LARG(lp,j).elmsz = na_get_elmsz(vna);
+    LARG(lp,j).elmsz = na_element_stride(vna);
     if (rwflag == NDL_READ) {
         LARG(lp,j).ptr = na_get_pointer_for_read(vna);
     } else

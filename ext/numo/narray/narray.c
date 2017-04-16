@@ -5,7 +5,6 @@
 */
 #define NARRAY_C
 #include <ruby.h>
-#include "numo/narray.h"
 #include <assert.h>
 
 /* global variables within this module */
@@ -17,8 +16,6 @@ VALUE nary_eOperationError;
 VALUE nary_eDimensionError;
 
 static ID id_contiguous_stride;
-//static ID id_element_bit_size;
-static ID id_element_byte_size;
 static ID id_allocate;
 static ID id_element_byte_size;
 static ID id_fill;
@@ -74,16 +71,11 @@ void Init_nary_rand();
 void Init_nary_array();
 void Init_nary_struct();
 
-static void na_gc_mark(void* na);
-       void na_free(void* na);
-static size_t na_memsize(const void* na);
-
-
 const rb_data_type_t na_data_type = {
     "Numo::NArray",
-    {na_gc_mark, na_free, na_memsize,},
-    0, 0, RUBY_TYPED_FREE_IMMEDIATELY|RUBY_TYPED_WB_PROTECTED
+    {0, 0, 0,}, 0, 0, 0,
 };
+#include "numo/narray.h"
 
 
 static void
@@ -165,125 +157,70 @@ rb_narray_debug_info(VALUE self)
 }
 
 
-size_t na_get_elmsz(VALUE vna);
-
-
 static size_t
-na_memsize(const void* na)
+na_view_memsize(const void* ptr)
 {
     int i;
-    size_t size = 0;
-    narray_data_t *nd;
-    narray_view_t *nv;
+    size_t size = sizeof(narray_view_t);
+    const narray_view_t *na = ptr;
 
-    switch(((narray_t*)na)->type) {
-    case NARRAY_DATA_T:
-        size = sizeof(narray_data_t);
-        nd = (narray_data_t*)na;
-        if (nd->ptr != NULL) {
-            size += nd->base.size * sizeof(double);
-        }
-        if (nd->base.size > 0) {
-            if (nd->base.shape != NULL && nd->base.shape != &(nd->base.size)) {
-                size += sizeof(size_t) * nd->base.ndim;
+    assert(na->base.type == NARRAY_VIEW_T);
+
+    if (na->stridx != NULL) {
+        for (i=0; i<na->base.ndim; i++) {
+            if (SDX_IS_INDEX(na->stridx[i])) {
+                size += sizeof(size_t) * na->base.shape[i];
             }
         }
-        break;
-    case NARRAY_VIEW_T:
-        size = sizeof(narray_view_t);
-        nv = (narray_view_t*)na;
-        if (nv->stridx != NULL) {
-            for (i=0; i<nv->base.ndim; i++) {
-                if (SDX_IS_INDEX(nv->stridx[i])) {
-                    size += sizeof(size_t) * nv->base.shape[i];
-                }
-            }
-            size += sizeof(stridx_t) * nv->base.ndim;
+        size += sizeof(stridx_t) * na->base.ndim;
+    }
+    if (na->base.size > 0) {
+        if (na->base.shape != NULL && na->base.shape != &(na->base.size)) {
+            size += sizeof(size_t) * na->base.ndim;
         }
-        if (nv->base.size > 0) {
-            if (nv->base.shape != NULL && nv->base.shape != &(nv->base.size)) {
-                size += sizeof(size_t) * nv->base.ndim;
-            }
-        }
-        break;
-    default:
-        rb_bug("invalid NArray type");
     }
     return size;
 }
 
-
-void
-na_free(void* na)
+static void
+na_view_free(void* ptr)
 {
     int i;
-    narray_data_t *nd;
-    narray_view_t *nv;
+    narray_view_t *na = (narray_view_t*)ptr;
 
-    switch(((narray_t*)na)->type) {
-    case NARRAY_DATA_T:
-        nd = (narray_data_t*)na;
-        if (nd->ptr != NULL) {
-            xfree(nd->ptr);
-            nd->ptr = NULL;
-        }
-        if (nd->base.size > 0) {
-            if (nd->base.shape != NULL && nd->base.shape != &(nd->base.size)) {
-                xfree(nd->base.shape);
-                nd->base.shape = NULL;
+    assert(na->base.type == NARRAY_VIEW_T);
+
+    if (na->stridx != NULL) {
+        for (i=0; i<na->base.ndim; i++) {
+            if (SDX_IS_INDEX(na->stridx[i])) {
+                xfree(SDX_GET_INDEX(na->stridx[i]));
             }
         }
-        xfree(nd);
-        break;
-    case NARRAY_VIEW_T:
-        nv = (narray_view_t*)na;
-        if (nv->stridx != NULL) {
-            for (i=0; i<nv->base.ndim; i++) {
-                if (SDX_IS_INDEX(nv->stridx[i])) {
-                    xfree(SDX_GET_INDEX(nv->stridx[i]));
-                }
-            }
-            xfree(nv->stridx);
-            nv->stridx = NULL;
-        }
-        if (nv->base.size > 0) {
-            if (nv->base.shape != NULL && nv->base.shape != &(nv->base.size)) {
-                xfree(nv->base.shape);
-                nv->base.shape = NULL;
-            }
-        }
-        xfree(nv);
-        break;
-    default:
-        rb_bug("invalid NArray type");
+        xfree(na->stridx);
+        na->stridx = NULL;
     }
+    if (na->base.size > 0) {
+        if (na->base.shape != NULL && na->base.shape != &(na->base.size)) {
+            xfree(na->base.shape);
+            na->base.shape = NULL;
+        }
+    }
+    xfree(na);
 }
 
-
 static void
-na_gc_mark(void* na)
+na_view_gc_mark(void* na)
 {
     if (((narray_t*)na)->type == NARRAY_VIEW_T) {
         rb_gc_mark(((narray_view_t*)na)->data);
     }
 }
 
-VALUE
-na_s_allocate(VALUE klass)
-{
-    narray_data_t *na = ALLOC(narray_data_t);
-
-    na->base.ndim = 0;
-    na->base.type = NARRAY_DATA_T;
-    na->base.flag[0] = NA_FL0_INIT;
-    na->base.flag[1] = NA_FL1_INIT;
-    na->base.size = 0;
-    na->base.shape = NULL;
-    na->base.reduce = INT2FIX(0);
-    na->ptr = NULL;
-    //return Data_Wrap_Struct(klass, 0, na_free, na);
-    return TypedData_Wrap_Struct(klass, &na_data_type, (void*)na);
-}
+const rb_data_type_t na_data_type_view = {
+    "Numo::NArrayView",
+    {na_view_gc_mark, na_view_free, na_view_memsize,},
+    &na_data_type, 0, 0,
+};
 
 VALUE
 na_s_allocate_view(VALUE klass)
@@ -300,8 +237,7 @@ na_s_allocate_view(VALUE klass)
     na->data = Qnil;
     na->offset = 0;
     na->stridx = NULL;
-    //return Data_Wrap_Struct(klass, na_gc_mark_view, na_free_view, na);
-    return TypedData_Wrap_Struct(klass, &na_data_type, (void*)na);
+    return TypedData_Wrap_Struct(klass, &na_data_type_view, (void*)na);
 }
 
 
@@ -838,10 +774,21 @@ static VALUE
 }
 
 
-size_t
-na_get_elmsz(VALUE vna)
+unsigned int
+na_element_stride(VALUE v)
 {
-    return NUM2SIZET(rb_const_get(CLASS_OF(vna), id_contiguous_stride));
+    narray_type_info_t *info;
+    narray_t *na;
+
+    GetNArray(v,na);
+    if (na->type == NARRAY_VIEW_T) {
+        v = NA_VIEW_DATA(na);
+        GetNArray(v,na);
+    }
+    assert(na->type == NARRAY_DATA_T);
+
+    info = (narray_type_info_t *)(RTYPEDDATA_TYPE(v)->data);
+    return info->element_stride;
 }
 
 size_t
@@ -969,7 +916,7 @@ na_check_contiguous(VALUE self)
             return Qtrue;
         }
         if (na_check_ladder(self,0)==Qtrue) {
-            elmsz = na_get_elmsz(self);
+            elmsz = na_element_stride(self);
             if (elmsz == NA_STRIDE_AT(na,NA_NDIM(na)-1)) {
                 return Qtrue;
             }
@@ -1011,7 +958,7 @@ na_make_view(VALUE self)
     switch(na->type) {
     case NARRAY_DATA_T:
     case NARRAY_FILEMAP_T:
-        stride = na_get_elmsz(self);
+        stride = na_element_stride(self);
         for (i=nd; i--;) {
             SDX_SET_STRIDE(na2->stridx[i],stride);
             stride *= na->shape[i];
@@ -1142,7 +1089,7 @@ nary_reverse(int argc, VALUE *argv, VALUE self)
     switch(na->type) {
     case NARRAY_DATA_T:
     case NARRAY_FILEMAP_T:
-        stride = na_get_elmsz(self);
+        stride = na_element_stride(self);
         offset = 0;
         for (i=nd; i--;) {
             if (na_test_reduce(reduce,i)) {
@@ -1922,7 +1869,7 @@ Init_narray()
     rb_define_singleton_method(cNArray, "inspect_cols=", na_inspect_cols_set, 1);
 
     /* Ruby allocation framework  */
-    rb_define_alloc_func(cNArray, na_s_allocate);
+    rb_undef_alloc_func(cNArray);
     rb_define_method(cNArray, "initialize", na_initialize, -2);
     rb_define_method(cNArray, "initialize_copy", na_initialize_copy, 1);
 
