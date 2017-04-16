@@ -31,7 +31,6 @@ static VALUE
         GetNArray(obj,na);
         v = rb_narray_new(cT, NA_NDIM(na), NA_SHAPE(na));
         if (NA_SIZE(na) > 0) {
-            <%=find_tmpl("allocate").c_func%>(v);
             <%=find_tmpl("store").c_func%>(v,obj);
         }
         return v;

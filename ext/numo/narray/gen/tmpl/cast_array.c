@@ -11,7 +11,6 @@ static VALUE
     RB_GC_GUARD(vnc);
     GetNArray(nary,na);
     if (na->size > 0) {
-        <%=find_tmpl("allocate").c_func%>(nary);
         <%=find_tmpl("store").find("array").c_func%>(nary,rary);
     }
     return nary;
