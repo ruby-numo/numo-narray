@@ -20,6 +20,7 @@ Gem::Specification.new do |spec|
   spec.summary       = %q{alpha release of Numo::NArray - New NArray class library in Ruby/Numo (NUmerical MOdule)}
   spec.homepage      = "https://github.com/ruby-numo/narray"
   spec.license       = "MIT"
+  spec.required_ruby_version = '~> 2.1'
 
   spec.files         = `git ls-files Gemfile README.md Rakefile lib ext numo-narray.gemspec spec`.split($/)
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
