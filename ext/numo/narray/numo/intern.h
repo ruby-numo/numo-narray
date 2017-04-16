@@ -87,6 +87,7 @@ bool na_test_reduce(VALUE reduce, int dim);
 
 //size_t *na_mdarray_investigate(VALUE ary, int *ndim, VALUE *type);
 VALUE na_ary_composition(VALUE ary);
+VALUE na_s_new_like(VALUE type, VALUE obj);
 
 //void na_copy_bytes(na_loop_t *const itr);
 

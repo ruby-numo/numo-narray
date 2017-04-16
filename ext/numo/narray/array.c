@@ -32,6 +32,45 @@ static ID id_cast;
 static ID id_le;
 static ID id_Complex;
 
+typedef struct {
+    int     ndim;
+    size_t *shape;
+    VALUE   dtype;
+} na_compose_t;
+
+static size_t
+na_compose_memsize(const void *ptr)
+{
+    const na_compose_t *nc = (const na_compose_t*)ptr;
+
+    return sizeof(na_compose_t) + nc->ndim * sizeof(size_t);
+}
+
+static void
+na_compose_free(void *ptr)
+{
+    na_compose_t *nc = (na_compose_t*)ptr;
+
+    if (nc->shape)
+        xfree(nc->shape);
+    xfree(nc);
+}
+
+static void
+na_compose_gc_mark(void* nc)
+{
+    rb_gc_mark(((na_compose_t*)nc)->dtype);
+}
+
+static const rb_data_type_t  compose_data_type = {
+    "Numo::NArray/compose",
+    {na_compose_gc_mark, na_compose_free, na_compose_memsize,},
+    0, 0, RUBY_TYPED_FREE_IMMEDIATELY|RUBY_TYPED_WB_PROTECTED
+};
+
+#define WrapCompose(p) TypedData_Wrap_Struct(rb_cData, &compose_data_type, (void*)(p));
+#define GetCompose(v,p) TypedData_Get_Struct(v, na_compose_t, &compose_data_type, p)
+
 static VALUE
  na_object_type(int type, VALUE v)
 {
@@ -332,7 +371,7 @@ na_ary_composition(VALUE ary)
     int j;
 
     nc = ALLOC(na_compose_t);
-    vnc = Data_Wrap_Struct(rb_cData, 0, -1, nc);
+    vnc = WrapCompose(nc);
     if (TYPE(ary) == T_ARRAY) {
         mdai = na_mdai_alloc(ary);
         vmdai = TypedData_Wrap_Struct(rb_cData, &mdai_data_type, (void*)mdai);
@@ -362,26 +401,76 @@ na_ary_composition(VALUE ary)
 }
 
 
+static void
+na_ary_composition2(VALUE ary, VALUE *type, VALUE *shape)
+{
+    VALUE vnc, dshape;
+    na_compose_t *nc;
+    int i;
+
+    // investigate MD-Array
+    vnc = na_ary_composition(ary);
+    GetCompose(vnc,nc);
+    dshape = rb_ary_new2(nc->ndim);
+    for (i=0; i<nc->ndim; i++) {
+        rb_ary_push(dshape, SIZET2NUM(nc->shape[i]));
+    }
+    if (shape) {*shape = dshape;}
+    if (type) {*type = nc->dtype;}
+    RB_GC_GUARD(vnc);
+}
+
 static VALUE
 na_s_array_shape(VALUE mod, VALUE ary)
 {
-    volatile VALUE vnc;
     VALUE shape;
-    na_compose_t *nc;
-    int i;
 
     if (TYPE(ary)!=T_ARRAY) {
 	// 0-dimension
 	return rb_ary_new();
     }
-    // investigate MD-Array
-    vnc = na_ary_composition(ary);
-    Data_Get_Struct(vnc, na_compose_t, nc);
-    shape = rb_ary_new2(nc->ndim);
-    for (i=0; i<nc->ndim; i++) {
-        rb_ary_push( shape, SIZET2NUM(nc->shape[i]) );
-    }
+    na_ary_composition2(ary, 0, &shape);
     return shape;
+}
+
+static inline void
+check_subclass_of_narray(VALUE dtype) {
+    if (RTEST(rb_obj_is_kind_of(dtype, rb_cClass))) {
+        if (RTEST(rb_funcall(dtype, id_le, 1, cNArray))) {
+            return;
+        }
+    }
+    rb_raise(nary_eCastError, "cannot convert to NArray");
+}
+
+
+VALUE
+na_s_new_like(VALUE type, VALUE obj)
+{
+    VALUE vnc, newary;
+    na_compose_t *nc;
+
+    if (RTEST(rb_obj_is_kind_of(obj,rb_cNumeric))) {
+        // investigate type
+        if (type == cNArray) {
+            vnc = na_ary_composition(rb_ary_new3(1,obj));
+            GetCompose(vnc,nc);
+            type = nc->dtype;
+        }
+        check_subclass_of_narray(type);
+        newary = numo_narray_new(type, 0, 0);
+    } else {
+        // investigate MD-Array
+        vnc = na_ary_composition(obj);
+        GetCompose(vnc,nc);
+        if (type == cNArray) {
+            type = nc->dtype;
+        }
+        check_subclass_of_narray(type);
+        newary = numo_narray_new(type, nc->ndim, nc->shape);
+    }
+    RB_GC_GUARD(vnc);
+    return newary;
 }
 
 
@@ -394,7 +483,7 @@ na_ary_composition_dtype(VALUE ary)
     switch(TYPE(ary)) {
     case T_ARRAY:
         vnc = na_ary_composition(ary);
-        Data_Get_Struct(vnc, na_compose_t, nc);
+        GetCompose(vnc,nc);
         return nc->dtype;
     }
     return CLASS_OF(ary);
@@ -405,6 +494,7 @@ na_s_array_type(VALUE mod, VALUE ary)
 {
     return na_ary_composition_dtype(ary);
 }
+
 
 
 
@@ -422,16 +512,9 @@ nary_s_bracket(VALUE klass, VALUE ary)
     if (TYPE(ary)!=T_ARRAY) {
         rb_bug("Argument is not array");
     }
-
     dtype = na_ary_composition_dtype(ary);
-
-    if (RTEST(rb_obj_is_kind_of(dtype,rb_cClass))) {
-        if (RTEST(rb_funcall(dtype,id_le,1,cNArray))) {
-            return rb_funcall(dtype,id_cast,1,ary);
-        }
-    }
-    rb_raise(nary_eCastError, "cannot convert to NArray");
-    return Qnil;
+    check_subclass_of_narray(dtype);
+    return rb_funcall(dtype, id_cast, 1, ary);
 }
 
 
@@ -529,7 +612,7 @@ na_ary_composition_for_struct(VALUE nstruct, VALUE ary)
     vmdai = TypedData_Wrap_Struct(rb_cData, &mdai_data_type, (void*)mdai);
     na_mdai_for_struct(mdai, 0);
     nc = ALLOC(na_compose_t);
-    vnc = Data_Wrap_Struct(rb_cData, 0, -1, nc);
+    vnc = WrapCompose(nc);
     na_mdai_result(mdai, nc);
     //fprintf(stderr,"nc->ndim=%d\n",nc->ndim);
     rb_gc_force_recycle(vmdai);
@@ -544,6 +627,7 @@ Init_nary_array()
     //rb_define_singleton_method(cNArray, "mdai", na_mdai, 1);
     rb_define_singleton_method(cNArray, "array_shape", na_s_array_shape, 1);
     rb_define_singleton_method(cNArray, "array_type", na_s_array_type, 1);
+    rb_define_singleton_method(cNArray, "new_like", na_s_new_like, 1);
 
     rb_define_singleton_method(cNArray, "[]", nary_s_bracket, -2);
 

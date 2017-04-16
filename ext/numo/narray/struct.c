@@ -541,14 +541,16 @@ nst_check_compatibility(VALUE nst, VALUE ary)
             }
         } else {
             // multi-dimension member
-            volatile VALUE vnc;
-            na_compose_t *nc;
+            //volatile VALUE vnc;
+            //na_compose_t *nc;
+            VALUE vnc;
+            narray_t *nc;
             int j;
 
-            //rb_p(item);
-            vnc = na_ary_composition(item);
-            //puts("pass2");
-            Data_Get_Struct(vnc, na_compose_t, nc);
+            //vnc = na_ary_composition(item);
+            //Data_Get_Struct(vnc, na_compose_t, nc);
+            vnc = na_s_new_like(cNArray, item);
+            GetNArray(vnc,nc);
             if (nt->ndim != nc->ndim) {
                 return Qfalse;
             }
@@ -603,9 +605,10 @@ iter_nstruct_from_a(na_loop_t *const lp)
 static VALUE
 nary_struct_cast_array(VALUE klass, VALUE rary)
 {
-    volatile VALUE vnc, nary;
+    //volatile VALUE vnc, nary;
+    VALUE nary;
     narray_t *na;
-    na_compose_t *nc;
+    //na_compose_t *nc;
     VALUE opt;
     ndfunc_arg_in_t ain[3] = {{OVERWRITE,0},{rb_cArray,0},{sym_option}};
     ndfunc_t ndf = {iter_nstruct_from_a, NO_LOOP, 3, 0, ain, 0};
@@ -613,9 +616,10 @@ nary_struct_cast_array(VALUE klass, VALUE rary)
     //fprintf(stderr,"rary:");rb_p(rary);
     //fprintf(stderr,"class_of(rary):");rb_p(CLASS_OF(rary));
 
-    vnc = na_ary_composition_for_struct(klass, rary);
-    Data_Get_Struct(vnc, na_compose_t, nc);
-    nary = rb_narray_new(klass, nc->ndim, nc->shape);
+    //vnc = na_ary_composition_for_struct(klass, rary);
+    //Data_Get_Struct(vnc, na_compose_t, nc);
+    //nary = rb_narray_new(klass, nc->ndim, nc->shape);
+    nary = na_s_new_like(klass, rary);
     GetNArray(nary,na);
     //fprintf(stderr,"na->size=%lu\n",na->size);
     //fprintf(stderr,"na->ndim=%d\n",na->ndim);

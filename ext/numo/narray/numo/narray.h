@@ -227,13 +227,6 @@ typedef struct {
 } narray_type_info_t;
 
 
-typedef struct {
-    int     ndim;
-    size_t *shape;
-    VALUE   dtype;
-} na_compose_t;
-
-
 static inline narray_t *
 na_get_narray_t(VALUE obj)
 {
