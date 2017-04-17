@@ -17,8 +17,9 @@ under development
 All documents are primitive.
 
 * [Numo::NArray API Doc](http://ruby-numo.github.io/narray/narray/frames.html)
-* [Numo::NArray概要](https://github.com/ruby-numo/narray/wiki/Numo::NArray%E6%A6%82%E8%A6%81) (in Japanese)
 * [Numo::NArray vs numpy](https://github.com/ruby-numo/narray/wiki/Numo-vs-numpy)
+* [Numo::NArray vs ndarray](https://github.com/ruby-numo/narray/wiki/Numo-vs-ndarray)
+* [Numo::NArray Overview](https://github.com/ruby-numo/narray/wiki/Numo::NArray%E6%A6%82%E8%A6%81) (in Japanese)
 
 ## Related Projects
 * [Numo::Linalg](https://github.com/ruby-numo/linalg) - Linear Algebra library with [LAPACK](http://www.netlib.org/lapack/).
