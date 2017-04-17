@@ -341,7 +341,7 @@ na_setup(VALUE self, int ndim, size_t *shape)
   Note that NArray itself is an abstract super class and
   not suitable to create instances.
   Use Typed Subclasses of NArray (DFloat, Int32, etc) to create instances.
-  Initially memory for array data is not allocated.
+  This method does not allocate memory for array data.
   Memory is allocated on write method such as #fill, #store, #seq, etc.
 
   @example
