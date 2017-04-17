@@ -1,7 +1,7 @@
 /*
   narray.c
   Numerical Array Extension for Ruby
-    (C) Copyright 1999-2016 by Masahiro TANAKA
+    (C) Copyright 1999-2017 by Masahiro TANAKA
 */
 #define NARRAY_C
 #include <ruby.h>
@@ -79,7 +79,7 @@ const rb_data_type_t na_data_type = {
 
 
 static void
-rb_narray_debug_info_nadata(VALUE self)
+nary_debug_info_nadata(VALUE self)
 {
     narray_data_t *na;
     GetNArrayData(self,na);
@@ -89,7 +89,7 @@ rb_narray_debug_info_nadata(VALUE self)
 
 
 static VALUE
-rb_narray_debug_info_naview(VALUE self)
+nary_debug_info_naview(VALUE self)
 {
     int i;
     narray_view_t *na;
@@ -124,7 +124,7 @@ rb_narray_debug_info_naview(VALUE self)
 
 
 VALUE
-rb_narray_debug_info(VALUE self)
+nary_debug_info(VALUE self)
 {
     int i;
     narray_t *na;
@@ -147,10 +147,10 @@ rb_narray_debug_info(VALUE self)
     switch(na->type) {
     case NARRAY_DATA_T:
     case NARRAY_FILEMAP_T:
-        rb_narray_debug_info_nadata(self);
+        nary_debug_info_nadata(self);
         break;
     case NARRAY_VIEW_T:
-        rb_narray_debug_info_naview(self);
+        nary_debug_info_naview(self);
         break;
     }
     return Qnil;
@@ -320,7 +320,7 @@ na_setup_shape(narray_t *na, int ndim, size_t *shape)
     }
 }
 
-void
+static void
 na_setup(VALUE self, int ndim, size_t *shape)
 {
     narray_t *na;
@@ -366,7 +366,7 @@ na_initialize(VALUE self, VALUE args)
 
 
 VALUE
-rb_narray_new(VALUE klass, int ndim, size_t *shape)
+nary_new(VALUE klass, int ndim, size_t *shape)
 {
     volatile VALUE obj;
 
@@ -377,7 +377,7 @@ rb_narray_new(VALUE klass, int ndim, size_t *shape)
 
 
 VALUE
-rb_narray_view_new(VALUE klass, int ndim, size_t *shape)
+nary_view_new(VALUE klass, int ndim, size_t *shape)
 {
     volatile VALUE obj;
 
@@ -671,47 +671,6 @@ na_release_lock(VALUE self)
 }
 
 
-
-/*
-stridx_t *
-na_get_stride(VALUE v)
-{
-    int i;
-    size_t st;
-    stridx_t *stridx=NULL;
-    narray_t *na;
-    GetNArray(v,na);
-
-    switch(NA_TYPE(na)) {
-    case NARRAY_DATA_T:
-        if (NA_DATA_PTR(na)==NULL) {
-            rb_raise(rb_eRuntimeError,"cannot read no-data NArray");
-        }
-        break;
-    case NARRAY_FILEMAP_T:
-        break;
-    case NARRAY_VIEW_T:
-        stridx = NA_STRIDX(na);
-        break;
-    default:
-        rb_raise(rb_eRuntimeError,"invalid narray internal type");
-    }
-
-    if (!stridx) {
-        stridx = ALLOC_N(stridx_t, na->ndim);
-        st = NUM2SIZET(rb_const_get(CLASS_OF(v), id_contiguous_stride));
-        //printf("step_unit=%ld, CLASS_OF(v)=%lx\n",st, CLASS_OF(v));
-        for (i=na->ndim; i>0;) {
-            SDX_SET_STRIDE(stridx[--i],st);
-            st *= na->shape[i];
-        }
-    }
-
-    return stridx;
-}
-*/
-
-
 /* method: size() -- returns the total number of typeents */
 static VALUE
 na_size(VALUE self)
@@ -775,7 +734,7 @@ static VALUE
 
 
 unsigned int
-na_element_stride(VALUE v)
+nary_element_stride(VALUE v)
 {
     narray_type_info_t *info;
     narray_t *na;
@@ -845,21 +804,6 @@ na_copy_flags(VALUE src, VALUE dst)
 }
 
 
-VALUE
-na_original_data(VALUE self)
-{
-    narray_t *na;
-    narray_view_t *nv;
-
-    GetNArray(self,na);
-    switch(na->type) {
-    case NARRAY_VIEW_T:
-        GetNArrayView(self, nv);
-        return nv->data;
-    }
-    return self;
-}
-
 // fix name, ex, allow_stride_for_flatten_view
 VALUE
 na_check_ladder(VALUE self, int start_dim)
@@ -916,7 +860,7 @@ na_check_contiguous(VALUE self)
             return Qtrue;
         }
         if (na_check_ladder(self,0)==Qtrue) {
-            elmsz = na_element_stride(self);
+            elmsz = nary_element_stride(self);
             if (elmsz == NA_STRIDE_AT(na,NA_NDIM(na)-1)) {
                 return Qtrue;
             }
@@ -958,7 +902,7 @@ na_make_view(VALUE self)
     switch(na->type) {
     case NARRAY_DATA_T:
     case NARRAY_FILEMAP_T:
-        stride = na_element_stride(self);
+        stride = nary_element_stride(self);
         for (i=nd; i--;) {
             SDX_SET_STRIDE(na2->stridx[i],stride);
             stride *= na->shape[i];
@@ -1089,7 +1033,7 @@ nary_reverse(int argc, VALUE *argv, VALUE self)
     switch(na->type) {
     case NARRAY_DATA_T:
     case NARRAY_FILEMAP_T:
-        stride = na_element_stride(self);
+        stride = nary_element_stride(self);
         offset = 0;
         for (i=nd; i--;) {
             if (na_test_reduce(reduce,i)) {
@@ -1279,7 +1223,7 @@ nary_s_from_binary(int argc, VALUE *argv, VALUE type)
         shape[0] = len;
     }
 
-    vna = rb_narray_new(type, nd, shape);
+    vna = nary_new(type, nd, shape);
     ptr = na_get_pointer_for_write(vna);
 
     memcpy(ptr, RSTRING_PTR(vstr), byte_size);
@@ -1594,36 +1538,6 @@ na_reduce_dimension(int argc, VALUE *argv, int naryc, VALUE *naryv, int *propaga
     return reduce;
 }
 
-//--------------------------------------
-
-/*
-void
-na_index_arg_to_internal_order( int argc, VALUE *argv, VALUE self )
-{
-    int i,j;
-    VALUE tmp;
-
-    if (TEST_COLUMN_MAJOR(self)) {
-	for (i=0,j=argc-1; i<argc/2; i++,j--) {
-	    tmp = argv[i];
-	    argv[i] = argv[j];
-	    argv[j] = tmp;
-	}
-    }
-}
-
-VALUE
-na_index_array_to_internal_order( VALUE args, VALUE self )
-{
-    int i,j;
-
-    if (TEST_COLUMN_MAJOR(self)) {
-	return rb_funcall( args, rb_intern("reverse"), 0 );
-    }
-    return args;
-}
-*/
-
 
 /*
   Return true if column major.
@@ -1722,20 +1636,20 @@ VALUE na_out_of_place_bang( VALUE self )
 
 int na_debug_flag=0;
 
-VALUE na_debug_set(VALUE mod, VALUE flag)
+static VALUE na_debug_set(VALUE mod, VALUE flag)
 {
     na_debug_flag = RTEST(flag);
     return Qnil;
 }
 
-double na_profile_value=0;
+static double na_profile_value=0;
 
-VALUE na_profile(VALUE mod)
+static VALUE na_profile(VALUE mod)
 {
     return rb_float_new(na_profile_value);
 }
 
-VALUE na_profile_set(VALUE mod, VALUE val)
+static VALUE na_profile_set(VALUE mod, VALUE val)
 {
     na_profile_value = NUM2DBL(val);
     return val;
@@ -1887,7 +1801,7 @@ Init_narray()
     rb_define_alias (cNArray, "rank","ndim");
     rb_define_method(cNArray, "empty?", na_empty_p, 0);
 
-    rb_define_method(cNArray, "debug_info", rb_narray_debug_info, 0);
+    rb_define_method(cNArray, "debug_info", nary_debug_info, 0);
 
     rb_define_method(cNArray, "contiguous?", na_check_contiguous, 0);
 

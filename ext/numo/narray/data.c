@@ -1,7 +1,7 @@
 /*
   data.c
   Numerical Array Extension for Ruby
-    (C) Copyright 1999-2016 by Masahiro TANAKA
+    (C) Copyright 1999-2017 by Masahiro TANAKA
 */
 
 #include <ruby.h>
@@ -437,7 +437,7 @@ na_flatten_dim(VALUE self, int sd)
     switch(na->type) {
     case NARRAY_DATA_T:
     case NARRAY_FILEMAP_T:
-        stride = na_element_stride(self);
+        stride = nary_element_stride(self);
         for (i=sd+1; i--; ) {
             //printf("data: i=%d shpae[i]=%ld stride=%ld\n",i,shape[i],stride);
             SDX_SET_STRIDE(na2->stridx[i],stride);
@@ -510,85 +510,6 @@ na_flatten(VALUE self)
 {
     return na_flatten_dim(self,0);
 }
-
-
-VALUE
- na_flatten_by_reduce(int argc, VALUE *argv, VALUE self)
-{
-    size_t  sz_reduce=1;
-    int     i, j, ndim;
-    int     nd_reduce=0, nd_rest=0;
-    int    *dim_reduce, *dim_rest;
-    int    *map;
-    volatile VALUE view, reduce;
-    narray_t *na;
-
-    //puts("pass1");
-    //rb_p(self);
-    reduce = na_reduce_dimension(argc, argv, 1, &self, 0);
-    //reduce = INT2FIX(1);
-    //rb_p(self);
-    //puts("pass2");
-
-    if (reduce==INT2FIX(0)) {
-	//puts("pass flatten_dim");
-        //rb_funcall(self,rb_intern("debug_info"),0);
-        //rb_p(self);
-	view = na_flatten_dim(self,0);
-        //rb_funcall(view,rb_intern("debug_info"),0);
-        //rb_p(view);
-    } else {
-        //printf("reduce=0x%x\n",NUM2INT(reduce));
-	GetNArray(self,na);
-	ndim = na->ndim;
-	if (ndim==0) {
-	    rb_raise(rb_eStandardError,"cannot flatten scalar(dim-0 array)");
-	    return Qnil;
-	}
-	map = ALLOC_N(int,ndim);
-	dim_reduce = ALLOC_N(int,ndim);
-	dim_rest = ALLOC_N(int,ndim);
-	for (i=0; i<ndim; i++) {
-	    if (na_test_reduce( reduce, i )) {
-		sz_reduce *= na->shape[i];
-		//printf("i=%d, nd_reduce=%d, na->shape[i]=%ld\n", i, nd_reduce, na->shape[i]);
-		dim_reduce[nd_reduce++] = i;
-	    } else {
-		//shape[nd_rest] = na->shape[i];
-		//sz_rest *= na->shape[i];
-		//printf("i=%d, nd_rest=%d, na->shape[i]=%ld\n", i, nd_rest, na->shape[i]);
-		dim_rest[nd_rest++] = i;
-	    }
-	}
-	for (i=0; i<nd_rest; i++) {
-	    map[i] = dim_rest[i];
-	    //printf("dim_rest[i=%d]=%d\n",i,dim_rest[i]);
-	    //printf("map[i=%d]=%d\n",i,map[i]);
-	}
-	for (j=0; j<nd_reduce; j++,i++) {
-	    map[i] = dim_reduce[j];
-	    //printf("dim_reduce[j=%d]=%d\n",j,dim_reduce[j]);
-	    //printf("map[i=%d]=%d\n",i,map[i]);
-	}
-	xfree(dim_reduce);
-	xfree(dim_rest);
-        //for (i=0; i<ndim; i++) {
-        //    printf("map[%d]=%d\n",i,map[i]);
-        //}
-	//puts("pass transpose_map");
-	view = na_transpose_map(self,map);
-	xfree(map);
-        //rb_p(view);
-	//rb_funcall(view,rb_intern("debug_print"),0);
-
-	//puts("pass flatten_dim");
-	view = na_flatten_dim(view,nd_rest);
-	//rb_funcall(view,rb_intern("debug_print"),0);
-        //rb_p(view);
-    }
-    return view;
-}
-
 
 //----------------------------------------------------------------------
 
@@ -741,7 +662,7 @@ na_diagonal(int argc, VALUE *argv, VALUE self)
     case NARRAY_FILEMAP_T:
         na2->offset = 0;
         na2->data = self;
-        stride = stride0 = stride1 = na_element_stride(self);
+        stride = stride0 = stride1 = nary_element_stride(self);
         for (i=nd,k=nd-2; i--; ) {
             if (i==ax[1]) {
                 stride1 = stride;
@@ -868,7 +789,7 @@ na_new_dimension_for_dot(VALUE self, int pos, int len, bool transpose)
             }
         }
         na_setup_shape((narray_t*)na2, nd, shape);
-        stride = na_element_stride(self);
+        stride = nary_element_stride(self);
         for (i=nd; i--;) {
             SDX_SET_STRIDE(na2->stridx[i], stride);
             stride *= shape[i];

@@ -51,7 +51,7 @@ static VALUE
     }
     if (na->size > (~(u_int32_t)0)) {
         aout[0].type = numo_cInt64;
-        idx = rb_narray_new(numo_cInt64, na->ndim, na->shape);
+        idx = nary_new(numo_cInt64, na->ndim, na->shape);
 <% if is_float %>
         if (ignore_nan) {
             ndf.func = <%=c_iter%>_index64_nan;
@@ -63,7 +63,7 @@ static VALUE
 <% end %>
     } else {
         aout[0].type = numo_cInt32;
-        idx = rb_narray_new(numo_cInt32, na->ndim, na->shape);
+        idx = nary_new(numo_cInt32, na->ndim, na->shape);
 <% if is_float %>
         if (ignore_nan) {
             ndf.func = <%=c_iter%>_index32_nan;

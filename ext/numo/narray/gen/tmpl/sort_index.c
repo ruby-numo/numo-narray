@@ -73,7 +73,7 @@ static VALUE
     if (na->size > (~(u_int32_t)0)) {
         ain[1].type =
         aout[0].type = numo_cInt64;
-        idx = rb_narray_new(numo_cInt64, na->ndim, na->shape);
+        idx = nary_new(numo_cInt64, na->ndim, na->shape);
 <% if is_float %>
         if (nan) {
             ndf.func = <%=type_name%>_index64_qsort_prnan;
@@ -86,7 +86,7 @@ static VALUE
     } else {
         ain[1].type =
         aout[0].type = numo_cInt32;
-        idx = rb_narray_new(numo_cInt32, na->ndim, na->shape);
+        idx = nary_new(numo_cInt32, na->ndim, na->shape);
 <% if is_float %>
         if (nan) {
             ndf.func = <%=type_name%>_index32_qsort_prnan;

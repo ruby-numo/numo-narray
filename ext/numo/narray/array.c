@@ -1,7 +1,7 @@
 /*
   array.c
   Numerical Array Extension for Ruby
-    (C) Copyright 1999-2016 by Masahiro TANAKA
+    (C) Copyright 1999-2017 by Masahiro TANAKA
 */
 #include <ruby.h>
 #include "numo/narray.h"
@@ -302,15 +302,9 @@ na_mdai_result(na_mdai_t *mdai, na_compose_t *nc)
 
     if (ndim>0) {
 	// Shape
-	//shape = ALLOC_N(size_t,i);
-	//for (i=0; i<*ndim; i++) {
-	//    shape[i] = mdai->item[i].shape;
-	//}
         nc->shape = shape = ALLOC_N(size_t,ndim);
         for (i=0; i<ndim; i++) {
             shape[i] = mdai->item[i].shape;
-            //printf("shape[%d]=%d\n",i,shape[i]);
-            //rb_ary_push( shape, SIZET2NUM(mdai->item[i].shape) );
         }
 
 	// DataType
@@ -444,6 +438,22 @@ check_subclass_of_narray(VALUE dtype) {
 }
 
 
+/*
+  Generate new unallocated NArray instance with shape and type defined from obj.
+  Numo::NArray.new_like(obj) returns instance whose type is defined from obj.
+  Numo::DFloat.new_like(obj) returns DFloat instance.
+
+  @overload new_like(obj)
+  @param [Numeric,Array,Numo::NArray] obj
+  @return [Numo::NArray]
+  @example
+    Numo::NArray.new_like([[1,2,3],[4,5,6]])
+    => Numo::Int32#shape=[2,3](empty)
+    Numo::DFloat.new_like([[1,2],[3,4]])
+    => Numo::DFloat#shape=[2,2](empty)
+    Numo::NArray.new_like([1,2i,3])
+    => Numo::DComplex#shape=[3](empty)
+*/
 VALUE
 na_s_new_like(VALUE type, VALUE obj)
 {
@@ -458,7 +468,7 @@ na_s_new_like(VALUE type, VALUE obj)
             type = nc->dtype;
         }
         check_subclass_of_narray(type);
-        newary = numo_narray_new(type, 0, 0);
+        newary = nary_new(type, 0, 0);
     } else {
         // investigate MD-Array
         vnc = na_ary_composition(obj);
@@ -467,7 +477,7 @@ na_s_new_like(VALUE type, VALUE obj)
             type = nc->dtype;
         }
         check_subclass_of_narray(type);
-        newary = numo_narray_new(type, nc->ndim, nc->shape);
+        newary = nary_new(type, nc->ndim, nc->shape);
     }
     RB_GC_GUARD(vnc);
     return newary;
