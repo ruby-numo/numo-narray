@@ -330,13 +330,38 @@ na_setup(VALUE self, int ndim, size_t *shape)
 
 
 /*
- *  call-seq:
- *     Numo::DataType.new(shape)             => narray
- *     Numo::DataType.new(size1, size2, ...) => narray
- *
- *  Constructs a narray using the given <i>DataType</i> and <i>shape</i> or
- *  <i>sizes</i>.
- */
+  @overload initialize(shape)
+  @overload initialize(size0, size1, ...)
+  @param [Array] shape (array of sizes along each dimension)
+  @param [Integer] sizeN (size along Nth-dimension)
+  @return [Numo::NArray] unallocated narray.
+
+  Constructs an instance of NArray class using the given
+  and <i>shape</i> or <i>sizes</i>.
+  Note that NArray itself is an abstract super class and
+  not suitable to create instances.
+  Use Typed Subclasses of NArray (DFloat, Int32, etc) to create instances.
+  Initially memory for array data is not allocated.
+  Memory is allocated on write method such as #fill, #store, #seq, etc.
+
+  @example
+    i = Numo::Int64.new([2,4,3])
+    #=> Numo::Int64#shape=[2,4,3](empty)
+
+    f = Numo::DFloat.new(3,4)
+    #=> Numo::DFloat#shape=[3,4](empty)
+
+    f.fill(2)
+    #=> Numo::DFloat#shape=[3,4]
+    # [[2, 2, 2, 2],
+    #  [2, 2, 2, 2],
+    #  [2, 2, 2, 2]]
+
+    x = Numo::NArray.new(5)
+    #=> in `new': allocator undefined for Numo::NArray (TypeError)
+    #   	from t.rb:9:in `<main>'
+
+*/
 static VALUE
 na_initialize(VALUE self, VALUE args)
 {
@@ -1758,7 +1783,14 @@ Init_narray()
 {
     mNumo = rb_define_module("Numo");
 
-    /* define NArray class */
+    /*
+      Document-class: Numo::NArray
+
+      Numo::NArray is the abstract super class for
+      Numerical N-dimensional Array in the Ruby/Numo module.
+      Use Typed Subclasses of NArray (Numo::DFloat, Int32, etc)
+      to create data array instances.
+    */
     cNArray = rb_define_class_under(mNumo, "NArray", rb_cObject);
 
 #ifndef HAVE_RB_CCOMPLEX
