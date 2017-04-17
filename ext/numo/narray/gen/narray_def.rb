@@ -95,77 +95,83 @@ end
 module NArrayType
 
   def type_name
-    @type_name ||= class_name.downcase
+    @opts[:type_name] ||= class_name.downcase
   end
   alias tp type_name
 
   def type_var
-    @type_var ||= "numo_c"+class_name
+    @opts[:type_var] ||= "numo_c"+class_name
   end
 
   def math_var
-    @math_var ||= "numo_m"+class_name+"Math"
+    @opts[:math_var] ||= "numo_m"+class_name+"Math"
   end
 
   def real_class_name(arg=nil)
     if arg.nil?
-      @real_class_name ||= class_name
+      @opts[:real_class_name] ||= class_name
     else
-      @real_class_name = arg
+      @opts[:real_class_name] = arg
     end
   end
 
   def real_ctype(arg=nil)
     if arg.nil?
-      @real_ctype ||= ctype
+      @opts[:real_ctype] ||= ctype
     else
-      @real_ctype = arg
+      @opts[:real_ctype] = arg
     end
   end
 
   def real_type_var
-    @real_type_var ||= "numo_c"+real_class_name
+    @opts[:real_type_var] ||= "numo_c"+real_class_name
   end
 
   def real_type_name
-    @real_type_name ||= real_class_name.downcase
+    @opts[:real_type_name] ||= real_class_name.downcase
   end
 
   def class_alias(*args)
-    @class_alias ||= []
-    @class_alias.concat(args)
+    case a = @opts[:class_alias]
+    when Array
+    when nil
+      a = @opts[:class_alias] = []
+    else
+      a = @opts[:class_alias] = [a]
+    end
+    a.concat(args)
   end
 
   def upcast(c=nil,t=nil)
-    @upcast ||= []
+    @opts[:upcast] ||= []
     if c
       if t
         t = "numo_c#{t}"
       else
         t = "cT"
       end
-      @upcast << "rb_hash_aset(hCast, numo_c#{c}, #{t});"
+      @opts[:upcast] << "rb_hash_aset(hCast, numo_c#{c}, #{t});"
     else
-      @upcast
+      @opts[:upcast]
     end
   end
 
   def upcast_rb(c,t=nil)
-    @upcast ||= []
+    @opts[:upcast] ||= []
     if t
       t = "numo_c#{t}"
     else
       t = "cT"
     end
     if c=="Integer"
-      @upcast << "#ifdef RUBY_INTEGER_UNIFICATION"
-      @upcast << "rb_hash_aset(hCast, rb_cInteger, #{t});"
-      @upcast << "#else"
-      @upcast << "rb_hash_aset(hCast, rb_cFixnum, #{t});"
-      @upcast << "rb_hash_aset(hCast, rb_cBignum, #{t});"
-      @upcast << "#endif"
+      @opts[:upcast] << "#ifdef RUBY_INTEGER_UNIFICATION"
+      @opts[:upcast] << "rb_hash_aset(hCast, rb_cInteger, #{t});"
+      @opts[:upcast] << "#else"
+      @opts[:upcast] << "rb_hash_aset(hCast, rb_cFixnum, #{t});"
+      @opts[:upcast] << "rb_hash_aset(hCast, rb_cBignum, #{t});"
+      @opts[:upcast] << "#endif"
     else
-      @upcast << "rb_hash_aset(hCast, rb_c#{c}, #{t});"
+      @opts[:upcast] << "rb_hash_aset(hCast, rb_c#{c}, #{t});"
     end
   end
 end
