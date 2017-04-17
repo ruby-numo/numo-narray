@@ -8,4 +8,5 @@
     <% @children.each do |m| %>
     <%= m.init_def %><% end %>
 
-    rb_include_module(cT, mTM);
+    //  how to do this?
+    //rb_extend_object(cT, mTM);
