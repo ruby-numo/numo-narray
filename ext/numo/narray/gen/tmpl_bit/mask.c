@@ -96,7 +96,7 @@ static VALUE
     ndfunc_t ndf = {<%=c_iter%>, FULL_LOOP, 2, 0, ain, 0};
 
     n_1 = NUM2SIZET(<%=find_tmpl("count_true").c_func%>(0, NULL, mask));
-    idx_1 = rb_narray_new(cIndex, 1, &n_1);
+    idx_1 = nary_new(cIndex, 1, &n_1);
     g.count = 0;
     g.elmsz = SIZEOF_VOIDP;
     g.idx1 = na_get_pointer_for_write(idx_1);

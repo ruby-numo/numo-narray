@@ -1,7 +1,7 @@
 /*
   index.c
   Numerical Array Extension for Ruby
-    (C) Copyright 1999-2016 by Masahiro TANAKA
+    (C) Copyright 1999-2017 by Masahiro TANAKA
 */
 //#define NARRAY_C
 
@@ -153,7 +153,7 @@ na_parse_narray_index(VALUE a, int orig_dim, ssize_t size, na_index_arg_t *q)
         rb_raise(rb_eIndexError, "should be 1-d NArray");
     }
     n = NA_SIZE(na);
-    idx = rb_narray_new(cIndex,1,&n);
+    idx = nary_new(cIndex,1,&n);
     na_store(idx,a);
 
     GetNArrayData(idx,nidx);
@@ -575,7 +575,7 @@ VALUE na_aref_md_protected(VALUE data_value)
 
     na2->stridx = ALLOC_N(stridx_t,ndim_new);
 
-    elmsz = na_element_stride(self);
+    elmsz = nary_element_stride(self);
 
     switch(na1->type) {
     case NARRAY_DATA_T:
@@ -631,7 +631,7 @@ na_aref_md(int argc, VALUE *argv, VALUE self, int keep_dim, int result_nd)
         if (rb_obj_is_kind_of(idx, numo_cNArray)) {
             GetNArray(idx,nidx);
             if (NA_NDIM(nidx)>1) {
-                store = rb_narray_new(CLASS_OF(self),NA_NDIM(nidx),NA_SHAPE(nidx));
+                store = nary_new(CLASS_OF(self),NA_NDIM(nidx),NA_SHAPE(nidx));
                 idx = na_flatten(idx);
                 RARRAY_ASET(args,0,idx);
             }
@@ -793,7 +793,7 @@ na_get_result_dimension(VALUE self, int argc, VALUE *argv, ssize_t stride, size_
         break;
     default:
         if (!stride) {
-            stride = na_element_stride(self);
+            stride = nary_element_stride(self);
         }
         if (argc==1 && j==1) {
             x = na_range_check(idx[0], na->size, 0);

@@ -1,7 +1,7 @@
 /*
   template.h
   Numerical Array Extension for Ruby
-    (C) Copyright 1999-2016 by Masahiro TANAKA
+    (C) Copyright 1999-2017 by Masahiro TANAKA
 */
 #ifndef TEMPLATE_H
 #define TEMPLATE_H

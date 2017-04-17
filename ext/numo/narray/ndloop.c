@@ -1,7 +1,7 @@
 /*
   ndloop.c
   Numerical Array Extension for Ruby
-    (C) Copyright 1999-2016 by Masahiro TANAKA
+    (C) Copyright 1999-2017 by Masahiro TANAKA
 */
 
 #include <ruby.h>
@@ -474,24 +474,6 @@ ndloop_release(VALUE vlp)
 
 
 /*
-static void
-ndloop_free(na_md_loop_t* lp)
-{
-    int j;
-    VALUE v;
-
-    for (j=0; j<lp->narg; j++) {
-        v = LARG(lp,j).value;
-        if (IsNArray(v)) {
-            na_release_lock(v);
-        }
-    }
-    xfree(lp);
-}
-*/
-
-
-/*
   set lp->n[i] (shape of n-d iteration) here
 */
 static void
@@ -532,7 +514,7 @@ ndloop_set_stepidx(na_md_loop_t *lp, int j, VALUE vna, int *dim_map, int rwflag)
     narray_t *na;
 
     LARG(lp,j).value = vna;
-    LARG(lp,j).elmsz = na_element_stride(vna);
+    LARG(lp,j).elmsz = nary_element_stride(vna);
     if (rwflag == NDL_READ) {
         LARG(lp,j).ptr = na_get_pointer_for_read(vna);
     } else
@@ -799,7 +781,7 @@ ndloop_set_output_narray(ndfunc_t *nf, na_md_loop_t *lp, int k,
     }
     if (!RTEST(v)) {
         // new object
-        v = rb_narray_new(type, na_ndim, na_shape);
+        v = nary_new(type, na_ndim, na_shape);
         flag = NDL_WRITE;
     }
 

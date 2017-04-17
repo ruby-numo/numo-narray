@@ -1,7 +1,7 @@
 /*
-  nstrut.c
+  strut.c
   Numerical Array Extension for Ruby
-    (C) Copyright 1999-2016 by Masahiro TANAKA
+    (C) Copyright 1999-2017 by Masahiro TANAKA
 */
 #include <ruby.h>
 #include "numo/narray.h"
@@ -136,7 +136,7 @@ na_make_view_struct(VALUE self, VALUE dtype, VALUE offset)
     switch(na->type) {
     case NARRAY_DATA_T:
     case NARRAY_FILEMAP_T:
-        stride = na_element_stride(self);
+        stride = nary_element_stride(self);
         for (j=na->ndim; j--;) {
             SDX_SET_STRIDE(na2->stridx[j], stride);
             stride *= na->shape[j];
@@ -357,7 +357,7 @@ nstruct_add_type(VALUE type, int argc, VALUE *argv, VALUE nst)
         ndim = na->ndim;
         shape = na->shape;
     }
-    type = rb_narray_view_new(type,ndim,shape);
+    type = nary_view_new(type,ndim,shape);
     GetNArrayView(type,nt);
 
     nt->stridx = ALLOC_N(stridx_t,ndim);
@@ -417,6 +417,21 @@ iter_nstruct_to_a(na_loop_t *const lp)
         rb_ary_push(vary, velm);
     }
     rb_ary_push(lp->args[1].value, vary);
+}
+
+static VALUE
+na_original_data(VALUE self)
+{
+    narray_t *na;
+    narray_view_t *nv;
+
+    GetNArray(self,na);
+    switch(na->type) {
+    case NARRAY_VIEW_T:
+        GetNArrayView(self, nv);
+        return nv->data;
+    }
+    return self;
 }
 
 static VALUE
@@ -618,7 +633,7 @@ nary_struct_cast_array(VALUE klass, VALUE rary)
 
     //vnc = na_ary_composition_for_struct(klass, rary);
     //Data_Get_Struct(vnc, na_compose_t, nc);
-    //nary = rb_narray_new(klass, nc->ndim, nc->shape);
+    //nary = nary_new(klass, nc->ndim, nc->shape);
     nary = na_s_new_like(klass, rary);
     GetNArray(nary,na);
     //fprintf(stderr,"na->size=%lu\n",na->size);

@@ -1,7 +1,7 @@
 /*
   narray.h
   Numerical Array Extension for Ruby
-    (C) Copyright 1999-2016 by Masahiro TANAKA
+    (C) Copyright 1999-2017 by Masahiro TANAKA
 */
 #ifndef NARRAY_H
 #define NARRAY_H
@@ -140,7 +140,7 @@ extern const rb_data_type_t na_data_type;
 
 #define cNArray numo_cNArray
 #define mNumo rb_mNumo
-#define na_upcast(x,y) numo_na_upcast(x,y)
+//#define na_upcast(x,y) numo_na_upcast(x,y)
 
 /* global variables within this module */
 extern VALUE numo_cBit;

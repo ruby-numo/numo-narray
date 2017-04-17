@@ -25,8 +25,16 @@
 
 * propagate_nan for min,max,sum,... -- done
 
+* parsing keyword arguments -- use ruby api.
+
 * use erbpp2 -- done
 
+* switch to TypedData. -- done
+
+* how to get the element size value effectively -- done
+
+
+* refactoring array.c: avoid using na_compose_t and na_ary_composition.
 
 * NMath.sin => DFloat.sin ??
 
@@ -34,7 +42,7 @@
 
 * store_binary with bite_swap.
 
-* switch to TypedData., write barrier.
+* write barrier?
 
 * delete Numo::Step class.
 
@@ -42,13 +50,11 @@
 
 * unify RNArrayBase and RNArrayView structure??
 
-* how to get the element size value effectively??
 
 * Thread-locked array??
 
 * use rb_thread_call_without_gvl??
 
-* parsing keyword arguments -- use ruby api.
 
 * alignment
 
@@ -69,22 +75,22 @@ EPS
 * Matlab method:
 logspace - done
 meshgrid
-rot90
+rot90   - done
 rad2deg - done
 deg2rad - done
 expm1 - done
 histcount
 
 * from numpy
-<<,>>
-swapaxis
+<<,>>  - done
+swapaxis - done
 squeeze
 trace
-ptp
-clip
+ptp  - done
+clip  - done
 ravel
 take
-put
+put  - []=
 choose choise
 select
 
@@ -103,7 +109,7 @@ minimum,maximum
 shuffle
 interp
 intersect1d
-asarray - cast
+asarray  - cast
 persentile
 
 Math
