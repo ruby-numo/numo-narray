@@ -3,7 +3,7 @@
 */
 
 <%  if module_var != ns_var %>
-static VALUE <%=module_var%>;
+VALUE <%=module_var%>;
 <%  end %>
 
 <%= method_code %>

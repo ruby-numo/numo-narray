@@ -24,9 +24,6 @@
 
 VALUE cT;
 extern VALUE cRT;
-#ifdef mTM
-VALUE mTM;
-#endif
 
 <% children.each do |c|%>
 <%= c.result+"\n\n" %>
