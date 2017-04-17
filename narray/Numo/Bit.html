@@ -105,6 +105,11 @@
   <h2>Constant Summary</h2>
   <dl class="constants">
     
+      <dt id="UPCAST-constant" class="">UPCAST =
+        
+      </dt>
+      <dd><pre class="code"><span class='id identifier rubyid_hCast'>hCast</span></pre></dd>
+    
       <dt id="ELEMENT_BIT_SIZE-constant" class="">ELEMENT_BIT_SIZE =
         
       </dt>
@@ -119,11 +124,6 @@
         
       </dt>
       <dd><pre class="code"><span class='const'>INT2FIX</span><span class='lparen'>(</span><span class='int'>1</span><span class='rparen'>)</span></pre></dd>
-    
-      <dt id="UPCAST-constant" class="">UPCAST =
-        
-      </dt>
-      <dd><pre class="code"><span class='id identifier rubyid_hCast'>hCast</span></pre></dd>
     
   </dl>
 
@@ -1003,7 +1003,7 @@ bit_s_cast(VALUE type, VALUE obj)
     }
     if (IsNArray(obj)) {
         GetNArray(obj,na);
-        v = rb_narray_new(cT, NA_NDIM(na), NA_SHAPE(na));
+        v = nary_new(cT, NA_NDIM(na), NA_SHAPE(na));
         if (NA_SIZE(na) &gt; 0) {
             bit_store(v,obj);
         }
@@ -1143,7 +1143,7 @@ bit_s_cast(VALUE type, VALUE obj)
     }
     if (IsNArray(obj)) {
         GetNArray(obj,na);
-        v = rb_narray_new(cT, NA_NDIM(na), NA_SHAPE(na));
+        v = nary_new(cT, NA_NDIM(na), NA_SHAPE(na));
         if (NA_SIZE(na) &gt; 0) {
             bit_store(v,obj);
         }
@@ -3160,7 +3160,7 @@ bit_mask(VALUE mask, VALUE val)
     ndfunc_t ndf = {iter_bit_mask, FULL_LOOP, 2, 0, ain, 0};
 
     n_1 = NUM2SIZET(bit_count_true(0, NULL, mask));
-    idx_1 = rb_narray_new(cIndex, 1, &amp;n_1);
+    idx_1 = nary_new(cIndex, 1, &amp;n_1);
     g.count = 0;
     g.elmsz = SIZEOF_VOIDP;
     g.idx1 = na_get_pointer_for_write(idx_1);
@@ -3712,10 +3712,10 @@ bit_where(VALUE self)
     g = ALLOCA_N(where_opt_t,1);
     g-&gt;count = 0;
     if (size&gt;4294967295ul) {
-        idx_1 = rb_narray_new(numo_cInt64, 1, &amp;n_1);
+        idx_1 = nary_new(numo_cInt64, 1, &amp;n_1);
         g-&gt;elmsz = 8;
     } else {
-        idx_1 = rb_narray_new(numo_cInt32, 1, &amp;n_1);
+        idx_1 = nary_new(numo_cInt32, 1, &amp;n_1);
         g-&gt;elmsz = 4;
     }
     g-&gt;idx1 = na_get_pointer_for_write(idx_1);
@@ -3827,12 +3827,12 @@ bit_where2(VALUE self)
     g = ALLOCA_N(where_opt_t,1);
     g-&gt;count = 0;
     if (size&gt;4294967295ul) {
-        idx_1 = rb_narray_new(numo_cInt64, 1, &amp;n_1);
-        idx_0 = rb_narray_new(numo_cInt64, 1, &amp;n_0);
+        idx_1 = nary_new(numo_cInt64, 1, &amp;n_1);
+        idx_0 = nary_new(numo_cInt64, 1, &amp;n_0);
         g-&gt;elmsz = 8;
     } else {
-        idx_1 = rb_narray_new(numo_cInt32, 1, &amp;n_1);
-        idx_0 = rb_narray_new(numo_cInt32, 1, &amp;n_0);
+        idx_1 = nary_new(numo_cInt32, 1, &amp;n_1);
+        idx_0 = nary_new(numo_cInt32, 1, &amp;n_0);
         g-&gt;elmsz = 4;
     }
     g-&gt;idx1 = na_get_pointer_for_write(idx_1);
@@ -4013,7 +4013,7 @@ bit_not(VALUE self)
 </div>
 
       <div id="footer">
-  Generated on Sun Apr 16 22:06:10 2017 by
+  Generated on Mon Apr 17 21:46:37 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.4.0).
 </div>

@@ -110,6 +110,21 @@
       </dt>
       <dd><pre class="code"><span class='id identifier rubyid_hCast'>hCast</span></pre></dd>
     
+      <dt id="ELEMENT_BIT_SIZE-constant" class="">ELEMENT_BIT_SIZE =
+        
+      </dt>
+      <dd><pre class="code"><span class='const'>INT2FIX</span><span class='lparen'>(</span><span class='id identifier rubyid_sizeof'>sizeof</span><span class='lparen'>(</span><span class='id identifier rubyid_dtype'>dtype</span><span class='rparen'>)</span><span class='op'>*</span><span class='int'>8</span><span class='rparen'>)</span></pre></dd>
+    
+      <dt id="ELEMENT_BYTE_SIZE-constant" class="">ELEMENT_BYTE_SIZE =
+        
+      </dt>
+      <dd><pre class="code"><span class='const'>INT2FIX</span><span class='lparen'>(</span><span class='id identifier rubyid_sizeof'>sizeof</span><span class='lparen'>(</span><span class='id identifier rubyid_dtype'>dtype</span><span class='rparen'>)</span><span class='rparen'>)</span></pre></dd>
+    
+      <dt id="CONTIGUOUS_STRIDE-constant" class="">CONTIGUOUS_STRIDE =
+        
+      </dt>
+      <dd><pre class="code"><span class='const'>INT2FIX</span><span class='lparen'>(</span><span class='id identifier rubyid_sizeof'>sizeof</span><span class='lparen'>(</span><span class='id identifier rubyid_dtype'>dtype</span><span class='rparen'>)</span><span class='rparen'>)</span></pre></dd>
+    
   </dl>
 
 
@@ -1767,7 +1782,7 @@ uint8_s_cast(VALUE type, VALUE obj)
     }
     if (IsNArray(obj)) {
         GetNArray(obj,na);
-        v = rb_narray_new(cT, NA_NDIM(na), NA_SHAPE(na));
+        v = nary_new(cT, NA_NDIM(na), NA_SHAPE(na));
         if (NA_SIZE(na) &gt; 0) {
             uint8_store(v,obj);
         }
@@ -1907,7 +1922,7 @@ uint8_s_cast(VALUE type, VALUE obj)
     }
     if (IsNArray(obj)) {
         GetNArray(obj,na);
-        v = rb_narray_new(cT, NA_NDIM(na), NA_SHAPE(na));
+        v = nary_new(cT, NA_NDIM(na), NA_SHAPE(na));
         if (NA_SIZE(na) &gt; 0) {
             uint8_store(v,obj);
         }
@@ -5954,13 +5969,13 @@ uint8_max_index(int argc, VALUE *argv, VALUE self)
     }
     if (na-&gt;size &gt; (~(u_int32_t)0)) {
         aout[0].type = numo_cInt64;
-        idx = rb_narray_new(numo_cInt64, na-&gt;ndim, na-&gt;shape);
+        idx = nary_new(numo_cInt64, na-&gt;ndim, na-&gt;shape);
 #line 62 &quot;gen/tmpl/accum_index.c&quot;
         ndf.func = iter_uint8_max_index_index64;
 #line 64 &quot;gen/tmpl/accum_index.c&quot;
     } else {
         aout[0].type = numo_cInt32;
-        idx = rb_narray_new(numo_cInt32, na-&gt;ndim, na-&gt;shape);
+        idx = nary_new(numo_cInt32, na-&gt;ndim, na-&gt;shape);
 #line 74 &quot;gen/tmpl/accum_index.c&quot;
         ndf.func = iter_uint8_max_index_index32;
 #line 76 &quot;gen/tmpl/accum_index.c&quot;
@@ -6317,13 +6332,13 @@ uint8_min_index(int argc, VALUE *argv, VALUE self)
     }
     if (na-&gt;size &gt; (~(u_int32_t)0)) {
         aout[0].type = numo_cInt64;
-        idx = rb_narray_new(numo_cInt64, na-&gt;ndim, na-&gt;shape);
+        idx = nary_new(numo_cInt64, na-&gt;ndim, na-&gt;shape);
 #line 62 &quot;gen/tmpl/accum_index.c&quot;
         ndf.func = iter_uint8_min_index_index64;
 #line 64 &quot;gen/tmpl/accum_index.c&quot;
     } else {
         aout[0].type = numo_cInt32;
-        idx = rb_narray_new(numo_cInt32, na-&gt;ndim, na-&gt;shape);
+        idx = nary_new(numo_cInt32, na-&gt;ndim, na-&gt;shape);
 #line 74 &quot;gen/tmpl/accum_index.c&quot;
         ndf.func = iter_uint8_min_index_index32;
 #line 76 &quot;gen/tmpl/accum_index.c&quot;
@@ -7733,14 +7748,14 @@ uint8_sort_index(int argc, VALUE *argv, VALUE self)
     if (na-&gt;size &gt; (~(u_int32_t)0)) {
         ain[1].type =
         aout[0].type = numo_cInt64;
-        idx = rb_narray_new(numo_cInt64, na-&gt;ndim, na-&gt;shape);
+        idx = nary_new(numo_cInt64, na-&gt;ndim, na-&gt;shape);
 #line 84 &quot;gen/tmpl/sort_index.c&quot;
         ndf.func = uint8_index64_qsort;
 #line 86 &quot;gen/tmpl/sort_index.c&quot;
     } else {
         ain[1].type =
         aout[0].type = numo_cInt32;
-        idx = rb_narray_new(numo_cInt32, na-&gt;ndim, na-&gt;shape);
+        idx = nary_new(numo_cInt32, na-&gt;ndim, na-&gt;shape);
 #line 97 &quot;gen/tmpl/sort_index.c&quot;
         ndf.func = uint8_index32_qsort;
 #line 99 &quot;gen/tmpl/sort_index.c&quot;
@@ -8468,7 +8483,7 @@ uint8_bit_not(VALUE self)
 </div>
 
       <div id="footer">
-  Generated on Sun Apr 16 22:06:23 2017 by
+  Generated on Mon Apr 17 21:46:48 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.4.0).
 </div>

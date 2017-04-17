@@ -95,13 +95,25 @@
   <dl>
     <dt>Defined in:</dt>
     <dd>ext/numo/narray/narray.c<span class="defines">,<br />
-  lib/numo/narray/extra.rb</span>
+  ext/numo/narray/narray.c,<br /> lib/numo/narray/extra.rb</span>
 </dd>
   </dl>
   
 </div>
 
-<div id="subclasses">
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Numo::NArray is an abstract super class. Use Typed Subclasses of NArray
+(Numo::DFloat, Int32, etc) to create data arrays.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><div id="subclasses">
   <h2>Direct Known Subclasses</h2>
   <p class="children"><span class='object_link'><a href="Bit.html" title="Numo::Bit (class)">Bit</a></span>, <span class='object_link'><a href="DComplex.html" title="Numo::DComplex (class)">DComplex</a></span>, <span class='object_link'><a href="DFloat.html" title="Numo::DFloat (class)">DFloat</a></span>, <span class='object_link'><a href="Int16.html" title="Numo::Int16 (class)">Int16</a></span>, <span class='object_link'><a href="Int32.html" title="Numo::Int32 (class)">Int32</a></span>, <span class='object_link'><a href="Int64.html" title="Numo::Int64 (class)">Int64</a></span>, <span class='object_link'><a href="Int8.html" title="Numo::Int8 (class)">Int8</a></span>, <span class='object_link'><a href="RObject.html" title="Numo::RObject (class)">RObject</a></span>, <span class='object_link'><a href="SComplex.html" title="Numo::SComplex (class)">SComplex</a></span>, <span class='object_link'><a href="SFloat.html" title="Numo::SFloat (class)">SFloat</a></span>, <span class='object_link'><a href="UInt16.html" title="Numo::UInt16 (class)">UInt16</a></span>, <span class='object_link'><a href="UInt32.html" title="Numo::UInt32 (class)">UInt32</a></span>, <span class='object_link'><a href="UInt64.html" title="Numo::UInt64 (class)">UInt64</a></span>, <span class='object_link'><a href="UInt8.html" title="Numo::UInt8 (class)">UInt8</a></span></p>
 </div>
@@ -568,7 +580,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#new_like-class_method" title="new_like (class method)">.<strong>new_like</strong>(obj)  &#x21d2; Object </a>
+      <a href="#new_like-class_method" title="new_like (class method)">.<strong>new_like</strong>(obj)  &#x21d2; Numo::NArray </a>
     
 
     
@@ -582,7 +594,10 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Generate new unallocated NArray instance with shape and type defined from
+obj.</p>
+</div></span>
   
 </li>
 
@@ -1306,7 +1321,7 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(args)  &#x21d2; Object </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(args)  &#x21d2; Numo::NArray </a>
     
 
     
@@ -1323,8 +1338,8 @@ type of NArray.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Constructs a narray using the given <em>DataType</em> and <em>shape</em> or
-<em>sizes</em>.</p>
+<p>Constructs an instance of NArray class using the given and <em>shape</em>
+or <em>sizes</em>.</p>
 </div></span>
   
 </li>
@@ -2212,9 +2227,9 @@ type of NArray.</p>
   <h3 class="signature first" id="initialize-instance_method">
   
     
-      <span class="overload">#<strong>Numo::DataType.new</strong>(shape)  &#x21d2; <tt>Object</tt> </span>
+      <span class="overload">#<strong>initialize</strong>(shape)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt> </span>
     
-      <span class="overload">#<strong>Numo::DataType.new</strong>(size1, size2, ...)  &#x21d2; <tt>Object</tt> </span>
+      <span class="overload">#<strong>initialize</strong>(size0, size1, ...)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt> </span>
     
   
 
@@ -2224,14 +2239,76 @@ type of NArray.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Constructs a narray using the given <em>DataType</em> and <em>shape</em> or
-<em>sizes</em>.</p>
+<p>Constructs an instance of NArray class using the given and <em>shape</em>
+or <em>sizes</em>. Note that NArray itself is an abstract super class and
+not suitable to create instances. Use Typed Subclasses of NArray (DFloat,
+Int32, etc) to create instances. Initially memory for array data is not
+allocated. Memory is allocated on write method such as #fill, #store, #seq,
+etc.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_i'>i</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Int64.html" title="Numo::Int64 (class)">Int64</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>2</span><span class='comma'>,</span><span class='int'>4</span><span class='comma'>,</span><span class='int'>3</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+<span class='comment'>#=&gt; Numo::Int64#shape=[2,4,3](empty)
+</span>
+<span class='id identifier rubyid_f'>f</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DFloat.html" title="Numo::DFloat (class)">DFloat</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='int'>3</span><span class='comma'>,</span><span class='int'>4</span><span class='rparen'>)</span>
+<span class='comment'>#=&gt; Numo::DFloat#shape=[3,4](empty)
+</span>
+<span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_fill'>fill</span><span class='lparen'>(</span><span class='int'>2</span><span class='rparen'>)</span>
+<span class='comment'>#=&gt; Numo::DFloat#shape=[3,4]
+</span><span class='comment'># [[2, 2, 2, 2],
+</span><span class='comment'>#  [2, 2, 2, 2],
+</span><span class='comment'>#  [2, 2, 2, 2]]
+</span>
+<span class='id identifier rubyid_x'>x</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Numo::NArray (class)">NArray</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='int'>5</span><span class='rparen'>)</span>
+<span class='comment'>#=&gt; in `new&#39;: allocator undefined for Numo::NArray (TypeError)
+</span><span class='comment'>#   	from t.rb:9:in `&lt;main&gt;&#39;</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>shape</span>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>(array of sizes along each dimension)</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>sizeN</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>(size along Nth-dimension)</p>
+</div>
+      
+    </li>
+  
+</ul>
+
 
 </div><table class="source_code">
   <tr>
@@ -2239,35 +2316,35 @@ type of NArray.</p>
       <pre class="lines">
 
 
-340
-341
-342
-343
-344
-345
-346
-347
-348
-349
-350
-351
-352
-353
-354
-355
-356
-357
-358
-359
-360
-361
-362
-363
-364
-365</pre>
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 340</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 365</span>
 
 static VALUE
 na_initialize(VALUE self, VALUE args)
@@ -2363,21 +2440,21 @@ na_initialize(VALUE self, VALUE args)
       <pre class="lines">
 
 
-507
-508
-509
-510
-511
-512
-513
-514
-515
-516
 517
-518</pre>
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/array.c', line 507</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/array.c', line 517</span>
 
 static VALUE
 nary_s_bracket(VALUE klass, VALUE ary)
@@ -2411,14 +2488,14 @@ nary_s_bracket(VALUE klass, VALUE ary)
       <pre class="lines">
 
 
-492
-493
-494
-495
-496</pre>
+502
+503
+504
+505
+506</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/array.c', line 492</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/array.c', line 502</span>
 
 static VALUE
 na_s_array_type(VALUE mod, VALUE ary)
@@ -2518,14 +2595,14 @@ na_s_array_type(VALUE mod, VALUE ary)
       <pre class="lines">
 
 
-1209
-1210
-1211
-1212
-1213</pre>
+1178
+1179
+1180
+1181
+1182</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1209</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1178</span>
 
 static VALUE
 nary_s_byte_size(VALUE type)
@@ -2829,16 +2906,16 @@ nary_s_byte_size(VALUE type)
       <pre class="lines">
 
 
-1725
-1726
-1727
-1728
-1729</pre>
+1664
+1665
+1666
+1667
+1668</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1725</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1664</span>
 
-VALUE na_debug_set(VALUE mod, VALUE flag)
+static VALUE na_debug_set(VALUE mod, VALUE flag)
 {
     na_debug_flag = RTEST(flag);
     return Qnil;
@@ -2996,26 +3073,26 @@ VALUE na_debug_set(VALUE mod, VALUE flag)
       <pre class="lines">
 
 
-553
-554
-555
-556
-557
-558
-559
-560
-561
-562
-563
-564
-565
-566
-567
-568
-569</pre>
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 553</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 578</span>
 
 static VALUE
 na_s_eye(int argc, VALUE *argv, VALUE klass)
@@ -3121,6 +3198,37 @@ na_s_eye(int argc, VALUE *argv, VALUE klass)
       <pre class="lines">
 
 
+1192
+1193
+1194
+1195
+1196
+1197
+1198
+1199
+1200
+1201
+1202
+1203
+1204
+1205
+1206
+1207
+1208
+1209
+1210
+1211
+1212
+1213
+1214
+1215
+1216
+1217
+1218
+1219
+1220
+1221
+1222
 1223
 1224
 1225
@@ -3155,41 +3263,10 @@ na_s_eye(int argc, VALUE *argv, VALUE klass)
 1254
 1255
 1256
-1257
-1258
-1259
-1260
-1261
-1262
-1263
-1264
-1265
-1266
-1267
-1268
-1269
-1270
-1271
-1272
-1273
-1274
-1275
-1276
-1277
-1278
-1279
-1280
-1281
-1282
-1283
-1284
-1285
-1286
-1287
-1288</pre>
+1257</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1223</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1192</span>
 
 static VALUE
 nary_s_from_binary(int argc, VALUE *argv, VALUE type)
@@ -3250,7 +3327,7 @@ nary_s_from_binary(int argc, VALUE *argv, VALUE type)
         shape[0] = len;
     }
 
-    vna = rb_narray_new(type, nd, shape);
+    vna = nary_new(type, nd, shape);
     ptr = na_get_pointer_for_write(vna);
 
     memcpy(ptr, RSTRING_PTR(vstr), byte_size);
@@ -3385,17 +3462,17 @@ nary_s_from_binary(int argc, VALUE *argv, VALUE type)
       <pre class="lines">
 
 
-1780
-1781
-1782
-1783
-1784
-1785
-1786
-1787</pre>
+1719
+1720
+1721
+1722
+1723
+1724
+1725
+1726</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1780</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1719</span>
 
 static VALUE na_inspect_cols(VALUE mod)
 {
@@ -3471,18 +3548,18 @@ static VALUE na_inspect_cols(VALUE mod)
       <pre class="lines">
 
 
-1795
-1796
-1797
-1798
-1799
-1800
-1801
-1802
-1803</pre>
+1734
+1735
+1736
+1737
+1738
+1739
+1740
+1741
+1742</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1795</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1734</span>
 
 static VALUE na_inspect_cols_set(VALUE mod, VALUE num)
 {
@@ -3544,17 +3621,17 @@ static VALUE na_inspect_cols_set(VALUE mod, VALUE num)
       <pre class="lines">
 
 
-1750
-1751
-1752
-1753
-1754
-1755
-1756
-1757</pre>
+1689
+1690
+1691
+1692
+1693
+1694
+1695
+1696</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1750</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1689</span>
 
 static VALUE na_inspect_rows(VALUE mod)
 {
@@ -3630,18 +3707,18 @@ static VALUE na_inspect_rows(VALUE mod)
       <pre class="lines">
 
 
-1765
-1766
-1767
-1768
-1769
-1770
-1771
-1772
-1773</pre>
+1704
+1705
+1706
+1707
+1708
+1709
+1710
+1711
+1712</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1765</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1704</span>
 
 static VALUE na_inspect_rows_set(VALUE mod, VALUE num)
 {
@@ -3767,30 +3844,30 @@ subclasses, e.g., DFloat, Int64.</p>
       <pre class="lines">
 
 
-474
-475
-476
-477
-478
-479
-480
-481
-482
-483
-484
-485
-486
-487
-488
-489
-490
-491
-492
-493
-494</pre>
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 474</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 499</span>
 
 static VALUE
 na_s_linspace(int argc, VALUE *argv, VALUE klass)
@@ -3947,32 +4024,32 @@ Numo::DComplex.logspace(0,1i*Math::PI,5,Math::E)
       <pre class="lines">
 
 
-516
-517
-518
-519
-520
-521
-522
-523
-524
-525
-526
-527
-528
-529
-530
-531
-532
-533
-534
-535
-536
-537
-538</pre>
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 516</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 541</span>
 
 static VALUE
 na_s_logspace(int argc, VALUE *argv, VALUE klass)
@@ -4005,28 +4082,74 @@ na_s_logspace(int argc, VALUE *argv, VALUE klass)
       <div class="method_details ">
   <h3 class="signature " id="new_like-class_method">
   
-    .<strong>new_like</strong>(obj)  &#x21d2; <tt>Object</tt> 
+    .<strong>new_like</strong>(obj)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt> 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Generate new unallocated NArray instance with shape and type defined from
+obj. Numo::NArray.new_like(obj) returns instance whose type is defined from
+obj. Numo::DFloat.new_like(obj) returns DFloat instance.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code>Numo::NArray.new_like([[1,2,3],[4,5,6]])
+=&gt; Numo::Int32#shape=[2,3](empty)
+Numo::DFloat.new_like([[1,2],[3,4]])
+=&gt; Numo::DFloat#shape=[2,2](empty)
+Numo::NArray.new_like([1,2i,3])
+=&gt; Numo::DComplex#shape=[3](empty)</code></pre>
+    
+  </div>
+
+  
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>obj</span>
+      
+      
+        <span class='type'>(<tt>Numeric</tt>, <tt>Array</tt>, <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-447
-448
-449
-450
-451
-452
-453
-454
-455
-456
 457
 458
 459
@@ -4044,10 +4167,20 @@ na_s_logspace(int argc, VALUE *argv, VALUE klass)
 471
 472
 473
-474</pre>
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/array.c', line 447</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/array.c', line 457</span>
 
 VALUE
 na_s_new_like(VALUE type, VALUE obj)
@@ -4063,7 +4196,7 @@ na_s_new_like(VALUE type, VALUE obj)
             type = nc-&gt;dtype;
         }
         check_subclass_of_narray(type);
-        newary = numo_narray_new(type, 0, 0);
+        newary = nary_new(type, 0, 0);
     } else {
         // investigate MD-Array
         vnc = na_ary_composition(obj);
@@ -4072,7 +4205,7 @@ na_s_new_like(VALUE type, VALUE obj)
             type = nc-&gt;dtype;
         }
         check_subclass_of_narray(type);
-        newary = numo_narray_new(type, nc-&gt;ndim, nc-&gt;shape);
+        newary = nary_new(type, nc-&gt;ndim, nc-&gt;shape);
     }
     RB_GC_GUARD(vnc);
     return newary;
@@ -4126,16 +4259,16 @@ DFloat, Int64.</p>
       <pre class="lines">
 
 
-449
-450
-451
-452
-453
-454
-455</pre>
+474
+475
+476
+477
+478
+479
+480</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 449</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 474</span>
 
 static VALUE
 na_s_ones(int argc, VALUE *argv, VALUE klass)
@@ -4164,15 +4297,15 @@ na_s_ones(int argc, VALUE *argv, VALUE klass)
       <pre class="lines">
 
 
-1733
-1734
-1735
-1736</pre>
+1672
+1673
+1674
+1675</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1733</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1672</span>
 
-VALUE na_profile(VALUE mod)
+static VALUE na_profile(VALUE mod)
 {
     return rb_float_new(na_profile_value);
 }</pre>
@@ -4196,16 +4329,16 @@ VALUE na_profile(VALUE mod)
       <pre class="lines">
 
 
-1738
-1739
-1740
-1741
-1742</pre>
+1677
+1678
+1679
+1680
+1681</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1738</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1677</span>
 
-VALUE na_profile_set(VALUE mod, VALUE val)
+static VALUE na_profile_set(VALUE mod, VALUE val)
 {
     na_profile_value = NUM2DBL(val);
     return val;
@@ -4298,30 +4431,30 @@ static VALUE
       <pre class="lines">
 
 
-1145
-1146
-1147
-1148
-1149
-1150
-1151
-1152
-1153
-1154
-1155
-1156
-1157
-1158
-1159
-1160
-1161
-1162
-1163
-1164
-1165</pre>
+1114
+1115
+1116
+1117
+1118
+1119
+1120
+1121
+1122
+1123
+1124
+1125
+1126
+1127
+1128
+1129
+1130
+1131
+1132
+1133
+1134</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1145</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1114</span>
 
 VALUE
 numo_na_upcast(VALUE type1, VALUE type2)
@@ -4464,16 +4597,16 @@ DFloat, Int64.</p>
       <pre class="lines">
 
 
-425
-426
-427
-428
-429
-430
-431</pre>
+450
+451
+452
+453
+454
+455
+456</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 425</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 450</span>
 
 static VALUE
 na_s_zeros(int argc, VALUE *argv, VALUE klass)
@@ -4555,34 +4688,34 @@ have same shape and corresponding elements are equal.</p>
       <pre class="lines">
 
 
-1813
-1814
-1815
-1816
-1817
-1818
-1819
-1820
-1821
-1822
-1823
-1824
-1825
-1826
-1827
-1828
-1829
-1830
-1831
-1832
-1833
-1834
-1835
-1836
-1837</pre>
+1752
+1753
+1754
+1755
+1756
+1757
+1758
+1759
+1760
+1761
+1762
+1763
+1764
+1765
+1766
+1767
+1768
+1769
+1770
+1771
+1772
+1773
+1774
+1775
+1776</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1813</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1752</span>
 
 VALUE
 na_equal(VALUE self, volatile VALUE other)
@@ -4743,22 +4876,22 @@ na_equal(VALUE self, volatile VALUE other)
       <pre class="lines">
 
 
-1191
-1192
-1193
-1194
-1195
-1196
-1197
-1198
-1199
-1200
-1201
-1202
-1203</pre>
+1160
+1161
+1162
+1163
+1164
+1165
+1166
+1167
+1168
+1169
+1170
+1171
+1172</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1191</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1160</span>
 
 static VALUE
 nary_byte_size(VALUE self)
@@ -4821,15 +4954,15 @@ nary_byte_size(VALUE self)
       <pre class="lines">
 
 
-1654
-1655
-1656
-1657
-1658
-1659</pre>
+1593
+1594
+1595
+1596
+1597
+1598</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1654</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1593</span>
 
 VALUE na_byte_swapped_p( VALUE self )
 {
@@ -4903,14 +5036,14 @@ VALUE na_byte_swapped_p( VALUE self )
       <pre class="lines">
 
 
-1455
-1456
-1457
-1458
-1459</pre>
+1424
+1425
+1426
+1427
+1428</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1455</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1424</span>
 
 static VALUE
 nary_cast_to(VALUE obj, VALUE type)
@@ -4990,18 +5123,18 @@ used for operation between non-NArray and NArray.</p>
       <pre class="lines">
 
 
-1176
-1177
-1178
-1179
-1180
-1181
-1182
-1183
-1184</pre>
+1145
+1146
+1147
+1148
+1149
+1150
+1151
+1152
+1153</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1176</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1145</span>
 
 static VALUE
 nary_coerce(VALUE x, VALUE y)
@@ -5056,16 +5189,16 @@ nary_coerce(VALUE x, VALUE y)
       <pre class="lines">
 
 
-1631
-1632
-1633
-1634
-1635
-1636
-1637</pre>
+1570
+1571
+1572
+1573
+1574
+1575
+1576</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1631</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1570</span>
 
 VALUE na_column_major_p( VALUE self )
 {
@@ -5255,33 +5388,33 @@ VALUE na_column_major_p( VALUE self )
       <pre class="lines">
 
 
-903
-904
-905
-906
-907
-908
-909
-910
-911
-912
-913
-914
-915
-916
-917
-918
-919
-920
-921
-922
-923
-924
-925
-926</pre>
+872
+873
+874
+875
+876
+877
+878
+879
+880
+881
+882
+883
+884
+885
+886
+887
+888
+889
+890
+891
+892
+893
+894
+895</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 903</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 872</span>
 
 VALUE
 na_check_contiguous(VALUE self)
@@ -5299,7 +5432,7 @@ na_check_contiguous(VALUE self)
             return Qtrue;
         }
         if (na_check_ladder(self,0)==Qtrue) {
-            elmsz = na_element_stride(self);
+            elmsz = nary_element_stride(self);
             if (elmsz == NA_STRIDE_AT(na,NA_NDIM(na)-1)) {
                 return Qtrue;
             }
@@ -5364,7 +5497,7 @@ na_check_contiguous(VALUE self)
       <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 126</span>
 
 VALUE
-rb_narray_debug_info(VALUE self)
+nary_debug_info(VALUE self)
 {
     int i;
     narray_t *na;
@@ -5387,10 +5520,10 @@ rb_narray_debug_info(VALUE self)
     switch(na-&gt;type) {
     case NARRAY_DATA_T:
     case NARRAY_FILEMAP_T:
-        rb_narray_debug_info_nadata(self);
+        nary_debug_info_nadata(self);
         break;
     case NARRAY_VIEW_T:
-        rb_narray_debug_info_naview(self);
+        nary_debug_info_naview(self);
         break;
     }
     return Qnil;
@@ -5637,6 +5770,85 @@ should be taken. Defaults to last-two axes ([-2,-1]).</p>
       <pre class="lines">
 
 
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+629
+630
+631
 632
 633
 634
@@ -5742,89 +5954,10 @@ should be taken. Defaults to last-two axes ([-2,-1]).</p>
 734
 735
 736
-737
-738
-739
-740
-741
-742
-743
-744
-745
-746
-747
-748
-749
-750
-751
-752
-753
-754
-755
-756
-757
-758
-759
-760
-761
-762
-763
-764
-765
-766
-767
-768
-769
-770
-771
-772
-773
-774
-775
-776
-777
-778
-779
-780
-781
-782
-783
-784
-785
-786
-787
-788
-789
-790
-791
-792
-793
-794
-795
-796
-797
-798
-799
-800
-801
-802
-803
-804
-805
-806
-807
-808
-809
-810
-811
-812
-813
-814
-815
-816</pre>
+737</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/data.c', line 632</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/data.c', line 553</span>
 
 VALUE
 na_diagonal(int argc, VALUE *argv, VALUE self)
@@ -5938,7 +6071,7 @@ na_diagonal(int argc, VALUE *argv, VALUE self)
     case NARRAY_FILEMAP_T:
         na2-&gt;offset = 0;
         na2-&gt;data = self;
-        stride = stride0 = stride1 = na_element_stride(self);
+        stride = stride0 = stride1 = nary_element_stride(self);
         for (i=nd,k=nd-2; i--; ) {
             if (i==ax[1]) {
                 stride1 = stride;
@@ -6161,37 +6294,37 @@ na_diagonal(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-934
-935
-936
-937
-938
-939
-940
-941
-942
-943
-944
-945
-946
-947
-948
-949
-950
-951
-952
-953
-954
-955
-956
-957
-958
-959
-960
-961</pre>
+855
+856
+857
+858
+859
+860
+861
+862
+863
+864
+865
+866
+867
+868
+869
+870
+871
+872
+873
+874
+875
+876
+877
+878
+879
+880
+881
+882</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/data.c', line 934</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/data.c', line 855</span>
 
 static VALUE
 numo_na_dot(VALUE self, VALUE other)
@@ -6297,19 +6430,19 @@ numo_na_dot(VALUE self, VALUE other)
       <pre class="lines">
 
 
-739
-740
-741
-742
-743
-744
-745
-746
-747
-748</pre>
+723
+724
+725
+726
+727
+728
+729
+730
+731
+732</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 739</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 723</span>
 
 static VALUE
 na_empty_p(VALUE self)
@@ -6393,6 +6526,37 @@ dimension.</p>
       <pre class="lines">
 
 
+972
+973
+974
+975
+976
+977
+978
+979
+980
+981
+982
+983
+984
+985
+986
+987
+988
+989
+990
+991
+992
+993
+994
+995
+996
+997
+998
+999
+1000
+1001
+1002
 1003
 1004
 1005
@@ -6411,41 +6575,10 @@ dimension.</p>
 1018
 1019
 1020
-1021
-1022
-1023
-1024
-1025
-1026
-1027
-1028
-1029
-1030
-1031
-1032
-1033
-1034
-1035
-1036
-1037
-1038
-1039
-1040
-1041
-1042
-1043
-1044
-1045
-1046
-1047
-1048
-1049
-1050
-1051
-1052</pre>
+1021</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1003</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 972</span>
 
 VALUE
 na_expand_dims(VALUE self, VALUE vdim)
@@ -6673,15 +6806,15 @@ na_flatten(VALUE self)
       <pre class="lines">
 
 
-1664
-1665
-1666
-1667
-1668
-1669</pre>
+1603
+1604
+1605
+1606
+1607
+1608</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1664</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1603</span>
 
 VALUE na_host_order_p( VALUE self )
 {
@@ -6786,20 +6919,20 @@ dup and clone method.</p>
       <pre class="lines">
 
 
-397
-398
-399
-400
-401
-402
-403
-404
-405
-406
-407</pre>
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 397</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 422</span>
 
 static VALUE
 na_initialize_copy(VALUE self, VALUE orig)
@@ -6861,16 +6994,16 @@ na_initialize_copy(VALUE self, VALUE orig)
       <pre class="lines">
 
 
-1676
-1677
-1678
-1679
-1680
-1681
-1682</pre>
+1615
+1616
+1617
+1618
+1619
+1620
+1621</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1676</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1615</span>
 
 VALUE na_inplace( VALUE self )
 {
@@ -6928,14 +7061,14 @@ VALUE na_inplace( VALUE self )
       <pre class="lines">
 
 
-1688
-1689
-1690
-1691
-1692</pre>
+1627
+1628
+1629
+1630
+1631</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1688</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1627</span>
 
 VALUE na_inplace_bang( VALUE self )
 {
@@ -6986,16 +7119,16 @@ VALUE na_inplace_bang( VALUE self )
       <pre class="lines">
 
 
-1705
-1706
-1707
-1708
-1709
-1710
-1711</pre>
+1644
+1645
+1646
+1647
+1648
+1649
+1650</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1705</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1644</span>
 
 VALUE na_inplace_p( VALUE self )
 {
@@ -7251,38 +7384,38 @@ VALUE na_inplace_p( VALUE self )
       <pre class="lines">
 
 
-1370
-1371
-1372
-1373
-1374
-1375
-1376
-1377
-1378
-1379
-1380
-1381
-1382
-1383
-1384
-1385
-1386
-1387
-1388
-1389
-1390
-1391
-1392
-1393
-1394
-1395
-1396
-1397
-1398</pre>
+1339
+1340
+1341
+1342
+1343
+1344
+1345
+1346
+1347
+1348
+1349
+1350
+1351
+1352
+1353
+1354
+1355
+1356
+1357
+1358
+1359
+1360
+1361
+1362
+1363
+1364
+1365
+1366
+1367</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1370</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1339</span>
 
 static VALUE
 nary_marshal_dump(VALUE self)
@@ -7359,6 +7492,37 @@ nary_marshal_dump(VALUE self)
       <pre class="lines">
 
 
+1376
+1377
+1378
+1379
+1380
+1381
+1382
+1383
+1384
+1385
+1386
+1387
+1388
+1389
+1390
+1391
+1392
+1393
+1394
+1395
+1396
+1397
+1398
+1399
+1400
+1401
+1402
+1403
+1404
+1405
+1406
 1407
 1408
 1409
@@ -7367,41 +7531,10 @@ nary_marshal_dump(VALUE self)
 1412
 1413
 1414
-1415
-1416
-1417
-1418
-1419
-1420
-1421
-1422
-1423
-1424
-1425
-1426
-1427
-1428
-1429
-1430
-1431
-1432
-1433
-1434
-1435
-1436
-1437
-1438
-1439
-1440
-1441
-1442
-1443
-1444
-1445
-1446</pre>
+1415</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1407</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1376</span>
 
 static VALUE
 nary_marshal_load(VALUE self, VALUE a)
@@ -7478,16 +7611,16 @@ nary_marshal_load(VALUE self, VALUE a)
       <pre class="lines">
 
 
-726
-727
-728
-729
-730
-731
-732</pre>
+710
+711
+712
+713
+714
+715
+716</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 726</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 710</span>
 
 static VALUE
 na_ndim(VALUE self)
@@ -7713,14 +7846,14 @@ na_ndim(VALUE self)
       <pre class="lines">
 
 
-1717
-1718
-1719
-1720
-1721</pre>
+1656
+1657
+1658
+1659
+1660</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1717</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1656</span>
 
 VALUE na_out_of_place_bang( VALUE self )
 {
@@ -8067,6 +8200,37 @@ na_reshape(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
+1031
+1032
+1033
+1034
+1035
+1036
+1037
+1038
+1039
+1040
+1041
+1042
+1043
+1044
+1045
+1046
+1047
+1048
+1049
+1050
+1051
+1052
+1053
+1054
+1055
+1056
+1057
+1058
+1059
+1060
+1061
 1062
 1063
 1064
@@ -8115,41 +8279,10 @@ na_reshape(int argc, VALUE *argv, VALUE self)
 1107
 1108
 1109
-1110
-1111
-1112
-1113
-1114
-1115
-1116
-1117
-1118
-1119
-1120
-1121
-1122
-1123
-1124
-1125
-1126
-1127
-1128
-1129
-1130
-1131
-1132
-1133
-1134
-1135
-1136
-1137
-1138
-1139
-1140
-1141</pre>
+1110</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1062</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1031</span>
 
 VALUE
 nary_reverse(int argc, VALUE *argv, VALUE self)
@@ -8181,7 +8314,7 @@ nary_reverse(int argc, VALUE *argv, VALUE self)
     switch(na-&gt;type) {
     case NARRAY_DATA_T:
     case NARRAY_FILEMAP_T:
-        stride = na_element_stride(self);
+        stride = nary_element_stride(self);
         offset = 0;
         for (i=nd; i--;) {
             if (na_test_reduce(reduce,i)) {
@@ -8360,16 +8493,16 @@ nary_reverse(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-1642
-1643
-1644
-1645
-1646
-1647
-1648</pre>
+1581
+1582
+1583
+1584
+1585
+1586
+1587</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1642</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1581</span>
 
 VALUE na_row_major_p( VALUE self )
 {
@@ -8409,32 +8542,32 @@ VALUE na_row_major_p( VALUE self )
       <pre class="lines">
 
 
+736
+737
+738
+739
+740
+741
+742
+743
+744
+745
+746
+747
+748
+749
+750
+751
 752
 753
 754
 755
 756
 757
-758
-759
-760
-761
-762
-763
-764
-765
-766
-767
-768
-769
-770
-771
-772
-773
-774</pre>
+758</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 752</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 736</span>
 
 static VALUE
  na_shape(VALUE self)
@@ -8494,16 +8627,16 @@ static VALUE
       <pre class="lines">
 
 
-716
-717
-718
-719
-720
-721
-722</pre>
+700
+701
+702
+703
+704
+705
+706</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 716</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 700</span>
 
 static VALUE
 na_size(VALUE self)
@@ -8735,6 +8868,37 @@ na_size(VALUE self)
       <pre class="lines">
 
 
+1266
+1267
+1268
+1269
+1270
+1271
+1272
+1273
+1274
+1275
+1276
+1277
+1278
+1279
+1280
+1281
+1282
+1283
+1284
+1285
+1286
+1287
+1288
+1289
+1290
+1291
+1292
+1293
+1294
+1295
+1296
 1297
 1298
 1299
@@ -8742,41 +8906,10 @@ na_size(VALUE self)
 1301
 1302
 1303
-1304
-1305
-1306
-1307
-1308
-1309
-1310
-1311
-1312
-1313
-1314
-1315
-1316
-1317
-1318
-1319
-1320
-1321
-1322
-1323
-1324
-1325
-1326
-1327
-1328
-1329
-1330
-1331
-1332
-1333
-1334
-1335</pre>
+1304</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1297</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1266</span>
 
 static VALUE
 nary_store_binary(int argc, VALUE *argv, VALUE self)
@@ -9246,31 +9379,31 @@ na_swapaxes(VALUE self, VALUE a1, VALUE a2)
       <pre class="lines">
 
 
-1342
-1343
-1344
-1345
-1346
-1347
-1348
-1349
-1350
-1351
-1352
-1353
-1354
-1355
-1356
-1357
-1358
-1359
-1360
-1361
-1362
-1363</pre>
+1311
+1312
+1313
+1314
+1315
+1316
+1317
+1318
+1319
+1320
+1321
+1322
+1323
+1324
+1325
+1326
+1327
+1328
+1329
+1330
+1331
+1332</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1342</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 1311</span>
 
 static VALUE
 nary_to_binary(VALUE self)
@@ -9771,6 +9904,37 @@ na_transpose(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
+905
+906
+907
+908
+909
+910
+911
+912
+913
+914
+915
+916
+917
+918
+919
+920
+921
+922
+923
+924
+925
+926
+927
+928
+929
+930
+931
+932
+933
+934
+935
 936
 937
 938
@@ -9793,41 +9957,10 @@ na_transpose(int argc, VALUE *argv, VALUE self)
 955
 956
 957
-958
-959
-960
-961
-962
-963
-964
-965
-966
-967
-968
-969
-970
-971
-972
-973
-974
-975
-976
-977
-978
-979
-980
-981
-982
-983
-984
-985
-986
-987
-988
-989</pre>
+958</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 936</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/narray.c', line 905</span>
 
 VALUE
 na_make_view(VALUE self)
@@ -9854,7 +9987,7 @@ na_make_view(VALUE self)
     switch(na-&gt;type) {
     case NARRAY_DATA_T:
     case NARRAY_FILEMAP_T:
-        stride = na_element_stride(self);
+        stride = nary_element_stride(self);
         for (i=nd; i--;) {
             SDX_SET_STRIDE(na2-&gt;stridx[i],stride);
             stride *= na-&gt;shape[i];
@@ -9970,7 +10103,7 @@ na_make_view(VALUE self)
 </div>
 
       <div id="footer">
-  Generated on Sun Apr 16 22:06:10 2017 by
+  Generated on Mon Apr 17 21:46:37 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.4.0).
 </div>

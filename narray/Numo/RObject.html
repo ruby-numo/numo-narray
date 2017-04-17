@@ -110,6 +110,21 @@
       </dt>
       <dd><pre class="code"><span class='id identifier rubyid_hCast'>hCast</span></pre></dd>
     
+      <dt id="ELEMENT_BIT_SIZE-constant" class="">ELEMENT_BIT_SIZE =
+        
+      </dt>
+      <dd><pre class="code"><span class='const'>INT2FIX</span><span class='lparen'>(</span><span class='id identifier rubyid_sizeof'>sizeof</span><span class='lparen'>(</span><span class='id identifier rubyid_dtype'>dtype</span><span class='rparen'>)</span><span class='op'>*</span><span class='int'>8</span><span class='rparen'>)</span></pre></dd>
+    
+      <dt id="ELEMENT_BYTE_SIZE-constant" class="">ELEMENT_BYTE_SIZE =
+        
+      </dt>
+      <dd><pre class="code"><span class='const'>INT2FIX</span><span class='lparen'>(</span><span class='id identifier rubyid_sizeof'>sizeof</span><span class='lparen'>(</span><span class='id identifier rubyid_dtype'>dtype</span><span class='rparen'>)</span><span class='rparen'>)</span></pre></dd>
+    
+      <dt id="CONTIGUOUS_STRIDE-constant" class="">CONTIGUOUS_STRIDE =
+        
+      </dt>
+      <dd><pre class="code"><span class='const'>INT2FIX</span><span class='lparen'>(</span><span class='id identifier rubyid_sizeof'>sizeof</span><span class='lparen'>(</span><span class='id identifier rubyid_dtype'>dtype</span><span class='rparen'>)</span><span class='rparen'>)</span></pre></dd>
+    
   </dl>
 
 
@@ -1977,13 +1992,6 @@ and indices along each axis as parameters.</p>
       <pre class="lines">
 
 
-1295
-1296
-1297
-1298
-1299
-1300
-1301
 1302
 1303
 1304
@@ -2006,10 +2014,17 @@ and indices along each axis as parameters.</p>
 1321
 1322
 1323
-1324</pre>
+1324
+1325
+1326
+1327
+1328
+1329
+1330
+1331</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 1295</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 1302</span>
 
 static VALUE
 robject_s_cast(VALUE type, VALUE obj)
@@ -2030,7 +2045,7 @@ robject_s_cast(VALUE type, VALUE obj)
     }
     if (IsNArray(obj)) {
         GetNArray(obj,na);
-        v = rb_narray_new(cT, NA_NDIM(na), NA_SHAPE(na));
+        v = nary_new(cT, NA_NDIM(na), NA_SHAPE(na));
         if (NA_SIZE(na) &gt; 0) {
             robject_store(v,obj);
         }
@@ -2115,13 +2130,6 @@ robject_s_cast(VALUE type, VALUE obj)
       <pre class="lines">
 
 
-1295
-1296
-1297
-1298
-1299
-1300
-1301
 1302
 1303
 1304
@@ -2144,10 +2152,17 @@ robject_s_cast(VALUE type, VALUE obj)
 1321
 1322
 1323
-1324</pre>
+1324
+1325
+1326
+1327
+1328
+1329
+1330
+1331</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 1295</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 1302</span>
 
 static VALUE
 robject_s_cast(VALUE type, VALUE obj)
@@ -2168,7 +2183,7 @@ robject_s_cast(VALUE type, VALUE obj)
     }
     if (IsNArray(obj)) {
         GetNArray(obj,na);
-        v = rb_narray_new(cT, NA_NDIM(na), NA_SHAPE(na));
+        v = nary_new(cT, NA_NDIM(na), NA_SHAPE(na));
         if (NA_SIZE(na) &gt; 0) {
             robject_store(v,obj);
         }
@@ -2251,17 +2266,17 @@ robject_s_cast(VALUE type, VALUE obj)
       <pre class="lines">
 
 
-2250
-2251
-2252
-2253
-2254
-2255
-2256
-2257</pre>
+2257
+2258
+2259
+2260
+2261
+2262
+2263
+2264</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2250</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2257</span>
 
 static VALUE
 robject_mod(VALUE self, VALUE other)
@@ -2337,17 +2352,17 @@ robject_mod(VALUE self, VALUE other)
       <pre class="lines">
 
 
-2822
-2823
-2824
-2825
-2826
-2827
-2828
-2829</pre>
+2829
+2830
+2831
+2832
+2833
+2834
+2835
+2836</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2822</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2829</span>
 
 static VALUE
 robject_bit_and(VALUE self, VALUE other)
@@ -2423,17 +2438,17 @@ robject_bit_and(VALUE self, VALUE other)
       <pre class="lines">
 
 
-2146
-2147
-2148
-2149
-2150
-2151
-2152
-2153</pre>
+2153
+2154
+2155
+2156
+2157
+2158
+2159
+2160</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2146</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2153</span>
 
 static VALUE
 robject_mul(VALUE self, VALUE other)
@@ -2509,17 +2524,17 @@ robject_mul(VALUE self, VALUE other)
       <pre class="lines">
 
 
-2377
-2378
-2379
-2380
-2381
-2382
-2383
-2384</pre>
+2384
+2385
+2386
+2387
+2388
+2389
+2390
+2391</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2377</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2384</span>
 
 static VALUE
 robject_pow(VALUE self, VALUE other)
@@ -2595,17 +2610,17 @@ robject_pow(VALUE self, VALUE other)
       <pre class="lines">
 
 
-2052
-2053
-2054
-2055
-2056
-2057
-2058
-2059</pre>
+2059
+2060
+2061
+2062
+2063
+2064
+2065
+2066</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2052</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2059</span>
 
 static VALUE
 robject_add(VALUE self, VALUE other)
@@ -2681,17 +2696,17 @@ robject_add(VALUE self, VALUE other)
       <pre class="lines">
 
 
-2099
-2100
-2101
-2102
-2103
-2104
-2105
-2106</pre>
+2106
+2107
+2108
+2109
+2110
+2111
+2112
+2113</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2099</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2106</span>
 
 static VALUE
 robject_sub(VALUE self, VALUE other)
@@ -2752,18 +2767,18 @@ robject_sub(VALUE self, VALUE other)
       <pre class="lines">
 
 
-2437
-2438
-2439
-2440
-2441
-2442
-2443
 2444
-2445</pre>
+2445
+2446
+2447
+2448
+2449
+2450
+2451
+2452</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2437</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2444</span>
 
 static VALUE
 robject_minus(VALUE self)
@@ -2840,17 +2855,17 @@ robject_minus(VALUE self)
       <pre class="lines">
 
 
-2198
-2199
-2200
-2201
-2202
-2203
-2204
-2205</pre>
+2205
+2206
+2207
+2208
+2209
+2210
+2211
+2212</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2198</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2205</span>
 
 static VALUE
 robject_div(VALUE self, VALUE other)
@@ -2926,17 +2941,17 @@ robject_div(VALUE self, VALUE other)
       <pre class="lines">
 
 
-3024
-3025
-3026
-3027
-3028
-3029
-3030
-3031</pre>
+3031
+3032
+3033
+3034
+3035
+3036
+3037
+3038</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3024</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3031</span>
 
 static VALUE
 robject_left_shift(VALUE self, VALUE other)
@@ -3012,17 +3027,17 @@ robject_left_shift(VALUE self, VALUE other)
       <pre class="lines">
 
 
-3071
-3072
-3073
-3074
-3075
-3076
-3077
-3078</pre>
+3078
+3079
+3080
+3081
+3082
+3083
+3084
+3085</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3071</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3078</span>
 
 static VALUE
 robject_right_shift(VALUE self, VALUE other)
@@ -3139,13 +3154,6 @@ a
       <pre class="lines">
 
 
-1366
-1367
-1368
-1369
-1370
-1371
-1372
 1373
 1374
 1375
@@ -3153,10 +3161,17 @@ a
 1377
 1378
 1379
-1380</pre>
+1380
+1381
+1382
+1383
+1384
+1385
+1386
+1387</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 1366</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 1373</span>
 
 static VALUE
 robject_aref(int argc, VALUE *argv, VALUE self)
@@ -3295,13 +3310,6 @@ a
       <pre class="lines">
 
 
-1423
-1424
-1425
-1426
-1427
-1428
-1429
 1430
 1431
 1432
@@ -3320,10 +3328,17 @@ a
 1445
 1446
 1447
-1448</pre>
+1448
+1449
+1450
+1451
+1452
+1453
+1454
+1455</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 1423</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 1430</span>
 
 static VALUE
 robject_aset(int argc, VALUE *argv, VALUE self)
@@ -3417,17 +3432,17 @@ robject_aset(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-2916
-2917
-2918
-2919
-2920
-2921
-2922
-2923</pre>
+2923
+2924
+2925
+2926
+2927
+2928
+2929
+2930</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2916</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2923</span>
 
 static VALUE
 robject_bit_xor(VALUE self, VALUE other)
@@ -3488,18 +3503,18 @@ robject_bit_xor(VALUE self, VALUE other)
       <pre class="lines">
 
 
-2004
-2005
-2006
-2007
-2008
-2009
-2010
 2011
-2012</pre>
+2012
+2013
+2014
+2015
+2016
+2017
+2018
+2019</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2004</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2011</span>
 
 static VALUE
 robject_abs(VALUE self)
@@ -3530,13 +3545,6 @@ robject_abs(VALUE self)
       <pre class="lines">
 
 
-170
-171
-172
-173
-174
-175
-176
 177
 178
 179
@@ -3564,10 +3572,17 @@ robject_abs(VALUE self)
 201
 202
 203
-204</pre>
+204
+205
+206
+207
+208
+209
+210
+211</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 170</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 177</span>
 
 static VALUE
 robject_allocate(VALUE self)
@@ -3655,18 +3670,18 @@ robject_allocate(VALUE self)
       <pre class="lines">
 
 
-3253
-3254
-3255
-3256
-3257
-3258
-3259
 3260
-3261</pre>
+3261
+3262
+3263
+3264
+3265
+3266
+3267
+3268</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3253</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3260</span>
 
 static VALUE
 robject_ceil(VALUE self)
@@ -3786,13 +3801,6 @@ is clipped.</p>
       <pre class="lines">
 
 
-3625
-3626
-3627
-3628
-3629
-3630
-3631
 3632
 3633
 3634
@@ -3808,10 +3816,17 @@ is clipped.</p>
 3644
 3645
 3646
-3647</pre>
+3647
+3648
+3649
+3650
+3651
+3652
+3653
+3654</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3625</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3632</span>
 
 static VALUE
 robject_clip(VALUE self, VALUE min, VALUE max)
@@ -3882,14 +3897,14 @@ robject_clip(VALUE self, VALUE min, VALUE max)
       <pre class="lines">
 
 
-1457
-1458
-1459
-1460
-1461</pre>
+1464
+1465
+1466
+1467
+1468</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 1457</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 1464</span>
 
 static VALUE
 robject_coerce_cast(VALUE self, VALUE type)
@@ -3983,13 +3998,6 @@ robject_coerce_cast(VALUE self, VALUE type)
       <pre class="lines">
 
 
-4899
-4900
-4901
-4902
-4903
-4904
-4905
 4906
 4907
 4908
@@ -4000,10 +4008,17 @@ robject_coerce_cast(VALUE self, VALUE type)
 4913
 4914
 4915
-4916</pre>
+4916
+4917
+4918
+4919
+4920
+4921
+4922
+4923</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4899</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4906</span>
 
 static VALUE
 robject_cumprod(int argc, VALUE *argv, VALUE self)
@@ -4110,13 +4125,6 @@ robject_cumprod(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-4821
-4822
-4823
-4824
-4825
-4826
-4827
 4828
 4829
 4830
@@ -4127,10 +4135,17 @@ robject_cumprod(int argc, VALUE *argv, VALUE self)
 4835
 4836
 4837
-4838</pre>
+4838
+4839
+4840
+4841
+4842
+4843
+4844
+4845</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4821</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4828</span>
 
 static VALUE
 robject_cumsum(int argc, VALUE *argv, VALUE self)
@@ -4216,17 +4231,17 @@ robject_cumsum(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-2304
-2305
-2306
-2307
-2308
-2309
-2310
-2311</pre>
+2311
+2312
+2313
+2314
+2315
+2316
+2317
+2318</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2304</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2311</span>
 
 static VALUE
 robject_divmod(VALUE self, VALUE other)
@@ -4306,18 +4321,18 @@ as a parameter. For a block {|x| … }</p>
       <pre class="lines">
 
 
-1718
-1719
-1720
-1721
-1722
-1723
-1724
 1725
-1726</pre>
+1726
+1727
+1728
+1729
+1730
+1731
+1732
+1733</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 1718</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 1725</span>
 
 static VALUE
 robject_each(VALUE self)
@@ -4398,18 +4413,18 @@ and indices along each axis as parameters. For a block {|x,i,j,…| … }</p>
       <pre class="lines">
 
 
-1846
-1847
-1848
-1849
-1850
-1851
-1852
 1853
-1854</pre>
+1854
+1855
+1856
+1857
+1858
+1859
+1860
+1861</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 1846</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 1853</span>
 
 static VALUE
 robject_each_with_index(VALUE self)
@@ -4486,17 +4501,17 @@ robject_each_with_index(VALUE self)
       <pre class="lines">
 
 
-2674
-2675
-2676
-2677
-2678
-2679
-2680
-2681</pre>
+2681
+2682
+2683
+2684
+2685
+2686
+2687
+2688</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2674</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2681</span>
 
 static VALUE
 robject_eq(VALUE self, VALUE other)
@@ -4554,13 +4569,6 @@ returns self.</p>
       <pre class="lines">
 
 
-215
-216
-217
-218
-219
-220
-221
 222
 223
 224
@@ -4569,10 +4577,17 @@ returns self.</p>
 227
 228
 229
-230</pre>
+230
+231
+232
+233
+234
+235
+236
+237</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 215</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 222</span>
 
 static VALUE
 robject_extract(VALUE self)
@@ -4679,13 +4694,6 @@ diagonal.</p>
       <pre class="lines">
 
 
-5250
-5251
-5252
-5253
-5254
-5255
-5256
 5257
 5258
 5259
@@ -4729,10 +4737,17 @@ diagonal.</p>
 5297
 5298
 5299
-5300</pre>
+5300
+5301
+5302
+5303
+5304
+5305
+5306
+5307</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 5250</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 5257</span>
 
 static VALUE
 robject_eye(int argc, VALUE *argv, VALUE self)
@@ -4851,18 +4866,18 @@ robject_eye(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-1538
-1539
-1540
-1541
-1542
-1543
-1544
 1545
-1546</pre>
+1546
+1547
+1548
+1549
+1550
+1551
+1552
+1553</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 1538</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 1545</span>
 
 static VALUE
 robject_fill(VALUE self, VALUE val)
@@ -4924,18 +4939,18 @@ robject_fill(VALUE self, VALUE val)
       <pre class="lines">
 
 
-3131
-3132
-3133
-3134
-3135
-3136
-3137
 3138
-3139</pre>
+3139
+3140
+3141
+3142
+3143
+3144
+3145
+3146</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3131</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3138</span>
 
 static VALUE
 robject_floor(VALUE self)
@@ -5012,21 +5027,21 @@ robject_floor(VALUE self)
       <pre class="lines">
 
 
-1598
-1599
-1600
-1601
-1602
-1603
-1604
 1605
 1606
 1607
 1608
-1609</pre>
+1609
+1610
+1611
+1612
+1613
+1614
+1615
+1616</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 1598</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 1605</span>
 
 static VALUE
 robject_format(int argc, VALUE *argv, VALUE self)
@@ -5106,20 +5121,20 @@ robject_format(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-1649
-1650
-1651
-1652
-1653
-1654
-1655
 1656
 1657
 1658
-1659</pre>
+1659
+1660
+1661
+1662
+1663
+1664
+1665
+1666</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 1649</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 1656</span>
 
 static VALUE
 robject_format_to_a(int argc, VALUE *argv, VALUE self)
@@ -5202,17 +5217,17 @@ robject_format_to_a(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-3415
-3416
-3417
-3418
-3419
-3420
-3421
-3422</pre>
+3422
+3423
+3424
+3425
+3426
+3427
+3428
+3429</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3415</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3422</span>
 
 static VALUE
 robject_ge(VALUE self, VALUE other)
@@ -5292,17 +5307,17 @@ robject_ge(VALUE self, VALUE other)
       <pre class="lines">
 
 
-3365
-3366
-3367
-3368
-3369
-3370
-3371
-3372</pre>
+3372
+3373
+3374
+3375
+3376
+3377
+3378
+3379</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3365</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3372</span>
 
 static VALUE
 robject_gt(VALUE self, VALUE other)
@@ -5358,14 +5373,14 @@ robject_gt(VALUE self, VALUE other)
       <pre class="lines">
 
 
-1676
-1677
-1678
-1679
-1680</pre>
+1683
+1684
+1685
+1686
+1687</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 1676</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 1683</span>
 
 VALUE
 robject_inspect(VALUE ary)
@@ -5423,18 +5438,18 @@ robject_inspect(VALUE ary)
       <pre class="lines">
 
 
-3879
-3880
-3881
-3882
-3883
-3884
-3885
 3886
-3887</pre>
+3887
+3888
+3889
+3890
+3891
+3892
+3893
+3894</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3879</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3886</span>
 
 static VALUE
 robject_isfinite(VALUE self)
@@ -5496,18 +5511,18 @@ robject_isfinite(VALUE self)
       <pre class="lines">
 
 
-3735
-3736
-3737
-3738
-3739
-3740
-3741
 3742
-3743</pre>
+3743
+3744
+3745
+3746
+3747
+3748
+3749
+3750</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3735</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3742</span>
 
 static VALUE
 robject_isinf(VALUE self)
@@ -5569,18 +5584,18 @@ robject_isinf(VALUE self)
       <pre class="lines">
 
 
-3687
-3688
-3689
-3690
-3691
-3692
-3693
 3694
-3695</pre>
+3695
+3696
+3697
+3698
+3699
+3700
+3701
+3702</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3687</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3694</span>
 
 static VALUE
 robject_isnan(VALUE self)
@@ -5642,18 +5657,18 @@ robject_isnan(VALUE self)
       <pre class="lines">
 
 
-3831
-3832
-3833
-3834
-3835
-3836
-3837
 3838
-3839</pre>
+3839
+3840
+3841
+3842
+3843
+3844
+3845
+3846</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3831</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3838</span>
 
 static VALUE
 robject_isneginf(VALUE self)
@@ -5715,18 +5730,18 @@ robject_isneginf(VALUE self)
       <pre class="lines">
 
 
-3783
-3784
-3785
-3786
-3787
-3788
-3789
 3790
-3791</pre>
+3791
+3792
+3793
+3794
+3795
+3796
+3797
+3798</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3783</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3790</span>
 
 static VALUE
 robject_isposinf(VALUE self)
@@ -5807,17 +5822,17 @@ robject_isposinf(VALUE self)
       <pre class="lines">
 
 
-3515
-3516
-3517
-3518
-3519
-3520
-3521
-3522</pre>
+3522
+3523
+3524
+3525
+3526
+3527
+3528
+3529</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3515</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3522</span>
 
 static VALUE
 robject_le(VALUE self, VALUE other)
@@ -5949,13 +5964,6 @@ Numo::DComplex.new(5).logseq(0,1i*Math::PI/3,Math::E)
       <pre class="lines">
 
 
-5187
-5188
-5189
-5190
-5191
-5192
-5193
 5194
 5195
 5196
@@ -5968,10 +5976,17 @@ Numo::DComplex.new(5).logseq(0,1i*Math::PI/3,Math::E)
 5203
 5204
 5205
-5206</pre>
+5206
+5207
+5208
+5209
+5210
+5211
+5212
+5213</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 5187</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 5194</span>
 
 static VALUE
 robject_logseq(int argc, VALUE *args, VALUE self)
@@ -6063,17 +6078,17 @@ robject_logseq(int argc, VALUE *args, VALUE self)
       <pre class="lines">
 
 
-3465
-3466
-3467
-3468
-3469
-3470
-3471
-3472</pre>
+3472
+3473
+3474
+3475
+3476
+3477
+3478
+3479</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3465</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3472</span>
 
 static VALUE
 robject_lt(VALUE self, VALUE other)
@@ -6134,18 +6149,18 @@ robject_lt(VALUE self, VALUE other)
       <pre class="lines">
 
 
-1779
-1780
-1781
-1782
-1783
-1784
-1785
 1786
-1787</pre>
+1787
+1788
+1789
+1790
+1791
+1792
+1793
+1794</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 1779</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 1786</span>
 
 static VALUE
 robject_map(VALUE self)
@@ -6230,18 +6245,18 @@ the values returned by the block. Inplace option is allowed, i.e.,
       <pre class="lines">
 
 
-1943
-1944
-1945
-1946
-1947
-1948
-1949
 1950
-1951</pre>
+1951
+1952
+1953
+1954
+1955
+1956
+1957
+1958</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 1943</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 1950</span>
 
 static VALUE
 robject_map_with_index(VALUE self)
@@ -6339,13 +6354,6 @@ robject_map_with_index(VALUE self)
       <pre class="lines">
 
 
-4348
-4349
-4350
-4351
-4352
-4353
-4354
 4355
 4356
 4357
@@ -6358,10 +6366,17 @@ robject_map_with_index(VALUE self)
 4364
 4365
 4366
-4367</pre>
+4367
+4368
+4369
+4370
+4371
+4372
+4373
+4374</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4348</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4355</span>
 
 static VALUE
 robject_max(int argc, VALUE *argv, VALUE self)
@@ -6478,13 +6493,6 @@ robject_max(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-4522
-4523
-4524
-4525
-4526
-4527
-4528
 4529
 4530
 4531
@@ -6518,10 +6526,17 @@ robject_max(int argc, VALUE *argv, VALUE self)
 4559
 4560
 4561
-4562</pre>
+4562
+4563
+4564
+4565
+4566
+4567
+4568
+4569</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4522</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4529</span>
 
 static VALUE
 robject_max_index(int argc, VALUE *argv, VALUE self)
@@ -6541,7 +6556,7 @@ robject_max_index(int argc, VALUE *argv, VALUE self)
     }
     if (na-&gt;size &gt; (~(u_int32_t)0)) {
         aout[0].type = numo_cInt64;
-        idx = rb_narray_new(numo_cInt64, na-&gt;ndim, na-&gt;shape);
+        idx = nary_new(numo_cInt64, na-&gt;ndim, na-&gt;shape);
 #line 56 &quot;gen/tmpl/accum_index.c&quot;
         if (ignore_nan) {
             ndf.func = iter_robject_max_index_index64_nan;
@@ -6551,7 +6566,7 @@ robject_max_index(int argc, VALUE *argv, VALUE self)
 #line 64 &quot;gen/tmpl/accum_index.c&quot;
     } else {
         aout[0].type = numo_cInt32;
-        idx = rb_narray_new(numo_cInt32, na-&gt;ndim, na-&gt;shape);
+        idx = nary_new(numo_cInt32, na-&gt;ndim, na-&gt;shape);
 #line 68 &quot;gen/tmpl/accum_index.c&quot;
         if (ignore_nan) {
             ndf.func = iter_robject_max_index_index32_nan;
@@ -6651,13 +6666,6 @@ robject_max_index(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-4048
-4049
-4050
-4051
-4052
-4053
-4054
 4055
 4056
 4057
@@ -6670,10 +6678,17 @@ robject_max_index(int argc, VALUE *argv, VALUE self)
 4064
 4065
 4066
-4067</pre>
+4067
+4068
+4069
+4070
+4071
+4072
+4073
+4074</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4048</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4055</span>
 
 static VALUE
 robject_mean(int argc, VALUE *argv, VALUE self)
@@ -6782,13 +6797,6 @@ robject_mean(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-4288
-4289
-4290
-4291
-4292
-4293
-4294
 4295
 4296
 4297
@@ -6801,10 +6809,17 @@ robject_mean(int argc, VALUE *argv, VALUE self)
 4304
 4305
 4306
-4307</pre>
+4307
+4308
+4309
+4310
+4311
+4312
+4313
+4314</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4288</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4295</span>
 
 static VALUE
 robject_min(int argc, VALUE *argv, VALUE self)
@@ -6921,13 +6936,6 @@ robject_min(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-4657
-4658
-4659
-4660
-4661
-4662
-4663
 4664
 4665
 4666
@@ -6961,10 +6969,17 @@ robject_min(int argc, VALUE *argv, VALUE self)
 4694
 4695
 4696
-4697</pre>
+4697
+4698
+4699
+4700
+4701
+4702
+4703
+4704</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4657</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4664</span>
 
 static VALUE
 robject_min_index(int argc, VALUE *argv, VALUE self)
@@ -6984,7 +6999,7 @@ robject_min_index(int argc, VALUE *argv, VALUE self)
     }
     if (na-&gt;size &gt; (~(u_int32_t)0)) {
         aout[0].type = numo_cInt64;
-        idx = rb_narray_new(numo_cInt64, na-&gt;ndim, na-&gt;shape);
+        idx = nary_new(numo_cInt64, na-&gt;ndim, na-&gt;shape);
 #line 56 &quot;gen/tmpl/accum_index.c&quot;
         if (ignore_nan) {
             ndf.func = iter_robject_min_index_index64_nan;
@@ -6994,7 +7009,7 @@ robject_min_index(int argc, VALUE *argv, VALUE self)
 #line 64 &quot;gen/tmpl/accum_index.c&quot;
     } else {
         aout[0].type = numo_cInt32;
-        idx = rb_narray_new(numo_cInt32, na-&gt;ndim, na-&gt;shape);
+        idx = nary_new(numo_cInt32, na-&gt;ndim, na-&gt;shape);
 #line 68 &quot;gen/tmpl/accum_index.c&quot;
         if (ignore_nan) {
             ndf.func = iter_robject_min_index_index32_nan;
@@ -7094,13 +7109,6 @@ robject_min_index(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-4744
-4745
-4746
-4747
-4748
-4749
-4750
 4751
 4752
 4753
@@ -7110,10 +7118,17 @@ robject_min_index(int argc, VALUE *argv, VALUE self)
 4757
 4758
 4759
-4760</pre>
+4760
+4761
+4762
+4763
+4764
+4765
+4766
+4767</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4744</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4751</span>
 
 static VALUE
 robject_minmax(int argc, VALUE *argv, VALUE self)
@@ -7246,22 +7261,22 @@ robject_minmax(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-5022
-5023
-5024
-5025
-5026
-5027
-5028
 5029
 5030
 5031
 5032
 5033
-5034</pre>
+5034
+5035
+5036
+5037
+5038
+5039
+5040
+5041</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 5022</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 5029</span>
 
 static VALUE
 robject_mulsum(int argc, VALUE *argv, VALUE self)
@@ -7342,17 +7357,17 @@ robject_mulsum(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-2724
-2725
-2726
-2727
-2728
-2729
-2730
-2731</pre>
+2731
+2732
+2733
+2734
+2735
+2736
+2737
+2738</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2724</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2731</span>
 
 static VALUE
 robject_ne(VALUE self, VALUE other)
@@ -7432,17 +7447,17 @@ robject_ne(VALUE self, VALUE other)
       <pre class="lines">
 
 
-2774
-2775
-2776
-2777
-2778
-2779
-2780
-2781</pre>
+2781
+2782
+2783
+2784
+2785
+2786
+2787
+2788</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2774</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2781</span>
 
 static VALUE
 robject_nearly_eq(VALUE self, VALUE other)
@@ -7529,13 +7544,6 @@ robject_nearly_eq(VALUE self, VALUE other)
       <pre class="lines">
 
 
-5425
-5426
-5427
-5428
-5429
-5430
-5431
 5432
 5433
 5434
@@ -7552,10 +7560,17 @@ robject_nearly_eq(VALUE self, VALUE other)
 5445
 5446
 5447
-5448</pre>
+5448
+5449
+5450
+5451
+5452
+5453
+5454
+5455</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 5425</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 5432</span>
 
 static VALUE
 robject_poly(VALUE self, VALUE args)
@@ -7668,13 +7683,6 @@ robject_poly(VALUE self, VALUE args)
       <pre class="lines">
 
 
-3988
-3989
-3990
-3991
-3992
-3993
-3994
 3995
 3996
 3997
@@ -7687,10 +7695,17 @@ robject_poly(VALUE self, VALUE args)
 4004
 4005
 4006
-4007</pre>
+4007
+4008
+4009
+4010
+4011
+4012
+4013
+4014</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3988</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3995</span>
 
 static VALUE
 robject_prod(int argc, VALUE *argv, VALUE self)
@@ -7799,13 +7814,6 @@ robject_prod(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-4408
-4409
-4410
-4411
-4412
-4413
-4414
 4415
 4416
 4417
@@ -7818,10 +7826,17 @@ robject_prod(int argc, VALUE *argv, VALUE self)
 4424
 4425
 4426
-4427</pre>
+4427
+4428
+4429
+4430
+4431
+4432
+4433
+4434</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4408</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4415</span>
 
 static VALUE
 robject_ptp(int argc, VALUE *argv, VALUE self)
@@ -7947,13 +7962,6 @@ types)</p>
       <pre class="lines">
 
 
-5364
-5365
-5366
-5367
-5368
-5369
-5370
 5371
 5372
 5373
@@ -7979,10 +7987,17 @@ types)</p>
 5393
 5394
 5395
-5396</pre>
+5396
+5397
+5398
+5399
+5400
+5401
+5402
+5403</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 5364</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 5371</span>
 
 static VALUE
 robject_rand(int argc, VALUE *args, VALUE self)
@@ -8068,18 +8083,18 @@ robject_rand(int argc, VALUE *args, VALUE self)
       <pre class="lines">
 
 
-2498
-2499
-2500
-2501
-2502
-2503
-2504
 2505
-2506</pre>
+2506
+2507
+2508
+2509
+2510
+2511
+2512
+2513</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2498</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2505</span>
 
 static VALUE
 robject_reciprocal(VALUE self)
@@ -8177,13 +8192,6 @@ robject_reciprocal(VALUE self)
       <pre class="lines">
 
 
-4228
-4229
-4230
-4231
-4232
-4233
-4234
 4235
 4236
 4237
@@ -8196,10 +8204,17 @@ robject_reciprocal(VALUE self)
 4244
 4245
 4246
-4247</pre>
+4247
+4248
+4249
+4250
+4251
+4252
+4253
+4254</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4228</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4235</span>
 
 static VALUE
 robject_rms(int argc, VALUE *argv, VALUE self)
@@ -8272,18 +8287,18 @@ robject_rms(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-3192
-3193
-3194
-3195
-3196
-3197
-3198
 3199
-3200</pre>
+3200
+3201
+3202
+3203
+3204
+3205
+3206
+3207</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3192</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3199</span>
 
 static VALUE
 robject_round(VALUE self)
@@ -8403,13 +8418,6 @@ Numo::DComplex.new(6).seq(1,-0.2+0.2i)
       <pre class="lines">
 
 
-5101
-5102
-5103
-5104
-5105
-5106
-5107
 5108
 5109
 5110
@@ -8423,10 +8431,17 @@ Numo::DComplex.new(6).seq(1,-0.2+0.2i)
 5118
 5119
 5120
-5121</pre>
+5121
+5122
+5123
+5124
+5125
+5126
+5127
+5128</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 5101</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 5108</span>
 
 static VALUE
 robject_seq(int argc, VALUE *args, VALUE self)
@@ -8500,18 +8515,18 @@ robject_seq(int argc, VALUE *args, VALUE self)
       <pre class="lines">
 
 
-2559
-2560
-2561
-2562
-2563
-2564
-2565
 2566
-2567</pre>
+2567
+2568
+2569
+2570
+2571
+2572
+2573
+2574</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2559</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2566</span>
 
 static VALUE
 robject_sign(VALUE self)
@@ -8573,18 +8588,18 @@ robject_sign(VALUE self)
       <pre class="lines">
 
 
-2620
-2621
-2622
-2623
-2624
-2625
-2626
 2627
-2628</pre>
+2628
+2629
+2630
+2631
+2632
+2633
+2634
+2635</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2620</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2627</span>
 
 static VALUE
 robject_square(VALUE self)
@@ -8682,13 +8697,6 @@ robject_square(VALUE self)
       <pre class="lines">
 
 
-4108
-4109
-4110
-4111
-4112
-4113
-4114
 4115
 4116
 4117
@@ -8701,10 +8709,17 @@ robject_square(VALUE self)
 4124
 4125
 4126
-4127</pre>
+4127
+4128
+4129
+4130
+4131
+4132
+4133
+4134</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4108</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4115</span>
 
 static VALUE
 robject_stddev(int argc, VALUE *argv, VALUE self)
@@ -8792,13 +8807,6 @@ robject_stddev(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-1047
-1048
-1049
-1050
-1051
-1052
-1053
 1054
 1055
 1056
@@ -8897,10 +8905,17 @@ robject_stddev(int argc, VALUE *argv, VALUE self)
 1149
 1150
 1151
-1152</pre>
+1152
+1153
+1154
+1155
+1156
+1157
+1158
+1159</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 1047</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 1054</span>
 
 static VALUE
 robject_store(VALUE self, VALUE obj)
@@ -9095,13 +9110,6 @@ robject_store(VALUE self, VALUE obj)
       <pre class="lines">
 
 
-3928
-3929
-3930
-3931
-3932
-3933
-3934
 3935
 3936
 3937
@@ -9114,10 +9122,17 @@ robject_store(VALUE self, VALUE obj)
 3944
 3945
 3946
-3947</pre>
+3947
+3948
+3949
+3950
+3951
+3952
+3953
+3954</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3928</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3935</span>
 
 static VALUE
 robject_sum(int argc, VALUE *argv, VALUE self)
@@ -9185,17 +9200,17 @@ robject_sum(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-1498
-1499
-1500
-1501
-1502
-1503
-1504
-1505</pre>
+1505
+1506
+1507
+1508
+1509
+1510
+1511
+1512</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 1498</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 1505</span>
 
 static VALUE
 robject_to_a(VALUE self)
@@ -9256,18 +9271,18 @@ robject_to_a(VALUE self)
       <pre class="lines">
 
 
-3314
-3315
-3316
-3317
-3318
-3319
-3320
 3321
-3322</pre>
+3322
+3323
+3324
+3325
+3326
+3327
+3328
+3329</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3314</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 3321</span>
 
 static VALUE
 robject_trunc(VALUE self)
@@ -9365,13 +9380,6 @@ robject_trunc(VALUE self)
       <pre class="lines">
 
 
-4168
-4169
-4170
-4171
-4172
-4173
-4174
 4175
 4176
 4177
@@ -9384,10 +9392,17 @@ robject_trunc(VALUE self)
 4184
 4185
 4186
-4187</pre>
+4187
+4188
+4189
+4190
+4191
+4192
+4193
+4194</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4168</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 4175</span>
 
 static VALUE
 robject_var(int argc, VALUE *argv, VALUE self)
@@ -9475,17 +9490,17 @@ robject_var(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-2869
-2870
-2871
-2872
-2873
-2874
-2875
-2876</pre>
+2876
+2877
+2878
+2879
+2880
+2881
+2882
+2883</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2869</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2876</span>
 
 static VALUE
 robject_bit_or(VALUE self, VALUE other)
@@ -9546,18 +9561,18 @@ robject_bit_or(VALUE self, VALUE other)
       <pre class="lines">
 
 
-2976
-2977
-2978
-2979
-2980
-2981
-2982
 2983
-2984</pre>
+2984
+2985
+2986
+2987
+2988
+2989
+2990
+2991</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2976</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/robject.c', line 2983</span>
 
 static VALUE
 robject_bit_not(VALUE self)
@@ -9578,7 +9593,7 @@ robject_bit_not(VALUE self)
 </div>
 
       <div id="footer">
-  Generated on Sun Apr 16 22:06:17 2017 by
+  Generated on Mon Apr 17 21:46:43 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.4.0).
 </div>
