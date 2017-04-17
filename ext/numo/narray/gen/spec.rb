@@ -52,6 +52,30 @@ if is_int && !is_object
   def_id "minlength" # for bincount
 end
 
+# Constatnts
+
+if is_bit
+  def_const "ELEMENT_BIT_SIZE",  "INT2FIX(1)"
+  def_const "ELEMENT_BYTE_SIZE", "rb_float_new(1.0/8)"
+  def_const "CONTIGUOUS_STRIDE", "INT2FIX(1)"
+else
+  def_const "ELEMENT_BIT_SIZE",  "INT2FIX(sizeof(dtype)*8)"
+  def_const "ELEMENT_BYTE_SIZE", "INT2FIX(sizeof(dtype))"
+  def_const "CONTIGUOUS_STRIDE", "INT2FIX(sizeof(dtype))"
+end
+
+# Un-define
+
+if is_object
+  undef_singleton_method "from_binary"
+  undef_method "to_binary"
+  undef_method "swap_byte"
+  undef_method "to_network"
+  undef_method "to_vacs"
+  undef_method "to_host"
+  undef_method "to_swapped"
+end
+
 # Allocation
 
 def_alloc_func "alloc_func"
@@ -310,7 +334,20 @@ end
 # Math
 # histogram
 
+fn = get(:full_class_name)
+cn = get(:class_name)
+nm = get(:name)
+is_c = is_complex
+
 if has_math
+def_module do
+  extend NMathMethod
+  set ns_var: "cT"
+  set class_name: cn
+  set name: "#{nm}_math"
+  set full_module_name: fn+"::NMath"
+  set module_name: "Math"
+  set module_var: "mTM"
   math "sqrt"
   math "cbrt"
   math "log"
@@ -332,7 +369,7 @@ if has_math
   math "acosh"
   math "atanh"
   math "sinc"
-  if !is_complex
+  if !is_c
     math "atan2",2
     math "hypot",2
     math "erf"
@@ -342,6 +379,7 @@ if has_math
     math "ldexp",2
     math "frexp",1,"frexp"
   end
+end
 end
 
 end # other than Bit

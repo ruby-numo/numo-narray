@@ -70,9 +70,10 @@ module NArrayMethod
     h = {type_name:type_name, dtype:dtype, dcast:dcast, suffix:suffix}
     def_method("qsort", **h)
   end
+end
 
-  def math(meth, n=1, tmpl=nil)
-    h = {mod_var:'mTM'}
+module NMathMethod
+  def math(meth, n=1, tmpl=nil, **h)
     if tmpl.nil?
       case n
       when 1
