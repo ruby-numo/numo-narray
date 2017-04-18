@@ -73,6 +73,7 @@ module NArrayMethod
 end
 
 module NMathMethod
+
   def math(meth, n=1, tmpl=nil, **h)
     if tmpl.nil?
       case n
@@ -88,7 +89,6 @@ module NMathMethod
     end
     def_module_function(meth, tmpl, **h)
   end
-
 end
 
 # ----------------------------------------------------------------------

@@ -28,6 +28,9 @@ All documents are primitive.
 * [Numo::Gnuplot](https://github.com/ruby-numo/gnuplot) - Simple and easy-to-use Gnuplot interface.
 
 ## Installation
+### Requirement
+Ruby ver 2.1 and later.
+
 ### Ubuntu, Debian, Bash on Windows
 ```shell
 apt install -y git ruby gcc ruby-dev rake make
