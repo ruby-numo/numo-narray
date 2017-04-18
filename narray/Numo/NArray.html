@@ -104,8 +104,9 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>Numo::NArray is an abstract super class. Use Typed Subclasses of NArray
-(Numo::DFloat, Int32, etc) to create data arrays.</p>
+<p>Numo::NArray is the abstract super class for Numerical N-dimensional Array
+in the Ruby/Numo module. Use Typed Subclasses of NArray (Numo::DFloat,
+Int32, etc) to create data array instances.</p>
 
 
   </div>
@@ -2242,9 +2243,9 @@ or <em>sizes</em>.</p>
 <p>Constructs an instance of NArray class using the given and <em>shape</em>
 or <em>sizes</em>. Note that NArray itself is an abstract super class and
 not suitable to create instances. Use Typed Subclasses of NArray (DFloat,
-Int32, etc) to create instances. Initially memory for array data is not
-allocated. Memory is allocated on write method such as #fill, #store, #seq,
-etc.</p>
+Int32, etc) to create instances. This method does not allocate memory for
+array data. Memory is allocated on write method such as #fill, #store,
+#seq, etc.</p>
 
 
   </div>
@@ -10103,7 +10104,7 @@ na_make_view(VALUE self)
 </div>
 
       <div id="footer">
-  Generated on Mon Apr 17 21:46:37 2017 by
+  Generated on Tue Apr 18 21:11:29 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.4.0).
 </div>
