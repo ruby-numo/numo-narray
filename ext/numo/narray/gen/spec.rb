@@ -334,12 +334,12 @@ end
 # Math
 # histogram
 
+if has_math
 fn = get(:full_class_name)
 cn = get(:class_name)
 nm = get(:name)
 is_c = is_complex
 
-if has_math
 def_module do
   extend NMathMethod
   set ns_var: "cT"
@@ -348,6 +348,7 @@ def_module do
   set full_module_name: fn+"::NMath"
   set module_name: "Math"
   set module_var: "mTM"
+
   math "sqrt"
   math "cbrt"
   math "log"
