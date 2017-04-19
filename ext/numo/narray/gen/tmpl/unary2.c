@@ -51,7 +51,7 @@ static VALUE
 <%=c_func(0)%>(VALUE self)
 {
     ndfunc_arg_in_t ain[1] = {{cT,0}};
-    ndfunc_arg_out_t aout[1] = {{<%=tpclass%>,0}};
+    ndfunc_arg_out_t aout[1] = {{<%=result_class%>,0}};
     ndfunc_t ndf = { <%=c_iter%>, FULL_LOOP, 1, 1, ain, aout };
 
     return na_ndloop(&ndf, 1, self);

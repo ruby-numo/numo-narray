@@ -31,7 +31,7 @@ static VALUE
     int ignore_nan = 0;
     VALUE v, reduce;
     ndfunc_arg_in_t ain[2] = {{cT,0},{sym_reduce,0}};
-    ndfunc_arg_out_t aout[1] = {{<%=tpclass%>,0}};
+    ndfunc_arg_out_t aout[1] = {{<%=result_class%>,0}};
     ndfunc_t ndf = { <%=c_iter%>, STRIDE_LOOP_NIP|NDF_FLAT_REDUCE, 2, 1, ain, aout };
 
     reduce = na_reduce_dimension(argc, argv, 1, &self, &ignore_nan);
@@ -41,7 +41,7 @@ static VALUE
     }
 <% end %>
     v =  na_ndloop(&ndf, 2, self, reduce);
-<% if tpclass == "cT" %>
+<% if result_class == "cT" %>
     return <%=type_name%>_extract(v);
 <% else %>
     return rb_funcall(v,rb_intern("extract"),0);
