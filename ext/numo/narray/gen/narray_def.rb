@@ -20,13 +20,13 @@ module NArrayMethod
     def_method("pow", "pow", op:"**")
   end
 
-  def unary2(meth, dtype, tpclass)
-    h = {dtype:dtype, tpclass:tpclass}
+  def unary2(meth, dtype, result_class)
+    h = {dtype:dtype, result_class:result_class}
     def_method(meth, "unary2", **h)
   end
 
-  def set2(meth, dtype, tpclass)
-    h = {dtype:dtype, tpclass:tpclass}
+  def set2(meth, dtype, result_class)
+    h = {dtype:dtype, result_class:result_class}
     def_method(meth, "set2", h)
   end
 
@@ -48,8 +48,8 @@ module NArrayMethod
     def_method(meth, "bit_reduce", **h)
   end
 
-  def accum(meth, dtype, tpclass)
-    h = {dtype:dtype, tpclass:tpclass}
+  def accum(meth, dtype, result_class)
+    h = {dtype:dtype, result_class:result_class}
     def_method(meth, "accum", **h)
   end
 
