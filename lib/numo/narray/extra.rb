@@ -43,6 +43,56 @@ module Numo
       reverse(0)
     end
 
+    # Multi-dimensional array indexing.
+    # Same as [] for one-dimensional NArray.
+    # Similar to numpy's tuple indexing, i.e., a[[1,2,..],[3,4,..]]
+    # (This method will be rewritten in C)
+    # @return [Numo::NArray] one-dimensional view of self.
+    # @example
+    #   p x = Numo::DFloat.new(3,3,3).seq
+    #   # Numo::DFloat#shape=[3,3,3]
+    #   # [[[0, 1, 2],
+    #   #   [3, 4, 5],
+    #   #   [6, 7, 8]],
+    #   #  [[9, 10, 11],
+    #   #   [12, 13, 14],
+    #   #   [15, 16, 17]],
+    #   #  [[18, 19, 20],
+    #   #   [21, 22, 23],
+    #   #   [24, 25, 26]]]
+    #
+    #   p x.at([0,1,2],[0,1,2],[-1,-2,-3])
+    #   # Numo::DFloat(view)#shape=[3]
+    #   # [2, 13, 24]
+    def at(*indices)
+      if indices.size != ndim
+        raise DimensionError, "argument length does not match dimension size"
+      end
+      idx = nil
+      stride = 1
+      (indices.size-1).downto(0) do |i|
+        ix = Int64.cast(indices[i])
+        if ix.ndim != 1
+          raise DimensionError, "index array is not one-dimensional"
+        end
+        ix[ix < 0] += shape[i]
+        if ((ix < 0) & (ix >= shape[i])).any?
+          raise IndexError, "index array is out of range"
+        end
+        if idx
+          if idx.size != ix.size
+            raise ShapeError, "index array sizes mismatch"
+          end
+          idx += ix * stride
+          stride *= shape[i]
+        else
+          idx = ix
+          stride = shape[i]
+        end
+      end
+      self[idx]
+    end
+
     # Rotate in the plane specified by axes.
     # @example
     #   p a = Numo::Int32.new(2,2).seq
