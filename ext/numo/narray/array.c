@@ -440,7 +440,8 @@ na_s_array_shape(VALUE mod, VALUE ary)
 }
 
 static inline void
-check_subclass_of_narray(VALUE dtype) {
+check_subclass_of_narray(VALUE dtype)
+{
     if (RTEST(rb_obj_is_kind_of(dtype, rb_cClass))) {
         if (RTEST(rb_funcall(dtype, id_le, 1, cNArray))) {
             return;
@@ -540,11 +541,12 @@ nary_s_bracket(VALUE klass, VALUE ary)
 }
 
 
-VALUE
-nst_check_compatibility(VALUE self, VALUE ary);
+//VALUE
+//nst_check_compatibility(VALUE self, VALUE ary);
 
 
 /* investigate ndim, shape, type of Array */
+/*
 static int
 na_mdai_for_struct(na_mdai_t *mdai, int ndim)
 {
@@ -575,7 +577,7 @@ na_mdai_for_struct(na_mdai_t *mdai, int ndim)
     }
 
     if (TYPE(val) == T_ARRAY) {
-        /* check recursive array */
+        // check recursive array
         for (j=0; j<ndim-1; j++) {
             if (mdai->item[j].val == val)
                 rb_raise(rb_eStandardError,
@@ -620,8 +622,10 @@ na_mdai_for_struct(na_mdai_t *mdai, int ndim)
     //fprintf(stderr,"invalid for struct:");    rb_p(val);    abort();
     return 0;
 }
+*/
 
 
+/*
 VALUE
 na_ary_composition_for_struct(VALUE nstruct, VALUE ary)
 {
@@ -640,6 +644,7 @@ na_ary_composition_for_struct(VALUE nstruct, VALUE ary)
     rb_gc_force_recycle(vmdai);
     return vnc;
 }
+*/
 
 
 
