@@ -9,6 +9,7 @@
 #include "numo/template.h"
 
 static VALUE sym_mulsum;
+static VALUE sym_nan;
 static ID id_mulsum;
 static ID id_respond_to_p;
 static ID id_store;
@@ -855,7 +856,7 @@ na_new_dimension_for_dot(VALUE self, int pos, int len, bool transpose)
 static VALUE
 numo_na_dot(VALUE self, VALUE other)
 {
-    VALUE test;
+    VALUE test, opt;
     volatile VALUE a1=self, a2=other;
     narray_t *na1, *na2;
 
@@ -878,7 +879,9 @@ numo_na_dot(VALUE self, VALUE other)
         // insert & transpose [ newaxis*self.ndim, ..., last-dim, last-1-dim ]
         a2 = na_new_dimension_for_dot(a2, 0, na1->ndim-1, 1);
     }
-    return rb_funcall(a1,id_mulsum,2,a2,INT2FIX(-1));
+    opt = rb_hash_new();
+    rb_hash_aset(opt, sym_nan, Qtrue);
+    return rb_funcall(a1,id_mulsum,3,a2,INT2FIX(-1),opt);
 }
 
 
@@ -918,6 +921,7 @@ Init_nary_data()
 
     id_mulsum       = rb_intern("mulsum");
     sym_mulsum      = ID2SYM(id_mulsum);
+    sym_nan         = ID2SYM(rb_intern("nan"));
     id_respond_to_p = rb_intern("respond_to?");
     id_store        = rb_intern("store");
     id_swap_byte    = rb_intern("swap_byte");
