@@ -56,12 +56,12 @@ EXTERN double pow(double, double);
 #define m_isfinite(x) isfinite(x)
 
 #define m_mulsum_init INT2FIX(0)
-#define m_mulsum(x,y,z) {(z)+=(x)*(y);}
-#define m_mulsum_nan(x,y,z) {if (isnan(z)) {(z)=(x)*(y);} else if (!isnan(x) && !isnan(y)) {(z)+=(x)*(y);}}
-#define m_cumsum(x,y) {(x)+=(y);}
-#define m_cumsum_nan(x,y) {if (isnan(x)) {(x)=(y);} else if (!isnan(y)) {(x)+=(y);}}
-#define m_cumprod(x,y) {(x)*=(y);}
-#define m_cumprod_nan(x,y) {if (isnan(x)) {(x)=(y);} else if (!isnan(y)) {(x)*=(y);}}
+#define m_mulsum_nan(x,y,z) {(z)+=(x)*(y);}
+#define m_mulsum(x,y,z) {if (isnan(z)) {(z)=(x)*(y);} else if (!isnan(x) && !isnan(y)) {(z)+=(x)*(y);}}
+#define m_cumsum_nan(x,y) {(x)+=(y);}
+#define m_cumsum(x,y) {if (isnan(x)) {(x)=(y);} else if (!isnan(y)) {(x)+=(y);}}
+#define m_cumprod_nan(x,y) {(x)*=(y);}
+#define m_cumprod(x,y) {if (isnan(x)) {(x)=(y);} else if (!isnan(y)) {(x)*=(y);}}
 
 #define m_sprintf(s,x) sprintf(s,"%g",x)
 
@@ -146,7 +146,6 @@ static inline dtype f_sum_nan(size_t n, char *p, ssize_t stride)
 
     for (; i--;) {
         x = *(dtype*)p;
-        if (m_isnan(x)) {return x;}
         y += x;
         p += stride;
     }
@@ -177,7 +176,6 @@ static inline dtype f_kahan_sum_nan(size_t n, char *p, ssize_t stride)
 
     for (; i--;) {
         x = *(dtype*)p;
-        if (m_isnan(x)) {return x;}
         if (fabs(x) > fabs(y)) {
             dtype z=x; x=y; y=z;
         }
@@ -222,7 +220,6 @@ static inline dtype f_prod_nan(size_t n, char *p, ssize_t stride)
 
     for (; i--;) {
         x = *(dtype*)p;
-        if (m_isnan(x)) {return x;}
         y *= x;
         p += stride;
     }
@@ -252,7 +249,6 @@ static inline dtype f_mean_nan(size_t n, char *p, ssize_t stride)
 
     for (; i--;) {
         x = *(dtype*)p;
-        if (m_isnan(x)) {return x;}
         y += x;
         count++;
         p += stride;
@@ -285,11 +281,9 @@ static inline dtype f_var_nan(size_t n, char *p, ssize_t stride)
     dtype a,m;
 
     m = f_mean_nan(n,p,stride);
-    if (m_isnan(m)) {return m;}
 
     for (; i--;) {
         x = *(dtype*)p;
-        if (m_isnan(x)) {return x;}
         a = x - m;
         y += a*a;
         count++;
@@ -337,7 +331,6 @@ static inline dtype f_rms_nan(size_t n, char *p, ssize_t stride)
 
     for (; i--;) {
         x = *(dtype*)p;
-        if (m_isnan(x)) {return x;}
         y += x*x;
         count++;
         p += stride;
