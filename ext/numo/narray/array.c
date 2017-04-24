@@ -38,6 +38,19 @@ typedef struct {
     VALUE   dtype;
 } na_compose_t;
 
+
+static na_compose_t *
+na_compose_alloc(void)
+{
+    na_compose_t *nc;
+
+    nc = ALLOC(na_compose_t);
+    nc->ndim = 0;
+    nc->shape = 0;
+    nc->dtype = Qnil;
+    return nc;
+}
+
 static size_t
 na_compose_memsize(const void *ptr)
 {
@@ -341,7 +354,6 @@ na_mdai_result(na_mdai_t *mdai, na_compose_t *nc)
     }
 }
 
-
 static size_t
 na_mdai_memsize(const void *ptr)
 {
@@ -364,7 +376,7 @@ na_ary_composition(VALUE ary)
     na_compose_t *nc;
     int j;
 
-    nc = ALLOC(na_compose_t);
+    nc = na_compose_alloc();
     vnc = WrapCompose(nc);
     if (TYPE(ary) == T_ARRAY) {
         mdai = na_mdai_alloc(ary);
@@ -621,7 +633,7 @@ na_ary_composition_for_struct(VALUE nstruct, VALUE ary)
     mdai->na_type = nstruct;
     vmdai = TypedData_Wrap_Struct(rb_cData, &mdai_data_type, (void*)mdai);
     na_mdai_for_struct(mdai, 0);
-    nc = ALLOC(na_compose_t);
+    nc = na_compose_alloc();
     vnc = WrapCompose(nc);
     na_mdai_result(mdai, nc);
     //fprintf(stderr,"nc->ndim=%d\n",nc->ndim);
