@@ -32,160 +32,104 @@ static ID id_cast;
 static ID id_le;
 static ID id_Complex;
 
-typedef struct {
-    int     ndim;
-    size_t *shape;
-    VALUE   dtype;
-} na_compose_t;
-
-
-static na_compose_t *
-na_compose_alloc(void)
-{
-    na_compose_t *nc;
-
-    nc = ALLOC(na_compose_t);
-    nc->ndim = 0;
-    nc->shape = 0;
-    nc->dtype = Qnil;
-    return nc;
-}
-
-static size_t
-na_compose_memsize(const void *ptr)
-{
-    const na_compose_t *nc = (const na_compose_t*)ptr;
-
-    return sizeof(na_compose_t) + nc->ndim * sizeof(size_t);
-}
-
-static void
-na_compose_free(void *ptr)
-{
-    na_compose_t *nc = (na_compose_t*)ptr;
-
-    if (nc->shape)
-        xfree(nc->shape);
-    xfree(nc);
-}
-
-static void
-na_compose_gc_mark(void* nc)
-{
-    rb_gc_mark(((na_compose_t*)nc)->dtype);
-}
-
-static const rb_data_type_t  compose_data_type = {
-    "Numo::NArray/compose",
-    {na_compose_gc_mark, na_compose_free, na_compose_memsize,},
-    0, 0, RUBY_TYPED_FREE_IMMEDIATELY|RUBY_TYPED_WB_PROTECTED
-};
-
-#define WrapCompose(p) TypedData_Wrap_Struct(rb_cData, &compose_data_type, (void*)(p));
-#define GetCompose(v,p) TypedData_Get_Struct(v, na_compose_t, &compose_data_type, p)
 
 static VALUE
  na_object_type(int type, VALUE v)
 {
     static VALUE int32_max = Qnil;
     if (NIL_P(int32_max))
-	int32_max = ULONG2NUM(2147483647);
+        int32_max = ULONG2NUM(2147483647);
 
     switch(TYPE(v)) {
 
     case T_TRUE:
     case T_FALSE:
-	if (type<NA_BIT)
-	    return NA_BIT;
-	return type;
+        if (type<NA_BIT)
+            return NA_BIT;
+        return type;
 
 #if SIZEOF_LONG == 4
     case T_FIXNUM:
-	if (type<NA_INT32)
-	    return NA_INT32;
-	return type;
+        if (type<NA_INT32)
+            return NA_INT32;
+        return type;
     case T_BIGNUM:
-	if (type<NA_INT64) {
-	    v = rb_funcall(v,id_abs,0);
-	    if (RTEST(rb_funcall(v,id_le,1,int32_max))) {
-		if (type<NA_INT32)
-		    return NA_INT32;
-	    } else {
-		return NA_INT64;
-	    }
-	}
-	return type;
+        if (type<NA_INT64) {
+            v = rb_funcall(v,id_abs,0);
+            if (RTEST(rb_funcall(v,id_le,1,int32_max))) {
+                if (type<NA_INT32)
+                    return NA_INT32;
+            } else {
+                return NA_INT64;
+            }
+        }
+        return type;
 
 #elif SIZEOF_LONG == 8
     case T_FIXNUM:
-	if (type<NA_INT64) {
-	    long x = NUM2LONG(v);
-	    if (x<0) x=-x;
-	    if (x<=2147483647) {
-		if (type<NA_INT32)
-		    return NA_INT32;
-	    } else {
-		return NA_INT64;
-	    }
-	}
-	return type;
+        if (type<NA_INT64) {
+            long x = NUM2LONG(v);
+            if (x<0) x=-x;
+            if (x<=2147483647) {
+                if (type<NA_INT32)
+                    return NA_INT32;
+            } else {
+                return NA_INT64;
+            }
+        }
+        return type;
     case T_BIGNUM:
-	if (type<NA_INT64)
-	    return NA_INT64;
-	return type;
+        if (type<NA_INT64)
+            return NA_INT64;
+        return type;
 #else
     case T_FIXNUM:
     case T_BIGNUM:
-	if (type<NA_INT64) {
-	    v = rb_funcall(v,id_abs,0);
-	    if (RTEST(rb_funcall(v,id_le,1,int32_max))) {
-		if (type<NA_INT32)
-		    return NA_INT32;
-	    } else {
-		return NA_INT64;
-	    }
-	}
-	return type;
+        if (type<NA_INT64) {
+            v = rb_funcall(v,id_abs,0);
+            if (RTEST(rb_funcall(v,id_le,1,int32_max))) {
+                if (type<NA_INT32)
+                    return NA_INT32;
+            } else {
+                return NA_INT64;
+            }
+        }
+        return type;
 #endif
 
     case T_FLOAT:
-	if (type<NA_DFLOAT)
-	    return NA_DFLOAT;
-	return type;
+        if (type<NA_DFLOAT)
+            return NA_DFLOAT;
+        return type;
 
     case T_NIL:
-	return type;
+        return type;
 
     default:
-	if (CLASS_OF(v) == rb_const_get( rb_cObject, id_Complex )) {
-	    return NA_DCOMPLEX;
-	}
+        if (CLASS_OF(v) == rb_const_get( rb_cObject, id_Complex )) {
+            return NA_DCOMPLEX;
+        }
     }
     return NA_ROBJ;
 }
 
 
-#define MDAI_ATTR_TYPE(tp,v,attr) \
- {tp = na_object_type(tp,rb_funcall(v,id_##attr,0));}
+#define MDAI_ATTR_TYPE(tp,v,attr)                               \
+    {tp = na_object_type(tp,rb_funcall(v,id_##attr,0));}
 
-void na_mdai_object_type(na_mdai_t *mdai, VALUE v)
+static int na_mdai_object_type(int type, VALUE v)
 {
-    if (IsNArray(v)) {
-	if (NIL_P(mdai->na_type)) {
-	    mdai->na_type = CLASS_OF(v);
-	} else {
-            mdai->na_type = na_upcast(CLASS_OF(v), mdai->na_type);
-	}
-    } else if (rb_obj_is_kind_of(v, rb_cRange)) {
-        MDAI_ATTR_TYPE(mdai->type,v,begin);
-        MDAI_ATTR_TYPE(mdai->type,v,end);
+    if (rb_obj_is_kind_of(v, rb_cRange)) {
+        MDAI_ATTR_TYPE(type,v,begin);
+        MDAI_ATTR_TYPE(type,v,end);
     } else if (rb_obj_is_kind_of(v, na_cStep)) {
-        MDAI_ATTR_TYPE(mdai->type,v,begin);
-        MDAI_ATTR_TYPE(mdai->type,v,end);
-        MDAI_ATTR_TYPE(mdai->type,v,step);
+        MDAI_ATTR_TYPE(type,v,begin);
+        MDAI_ATTR_TYPE(type,v,end);
+        MDAI_ATTR_TYPE(type,v,step);
     } else {
-	mdai->type = na_object_type(mdai->type,v);
+        type = na_object_type(type,v);
     }
+    return type;
 }
 
 
@@ -199,8 +143,8 @@ na_mdai_alloc(VALUE ary)
     mdai->capa = n;
     mdai->item = ALLOC_N( na_mdai_item_t, n );
     for (i=0; i<n; i++) {
-	mdai->item[i].shape = 0;
-	mdai->item[i].val = Qnil;
+        mdai->item[i].shape = 0;
+        mdai->item[i].val = Qnil;
     }
     mdai->item[0].val = ary;
     mdai->type = NA_NONE;
@@ -219,8 +163,8 @@ na_mdai_realloc(na_mdai_t *mdai, int n_extra)
     n = mdai->capa;
     REALLOC_N( mdai->item, na_mdai_item_t, n );
     for (; i<n; i++) {
-	mdai->item[i].shape = 0;
-	mdai->item[i].val = Qnil;
+        mdai->item[i].shape = 0;
+        mdai->item[i].val = Qnil;
     }
 }
 
@@ -250,109 +194,151 @@ na_mdai_investigate(na_mdai_t *mdai, int ndim)
     for (i=0; i < RARRAY_LEN(val); i++) {
         v = RARRAY_AREF(val,i);
 
-	if (TYPE(v) == T_ARRAY) {
-	    /* check recursive array */
-	    for (j=0; j<ndim; j++) {
-		if (mdai->item[j].val == v)
-		    rb_raise(rb_eStandardError,
-			     "cannot convert from a recursive Array to NArray");
-	    }
-	    if ( ndim >= mdai->capa ) {
-		na_mdai_realloc(mdai,4);
-	    }
-	    mdai->item[ndim].val = v;
-	    if ( na_mdai_investigate(mdai,ndim+1) ) {
-		len--; /* Array is empty */
-	    }
-	}
-	else
+        if (TYPE(v) == T_ARRAY) {
+            /* check recursive array */
+            for (j=0; j<ndim; j++) {
+                if (mdai->item[j].val == v)
+                    rb_raise(rb_eStandardError,
+                             "cannot convert from a recursive Array to NArray");
+            }
+            if ( ndim >= mdai->capa ) {
+                na_mdai_realloc(mdai,4);
+            }
+            mdai->item[ndim].val = v;
+            if ( na_mdai_investigate(mdai,ndim+1) ) {
+                len--; /* Array is empty */
+            }
+        }
+        else
         if (rb_obj_is_kind_of(v, rb_cRange) || rb_obj_is_kind_of(v, na_cStep)) {
-	    nary_step_sequence(v,&length,&dbeg,&dstep);
-	    len += length-1;
-	    na_mdai_object_type(mdai,v);
-	}
-	else {
-	    na_mdai_object_type(mdai,v);
-
-	    if (IsNArray(v)) {
-		int r;
-		narray_t *na;
-		GetNArray(v,na);
-		if ( na->ndim == 0 ) {
-		    len--; /* NArray is empty */
-		} else {
-		    if ( ndim+na->ndim > mdai->capa ) {
-			na_mdai_realloc(mdai,((na->ndim-1)/4+1)*4);
-		    }
-		    for ( j=0,r=ndim; j < na->ndim  ; j++,r++ ) {
-			if ( mdai->item[r].shape < na->shape[j] )
-			    mdai->item[r].shape = na->shape[j];
-		    }
-		}
-	    }
-	}
+            nary_step_sequence(v,&length,&dbeg,&dstep);
+            len += length-1;
+            mdai->type = na_mdai_object_type(mdai->type, v);
+        }
+        else if (IsNArray(v)) {
+            int r;
+            narray_t *na;
+            GetNArray(v,na);
+            if ( na->ndim == 0 ) {
+                len--; /* NArray is empty */
+            } else {
+                if ( ndim+na->ndim > mdai->capa ) {
+                    na_mdai_realloc(mdai,((na->ndim-1)/4+1)*4);
+                }
+                for ( j=0,r=ndim; j < na->ndim  ; j++,r++ ) {
+                    if ( mdai->item[r].shape < na->shape[j] )
+                        mdai->item[r].shape = na->shape[j];
+                }
+            }
+            // type
+            if (NIL_P(mdai->na_type)) {
+                mdai->na_type = CLASS_OF(v);
+            } else {
+                mdai->na_type = na_upcast(CLASS_OF(v), mdai->na_type);
+            }
+        } else {
+            mdai->type = na_mdai_object_type(mdai->type, v);
+        }
     }
 
     if (len==0) return 1; /* this array is empty */
     if (mdai->item[ndim-1].shape < len) {
-	mdai->item[ndim-1].shape = len;
+        mdai->item[ndim-1].shape = len;
     }
     return 0;
 }
 
-static void
-na_mdai_result(na_mdai_t *mdai, na_compose_t *nc)
-{
-    int i, ndim;
-    VALUE tp;
-    size_t *shape;
 
+static inline int
+na_mdai_ndim(na_mdai_t *mdai)
+{
+    int i;
     // Dimension
     for (i=0; i < mdai->capa && mdai->item[i].shape > 0; i++) ;
-    nc->ndim = ndim = i;
-    nc->shape = NULL;
-    nc->dtype = Qnil;
+    return i;
+}
 
-    if (ndim>0) {
-	// Shape
-        nc->shape = shape = ALLOC_N(size_t,ndim);
-        for (i=0; i<ndim; i++) {
-            shape[i] = mdai->item[i].shape;
-        }
-
-	// DataType
-	switch(mdai->type) {
-	case NA_BIT:
-	    tp = numo_cBit;
-	    break;
-	case NA_INT32:
-	    tp = numo_cInt32;
-	    break;
-	case NA_INT64:
-	    tp = numo_cInt64;
-	    break;
-	case NA_DFLOAT:
-	    tp = numo_cDFloat;
-	    break;
-	case NA_DCOMPLEX:
-	    tp = numo_cDComplex;
-	    break;
-	case NA_ROBJ:
-	    tp = numo_cRObject;
-	    break;
-	default:
-	    tp = Qnil;
-	}
-	if (!NIL_P(mdai->na_type)) {
-	    if (NIL_P(tp)) {
-		tp = mdai->na_type;
-	    } else {
-                tp = na_upcast(mdai->na_type,tp);
-	    }
-	}
-	nc->dtype = tp;
+static inline void
+na_mdai_shape(na_mdai_t *mdai, int ndim, size_t *shape)
+{
+    int i;
+    for (i=0; i<ndim; i++) {
+        shape[i] = mdai->item[i].shape;
     }
 }
+
+static VALUE
+na_mdai_dtype_numeric(int type)
+{
+    VALUE tp;
+    // DataType
+    switch(type) {
+    case NA_BIT:
+        tp = numo_cBit;
+        break;
+    case NA_INT32:
+        tp = numo_cInt32;
+        break;
+    case NA_INT64:
+        tp = numo_cInt64;
+        break;
+    case NA_DFLOAT:
+        tp = numo_cDFloat;
+        break;
+    case NA_DCOMPLEX:
+        tp = numo_cDComplex;
+        break;
+    case NA_ROBJ:
+        tp = numo_cRObject;
+        break;
+    default:
+        tp = Qnil;
+    }
+    return tp;
+}
+
+static VALUE
+na_mdai_dtype(na_mdai_t *mdai)
+{
+    VALUE tp;
+
+    tp = na_mdai_dtype_numeric(mdai->type);
+
+    if (!NIL_P(mdai->na_type)) {
+        if (NIL_P(tp)) {
+            tp = mdai->na_type;
+        } else {
+            tp = na_upcast(mdai->na_type,tp);
+        }
+    }
+    return tp;
+}
+
+
+static inline VALUE
+update_type(VALUE *ptype, VALUE dtype)
+{
+    if (ptype) {
+        if (*ptype == cNArray || !RTEST(*ptype)) {
+            *ptype = dtype;
+        } else {
+            dtype = *ptype;
+        }
+    }
+    return dtype;
+}
+
+static inline void
+check_subclass_of_narray(VALUE dtype)
+{
+    if (RTEST(rb_obj_is_kind_of(dtype, rb_cClass))) {
+        if (RTEST(rb_funcall(dtype, id_le, 1, cNArray))) {
+            return;
+        }
+    }
+    rb_raise(nary_eCastError, "cannot convert to NArray");
+}
+
 
 static size_t
 na_mdai_memsize(const void *ptr)
@@ -368,86 +354,103 @@ static const rb_data_type_t mdai_data_type = {
     0, 0, RUBY_TYPED_FREE_IMMEDIATELY|RUBY_TYPED_WB_PROTECTED
 };
 
-VALUE
-na_ary_composition(VALUE ary)
-{
-    volatile VALUE vmdai, vnc;
-    na_mdai_t *mdai;
-    na_compose_t *nc;
-    int j;
 
-    nc = na_compose_alloc();
-    vnc = WrapCompose(nc);
-    if (TYPE(ary) == T_ARRAY) {
-        mdai = na_mdai_alloc(ary);
-        vmdai = TypedData_Wrap_Struct(rb_cData, &mdai_data_type, (void*)mdai);
-        if ( na_mdai_investigate(mdai, 1) ) {
-            // empty
-            nc->ndim = 1;
-            nc->shape = ALLOC_N(size_t, 1);
-            nc->shape[0] = 0;
-            nc->dtype = Qnil;
-        } else {
-            na_mdai_result(mdai, nc);
+static void
+na_composition3_ary(VALUE ary, VALUE *ptype, VALUE *pshape, VALUE *pnary)
+{
+    VALUE vmdai;
+    na_mdai_t *mdai;
+    int i, ndim;
+    size_t *shape;
+    VALUE dtype, dshape;
+
+    mdai = na_mdai_alloc(ary);
+    vmdai = TypedData_Wrap_Struct(rb_cData, &mdai_data_type, (void*)mdai);
+    if ( na_mdai_investigate(mdai, 1) ) {
+        // empty
+        dtype = update_type(ptype, numo_cInt32);
+        if (pshape) {
+            *pshape = rb_ary_new3(1, INT2FIX(0));
         }
-        rb_gc_force_recycle(vmdai);
-    } else if (IsNArray(ary)) {
-        narray_t *na;
-        GetNArray(ary,na);
-        nc->ndim = na->ndim;
-        nc->shape = ALLOC_N(size_t, na->ndim);
-        for (j=0; j<na->ndim; j++) {
-            nc->shape[j] = na->shape[j];
+        if (pnary) {
+            check_subclass_of_narray(dtype);
+            shape = ALLOCA_N(size_t, 1);
+            shape[0] = 0;
+            *pnary = nary_new(dtype, 1, shape);
         }
-        nc->dtype = CLASS_OF(ary);
     } else {
-        rb_bug("invalid type for md-array: %s", rb_class2name(CLASS_OF(ary)));
+        ndim = na_mdai_ndim(mdai);
+        shape = ALLOCA_N(size_t, ndim);
+        na_mdai_shape(mdai, ndim, shape);
+        dtype = update_type(ptype, na_mdai_dtype(mdai));
+        if (pshape) {
+            dshape = rb_ary_new2(ndim);
+            for (i=0; i<ndim; i++) {
+                rb_ary_push(dshape, SIZET2NUM(shape[i]));
+            }
+            *pshape = dshape;
+        }
+        if (pnary) {
+            check_subclass_of_narray(dtype);
+            *pnary = nary_new(dtype, ndim, shape);
+        }
     }
-    return vnc;
+    rb_gc_force_recycle(vmdai);
 }
 
 
 static void
-na_ary_composition2(VALUE ary, VALUE *type, VALUE *shape)
+na_composition3(VALUE obj, VALUE *ptype, VALUE *pshape, VALUE *pnary)
 {
-    VALUE vnc, dshape;
-    na_compose_t *nc;
-    int i;
+    VALUE dtype, dshape;
 
-    // investigate MD-Array
-    vnc = na_ary_composition(ary);
-    GetCompose(vnc,nc);
-    dshape = rb_ary_new2(nc->ndim);
-    for (i=0; i<nc->ndim; i++) {
-        rb_ary_push(dshape, SIZET2NUM(nc->shape[i]));
+    if (TYPE(obj) == T_ARRAY) {
+        na_composition3_ary(obj, ptype, pshape, pnary);
     }
-    if (shape) {*shape = dshape;}
-    if (type) {*type = nc->dtype;}
-    RB_GC_GUARD(vnc);
+    else if (RTEST(rb_obj_is_kind_of(obj,rb_cNumeric))) {
+        dtype = na_mdai_dtype_numeric(na_mdai_object_type(NA_NONE, obj));
+        dtype = update_type(ptype, dtype);
+        if (pshape) {
+            *pshape = rb_ary_new();
+        }
+        if (pnary) {
+            check_subclass_of_narray(dtype);
+            *pnary = nary_new(dtype, 0, 0);
+        }
+    }
+    else if (IsNArray(obj)) {
+        int i, ndim;
+        narray_t *na;
+        GetNArray(obj,na);
+        ndim = na->ndim;
+        dtype = update_type(ptype, CLASS_OF(obj));
+        if (pshape) {
+            dshape = rb_ary_new2(ndim);
+            for (i=0; i<ndim; i++) {
+                rb_ary_push(dshape, SIZET2NUM(na->shape[i]));
+            }
+            *pshape = dshape;
+        }
+        if (pnary) {
+            *pnary = nary_new(dtype, ndim, na->shape);
+        }
+    } else {
+        rb_bug("invalid type for md-array: %s", rb_class2name(CLASS_OF(obj)));
+    }
 }
+
 
 static VALUE
 na_s_array_shape(VALUE mod, VALUE ary)
 {
     VALUE shape;
 
-    if (TYPE(ary)!=T_ARRAY) {
-	// 0-dimension
-	return rb_ary_new();
+    if (TYPE(ary) != T_ARRAY) {
+        // 0-dimension
+        return rb_ary_new();
     }
-    na_ary_composition2(ary, 0, &shape);
+    na_composition3(ary, 0, &shape, 0);
     return shape;
-}
-
-static inline void
-check_subclass_of_narray(VALUE dtype)
-{
-    if (RTEST(rb_obj_is_kind_of(dtype, rb_cClass))) {
-        if (RTEST(rb_funcall(dtype, id_le, 1, cNArray))) {
-            return;
-        }
-    }
-    rb_raise(nary_eCastError, "cannot convert to NArray");
 }
 
 
@@ -470,29 +473,16 @@ check_subclass_of_narray(VALUE dtype)
 VALUE
 na_s_new_like(VALUE type, VALUE obj)
 {
-    VALUE vnc, newary;
-    na_compose_t *nc;
+    VALUE newary;
 
     if (RTEST(rb_obj_is_kind_of(obj,rb_cNumeric))) {
-        // investigate type
-        if (type == cNArray) {
-            vnc = na_ary_composition(rb_ary_new3(1,obj));
-            GetCompose(vnc,nc);
-            type = nc->dtype;
-        }
+        na_composition3(rb_ary_new3(1,obj), &type, 0, 0);
         check_subclass_of_narray(type);
         newary = nary_new(type, 0, 0);
     } else {
         // investigate MD-Array
-        vnc = na_ary_composition(obj);
-        GetCompose(vnc,nc);
-        if (type == cNArray) {
-            type = nc->dtype;
-        }
-        check_subclass_of_narray(type);
-        newary = nary_new(type, nc->ndim, nc->shape);
+        na_composition3(obj, &type, 0, &newary);
     }
-    RB_GC_GUARD(vnc);
     return newary;
 }
 
@@ -500,16 +490,10 @@ na_s_new_like(VALUE type, VALUE obj)
 VALUE
 na_ary_composition_dtype(VALUE ary)
 {
-    volatile VALUE vnc;
-    na_compose_t *nc;
+    VALUE type = Qnil;
 
-    switch(TYPE(ary)) {
-    case T_ARRAY:
-        vnc = na_ary_composition(ary);
-        GetCompose(vnc,nc);
-        return nc->dtype;
-    }
-    return CLASS_OF(ary);
+    na_composition3(ary, &type, 0, 0);
+    return type;
 }
 
 static VALUE
@@ -517,8 +501,6 @@ na_s_array_type(VALUE mod, VALUE ary)
 {
     return na_ary_composition_dtype(ary);
 }
-
-
 
 
 /*
@@ -651,7 +633,6 @@ na_ary_composition_for_struct(VALUE nstruct, VALUE ary)
 void
 Init_nary_array()
 {
-    //rb_define_singleton_method(cNArray, "mdai", na_mdai, 1);
     rb_define_singleton_method(cNArray, "array_shape", na_s_array_shape, 1);
     rb_define_singleton_method(cNArray, "array_type", na_s_array_type, 1);
     rb_define_singleton_method(cNArray, "new_like", na_s_new_like, 1);
