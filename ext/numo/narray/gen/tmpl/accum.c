@@ -18,7 +18,7 @@ static void
   <%=name%> of self.
 <% if is_float %>
   @overload <%=name%>(axis:nil, nan:false)
-  @param [TrueClass] nan  If true, propagete NaN. If false, ignore NaN.
+  @param [TrueClass] nan  If true, apply NaN-aware algorithm (avoid NaN for sum/mean etc, or, return NaN for min/max etc).
 <% else %>
   @overload <%=name%>(axis:nil)
 <% end %>
