@@ -138,6 +138,18 @@ static inline dtype pow_int(dtype x, int p)
     return r;
 }
 
+static inline dtype f_sum(size_t n, char *p, ssize_t stride)
+{
+    size_t i=n;
+    dtype x,y=0;
+
+    for (; i--;) {
+        x = *(dtype*)p;
+        p += stride;
+        y += x;
+    }
+    return y;
+}
 
 static inline dtype f_sum_nan(size_t n, char *p, ssize_t stride)
 {
@@ -146,45 +158,10 @@ static inline dtype f_sum_nan(size_t n, char *p, ssize_t stride)
 
     for (; i--;) {
         x = *(dtype*)p;
-        y += x;
         p += stride;
-    }
-    return y;
-}
-
-static inline dtype f_sum(size_t n, char *p, ssize_t stride)
-{
-    size_t i=n;
-    dtype x,y=0;
-
-    for (; i--;) {
-        x = *(dtype*)p;
         if (!m_isnan(x)) {
             y += x;
         }
-        p += stride;
-    }
-    return y;
-}
-
-static inline dtype f_kahan_sum_nan(size_t n, char *p, ssize_t stride)
-{
-    size_t i=n;
-    dtype x;
-    volatile dtype y=0;
-    volatile dtype t,r=0;
-
-    for (; i--;) {
-        x = *(dtype*)p;
-        if (fabs(x) > fabs(y)) {
-            dtype z=x; x=y; y=z;
-        }
-        r += x;
-        t = y;
-        y += r;
-        t = y-t;
-        r -= t;
-        p += stride;
     }
     return y;
 }
@@ -198,6 +175,29 @@ static inline dtype f_kahan_sum(size_t n, char *p, ssize_t stride)
 
     for (; i--;) {
         x = *(dtype*)p;
+        p += stride;
+        if (fabs(x) > fabs(y)) {
+            dtype z=x; x=y; y=z;
+        }
+        r += x;
+        t = y;
+        y += r;
+        t = y-t;
+        r -= t;
+    }
+    return y;
+}
+
+static inline dtype f_kahan_sum_nan(size_t n, char *p, ssize_t stride)
+{
+    size_t i=n;
+    dtype x;
+    volatile dtype y=0;
+    volatile dtype t,r=0;
+
+    for (; i--;) {
+        x = *(dtype*)p;
+        p += stride;
         if (!m_isnan(x)) {
             if (fabs(x) > fabs(y)) {
                 dtype z=x; x=y; y=z;
@@ -208,20 +208,6 @@ static inline dtype f_kahan_sum(size_t n, char *p, ssize_t stride)
             t = y-t;
             r -= t;
         }
-        p += stride;
-    }
-    return y;
-}
-
-static inline dtype f_prod_nan(size_t n, char *p, ssize_t stride)
-{
-    size_t i=n;
-    dtype x,y=1;
-
-    for (; i--;) {
-        x = *(dtype*)p;
-        y *= x;
-        p += stride;
     }
     return y;
 }
@@ -233,27 +219,25 @@ static inline dtype f_prod(size_t n, char *p, ssize_t stride)
 
     for (; i--;) {
         x = *(dtype*)p;
-        if (!m_isnan(x)) {
-            y *= x;
-        }
         p += stride;
+        y *= x;
     }
     return y;
 }
 
-static inline dtype f_mean_nan(size_t n, char *p, ssize_t stride)
+static inline dtype f_prod_nan(size_t n, char *p, ssize_t stride)
 {
     size_t i=n;
-    size_t count=0;
-    dtype x,y=0;
+    dtype x,y=1;
 
     for (; i--;) {
         x = *(dtype*)p;
-        y += x;
-        count++;
         p += stride;
+        if (!m_isnan(x)) {
+            y *= x;
+        }
     }
-    return y/count;
+    return y;
 }
 
 static inline dtype f_mean(size_t n, char *p, ssize_t stride)
@@ -264,16 +248,31 @@ static inline dtype f_mean(size_t n, char *p, ssize_t stride)
 
     for (; i--;) {
         x = *(dtype*)p;
-        if (!m_isnan(x)) {
-            y += x;
-            count++;
-        }
         p += stride;
+        y += x;
+        count++;
     }
     return y/count;
 }
 
-static inline dtype f_var_nan(size_t n, char *p, ssize_t stride)
+static inline dtype f_mean_nan(size_t n, char *p, ssize_t stride)
+{
+    size_t i=n;
+    size_t count=0;
+    dtype x,y=0;
+
+    for (; i--;) {
+        x = *(dtype*)p;
+        p += stride;
+        if (!m_isnan(x)) {
+            y += x;
+            count++;
+        }
+    }
+    return y/count;
+}
+
+static inline dtype f_var(size_t n, char *p, ssize_t stride)
 {
     size_t i=n;
     size_t count=0;
@@ -284,15 +283,15 @@ static inline dtype f_var_nan(size_t n, char *p, ssize_t stride)
 
     for (; i--;) {
         x = *(dtype*)p;
+        p += stride;
         a = x - m;
         y += a*a;
         count++;
-        p += stride;
     }
     return y/(count-1);
 }
 
-static inline dtype f_var(size_t n, char *p, ssize_t stride)
+static inline dtype f_var_nan(size_t n, char *p, ssize_t stride)
 {
     size_t i=n;
     size_t count=0;
@@ -303,19 +302,14 @@ static inline dtype f_var(size_t n, char *p, ssize_t stride)
 
     for (; i--;) {
         x = *(dtype*)p;
+        p += stride;
         if (!m_isnan(x)) {
             a = x - m;
             y += a*a;
             count++;
         }
-        p += stride;
     }
     return y/(count-1);
-}
-
-static inline dtype f_stddev_nan(size_t n, char *p, ssize_t stride)
-{
-    return m_sqrt(f_var_nan(n,p,stride));
 }
 
 static inline dtype f_stddev(size_t n, char *p, ssize_t stride)
@@ -323,19 +317,9 @@ static inline dtype f_stddev(size_t n, char *p, ssize_t stride)
     return m_sqrt(f_var(n,p,stride));
 }
 
-static inline dtype f_rms_nan(size_t n, char *p, ssize_t stride)
+static inline dtype f_stddev_nan(size_t n, char *p, ssize_t stride)
 {
-    size_t i=n;
-    size_t count=0;
-    dtype x,y=0;
-
-    for (; i--;) {
-        x = *(dtype*)p;
-        y += x*x;
-        count++;
-        p += stride;
-    }
-    return m_sqrt(y/count);
+    return m_sqrt(f_var_nan(n,p,stride));
 }
 
 static inline dtype f_rms(size_t n, char *p, ssize_t stride)
@@ -346,11 +330,26 @@ static inline dtype f_rms(size_t n, char *p, ssize_t stride)
 
     for (; i--;) {
         x = *(dtype*)p;
+        p += stride;
+        y += x*x;
+        count++;
+    }
+    return m_sqrt(y/count);
+}
+
+static inline dtype f_rms_nan(size_t n, char *p, ssize_t stride)
+{
+    size_t i=n;
+    size_t count=0;
+    dtype x,y=0;
+
+    for (; i--;) {
+        x = *(dtype*)p;
+        p += stride;
         if (!m_isnan(x)) {
             y += x*x;
             count++;
         }
-        p += stride;
     }
     return m_sqrt(y/count);
 }
@@ -361,16 +360,15 @@ static inline dtype f_min_nan(size_t n, char *p, ssize_t stride)
     size_t i=n;
 
     y = *(dtype*)p;
-    if (m_isnan(y)) {return y;}
     p += stride;
-    i--;
-    for (; i--;) {
+    if (m_isnan(y)) {return y;}
+    for (i--; i--;) {
         x = *(dtype*)p;
+        p += stride;
         if (m_isnan(x)) {return x;}
-        if (x<y) {
+        if (m_lt(x,y)) {
             y = x;
         }
-        p += stride;
     }
     return y;
 }
@@ -380,15 +378,19 @@ static inline dtype f_min(size_t n, char *p, ssize_t stride)
     dtype x,y;
     size_t i=n;
 
-    y = *(dtype*)p;
-    p += stride;
-    i--;
+    for (; i--;) {
+        y = *(dtype*)p;
+        p += stride;
+        if (!m_isnan(y)) {
+            break;
+        }
+    }
     for (; i--;) {
         x = *(dtype*)p;
-        if (!m_isnan(x) && (m_isnan(y) || x<y)) {
+        p += stride;
+        if (m_lt(x,y)) {
             y = x;
         }
-        p += stride;
     }
     return y;
 }
@@ -399,16 +401,15 @@ static inline dtype f_max_nan(size_t n, char *p, ssize_t stride)
     size_t i=n;
 
     y = *(dtype*)p;
-    if (m_isnan(y)) {return y;}
     p += stride;
-    i--;
-    for (; i--;) {
+    if (m_isnan(y)) {return y;}
+    for (i--; i--;) {
         x = *(dtype*)p;
+        p += stride;
         if (m_isnan(x)) {return x;}
-        if (x>y) {
+        if (m_gt(x,y)) {
             y = x;
         }
-        p += stride;
     }
     return y;
 }
@@ -418,15 +419,19 @@ static inline dtype f_max(size_t n, char *p, ssize_t stride)
     dtype x,y;
     size_t i=n;
 
-    y = *(dtype*)p;
-    p += stride;
-    i--;
+    for (; i--;) {
+        y = *(dtype*)p;
+        p += stride;
+        if (!m_isnan(y)) {
+            break;
+        }
+    }
     for (; i--;) {
         x = *(dtype*)p;
-        if (!m_isnan(x) && (m_isnan(y) || x>y)) {
+        p += stride;
+        if (m_gt(x,y)) {
             y = x;
         }
-        p += stride;
     }
     return y;
 }
@@ -437,11 +442,13 @@ static inline size_t f_min_index_nan(size_t n, char *p, ssize_t stride)
     size_t i, j=0;
 
     y = *(dtype*)p;
+    p += stride;
     if (m_isnan(y)) {return j;}
     for (i=1; i<n; i++) {
-        x = *(dtype*)(p+i*stride);
+        x = *(dtype*)p;
+        p += stride;
         if (m_isnan(x)) {return i;}
-        if (x<y) {
+        if (m_lt(x,y)) {
             y = x;
             j = i;
         }
@@ -454,10 +461,18 @@ static inline size_t f_min_index(size_t n, char *p, ssize_t stride)
     dtype x, y;
     size_t i, j=0;
 
-    y = *(dtype*)p;
-    for (i=1; i<n; i++) {
-        x = *(dtype*)(p+i*stride);
-        if (!m_isnan(x) && (m_isnan(y) || x<y)) {
+    for (i=0; i<n; i++) {
+        y = *(dtype*)p;
+        p += stride;
+        if (!m_isnan(y)) {
+            j = i;
+            break;
+        }
+    }
+    for (; i<n; i++) {
+        x = *(dtype*)p;
+        p += stride;
+        if (m_lt(x,y)) {
             y = x;
             j = i;
         }
@@ -471,11 +486,13 @@ static inline size_t f_max_index_nan(size_t n, char *p, ssize_t stride)
     size_t i, j=0;
 
     y = *(dtype*)p;
+    p += stride;
     if (m_isnan(y)) {return j;}
     for (i=1; i<n; i++) {
-        x = *(dtype*)(p+i*stride);
+        x = *(dtype*)p;
+        p += stride;
         if (m_isnan(x)) {return i;}
-        if (x>y) {
+        if (m_gt(x,y)) {
             y = x;
             j = i;
         }
@@ -488,10 +505,18 @@ static inline size_t f_max_index(size_t n, char *p, ssize_t stride)
     dtype x, y;
     size_t i, j=0;
 
-    y = *(dtype*)p;
-    for (i=1; i<n; i++) {
-        x = *(dtype*)(p+i*stride);
-        if (!m_isnan(x) && (m_isnan(y) || x>y)) {
+    for (i=0; i<n; i++) {
+        y = *(dtype*)p;
+        p += stride;
+        if (!m_isnan(y)) {
+            j = i;
+            break;
+        }
+    }
+    for (; i<n; i++) {
+        x = *(dtype*)p;
+        p += stride;
+        if (m_gt(x,y)) {
             y = x;
             j = i;
         }
@@ -506,14 +531,14 @@ f_minmax_nan(size_t n, char *p, ssize_t stride, dtype *amin, dtype *amax)
     size_t i=n;
 
     min = max = *(dtype*)p;
+    p += stride;
     if (m_isnan(x)) {
         *amin = *amax = min;
         return;
     }
-    p += stride;
-    i--;
-    for (; i--;) {
+    for (i--; i--;) {
         x = *(dtype*)p;
+        p += stride;
         if (m_isnan(x)) {
             *amin = *amax = x;
             return;
@@ -524,7 +549,6 @@ f_minmax_nan(size_t n, char *p, ssize_t stride, dtype *amin, dtype *amax)
         if (m_gt(x,max)) {
             max = x;
         }
-        p += stride;
     }
     *amin = min;
     *amax = max;
@@ -544,20 +568,23 @@ f_minmax(size_t n, char *p, ssize_t stride, dtype *amin, dtype *amax)
     dtype x,min,max;
     size_t i=n;
 
-    min = max = *(dtype*)p;
-    p += stride;
-    i--;
+    for (; i--;) {
+        min = *(dtype*)p;
+        p += stride;
+        if (!m_isnan(min)) {
+            max = min;
+            break;
+        }
+    }
     for (; i--;) {
         x = *(dtype*)p;
-        if (!m_isnan(x)) {
-            if (m_isnan(min) || m_lt(x,min)) {
-                min = x;
-            }
-            if (m_isnan(max) || m_gt(x,max)) {
-                max = x;
-            }
-        }
         p += stride;
+        if (m_lt(x,min)) {
+            min = x;
+        }
+        if (m_gt(x,max)) {
+            max = x;
+        }
     }
     *amin = min;
     *amax = max;

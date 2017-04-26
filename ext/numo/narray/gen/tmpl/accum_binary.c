@@ -63,14 +63,13 @@ static VALUE
 
 <% if is_float %>
   @overload <%=op_map%>(other, axis:nil, nan:false)
-  @param [TrueClass] nan  If true, propagete NaN. If false, ignore NaN.
 <% else %>
   @overload <%=op_map%>(other, axis:nil)
 <% end %>
   @param [Numo::NArray,Numeric] other
   @param [Numeric,Array,Range] axis  Affected dimensions.
 <% if is_float %>
-  @param [TrueClass] nan  If true, propagete NaN. If false, ignore NaN.
+  @param [TrueClass] nan  If true, apply NaN-aware algorithm (avoid NaN if exists).
 <% end %>
   @return [Numo::NArray] <%=name%> of self and other.
 */

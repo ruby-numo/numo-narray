@@ -28,7 +28,7 @@ static void
   <%=name%> of self.
   @overload <%=name%>(axis:nil, nan:false)
   @param [Numeric,Array,Range] axis  Affected dimensions.
-  @param [TrueClass] nan  If true, propagete NaN. If false, ignore NaN.
+  @param [TrueClass] nan  If true, apply NaN-aware algorithm (avoid NaN if exists).
   @return [Numo::<%=class_name%>] <%=name%> of self.
 */
 static VALUE
