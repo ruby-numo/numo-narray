@@ -55,7 +55,6 @@ static void
 static VALUE
 <%=c_func(-1)%>(int argc, VALUE *argv, VALUE self)
 {
-    int nan = 0;
     size_t size;
     narray_t *na;
     VALUE idx, tmp, reduce, res;
@@ -63,8 +62,6 @@ static VALUE
     ndfunc_arg_in_t ain[3] = {{cT,0},{0,0},{sym_reduce,0}};
     ndfunc_arg_out_t aout[1] = {{0,0,0}};
     ndfunc_t ndf = {0, STRIDE_LOOP_NIP|NDF_FLAT_REDUCE|NDF_CUM, 3,1, ain,aout};
-
-    reduce = na_reduce_dimension(argc, argv, 1, &self, &nan); // v[0] = self
 
     GetNArray(self,na);
     if (na->ndim==0) {
@@ -74,28 +71,26 @@ static VALUE
         ain[1].type =
         aout[0].type = numo_cInt64;
         idx = nary_new(numo_cInt64, na->ndim, na->shape);
-<% if is_float %>
-        if (nan) {
-            ndf.func = <%=type_name%>_index64_qsort_prnan;
-        } else {
-            ndf.func = <%=type_name%>_index64_qsort_ignan;
-        }
-<% else %>
-        ndf.func = <%=type_name%>_index64_qsort;
-<% end %>
+       <% if is_float %>
+         ndf.func = <%=type_name%>_index64_qsort_ignan;
+         reduce = na_reduce_dimension(argc, argv, 1, &self, &ndf,
+                                      <%=type_name%>_index64_qsort_prnan);
+       <% else %>
+         ndf.func = <%=type_name%>_index64_qsort;
+         reduce = na_reduce_dimension(argc, argv, 1, &self, &ndf, 0);
+       <% end %>
     } else {
         ain[1].type =
         aout[0].type = numo_cInt32;
         idx = nary_new(numo_cInt32, na->ndim, na->shape);
-<% if is_float %>
-        if (nan) {
-            ndf.func = <%=type_name%>_index32_qsort_prnan;
-        } else {
-            ndf.func = <%=type_name%>_index32_qsort_ignan;
-        }
-<% else %>
-        ndf.func = <%=type_name%>_index32_qsort;
-<% end %>
+       <% if is_float %>
+         ndf.func = <%=type_name%>_index32_qsort_ignan;
+         reduce = na_reduce_dimension(argc, argv, 1, &self, &ndf,
+                                      <%=type_name%>_index32_qsort_prnan);
+       <% else %>
+         ndf.func = <%=type_name%>_index32_qsort;
+         reduce = na_reduce_dimension(argc, argv, 1, &self, &ndf, 0);
+       <% end %>
     }
     rb_funcall(idx, rb_intern("seq"), 0);
 

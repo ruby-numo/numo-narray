@@ -17,33 +17,33 @@ static void
 /*
   <%=name%> of self.
 <% if is_float %>
-  @overload <%=name%>(axis:nil, nan:false)
+  @overload <%=name%>(axis:nil, keepdims:false, nan:false)
   @param [TrueClass] nan  If true, apply NaN-aware algorithm (avoid NaN for sum/mean etc, or, return NaN for min/max etc).
 <% else %>
-  @overload <%=name%>(axis:nil)
+  @overload <%=name%>(axis:nil, keepdims:false)
 <% end %>
-  @param [Numeric,Array,Range] axis  Affected dimensions.
+  @param [Numeric,Array,Range] axis (keyword) Affected dimensions.
+  @param [TrueClass] keepdims (keyword) If true, the reduced axes are left in the result array as dimensions with size one.
+Affected dimensions.
   @return [Numo::<%=class_name%>] returns result of <%=name%>.
 */
 static VALUE
 <%=c_func(-1)%>(int argc, VALUE *argv, VALUE self)
 {
-    int ignore_nan = 0;
     VALUE v, reduce;
     ndfunc_arg_in_t ain[2] = {{cT,0},{sym_reduce,0}};
     ndfunc_arg_out_t aout[1] = {{<%=result_class%>,0}};
     ndfunc_t ndf = { <%=c_iter%>, STRIDE_LOOP_NIP|NDF_FLAT_REDUCE, 2, 1, ain, aout };
 
-    reduce = na_reduce_dimension(argc, argv, 1, &self, &ignore_nan);
-<% if is_float %>
-    if (ignore_nan) {
-        ndf.func = <%=c_iter%>_nan;
-    }
-<% end %>
+  <% if is_float %>
+    reduce = na_reduce_dimension(argc, argv, 1, &self, &ndf, <%=c_iter%>_nan);
+  <% else %>
+    reduce = na_reduce_dimension(argc, argv, 1, &self, &ndf, 0);
+  <% end %>
     v =  na_ndloop(&ndf, 2, self, reduce);
-<% if result_class == "cT" %>
+  <% if result_class == "cT" %>
     return <%=type_name%>_extract(v);
-<% else %>
+  <% else %>
     return rb_funcall(v,rb_intern("extract"),0);
-<% end %>
+  <% end %>
 }

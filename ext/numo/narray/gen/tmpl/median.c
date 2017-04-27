@@ -34,34 +34,31 @@ static void
 /*
   <%=name%> of self.
 <% if is_float %>
-  @overload <%=name%>(axis:nil, nan:false)
-  @param [TrueClass] nan  If true, propagete NaN. If false, ignore NaN.
+  @overload <%=name%>(axis:nil, keepdims:false, nan:false)
+  @param [TrueClass] nan (keyword) If true, propagete NaN. If false, ignore NaN.
 <% else %>
-  @overload <%=name%>(axis:nil)
+  @overload <%=name%>(axis:nil, keepdims:false)
 <% end %>
-  @param [Numeric,Array,Range] axis  Affected dimensions.
+  @param [Numeric,Array,Range] axis (keyword) Affected dimensions.
+  @param [TrueClass] keepdims (keyword) If true, the reduced axes are left in the result array as dimensions with size one.
   @return [Numo::<%=class_name%>] returns <%=name%> of self.
 */
 
 static VALUE
 <%=c_func(-1)%>(int argc, VALUE *argv, VALUE self)
 {
-    int nan = 0;
     VALUE reduce;
     ndfunc_arg_in_t ain[2] = {{OVERWRITE,0},{sym_reduce,0}};
     ndfunc_arg_out_t aout[1] = {{INT2FIX(0),0}};
     ndfunc_t ndf = {0, NDF_HAS_LOOP|NDF_FLAT_REDUCE, 2,1, ain,aout};
 
     self = na_copy(self); // as temporary buffer
-    reduce = na_reduce_dimension(argc, argv, 1, &self, &nan); // v[0] = self
-<% if is_float %>
-    if (nan) {
-        ndf.func = <%=c_iter%>_prnan;
-    } else {
-        ndf.func = <%=c_iter%>_ignan;
-    }
-<% else %>
+  <% if is_float %>
+    ndf.func = <%=c_iter%>_ignan;
+    reduce = na_reduce_dimension(argc, argv, 1, &self, &ndf, <%=c_iter%>_prnan);
+  <% else %>
     ndf.func = <%=c_iter%>;
-<% end %>
+    reduce = na_reduce_dimension(argc, argv, 1, &self, &ndf, 0);
+  <% end %>
     return na_ndloop(&ndf, 2, self, reduce);
 }

@@ -66,8 +66,9 @@ static void
 /*
   Returns the number of bits.
   If argument is supplied, return Int-array counted along the axes.
-  @overload <%=op_map%>(axis:nil)
-  @param [Integer,Array,Range] axis  axes to be counted.
+  @overload <%=op_map%>(axis:nil, keepdims:false)
+  @param [Integer,Array,Range] axis (keyword) axes to be counted.
+  @param [TrueClass] keepdims (keyword) If true, the reduced axes are left in the result array as dimensions with size one.
   @return [Numo::Int64]
 */
 static VALUE
@@ -78,7 +79,7 @@ static VALUE
     ndfunc_arg_out_t aout[1] = {{numo_cInt64,0}};
     ndfunc_t ndf = { <%=c_iter%>, FULL_LOOP_NIP, 3, 1, ain, aout };
 
-    reduce = na_reduce_dimension(argc, argv, 1, &self, 0);
+    reduce = na_reduce_dimension(argc, argv, 1, &self, &ndf, 0);
     v = na_ndloop(&ndf, 3, self, reduce, INT2FIX(0));
     return rb_funcall(v,rb_intern("extract"),0);
 }

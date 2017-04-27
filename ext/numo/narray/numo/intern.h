@@ -72,7 +72,8 @@ void na_release_lock(VALUE); // currently do nothing
 
 // used in reduce methods
 #define na_reduce_dimension nary_reduce_dimension
-VALUE nary_reduce_dimension(int argc, VALUE *argv, int naryc, VALUE *naryv, int *ignore_nan);
+VALUE nary_reduce_dimension(int argc, VALUE *argv, int naryc, VALUE *naryv,
+                            ndfunc_t *ndf, na_iter_func_t nan_iter);
 
 // ndloop
 VALUE na_ndloop(ndfunc_t *nf, int argc, ...);
