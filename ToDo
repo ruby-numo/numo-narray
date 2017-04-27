@@ -33,8 +33,10 @@
 
 * how to get the element size value effectively -- done
 
+* introduce keyword :keepdims (keep dimension/axis) for reduce_dimension. -- done
 
-* refactoring array.c: avoid using na_compose_t and na_ary_composition.
+* refactoring array.c: avoid using na_compose_t and na_ary_composition. -- done
+
 
 * NMath.sin => DFloat.sin ??
 
