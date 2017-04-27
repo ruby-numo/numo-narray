@@ -215,22 +215,21 @@ static inline dtype f_min_nan(size_t n, char *p, ssize_t stride)
 
 static inline dtype f_min(size_t n, char *p, ssize_t stride)
 {
-    dtype x,y;
+    dtype x,y=m_zero;
     size_t i=n;
 
-    y = m_zero;
-    for (; i; i--) {
+    for (; i--; ) {
         y = *(dtype*)p;
         p += stride;
         if (!m_isnan(y)) {
+            for (; i--;) {
+                x = *(dtype*)p;
+                p += stride;
+                if (m_lt(x,y)) {
+                    y = x;
+                }
+            }
             break;
-        }
-    }
-    for (; i--;) {
-        x = *(dtype*)p;
-        p += stride;
-        if (m_lt(x,y)) {
-            y = x;
         }
     }
     return y;
@@ -257,22 +256,21 @@ static inline dtype f_max_nan(size_t n, char *p, ssize_t stride)
 
 static inline dtype f_max(size_t n, char *p, ssize_t stride)
 {
-    dtype x,y;
+    dtype x,y=m_zero;
     size_t i=n;
 
-    y = m_zero;
-    for (; i; i--) {
+    for (; i--; ) {
         y = *(dtype*)p;
         p += stride;
         if (!m_isnan(y)) {
+            for (; i--;) {
+                x = *(dtype*)p;
+                p += stride;
+                if (m_gt(x,y)) {
+                    y = x;
+                }
+            }
             break;
-        }
-    }
-    for (; i--;) {
-        x = *(dtype*)p;
-        p += stride;
-        if (m_gt(x,y)) {
-            y = x;
         }
     }
     return y;
@@ -308,15 +306,15 @@ static inline size_t f_min_index(size_t n, char *p, ssize_t stride)
         p += stride;
         if (!m_isnan(y)) {
             j = i;
+            for (; i<n; i++) {
+                x = *(dtype*)p;
+                p += stride;
+                if (m_lt(x,y)) {
+                    y = x;
+                    j = i;
+                }
+            }
             break;
-        }
-    }
-    for (; i<n; i++) {
-        x = *(dtype*)p;
-        p += stride;
-        if (m_lt(x,y)) {
-            y = x;
-            j = i;
         }
     }
     return j;
@@ -352,15 +350,15 @@ static inline size_t f_max_index(size_t n, char *p, ssize_t stride)
         p += stride;
         if (!m_isnan(y)) {
             j = i;
+            for (; i<n; i++) {
+                x = *(dtype*)p;
+                p += stride;
+                if (m_gt(x,y)) {
+                    y = x;
+                    j = i;
+                }
+            }
             break;
-        }
-    }
-    for (; i<n; i++) {
-        x = *(dtype*)p;
-        p += stride;
-        if (m_gt(x,y)) {
-            y = x;
-            j = i;
         }
     }
     return j;
@@ -411,22 +409,22 @@ f_minmax(size_t n, char *p, ssize_t stride, dtype *amin, dtype *amax)
     size_t i=n;
 
     min = max = m_zero;
-    for (; i; i--) {
+    for (; i--; ) {
         min = *(dtype*)p;
         p += stride;
         if (!m_isnan(min)) {
             max = min;
+            for (; i--;) {
+                x = *(dtype*)p;
+                p += stride;
+                if (m_lt(x,min)) {
+                    min = x;
+                }
+                if (m_gt(x,max)) {
+                    max = x;
+                }
+            }
             break;
-        }
-    }
-    for (; i--;) {
-        x = *(dtype*)p;
-        p += stride;
-        if (m_lt(x,min)) {
-            min = x;
-        }
-        if (m_gt(x,max)) {
-            max = x;
         }
     }
     *amin = min;
