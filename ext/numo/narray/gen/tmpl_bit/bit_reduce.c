@@ -98,8 +98,9 @@ static void
   Return true if all of bits are one (true).
 <% end %>
   If argument is supplied, return Bit-array reduced along the axes.
-  @overload <%=op_map%>(axis:nil)
-  @param [Integer,Array,Range] axis  axes to be reduced.
+  @overload <%=op_map%>(axis:nil, keepdims:false)
+  @param [Integer,Array,Range] axis (keyword) axes to be reduced.
+  @param [TrueClass] keepdims (keyword) If true, the reduced axes are left in the result array as dimensions with size one.
   @return [Numo::Bit] .
 */
 static VALUE
@@ -110,7 +111,7 @@ static VALUE
     ndfunc_arg_out_t aout[1] = {{numo_cBit,0}};
     ndfunc_t ndf = {<%=c_iter%>, FULL_LOOP_NIP, 3,1, ain,aout};
 
-    reduce = na_reduce_dimension(argc, argv, 1, &self, 0);
+    reduce = na_reduce_dimension(argc, argv, 1, &self, &ndf, 0);
     v = na_ndloop(&ndf, 3, self, reduce, INT2FIX(<%=init_bit%>));
     if (argc > 0) {
         return v;

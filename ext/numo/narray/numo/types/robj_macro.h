@@ -66,10 +66,10 @@ static inline int robj_sprintf(char *s, VALUE x) {
     rb_funcall(rb_const_get(rb_mKernel,rb_intern("Math")), \
                rb_intern("sqrt"),1,x);
 
-#include "real_accum.h"
-
 static inline dtype f_seq(dtype x, dtype y, size_t c)
 {
     y = m_mul(y,SIZET2NUM(c));
     return m_add(x,y);
 }
+
+#include "real_accum.h"

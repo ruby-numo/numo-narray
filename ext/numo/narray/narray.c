@@ -32,6 +32,7 @@ static ID id_eq;
 static ID id_count_false;
 static ID id_axis;
 static ID id_nan;
+static ID id_keepdims;
 
 VALUE cPointer;
 
@@ -1042,7 +1043,7 @@ nary_reverse(int argc, VALUE *argv, VALUE self)
     VALUE view;
     VALUE reduce;
 
-    reduce = na_reduce_dimension(argc, argv, 1, &self, 0);
+    reduce = na_reduce_dimension(argc, argv, 1, &self, 0, 0);
 
     GetNArray(self,na);
     nd = na->ndim;
@@ -1448,7 +1449,8 @@ na_test_reduce(VALUE reduce, int dim)
 
 
 VALUE
-na_reduce_dimension(int argc, VALUE *argv, int naryc, VALUE *naryv, int *propagate_nan)
+na_reduce_dimension(int argc, VALUE *argv, int naryc, VALUE *naryv,
+                    ndfunc_t *ndf, na_iter_func_t iter_nan)
 {
     int ndim, ndim0;
     int row_major;
@@ -1462,12 +1464,12 @@ na_reduce_dimension(int argc, VALUE *argv, int naryc, VALUE *naryv, int *propaga
     size_t m;
     VALUE reduce;
     VALUE kw_hash = Qnil;
-    ID kw_table[2] = {id_axis,id_nan};
-    VALUE opts[2] = {Qundef,Qundef};
+    ID kw_table[3] = {id_axis,id_nan,id_keepdims};
+    VALUE opts[3] = {Qundef,Qundef,Qundef};
     VALUE axes;
 
     narg = rb_scan_args(argc, argv, "*:", &axes, &kw_hash);
-    rb_get_kwargs(kw_hash, kw_table, 0, 2, opts);
+    rb_get_kwargs(kw_hash, kw_table, 0, 3, opts);
 
     // option: axis
     if (opts[0] != Qundef && RTEST(opts[0])) {
@@ -1480,9 +1482,17 @@ na_reduce_dimension(int argc, VALUE *argv, int naryc, VALUE *naryv, int *propaga
             axes = rb_ary_new3(1,opts[0]);
         }
     }
-    // option: ignore_none
-    if (propagate_nan) {
-        *propagate_nan = (opts[1] != Qundef && RTEST(opts[1])) ? 1 : 0;
+    if (ndf) {
+        // option: nan
+        if (iter_nan && opts[1] != Qundef) {
+            if (RTEST(opts[1]))
+                ndf->func = iter_nan; // replace to nan-aware iterator function
+        }
+        // option: keepdims
+        if (opts[2] != Qundef) {
+            if (RTEST(opts[2]))
+                ndf->flag |= NDF_KEEP_DIM;
+        }
     }
 
     if (naryc<1) {
@@ -1890,6 +1900,7 @@ Init_narray()
     id_count_false = rb_intern("count_false");
     id_axis        = rb_intern("axis");
     id_nan         = rb_intern("nan");
+    id_keepdims    = rb_intern("keepdims");
 
     sym_reduce   = ID2SYM(rb_intern("reduce"));
     sym_option   = ID2SYM(rb_intern("option"));

@@ -36,14 +36,11 @@ static void
 static VALUE
 <%=c_func(-1)%>(int argc, VALUE *argv, VALUE self)
 {
-    int ignore_nan = 0;
     narray_t *na;
     VALUE idx, reduce;
     ndfunc_arg_in_t ain[3] = {{Qnil,0},{Qnil,0},{sym_reduce,0}};
     ndfunc_arg_out_t aout[1] = {{0,0,0}};
     ndfunc_t ndf = {0, STRIDE_LOOP_NIP|NDF_FLAT_REDUCE|NDF_EXTRACT, 3,1, ain,aout};
-
-    reduce = na_reduce_dimension(argc, argv, 1, &self, &ignore_nan);
 
     GetNArray(self,na);
     if (na->ndim==0) {
@@ -52,27 +49,21 @@ static VALUE
     if (na->size > (~(u_int32_t)0)) {
         aout[0].type = numo_cInt64;
         idx = nary_new(numo_cInt64, na->ndim, na->shape);
-<% if is_float %>
-        if (ignore_nan) {
-            ndf.func = <%=c_iter%>_index64_nan;
-        } else {
-            ndf.func = <%=c_iter%>_index64;
-        }
-<% else %>
         ndf.func = <%=c_iter%>_index64;
-<% end %>
+      <% if is_float %>
+        reduce = na_reduce_dimension(argc, argv, 1, &self, &ndf, <%=c_iter%>_index64_nan);
+      <% else %>
+        reduce = na_reduce_dimension(argc, argv, 1, &self, &ndf, 0);
+      <% end %>
     } else {
         aout[0].type = numo_cInt32;
         idx = nary_new(numo_cInt32, na->ndim, na->shape);
-<% if is_float %>
-        if (ignore_nan) {
-            ndf.func = <%=c_iter%>_index32_nan;
-        } else {
-            ndf.func = <%=c_iter%>_index32;
-        }
-<% else %>
         ndf.func = <%=c_iter%>_index32;
-<% end %>
+      <% if is_float %>
+        reduce = na_reduce_dimension(argc, argv, 1, &self, &ndf, <%=c_iter%>_index32_nan);
+      <% else %>
+        reduce = na_reduce_dimension(argc, argv, 1, &self, &ndf, 0);
+      <% end %>
     }
     rb_funcall(idx, rb_intern("seq"), 0);
 

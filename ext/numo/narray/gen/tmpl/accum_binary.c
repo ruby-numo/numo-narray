@@ -35,7 +35,6 @@ static void
 static VALUE
 <%=c_func%>_self(int argc, VALUE *argv, VALUE self)
 {
-    int ignore_nan = 0;
     VALUE v, reduce;
     VALUE naryv[2];
     ndfunc_arg_in_t ain[4] = {{cT,0},{cT,0},{sym_reduce,0},{sym_init,0}};
@@ -48,12 +47,12 @@ static VALUE
     // should fix below: [self.ndim,other.ndim].max or?
     naryv[0] = self;
     naryv[1] = argv[0];
-    reduce = na_reduce_dimension(argc-1, argv+1, 2, naryv, &ignore_nan);
-<% if is_float %>
-    if (ignore_nan) {
-        ndf.func = <%=c_iter%>_nan;
-    }
-<% end %>
+  <% if is_float %>
+    reduce = na_reduce_dimension(argc-1, argv+1, 2, naryv, &ndf, <%=c_iter%>_nan);
+  <% else %>
+    reduce = na_reduce_dimension(argc-1, argv+1, 2, naryv, &ndf, 0);
+  <% end %>
+
     v =  na_ndloop(&ndf, 4, self, argv[0], reduce, m_<%=name%>_init);
     return <%=type_name%>_extract(v);
 }
@@ -62,14 +61,15 @@ static VALUE
   Binary <%=name%>.
 
 <% if is_float %>
-  @overload <%=op_map%>(other, axis:nil, nan:false)
+  @overload <%=op_map%>(other, axis:nil, keepdims:false, nan:false)
 <% else %>
-  @overload <%=op_map%>(other, axis:nil)
+  @overload <%=op_map%>(other, axis:nil, keepdims:false)
 <% end %>
   @param [Numo::NArray,Numeric] other
-  @param [Numeric,Array,Range] axis  Affected dimensions.
+  @param [Numeric,Array,Range] axis (keyword) Affected dimensions.
+  @param [TrueClass] keepdims (keyword) If true, the reduced axes are left in the result array as dimensions with size one.
 <% if is_float %>
-  @param [TrueClass] nan  If true, apply NaN-aware algorithm (avoid NaN if exists).
+  @param [TrueClass] nan (keyword) If true, apply NaN-aware algorithm (avoid NaN if exists).
 <% end %>
   @return [Numo::NArray] <%=name%> of self and other.
 */

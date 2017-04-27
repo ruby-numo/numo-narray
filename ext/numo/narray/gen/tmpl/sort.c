@@ -28,7 +28,6 @@ static void
 static VALUE
 <%=c_func(-1)%>(int argc, VALUE *argv, VALUE self)
 {
-    int nan = 0;
     VALUE reduce;
     ndfunc_arg_in_t ain[2] = {{OVERWRITE,0},{sym_reduce,0}};
     ndfunc_t ndf = {0, STRIDE_LOOP|NDF_FLAT_REDUCE, 2,0, ain,0};
@@ -36,16 +35,13 @@ static VALUE
     if (!TEST_INPLACE(self)) {
         self = na_copy(self);
     }
-    reduce = na_reduce_dimension(argc, argv, 1, &self, &nan); // v[0] = self
-<% if is_float %>
-    if (nan) {
-        ndf.func = <%=c_iter%>_prnan;
-    } else {
-        ndf.func = <%=c_iter%>_ignan;
-    }
-<% else %>
+  <% if is_float %>
+    ndf.func = <%=c_iter%>_ignan;
+    reduce = na_reduce_dimension(argc, argv, 1, &self, &ndf, <%=c_iter%>_prnan);
+  <% else %>
     ndf.func = <%=c_iter%>;
-<% end %>
+    reduce = na_reduce_dimension(argc, argv, 1, &self, &ndf, 0);
+  <% end %>
     na_ndloop(&ndf, 2, self, reduce);
     return self;
 }
