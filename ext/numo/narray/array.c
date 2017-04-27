@@ -395,7 +395,7 @@ na_composition3_ary(VALUE ary, VALUE *ptype, VALUE *pshape, VALUE *pnary)
             *pnary = nary_new(dtype, ndim, shape);
         }
     }
-    rb_gc_force_recycle(vmdai);
+    RB_GC_GUARD(vmdai);
 }
 
 
@@ -475,14 +475,7 @@ na_s_new_like(VALUE type, VALUE obj)
 {
     VALUE newary;
 
-    if (RTEST(rb_obj_is_kind_of(obj,rb_cNumeric))) {
-        na_composition3(rb_ary_new3(1,obj), &type, 0, 0);
-        check_subclass_of_narray(type);
-        newary = nary_new(type, 0, 0);
-    } else {
-        // investigate MD-Array
-        na_composition3(obj, &type, 0, &newary);
-    }
+    na_composition3(obj, &type, 0, &newary);
     return newary;
 }
 
