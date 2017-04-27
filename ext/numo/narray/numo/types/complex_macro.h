@@ -89,17 +89,6 @@ static inline dtype c_from_dcomplex(dcomplex x) {
 #define m_isneginf(x) c_isneginf(x)
 #define m_isfinite(x) c_isfinite(x)
 
-#define m_sum(x,y) {if (!c_isnan(x)) {y=c_add(x,y);}}
-#define m_sum_init INT2FIX(0)
-
-#define m_mulsum_init INT2FIX(0)
-#define m_mulsum(x,y,z) {z = c_add(c_mul(x,y),z);}
-#define m_mulsum_nan(x,y,z) {if(!m_isnan(x) && !m_isnan(y)){z = c_add(c_mul(x,y),z);}}
-#define m_cumsum(x,y) {(x)=c_add(x,y);}
-#define m_cumsum_nan(x,y) {if (c_isnan(x)) {(x)=(y);} else if (!c_isnan(y)) {(x)=c_add(x,y);}}
-#define m_cumprod(x,y) {(x)=c_mul(x,y);}
-#define m_cumprod_nan(x,y) {if (c_isnan(x)) {(x)=(y);} else if (!c_isnan(y)) {(x)=c_mul(x,y);}}
-
 #define m_sprintf(s,x) sprintf(s,"%g%+gi",REAL(x),IMAG(x))
 
 #define m_sqrt(x)    c_sqrt(x)
@@ -124,6 +113,31 @@ static inline dtype c_from_dcomplex(dcomplex x) {
 #define m_atanh(x)   c_atanh(x)
 #define m_hypot(x,y) c_hypot(x,y)
 #define m_sinc(x)    c_div(c_sin(x),x)
+
+#define m_sum_init INT2FIX(0)
+#define m_mulsum_init INT2FIX(0)
+
+#define m_mulsum(x,y,z) {z = m_add(m_mul(x,y),z);}
+#define m_mulsum_nan(x,y,z) {            \
+        if(!m_isnan(x) && !m_isnan(y)) { \
+            z = m_add(m_mul(x,y),z);     \
+        }}
+
+#define m_cumsum(x,y) {(x)=m_add(x,y);}
+#define m_cumsum_nan(x,y) {       \
+        if (m_isnan(x)) {         \
+            (x) = (y);            \
+        } else if (!m_isnan(y)) { \
+            (x) = m_add(x,y);     \
+        }}
+
+#define m_cumprod(x,y) {(x)=m_mul(x,y);}
+#define m_cumprod_nan(x,y) {      \
+        if (m_isnan(x)) {         \
+            (x) = (y);            \
+        } else if (!m_isnan(y)) { \
+            (x) = m_mul(x,y);     \
+        }}
 
 static inline dtype f_sum(size_t n, char *p, ssize_t stride)
 {
