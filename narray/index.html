@@ -6,7 +6,7 @@
 <title>
   File: README
   
-    &mdash; Documentation by YARD 0.9.8
+    &mdash; Documentation by YARD 0.9.9
   
 </title>
 
@@ -57,76 +57,91 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><div id='filecontents'><h1 id="numonarray---new-narray-class-library-for-rubynumo-numerical-module">Numo::NArray - New NArray class library for Ruby/Numo (NUmerical MOdule)</h1>
+      <div id="content"><div id='filecontents'>
+<h1 id="label-Numo-3A-3ANArray+-+New+NArray+class+library+for+Ruby-2FNumo+-28NUmerical+MOdule-29">Numo::NArray - New NArray class library for Ruby/Numo (NUmerical MOdule)</h1>
 
-<p><a href="http://mybinder.org/repo/ruby-numo/narray"><img src="http://mybinder.org/badge.svg" alt="Binder" /></a>
-<a href="https://travis-ci.org/ruby-numo/narray"><img src="https://travis-ci.org/ruby-numo/narray.svg?branch=master" alt="Build Status" /></a></p>
+<p><a href="http://mybinder.org/repo/ruby-numo/narray"><img
+src="http://mybinder.org/badge.svg"></a> <a
+href="https://travis-ci.org/ruby-numo/narray"><img
+src="https://travis-ci.org/ruby-numo/narray.svg?branch=master"></a></p>
 
-<p><a href="https://github.com/ruby-numo/narray">GitHub</a>
- | <a href="https://rubygems.org/gems/numo-narray">RubyGems</a></p>
+<p><a href="https://github.com/ruby-numo/narray">GitHub</a>  | <a
+href="https://rubygems.org/gems/numo-narray">RubyGems</a></p>
 
-<p>Numo::NArray is an Numerical N-dimensional Array class
-for fast processing and easy manipulation of multi-dimensional numerical data,
-similar to numpy.ndaray.
-This project is the successor to <a href="http://masa16.github.io/narray/">Ruby/NArray</a>.</p>
+<p>Numo::NArray is an Numerical N-dimensional Array class for fast processing
+and easy manipulation of multi-dimensional numerical data, similar to
+numpy.ndaray. This project is the successor to <a
+href="http://masa16.github.io/narray/">Ruby/NArray</a>.</p>
 
 <p>under development</p>
 
-<h2 id="documentation">Documentation</h2>
+<h2 id="label-Documentation">Documentation</h2>
+
 <p>All documents are primitive.</p>
+<ul><li>
+<p><a href="http://ruby-numo.github.io/narray/narray/frames.html">Numo::NArray
+API Doc</a></p>
+</li><li>
+<p><a
+href="https://github.com/ruby-numo/narray/wiki/Numo-vs-numpy">Numo::NArray
+vs numpy</a></p>
+</li><li>
+<p><a
+href="https://github.com/ruby-numo/narray/wiki/Numo-vs-ndarray">Numo::NArray
+vs ndarray</a></p>
+</li><li>
+<p><a
+href="https://github.com/ruby-numo/narray/wiki/Numo::NArray%E6%A6%82%E8%A6%81">Numo::NArray
+Overview</a> (in Japanese)</p>
+</li></ul>
 
-<ul>
-  <li><a href="http://ruby-numo.github.io/narray/narray/frames.html">Numo::NArray API Doc</a></li>
-  <li><a href="https://github.com/ruby-numo/narray/wiki/Numo-vs-numpy">Numo::NArray vs numpy</a></li>
-  <li><a href="https://github.com/ruby-numo/narray/wiki/Numo-vs-ndarray">Numo::NArray vs ndarray</a></li>
-  <li><a href="https://github.com/ruby-numo/narray/wiki/Numo::NArray%E6%A6%82%E8%A6%81">Numo::NArray Overview</a> (in Japanese)</li>
-</ul>
+<h2 id="label-Related+Projects">Related Projects</h2>
+<ul><li>
+<p><a href="https://github.com/ruby-numo/linalg">Numo::Linalg</a> - Linear
+Algebra library with <a href="http://www.netlib.org/lapack/">LAPACK</a>.</p>
+</li><li>
+<p><a href="https://github.com/ruby-numo/gsl">Numo::GSL</a> - Ruby interface
+for <a href="http://www.gnu.org/software/gsl/">GSL (GNU Scientific
+Library)</a>.</p>
+</li><li>
+<p><a href="https://github.com/ruby-numo/ffte">Numo::FFTE</a> - Ruby interface
+for <a href="http://www.ffte.jp/">FFTE (A Fast Fourier Transform library
+with radix-2,3,5)</a>.</p>
+</li><li>
+<p><a href="https://github.com/ruby-numo/gnuplot">Numo::Gnuplot</a> - Simple
+and easy-to-use Gnuplot interface.</p>
+</li></ul>
 
-<h2 id="related-projects">Related Projects</h2>
-<ul>
-  <li><a href="https://github.com/ruby-numo/linalg">Numo::Linalg</a> - Linear Algebra library with <a href="http://www.netlib.org/lapack/">LAPACK</a>.</li>
-  <li><a href="https://github.com/ruby-numo/gsl">Numo::GSL</a> - Ruby interface for <a href="http://www.gnu.org/software/gsl/">GSL (GNU Scientific Library)</a>.</li>
-  <li><a href="https://github.com/ruby-numo/ffte">Numo::FFTE</a> - Ruby interface for <a href="http://www.ffte.jp/">FFTE (A Fast Fourier Transform library with radix-2,3,5)</a>.</li>
-  <li><a href="https://github.com/ruby-numo/gnuplot">Numo::Gnuplot</a> - Simple and easy-to-use Gnuplot interface.</li>
-</ul>
+<h2 id="label-Installation">Installation</h2>
 
-<h2 id="installation">Installation</h2>
-<p>### Requirement
-Ruby ver 2.1 and later.</p>
+<h3 id="label-Requirement">Requirement</h3>
 
-<h3 id="ubuntu-debian-bash-on-windows">Ubuntu, Debian, Bash on Windows</h3>
-<p><code>shell
-apt install -y git ruby gcc ruby-dev rake make
+<p>Ruby ver 2.1 and later.</p>
+
+<h3 id="label-Ubuntu-2C+Debian-2C+Bash+on+Windows">Ubuntu, Debian, Bash on Windows</h3>
+
+<pre class="code ruby"><code class="ruby">apt install -y git ruby gcc ruby-dev rake make
 gem install specific_install
-gem specific_install https://github.com/ruby-numo/narray.git
-</code></p>
+gem specific_install https://github.com/ruby-numo/narray.git</code></pre>
 
-<h2 id="quick-start">Quick start</h2>
-<p>An example
-<code>ruby
-[1] pry(main)&gt; require "numo/narray"
-=&gt; true
-[2] pry(main)&gt; a = Numo::DFloat.new(3,5).seq
-=&gt; Numo::DFloat#shape=[3,5]
-[[0, 1, 2, 3, 4],
- [5, 6, 7, 8, 9],
- [10, 11, 12, 13, 14]]
-[3] pry(main)&gt; a.shape
-=&gt; [3, 5]
-[4] pry(main)&gt; a.ndim
-=&gt; 2
-[5] pry(main)&gt; a.class
-=&gt; Numo::DFloat
-[6] pry(main)&gt; a.size
-=&gt; 15
-</code>
-For more examples, check out this <a href="https://github.com/ruby-numo/narray/wiki/100-narray-exercises">narray version of 100 numpy exercises</a> (and the <a href="https://github.com/ruby-numo/narray/blob/master/100-narray-exercises.ipynb">IRuby Notebook</a>).</p>
+<h2 id="label-Quick+start">Quick start</h2>
+
+<p>An example <code>ruby [1] pry(main)&gt; require &quot;numo/narray&quot;
+=&gt; true [2] pry(main)&gt; a = Numo::DFloat.new(3,5).seq =&gt;
+Numo::DFloat#shape=[3,5] [[0, 1, 2, 3, 4],  [5, 6, 7, 8, 9],  [10, 11, 12,
+13, 14]] [3] pry(main)&gt; a.shape =&gt; [3, 5] [4] pry(main)&gt; a.ndim
+=&gt; 2 [5] pry(main)&gt; a.class =&gt; Numo::DFloat [6] pry(main)&gt;
+a.size =&gt; 15 </code> For more examples, check out this <a
+href="https://github.com/ruby-numo/narray/wiki/100-narray-exercises">narray
+version of 100 numpy exercises</a> (and the <a
+href="https://github.com/ruby-numo/narray/blob/master/100-narray-exercises.ipynb">IRuby
+Notebook</a>).</p>
 </div></div>
 
       <div id="footer">
-  Generated on Tue Apr 18 21:11:27 2017 by
+  Generated on Thu Apr 27 19:49:28 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.8 (ruby-2.4.0).
+  0.9.9 (ruby-2.4.1).
 </div>
 
     </div>
