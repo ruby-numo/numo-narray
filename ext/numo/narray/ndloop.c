@@ -1205,14 +1205,9 @@ ndfunc_write_back(ndfunc_t *nf, na_md_loop_t *lp, VALUE orig_args, VALUE results
 static VALUE
 ndloop_extract(VALUE results, ndfunc_t *nf)
 {
-    static ID id_extract = 0;
     long n, i;
     VALUE x, y;
     narray_t *na;
-
-    if (id_extract==0) {
-        id_extract = id_extract;
-    }
 
     // extract result objects
     switch(nf->nout) {
