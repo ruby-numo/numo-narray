@@ -6,6 +6,7 @@ typedef float rtype;
 
 #include "float_macro.h"
 
+#ifdef SFMT_H
 /* generates a random number on [0,1)-real-interval */
 inline static dtype m_rand(dtype max)
 {
@@ -29,6 +30,7 @@ inline static void m_rand_norm(dtype mu, dtype sigma, dtype *a0, dtype *a1)
     if (a0) {*a0 = x1*w * sigma + mu;}
     if (a1) {*a1 = x2*w * sigma + mu;}
 }
+#endif
 
 #define m_min_init numo_sfloat_new_dim0(0.0/0.0)
 #define m_max_init numo_sfloat_new_dim0(0.0/0.0)

@@ -10,6 +10,7 @@ static inline bool c_nearly_eq(dtype x, dtype y) {
     return c_abs(c_sub(x,y)) <= (c_abs(x)+c_abs(y))*DBL_EPSILON*2;
 }
 
+#ifdef SFMT_H
 /* generates a random number on [0,1)-real-interval */
 inline static dtype m_rand(dtype max)
 {
@@ -36,3 +37,4 @@ inline static void m_rand_norm(dtype mu, rtype sigma, dtype *a0)
     REAL(*a0) = x1*w * sigma + REAL(mu);
     IMAG(*a0) = x2*w * sigma + IMAG(mu);
 }
+#endif
