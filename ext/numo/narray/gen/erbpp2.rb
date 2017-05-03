@@ -109,6 +109,7 @@ end
 class DefLib < ErbPP
   def initialize(parent=nil, **opts, &block)
     opts[:erb_base] ||= 'lib'
+    opts[:include_files] ||= []
     super(parent, **opts, &block)
   end
   def id_assign
@@ -222,7 +223,7 @@ class DefMethod < ErbPP
   end
 
   def c_name
-    @opts[:name].gsub(/\?/,"_p").gsub(/\!/,"_bang")
+    @opts[:name].gsub(/\?/,"_p").gsub(/\!/,"_bang").gsub(/=/,"_set")
   end
 
   def op_map
