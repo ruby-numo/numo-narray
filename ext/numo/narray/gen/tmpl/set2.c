@@ -13,14 +13,14 @@ static void
     if (idx1) {
         if (idx2) {
             for (; i--;) {
-                GET_DATA_INDEX(p1,idx1,dtype,x);
+                GET_DATA(p1+*idx1,dtype,x);
                 GET_DATA_INDEX(p2,idx2,<%=dtype%>,y);
                 x = m_<%=name%>(x,y);
                 SET_DATA_INDEX(p1,idx1,dtype,x);
             }
         } else {
             for (; i--;) {
-                GET_DATA_INDEX(p1,idx1,dtype,x);
+                GET_DATA(p1+*idx1,dtype,x);
                 GET_DATA_STRIDE(p2,s2,<%=dtype%>,y);
                 x = m_<%=name%>(x,y);
                 SET_DATA_INDEX(p1,idx1,dtype,x);
