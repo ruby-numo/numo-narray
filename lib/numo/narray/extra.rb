@@ -170,6 +170,33 @@ module Numo
       end
     end
 
+    # parse matrix like matlab, octave
+    def self.parse(str, split1d:/\s+/, split2d:/;?$|;/,
+                   split3d:/\s*\n(\s*\n)+/m)
+      a = []
+      str.split(split3d).each do |block|
+        b = []
+        #print "b"; p block
+        block.split(split2d).each do |line|
+          #p line
+          line.strip!
+          if !line.empty?
+            c = []
+            line.split(split1d).each do |item|
+              c << eval(item.strip) if !item.empty?
+            end
+            b << c if !c.empty?
+          end
+        end
+        a << b if !b.empty?
+      end
+      if a.size==1
+        self.cast(a[0])
+      else
+        self.cast(a)
+      end
+    end
+
     # Append values to the end of an narray.
     # @example
     #   a = Numo::DFloat[1, 2, 3]
