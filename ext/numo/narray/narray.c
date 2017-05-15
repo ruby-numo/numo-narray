@@ -1448,52 +1448,15 @@ na_test_reduce(VALUE reduce, int dim)
 }
 
 
-VALUE
-na_reduce_dimension(int argc, VALUE *argv, int naryc, VALUE *naryv,
-                    ndfunc_t *ndf, na_iter_func_t iter_nan)
+static VALUE
+na_get_reduce_flag_from_narray(int naryc, VALUE *naryv, int *max_arg)
 {
     int ndim, ndim0;
-    int row_major;
-    int i, r;
-    long narg;
+    int rowmaj;
+    int i;
     size_t j;
-    size_t len;
-    ssize_t beg, step;
-    VALUE v;
     narray_t *na;
-    size_t m;
     VALUE reduce;
-    VALUE kw_hash = Qnil;
-    ID kw_table[3] = {id_axis,id_nan,id_keepdims};
-    VALUE opts[3] = {Qundef,Qundef,Qundef};
-    VALUE axes;
-
-    narg = rb_scan_args(argc, argv, "*:", &axes, &kw_hash);
-    rb_get_kwargs(kw_hash, kw_table, 0, 3, opts);
-
-    // option: axis
-    if (opts[0] != Qundef && RTEST(opts[0])) {
-        if (narg > 0) {
-            rb_raise(rb_eArgError,"both axis-arguments and axis-keyword are given");
-        }
-        if (TYPE(opts[0]) == T_ARRAY) {
-            axes = opts[0];
-        } else {
-            axes = rb_ary_new3(1,opts[0]);
-        }
-    }
-    if (ndf) {
-        // option: nan
-        if (iter_nan && opts[1] != Qundef) {
-            if (RTEST(opts[1]))
-                ndf->func = iter_nan; // replace to nan-aware iterator function
-        }
-        // option: keepdims
-        if (opts[2] != Qundef) {
-            if (RTEST(opts[2]))
-                ndf->flag |= NDF_KEEP_DIM;
-        }
-    }
 
     if (naryc<1) {
         rb_raise(rb_eRuntimeError,"must be positive: naryc=%d", naryc);
@@ -1503,32 +1466,47 @@ na_reduce_dimension(int argc, VALUE *argv, int naryc, VALUE *naryv,
         rb_raise(nary_eShapeError,"cannot reduce empty NArray");
     }
     reduce = na->reduce;
-    if (argc==0) {
-        //printf("pass argc=0 reduce=%d\n",NUM2INT(reduce));
-        return reduce;
-    }
     ndim = ndim0 = na->ndim;
-    row_major = TEST_COLUMN_MAJOR(naryv[0]);
-    for (i=1; i<naryc; i++) {
+    if (max_arg) *max_arg = 0;
+    rowmaj = TEST_COLUMN_MAJOR(naryv[0]);
+    for (i=0; i<naryc; i++) {
         GetNArray(naryv[i],na);
         if (na->size==0) {
             rb_raise(nary_eShapeError,"cannot reduce empty NArray");
         }
-        if (TEST_COLUMN_MAJOR(naryv[i]) != row_major) {
+        if (TEST_COLUMN_MAJOR(naryv[i]) != rowmaj) {
             rb_raise(nary_eDimensionError,"dimension order is different");
         }
-        if (na->ndim > ndim) {
+        if (na->ndim > ndim) { // maximum dimension
             ndim = na->ndim;
+            if (max_arg) *max_arg = i;
         }
     }
     if (ndim != ndim0) {
-        j = FIX2ULONG(reduce) << (ndim-ndim0);
-        reduce = ULONG2NUM(j);
-        if (!FIXNUM_P(reduce)) {
-            rb_raise(nary_eDimensionError,"reduce has too many bits");
-        }
+        j = NUM2SIZET(reduce) << (ndim-ndim0);
+        reduce = SIZET2NUM(j);
     }
-    //printf("argc=%d\n",argc);
+    return reduce;
+}
+
+
+static VALUE
+na_get_reduce_flag_from_axes(VALUE na_obj, VALUE axes)
+{
+    int i, r;
+    int ndim, rowmaj;
+    long narg;
+    size_t j;
+    size_t len;
+    ssize_t beg, step;
+    VALUE v;
+    size_t m;
+    VALUE reduce;
+    narray_t *na;
+
+    GetNArray(na_obj,na);
+    ndim = na->ndim;
+    rowmaj = TEST_COLUMN_MAJOR(na_obj);
 
     m = 0;
     reduce = Qnil;
@@ -1554,8 +1532,9 @@ na_reduce_dimension(int argc, VALUE *argv, int naryc, VALUE *naryv,
         }
         for (j=0; j<len; j++) {
             r = beg + step*j;
-            if (row_major)
+            if (rowmaj) {
                 r = ndim-1-r;
+            }
             if (reduce==Qnil) {
               if ( r < (ssize_t)sizeof(size_t) ) {
                     m |= ((size_t)1) << r;
@@ -1568,11 +1547,69 @@ na_reduce_dimension(int argc, VALUE *argv, int naryc, VALUE *naryv,
             reduce = rb_funcall( reduce, '|', 1, v );
         }
     }
-    RB_GC_GUARD(axes);
-    if (reduce==Qnil) reduce = SIZET2NUM(m);
+    if (NIL_P(reduce)) reduce = SIZET2NUM(m);
     return reduce;
 }
 
+
+VALUE
+nary_reduce_options(VALUE axes, VALUE *opts, int naryc, VALUE *naryv,
+                    ndfunc_t *ndf)
+{
+    int  max_arg;
+    VALUE reduce;
+
+    // option: axis
+    if (opts[0] != Qundef && RTEST(opts[0])) {
+        if (!NIL_P(axes)) {
+            rb_raise(rb_eArgError,
+              "cannot specify axis-arguments and axis-keyword simultaneously");
+        }
+        if (TYPE(opts[0]) == T_ARRAY) {
+            axes = opts[0];
+        } else {
+            axes = rb_ary_new3(1,opts[0]);
+        }
+    }
+    if (ndf) {
+        // option: keepdims
+        if (opts[1] != Qundef) {
+            if (RTEST(opts[1]))
+                ndf->flag |= NDF_KEEP_DIM;
+        }
+    }
+
+    reduce = na_get_reduce_flag_from_narray(naryc, naryv, &max_arg);
+
+    if (NIL_P(axes)) return reduce;
+
+    return na_get_reduce_flag_from_axes(naryv[max_arg], axes);
+}
+
+
+VALUE
+nary_reduce_dimension(int argc, VALUE *argv, int naryc, VALUE *naryv,
+                      ndfunc_t *ndf, na_iter_func_t iter_nan)
+{
+    long narg;
+    VALUE axes;
+    VALUE kw_hash = Qnil;
+    ID kw_table[3] = {id_axis,id_keepdims,id_nan};
+    VALUE opts[3] = {Qundef,Qundef,Qundef};
+
+    narg = rb_scan_args(argc, argv, "*:", &axes, &kw_hash);
+    rb_get_kwargs(kw_hash, kw_table, 0, 3, opts);
+
+    if (ndf) {
+        // option: nan
+        if (iter_nan && opts[2] != Qundef) {
+            if (RTEST(opts[2]))
+                ndf->func = iter_nan; // replace to nan-aware iterator function
+        }
+    }
+
+    return na_reduce_options((narg)?axes:Qnil, opts, naryc, naryv, ndf);
+}
 
 /*
   Return true if column major.

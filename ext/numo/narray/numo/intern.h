@@ -75,6 +75,10 @@ void na_release_lock(VALUE); // currently do nothing
 VALUE nary_reduce_dimension(int argc, VALUE *argv, int naryc, VALUE *naryv,
                             ndfunc_t *ndf, na_iter_func_t nan_iter);
 
+#define na_reduce_options nary_reduce_options
+VALUE nary_reduce_options(VALUE axes, VALUE *opts, int naryc, VALUE *naryv,
+                          ndfunc_t *ndf);
+
 // ndloop
 VALUE na_ndloop(ndfunc_t *nf, int argc, ...);
 VALUE na_ndloop2(ndfunc_t *nf, VALUE args);
