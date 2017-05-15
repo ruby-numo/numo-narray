@@ -1,7 +1,7 @@
 typedef float dtype;
 typedef float rtype;
 #define cT  numo_cSFloat
-#define cRT cT
+#define cRT numo_cSFloat
 #define mTM numo_mSFloatMath
 
 #include "float_macro.h"

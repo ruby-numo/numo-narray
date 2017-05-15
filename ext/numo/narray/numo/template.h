@@ -10,10 +10,11 @@
     {   c = (lp)->n[0]; }
 
 #define NDL_CNT(lp) ((lp)->n[0])
-#define NDL_PTR(lp,i) (((lp)->args[i]).ptr + ((lp)->args[i].iter[0]).pos)
-#define NDL_STP(lp,i) (((lp)->args[i].iter[0]).step)
-#define NDL_IDX(lp,i) (((lp)->args[i].iter[0]).idx)
-#define NDL_ESZ(lp,i) (((lp)->args[i]).elmsz)
+#define NDL_PTR(lp,i) ((lp)->args[i].ptr + (lp)->args[i].iter[0].pos)
+#define NDL_STEP(lp,i) ((lp)->args[i].iter[0].step)
+#define NDL_IDX(lp,i) ((lp)->args[i].iter[0].idx)
+#define NDL_ESZ(lp,i) ((lp)->args[i].elmsz)
+#define NDL_SHAPE(lp,i) ((lp)->args[i].shape)
 
 #define INIT_PTR( lp, i, pt, st )                               \
     {                                                           \
