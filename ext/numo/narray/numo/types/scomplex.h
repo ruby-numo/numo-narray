@@ -38,3 +38,7 @@ inline static void m_rand_norm(dtype mu, rtype sigma, dtype *a0)
     IMAG(*a0) = x2*w * sigma + IMAG(mu);
 }
 #endif
+
+#define M_EPSILON rb_float_new(1.1920928955078125e-07)
+#define M_MIN     rb_float_new(1.1754943508222875e-38)
+#define M_MAX     rb_float_new(3.4028234663852886e+38)

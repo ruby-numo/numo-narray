@@ -64,6 +64,16 @@ else
   def_const "CONTIGUOUS_STRIDE", "INT2FIX(sizeof(dtype))"
 end
 
+if !is_object
+  if is_float
+    def_const "EPSILON", "M_EPSILON"
+  end
+  if is_float || is_int
+    def_const "MAX", "M_MAX"
+    def_const "MIN", "M_MIN"
+  end
+end
+
 # Un-define
 
 if is_object

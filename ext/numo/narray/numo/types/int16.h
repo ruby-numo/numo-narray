@@ -9,3 +9,13 @@ typedef int16_t rtype;
 #define m_sprintf(s,x)   sprintf(s,"%d",(int)(x))
 
 #include "int_macro.h"
+
+#ifndef INT16_MIN
+#define INT16_MIN (-32767-1)
+#endif
+#ifndef INT16_MAX
+#define INT16_MAX (32767)
+#endif
+
+#define M_MIN  m_data_to_num(INT16_MIN)
+#define M_MAX  m_data_to_num(INT16_MAX)

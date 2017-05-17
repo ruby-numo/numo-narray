@@ -9,3 +9,10 @@ typedef u_int16_t rtype;
 #define m_sprintf(s,x)   sprintf(s,"%u",(unsigned int)(x))
 
 #include "uint_macro.h"
+
+#ifndef UINT16_MAX
+#define UINT16_MAX (65535)
+#endif
+
+#define M_MIN  INT2FIX(0)
+#define M_MAX  m_data_to_num(UINT16_MAX)

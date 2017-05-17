@@ -9,3 +9,10 @@ typedef u_int32_t rtype;
 #define m_sprintf(s,x)   sprintf(s,"%"PRIu32,(u_int32_t)(x))
 
 #include "uint_macro.h"
+
+#ifndef UINT32_MAX
+#define UINT32_MAX (4294967295u)
+#endif
+
+#define M_MIN  INT2FIX(0)
+#define M_MAX  m_data_to_num(UINT32_MAX)

@@ -36,3 +36,7 @@ inline static void m_rand_norm(dtype mu, dtype sigma, dtype *a0, dtype *a1)
 #define m_max_init numo_dfloat_new_dim0(0.0/0.0)
 #define m_extract(x) rb_float_new(*(double*)x)
 #define m_nearly_eq(x,y) (fabs(x-y)<=(fabs(x)+fabs(y))*DBL_EPSILON*2)
+
+#define M_EPSILON rb_float_new(2.2204460492503131e-16)
+#define M_MIN     rb_float_new(2.2250738585072014e-308)
+#define M_MAX     rb_float_new(1.7976931348623157e+308)

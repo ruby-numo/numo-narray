@@ -9,3 +9,10 @@ typedef u_int8_t rtype;
 #define m_sprintf(s,x)   sprintf(s,"%u",(unsigned int)(x))
 
 #include "uint_macro.h"
+
+#ifndef UINT8_MAX
+#define UINT8_MAX (255)
+#endif
+
+#define M_MIN  INT2FIX(0)
+#define M_MAX  m_data_to_num(UINT8_MAX)
