@@ -1,7 +1,7 @@
 /*
   qsort.c
   Numerical Array Extension for Ruby
-    (C) Copyright 2007-2017 by Masahiro TANAKA
+    modified by Masahiro TANAKA
 */
 
 /*
