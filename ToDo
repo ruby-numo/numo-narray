@@ -38,6 +38,9 @@
 * refactoring array.c: avoid using na_compose_t and na_ary_composition. -- done
 
 
+* reshape!
+* flatten_dim
+
 * NMath.sin => DFloat.sin ??
 
 * contiguous if na_view->stridx == NULL ?

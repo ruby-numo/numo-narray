@@ -946,6 +946,22 @@ module Numo
       return result
     end
 
+
+    # Return the sum along diagonals of the array.
+    #
+    # If 2-D array, computes the summation along its diagonal with the
+    # given offset, i.e., sum of `a[i,i+offset]`.
+    # If more than 2-D array, the diagonal is determined from the axes
+    # specified by axis argument. The default is axis=[-2,-1].
+    # @param offset [Integer] (optional, default=0) diagonal offset
+    # @param axis [Array] (optional, default=[-2,-1]) diagonal axis
+    # @param nan [Bool] (optional, default=false) nan-aware algorithm, i.e., if true then it ignores nan.
+
+    def trace(offset=nil,axis=nil,nan:false)
+      diagonal(offset,axis).sum(nan:nan,axis:-1)
+    end
+
+
     private
     def check_axis(axis)
       if axis < 0
