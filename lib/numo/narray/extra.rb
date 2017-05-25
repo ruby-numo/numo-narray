@@ -961,6 +961,60 @@ module Numo
       diagonal(offset,axis).sum(nan:nan,axis:-1)
     end
 
+    # Inner product of two arrays.
+    # Same as `(a*b).sum(axis:-1)`.
+    # @param b [Numo::NArray]
+    # @param axis [Integer] applied axis
+    # @return [Numo::NArray]  return (a*b).sum(axis:axis)
+
+    def inner(b, axis:-1)
+      mulsum(b, axis:axis)
+    end
+
+    # Outer product of two arrays.
+    # Same as `self[false,:new] * b[false,:new,true]`.
+    # @param b [Numo::NArray]
+    # @param axis [Integer] applied axis (default=-1)
+    # @return [Numo::NArray]  return outer product
+    # @example
+    #     a = Numo::DFloat.ones(5)
+    #     => Numo::DFloat#shape=[5]
+    #     [1, 1, 1, 1, 1]
+    #     b = Numo::DFloat.linspace(-2,2,5)
+    #     => Numo::DFloat#shape=[5]
+    #     [-2, -1, 0, 1, 2]
+    #     a.outer(b)
+    #     => Numo::DFloat#shape=[5,5]
+    #     [[-2, -1, 0, 1, 2],
+    #      [-2, -1, 0, 1, 2],
+    #      [-2, -1, 0, 1, 2],
+    #      [-2, -1, 0, 1, 2],
+    #      [-2, -1, 0, 1, 2]]
+
+    def outer(b, axis:nil)
+      b = self.class.asarray(b)
+      if axis.nil?
+        self[false,:new] * b[false,:new,true]
+      else
+        axis = check_axis(axis)
+        nd = (ndim>b.ndim) ? ndim : b.ndim
+        md = (ndim<b.ndim) ? ndim : b.ndim
+        axis -= nd
+        if axis < -md
+          raise "axis=#{axis} is out of range"
+        end
+        adim = [true]*ndim
+        if axis==-1
+          adim[ndim] = :new
+        else
+          adim[axis+1,0] = :new
+        end
+        bdim = [true]*b.ndim
+        bdim[axis,0] = :new
+        self[*adim] * b[*bdim]
+      end
+    end
+
 
     private
     def check_axis(axis)
