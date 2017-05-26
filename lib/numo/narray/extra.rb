@@ -162,7 +162,7 @@ module Numo
     def self.asarray(a)
       case a
       when NArray
-        a
+        (a.ndim == 0) ? a[:new] : a
       when Numeric,Range
         self[a]
       else
@@ -970,6 +970,46 @@ module Numo
 
     def trace(offset=nil,axis=nil,nan:false)
       diagonal(offset,axis).sum(nan:nan,axis:-1)
+    end
+
+
+    @@warn_slow_dot = false
+
+    # Dot product of two arrays.
+    # @param b [Numo::NArray]
+    # @return [Numo::NArray]  return dot product
+
+    def dot(b)
+      t = self.class::UPCAST[b.class]
+      if defined?(Linalg) && false
+        [SFloat,DFloat,SComplex,DComplex].include?(t)
+        Linalg.dot(self,b)
+      else
+        b = self.class.asarray(b)
+        case b.ndim
+        when 1
+          mulsum(b, axis:-1)
+        else
+          case ndim
+          when 0
+            b.mulsum(self, axis:-2)
+          when 1
+            self[true,:new].mulsum(b, axis:-2)
+          else
+            unless @@warn_slow_dot
+              sz = 500
+              am,an = shape[-2..-1]
+              bm,bn = b.shape[-2..-1]
+              if am > sz && an > sz && bm > sz && bn > sz
+                @@warn_slow_dot = true
+                warn "\nwarning: Built-in matrix dot is slow. "+
+                  "Consider installing Numo::Linalg.\n\n"
+              end
+            end
+            self[false,:new].mulsum(b[false,:new,true,true], axis:-2)
+          end
+        end
+      end
     end
 
     # Inner product of two arrays.

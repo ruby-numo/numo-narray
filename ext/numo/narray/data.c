@@ -739,6 +739,7 @@ na_diagonal(int argc, VALUE *argv, VALUE self)
 //----------------------------------------------------------------------
 
 
+#if 0
 #ifdef SWAP
 #undef SWAP
 #endif
@@ -880,7 +881,7 @@ numo_na_dot(VALUE self, VALUE other)
     }
     return rb_funcall(a1,id_mulsum,2,a2,INT2FIX(-1));
 }
-
+#endif
 
 void
 Init_nary_data()
@@ -914,7 +915,7 @@ Init_nary_data()
     rb_define_method(cNArray, "to_host", nary_to_host, 0);
     rb_define_method(cNArray, "to_swapped", nary_to_swapped, 0);
 
-    rb_define_method(cNArray, "dot", numo_na_dot, 1);
+    //rb_define_method(cNArray, "dot", numo_na_dot, 1);
 
     id_mulsum       = rb_intern("mulsum");
     sym_mulsum      = ID2SYM(id_mulsum);
