@@ -981,8 +981,7 @@ module Numo
 
     def dot(b)
       t = self.class::UPCAST[b.class]
-      if defined?(Linalg) && false
-        [SFloat,DFloat,SComplex,DComplex].include?(t)
+      if defined?(Linalg) && [SFloat,DFloat,SComplex,DComplex].include?(t)
         Linalg.dot(self,b)
       else
         b = self.class.asarray(b)
@@ -997,13 +996,14 @@ module Numo
             self[true,:new].mulsum(b, axis:-2)
           else
             unless @@warn_slow_dot
-              sz = 500
+              nx = 200
+              ns = 200000
               am,an = shape[-2..-1]
               bm,bn = b.shape[-2..-1]
-              if am > sz && an > sz && bm > sz && bn > sz
+              if am > nx && an > nx && bm > nx && bn > nx &&
+                  size > ns && b.size > ns
                 @@warn_slow_dot = true
-                warn "\nwarning: Built-in matrix dot is slow. "+
-                  "Consider installing Numo::Linalg.\n\n"
+                warn "\nwarning: Built-in matrix dot is slow. Consider installing Numo::Linalg.\n\n"
               end
             end
             self[false,:new].mulsum(b[false,:new,true,true], axis:-2)
@@ -1092,6 +1092,50 @@ module Numo
       bdim = [:new]*(2*[nda-ndb,0].max) + [:new,true]*ndb
       shpr = (-[nda,ndb].max..-1).map{|i| (shpa[i]||1) * (shpb[i]||1)}
       (self[*adim] * b[*bdim]).reshape(*shpr)
+    end
+
+
+    # under construction
+    def cov(y=nil, ddof:1, fweights:nil, aweights:nil)
+      if y
+        m = NArray.vstack([self,y])
+      else
+        m = self
+      end
+      w = nil
+      if fweights
+        f = fweights
+        w = f
+      end
+      if aweights
+        a = aweights
+        w = w ? w*a : a
+      end
+      if w
+        w_sum = w.sum(axis:-1, keepdims:true)
+        if ddof == 0
+          fact = w_sum
+        elsif aweights.nil?
+          fact = w_sum - ddof
+        else
+          wa_sum = (w*a).sum(axis:-1, keepdims:true)
+          fact = w_sum - ddof * wa_sum / w_sum
+        end
+      else
+        fact = m.shape[-1] - ddof
+      end
+      if fact <= 0
+        raise StandardError,"Degrees of freedom <= 0 for slice"
+      end
+      if w
+        m -= (m*w).sum(axis:-1, keepdims:true) / w_sum
+        mw = m*w
+      else
+        m -= m.mean(axis:-1, keepdims:true)
+        mw = m
+      end
+      mt = (m.ndim < 2) ? m : m.swapaxes(-2,-1)
+      mw.dot(mt.conj) / fact
     end
 
     private
