@@ -11,7 +11,7 @@ typedef int64_t rtype;
 #include "int_macro.h"
 
 #ifndef INT64_MIN
-#define INT64_MIN (-9223372036854775808l-1)
+#define INT64_MIN (-9223372036854775807l-1)
 #endif
 #ifndef INT64_MAX
 #define INT64_MAX (9223372036854775807l)
