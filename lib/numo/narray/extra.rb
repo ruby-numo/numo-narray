@@ -32,20 +32,20 @@ module Numo
     end
 
     # Flip each row in the left/right direction.
-    # Same as a[true, (-1..0).step(-1), ...].
+    # Same as `a[true, (-1..0).step(-1), ...]`.
     def fliplr
       reverse(1)
     end
 
     # Flip each column in the up/down direction.
-    # Same as a[(-1..0).step(-1), ...].
+    # Same as `a[(-1..0).step(-1), ...]`.
     def flipud
       reverse(0)
     end
 
     # Multi-dimensional array indexing.
     # Same as [] for one-dimensional NArray.
-    # Similar to numpy's tuple indexing, i.e., a[[1,2,..],[3,4,..]]
+    # Similar to numpy's tuple indexing, i.e., `a[[1,2,..],[3,4,..]]`
     # (This method will be rewritten in C)
     # @return [Numo::NArray] one-dimensional view of self.
     # @example
@@ -171,6 +171,17 @@ module Numo
     end
 
     # parse matrix like matlab, octave
+    # @example
+    #   a = Numo::DFloat.parse %[
+    #    2 -3 5
+    #    4 9 7
+    #    2 -1 6
+    #   ]
+    #   => Numo::DFloat#shape=[3,3]
+    #   [[2, -3, 5],
+    #    [4, 9, 7],
+    #    [2, -1, 6]]
+
     def self.parse(str, split1d:/\s+/, split2d:/;?$|;/,
                    split3d:/\s*\n(\s*\n)+/m)
       a = []
@@ -973,58 +984,91 @@ module Numo
 
     # Outer product of two arrays.
     # Same as `self[false,:new] * b[false,:new,true]`.
+    #
     # @param b [Numo::NArray]
     # @param axis [Integer] applied axis (default=-1)
     # @return [Numo::NArray]  return outer product
     # @example
-    #     a = Numo::DFloat.ones(5)
-    #     => Numo::DFloat#shape=[5]
-    #     [1, 1, 1, 1, 1]
-    #     b = Numo::DFloat.linspace(-2,2,5)
-    #     => Numo::DFloat#shape=[5]
-    #     [-2, -1, 0, 1, 2]
-    #     a.outer(b)
-    #     => Numo::DFloat#shape=[5,5]
-    #     [[-2, -1, 0, 1, 2],
-    #      [-2, -1, 0, 1, 2],
-    #      [-2, -1, 0, 1, 2],
-    #      [-2, -1, 0, 1, 2],
-    #      [-2, -1, 0, 1, 2]]
+    #   a = Numo::DFloat.ones(5)
+    #   => Numo::DFloat#shape=[5]
+    #   [1, 1, 1, 1, 1]
+    #   b = Numo::DFloat.linspace(-2,2,5)
+    #   => Numo::DFloat#shape=[5]
+    #   [-2, -1, 0, 1, 2]
+    #   a.outer(b)
+    #   => Numo::DFloat#shape=[5,5]
+    #   [[-2, -1, 0, 1, 2],
+    #    [-2, -1, 0, 1, 2],
+    #    [-2, -1, 0, 1, 2],
+    #    [-2, -1, 0, 1, 2],
+    #    [-2, -1, 0, 1, 2]]
 
     def outer(b, axis:nil)
-      b = self.class.asarray(b)
+      b = NArray.cast(b)
       if axis.nil?
-        self[false,:new] * b[false,:new,true]
+        self[false,:new] * ((b.ndim==0) ? b : b[false,:new,true])
       else
-        axis = check_axis(axis)
-        nd = (ndim>b.ndim) ? ndim : b.ndim
-        md = (ndim<b.ndim) ? ndim : b.ndim
-        axis -= nd
+        md,nd = [ndim,b.ndim].minmax
+        axis = check_axis(axis) - nd
         if axis < -md
-          raise "axis=#{axis} is out of range"
+          raise ArgumentError,"axis=#{axis} is out of range"
         end
         adim = [true]*ndim
-        if axis==-1
-          adim[ndim] = :new
-        else
-          adim[axis+1,0] = :new
-        end
+        adim[axis+ndim+1,0] = :new
         bdim = [true]*b.ndim
-        bdim[axis,0] = :new
+        bdim[axis+b.ndim,0] = :new
         self[*adim] * b[*bdim]
       end
     end
 
+    # Kronecker product of two arrays.
+    #
+    #     kron(a,b)[k_0, k_1, ...] = a[i_0, i_1, ...] * b[j_0, j_1, ...]
+    #        where:  k_n = i_n * b.shape[n] + j_n
+    #
+    # @param b [Numo::NArray]
+    # @return [Numo::NArray]  return Kronecker product
+    # @example
+    #   Numo::DFloat[1,10,100].kron([5,6,7])
+    #   => Numo::DFloat#shape=[9]
+    #   [5, 6, 7, 50, 60, 70, 500, 600, 700]
+    #   Numo::DFloat[5,6,7].kron([1,10,100])
+    #   => Numo::DFloat#shape=[9]
+    #   [5, 50, 500, 6, 60, 600, 7, 70, 700]
+    #   Numo::DFloat.eye(2).kron(Numo::DFloat.ones(2,2))
+    #   => Numo::DFloat#shape=[4,4]
+    #   [[1, 1, 0, 0],
+    #    [1, 1, 0, 0],
+    #    [0, 0, 1, 1],
+    #    [0, 0, 1, 1]]
+
+    def kron(b)
+      b = NArray.cast(b)
+      nda = ndim
+      ndb = b.ndim
+      shpa = shape
+      shpb = b.shape
+      adim = [:new]*(2*[ndb-nda,0].max) + [true,:new]*nda
+      bdim = [:new]*(2*[nda-ndb,0].max) + [:new,true]*ndb
+      shpr = (-[nda,ndb].max..-1).map{|i| (shpa[i]||1) * (shpb[i]||1)}
+      (self[*adim] * b[*bdim]).reshape(*shpr)
+    end
 
     private
+
+    # @!visibility private
     def check_axis(axis)
-      if axis < 0
-        axis += ndim
+      unless Integer===axis
+        raise ArgumentError,"axis=#{axis} must be Integer"
       end
-      if axis < 0 || axis >= ndim
-        raise ArgumentError,"invalid axis"
+      a = axis
+      if a < 0
+        a += ndim
       end
-      axis
+      if a < 0 || a >= ndim
+        raise ArgumentError,"axis=#{axis} is invalid"
+      end
+      a
     end
 
   end
