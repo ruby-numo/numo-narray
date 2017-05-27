@@ -1045,6 +1045,30 @@ type of NArray.</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#cov-instance_method" title="#cov (instance method)">#<strong>cov</strong>(y = nil, ddof: 1, fweights: nil, aweights: nil)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>under construction.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#debug_info-instance_method" title="#debug_info (instance method)">#<strong>debug_info</strong>  &#x21d2; Object </a>
     
 
@@ -1836,7 +1860,7 @@ or <em>sizes</em>.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#reshape-instance_method" title="#reshape (instance method)">#<strong>reshape</strong>(*args)  &#x21d2; Object </a>
+      <a href="#reshape-instance_method" title="#reshape (instance method)">#<strong>reshape</strong>(size0, size1, ...)  &#x21d2; Numo::NArray </a>
     
 
     
@@ -1851,7 +1875,31 @@ or <em>sizes</em>.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>private function for reshape.</p>
+<p>Copy and change the shape of NArray.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#reshape!-instance_method" title="#reshape! (instance method)">#<strong>reshape!</strong>(size0, size1, ...)  &#x21d2; Numo::NArray </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Change the shape of self NArray without coping.</p>
 </div></span>
   
 </li>
@@ -2317,6 +2365,150 @@ or <em>sizes</em>.</p>
 
   
     <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#tril-instance_method" title="#tril (instance method)">#<strong>tril</strong>(k = 0)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Lower triangular matrix.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#tril!-instance_method" title="#tril! (instance method)">#<strong>tril!</strong>(k = 0)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Lower triangular matrix.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#tril_indices-instance_method" title="#tril_indices (instance method)">#<strong>tril_indices</strong>(k = 0)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Return the indices for the lower-triangle on and below the k-th diagonal.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#triu-instance_method" title="#triu (instance method)">#<strong>triu</strong>(k = 0)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Upper triangular matrix.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#triu!-instance_method" title="#triu! (instance method)">#<strong>triu!</strong>(k = 0)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Upper triangular matrix.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#triu_indices-instance_method" title="#triu_indices (instance method)">#<strong>triu_indices</strong>(k = 0)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Return the indices for the uppler-triangle on and above the k-th diagonal.</p>
+</div></span>
   
 </li>
 
@@ -5790,6 +5982,123 @@ na_check_contiguous(VALUE self)
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="cov-instance_method">
+  
+    #<strong>cov</strong>(y = nil, ddof: 1, fweights: nil, aweights: nil)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>under construction</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1167
+1168
+1169
+1170
+1171
+1172
+1173
+1174
+1175
+1176
+1177
+1178
+1179
+1180
+1181
+1182
+1183
+1184
+1185
+1186
+1187
+1188
+1189
+1190
+1191
+1192
+1193
+1194
+1195
+1196
+1197
+1198
+1199
+1200
+1201
+1202
+1203
+1204
+1205
+1206
+1207</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 1167</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_cov'>cov</span><span class='lparen'>(</span><span class='id identifier rubyid_y'>y</span><span class='op'>=</span><span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>ddof:</span><span class='int'>1</span><span class='comma'>,</span> <span class='label'>fweights:</span><span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>aweights:</span><span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_y'>y</span>
+    <span class='id identifier rubyid_m'>m</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="" title="Numo::NArray (class)">NArray</a></span></span><span class='period'>.</span><span class='id identifier rubyid_vstack'><span class='object_link'><a href="#vstack-class_method" title="Numo::NArray.vstack (method)">vstack</a></span></span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='kw'>self</span><span class='comma'>,</span><span class='id identifier rubyid_y'>y</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_m'>m</span> <span class='op'>=</span> <span class='kw'>self</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_w'>w</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_fweights'>fweights</span>
+    <span class='id identifier rubyid_f'>f</span> <span class='op'>=</span> <span class='id identifier rubyid_fweights'>fweights</span>
+    <span class='id identifier rubyid_w'>w</span> <span class='op'>=</span> <span class='id identifier rubyid_f'>f</span>
+  <span class='kw'>end</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_aweights'>aweights</span>
+    <span class='id identifier rubyid_a'>a</span> <span class='op'>=</span> <span class='id identifier rubyid_aweights'>aweights</span>
+    <span class='id identifier rubyid_w'>w</span> <span class='op'>=</span> <span class='id identifier rubyid_w'>w</span> <span class='op'>?</span> <span class='id identifier rubyid_w'>w</span><span class='op'>*</span><span class='id identifier rubyid_a'>a</span> <span class='op'>:</span> <span class='id identifier rubyid_a'>a</span>
+  <span class='kw'>end</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_w'>w</span>
+    <span class='id identifier rubyid_w_sum'>w_sum</span> <span class='op'>=</span> <span class='id identifier rubyid_w'>w</span><span class='period'>.</span><span class='id identifier rubyid_sum'>sum</span><span class='lparen'>(</span><span class='label'>axis:</span><span class='op'>-</span><span class='int'>1</span><span class='comma'>,</span> <span class='label'>keepdims:</span><span class='kw'>true</span><span class='rparen'>)</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_ddof'>ddof</span> <span class='op'>==</span> <span class='int'>0</span>
+      <span class='id identifier rubyid_fact'>fact</span> <span class='op'>=</span> <span class='id identifier rubyid_w_sum'>w_sum</span>
+    <span class='kw'>elsif</span> <span class='id identifier rubyid_aweights'>aweights</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+      <span class='id identifier rubyid_fact'>fact</span> <span class='op'>=</span> <span class='id identifier rubyid_w_sum'>w_sum</span> <span class='op'>-</span> <span class='id identifier rubyid_ddof'>ddof</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_wa_sum'>wa_sum</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_w'>w</span><span class='op'>*</span><span class='id identifier rubyid_a'>a</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_sum'>sum</span><span class='lparen'>(</span><span class='label'>axis:</span><span class='op'>-</span><span class='int'>1</span><span class='comma'>,</span> <span class='label'>keepdims:</span><span class='kw'>true</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_fact'>fact</span> <span class='op'>=</span> <span class='id identifier rubyid_w_sum'>w_sum</span> <span class='op'>-</span> <span class='id identifier rubyid_ddof'>ddof</span> <span class='op'>*</span> <span class='id identifier rubyid_wa_sum'>wa_sum</span> <span class='op'>/</span> <span class='id identifier rubyid_w_sum'>w_sum</span>
+    <span class='kw'>end</span>
+    <span class='kw'>if</span> <span class='lparen'>(</span><span class='id identifier rubyid_fact'>fact</span> <span class='op'>&lt;=</span> <span class='int'>0</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_any?'>any?</span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='const'>StandardError</span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Degrees of freedom &lt;= 0 for slice</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_fact'>fact</span> <span class='op'>=</span> <span class='id identifier rubyid_m'>m</span><span class='period'>.</span><span class='id identifier rubyid_shape'>shape</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>-</span> <span class='id identifier rubyid_ddof'>ddof</span>
+  <span class='kw'>end</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_w'>w</span>
+    <span class='id identifier rubyid_m'>m</span> <span class='op'>-=</span> <span class='lparen'>(</span><span class='id identifier rubyid_m'>m</span><span class='op'>*</span><span class='id identifier rubyid_w'>w</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_sum'>sum</span><span class='lparen'>(</span><span class='label'>axis:</span><span class='op'>-</span><span class='int'>1</span><span class='comma'>,</span> <span class='label'>keepdims:</span><span class='kw'>true</span><span class='rparen'>)</span> <span class='op'>/</span> <span class='id identifier rubyid_w_sum'>w_sum</span>
+    <span class='id identifier rubyid_mw'>mw</span> <span class='op'>=</span> <span class='id identifier rubyid_m'>m</span><span class='op'>*</span><span class='id identifier rubyid_w'>w</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_m'>m</span> <span class='op'>-=</span> <span class='id identifier rubyid_m'>m</span><span class='period'>.</span><span class='id identifier rubyid_mean'>mean</span><span class='lparen'>(</span><span class='label'>axis:</span><span class='op'>-</span><span class='int'>1</span><span class='comma'>,</span> <span class='label'>keepdims:</span><span class='kw'>true</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_mw'>mw</span> <span class='op'>=</span> <span class='id identifier rubyid_m'>m</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_mt'>mt</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_m'>m</span><span class='period'>.</span><span class='id identifier rubyid_ndim'>ndim</span> <span class='op'>&lt;</span> <span class='int'>2</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_m'>m</span> <span class='op'>:</span> <span class='id identifier rubyid_m'>m</span><span class='period'>.</span><span class='id identifier rubyid_swapaxes'>swapaxes</span><span class='lparen'>(</span><span class='op'>-</span><span class='int'>2</span><span class='comma'>,</span><span class='op'>-</span><span class='int'>1</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_mw'>mw</span><span class='period'>.</span><span class='id identifier rubyid_dot'>dot</span><span class='lparen'>(</span><span class='id identifier rubyid_mt'>mt</span><span class='period'>.</span><span class='id identifier rubyid_conj'>conj</span><span class='rparen'>)</span> <span class='op'>/</span> <span class='id identifier rubyid_fact'>fact</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="debug_info-instance_method">
   
     #<strong>debug_info</strong>  &#x21d2; <tt>Object</tt> 
@@ -6114,47 +6423,6 @@ should be taken. Defaults to last-two axes ([-2,-1]).</p>
       <pre class="lines">
 
 
-553
-554
-555
-556
-557
-558
-559
-560
-561
-562
-563
-564
-565
-566
-567
-568
-569
-570
-571
-572
-573
-574
-575
-576
-577
-578
-579
-580
-581
-582
-583
-584
-585
-586
-587
-588
-589
-590
-591
-592
-593
 594
 595
 596
@@ -6298,10 +6566,51 @@ should be taken. Defaults to last-two axes ([-2,-1]).</p>
 734
 735
 736
-737</pre>
+737
+738
+739
+740
+741
+742
+743
+744
+745
+746
+747
+748
+749
+750
+751
+752
+753
+754
+755
+756
+757
+758
+759
+760
+761
+762
+763
+764
+765
+766
+767
+768
+769
+770
+771
+772
+773
+774
+775
+776
+777
+778</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/data.c', line 553</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/data.c', line 594</span>
 
 VALUE
 na_diagonal(int argc, VALUE *argv, VALUE self)
@@ -6669,46 +6978,45 @@ na_diagonal(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-982
-983
-984
-985
-986
-987
-988
-989
-990
-991
-992
-993
-994
-995
-996
-997
-998
-999
-1000
-1001
-1002
-1003
-1004
-1005
-1006
-1007
-1008
-1009
-1010
-1011
-1012
-1013</pre>
+1050
+1051
+1052
+1053
+1054
+1055
+1056
+1057
+1058
+1059
+1060
+1061
+1062
+1063
+1064
+1065
+1066
+1067
+1068
+1069
+1070
+1071
+1072
+1073
+1074
+1075
+1076
+1077
+1078
+1079
+1080
+1081</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 982</span>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 1050</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_dot'>dot</span><span class='lparen'>(</span><span class='id identifier rubyid_b'>b</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_t'>t</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='op'>::</span><span class='const'>UPCAST</span><span class='lbracket'>[</span><span class='id identifier rubyid_b'>b</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='rbracket'>]</span>
-  <span class='kw'>if</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='const'>Linalg</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='kw'>false</span>
-    <span class='lbracket'>[</span><span class='const'><span class='object_link'><a href="SFloat.html" title="Numo::SFloat (class)">SFloat</a></span></span><span class='comma'>,</span><span class='const'><span class='object_link'><a href="DFloat.html" title="Numo::DFloat (class)">DFloat</a></span></span><span class='comma'>,</span><span class='const'><span class='object_link'><a href="SComplex.html" title="Numo::SComplex (class)">SComplex</a></span></span><span class='comma'>,</span><span class='const'><span class='object_link'><a href="DComplex.html" title="Numo::DComplex (class)">DComplex</a></span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_t'>t</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='const'>Linalg</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='lbracket'>[</span><span class='const'><span class='object_link'><a href="SFloat.html" title="Numo::SFloat (class)">SFloat</a></span></span><span class='comma'>,</span><span class='const'><span class='object_link'><a href="DFloat.html" title="Numo::DFloat (class)">DFloat</a></span></span><span class='comma'>,</span><span class='const'><span class='object_link'><a href="SComplex.html" title="Numo::SComplex (class)">SComplex</a></span></span><span class='comma'>,</span><span class='const'><span class='object_link'><a href="DComplex.html" title="Numo::DComplex (class)">DComplex</a></span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_t'>t</span><span class='rparen'>)</span>
     <span class='const'>Linalg</span><span class='period'>.</span><span class='id identifier rubyid_dot'>dot</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span><span class='id identifier rubyid_b'>b</span><span class='rparen'>)</span>
   <span class='kw'>else</span>
     <span class='id identifier rubyid_b'>b</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_asarray'>asarray</span><span class='lparen'>(</span><span class='id identifier rubyid_b'>b</span><span class='rparen'>)</span>
@@ -6723,13 +7031,14 @@ na_diagonal(int argc, VALUE *argv, VALUE self)
         <span class='kw'>self</span><span class='lbracket'>[</span><span class='kw'>true</span><span class='comma'>,</span><span class='symbol'>:new</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_mulsum'>mulsum</span><span class='lparen'>(</span><span class='id identifier rubyid_b'>b</span><span class='comma'>,</span> <span class='label'>axis:</span><span class='op'>-</span><span class='int'>2</span><span class='rparen'>)</span>
       <span class='kw'>else</span>
         <span class='kw'>unless</span> <span class='cvar'>@@warn_slow_dot</span>
-          <span class='id identifier rubyid_sz'>sz</span> <span class='op'>=</span> <span class='int'>500</span>
+          <span class='id identifier rubyid_nx'>nx</span> <span class='op'>=</span> <span class='int'>200</span>
+          <span class='id identifier rubyid_ns'>ns</span> <span class='op'>=</span> <span class='int'>200000</span>
           <span class='id identifier rubyid_am'>am</span><span class='comma'>,</span><span class='id identifier rubyid_an'>an</span> <span class='op'>=</span> <span class='id identifier rubyid_shape'>shape</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>2</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span>
           <span class='id identifier rubyid_bm'>bm</span><span class='comma'>,</span><span class='id identifier rubyid_bn'>bn</span> <span class='op'>=</span> <span class='id identifier rubyid_b'>b</span><span class='period'>.</span><span class='id identifier rubyid_shape'>shape</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>2</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span>
-          <span class='kw'>if</span> <span class='id identifier rubyid_am'>am</span> <span class='op'>&gt;</span> <span class='id identifier rubyid_sz'>sz</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_an'>an</span> <span class='op'>&gt;</span> <span class='id identifier rubyid_sz'>sz</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_bm'>bm</span> <span class='op'>&gt;</span> <span class='id identifier rubyid_sz'>sz</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_bn'>bn</span> <span class='op'>&gt;</span> <span class='id identifier rubyid_sz'>sz</span>
+          <span class='kw'>if</span> <span class='id identifier rubyid_am'>am</span> <span class='op'>&gt;</span> <span class='id identifier rubyid_nx'>nx</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_an'>an</span> <span class='op'>&gt;</span> <span class='id identifier rubyid_nx'>nx</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_bm'>bm</span> <span class='op'>&gt;</span> <span class='id identifier rubyid_nx'>nx</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_bn'>bn</span> <span class='op'>&gt;</span> <span class='id identifier rubyid_nx'>nx</span> <span class='op'>&amp;&amp;</span>
+              <span class='id identifier rubyid_size'>size</span> <span class='op'>&gt;</span> <span class='id identifier rubyid_ns'>ns</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_b'>b</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>&gt;</span> <span class='id identifier rubyid_ns'>ns</span>
             <span class='cvar'>@@warn_slow_dot</span> <span class='op'>=</span> <span class='kw'>true</span>
-            <span class='id identifier rubyid_warn'>warn</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\nwarning: Built-in matrix dot is slow. </span><span class='tstring_end'>&quot;</span></span><span class='op'>+</span>
-              <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Consider installing Numo::Linalg.\n\n</span><span class='tstring_end'>&quot;</span></span>
+            <span class='id identifier rubyid_warn'>warn</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\nwarning: Built-in matrix dot is slow. Consider installing Numo::Linalg.\n\n</span><span class='tstring_end'>&quot;</span></span>
           <span class='kw'>end</span>
         <span class='kw'>end</span>
         <span class='kw'>self</span><span class='lbracket'>[</span><span class='kw'>false</span><span class='comma'>,</span><span class='symbol'>:new</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_mulsum'>mulsum</span><span class='lparen'>(</span><span class='id identifier rubyid_b'>b</span><span class='lbracket'>[</span><span class='kw'>false</span><span class='comma'>,</span><span class='symbol'>:new</span><span class='comma'>,</span><span class='kw'>true</span><span class='comma'>,</span><span class='kw'>true</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>axis:</span><span class='op'>-</span><span class='int'>2</span><span class='rparen'>)</span>
@@ -7044,14 +7353,14 @@ na_expand_dims(VALUE self, VALUE vdim)
       <pre class="lines">
 
 
-508
-509
-510
-511
-512</pre>
+549
+550
+551
+552
+553</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/data.c', line 508</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/data.c', line 549</span>
 
 VALUE
 na_flatten(VALUE self)
@@ -7409,12 +7718,12 @@ na_initialize_copy(VALUE self, VALUE orig)
       <pre class="lines">
 
 
-1021
-1022
-1023</pre>
+1089
+1090
+1091</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 1021</span>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 1089</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_inner'>inner</span><span class='lparen'>(</span><span class='id identifier rubyid_b'>b</span><span class='comma'>,</span> <span class='label'>axis:</span><span class='op'>-</span><span class='int'>1</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_mulsum'>mulsum</span><span class='lparen'>(</span><span class='id identifier rubyid_b'>b</span><span class='comma'>,</span> <span class='label'>axis:</span><span class='id identifier rubyid_axis'>axis</span><span class='rparen'>)</span>
@@ -7893,20 +8202,20 @@ Numo::DFloat.eye(2).kron(Numo::DFloat.ones(2,2))
       <pre class="lines">
 
 
-1085
-1086
-1087
-1088
-1089
-1090
-1091
-1092
-1093
-1094
-1095</pre>
+1153
+1154
+1155
+1156
+1157
+1158
+1159
+1160
+1161
+1162
+1163</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 1085</span>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 1153</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_kron'>kron</span><span class='lparen'>(</span><span class='id identifier rubyid_b'>b</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_b'>b</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="" title="Numo::NArray (class)">NArray</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cast'><span class='object_link'><a href="#cast-class_method" title="Numo::NArray.cast (method)">cast</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_b'>b</span><span class='rparen'>)</span>
@@ -8547,26 +8856,26 @@ a.outer(b)
       <pre class="lines">
 
 
-1046
-1047
-1048
-1049
-1050
-1051
-1052
-1053
-1054
-1055
-1056
-1057
-1058
-1059
-1060
-1061
-1062</pre>
+1114
+1115
+1116
+1117
+1118
+1119
+1120
+1121
+1122
+1123
+1124
+1125
+1126
+1127
+1128
+1129
+1130</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 1046</span>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 1114</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_outer'>outer</span><span class='lparen'>(</span><span class='id identifier rubyid_b'>b</span><span class='comma'>,</span> <span class='label'>axis:</span><span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_b'>b</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="" title="Numo::NArray (class)">NArray</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cast'><span class='object_link'><a href="#cast-class_method" title="Numo::NArray.cast (method)">cast</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_b'>b</span><span class='rparen'>)</span>
@@ -8763,7 +9072,7 @@ a.outer(b)
       <div class="method_details ">
   <h3 class="signature " id="reshape-instance_method">
   
-    #<strong>reshape</strong>(*args)  &#x21d2; <tt>Object</tt> 
+    #<strong>reshape</strong>(size0, size1, ...)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt> 
   
 
   
@@ -8772,13 +9081,53 @@ a.outer(b)
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>private function for reshape</p>
+<p>Copy and change the shape of NArray. Returns a copied NArray.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+  
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>sizeN</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>new shape</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>return self.</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -8786,111 +9135,147 @@ a.outer(b)
       <pre class="lines">
 
 
-339
-340
-341
-342
-343
-344
-345
-346
-347
-348
-349
-350
-351
-352
-353
-354
-355
-356
-357
-358
-359
-360
-361
-362
-363
-364
-365
-366
-367
-368
-369
-370
-371
-372
-373
-374
-375
-376
-377
-378
-379
-380
-381
-382
-383
-384
-385
-386
-387
-388
-389</pre>
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/data.c', line 339</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/data.c', line 417</span>
 
 static VALUE
 na_reshape(int argc, VALUE *argv, VALUE self)
 {
-    int    i, unfixed=-1;
-    size_t total=1;
-    size_t *shape; //, *shape_save;
+    size_t *shape;
     narray_t *na;
     VALUE    copy;
 
-    if (argc == 0) {
-        rb_raise(rb_eRuntimeError, &quot;No argrument&quot;);
-    }
-    GetNArray(self,na);
-    if (NA_SIZE(na) == 0) {
-        rb_raise(rb_eRuntimeError, &quot;cannot reshape empty array&quot;);
-    }
+    shape = ALLOCA_N(size_t, argc);
+    na_check_reshape(argc, argv, self, shape);
 
-    /* get shape from argument */
-    shape = ALLOCA_N(size_t,argc);
-    for (i=0; i&lt;argc; ++i) {
-        switch(TYPE(argv[i])) {
-        case T_FIXNUM:
-            total *= shape[i] = NUM2INT(argv[i]);
-            break;
-        case T_NIL:
-        case T_TRUE:
-            unfixed = i;
-            break;
-        default:
-            rb_raise(rb_eArgError,&quot;illegal type&quot;);
-        }
-    }
-
-    if (unfixed&gt;=0) {
-        if (NA_SIZE(na) % total != 0)
-            rb_raise(rb_eArgError, &quot;Total size size must be divisor&quot;);
-        shape[unfixed] = NA_SIZE(na) / total;
-    }
-    else if (total !=  NA_SIZE(na)) {
-        rb_raise(rb_eArgError, &quot;Total size must be same&quot;);
-    }
-
-    copy = rb_funcall(self,rb_intern(&quot;dup&quot;),0);
-    GetNArray(copy,na);
-    //shape_save = NA_SHAPE(na);
-    na_setup_shape(na,argc,shape);
-    //if (NA_SHAPE(na) != shape_save) {
-    //    xfree(shape_save);
-    //}
+    copy = rb_funcall(self, rb_intern(&quot;dup&quot;), 0);
+    GetNArray(copy, na);
+    na_setup_shape(na, argc, shape);
     return copy;
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="reshape!-instance_method">
+  
+    #<strong>reshape!</strong>(size0, size1, ...)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Change the shape of self NArray without coping. Raise exception if self is
+non-contiguous.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>sizeN</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>new shape</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>return self.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/data.c', line 391</span>
+
+static VALUE
+na_reshape_bang(int argc, VALUE *argv, VALUE self)
+{
+    size_t *shape;
+    narray_t *na;
+
+    if (na_check_contiguous(self)==Qfalse) {
+        rb_raise(rb_eStandardError, &quot;cannot change shape of non-contiguous NArray&quot;);
+    }
+    shape = ALLOCA_N(size_t, argc);
+    na_check_reshape(argc, argv, self, shape);
+
+    GetNArray(self, na);
+    na_setup_shape(na, argc, shape);
+    return self;
 }</pre>
     </td>
   </tr>
@@ -10525,12 +10910,12 @@ ignores nan.</p>
       <pre class="lines">
 
 
-971
-972
-973</pre>
+1039
+1040
+1041</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 971</span>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 1039</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_trace'>trace</span><span class='lparen'>(</span><span class='id identifier rubyid_offset'>offset</span><span class='op'>=</span><span class='kw'>nil</span><span class='comma'>,</span><span class='id identifier rubyid_axis'>axis</span><span class='op'>=</span><span class='kw'>nil</span><span class='comma'>,</span><span class='label'>nan:</span><span class='kw'>false</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_diagonal'>diagonal</span><span class='lparen'>(</span><span class='id identifier rubyid_offset'>offset</span><span class='comma'>,</span><span class='id identifier rubyid_axis'>axis</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_sum'>sum</span><span class='lparen'>(</span><span class='label'>nan:</span><span class='id identifier rubyid_nan'>nan</span><span class='comma'>,</span><span class='label'>axis:</span><span class='op'>-</span><span class='int'>1</span><span class='rparen'>)</span>
@@ -10699,6 +11084,324 @@ na_transpose(int argc, VALUE *argv, VALUE self)
     }
     return na_transpose_map(self,map);
 }</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="tril-instance_method">
+  
+    #<strong>tril</strong>(k = 0)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Lower triangular matrix. Return a copy with the elements above the k-th
+diagonal filled with zero.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+997
+998
+999</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 997</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_tril'>tril</span><span class='lparen'>(</span><span class='id identifier rubyid_k'>k</span><span class='op'>=</span><span class='int'>0</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_dup'>dup</span><span class='period'>.</span><span class='id identifier rubyid_tril!'>tril!</span><span class='lparen'>(</span><span class='id identifier rubyid_k'>k</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="tril!-instance_method">
+  
+    #<strong>tril!</strong>(k = 0)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Lower triangular matrix. Fill the self elements above the k-th diagonal
+with zero.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1003
+1004
+1005
+1006
+1007
+1008
+1009
+1010
+1011
+1012
+1013
+1014
+1015
+1016</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 1003</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_tril!'>tril!</span><span class='lparen'>(</span><span class='id identifier rubyid_k'>k</span><span class='op'>=</span><span class='int'>0</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_ndim'>ndim</span> <span class='op'>&lt;</span> <span class='int'>2</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="" title="Numo::NArray (class)">NArray</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NArray/ShapeError.html" title="Numo::NArray::ShapeError (class)">ShapeError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>must be &gt;= 2-dimensional array</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_contiguous?'>contiguous?</span>
+    <span class='id identifier rubyid_idx'>idx</span> <span class='op'>=</span> <span class='id identifier rubyid_triu_indices'>triu_indices</span><span class='lparen'>(</span><span class='id identifier rubyid_k'>k</span><span class='op'>+</span><span class='int'>1</span><span class='rparen'>)</span>
+    <span class='op'>*</span><span class='id identifier rubyid_shp'>shp</span><span class='comma'>,</span><span class='id identifier rubyid_m'>m</span><span class='comma'>,</span><span class='id identifier rubyid_n'>n</span> <span class='op'>=</span> <span class='id identifier rubyid_shape'>shape</span>
+    <span class='id identifier rubyid_reshape!'>reshape!</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_shp'>shp</span><span class='comma'>,</span><span class='id identifier rubyid_m'>m</span><span class='op'>*</span><span class='id identifier rubyid_n'>n</span><span class='rparen'>)</span>
+    <span class='kw'>self</span><span class='lbracket'>[</span><span class='kw'>false</span><span class='comma'>,</span><span class='id identifier rubyid_idx'>idx</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='int'>0</span>
+    <span class='id identifier rubyid_reshape!'>reshape!</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_shp'>shp</span><span class='comma'>,</span><span class='id identifier rubyid_m'>m</span><span class='comma'>,</span><span class='id identifier rubyid_n'>n</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_store'>store</span><span class='lparen'>(</span><span class='id identifier rubyid_tril'>tril</span><span class='lparen'>(</span><span class='id identifier rubyid_k'>k</span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="tril_indices-instance_method">
+  
+    #<strong>tril_indices</strong>(k = 0)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Return the indices for the lower-triangle on and below the k-th diagonal.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1019
+1020
+1021
+1022
+1023
+1024
+1025
+1026
+1027</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 1019</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_tril_indices'>tril_indices</span><span class='lparen'>(</span><span class='id identifier rubyid_k'>k</span><span class='op'>=</span><span class='int'>0</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_ndim'>ndim</span> <span class='op'>&lt;</span> <span class='int'>2</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="" title="Numo::NArray (class)">NArray</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NArray/ShapeError.html" title="Numo::NArray::ShapeError (class)">ShapeError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>must be &gt;= 2-dimensional array</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_m'>m</span><span class='comma'>,</span><span class='id identifier rubyid_n'>n</span> <span class='op'>=</span> <span class='id identifier rubyid_shape'>shape</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>2</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_x'>x</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Int64.html" title="Numo::Int64 (class)">Int64</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Numo::NArray#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_m'>m</span><span class='comma'>,</span><span class='int'>1</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_seq'>seq</span> <span class='op'>+</span> <span class='id identifier rubyid_k'>k</span>
+  <span class='id identifier rubyid_y'>y</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Int64.html" title="Numo::Int64 (class)">Int64</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Numo::NArray#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>1</span><span class='comma'>,</span><span class='id identifier rubyid_n'>n</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_seq'>seq</span>
+  <span class='lparen'>(</span><span class='id identifier rubyid_x'>x</span><span class='op'>&gt;=</span><span class='id identifier rubyid_y'>y</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="triu-instance_method">
+  
+    #<strong>triu</strong>(k = 0)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Upper triangular matrix. Return a copy with the elements below the k-th
+diagonal filled with zero.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+963
+964
+965</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 963</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_triu'>triu</span><span class='lparen'>(</span><span class='id identifier rubyid_k'>k</span><span class='op'>=</span><span class='int'>0</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_dup'>dup</span><span class='period'>.</span><span class='id identifier rubyid_triu!'>triu!</span><span class='lparen'>(</span><span class='id identifier rubyid_k'>k</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="triu!-instance_method">
+  
+    #<strong>triu!</strong>(k = 0)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Upper triangular matrix. Fill the self elements below the k-th diagonal
+with zero.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+969
+970
+971
+972
+973
+974
+975
+976
+977
+978
+979
+980
+981
+982</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 969</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_triu!'>triu!</span><span class='lparen'>(</span><span class='id identifier rubyid_k'>k</span><span class='op'>=</span><span class='int'>0</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_ndim'>ndim</span> <span class='op'>&lt;</span> <span class='int'>2</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="" title="Numo::NArray (class)">NArray</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NArray/ShapeError.html" title="Numo::NArray::ShapeError (class)">ShapeError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>must be &gt;= 2-dimensional array</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_contiguous?'>contiguous?</span>
+    <span class='op'>*</span><span class='id identifier rubyid_shp'>shp</span><span class='comma'>,</span><span class='id identifier rubyid_m'>m</span><span class='comma'>,</span><span class='id identifier rubyid_n'>n</span> <span class='op'>=</span> <span class='id identifier rubyid_shape'>shape</span>
+    <span class='id identifier rubyid_idx'>idx</span> <span class='op'>=</span> <span class='id identifier rubyid_tril_indices'>tril_indices</span><span class='lparen'>(</span><span class='id identifier rubyid_k'>k</span><span class='op'>-</span><span class='int'>1</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_reshape!'>reshape!</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_shp'>shp</span><span class='comma'>,</span><span class='id identifier rubyid_m'>m</span><span class='op'>*</span><span class='id identifier rubyid_n'>n</span><span class='rparen'>)</span>
+    <span class='kw'>self</span><span class='lbracket'>[</span><span class='kw'>false</span><span class='comma'>,</span><span class='id identifier rubyid_idx'>idx</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='int'>0</span>
+    <span class='id identifier rubyid_reshape!'>reshape!</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_shp'>shp</span><span class='comma'>,</span><span class='id identifier rubyid_m'>m</span><span class='comma'>,</span><span class='id identifier rubyid_n'>n</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_store'>store</span><span class='lparen'>(</span><span class='id identifier rubyid_triu'>triu</span><span class='lparen'>(</span><span class='id identifier rubyid_k'>k</span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="triu_indices-instance_method">
+  
+    #<strong>triu_indices</strong>(k = 0)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Return the indices for the uppler-triangle on and above the k-th diagonal.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+985
+986
+987
+988
+989
+990
+991
+992
+993</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/numo/narray/extra.rb', line 985</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_triu_indices'>triu_indices</span><span class='lparen'>(</span><span class='id identifier rubyid_k'>k</span><span class='op'>=</span><span class='int'>0</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_ndim'>ndim</span> <span class='op'>&lt;</span> <span class='int'>2</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="" title="Numo::NArray (class)">NArray</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NArray/ShapeError.html" title="Numo::NArray::ShapeError (class)">ShapeError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>must be &gt;= 2-dimensional array</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_m'>m</span><span class='comma'>,</span><span class='id identifier rubyid_n'>n</span> <span class='op'>=</span> <span class='id identifier rubyid_shape'>shape</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>2</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_x'>x</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Int64.html" title="Numo::Int64 (class)">Int64</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Numo::NArray#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_m'>m</span><span class='comma'>,</span><span class='int'>1</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_seq'>seq</span> <span class='op'>+</span> <span class='id identifier rubyid_k'>k</span>
+  <span class='id identifier rubyid_y'>y</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Int64.html" title="Numo::Int64 (class)">Int64</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Numo::NArray#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>1</span><span class='comma'>,</span><span class='id identifier rubyid_n'>n</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_seq'>seq</span>
+  <span class='lparen'>(</span><span class='id identifier rubyid_x'>x</span><span class='op'>&lt;=</span><span class='id identifier rubyid_y'>y</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -10931,7 +11634,7 @@ na_make_view(VALUE self)
 </div>
 
       <div id="footer">
-  Generated on Sat May 27 02:16:51 2017 by
+  Generated on Sun May 28 05:30:03 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.9 (ruby-2.4.1).
 </div>
