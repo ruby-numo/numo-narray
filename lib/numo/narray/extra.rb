@@ -958,6 +958,74 @@ module Numo
     end
 
 
+    # Upper triangular matrix.
+    # Return a copy with the elements below the k-th diagonal filled with zero.
+    def triu(k=0)
+      dup.triu!(k)
+    end
+
+    # Upper triangular matrix.
+    # Fill the self elements below the k-th diagonal with zero.
+    def triu!(k=0)
+      if ndim < 2
+        raise NArray::ShapeError, "must be >= 2-dimensional array"
+      end
+      if contiguous?
+        *shp,m,n = shape
+        idx = tril_indices(k-1)
+        reshape!(*shp,m*n)
+        self[false,idx] = 0
+        reshape!(*shp,m,n)
+      else
+        store(triu(k))
+      end
+    end
+
+    # Return the indices for the uppler-triangle on and above the k-th diagonal.
+    def triu_indices(k=0)
+      if ndim < 2
+        raise NArray::ShapeError, "must be >= 2-dimensional array"
+      end
+      m,n = shape[-2..-1]
+      x = Numo::Int64.new(m,1).seq + k
+      y = Numo::Int64.new(1,n).seq
+      (x<=y).where
+    end
+
+    # Lower triangular matrix.
+    # Return a copy with the elements above the k-th diagonal filled with zero.
+    def tril(k=0)
+      dup.tril!(k)
+    end
+
+    # Lower triangular matrix.
+    # Fill the self elements above the k-th diagonal with zero.
+    def tril!(k=0)
+      if ndim < 2
+        raise NArray::ShapeError, "must be >= 2-dimensional array"
+      end
+      if contiguous?
+        idx = triu_indices(k+1)
+        *shp,m,n = shape
+        reshape!(*shp,m*n)
+        self[false,idx] = 0
+        reshape!(*shp,m,n)
+      else
+        store(tril(k))
+      end
+    end
+
+    # Return the indices for the lower-triangle on and below the k-th diagonal.
+    def tril_indices(k=0)
+      if ndim < 2
+        raise NArray::ShapeError, "must be >= 2-dimensional array"
+      end
+      m,n = shape[-2..-1]
+      x = Numo::Int64.new(m,1).seq + k
+      y = Numo::Int64.new(1,n).seq
+      (x>=y).where
+    end
+
     # Return the sum along diagonals of the array.
     #
     # If 2-D array, computes the summation along its diagonal with the
@@ -1121,11 +1189,11 @@ module Numo
           wa_sum = (w*a).sum(axis:-1, keepdims:true)
           fact = w_sum - ddof * wa_sum / w_sum
         end
+        if (fact <= 0).any?
+          raise StandardError,"Degrees of freedom <= 0 for slice"
+        end
       else
         fact = m.shape[-1] - ddof
-      end
-      if fact <= 0
-        raise StandardError,"Degrees of freedom <= 0 for slice"
       end
       if w
         m -= (m*w).sum(axis:-1, keepdims:true) / w_sum
