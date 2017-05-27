@@ -1036,6 +1036,31 @@ module Numo
       (x>=y).where
     end
 
+    # Return the k-th diagonal indices.
+    def diag_indices(k=0)
+      if ndim < 2
+        raise NArray::ShapeError, "must be >= 2-dimensional array"
+      end
+      m,n = shape[-2..-1]
+      NArray.diag_indices(m,n,k)
+    end
+
+    # Return the k-th diagonal indices.
+    def self.diag_indices(m,n,k=0)
+      x = Numo::Int64.new(m,1).seq + k
+      y = Numo::Int64.new(1,n).seq
+      (x.eq y).where
+    end
+
+    # Return a matrix whose diagonal is constructed by self along the last axis.
+    def diag(k=0)
+      *shp,n = shape
+      n += k.abs
+      a = self.class.zeros(*shp,n,n)
+      a.diagonal(k).store(self)
+      a
+    end
+
     # Return the sum along diagonals of the array.
     #
     # If 2-D array, computes the summation along its diagonal with the
