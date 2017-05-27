@@ -987,6 +987,11 @@ module Numo
         raise NArray::ShapeError, "must be >= 2-dimensional array"
       end
       m,n = shape[-2..-1]
+      NArray.triu_indices(m,n,k=0)
+    end
+
+    # Return the indices for the uppler-triangle on and above the k-th diagonal.
+    def self.triu_indices(m,n,k=0)
       x = Numo::Int64.new(m,1).seq + k
       y = Numo::Int64.new(1,n).seq
       (x<=y).where
@@ -1021,6 +1026,11 @@ module Numo
         raise NArray::ShapeError, "must be >= 2-dimensional array"
       end
       m,n = shape[-2..-1]
+      NArray.tril_indices(m,n,k)
+    end
+
+    # Return the indices for the lower-triangle on and below the k-th diagonal.
+    def self.tril_indices(m,n,k=0)
       x = Numo::Int64.new(m,1).seq + k
       y = Numo::Int64.new(1,n).seq
       (x>=y).where
