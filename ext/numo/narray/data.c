@@ -380,8 +380,7 @@ na_check_reshape(int argc, VALUE *argv, VALUE self, size_t *shape)
 }
 
 /*
-  Change the shape of self NArray without coping its data.
-  Returns a copied array.
+  Change the shape of self NArray without coping.
   Raise exception if self is non-contiguous.
 
   @overload  reshape!(size0,size1,...)
@@ -407,10 +406,10 @@ na_reshape_bang(int argc, VALUE *argv, VALUE self)
 }
 
 /*
-  Change the shape of NArray without changing its data.
+  Copy and change the shape of NArray.
   Returns a copied NArray.
 
-  @overload  reshape!(size0,size1,...)
+  @overload  reshape(size0,size1,...)
   @param sizeN [Integer] new shape
   @return [Numo::NArray] return self.
   @example
