@@ -335,18 +335,15 @@ na_transpose(int argc, VALUE *argv, VALUE self)
 
 //----------------------------------------------------------------------
 
-/* private function for reshape */
-static VALUE
-na_reshape(int argc, VALUE *argv, VALUE self)
+static void
+na_check_reshape(int argc, VALUE *argv, VALUE self, size_t *shape)
 {
     int    i, unfixed=-1;
     size_t total=1;
-    size_t *shape; //, *shape_save;
     narray_t *na;
-    VALUE    copy;
 
     if (argc == 0) {
-        rb_raise(rb_eRuntimeError, "No argrument");
+        rb_raise(rb_eArgError, "No argrument");
     }
     GetNArray(self,na);
     if (NA_SIZE(na) == 0) {
@@ -354,7 +351,6 @@ na_reshape(int argc, VALUE *argv, VALUE self)
     }
 
     /* get shape from argument */
-    shape = ALLOCA_N(size_t,argc);
     for (i=0; i<argc; ++i) {
         switch(TYPE(argv[i])) {
         case T_FIXNUM:
@@ -362,6 +358,9 @@ na_reshape(int argc, VALUE *argv, VALUE self)
             break;
         case T_NIL:
         case T_TRUE:
+            if (unfixed >= 0) {
+                rb_raise(rb_eArgError,"multiple unfixed dimension");
+            }
             unfixed = i;
             break;
         default:
@@ -370,24 +369,67 @@ na_reshape(int argc, VALUE *argv, VALUE self)
     }
 
     if (unfixed>=0) {
-        if (NA_SIZE(na) % total != 0)
+        if (NA_SIZE(na) % total != 0) {
             rb_raise(rb_eArgError, "Total size size must be divisor");
+        }
         shape[unfixed] = NA_SIZE(na) / total;
     }
     else if (total !=  NA_SIZE(na)) {
         rb_raise(rb_eArgError, "Total size must be same");
     }
-
-    copy = rb_funcall(self,rb_intern("dup"),0);
-    GetNArray(copy,na);
-    //shape_save = NA_SHAPE(na);
-    na_setup_shape(na,argc,shape);
-    //if (NA_SHAPE(na) != shape_save) {
-    //    xfree(shape_save);
-    //}
-    return copy;
 }
 
+/*
+  Change the shape of self NArray without coping its data.
+  Returns a copied array.
+  Raise exception if self is non-contiguous.
+
+  @overload  reshape!(size0,size1,...)
+  @param sizeN [Integer] new shape
+  @return [Numo::NArray] return self.
+  @example
+*/
+static VALUE
+na_reshape_bang(int argc, VALUE *argv, VALUE self)
+{
+    size_t *shape;
+    narray_t *na;
+
+    if (na_check_contiguous(self)==Qfalse) {
+        rb_raise(rb_eStandardError, "cannot change shape of non-contiguous NArray");
+    }
+    shape = ALLOCA_N(size_t, argc);
+    na_check_reshape(argc, argv, self, shape);
+
+    GetNArray(self, na);
+    na_setup_shape(na, argc, shape);
+    return self;
+}
+
+/*
+  Change the shape of NArray without changing its data.
+  Returns a copied NArray.
+
+  @overload  reshape!(size0,size1,...)
+  @param sizeN [Integer] new shape
+  @return [Numo::NArray] return self.
+  @example
+*/
+static VALUE
+na_reshape(int argc, VALUE *argv, VALUE self)
+{
+    size_t *shape;
+    narray_t *na;
+    VALUE    copy;
+
+    shape = ALLOCA_N(size_t, argc);
+    na_check_reshape(argc, argv, self, shape);
+
+    copy = rb_funcall(self, rb_intern("dup"), 0);
+    GetNArray(copy, na);
+    na_setup_shape(na, argc, shape);
+    return copy;
+}
 
 //----------------------------------------------------------------------
 
@@ -893,8 +935,8 @@ Init_nary_data()
     rb_define_method(cNArray, "transpose", na_transpose, -1);
 
     rb_define_method(cNArray, "reshape", na_reshape,-1);
-    /*
     rb_define_method(cNArray, "reshape!", na_reshape_bang,-1);
+    /*
     rb_define_alias(cNArray,  "shape=","reshape!");
     */
     rb_define_method(cNArray, "diagonal", na_diagonal,-1);
