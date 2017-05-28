@@ -37,9 +37,12 @@
 
 * refactoring array.c: avoid using na_compose_t and na_ary_composition. -- done
 
+* reshape! -- done
 
-* reshape!
+
 * flatten_dim
+
+* name of new_zeros, zeros_like etc.
 
 * NMath.sin => DFloat.sin ??
 
@@ -90,7 +93,7 @@ histcount
 <<,>>  - done
 swapaxis - done
 squeeze
-trace
+trace - done
 ptp  - done
 clip  - done
 ravel

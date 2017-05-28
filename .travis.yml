@@ -18,4 +18,4 @@ before_install:
 
 script:
   - gem build numo-narray.gemspec
-  - gem install numo-narray-0.9.0.6.gem
+  - gem install numo-narray-0.9.0.7.gem
