@@ -13,6 +13,8 @@ end
 require "rake/extensiontask"
 require "rake_compiler_dock"
 require "shellwords"
+require "rspec/core/rake_task"
+
 
 spec = Bundler::GemHelper.gemspec
 
@@ -21,6 +23,9 @@ Rake::ExtensionTask.new("numo/narray", spec) do |ext|
   ext.cross_compile = true
   ext.cross_platform = cross_platforms
 end
+
+RSpec::Core::RakeTask.new("spec")
+Rake::Task[:spec].prerequisites << :compile
 
 pkg_dir = "pkg"
 windows_gem_paths = cross_platforms.collect do |platform|
