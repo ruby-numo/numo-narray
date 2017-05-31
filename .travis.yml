@@ -10,6 +10,9 @@ matrix:
   fast_finish:
     true
 
+notifications:
+  email: false
+
 install: true
 
 before_install:
