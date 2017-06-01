@@ -1,27 +1,68 @@
+<% if is_int and %w[div mod divmod].include? name %>
+#define check_intdivzero(y)              \
+    if ((y)==0) {                        \
+        lp->err_type = rb_eZeroDivError; \
+        return;                          \
+    }
+<% else %>
+#define check_intdivzero(y) {}
+<% end %>
+
 static void
 <%=c_iter%>(na_loop_t *const lp)
 {
     size_t   i, n;
     char    *p1, *p2, *p3;
     ssize_t  s1, s2, s3;
-    dtype    x, y;
+
     INIT_COUNTER(lp, n);
     INIT_PTR(lp, 0, p1, s1);
     INIT_PTR(lp, 1, p2, s2);
     INIT_PTR(lp, 2, p3, s3);
-    for (i=n; i--;) {
-        GET_DATA_STRIDE(p1,s1,dtype,x);
-        GET_DATA_STRIDE(p2,s2,dtype,y);
-<% if is_int and %w[div mod divmod].include? name %>
-        if (y==0) {
-            lp->err_type = rb_eZeroDivError;
+
+<% if /Int8$/ !~ class_name %>
+    if ((size_t)p1 % sizeof(dtype) == 0 &&
+        (size_t)p2 % sizeof(dtype) == 0 &&
+        (size_t)p3 % sizeof(dtype) == 0 ) {
+<% end %>
+
+        if (s1 == sizeof(dtype) &&
+            s2 == sizeof(dtype) &&
+            s3 == sizeof(dtype) ) {
+
+            for (i=0; i<n; i++) {
+                check_intdivzero(*(dtype*)p2);
+                ((dtype*)p3)[i] = m_<%=name%>(((dtype*)p1)[i],((dtype*)p2)[i]);
+            }
+            return;
+        } else
+        if (s1 % sizeof(dtype) == 0 &&
+            s2 % sizeof(dtype) == 0 &&
+            s3 % sizeof(dtype) == 0 ) {
+
+            for (i=0; i<n; i++) {
+                check_intdivzero(*(dtype*)p2);
+                *(dtype*)p3 = m_<%=name%>(*(dtype*)p1,*(dtype*)p2);
+                p1 += s1;
+                p2 += s2;
+                p3 += s3;
+            }
             return;
         }
-<% end %>
-        x = m_<%=name%>(x,y);
-        SET_DATA_STRIDE(p3,s3,dtype,x);
+
+<% if /Int8$/ !~ class_name %>
     }
+    for (i=0; i<n; i+=2) {
+        dtype x, y, z;
+        GET_DATA_STRIDE(p1,s1,dtype,x);
+        GET_DATA_STRIDE(p2,s2,dtype,y);
+        check_intdivzero(y);
+        z = m_<%=name%>(x,y);
+        SET_DATA_STRIDE(p3,s3,dtype,z);
+    }
+<% end %>
 }
+#undef check_intdivzero
 
 static VALUE
 <%=c_func%>_self(VALUE self, VALUE other)
@@ -46,6 +87,7 @@ static VALUE
     return <%=c_func%>_self(self, other);
     <% else %>
     VALUE klass, v;
+
     klass = na_upcast(CLASS_OF(self),CLASS_OF(other));
     if (klass==cT) {
         return <%=c_func%>_self(self, other);
