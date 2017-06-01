@@ -1,24 +1,25 @@
+#define not_nan(x) ((x)==(x))
 
 #define m_mulsum(x,y,z) {z = m_add(m_mul(x,y),z);}
-#define m_mulsum_nan(x,y,z) {            \
-        if(!m_isnan(x) && !m_isnan(y)) { \
-            z = m_add(m_mul(x,y),z);     \
+#define m_mulsum_nan(x,y,z) {          \
+        if(not_nan(x) && not_nan(y)) { \
+            z = m_add(m_mul(x,y),z);   \
         }}
 
 #define m_cumsum(x,y) {(x)=m_add(x,y);}
-#define m_cumsum_nan(x,y) {       \
-        if (m_isnan(x)) {         \
-            (x) = (y);            \
-        } else if (!m_isnan(y)) { \
-            (x) = m_add(x,y);     \
+#define m_cumsum_nan(x,y) {      \
+        if (!not_nan(x)) {       \
+            (x) = (y);           \
+        } else if (not_nan(y)) { \
+            (x) = m_add(x,y);    \
         }}
 
 #define m_cumprod(x,y) {(x)=m_mul(x,y);}
-#define m_cumprod_nan(x,y) {      \
-        if (m_isnan(x)) {         \
-            (x) = (y);            \
-        } else if (!m_isnan(y)) { \
-            (x) = m_mul(x,y);     \
+#define m_cumprod_nan(x,y) {     \
+        if (!not_nan(x)) {       \
+            (x) = (y);           \
+        } else if (not_nan(y)) { \
+            (x) = m_mul(x,y);    \
         }}
 
 static inline dtype f_sum(size_t n, char *p, ssize_t stride)
@@ -28,8 +29,8 @@ static inline dtype f_sum(size_t n, char *p, ssize_t stride)
 
     for (; i--;) {
         x = *(dtype*)p;
-        p += stride;
         y = m_add(x,y);
+        p += stride;
     }
     return y;
 }
@@ -42,7 +43,7 @@ static inline dtype f_sum_nan(size_t n, char *p, ssize_t stride)
     for (; i--;) {
         x = *(dtype*)p;
         p += stride;
-        if (!m_isnan(x)) {
+        if (not_nan(x)) {
             y = m_add(x,y);
         }
     }
@@ -71,7 +72,7 @@ static inline dtype f_prod_nan(size_t n, char *p, ssize_t stride)
     for (; i--;) {
         x = *(dtype*)p;
         p += stride;
-        if (!m_isnan(x)) {
+        if (not_nan(x)) {
             y = m_mul(x,y);
         }
     }
@@ -102,7 +103,7 @@ static inline dtype f_mean_nan(size_t n, char *p, ssize_t stride)
     for (; i--;) {
         x = *(dtype*)p;
         p += stride;
-        if (!m_isnan(x)) {
+        if (not_nan(x)) {
             y = m_add(x,y);
             count++;
         }
@@ -141,7 +142,7 @@ static inline dtype f_var_nan(size_t n, char *p, ssize_t stride)
     for (; i--;) {
         x = *(dtype*)p;
         p += stride;
-        if (!m_isnan(x)) {
+        if (not_nan(x)) {
             a = m_abs(m_sub(x,m));
             y = m_add(y,m_square(a));
             count++;
@@ -184,7 +185,7 @@ static inline dtype f_rms_nan(size_t n, char *p, ssize_t stride)
     for (; i--;) {
         x = *(dtype*)p;
         p += stride;
-        if (!m_isnan(x)) {
+        if (not_nan(x)) {
             y = m_add(y,m_square(m_abs(x)));
             count++;
         }
@@ -201,11 +202,11 @@ static inline dtype f_min_nan(size_t n, char *p, ssize_t stride)
 
     y = *(dtype*)p;
     p += stride;
-    if (m_isnan(y)) {return y;}
+    if (!not_nan(y)) {return y;}
     for (i--; i--;) {
         x = *(dtype*)p;
         p += stride;
-        if (m_isnan(x)) {return x;}
+        if (!not_nan(x)) {return x;}
         if (m_lt(x,y)) {
             y = x;
         }
@@ -221,7 +222,7 @@ static inline dtype f_min(size_t n, char *p, ssize_t stride)
     for (; i--; ) {
         y = *(dtype*)p;
         p += stride;
-        if (!m_isnan(y)) {
+        if (not_nan(y)) {
             for (; i--;) {
                 x = *(dtype*)p;
                 p += stride;
@@ -242,11 +243,11 @@ static inline dtype f_max_nan(size_t n, char *p, ssize_t stride)
 
     y = *(dtype*)p;
     p += stride;
-    if (m_isnan(y)) {return y;}
+    if (!not_nan(y)) {return y;}
     for (i--; i--;) {
         x = *(dtype*)p;
         p += stride;
-        if (m_isnan(x)) {return x;}
+        if (!not_nan(x)) {return x;}
         if (m_gt(x,y)) {
             y = x;
         }
@@ -262,7 +263,7 @@ static inline dtype f_max(size_t n, char *p, ssize_t stride)
     for (; i--; ) {
         y = *(dtype*)p;
         p += stride;
-        if (!m_isnan(y)) {
+        if (not_nan(y)) {
             for (; i--;) {
                 x = *(dtype*)p;
                 p += stride;
@@ -283,11 +284,11 @@ static inline size_t f_min_index_nan(size_t n, char *p, ssize_t stride)
 
     y = *(dtype*)p;
     p += stride;
-    if (m_isnan(y)) {return j;}
+    if (!not_nan(y)) {return j;}
     for (i=1; i<n; i++) {
         x = *(dtype*)p;
         p += stride;
-        if (m_isnan(x)) {return i;}
+        if (!not_nan(x)) {return i;}
         if (m_lt(x,y)) {
             y = x;
             j = i;
@@ -304,7 +305,7 @@ static inline size_t f_min_index(size_t n, char *p, ssize_t stride)
     for (i=0; i<n; i++) {
         y = *(dtype*)p;
         p += stride;
-        if (!m_isnan(y)) {
+        if (not_nan(y)) {
             j = i;
             for (; i<n; i++) {
                 x = *(dtype*)p;
@@ -327,11 +328,11 @@ static inline size_t f_max_index_nan(size_t n, char *p, ssize_t stride)
 
     y = *(dtype*)p;
     p += stride;
-    if (m_isnan(y)) {return j;}
+    if (!not_nan(y)) {return j;}
     for (i=1; i<n; i++) {
         x = *(dtype*)p;
         p += stride;
-        if (m_isnan(x)) {return i;}
+        if (!not_nan(x)) {return i;}
         if (m_gt(x,y)) {
             y = x;
             j = i;
@@ -348,7 +349,7 @@ static inline size_t f_max_index(size_t n, char *p, ssize_t stride)
     for (i=0; i<n; i++) {
         y = *(dtype*)p;
         p += stride;
-        if (!m_isnan(y)) {
+        if (not_nan(y)) {
             j = i;
             for (; i<n; i++) {
                 x = *(dtype*)p;
@@ -372,14 +373,14 @@ f_minmax_nan(size_t n, char *p, ssize_t stride, dtype *amin, dtype *amax)
 
     min = max = *(dtype*)p;
     p += stride;
-    if (m_isnan(min)) {
+    if (!not_nan(min)) {
         *amin = *amax = min;
         return;
     }
     for (i--; i--;) {
         x = *(dtype*)p;
         p += stride;
-        if (m_isnan(x)) {
+        if (!not_nan(x)) {
             *amin = *amax = x;
             return;
         }
@@ -412,7 +413,7 @@ f_minmax(size_t n, char *p, ssize_t stride, dtype *amin, dtype *amax)
     for (; i--; ) {
         min = *(dtype*)p;
         p += stride;
-        if (!m_isnan(min)) {
+        if (not_nan(min)) {
             max = min;
             for (; i--;) {
                 x = *(dtype*)p;

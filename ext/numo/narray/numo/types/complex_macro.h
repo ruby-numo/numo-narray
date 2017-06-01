@@ -117,26 +117,28 @@ static inline dtype c_from_dcomplex(dcomplex x) {
 #define m_sum_init INT2FIX(0)
 #define m_mulsum_init INT2FIX(0)
 
+#define not_nan(x) (REAL(x)==REAL(x) && IMAG(x)==IMAG(x))
+
 #define m_mulsum(x,y,z) {z = m_add(m_mul(x,y),z);}
-#define m_mulsum_nan(x,y,z) {            \
-        if(!m_isnan(x) && !m_isnan(y)) { \
-            z = m_add(m_mul(x,y),z);     \
+#define m_mulsum_nan(x,y,z) {          \
+        if(not_nan(x) && not_nan(y)) { \
+            z = m_add(m_mul(x,y),z);   \
         }}
 
 #define m_cumsum(x,y) {(x)=m_add(x,y);}
-#define m_cumsum_nan(x,y) {       \
-        if (m_isnan(x)) {         \
-            (x) = (y);            \
-        } else if (!m_isnan(y)) { \
-            (x) = m_add(x,y);     \
+#define m_cumsum_nan(x,y) {      \
+        if (!not_nan(x)) {       \
+            (x) = (y);           \
+        } else if (not_nan(y)) { \
+            (x) = m_add(x,y);    \
         }}
 
 #define m_cumprod(x,y) {(x)=m_mul(x,y);}
-#define m_cumprod_nan(x,y) {      \
-        if (m_isnan(x)) {         \
-            (x) = (y);            \
-        } else if (!m_isnan(y)) { \
-            (x) = m_mul(x,y);     \
+#define m_cumprod_nan(x,y) {     \
+        if (!not_nan(x)) {       \
+            (x) = (y);           \
+        } else if (not_nan(y)) { \
+            (x) = m_mul(x,y);    \
         }}
 
 static inline dtype f_sum(size_t n, char *p, ssize_t stride)
@@ -161,7 +163,7 @@ static inline dtype f_sum_nan(size_t n, char *p, ssize_t stride)
     y = c_zero();
     for (; i--;) {
         x = *(dtype*)p;
-        if (!c_isnan(x)) {
+        if (not_nan(x)) {
             y = c_add(x,y);
         }
         p += stride;
@@ -205,7 +207,7 @@ static inline dtype f_kahan_sum_nan(size_t n, char *p, ssize_t stride)
     r = c_zero();
     for (; i--;) {
         x = *(dtype*)p;
-        if (!c_isnan(x)) {
+        if (not_nan(x)) {
             if (fabs(REAL(x)) > fabs(REAL(y))) {
                 double z=REAL(x); REAL(x)=REAL(y); REAL(y)=z;
             }
@@ -245,7 +247,7 @@ static inline dtype f_prod_nan(size_t n, char *p, ssize_t stride)
     y = c_one();
     for (; i--;) {
         x = *(dtype*)p;
-        if (!c_isnan(x)) {
+        if (not_nan(x)) {
             y = c_mul(x,y);
         }
         p += stride;
@@ -278,7 +280,7 @@ static inline dtype f_mean_nan(size_t n, char *p, ssize_t stride)
     y = c_zero();
     for (; i--;) {
         x = *(dtype*)p;
-        if (!c_isnan(x)) {
+        if (not_nan(x)) {
             y = c_add(x,y);
             count++;
         }
@@ -316,7 +318,7 @@ static inline rtype f_var_nan(size_t n, char *p, ssize_t stride)
 
     for (; i--;) {
         x = *(dtype*)p;
-        if (!c_isnan(x)) {
+        if (not_nan(x)) {
             y += c_abs_square(c_sub(x,m));
             count++;
         }
@@ -360,7 +362,7 @@ static inline rtype f_rms_nan(size_t n, char *p, ssize_t stride)
 
     for (; i--;) {
         x = *(dtype*)p;
-        if (!c_isnan(x)) {
+        if (not_nan(x)) {
             y += c_abs_square(x);
             count++;
         }
