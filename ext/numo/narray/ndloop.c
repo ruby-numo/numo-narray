@@ -43,7 +43,7 @@ typedef struct NA_MD_LOOP {
     int  nin;
     int  ndim;                // n of total dimention
     unsigned int copy_flag;   // set i-th bit if i-th arg is cast
-    size_t  *n_ptr;           // memory for n
+    void    *ptr;             // memory for n
     na_loop_iter_t *iter_ptr; // memory for iter
     size_t  *n;               // n of elements for each dim
     na_loop_t  user;          // loop in user function
@@ -337,6 +337,9 @@ ndloop_alloc(na_md_loop_t *lp, ndfunc_t *nf, VALUE args,
     int narg;
     int max_nd;
 
+    char *buf;
+    size_t n1, n2, n3, n4, n5;
+
     long args_len;
 
     na_loop_iter_t *iter;
@@ -364,23 +367,28 @@ ndloop_alloc(na_md_loop_t *lp, ndfunc_t *nf, VALUE args,
     lp->writeback = -1;
     lp->init_aidx = -1;
 
-    lp->n = NULL;
-    lp->n_ptr = NULL;
-    lp->xargs = NULL;
-    lp->user.args = NULL;
+    lp->ptr = NULL;
     lp->user.n = NULL;
-    lp->iter_ptr = NULL;
-    lp->trans_map = NULL;
 
     ndloop_find_max_dimension(lp, nf, args);
     narg = lp->nin + nf->nout;
     max_nd = lp->ndim + lp->user.ndim;
 
-    lp->n    = lp->n_ptr = ALLOC_N(size_t, max_nd+1);
-    lp->xargs = ALLOC_N(na_loop_xargs_t, narg);
-    lp->user.args = ALLOC_N(na_loop_args_t, narg);
-    iter = ALLOC_N(na_loop_iter_t, narg*(max_nd+1));
-    lp->iter_ptr = iter;
+    n1 = sizeof(size_t)*(max_nd+1);
+    n2 = sizeof(na_loop_xargs_t)*narg;
+    n2 = ((n2-1)/8+1)*8;
+    n3 = sizeof(na_loop_args_t)*narg;
+    n3 = ((n3-1)/8+1)*8;
+    n4 = sizeof(na_loop_iter_t)*narg*(max_nd+1);
+    n4 = ((n4-1)/8+1)*8;
+    n5 = sizeof(int)*(max_nd+1);
+
+    lp->ptr = buf = (char*)xmalloc(n1+n2+n3+n4+n5);
+    lp->n = (size_t*)buf; buf+=n1;
+    lp->xargs = (na_loop_xargs_t*)buf; buf+=n2;
+    lp->user.args = (na_loop_args_t*)buf; buf+=n3;
+    lp->iter_ptr = iter = (na_loop_iter_t*)buf; buf+=n4;
+    lp->trans_map = (int*)buf;
 
     for (j=0; j<narg; j++) {
         LARG(lp,j).value = Qnil;
@@ -406,7 +414,6 @@ ndloop_alloc(na_md_loop_t *lp, ndfunc_t *nf, VALUE args,
     //              array          loop
     //           [*,+,*,+,*] => [*,*,*,+,+]
     // trans_map=[0,3,1,4,2] <= [0,1,2,3,4]
-    lp->trans_map = ALLOC_N(int, max_nd+1);
     if (NDF_TEST(nf,NDF_FLAT_REDUCE) && RTEST(lp->reduce)) {
         trans_dim = 0;
         for (i=0; i<max_nd; i++) {
@@ -450,7 +457,6 @@ ndloop_release(VALUE vlp)
             na_release_lock(v);
         }
     }
-    //xfree(lp);
     for (j=0; j<lp->narg; j++) {
         //printf("lp->xargs[%d].bufcp=%lx\n",j,(size_t)(lp->xargs[j].bufcp));
         if (lp->xargs[j].bufcp) {
@@ -463,12 +469,7 @@ ndloop_release(VALUE vlp)
             }
         }
     }
-    if (lp->trans_map) xfree(lp->trans_map);
-    xfree(lp->xargs);
-    xfree(lp->iter_ptr);
-    xfree(lp->user.args);
-    xfree(lp->n_ptr);
-    //rb_gc_force_recycle(vlp);
+    xfree(lp->ptr);
     return Qnil;
 }
 
