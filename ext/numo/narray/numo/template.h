@@ -133,4 +133,17 @@
     }
 // val -> val&1 ??
 
-#endif /* ifndef NARRAY_H */
+static inline int
+is_aligned(const void *ptr, const size_t alignment)
+{
+    return ((size_t)(ptr) & ((alignment)-1)) == 0;
+}
+
+static inline int
+is_aligned_step(const ssize_t step, const size_t alignment)
+{
+    return ((step) & ((alignment)-1)) == 0;
+}
+
+
+#endif /* ifndef TEMPLATE_H */

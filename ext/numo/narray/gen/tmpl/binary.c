@@ -20,11 +20,10 @@ static void
     INIT_PTR(lp, 1, p2, s2);
     INIT_PTR(lp, 2, p3, s3);
 
-<% if /Int8$/ !~ class_name %>
-    if ((size_t)p1 % sizeof(dtype) == 0 &&
-        (size_t)p2 % sizeof(dtype) == 0 &&
-        (size_t)p3 % sizeof(dtype) == 0 ) {
-<% end %>
+    //<% if need_align %>
+    if (is_aligned(p1,sizeof(dtype)) &&
+        is_aligned(p2,sizeof(dtype)) &&
+        is_aligned(p3,sizeof(dtype)) ) {
 
         if (s1 == sizeof(dtype) &&
             s2 == sizeof(dtype) &&
@@ -35,11 +34,11 @@ static void
                 ((dtype*)p3)[i] = m_<%=name%>(((dtype*)p1)[i],((dtype*)p2)[i]);
             }
             return;
-        } else
-        if (s1 % sizeof(dtype) == 0 &&
-            s2 % sizeof(dtype) == 0 &&
-            s3 % sizeof(dtype) == 0 ) {
-
+        }
+        if (is_aligned_step(s1,sizeof(dtype)) &&
+            is_aligned_step(s2,sizeof(dtype)) &&
+            is_aligned_step(s3,sizeof(dtype)) ) {
+            //<% end %>
             for (i=0; i<n; i++) {
                 check_intdivzero(*(dtype*)p2);
                 *(dtype*)p3 = m_<%=name%>(*(dtype*)p1,*(dtype*)p2);
@@ -48,11 +47,10 @@ static void
                 p3 += s3;
             }
             return;
+            //<% if need_align %>
         }
-
-<% if /Int8$/ !~ class_name %>
     }
-    for (i=0; i<n; i+=2) {
+    for (i=0; i<n; i++) {
         dtype x, y, z;
         GET_DATA_STRIDE(p1,s1,dtype,x);
         GET_DATA_STRIDE(p2,s2,dtype,y);
@@ -60,7 +58,7 @@ static void
         z = m_<%=name%>(x,y);
         SET_DATA_STRIDE(p3,s3,dtype,z);
     }
-<% end %>
+    //<% end %>
 }
 #undef check_intdivzero
 

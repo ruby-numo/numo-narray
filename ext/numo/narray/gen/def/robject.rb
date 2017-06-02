@@ -17,6 +17,7 @@ set is_complex:          false
 set is_object:           true
 set is_comparable:       true
 set is_double_precision: false
+set need_align:          false
 
 upcast_rb "Integer"
 upcast_rb "Float"

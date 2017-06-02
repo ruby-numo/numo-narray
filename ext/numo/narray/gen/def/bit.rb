@@ -16,6 +16,7 @@ set is_object:     false
 set is_real:       false
 set is_comparable: false
 set is_double_precision: false
+set need_align:    false
 
 upcast_rb "Integer"
 upcast_rb "Float", "DFloat"

@@ -1,27 +1,31 @@
-<% (is_float ? ["","_nan"] : [""]).each do |j| %>
+//<% (is_float ? ["","_nan"] : [""]).each do |j| %>
 static void
 <%=c_iter%><%=j%>(na_loop_t *const lp)
 {
-    size_t   i;
+    size_t   i, n;
     char    *p1, *p2, *p3;
     ssize_t  s1, s2, s3;
-    dtype    x, y, z;
 
-    INIT_COUNTER(lp, i);
+    INIT_COUNTER(lp, n);
     INIT_PTR(lp, 0, p1, s1);
     INIT_PTR(lp, 1, p2, s2);
     INIT_PTR(lp, 2, p3, s3);
+
     if (s3==0) {
+        dtype z;
         // Reduce loop
         GET_DATA(p3,dtype,z);
-        for (; i--;) {
+        for (i=0; i<n; i++) {
+            dtype x, y;
             GET_DATA_STRIDE(p1,s1,dtype,x);
             GET_DATA_STRIDE(p2,s2,dtype,y);
             m_<%=name%><%=j%>(x,y,z);
         }
         SET_DATA(p3,dtype,z);
+        return;
     } else {
-        for (; i--;) {
+        for (i=0; i<n; i++) {
+            dtype x, y, z;
             GET_DATA_STRIDE(p1,s1,dtype,x);
             GET_DATA_STRIDE(p2,s2,dtype,y);
             GET_DATA(p3,dtype,z);
@@ -30,7 +34,7 @@ static void
         }
     }
 }
-<% end %>
+//<% end %>
 
 static VALUE
 <%=c_func%>_self(int argc, VALUE *argv, VALUE self)
@@ -47,11 +51,11 @@ static VALUE
     // should fix below: [self.ndim,other.ndim].max or?
     naryv[0] = self;
     naryv[1] = argv[0];
-  <% if is_float %>
+    //<% if is_float %>
     reduce = na_reduce_dimension(argc-1, argv+1, 2, naryv, &ndf, <%=c_iter%>_nan);
-  <% else %>
+    //<% else %>
     reduce = na_reduce_dimension(argc-1, argv+1, 2, naryv, &ndf, 0);
-  <% end %>
+    //<% end %>
 
     v =  na_ndloop(&ndf, 4, self, argv[0], reduce, m_<%=name%>_init);
     return <%=type_name%>_extract(v);
@@ -76,15 +80,15 @@ static VALUE
 static VALUE
 <%=c_func(-1)%>(int argc, VALUE *argv, VALUE self)
 {
-    <% if !is_object %>
+    //<% if !is_object %>
     VALUE klass, v;
-    <% end %>
+    //<% end %>
     if (argc < 1) {
         rb_raise(rb_eArgError,"wrong number of arguments (%d for >=1)",argc);
     }
-    <% if is_object %>
+    //<% if is_object %>
     return <%=c_func%>_self(argc, argv, self);
-    <% else %>
+    //<% else %>
     klass = na_upcast(CLASS_OF(self),CLASS_OF(argv[0]));
     if (klass==cT) {
         return <%=c_func%>_self(argc, argv, self);
@@ -92,5 +96,5 @@ static VALUE
         v = rb_funcall(klass, id_cast, 1, self);
         return rb_funcall2(v, rb_intern("<%=name%>"), argc, argv);
     }
-    <% end %>
+    //<% end %>
 }
