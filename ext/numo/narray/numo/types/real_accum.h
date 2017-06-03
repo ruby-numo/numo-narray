@@ -306,7 +306,7 @@ static inline size_t f_min_index(size_t n, char *p, ssize_t stride)
         y = *(dtype*)p;
         p += stride;
         if (not_nan(y)) {
-            j = i;
+            j = i; i++;
             for (; i<n; i++) {
                 x = *(dtype*)p;
                 p += stride;
@@ -350,7 +350,7 @@ static inline size_t f_max_index(size_t n, char *p, ssize_t stride)
         y = *(dtype*)p;
         p += stride;
         if (not_nan(y)) {
-            j = i;
+            j = i; i++;
             for (; i<n; i++) {
                 x = *(dtype*)p;
                 p += stride;
