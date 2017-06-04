@@ -173,26 +173,27 @@ static void
 na_parse_range(VALUE range, ssize_t step, int orig_dim, ssize_t size, na_index_arg_t *q)
 {
     int n;
-    ssize_t beg, end;
+    VALUE excl_end;
+    ssize_t beg, end, beg_orig, end_orig;
+    const char *dot = "..", *edot = "...";
 
-    beg = NUM2LONG(rb_funcall(range,id_beg,0));
-    if (beg<0) {
+    beg = beg_orig = NUM2SSIZET(rb_funcall(range,id_beg,0));
+    if (beg < 0) {
         beg += size;
     }
-
-    end = NUM2LONG(rb_funcall(range,id_end,0));
-    if (end<0) {
+    end = end_orig = NUM2SSIZET(rb_funcall(range,id_end,0));
+    if (end < 0) {
         end += size;
     }
-
-    if (RTEST(rb_funcall(range,id_exclude_end,0))) {
+    excl_end = rb_funcall(range,id_exclude_end,0);
+    if (RTEST(excl_end)) {
         end--;
+        dot = edot;
     }
-    if (beg < -size || beg >= size ||
-        end < -size || end >= size) {
+    if (beg < 0 || beg >= size || end < 0 || end >= size) {
         rb_raise(rb_eRangeError,
-                 "beg=%"SZF"d,end=%"SZF"d is out of array size (%"SZF"d)",
-                 beg, end, size);
+                 "%"SZF"d%s%"SZF"d is out of range for size=%"SZF"d",
+                 beg_orig, dot, end_orig, size);
     }
     n = (end-beg)/step+1;
     if (n<0) n=0;
