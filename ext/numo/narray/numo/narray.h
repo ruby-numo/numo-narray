@@ -133,6 +133,7 @@ extern VALUE nary_eCastError;
 extern VALUE nary_eShapeError;
 extern VALUE nary_eOperationError;
 extern VALUE nary_eDimensionError;
+extern VALUE nary_eValueError;
 extern const rb_data_type_t na_data_type;
 
 //EXTERN const int na_sizeof[NA_NTYPES+1];
