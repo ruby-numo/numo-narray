@@ -14,6 +14,7 @@ VALUE nary_eCastError;
 VALUE nary_eShapeError;
 VALUE nary_eOperationError;
 VALUE nary_eDimensionError;
+VALUE nary_eValueError;
 
 static ID id_contiguous_stride;
 static ID id_allocate;
@@ -1851,6 +1852,7 @@ Init_narray()
     nary_eShapeError = rb_define_class_under(cNArray, "ShapeError", rb_eStandardError);
     nary_eOperationError = rb_define_class_under(cNArray, "OperationError", rb_eStandardError);
     nary_eDimensionError = rb_define_class_under(cNArray, "DimensionError", rb_eStandardError);
+    nary_eValueError = rb_define_class_under(cNArray, "ValueError", rb_eStandardError);
 
     rb_define_singleton_method(cNArray, "debug=", na_debug_set, 1);
     rb_define_singleton_method(cNArray, "profile", na_profile, 0);

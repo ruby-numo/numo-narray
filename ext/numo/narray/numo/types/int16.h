@@ -8,8 +8,6 @@ typedef int16_t rtype;
 #define m_extract(x)     INT2NUM((int)*(dtype*)(x))
 #define m_sprintf(s,x)   sprintf(s,"%d",(int)(x))
 
-#include "int_macro.h"
-
 #ifndef INT16_MIN
 #define INT16_MIN (-32767-1)
 #endif
@@ -17,5 +15,10 @@ typedef int16_t rtype;
 #define INT16_MAX (32767)
 #endif
 
+#define DATA_MIN INT16_MIN
+#define DATA_MAX INT16_MAX
+
 #define M_MIN  m_data_to_num(INT16_MIN)
 #define M_MAX  m_data_to_num(INT16_MAX)
+
+#include "int_macro.h"

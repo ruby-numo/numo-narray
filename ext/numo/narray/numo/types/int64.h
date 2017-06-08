@@ -8,8 +8,6 @@ typedef int64_t rtype;
 #define m_extract(x)     INT642NUM((int64_t)*(dtype*)(x))
 #define m_sprintf(s,x)   sprintf(s,"%"PRId64,(int64_t)(x))
 
-#include "int_macro.h"
-
 #ifndef INT64_MIN
 #define INT64_MIN (-9223372036854775807l-1)
 #endif
@@ -17,5 +15,10 @@ typedef int64_t rtype;
 #define INT64_MAX (9223372036854775807l)
 #endif
 
+#define DATA_MIN INT64_MIN
+#define DATA_MAX INT64_MAX
+
 #define M_MIN  m_data_to_num(INT64_MIN)
 #define M_MAX  m_data_to_num(INT64_MAX)
+
+#include "int_macro.h"

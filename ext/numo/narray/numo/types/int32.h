@@ -8,8 +8,6 @@ typedef int32_t rtype;
 #define m_extract(x)     INT322NUM((int32_t)*(dtype*)(x))
 #define m_sprintf(s,x)   sprintf(s,"%"PRId32,(int32_t)(x))
 
-#include "int_macro.h"
-
 #ifndef INT32_MIN
 #define INT32_MIN (-2147483647-1)
 #endif
@@ -17,5 +15,10 @@ typedef int32_t rtype;
 #define INT32_MAX (2147483647)
 #endif
 
+#define DATA_MIN INT32_MIN
+#define DATA_MAX INT32_MAX
+
 #define M_MIN  m_data_to_num(INT32_MIN)
 #define M_MAX  m_data_to_num(INT32_MAX)
+
+#include "int_macro.h"

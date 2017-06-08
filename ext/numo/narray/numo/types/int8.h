@@ -8,8 +8,6 @@ typedef int8_t rtype;
 #define m_extract(x)     INT2NUM((int)*(dtype*)(x))
 #define m_sprintf(s,x)   sprintf(s,"%d",(int)(x))
 
-#include "int_macro.h"
-
 #ifndef INT8_MIN
 #define INT8_MIN (-127-1)
 #endif
@@ -17,5 +15,10 @@ typedef int8_t rtype;
 #define INT8_MAX (127)
 #endif
 
+#define DATA_MIN INT8_MIN
+#define DATA_MAX INT8_MAX
+
 #define M_MIN  INT2FIX(INT8_MIN)
 #define M_MAX  INT2FIX(INT8_MAX)
+
+#include "int_macro.h"

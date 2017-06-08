@@ -8,11 +8,14 @@ typedef u_int16_t rtype;
 #define m_extract(x)     UINT2NUM((unsigned int)*(dtype*)(x))
 #define m_sprintf(s,x)   sprintf(s,"%u",(unsigned int)(x))
 
-#include "uint_macro.h"
-
 #ifndef UINT16_MAX
 #define UINT16_MAX (65535)
 #endif
 
+#define DATA_MIN UINT16_MIN
+#define DATA_MAX UINT16_MAX
+
 #define M_MIN  INT2FIX(0)
 #define M_MAX  m_data_to_num(UINT16_MAX)
+
+#include "uint_macro.h"
