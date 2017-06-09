@@ -18,6 +18,11 @@ static void
 
     //printf("(ptr=%lx, d_ptr=%lx,d_step=%ld, i_ptr=%lx,i_step=%ld, o_ptr=%lx,o_step=%ld)\n",(size_t)ptr,(size_t)d_ptr,(ssize_t)d_step,(size_t)i_ptr,(ssize_t)i_step,(size_t)o_ptr,(ssize_t)o_step);
 
+    if (n==1) {
+        *(idx_t*)o_ptr = *(idx_t*)(i_ptr);
+        return;
+    }
+
     for (i=0; i<n; i++) {
         ptr[i] = d_ptr + d_step * i;
         //printf("(%ld,%.3f)",i,*(double*)ptr[i]);
@@ -94,7 +99,7 @@ static VALUE
     }
     rb_funcall(idx, rb_intern("seq"), 0);
 
-    size = na->size*sizeof(void*);
+    size = na->size*sizeof(void*); // max capa
     buf = rb_alloc_tmp_buffer(&tmp, size);
     res = na_ndloop3(&ndf, buf, 3, self, idx, reduce);
     rb_free_tmp_buffer(&tmp);
