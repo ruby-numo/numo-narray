@@ -397,7 +397,7 @@ ndloop_alloc(na_md_loop_t *lp, ndfunc_t *nf, VALUE args,
         LARG(lp,j).ndim = 0;
         lp->xargs[j].iter = &(iter[(max_nd+1)*j]);
         lp->xargs[j].bufcp = NULL;
-        lp->xargs[j].flag = (j<nf->nin) ? NDL_READ : NDL_WRITE;
+        lp->xargs[j].flag = (j<lp->nin) ? NDL_READ : NDL_WRITE;
         lp->xargs[j].free_user_iter = 0;
     }
 
