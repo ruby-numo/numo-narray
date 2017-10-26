@@ -47,6 +47,11 @@ struct
 rand
 )
 
+if RUBY_VERSION[0..3] == "2.1."
+  puts "add kwargs"
+  srcs << "kwargs"
+end
+
 if have_header("stdbool.h")
   stdbool = "stdbool.h"
 else

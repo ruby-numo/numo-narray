@@ -106,4 +106,11 @@ int nary_get_result_dimension(VALUE self, int argc, VALUE *argv, ssize_t stride,
 #define na_aref_main nary_aref_main
 VALUE nary_aref_main(int nidx, VALUE *idx, VALUE self, int keep_dim, int nd);
 
+#include "ruby/version.h"
+
+#if RUBY_API_VERSION_CODE == 20100 // 2.1.0
+int rb_get_kwargs(VALUE keyword_hash, const ID *table, int required, int optional, VALUE *);
+#endif
+
+
 #endif /* ifndef INTERN_H */
