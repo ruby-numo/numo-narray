@@ -1,6 +1,6 @@
 /**********************************************************************
 
-  Keyword argument parser for ruby-2.1.x
+  Function to extract Keyword argument parser for ruby-2.1.x
   Copied from class.c in ruby-2.4.2
 
   Copyright (C) 1993-2007 Yukihiro Matsumoto
@@ -8,6 +8,17 @@
 **********************************************************************/
 #include <ruby.h>
 #define rb_hash_tbl_raw(hash) rb_hash_tbl(hash)
+
+/* from internal.h */
+struct RBasicRaw {
+    VALUE flags;
+    VALUE klass;
+};
+
+#define RBASIC_SET_CLASS(obj, cls)     do { \
+    VALUE _obj_ = (obj); \
+    RB_OBJ_WRITE(_obj_, &((struct RBasicRaw *)(_obj_))->klass, cls); \
+} while (0)
 
 /* from class.c */
 VALUE
@@ -52,6 +63,34 @@ unknown_keyword_error(VALUE hash, const ID *table, int keywords)
     rb_keyword_error("unknown", keys);
 }
 
+static int
+separate_symbol(st_data_t key, st_data_t value, st_data_t arg)
+{
+    VALUE *kwdhash = (VALUE *)arg;
+
+    if (!SYMBOL_P(key)) kwdhash++;
+    if (!*kwdhash) *kwdhash = rb_hash_new();
+    rb_hash_aset(*kwdhash, (VALUE)key, (VALUE)value);
+    return ST_CONTINUE;
+}
+
+VALUE
+rb_extract_keywords(VALUE *orighash)
+{
+    VALUE parthash[2] = {0, 0};
+    VALUE hash = *orighash;
+
+    if (RHASH_EMPTY_P(hash)) {
+	*orighash = 0;
+	return hash;
+    }
+    st_foreach(rb_hash_tbl_raw(hash), separate_symbol, (st_data_t)&parthash);
+    *orighash = parthash[1];
+    if (parthash[1] && RBASIC_CLASS(hash) != rb_cHash) {
+	RBASIC_SET_CLASS(parthash[1], RBASIC_CLASS(hash));
+    }
+    return parthash[0];
+}
 
 int
 rb_get_kwargs(VALUE keyword_hash, const ID *table, int required, int optional, VALUE *values)
@@ -60,8 +99,6 @@ rb_get_kwargs(VALUE keyword_hash, const ID *table, int required, int optional, V
     int rest = 0;
     VALUE missing = Qnil;
     st_data_t key;
-
-    puts("pass get_kwargs");
 
 #define extract_kwarg(keyword, val) \
     (key = (st_data_t)(keyword), values ? \
