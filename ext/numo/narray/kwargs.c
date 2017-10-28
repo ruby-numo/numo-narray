@@ -1,6 +1,6 @@
 /**********************************************************************
 
-  Function to extract Keyword argument parser for ruby-2.1.x
+  Function to extract Keyword argument for ruby-2.1.x
   Copied from class.c in ruby-2.4.2
 
   Copyright (C) 1993-2007 Yukihiro Matsumoto
