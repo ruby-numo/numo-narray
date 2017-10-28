@@ -5,6 +5,7 @@ rvm:
   - '2.1'
   - '2.2'
   - '2.3'
+  - '2.4'
 
 matrix:
   fast_finish:
@@ -21,4 +22,4 @@ before_install:
 
 script:
   - gem build numo-narray.gemspec
-  - gem install numo-narray-0.9.0.8.gem
+  - gem install numo-narray-*.gem
