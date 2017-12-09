@@ -1879,6 +1879,19 @@ loop_narray_with_index(ndfunc_t *nf, na_md_loop_t *lp)
     int i,j;
     int nd = lp->ndim;
 
+    // for zero-dimensional narray
+    if (nd==0) {
+        switch (lp->n[0]) {
+        case 0:
+            return;
+        case 1:
+            nd = 1;
+            break;
+        default:
+            rb_fatal("invalid narray");
+        }
+    }
+
     // pass total ndim to iterator
     lp->user.ndim += nd;
 
@@ -1918,7 +1931,7 @@ VALUE
 #ifdef HAVE_STDARG_PROTOTYPES
 na_ndloop_with_index(ndfunc_t *nf, int argc, ...)
 #else
-na_ndloop(nf, argc, va_alist)
+na_ndloop_with_index(nf, argc, va_alist)
   ndfunc_t *nf;
   int argc;
   va_dcl
