@@ -1,9 +1,9 @@
 #include "float_def.h"
 
-EXTERN double round(double);
-EXTERN double log2(double);
-EXTERN double exp2(double);
-EXTERN double exp10(double);
+extern double round(double);
+extern double log2(double);
+extern double exp2(double);
+extern double exp10(double);
 
 #define r_abs(x)   fabs(x)
 #define r_sqrt(x)  sqrt(x)

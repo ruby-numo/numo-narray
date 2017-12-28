@@ -1,12 +1,12 @@
 #include "float_def.h"
 
-EXTERN double round(double);
-EXTERN double log2(double);
-EXTERN double exp2(double);
+extern double round(double);
+extern double log2(double);
+extern double exp2(double);
 #ifdef HAVE_EXP10
-EXTERN double exp10(double);
+extern double exp10(double);
 #else
-EXTERN double pow(double, double);
+extern double pow(double, double);
 #endif
 
 #define m_zero 0.0

@@ -7,8 +7,8 @@
 #include "numo/narray.h"
 
 VALUE numo_mNMath;
-EXTERN VALUE numo_mDFloatMath, numo_mDComplexMath;
-EXTERN VALUE numo_mSFloatMath, numo_mSComplexMath;
+extern VALUE numo_mDFloatMath, numo_mDComplexMath;
+extern VALUE numo_mSFloatMath, numo_mSComplexMath;
 static ID id_send;
 static ID id_UPCAST;
 static ID id_DISPATCH;
