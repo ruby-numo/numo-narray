@@ -116,8 +116,12 @@ class ERB
 
   def src_with_cpp_line
     @src.each_line.with_index.map do |line, num|
+      # ruby ver 2.4 or earlier
       line.gsub!(/_erbout.concat "/,'_erbout.concat0 "')
       line.gsub!(/_erbout.concat\(/,'_erbout.concat1(')
+      # ruby ver 2.5
+      line.gsub!(/_erbout\.<<\(-/,'_erbout.concat0(-')
+      line.gsub!(/_erbout\.<<\(\(/, '_erbout.concat1((')
       if num==0
         # skip
       elsif num==1
