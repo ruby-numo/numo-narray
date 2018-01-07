@@ -171,3 +171,19 @@ static inline double f_seq(double x, double y, double c)
 {
     return x + y * c;
 }
+
+static inline dtype f_maximum(dtype x, dtype y)
+{
+    if (m_ge(x,y)) {
+        return x;
+    }
+    return y;
+}
+
+static inline dtype f_minimum(dtype x, dtype y)
+{
+    if (m_le(x,y)) {
+        return x;
+    }
+    return y;
+}

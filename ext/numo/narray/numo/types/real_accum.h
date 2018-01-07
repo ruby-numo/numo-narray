@@ -439,3 +439,48 @@ static inline dtype f_ptp(size_t n, char *p, ssize_t stride)
     f_minmax(n,p,stride,&min,&max);
     return m_sub(max,min);
 }
+
+
+static inline dtype f_maximum(dtype x, dtype y)
+{
+    if (m_ge(x,y)) {
+        return x;
+    }
+    if (not_nan(y)) {
+        return y;
+    }
+    return x;
+}
+
+static inline dtype f_maximum_nan(dtype x, dtype y)
+{
+    if (m_ge(x,y)) {
+        return x;
+    }
+    if (!not_nan(x)) {
+        return x;
+    }
+    return y;
+}
+
+static inline dtype f_minimum(dtype x, dtype y)
+{
+    if (m_le(x,y)) {
+        return x;
+    }
+    if (not_nan(y)) {
+        return y;
+    }
+    return x;
+}
+
+static inline dtype f_minimum_nan(dtype x, dtype y)
+{
+    if (m_le(x,y)) {
+        return x;
+    }
+    if (!not_nan(x)) {
+        return x;
+    }
+    return y;
+}

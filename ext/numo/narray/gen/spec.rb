@@ -23,6 +23,9 @@ if is_comparable && !is_object
   def_id "lt"
   def_id "le"
 end
+if is_comparable
+  def_id "nan"
+end
 if is_object
   def_id "bit_and"
   def_id "bit_or"
@@ -290,6 +293,8 @@ if is_comparable
   accum_index "max_index"
   accum_index "min_index"
   def_method "minmax"
+  def_module_function "maximum", "ewcomp", n_arg:2
+  def_module_function "minimum", "ewcomp", n_arg:2
 end
 
 if is_int && !is_object

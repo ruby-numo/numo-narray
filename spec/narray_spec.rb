@@ -102,6 +102,10 @@ types.each do |dtype|
         it{expect(@a.sort).to eq @src}
         it{expect(@a.sort_index).to eq (0..5).to_a}
         it{expect(@a.median).to eq 4}
+        it{expect(dtype.maximum(@a,12-@a)).to eq [11,10,9,7,7,11]}
+        it{expect(dtype.minimum(@a,12-@a)).to eq [1,2,3,5,5,1]}
+        it{expect(dtype.maximum(@a,5)).to eq [5,5,5,5,7,11]}
+        it{expect(dtype.minimum(@a,5)).to eq [1,2,3,5,5,5]}
       end
     end
   end
