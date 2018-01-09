@@ -1,4 +1,4 @@
-require_relative './erbpp2'
+require_relative 'erbpp2'
 
 module NArrayMethod
 
