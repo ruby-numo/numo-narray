@@ -58,3 +58,24 @@ An example
 => 15
 ```
 For more examples, check out this [narray version of 100 numpy exercises](https://github.com/ruby-numo/narray/wiki/100-narray-exercises) (and the [IRuby Notebook](https://github.com/ruby-numo/narray/blob/master/100-narray-exercises.ipynb)).
+
+## Development
+
+### Build
+
+```shell
+ruby setup.rb
+```
+
+### Run tests
+
+```shell
+bundle install
+bundle exec rake test
+```
+
+Tips: You may run tests defined in a specified line as:
+
+```shell
+bundle exec ruby test/bit_test.rb --location 27
+```
