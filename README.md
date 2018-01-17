@@ -22,10 +22,10 @@ All documents are primitive.
 * [Numo::NArray Overview](https://github.com/ruby-numo/numo-narray/wiki/Numo::NArray%E6%A6%82%E8%A6%81) (in Japanese)
 
 ## Related Projects
-* [Numo::Linalg](https://github.com/ruby-numo/linalg) - Linear Algebra library with [LAPACK](http://www.netlib.org/lapack/).
-* [Numo::GSL](https://github.com/ruby-numo/gsl) - Ruby interface for [GSL (GNU Scientific Library)](http://www.gnu.org/software/gsl/).
-* [Numo::FFTE](https://github.com/ruby-numo/ffte) - Ruby interface for [FFTE (A Fast Fourier Transform library with radix-2,3,5)](http://www.ffte.jp/).
-* [Numo::Gnuplot](https://github.com/ruby-numo/gnuplot) - Simple and easy-to-use Gnuplot interface.
+* [Numo::Linalg](https://github.com/ruby-numo/numo-linalg) - Linear Algebra library with [LAPACK](http://www.netlib.org/lapack/).
+* [Numo::GSL](https://github.com/ruby-numo/numo-gsl) - Ruby interface for [GSL (GNU Scientific Library)](http://www.gnu.org/software/gsl/).
+* [Numo::FFTE](https://github.com/ruby-numo/numo-ffte) - Ruby interface for [FFTE (A Fast Fourier Transform library with radix-2,3,5)](http://www.ffte.jp/).
+* [Numo::Gnuplot](https://github.com/ruby-numo/numo-gnuplot) - Simple and easy-to-use Gnuplot interface.
 
 ## Installation
 ### Requirement
