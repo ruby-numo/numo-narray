@@ -23,8 +23,9 @@ void
     int nd, md;
 
     c = (size_t*)(lp->opt_ptr);
-    nd = lp->ndim - 1;
-    md = lp->ndim + 1;
+    nd = lp->ndim;
+    if (nd > 0) {nd--;}
+    md = nd + 2;
     a = ALLOCA_N(VALUE,md);
 
     INIT_COUNTER(lp, i);

@@ -1284,10 +1284,10 @@ ndloop_run(VALUE vlp)
     if (lp->loop_func == loop_narray) {
         loop_spec = ndloop_func_loop_spec(nf, lp->user.ndim);
         ndfunc_set_bufcp(lp, loop_spec);
-        if (na_debug_flag) {
-            printf("-- ndfunc_set_bufcp --\n");
-            print_ndloop(lp);
-        }
+    }
+    if (na_debug_flag) {
+        printf("-- ndfunc_set_bufcp --\n");
+        print_ndloop(lp);
     }
 
     // loop
@@ -1879,17 +1879,11 @@ loop_narray_with_index(ndfunc_t *nf, na_md_loop_t *lp)
     int i,j;
     int nd = lp->ndim;
 
-    // for zero-dimensional narray
-    if (nd==0) {
-        switch (lp->n[0]) {
-        case 0:
-            return;
-        case 1:
-            nd = 1;
-            break;
-        default:
-            rb_fatal("invalid narray");
-        }
+    if (nd < 0) {
+        rb_bug("bug? lp->ndim = %d\n", lp->ndim);
+    }
+    if (lp->n[0] == 0) { // empty array
+        return;
     }
 
     // pass total ndim to iterator
