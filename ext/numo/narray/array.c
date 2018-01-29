@@ -435,7 +435,8 @@ na_composition3(VALUE obj, VALUE *ptype, VALUE *pshape, VALUE *pnary)
             *pnary = nary_new(dtype, ndim, na->shape);
         }
     } else {
-        rb_bug("invalid type for md-array: %s", rb_class2name(CLASS_OF(obj)));
+        rb_raise(rb_eTypeError,"invalid type for NArray: %s",
+                 rb_class2name(CLASS_OF(obj)));
     }
 }
 
