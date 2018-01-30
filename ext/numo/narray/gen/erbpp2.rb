@@ -309,6 +309,20 @@ class DefConst < ErbPP
   end
 end
 
+class DefError < ErbPP
+  def initialize(parent, name, sup_var, **opts, &block)
+    super(parent, error_name:name, error_var:"e"+name, super_var:sup_var,
+          **opts, &block)
+  end
+  def result
+    "static VALUE #{error_var};"
+  end
+  def init_def
+    "/*#{description}*/
+    #{error_var} = rb_define_class_under(#{ns_var},\"#{error_name}\",#{super_var});"
+  end
+end
+
 class DefStruct < ErbPP
   def method_code
     "static VALUE #{class_var};"
