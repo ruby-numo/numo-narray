@@ -631,12 +631,6 @@ na_get_pointer_for_rw(VALUE self, int flag)
         if ((flag & WRITE) && OBJ_FROZEN(obj)) {
             rb_raise(rb_eRuntimeError, "cannot write to frozen NArray.");
         }
-
-        if (flag & WRITE) {
-            if (OBJ_FROZEN(obj)) {
-                rb_raise(rb_eRuntimeError, "cannot write to frozen NArray.");
-            }
-        }
         GetNArray(obj,na);
         switch(NA_TYPE(na)) {
         case NARRAY_DATA_T:
