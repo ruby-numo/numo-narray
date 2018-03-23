@@ -17,7 +17,8 @@ $INCFLAGS = "-Itypes #$INCFLAGS"
 $INSTALLFILES = Dir.glob(%w[numo/*.h numo/types/*.h]).map{|x| [x,'$(archdir)'] }
 $INSTALLFILES << ['numo/extconf.h','$(archdir)']
 if /cygwin|mingw/ =~ RUBY_PLATFORM
-  $INSTALLFILES << ['libnarray.a', '$(archdir)']
+  $DLDFLAGS << " -Wl,--export-all,--out-implib=libnarray.a"
+  $INSTALLFILES << ['./libnarray.a', '$(archdir)']
 end
 
 srcs = %w(
