@@ -510,7 +510,7 @@ static void
 ndloop_set_stepidx(na_md_loop_t *lp, int j, VALUE vna, int *dim_map, int rwflag)
 {
     size_t n, s;
-    int i, k;
+    int i, k, nd;
     stridx_t sdx;
     narray_t *na;
 
@@ -528,6 +528,7 @@ ndloop_set_stepidx(na_md_loop_t *lp, int j, VALUE vna, int *dim_map, int rwflag)
         rb_bug("invalid value for read-write flag");
     }
     GetNArray(vna,na);
+    nd = LARG(lp,j).ndim;
 
     switch(NA_TYPE(na)) {
     case NARRAY_DATA_T:
@@ -540,13 +541,14 @@ ndloop_set_stepidx(na_md_loop_t *lp, int j, VALUE vna, int *dim_map, int rwflag)
         s = LARG(lp,j).elmsz;
         for (k=na->ndim; k--;) {
             n = na->shape[k];
-            if (n > 1) {
+            if (n > 1 || nd > 0) {
                 i = dim_map[k];
                 //printf("n=%d k=%d i=%d\n",n,k,i);
                 LITER(lp,i,j).step = s;
-                LITER(lp,i,j).idx = NULL;
+                //LITER(lp,i,j).idx = NULL;
             }
             s *= n;
+            nd--;
         }
         LITER(lp,0,j).pos = 0;
         break;
@@ -555,20 +557,21 @@ ndloop_set_stepidx(na_md_loop_t *lp, int j, VALUE vna, int *dim_map, int rwflag)
         for (k=0; k<na->ndim; k++) {
             n = na->shape[k];
             sdx = NA_VIEW_STRIDX(na)[k];
-            if (n > 1) {
+            if (n > 1 || nd > 0) {
                 i = dim_map[k];
                 if (SDX_IS_INDEX(sdx)) {
                     LITER(lp,i,j).step = 0;
                     LITER(lp,i,j).idx = SDX_GET_INDEX(sdx);
                 } else {
                     LITER(lp,i,j).step = SDX_GET_STRIDE(sdx);
-                    LITER(lp,i,j).idx = NULL;
+                    //LITER(lp,i,j).idx = NULL;
                 }
             } else if (n==1) {
                 if (SDX_IS_INDEX(sdx)) {
                     LITER(lp,0,j).pos += SDX_GET_INDEX(sdx)[0];
                 }
             }
+            nd--;
         }
         break;
     default:
@@ -621,8 +624,8 @@ na->shape[i] == lp->n[ dim_map[i] ]
             } else {
                 lp->xargs[j].flag = flag = NDL_READ;
             }
-            ndloop_set_stepidx(lp, j, v, dim_map, flag);
             LARG(lp,j).ndim = nf_dim;
+            ndloop_set_stepidx(lp, j, v, dim_map, flag);
             if (nf_dim > 0) {
                 LARG(lp,j).shape = na->shape + (na->ndim - nf_dim);
             }
@@ -787,8 +790,8 @@ ndloop_set_output_narray(ndfunc_t *nf, na_md_loop_t *lp, int k,
     }
 
     j = lp->nin + k;
-    ndloop_set_stepidx(lp, j, v, dim_map, flag);
     LARG(lp,j).ndim = nd = nf->aout[k].dim;
+    ndloop_set_stepidx(lp, j, v, dim_map, flag);
     if (nd > 0) {
         LARG(lp,j).shape = nf->aout[k].shape;
     }
@@ -981,7 +984,7 @@ ndfunc_set_bufcp(na_md_loop_t *lp, unsigned int loop_spec)
             if (LARG(lp,j).shape) {
                 n = LARG(lp,j).shape[i];
             } else {
-                printf("shape is NULL\n");
+                //printf("shape is NULL\n");
                 n = lp->user.n[i];
             }
             stride = sz * n;
