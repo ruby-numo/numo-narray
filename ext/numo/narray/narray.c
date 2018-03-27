@@ -965,7 +965,7 @@ na_make_view(VALUE self)
  *  @param [Integer] dim  dimension at which new axis is inserted.
  *  @return [Numo::NArray]  result narray view.
  */
-VALUE
+static VALUE
 na_expand_dims(VALUE self, VALUE vdim)
 {
     int  i, j, nd, dim;
@@ -1024,7 +1024,7 @@ na_expand_dims(VALUE self, VALUE vdim)
  *
  *  Return reversed view along specified dimeinsion
  */
-VALUE
+static VALUE
 nary_reverse(int argc, VALUE *argv, VALUE self)
 {
     int i, nd;
@@ -1362,7 +1362,7 @@ nary_marshal_dump(VALUE self)
     return a;
 }
 
-VALUE na_inplace( VALUE self );
+static VALUE na_inplace( VALUE self );
 /*
   Load marshal data.
   @overload marshal_load(data)
@@ -1609,7 +1609,7 @@ nary_reduce_dimension(int argc, VALUE *argv, int naryc, VALUE *naryv,
 /*
   Return true if column major.
 */
-VALUE na_column_major_p( VALUE self )
+static VALUE na_column_major_p( VALUE self )
 {
     if (TEST_COLUMN_MAJOR(self))
 	return Qtrue;
@@ -1620,7 +1620,7 @@ VALUE na_column_major_p( VALUE self )
 /*
   Return true if row major.
 */
-VALUE na_row_major_p( VALUE self )
+static VALUE na_row_major_p( VALUE self )
 {
     if (TEST_ROW_MAJOR(self))
 	return Qtrue;
@@ -1632,7 +1632,7 @@ VALUE na_row_major_p( VALUE self )
 /*
   Return true if byte swapped.
 */
-VALUE na_byte_swapped_p( VALUE self )
+static VALUE na_byte_swapped_p( VALUE self )
 {
     if (TEST_BYTE_SWAPPED(self))
       return Qtrue;
@@ -1642,7 +1642,7 @@ VALUE na_byte_swapped_p( VALUE self )
 /*
   Return true if not byte swapped.
 */
-VALUE na_host_order_p( VALUE self )
+static VALUE na_host_order_p( VALUE self )
 {
     if (TEST_BYTE_SWAPPED(self))
       return Qfalse;
@@ -1654,7 +1654,7 @@ VALUE na_host_order_p( VALUE self )
   Returns view of narray with inplace flagged.
   @return [Numo::NArray] view of narray with inplace flag.
 */
-VALUE na_inplace( VALUE self )
+static VALUE na_inplace( VALUE self )
 {
     VALUE view = self;
     view = na_make_view(self);
@@ -1666,7 +1666,7 @@ VALUE na_inplace( VALUE self )
   Set inplace flag to self.
   @return [Numo::NArray] self
 */
-VALUE na_inplace_bang( VALUE self )
+static VALUE na_inplace_bang( VALUE self )
 {
     SET_INPLACE(self);
     return self;
@@ -1683,7 +1683,7 @@ VALUE na_inplace_store( VALUE self, VALUE val )
 /*
   Return true if inplace flagged.
 */
-VALUE na_inplace_p( VALUE self )
+static VALUE na_inplace_p( VALUE self )
 {
     if (TEST_INPLACE(self))
         return Qtrue;
@@ -1695,7 +1695,7 @@ VALUE na_inplace_p( VALUE self )
   Unset inplace flag to self.
   @return [Numo::NArray] self
 */
-VALUE na_out_of_place_bang( VALUE self )
+static VALUE na_out_of_place_bang( VALUE self )
 {
     UNSET_INPLACE(self);
     return self;
@@ -1791,7 +1791,7 @@ static VALUE na_inspect_cols_set(VALUE mod, VALUE num)
   @param [Object] other
   @return [Boolean] true if self and other is equal.
 */
-VALUE
+static VALUE
 na_equal(VALUE self, volatile VALUE other)
 {
     volatile VALUE vbool;

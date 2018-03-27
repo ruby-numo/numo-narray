@@ -13,7 +13,7 @@ static VALUE
   @overload inspect
   @return [String]
 */
-VALUE
+static VALUE
 <%=c_func(0)%>(VALUE ary)
 {
     return na_ndloop_inspect(ary, <%=c_iter%>, Qnil);

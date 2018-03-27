@@ -1389,7 +1389,7 @@ loop_narray(ndfunc_t *nf, na_md_loop_t *lp)
 }
 
 
-VALUE
+static VALUE
 na_ndloop_main(ndfunc_t *nf, VALUE args, void *opt_ptr)
 {
     unsigned int copy_flag;

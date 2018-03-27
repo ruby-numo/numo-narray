@@ -14,7 +14,7 @@ static ID id_UPCAST;
 static ID id_DISPATCH;
 static ID id_extract;
 
-VALUE
+static VALUE
 nary_type_s_upcast(VALUE type1, VALUE type2)
 {
     VALUE upcast_hash;
@@ -35,7 +35,7 @@ nary_type_s_upcast(VALUE type1, VALUE type2)
 }
 
 
-VALUE nary_math_cast2(VALUE type1, VALUE type2)
+static VALUE nary_math_cast2(VALUE type1, VALUE type2)
 {
     if ( RTEST(rb_class_inherited_p( type1, cNArray )) ){
 	return nary_type_s_upcast( type1, type2 );
@@ -57,7 +57,7 @@ VALUE nary_math_cast2(VALUE type1, VALUE type2)
 
 VALUE na_ary_composition_dtype(VALUE);
 
-VALUE nary_mathcast(int argc, VALUE *argv)
+static VALUE nary_mathcast(int argc, VALUE *argv)
 {
     VALUE type, type2;
     int i;
@@ -82,7 +82,7 @@ VALUE nary_mathcast(int argc, VALUE *argv)
   @param [NArray,Numeric] x  input array.
   @return [NArray] result.
 */
-VALUE nary_math_method_missing(int argc, VALUE *argv, VALUE mod)
+static VALUE nary_math_method_missing(int argc, VALUE *argv, VALUE mod)
 {
     VALUE type, ans, typemod, hash;
     if (argc>1) {

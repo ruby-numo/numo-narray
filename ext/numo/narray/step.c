@@ -71,7 +71,7 @@ nary_step_new(
     return self;
 }
 
-VALUE
+static VALUE
 nary_step_new2(
   VALUE range,
   VALUE step,

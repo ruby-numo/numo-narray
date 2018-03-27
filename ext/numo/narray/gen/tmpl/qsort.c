@@ -76,7 +76,7 @@
 <% end %>
 <% c_func(:nodef)%>
 
-void
+static void
 <%=type_name%>_qsort<%=suffix%>(void *a, size_t n, ssize_t es)
 {
     char *pa, *pb, *pc, *pd, *pl, *pm, *pn;
