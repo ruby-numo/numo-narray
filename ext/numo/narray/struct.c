@@ -519,6 +519,7 @@ check_array_1d(VALUE item, size_t size) {
     return 0;
 }
 
+/*
 VALUE
 nst_check_compatibility(VALUE nst, VALUE ary)
 {
@@ -579,7 +580,7 @@ nst_check_compatibility(VALUE nst, VALUE ary)
     }
     return Qtrue;
 }
-
+*/
 
 
 VALUE na_ary_composition_for_struct(VALUE nstruct, VALUE ary);
