@@ -1672,14 +1672,6 @@ static VALUE na_inplace_bang( VALUE self )
     return self;
 }
 
-VALUE na_inplace_store( VALUE self, VALUE val )
-{
-    if (self==val)
-        return self;
-    else
-        return na_store( self, val );
-}
-
 /*
   Return true if inplace flagged.
 */
