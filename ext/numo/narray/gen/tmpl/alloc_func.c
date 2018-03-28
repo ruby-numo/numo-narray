@@ -70,7 +70,7 @@ static void
     }
 }
 
-const rb_data_type_t <%=type_name%>_data_type = {
+static const rb_data_type_t <%=type_name%>_data_type = {
     "<%=full_class_name%>",
     {<%=type_name%>_gc_mark, <%=type_name%>_free, <%=type_name%>_memsize,},
     &na_data_type,
@@ -80,7 +80,7 @@ const rb_data_type_t <%=type_name%>_data_type = {
 
 <% else %>
 
-const rb_data_type_t <%=type_name%>_data_type = {
+static const rb_data_type_t <%=type_name%>_data_type = {
     "<%=full_class_name%>",
     {0, <%=type_name%>_free, <%=type_name%>_memsize,},
     &na_data_type,
@@ -90,7 +90,7 @@ const rb_data_type_t <%=type_name%>_data_type = {
 
 <% end %>
 
-VALUE
+static VALUE
 <%=c_func(0)%>(VALUE klass)
 {
     narray_data_t *na = ALLOC(narray_data_t);

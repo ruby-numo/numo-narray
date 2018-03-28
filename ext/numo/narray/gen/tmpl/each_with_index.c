@@ -11,7 +11,7 @@ yield_each_with_index(dtype x, size_t *c, VALUE *a, int nd, int md)
 }
 
 
-void
+static void
 <%=c_iter%>(na_loop_t *const lp)
 {
     size_t i, s1;

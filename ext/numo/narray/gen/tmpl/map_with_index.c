@@ -12,7 +12,7 @@ yield_map_with_index(dtype x, size_t *c, VALUE *a, int nd, int md)
     return m_num_to_data(y);
 }
 
-void
+static void
 <%=c_iter%>(na_loop_t *const lp)
 {
     size_t  i;

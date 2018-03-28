@@ -1,4 +1,4 @@
-void
+static void
 <%=c_iter%>(na_loop_t *const lp)
 {
     size_t   i;

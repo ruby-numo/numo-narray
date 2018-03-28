@@ -76,7 +76,7 @@ nst_definition(VALUE nst, VALUE idx)
 
 void na_copy_array_structure(VALUE self, VALUE view);
 
-VALUE
+static VALUE
 na_make_view_struct(VALUE self, VALUE dtype, VALUE offset)
 {
     size_t i, n;
@@ -172,7 +172,7 @@ na_make_view_struct(VALUE self, VALUE dtype, VALUE offset)
 }
 
 
-VALUE
+static VALUE
 nst_field_view(VALUE self, VALUE idx)
 {
     VALUE def, type, ofs;
@@ -188,7 +188,7 @@ nst_field_view(VALUE self, VALUE idx)
     return na_make_view_struct(self, type, ofs);
 }
 
-VALUE
+static VALUE
 nst_field(VALUE self, VALUE idx)
 {
     VALUE obj;
@@ -202,7 +202,7 @@ nst_field(VALUE self, VALUE idx)
     return obj;
 }
 
-VALUE
+static VALUE
 nst_field_set(VALUE self, VALUE idx, VALUE other)
 {
     VALUE obj;
@@ -491,6 +491,7 @@ check_array(VALUE item) {
     return 0;
 }
 
+/*
 static size_t
 check_array_1d(VALUE item, size_t size) {
     narray_t *na;
@@ -518,7 +519,9 @@ check_array_1d(VALUE item, size_t size) {
     }
     return 0;
 }
+*/
 
+/*
 VALUE
 nst_check_compatibility(VALUE nst, VALUE ary)
 {
@@ -579,7 +582,7 @@ nst_check_compatibility(VALUE nst, VALUE ary)
     }
     return Qtrue;
 }
-
+*/
 
 
 VALUE na_ary_composition_for_struct(VALUE nstruct, VALUE ary);
@@ -785,7 +788,7 @@ iter_struct_inspect(char *ptr, size_t pos, VALUE opt)
   @overload inspect
   @return [String]
 */
-VALUE
+static VALUE
 nary_struct_inspect(VALUE ary)
 {
     VALUE opt;
