@@ -472,7 +472,7 @@ nary_struct_to_a(VALUE self)
 
 
 
-// ---
+/*
 static size_t
 check_array(VALUE item) {
     narray_t *na;
@@ -490,6 +490,7 @@ check_array(VALUE item) {
     }
     return 0;
 }
+*/
 
 /*
 static size_t
