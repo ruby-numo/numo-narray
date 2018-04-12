@@ -39,3 +39,27 @@ static dtype pow_int(dtype x, int p)
     }
     return r;
 }
+
+static inline int64_t f_sum(size_t n, char *p, ssize_t stride)
+{
+    int64_t x,y=0;
+    size_t i=n;
+    for (; i--;) {
+        x = *(dtype*)p;
+        y += x;
+        p += stride;
+    }
+    return y;
+}
+
+static inline int64_t f_prod(size_t n, char *p, ssize_t stride)
+{
+    int64_t x,y=1;
+    size_t i=n;
+    for (; i--;) {
+        x = *(dtype*)p;
+        y *= x;
+        p += stride;
+    }
+    return y;
+}

@@ -273,8 +273,19 @@ if is_float
   cond_unary "isfinite"
 end
 
-accum "sum","dtype","cT"
-accum "prod","dtype","cT"
+if is_int
+  if is_unsigned
+    accum "sum","u_int64_t","numo_cUInt64"
+    accum "prod","u_int64_t","numo_cUInt64"
+  else
+    accum "sum","int64_t","numo_cInt64"
+    accum "prod","int64_t","numo_cInt64"
+  end
+else
+  accum "sum","dtype","cT"
+  accum "prod","dtype","cT"
+end
+
 if is_double_precision
   accum "kahan_sum","dtype","cT"
 end
