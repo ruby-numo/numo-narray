@@ -43,6 +43,11 @@ static inline dtype c_from_dcomplex(dcomplex x) {
 
 #define m_from_double(x) c_new(x,0)
 #define m_from_real(x)   c_new(x,0)
+#define m_from_sint(x)   c_new(x,0)
+#define m_from_int32(x)  c_new(x,0)
+#define m_from_int64(x)  c_new(x,0)
+#define m_from_uint32(x) c_new(x,0)
+#define m_from_uint64(x) c_new(x,0)
 #define m_from_scomplex(x) c_from_scomplex(x)
 #define m_from_dcomplex(x) c_from_dcomplex(x)
 

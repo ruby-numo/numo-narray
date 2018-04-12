@@ -6,6 +6,11 @@
 
 #define m_from_double(x) rb_float_new(x)
 #define m_from_real(x)   rb_float_new(x)
+#define m_from_sint(x)   INT2FIX(x)
+#define m_from_int32(x)  INT322NUM(x)
+#define m_from_int64(x)  INT642NUM(x)
+#define m_from_uint32(x) UINT322NUM(x)
+#define m_from_uint64(x) UINT642NUM(x)
 
 #define m_add(x,y)     rb_funcall(x,'+',1,y)
 #define m_sub(x,y)     rb_funcall(x,'-',1,y)

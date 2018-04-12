@@ -16,13 +16,13 @@ static void
         if (idx1) {
             for (; i--;) {
                 LOAD_BIT(a2, p2+*idx2, x); idx2++;
-                y = m_from_real(x);
+                y = m_from_sint(x);
                 SET_DATA_INDEX(p1,idx1,dtype,y);
             }
         } else {
             for (; i--;) {
                 LOAD_BIT(a2, p2+*idx2, x); idx2++;
-                y = m_from_real(x);
+                y = m_from_sint(x);
                 SET_DATA_STRIDE(p1,s1,dtype,y);
             }
         }
@@ -30,13 +30,13 @@ static void
         if (idx1) {
             for (; i--;) {
                 LOAD_BIT(a2, p2, x); p2 += s2;
-                y = m_from_real(x);
+                y = m_from_sint(x);
                 SET_DATA_INDEX(p1,idx1,dtype,y);
             }
         } else {
             for (; i--;) {
                 LOAD_BIT(a2, p2, x); p2 += s2;
-                y = m_from_real(x);
+                y = m_from_sint(x);
                 SET_DATA_STRIDE(p1,s1,dtype,y);
             }
         }

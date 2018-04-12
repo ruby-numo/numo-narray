@@ -3,6 +3,11 @@
 
 #define m_from_double(x) (x)
 #define m_from_real(x) (x)
+#define m_from_sint(x) (x)
+#define m_from_int32(x) (x)
+#define m_from_int64(x) (x)
+#define m_from_uint32(x) (x)
+#define m_from_uint64(x) (x)
 
 #define m_add(x,y) ((x)+(y))
 #define m_sub(x,y) ((x)-(y))

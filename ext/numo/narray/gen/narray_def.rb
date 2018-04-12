@@ -228,13 +228,25 @@ class Store < DefMethod
   def extract_data(ptr,pos,x)
     case type_name
     when "Bit"
-      "{BIT_DIGIT b; LOAD_BIT(#{ptr},#{pos},b); x = m_from_real(b);}"
+      "{BIT_DIGIT b; LOAD_BIT(#{ptr},#{pos},b); x = m_from_sint(b);}"
     when "RObject"
       "#{x} = m_num_to_data(*(#{dtype}*)(#{ptr}+#{pos}))"
     when /Complex/
       "{#{dtype} *p = (#{dtype}*)(#{ptr}+#{pos}); #{x} = c_new(REAL(*p),IMAG(*p));}"
-    else
+    when /Float/
       "#{x} = m_from_real(*(#{dtype}*)(#{ptr}+#{pos}))"
+    when /UInt64/
+      "#{x} = m_from_uint64(*(#{dtype}*)(#{ptr}+#{pos}))"
+    when /UInt32/
+      "#{x} = m_from_uint32(*(#{dtype}*)(#{ptr}+#{pos}))"
+    when /Int64/
+      "#{x} = m_from_int64(*(#{dtype}*)(#{ptr}+#{pos}))"
+    when /Int32/
+      "#{x} = m_from_int32(*(#{dtype}*)(#{ptr}+#{pos}))"
+    when /Int/
+      "#{x} = m_from_sint(*(#{dtype}*)(#{ptr}+#{pos}))"
+    else
+      raise "unknown type: #{type_name}"
     end
   end
 end

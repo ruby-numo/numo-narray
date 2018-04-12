@@ -109,14 +109,14 @@ def_method "store" do
   end
   store_from "DFloat","double",   "m_from_real"
   store_from "SFloat","float",    "m_from_real"
-  store_from "Int64", "int64_t",  "m_from_real"
-  store_from "Int32", "int32_t",  "m_from_real"
-  store_from "Int16", "int16_t",  "m_from_real"
-  store_from "Int8",  "int8_t",   "m_from_real"
-  store_from "UInt64","u_int64_t","m_from_real"
-  store_from "UInt32","u_int32_t","m_from_real"
-  store_from "UInt16","u_int16_t","m_from_real"
-  store_from "UInt8", "u_int8_t", "m_from_real"
+  store_from "Int64", "int64_t",  "m_from_int64"
+  store_from "Int32", "int32_t",  "m_from_int32"
+  store_from "Int16", "int16_t",  "m_from_sint"
+  store_from "Int8",  "int8_t",   "m_from_sint"
+  store_from "UInt64","u_int64_t","m_from_uint64"
+  store_from "UInt32","u_int32_t","m_from_uint32"
+  store_from "UInt16","u_int16_t","m_from_sint"
+  store_from "UInt8", "u_int8_t", "m_from_sint"
   store_from "RObject", "VALUE",  "m_num_to_data"
   store_array
 end

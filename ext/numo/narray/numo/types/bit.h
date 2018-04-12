@@ -11,6 +11,11 @@ typedef BIT_DIGIT rtype;
 
 #define m_from_double(x) (((x)==0) ? 0 : 1)
 #define m_from_real(x) (((x)==0) ? 0 : 1)
+#define m_from_sint(x) (((x)==0) ? 0 : 1)
+#define m_from_int32(x) (((x)==0) ? 0 : 1)
+#define m_from_int64(x) (((x)==0) ? 0 : 1)
+#define m_from_uint32(x) (((x)==0) ? 0 : 1)
+#define m_from_uint64(x) (((x)==0) ? 0 : 1)
 #define m_data_to_num(x) INT2FIX(x)
 #define m_sprintf(s,x)   sprintf(s,"%1d",(int)(x))
 
