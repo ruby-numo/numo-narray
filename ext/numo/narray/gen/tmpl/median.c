@@ -47,7 +47,7 @@ static void
 static VALUE
 <%=c_func(-1)%>(int argc, VALUE *argv, VALUE self)
 {
-    VALUE reduce;
+    VALUE v, reduce;
     ndfunc_arg_in_t ain[2] = {{OVERWRITE,0},{sym_reduce,0}};
     ndfunc_arg_out_t aout[1] = {{INT2FIX(0),0}};
     ndfunc_t ndf = {0, NDF_HAS_LOOP|NDF_FLAT_REDUCE, 2,1, ain,aout};
@@ -60,5 +60,6 @@ static VALUE
     ndf.func = <%=c_iter%>;
     reduce = na_reduce_dimension(argc, argv, 1, &self, &ndf, 0);
   <% end %>
-    return na_ndloop(&ndf, 2, self, reduce);
+    v = na_ndloop(&ndf, 2, self, reduce);
+    return <%=type_name%>_extract(v);
 }
