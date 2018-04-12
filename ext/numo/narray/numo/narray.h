@@ -107,6 +107,13 @@ extern "C" {
 # endif
 #endif
 
+#if SIZEOF_VALUE > 4
+# undef INT322NUM
+# undef UINT322NUM
+# define INT322NUM(x) INT2FIX(x)
+# define UINT322NUM(x) INT2FIX(x)
+#endif
+
 #ifndef HAVE_TYPE_BOOL
   typedef int bool;
 #endif
