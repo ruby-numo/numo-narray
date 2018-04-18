@@ -29,9 +29,16 @@ static void
             s2 == sizeof(dtype) &&
             s3 == sizeof(dtype) ) {
 
-            for (i=0; i<n; i++) {
-                check_intdivzero(*(dtype*)p2);
-                ((dtype*)p3)[i] = m_<%=name%>(((dtype*)p1)[i],((dtype*)p2)[i]);
+            if (p1 == p3) { // inplace case
+                for (i=0; i<n; i++) {
+                    check_intdivzero(*(dtype*)p2);
+                    ((dtype*)p1)[i] = m_<%=name%>(((dtype*)p1)[i],((dtype*)p2)[i]);
+                }
+            } else {
+                for (i=0; i<n; i++) {
+                    check_intdivzero(*(dtype*)p2);
+                    ((dtype*)p3)[i] = m_<%=name%>(((dtype*)p1)[i],((dtype*)p2)[i]);
+                }
             }
             return;
         }
