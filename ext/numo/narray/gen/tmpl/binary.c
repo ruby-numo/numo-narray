@@ -39,13 +39,46 @@ static void
             is_aligned_step(s2,sizeof(dtype)) &&
             is_aligned_step(s3,sizeof(dtype)) ) {
             //<% end %>
-            for (i=0; i<n; i++) {
+
+            if (s2 == 0){ // Broadcasting from scalar value.
                 check_intdivzero(*(dtype*)p2);
-                *(dtype*)p3 = m_<%=name%>(*(dtype*)p1,*(dtype*)p2);
-                p1 += s1;
-                p2 += s2;
-                p3 += s3;
+                if (s1 == sizeof(dtype) &&
+                    s3 == sizeof(dtype) ) {
+                    if (p1 == p3) { // inplace case
+                        for (i=0; i<n; i++) {
+                            ((dtype*)p1)[i] = m_<%=name%>(((dtype*)p1)[i],*(dtype*)p2);
+                        }
+                    } else {
+                        for (i=0; i<n; i++) {
+                            ((dtype*)p3)[i] = m_<%=name%>(((dtype*)p1)[i],*(dtype*)p2);
+                        }
+                    }
+                } else {
+                    for (i=0; i<n; i++) {
+                        *(dtype*)p3 = m_<%=name%>(*(dtype*)p1,*(dtype*)p2);
+                        p1 += s1;
+                        p3 += s3;
+                    }
+                }
+            } else { // Broadcasting from Numo::NArray
+                if (p1 == p3) { // inplace case
+                    for (i=0; i<n; i++) {
+                        check_intdivzero(*(dtype*)p2);
+                        *(dtype*)p1 = m_<%=name%>(*(dtype*)p1,*(dtype*)p2);
+                        p1 += s1;
+                        p2 += s2;
+                    }
+                } else {
+                    for (i=0; i<n; i++) {
+                        check_intdivzero(*(dtype*)p2);
+                        *(dtype*)p3 = m_<%=name%>(*(dtype*)p1,*(dtype*)p2);
+                        p1 += s1;
+                        p2 += s2;
+                        p3 += s3;
+                    }
+                }
             }
+
             return;
             //<% if need_align %>
         }
