@@ -674,17 +674,6 @@ na_aref_main(int nidx, VALUE *idx, VALUE self, int keep_dim, int nd)
 }
 
 
-/* method: slice(idx1,idx2,...,idxN) */
-static VALUE na_slice(int argc, VALUE *argv, VALUE self)
-{
-    int nd;
-    size_t pos;
-
-    nd = na_get_result_dimension(self, argc, argv, 0, &pos);
-    return na_aref_main(argc, argv, self, 1, nd);
-}
-
-
 static int
 check_index_count(int argc, int na_ndim, int count_new, int count_rest)
 {
@@ -692,16 +681,18 @@ check_index_count(int argc, int na_ndim, int count_new, int count_rest)
 
     switch(count_rest) {
     case 0:
-        if (count_new == 0 && argc == 1) return 1;
+        if (argc == 1 && count_new == 0) return 1;
         if (argc == result_nd) return result_nd;
         rb_raise(rb_eIndexError,"# of index(=%i) should be "
-                 "equal to ndim(=%i)",argc,na_ndim);
+                 "equal to ndim(=%i) or 1", argc,na_ndim);
         break;
     case 1:
         if (argc-1 <= result_nd) return result_nd;
         rb_raise(rb_eIndexError,"# of index(=%i) > ndim(=%i) with :rest",
                  argc,na_ndim);
         break;
+    default:
+        rb_raise(rb_eIndexError,"multiple rest-dimension is not allowd");
     }
     return -1;
 }
@@ -712,7 +703,6 @@ na_get_result_dimension(VALUE self, int argc, VALUE *argv, ssize_t stride, size_
     int i, j;
     int count_new=0;
     int count_rest=0;
-    int count_else=0;
     ssize_t x, s, m, pos, *idx;
     narray_t *na;
     narray_view_t *nv;
@@ -721,8 +711,7 @@ na_get_result_dimension(VALUE self, int argc, VALUE *argv, ssize_t stride, size_
 
     GetNArray(self,na);
     if (na->size == 0) {
-        rb_raise(rb_eRuntimeError, "cannot get index of empty array");
-        return -1;
+        rb_raise(nary_eShapeError, "cannot get element of empty array");
     }
     idx = ALLOCA_N(ssize_t, argc);
     for (i=j=0; i<argc; i++) {
@@ -745,16 +734,10 @@ na_get_result_dimension(VALUE self, int argc, VALUE *argv, ssize_t stride, size_
                 argv[i] = sym_new;
                 count_new++;
             }
-            // not break
-        default:
-            count_else++;
         }
     }
 
-    if (count_rest > 1) {
-        rb_raise(rb_eIndexError,"multiple rest-dimension is not allowd");
-    }
-    if (count_else != 0) {
+    if (j != argc) {
         return check_index_count(argc, na->ndim, count_new, count_rest);
     }
 
@@ -773,8 +756,9 @@ na_get_result_dimension(VALUE self, int argc, VALUE *argv, ssize_t stride, size_
                 }
             }
             *pos_idx = pos;
+            return 0;
         }
-        else if (argc==1 && j==1) {
+        if (j == 1) {
             x = na_range_check(idx[0], na->size, 0);
             for (i=na->ndim-1; i>=0; i--) {
                 s = na->shape[i];
@@ -788,19 +772,19 @@ na_get_result_dimension(VALUE self, int argc, VALUE *argv, ssize_t stride, size_
                 }
             }
             *pos_idx = pos;
-        } else {
-            return check_index_count(argc, na->ndim, count_new, count_rest);
+            return 0;
         }
         break;
     default:
         if (!stride) {
             stride = nary_element_stride(self);
         }
-        if (argc==1 && j==1) {
+        if (j == 1) {
             x = na_range_check(idx[0], na->size, 0);
             *pos_idx = stride * x;
+            return 0;
         }
-        else if (j == na->ndim) {
+        if (j == na->ndim) {
             pos = 0;
             for (i=j-1; i>=0; i--) {
                 x = na_range_check(idx[i], na->shape[i], i);
@@ -808,11 +792,54 @@ na_get_result_dimension(VALUE self, int argc, VALUE *argv, ssize_t stride, size_
                 stride *= na->shape[i];
             }
             *pos_idx = pos;
-        } else {
-            return check_index_count(argc, na->ndim, count_new, count_rest);
+            return 0;
         }
     }
-    return 0;
+    rb_raise(rb_eIndexError,"# of index(=%i) should be "
+             "equal to ndim(=%i) or 1", argc,na->ndim);
+    return -1;
+}
+
+
+static int
+na_get_result_dimension_for_slice(VALUE self, int argc, VALUE *argv)
+{
+    int i;
+    int count_new=0;
+    int count_rest=0;
+    narray_t *na;
+    VALUE a;
+
+    GetNArray(self,na);
+    if (na->size == 0) {
+        rb_raise(nary_eShapeError, "cannot get element of empty array");
+    }
+    for (i=0; i<argc; i++) {
+        a = argv[i];
+        switch(TYPE(a)) {
+        case T_FALSE:
+        case T_SYMBOL:
+            if (a==sym_rest || a==sym_tilde || a==Qfalse) {
+                argv[i] = Qfalse;
+                count_rest++;
+            } else if (a==sym_new || a==sym_minus) {
+                argv[i] = sym_new;
+                count_new++;
+            }
+        }
+    }
+
+    return check_index_count(argc, na->ndim, count_new, count_rest);
+}
+
+
+/* method: slice(idx1,idx2,...,idxN) */
+static VALUE na_slice(int argc, VALUE *argv, VALUE self)
+{
+    int nd;
+
+    nd = na_get_result_dimension_for_slice(self, argc, argv);
+    return na_aref_main(argc, argv, self, 1, nd);
 }
 
 
