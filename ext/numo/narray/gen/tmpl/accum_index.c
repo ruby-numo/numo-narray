@@ -31,7 +31,17 @@ static void
   @param [Numeric,Array,Range] axis  Affected dimensions.
   @return [Integer,Numo::Int] returns result index of <%=name%>.
   @example
-      Numo::NArray[3,4,1,2].min_index => 3
+  <% if name == 'min_index' %>
+      Numo::NArray[3,4,1,2].min_index => 2
+      Numo::NArray[[3,4,1],[2,0,5]].min_index => 4
+      Numo::NArray[[3,4,1],[2,0,5]].min_index(axis: 1) => [2, 4]
+      Numo::NArray[[3,4,1],[2,0,5]].min_index(axis: 0) => [3, 4, 2]
+  <% else %>
+      Numo::NArray[3,4,1,2].max_index => 1
+      Numo::NArray[[3,4,1],[2,0,5]].max_index => 5
+      Numo::NArray[[3,4,1],[2,0,5]].max_index(axis: 1) => [1, 5]
+      Numo::NArray[[3,4,1],[2,0,5]].max_index(axis: 0) => [0, 1, 5]
+  <% end %>
  */
 static VALUE
 <%=c_func(-1)%>(int argc, VALUE *argv, VALUE self)

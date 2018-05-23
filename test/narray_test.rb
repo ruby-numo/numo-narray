@@ -81,6 +81,8 @@ class NArrayTest < Test::Unit::TestCase
         else
           assert { a.min == 1 }
           assert { a.max == 11 }
+          assert { a.min_index == 0 }
+          assert { a.max_index == 5 }
           assert { (a >= 3) == [0,0,1,1,1,1] }
           assert { (a >  3) == [0,0,0,1,1,1] }
           assert { (a <= 3) == [1,1,1,0,0,0] }
@@ -163,6 +165,11 @@ class NArrayTest < Test::Unit::TestCase
         else
           assert { a.min == 1 }
           assert { a.max == 11 }
+          assert { a.min_index == 0 }
+          assert { a.min_index(axis: 1) == [0, 3] }
+          assert { a.min_index(axis: 0) == [0, 1, 2] }
+          assert { a.max_index(axis: 1) == [2, 5] }
+          assert { a.max_index(axis: 0) == [3, 4, 5] }
           assert { (a >= 3) == [[0,0,1],[1,1,1]] }
           assert { (a >  3) == [[0,0,0],[1,1,1]] }
           assert { (a <= 3) == [[1,1,1],[0,0,0]] }
