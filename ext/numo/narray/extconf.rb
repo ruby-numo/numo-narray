@@ -2,8 +2,8 @@ require 'rbconfig.rb'
 require 'mkmf'
 require "erb"
 
-if RUBY_VERSION < "2.0.0"
-  puts "Numo::NArray requires Ruby version 2.0 or later."
+if RUBY_VERSION < "2.1.0"
+  puts "Numo::NArray requires Ruby version 2.1 or later."
   exit(1)
 end
 

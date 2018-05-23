@@ -40,7 +40,13 @@ namespace :build do
       ["git", "clone", "file://#{Dir.pwd}/.git", build_dir],
       ["cd", build_dir],
       ["bundle"],
-      ["rake", "cross", "native", "gem"],
+      [
+        "rake",
+        "RUBY_CC_VERSION=2.5.0:2.4.0:2.3.0:2.2.2:2.1.6",
+        "cross",
+        "native",
+        "gem",
+      ],
     ]
     raw_commands = commands.collect do |command|
       Shellwords.join(command)
