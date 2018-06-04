@@ -208,6 +208,55 @@ module Numo
       end
     end
 
+
+    # Iterate over an axis
+    # @ example
+    #   > a = Numo::DFloat.new(2,2,2).seq
+    #   > p a
+    #   Numo::DFloat#shape=[2,2,2]
+    #   [[[0, 1],
+    #     [2, 3]],
+    #    [[4, 5],
+    #     [6, 7]]]
+    #
+    #   > a.each_over_axis{|i| p i}
+    #   Numo::DFloat(view)#shape=[2,2]
+    #   [[0, 1],
+    #    [2, 3]]
+    #   Numo::DFloat(view)#shape=[2,2]
+    #   [[4, 5],
+    #    [6, 7]]
+    #
+    #   > a.each_over_axis(1){|i| p i}
+    #   Numo::DFloat(view)#shape=[2,2]
+    #   [[0, 1],
+    #    [4, 5]]
+    #   Numo::DFloat(view)#shape=[2,2]
+    #   [[2, 3],
+    #    [6, 7]]
+
+    def each_over_axis(axis=0)
+      unless block_given?
+        return to_enum(:each_over_axis,axis)
+      end
+      if ndim == 0
+        if axis != 0
+          raise ArgumentError,"axis=#{axis} is invalid"
+        end
+        niter = 1
+      else
+        axis = check_axis(axis)
+        niter = shape[axis]
+      end
+      idx = [true]*ndim
+      niter.times do |i|
+        idx[axis] = i
+        yield(self[*idx])
+      end
+      self
+    end
+
+
     # Append values to the end of an narray.
     # @example
     #   a = Numo::DFloat[1, 2, 3]
