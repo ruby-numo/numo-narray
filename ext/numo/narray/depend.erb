@@ -13,14 +13,14 @@ TAGS : $(TAGSRC)
 doc :
 	yard doc *.c types/*.c
 
-C_TMPL = <%=Dir.glob("gen/tmpl*/*.c").join(" ")%>
+C_TMPL = <%=Dir.glob("#{__dir__}/gen/tmpl*/*.c").join(" ")%>
 
-COGEN = gen/cogen.rb
-DEPENDS = $(C_TMPL) gen/*.rb
+COGEN = <%= __dir__ %>/gen/cogen.rb
+DEPENDS = $(C_TMPL) <%= __dir__ %>/gen/*.rb
 
 <%
    type_c = []
-   type_rb = Dir.glob("gen/def/*.rb")
+   type_rb = Dir.glob("#{__dir__}/gen/def/*.rb")
    type_rb.each do |s|
      type_c << c = "types/"+File.basename(s,".rb")+".c"
 %>
