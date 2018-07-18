@@ -364,6 +364,8 @@ if has_math
 fn = get(:full_class_name)
 cn = get(:class_name)
 nm = get(:name)
+st = get(:simd_type)
+dp = get(:is_double_precision)
 is_c = is_complex
 
 def_module do
@@ -374,6 +376,9 @@ def_module do
   set full_module_name: fn+"::NMath"
   set module_name: "Math"
   set module_var: "mTM"
+  set simd_type: st
+  set is_double_precision: dp 
+  set is_complex: is_c
 
   math "sqrt"
   math "cbrt"

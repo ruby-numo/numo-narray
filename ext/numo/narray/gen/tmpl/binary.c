@@ -11,7 +11,8 @@
 static void
 <%=c_iter%>(na_loop_t *const lp)
 {
-    size_t   i, n;
+    size_t   i=0;
+    size_t   n;
     char    *p1, *p2, *p3;
     ssize_t  s1, s2, s3;
 
@@ -19,6 +20,19 @@ static void
     INIT_PTR(lp, 0, p1, s1);
     INIT_PTR(lp, 1, p2, s2);
     INIT_PTR(lp, 2, p3, s3);
+<% if is_simd and is_float and !is_complex and !is_object and %w[add sub mul div].include? name %>
+    size_t num_pack = SIMD_ALIGNMENT_SIZE / sizeof(dtype); // Number of elements packed for SIMD.
+    size_t cnt, cnt_simd_loop;
+  <% if is_double_precision %>
+    __m128d a;
+    __m128d b;
+    __m128d c;
+  <% else %>
+    __m128 a;
+    __m128 b;
+    __m128 c;
+  <% end %>
+<% end %>
 
     //<% if need_align %>
     if (is_aligned(p1,sizeof(dtype)) &&
@@ -28,20 +42,51 @@ static void
         if (s1 == sizeof(dtype) &&
             s2 == sizeof(dtype) &&
             s3 == sizeof(dtype) ) {
-
-            if (p1 == p3) { // inplace case
-                for (i=0; i<n; i++) {
-                    check_intdivzero(*(dtype*)p2);
-                    ((dtype*)p1)[i] = m_<%=name%>(((dtype*)p1)[i],((dtype*)p2)[i]);
+<% if is_simd and is_float and !is_complex and !is_object and %w[add sub mul div].include? name %>
+            // Check number of elements. & Check same alignment.
+            if ((n < num_pack) || !is_same_aligned3(&((dtype*)p1)[i], &((dtype*)p2)[i], &((dtype*)p3)[i], SIMD_ALIGNMENT_SIZE)){
+<% end %>
+                if (p1 == p3) { // inplace case (for non-SIMD only.)
+                    for (i=0; i<n; i++) {
+                        check_intdivzero(((dtype*)p2)[i]);
+                        ((dtype*)p1)[i] = m_<%=name%>(((dtype*)p1)[i],((dtype*)p2)[i]);
+                    }
+                } else {
+                    for (i=0; i<n; i++) {
+                        check_intdivzero(((dtype*)p2)[i]);
+                        ((dtype*)p3)[i] = m_<%=name%>(((dtype*)p1)[i],((dtype*)p2)[i]);
+                    }
                 }
+<% if is_simd and is_float and !is_complex and !is_object and %w[add sub mul div].include? name %>
             } else {
-                for (i=0; i<n; i++) {
-                    check_intdivzero(*(dtype*)p2);
+                // Calculate up to the position just before the start of SIMD computation.
+                cnt = get_count_of_elements_not_aligned_to_simd_size(&((dtype*)p1)[i], SIMD_ALIGNMENT_SIZE, sizeof(dtype));
+                for (; i < cnt; i++) {
                     ((dtype*)p3)[i] = m_<%=name%>(((dtype*)p1)[i],((dtype*)p2)[i]);
                 }
+
+                // Get the count of SIMD computation loops.
+                cnt_simd_loop = (n - i) % num_pack;
+
+                // SIMD computation.
+                for(; i < n - cnt_simd_loop; i += num_pack){
+                    a = _mm_load_<%=simd_type%>(&((dtype*)p1)[i]);
+                    b = _mm_load_<%=simd_type%>(&((dtype*)p2)[i]);
+                    c = _mm_<%=name%>_<%=simd_type%>(a, b);
+                    _mm_store_<%=simd_type%>(&((dtype*)p3)[i], c);
+                }
+
+                // Compute the remainder of the SIMD operation.
+                if (cnt_simd_loop != 0){
+                    for (; i<n; i++) {
+                        ((dtype*)p3)[i] = m_<%=name%>(((dtype*)p1)[i],((dtype*)p2)[i]);
+                    }
+                }
             }
+<% end %>
             return;
         }
+
         if (is_aligned_step(s1,sizeof(dtype)) &&
             is_aligned_step(s2,sizeof(dtype)) &&
             is_aligned_step(s3,sizeof(dtype)) ) {
@@ -51,15 +96,47 @@ static void
                 check_intdivzero(*(dtype*)p2);
                 if (s1 == sizeof(dtype) &&
                     s3 == sizeof(dtype) ) {
-                    if (p1 == p3) { // inplace case
-                        for (i=0; i<n; i++) {
-                            ((dtype*)p1)[i] = m_<%=name%>(((dtype*)p1)[i],*(dtype*)p2);
+<% if is_simd and is_float and !is_complex and !is_object and %w[add sub mul div].include? name %>
+                    // Broadcast a scalar value and use it for SIMD computation.
+                    b = _mm_load1_<%=simd_type%>(&((dtype*)p2)[0]);
+                    // Check number of elements. & Check same alignment.
+                    if ((n < num_pack) || !is_same_aligned2(&((dtype*)p1)[i], &((dtype*)p3)[i], SIMD_ALIGNMENT_SIZE)){
+<% end %>
+                        if (p1 == p3) { // inplace case (for non-SIMD only.)
+                            for (i=0; i<n; i++) {
+                                ((dtype*)p1)[i] = m_<%=name%>(((dtype*)p1)[i],*(dtype*)p2);
+                            }
+                        } else {
+                            for (i=0; i<n; i++) {
+                                ((dtype*)p3)[i] = m_<%=name%>(((dtype*)p1)[i],*(dtype*)p2);
+                            }
                         }
+<% if is_simd and is_float and !is_complex and !is_object and %w[add sub mul div].include? name %>
                     } else {
-                        for (i=0; i<n; i++) {
+                        // Calculate up to the position just before the start of SIMD computation.
+                        cnt = get_count_of_elements_not_aligned_to_simd_size(&((dtype*)p1)[i], SIMD_ALIGNMENT_SIZE, sizeof(dtype));
+                        for (; i < cnt; i++) {
                             ((dtype*)p3)[i] = m_<%=name%>(((dtype*)p1)[i],*(dtype*)p2);
                         }
+
+                        // Get the count of SIMD computation loops.
+                        cnt_simd_loop = (n - i) % num_pack;
+
+                        // SIMD computation.
+                        for(; i < n - cnt_simd_loop; i += num_pack){
+                            a = _mm_load_<%=simd_type%>(&((dtype*)p1)[i]);
+                            c = _mm_<%=name%>_<%=simd_type%>(a, b);
+                            _mm_store_<%=simd_type%>(&((dtype*)p3)[i], c);
+                        }
+
+                        // Compute the remainder of the SIMD operation.
+                        if (cnt_simd_loop != 0){
+                            for (; i<n; i++) {
+                                ((dtype*)p3)[i] = m_<%=name%>(((dtype*)p1)[i],*(dtype*)p2);
+                            }
+                        }
                     }
+<% end %>
                 } else {
                     for (i=0; i<n; i++) {
                         *(dtype*)p3 = m_<%=name%>(*(dtype*)p1,*(dtype*)p2);
@@ -67,7 +144,7 @@ static void
                         p3 += s3;
                     }
                 }
-            } else { // Broadcasting from Numo::NArray
+            } else {
                 if (p1 == p3) { // inplace case
                     for (i=0; i<n; i++) {
                         check_intdivzero(*(dtype*)p2);

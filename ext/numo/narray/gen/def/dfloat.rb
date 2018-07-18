@@ -5,6 +5,7 @@ set class_name:          "DFloat"
 set class_alias:         "Float64"
 set class_var:           "cT"
 set ctype:               "double"
+set simd_type:           "pd"
 
 set has_math:            true
 set is_bit:              false

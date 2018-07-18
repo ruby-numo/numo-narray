@@ -43,6 +43,12 @@ code = DefLib.new do
   set file_name: $output||""
   set include_files: ["numo/types/#{type_name}.h"]
   set lib_name: "numo_"+type_name
+  
+  if (::RbConfig::CONFIG['target_cpu'] == 'x86_64') or  (::RbConfig::CONFIG['target_cpu'] == 'x64')
+    set is_simd: true
+  else
+    set is_simd: false
+  end
 
   def_class do
     extend NArrayMethod

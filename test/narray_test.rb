@@ -240,5 +240,93 @@ class NArrayTest < Test::Unit::TestCase
         assert_raise(Numo::NArray::ShapeError) { a.dot(b) }
       end
     end
+
+    sub_test_case "#{dtype}, simd" do
+      test "no simd add" do
+        a = dtype[4..6]
+        b = dtype[1..3]
+        assert { a + b         == [5, 7, 9] }
+        assert { a.inplace + b == [5, 7, 9] }
+      end
+      test "no simd sub" do
+        a = dtype[4..6]
+        b = dtype[1..3]
+        assert { a - b         == [3, 3, 3] }
+        assert { a.inplace - b == [3, 3, 3] }
+      end
+      test "no simd mul" do
+        a = dtype[4..6]
+        b = dtype[1..3]
+        assert { a * b         == [4, 10, 18] }
+        assert { a.inplace * b == [4, 10, 18] }
+      end
+      test "no simd div" do
+        a = dtype[4..6]
+        b = dtype[1..3]
+        assert { a / b         == [4, 2.5, 2] }
+        assert { a.inplace / b == [4, 2.5, 2] }
+      end
+      test "no simd sqrt" do
+        a = dtype[4,9,16]
+        assert { Numo::NMath.sqrt(a)         == [2, 3, 4] }
+        assert { Numo::NMath.sqrt(a.inplace) == [2, 3, 4] }
+      end
+
+      test "simd add" do
+        a = dtype[11..19]
+        b = dtype.ones(9)
+        assert { a + b         == [12, 13, 14, 15, 16, 17, 18, 19, 20] }
+        assert { a.inplace + b == [12, 13, 14, 15, 16, 17, 18, 19, 20] }
+      end
+      test "simd sub" do
+        a = dtype[11..19]
+        b = dtype.ones(9)
+        assert { a - b         == [10, 11, 12, 13, 14, 15, 16, 17, 18] }
+        assert { a.inplace - b == [10, 11, 12, 13, 14, 15, 16, 17, 18] }
+      end
+      test "simd mul" do
+        a = dtype[11..19]
+        b = dtype.ones(9) * 2
+        assert { a * b         == [22, 24, 26, 28, 30, 32, 34, 36, 38] }
+        assert { a.inplace * b == [22, 24, 26, 28, 30, 32, 34, 36, 38] }
+      end
+      test "simd div" do
+        a = dtype[11..19]
+        b = dtype.ones(9) * 2
+        assert { a / b         == [5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5] }
+        assert { a.inplace / b == [5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5] }
+      end
+      test "simd sqrt" do
+        a = dtype[4,9,16,25,36,49,64,81,100]
+        assert { Numo::NMath.sqrt(a)         == [2, 3, 4, 5, 6, 7, 8, 9, 10] }
+        assert { Numo::NMath.sqrt(a.inplace) == [2, 3, 4, 5, 6, 7, 8, 9, 10] }
+      end
+
+      test "simd broadcast scalar add" do
+        a = dtype[1..9]
+        assert { a + 1         == [2, 3, 4, 5, 6, 7, 8, 9, 10] }
+        assert { a.inplace + 1 == [2, 3, 4, 5, 6, 7, 8, 9, 10] }
+      end
+
+      test "simd broadcast not scalar add" do
+        a = dtype[10..19].reshape(2,5)
+        b = dtype[10..14]
+        assert { a + b         == [[20, 22, 24, 26, 28], [25, 27, 29, 31, 33]] }
+        assert { a.inplace + b == [[20, 22, 24, 26, 28], [25, 27, 29, 31, 33]] }
+      end
+
+      test "simd view add" do
+        a = dtype[10..19][1..9]
+        b = dtype[10..19][1..9]
+        assert { a + b         == [22, 24, 26, 28, 30, 32, 34, 36, 38] }
+        assert { a.inplace + b == [22, 24, 26, 28, 30, 32, 34, 36, 38] }
+      end
+
+      test "simd view sqrt" do
+        a = dtype[1,4,9,16,25,36,49,64,81,100]
+        assert { Numo::NMath.sqrt(a[1..9])         == [2, 3, 4, 5, 6, 7, 8, 9, 10] }
+        assert { Numo::NMath.sqrt(a[1..9].inplace) == [2, 3, 4, 5, 6, 7, 8, 9, 10] }
+      end
+    end
   end
 end
