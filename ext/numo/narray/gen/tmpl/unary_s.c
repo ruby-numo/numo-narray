@@ -7,20 +7,20 @@ static void
     size_t *idx1, *idx2;
     dtype   x;
 
+<% if is_simd and !is_complex and %w[sqrt].include? name %>
+    size_t cnt;
+    size_t cnt_simd_loop = -1;
+    <% if is_double_precision %>
+    __m128d a;
+    <% else %>
+    __m128 a;
+    <% end %>
+    size_t num_pack; // Number of elements packed for SIMD.
+    num_pack = SIMD_ALIGNMENT_SIZE / sizeof(dtype);
+<% end %>
     INIT_COUNTER(lp, n);
     INIT_PTR_IDX(lp, 0, p1, s1, idx1);
     INIT_PTR_IDX(lp, 1, p2, s2, idx2);
-<% if is_simd and !is_complex and %w[sqrt].include? name %>
-    size_t cnt, cnt_simd_loop;
-    <% if is_double_precision %>
-    __m128d a;
-    __m128d b;
-    <% else %>
-    __m128 a;
-    __m128 b;
-    <% end %>
-    size_t num_pack = SIMD_ALIGNMENT_SIZE / sizeof(dtype); // Number of elements packed for SIMD.
-<% end %>
 
     if (idx1) {
         if (idx2) {
@@ -46,13 +46,7 @@ static void
         } else {
 <% if is_simd and !is_complex and %w[sqrt].include? name %>
             // Check number of elements. & Check same alignment.
-            if ((n < num_pack) || !is_same_aligned2(&((dtype*)p1)[i], &((dtype*)p2)[i], SIMD_ALIGNMENT_SIZE)){
-<% end %>
-                for (i=0; i<n; i++) {
-                    ((dtype*)p2)[i] = m_<%=name%>(((dtype*)p1)[i]);
-                }
-<% if is_simd and !is_complex and %w[sqrt].include? name %>
-            } else {
+            if ((n >= num_pack) && is_same_aligned2(&((dtype*)p1)[i], &((dtype*)p2)[i], SIMD_ALIGNMENT_SIZE)){
                 // Calculate up to the position just before the start of SIMD computation.
                 cnt = get_count_of_elements_not_aligned_to_simd_size(&((dtype*)p1)[i], SIMD_ALIGNMENT_SIZE, sizeof(dtype));
                 for (i=0; i < cnt; i++) {
@@ -63,18 +57,28 @@ static void
                 cnt_simd_loop = (n - i) % num_pack;
 
                 // SIMD computation.
-                for(; i < n - cnt_simd_loop; i += num_pack){
-                    a = _mm_load_<%=simd_type%>(&((dtype*)p1)[i]);
-                    b = _mm_<%=name%>_<%=simd_type%>(a);
-                    _mm_store_<%=simd_type%>(&((dtype*)p2)[i], b);
-                }
-
-                // Compute the remainder of the SIMD operation.
-                if (cnt_simd_loop != 0){
-                    for (; i<n; i++) {
-                        ((dtype*)p2)[i] = m_<%=name%>(((dtype*)p1)[i]);
+                if (p1 == p2) { // inplace case
+                    for(; i < n - cnt_simd_loop; i += num_pack){
+                        a = _mm_load_<%=simd_type%>(&((dtype*)p1)[i]);
+                        a = _mm_<%=name%>_<%=simd_type%>(a);
+                        _mm_store_<%=simd_type%>(&((dtype*)p1)[i], a);
+                    }
+                } else {
+                    for(; i < n - cnt_simd_loop; i += num_pack){
+                        a = _mm_load_<%=simd_type%>(&((dtype*)p1)[i]);
+                        a = _mm_<%=name%>_<%=simd_type%>(a);
+                        _mm_stream_<%=simd_type%>(&((dtype*)p2)[i], a);
                     }
                 }
+
+            }
+            // Compute the remainder of the SIMD operation.
+            if (cnt_simd_loop != 0){
+<% end %>
+                for (; i<n; i++) {
+                    ((dtype*)p2)[i] = m_<%=name%>(((dtype*)p1)[i]);
+                }
+<% if is_simd and !is_complex and %w[sqrt].include? name %>
             }
 <% end %>
             return;
