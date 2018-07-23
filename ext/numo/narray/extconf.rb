@@ -12,9 +12,6 @@ rm_f 'numo/extconf.h'
 #$CFLAGS="-g3 -O0 -Wall"
 #$CFLAGS=" $(cflags) -O3 -m64 -msse2 -funroll-loops"
 #$CFLAGS=" $(cflags) -O3"
-if (::RbConfig::CONFIG['target_cpu'] == 'x86_64') or  (::RbConfig::CONFIG['target_cpu'] == 'x64')
-  $CFLAGS += " -msse2"
-end
 $INCFLAGS = "-Itypes #$INCFLAGS"
 
 $INSTALLFILES = Dir.glob(%w[numo/*.h numo/types/*.h]).map{|x| [x,'$(archdir)'] }

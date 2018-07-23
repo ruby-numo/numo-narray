@@ -1,5 +1,12 @@
 #! /usr/bin/env ruby
 
+# Build gems for Windows by using fake RbConfig::CONFIG by rake-compiler.
+fake_path  = File.join(Dir.pwd, 'fake.rb')
+if File.exist? fake_path
+  $:.unshift(Dir.pwd)
+  require 'fake'
+end
+
 thisdir = File.dirname(__FILE__)
 libpath = File.absolute_path(File.dirname(__FILE__))+"/../../../../lib"
 $LOAD_PATH.unshift libpath
