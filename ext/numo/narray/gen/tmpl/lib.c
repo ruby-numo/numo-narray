@@ -14,6 +14,11 @@
 
 #define m_map(x) m_num_to_data(rb_yield(m_data_to_num(x)))
 
+<% if is_simd %>
+#include <emmintrin.h>
+#define SIMD_ALIGNMENT_SIZE 16
+<% end %>
+
 <% id_decl.each do |x| %>
 <%= x %>
 <% end %>

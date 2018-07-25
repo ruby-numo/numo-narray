@@ -1,5 +1,12 @@
 #! /usr/bin/env ruby
 
+# Build gems for Windows by using fake RbConfig::CONFIG by rake-compiler.
+fake_path  = File.join(Dir.pwd, 'fake.rb')
+if File.exist? fake_path
+  $:.unshift(Dir.pwd)
+  require 'fake'
+end
+
 thisdir = File.dirname(__FILE__)
 libpath = File.absolute_path(File.dirname(__FILE__))+"/../../../../lib"
 $LOAD_PATH.unshift libpath
@@ -43,6 +50,12 @@ code = DefLib.new do
   set file_name: $output||""
   set include_files: ["numo/types/#{type_name}.h"]
   set lib_name: "numo_"+type_name
+  
+  if (::RbConfig::CONFIG['target_cpu'] == 'x86_64') or  (::RbConfig::CONFIG['target_cpu'] == 'x64')
+    set is_simd: true
+  else
+    set is_simd: false
+  end
 
   def_class do
     extend NArrayMethod

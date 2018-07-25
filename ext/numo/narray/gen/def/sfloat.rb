@@ -5,6 +5,7 @@ set class_name:          "SFloat"
 set class_alias:         "Float32"
 set class_var:           "cT"
 set ctype:               "float"
+set simd_type:           "ps"
 
 set has_math:            true
 set is_bit:              false
