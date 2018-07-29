@@ -148,6 +148,8 @@ class NArrayTest < Test::Unit::TestCase
         assert { a.reshape(nil,2) == [[1,2],[3,5],[7,11]] }
         assert { a.transpose == [[1,5],[2,7],[3,11]] }
         assert { a.transpose(1,0) == [[1,5],[2,7],[3,11]] }
+        assert { a.triu == [[1,2,3],[0,7,11]] }
+        assert { a.tril == [[1,0,0],[5,7,0]] }
 
         assert { a.sum == 29 }
         assert { a.sum(0) == [6, 9, 14] }
