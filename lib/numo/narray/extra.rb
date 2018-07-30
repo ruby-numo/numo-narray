@@ -1036,7 +1036,7 @@ module Numo
         raise NArray::ShapeError, "must be >= 2-dimensional array"
       end
       m,n = shape[-2..-1]
-      NArray.triu_indices(m,n,k=0)
+      NArray.triu_indices(m,n,k)
     end
 
     # Return the indices for the uppler-triangle on and above the k-th diagonal.
