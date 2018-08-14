@@ -132,7 +132,7 @@ nary_debug_info(VALUE self)
     narray_t *na;
     GetNArray(self,na);
 
-    printf("%s:\n",rb_class2name(CLASS_OF(self)));
+    printf("%s:\n",rb_class2name(rb_obj_class(self)));
     printf("  id     = 0x%"PRI_VALUE_PREFIX"x\n", self);
     printf("  type   = %d\n", na->type);
     printf("  flag   = [%d,%d]\n", na->flag[0], na->flag[1]);
@@ -912,7 +912,7 @@ na_make_view(VALUE self)
     GetNArray(self,na);
     nd = na->ndim;
 
-    view = na_s_allocate_view(CLASS_OF(self));
+    view = na_s_allocate_view(rb_obj_class(self));
 
     na_copy_flags(self, view);
     GetNArrayView(view, na2);
@@ -1043,7 +1043,7 @@ nary_reverse(int argc, VALUE *argv, VALUE self)
     GetNArray(self,na);
     nd = na->ndim;
 
-    view = na_s_allocate_view(CLASS_OF(self));
+    view = na_s_allocate_view(rb_obj_class(self));
 
     na_copy_flags(self, view);
     GetNArrayView(view, na2);
@@ -1143,7 +1143,7 @@ nary_coerce(VALUE x, VALUE y)
 {
     VALUE type;
 
-    type = numo_na_upcast(CLASS_OF(x), CLASS_OF(y));
+    type = numo_na_upcast(rb_obj_class(x), rb_obj_class(y));
     y = rb_funcall(type,id_cast,1,y);
     return rb_assoc_new(y , x);
 }
@@ -1160,7 +1160,7 @@ nary_byte_size(VALUE self)
     narray_t *na;
 
     GetNArray(self,na);
-    velmsz = rb_const_get(CLASS_OF(self), id_element_byte_size);
+    velmsz = rb_const_get(rb_obj_class(self), id_element_byte_size);
     if (FIXNUM_P(velmsz)) {
         return SIZET2NUM(NUM2SIZET(velmsz) * na->size);
     }
@@ -1283,7 +1283,7 @@ nary_store_binary(int argc, VALUE *argv, VALUE self)
 
     GetNArray(self,na);
     size = NA_SIZE(na);
-    velmsz = rb_const_get(CLASS_OF(self), id_element_byte_size);
+    velmsz = rb_const_get(rb_obj_class(self), id_element_byte_size);
     if (FIXNUM_P(velmsz)) {
         byte_size = size * NUM2SIZET(velmsz);
     } else {
@@ -1341,7 +1341,7 @@ nary_marshal_dump(VALUE self)
     rb_ary_push(a, INT2FIX(1));     // version
     rb_ary_push(a, na_shape(self));
     rb_ary_push(a, INT2FIX(NA_FLAG0(self)));
-    if (CLASS_OF(self) == numo_cRObject) {
+    if (rb_obj_class(self) == numo_cRObject) {
         narray_t *na;
         VALUE *ptr;
         size_t offset=0;
@@ -1387,7 +1387,7 @@ nary_marshal_load(VALUE self, VALUE a)
     na_initialize(self,RARRAY_AREF(a,1));
     NA_FL0_SET(self,FIX2INT(RARRAY_AREF(a,2)));
     v = RARRAY_AREF(a,3);
-    if (CLASS_OF(self) == numo_cRObject) {
+    if (rb_obj_class(self) == numo_cRObject) {
         narray_t *na;
         char *ptr;
         if (TYPE(v) != T_ARRAY) {
@@ -1793,7 +1793,7 @@ na_equal(VALUE self, volatile VALUE other)
     GetNArray(self,na1);
 
     if (!rb_obj_is_kind_of(other,cNArray)) {
-        other = rb_funcall(CLASS_OF(self), id_cast, 1, other);
+        other = rb_funcall(rb_obj_class(self), id_cast, 1, other);
     }
 
     GetNArray(other,na2);

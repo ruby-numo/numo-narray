@@ -89,7 +89,7 @@ static VALUE
     //<% if is_object %>
     return <%=c_func%>_self(argc, argv, self);
     //<% else %>
-    klass = na_upcast(CLASS_OF(self),CLASS_OF(argv[0]));
+    klass = na_upcast(rb_obj_class(self),rb_obj_class(argv[0]));
     if (klass==cT) {
         return <%=c_func%>_self(argc, argv, self);
     } else {

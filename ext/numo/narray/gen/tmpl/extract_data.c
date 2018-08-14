@@ -15,7 +15,7 @@ static dtype
         if (na->size != 1) {
             rb_raise(nary_eShapeError,"narray size should be 1");
         }
-        klass = CLASS_OF(obj);
+        klass = rb_obj_class(obj);
         ptr = na_get_pointer_for_read(obj);
         pos = na_get_offset(obj);
         <% find_tmpl("store").definitions.select{|x| x.class==Store}.each do |x| %>
@@ -27,14 +27,14 @@ static dtype
 
         // coerce
         r = rb_funcall(obj, rb_intern("coerce_cast"), 1, cT);
-        if (CLASS_OF(r)==cT) {
+        if (rb_obj_class(r)==cT) {
             return <%=c_func%>(r);
         }
         <% if is_object %>
         return obj;
         <% else %>
         rb_raise(nary_eCastError, "unknown conversion from %s to %s",
-                 rb_class2name(CLASS_OF(obj)),
+                 rb_class2name(rb_obj_class(obj)),
                  rb_class2name(cT));
         <% end %>
     }

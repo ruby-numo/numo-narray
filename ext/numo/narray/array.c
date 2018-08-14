@@ -106,7 +106,7 @@ static VALUE
         return type;
 
     default:
-        if (CLASS_OF(v) == rb_const_get( rb_cObject, id_Complex )) {
+        if (rb_obj_class(v) == rb_const_get( rb_cObject, id_Complex )) {
             return NA_DCOMPLEX;
         }
     }
@@ -232,9 +232,9 @@ na_mdai_investigate(na_mdai_t *mdai, int ndim)
             }
             // type
             if (NIL_P(mdai->na_type)) {
-                mdai->na_type = CLASS_OF(v);
+                mdai->na_type = rb_obj_class(v);
             } else {
-                mdai->na_type = na_upcast(CLASS_OF(v), mdai->na_type);
+                mdai->na_type = na_upcast(rb_obj_class(v), mdai->na_type);
             }
         } else {
             mdai->type = na_mdai_object_type(mdai->type, v);
@@ -423,7 +423,7 @@ na_composition3(VALUE obj, VALUE *ptype, VALUE *pshape, VALUE *pnary)
         narray_t *na;
         GetNArray(obj,na);
         ndim = na->ndim;
-        dtype = update_type(ptype, CLASS_OF(obj));
+        dtype = update_type(ptype, rb_obj_class(obj));
         if (pshape) {
             dshape = rb_ary_new2(ndim);
             for (i=0; i<ndim; i++) {
@@ -436,7 +436,7 @@ na_composition3(VALUE obj, VALUE *ptype, VALUE *pshape, VALUE *pnary)
         }
     } else {
         rb_raise(rb_eTypeError,"invalid type for NArray: %s",
-                 rb_class2name(CLASS_OF(obj)));
+                 rb_class2name(rb_obj_class(obj)));
     }
 }
 
@@ -539,7 +539,7 @@ na_mdai_for_struct(na_mdai_t *mdai, int ndim)
 
     //fpintf(stderr,"val = ");    rb_p(val);
 
-    if (CLASS_OF(val) == mdai->na_type) {
+    if (rb_obj_class(val) == mdai->na_type) {
         GetNArray(val,na);
         if ( ndim+na->ndim > mdai->capa ) {
             abort();

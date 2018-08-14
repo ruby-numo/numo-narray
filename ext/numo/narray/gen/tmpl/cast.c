@@ -17,7 +17,7 @@ static VALUE
     narray_t *na;
     dtype x;
 
-    if (CLASS_OF(obj)==cT) {
+    if (rb_obj_class(obj)==cT) {
         return obj;
     }
     if (RTEST(rb_obj_is_kind_of(obj,rb_cNumeric))) {

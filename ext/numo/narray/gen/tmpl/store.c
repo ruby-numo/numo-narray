@@ -13,7 +13,7 @@ static VALUE
 {
     VALUE r, klass;
 
-    klass = CLASS_OF(obj);
+    klass = rb_obj_class(obj);
 
     <% definitions.each do |x| %>
     if (<%=x.condition("klass")%>) {
@@ -24,7 +24,7 @@ static VALUE
 
     if (IsNArray(obj)) {
         r = rb_funcall(obj, rb_intern("coerce_cast"), 1, cT);
-        if (CLASS_OF(r)==cT) {
+        if (rb_obj_class(r)==cT) {
             <%=c_func%>(self,r);
             return self;
         }
@@ -34,8 +34,8 @@ static VALUE
     robject_store_numeric(self,obj);
     <% else %>
     rb_raise(nary_eCastError, "unknown conversion from %s to %s",
-             rb_class2name(CLASS_OF(obj)),
-             rb_class2name(CLASS_OF(self)));
+             rb_class2name(rb_obj_class(obj)),
+             rb_class2name(rb_obj_class(self)));
     <% end %>
     return self;
 }

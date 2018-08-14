@@ -467,7 +467,7 @@ na_flatten_dim(VALUE self, int sd)
     shape[sd] = size;
 
     // new object
-    view = na_s_allocate_view(CLASS_OF(self));
+    view = na_s_allocate_view(rb_obj_class(self));
     na_copy_flags(self, view);
     GetNArrayView(view, na2);
 
@@ -690,7 +690,7 @@ na_diagonal(int argc, VALUE *argv, VALUE self)
     shape[k] = diag_size;
 
     // new object
-    view = na_s_allocate_view(CLASS_OF(self));
+    view = na_s_allocate_view(rb_obj_class(self));
     na_copy_flags(self, view);
     GetNArrayView(view, na2);
 
@@ -803,7 +803,7 @@ na_new_dimension_for_dot(VALUE self, int pos, int len, bool transpose)
     GetNArray(self,na);
     nd = na->ndim;
 
-    view = na_s_allocate_view(CLASS_OF(self));
+    view = na_s_allocate_view(rb_obj_class(self));
 
     na_copy_flags(self, view);
     GetNArrayView(view, na2);

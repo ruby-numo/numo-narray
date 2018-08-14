@@ -48,7 +48,7 @@ static VALUE
     return <%=c_func%>_self(self, other);
     <% else %>
     VALUE klass, v;
-    klass = na_upcast(CLASS_OF(self),CLASS_OF(other));
+    klass = na_upcast(rb_obj_class(self),rb_obj_class(other));
     if (klass==cT) {
         return <%=c_func%>_self(self, other);
     } else {

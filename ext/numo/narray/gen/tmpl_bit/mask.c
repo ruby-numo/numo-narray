@@ -103,7 +103,7 @@ static VALUE
     g.idx0 = NULL;
     na_ndloop3(&ndf, &g, 2, mask, val);
 
-    view = na_s_allocate_view(CLASS_OF(val));
+    view = na_s_allocate_view(rb_obj_class(val));
     GetNArrayView(view, nv);
     na_setup_shape((narray_t*)nv, 1, &n_1);
 

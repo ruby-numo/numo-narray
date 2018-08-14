@@ -23,7 +23,7 @@ nst_allocate(VALUE self)
     case NARRAY_DATA_T:
         ptr = NA_DATA_PTR(na);
         if (na->size > 0 && ptr == NULL) {
-            velmsz = rb_const_get(CLASS_OF(self), rb_intern("element_byte_size"));
+            velmsz = rb_const_get(rb_obj_class(self), rb_intern("element_byte_size"));
             ptr = xmalloc(NUM2SIZET(velmsz) * na->size);
             NA_DATA_PTR(na) = ptr;
         }
@@ -51,7 +51,7 @@ static VALUE
 nst_definition(VALUE nst, VALUE idx)
 {
     long i;
-    VALUE def = nst_definitions(CLASS_OF(nst));
+    VALUE def = nst_definitions(rb_obj_class(nst));
     long  len = RARRAY_LEN(def);
 
     if (TYPE(idx) == T_STRING || TYPE(idx) == T_SYMBOL) {
@@ -105,7 +105,7 @@ na_make_view_struct(VALUE self, VALUE dtype, VALUE offset)
         for (j=na->ndim,k=0; j<ndim; j++,k++) {
             shape[j] = nt->shape[k];
         }
-        klass = CLASS_OF(dtype);
+        klass = rb_obj_class(dtype);
         stridx = ALLOC_N(stridx_t, ndim);
         stride = na_dtype_elmsz(klass);
         for (j=ndim,k=nt->ndim; k; ) {
@@ -118,7 +118,7 @@ na_make_view_struct(VALUE self, VALUE dtype, VALUE offset)
         for (j=0; j<ndim; j++) {
             shape[j] = na->shape[j];
         }
-        klass = CLASS_OF(self);
+        klass = rb_obj_class(self);
         if (TYPE(dtype)==T_CLASS) {
             if (RTEST(rb_class_inherited_p(dtype,cNArray))) {
                 klass = dtype;
@@ -181,7 +181,7 @@ nst_field_view(VALUE self, VALUE idx)
     if (!RTEST(def)) {
         idx = rb_funcall(idx, rb_intern("to_s"), 0);
         rb_raise(rb_eTypeError, "Invalid field: '%s' for struct %s",
-                 StringValuePtr(idx), rb_class2name(CLASS_OF(self)));
+                 StringValuePtr(idx), rb_class2name(rb_obj_class(self)));
     }
     type = RARRAY_AREF(def,1);
     ofs  = RARRAY_AREF(def,2);
@@ -353,7 +353,7 @@ nstruct_add_type(VALUE type, int argc, VALUE *argv, VALUE nst)
     if (rb_obj_is_kind_of(type,cNArray)) {
         narray_t *na;
         GetNArray(type,na);
-        type = CLASS_OF(type);
+        type = rb_obj_class(type);
         ndim = na->ndim;
         shape = na->shape;
     }
@@ -361,7 +361,7 @@ nstruct_add_type(VALUE type, int argc, VALUE *argv, VALUE nst)
     GetNArrayView(type,nt);
 
     nt->stridx = ALLOC_N(stridx_t,ndim);
-    stride = na_dtype_elmsz(CLASS_OF(type));
+    stride = na_dtype_elmsz(rb_obj_class(type));
     for (j=ndim; j--; ) {
         SDX_SET_STRIDE(nt->stridx[j], stride);
         stride *= shape[j];
@@ -441,7 +441,7 @@ nst_create_member_views(VALUE self)
     long  i, len;
     narray_view_t *ne;
 
-    defs = nst_definitions(CLASS_OF(self));
+    defs = nst_definitions(rb_obj_class(self));
     len = RARRAY_LEN(defs);
     types = rb_ary_new2(len);
     //ofsts = rb_ary_new2(len);
@@ -531,7 +531,7 @@ nst_check_compatibility(VALUE nst, VALUE ary)
     narray_t *nt;
 
     if (TYPE(ary) != T_ARRAY) {
-        if (nst==CLASS_OF(ary)) { // same Struct
+        if (nst==rb_obj_class(ary)) { // same Struct
             return Qtrue;
         }
         return Qfalse;
@@ -604,7 +604,7 @@ iter_nstruct_from_a(na_loop_t *const lp)
 
     len = RARRAY_LEN(types);
     ary = lp->args[1].value;
-    //rb_p(CLASS_OF(ary));rb_p(ary);
+    //rb_p(rb_obj_class(ary));rb_p(ary);
 
     for (i=0; i<len; i++) {
         def  = RARRAY_AREF(defs,i);
@@ -633,7 +633,7 @@ nary_struct_cast_array(VALUE klass, VALUE rary)
     ndfunc_t ndf = {iter_nstruct_from_a, NO_LOOP, 3, 0, ain, 0};
 
     //fprintf(stderr,"rary:");rb_p(rary);
-    //fprintf(stderr,"class_of(rary):");rb_p(CLASS_OF(rary));
+    //fprintf(stderr,"class_of(rary):");rb_p(rb_obj_class(rary));
 
     //vnc = na_ary_composition_for_struct(klass, rary);
     //Data_Get_Struct(vnc, na_compose_t, nc);
@@ -719,7 +719,7 @@ nary_struct_store_struct(VALUE self, VALUE obj)
 static inline VALUE
 nary_struct_store_array(VALUE self, VALUE obj)
 {
-    return nary_struct_store_struct(self, nary_struct_cast_array(CLASS_OF(self),obj));
+    return nary_struct_store_struct(self, nary_struct_cast_array(rb_obj_class(self),obj));
 }
 
 /*
@@ -735,13 +735,13 @@ nary_struct_store(VALUE self, VALUE obj)
         nary_struct_store_array(self,obj);
         return self;
     }
-    if (CLASS_OF(self) == CLASS_OF(obj)) {
+    if (rb_obj_class(self) == rb_obj_class(obj)) {
         nary_struct_store_struct(self,obj);
         return self;
     }
     rb_raise(nary_eCastError, "unknown conversion from %s to %s",
-             rb_class2name(CLASS_OF(obj)),
-             rb_class2name(CLASS_OF(self)));
+             rb_class2name(rb_obj_class(obj)),
+             rb_class2name(rb_obj_class(self)));
     return self;
 }
 
