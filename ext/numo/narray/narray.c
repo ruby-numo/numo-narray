@@ -728,6 +728,38 @@ na_empty_p(VALUE self)
 }
 
 
+/*
+  Release memory for array data. Ignored for NArray-view.
+  This method is useful to free memory of referenced (i.e., GC does not work)
+  but unused NArray object.
+  @overload free
+*/
+static VALUE
+na_free(VALUE self)
+{
+    narray_t *na;
+    char *ptr;
+
+    GetNArray(self,na);
+
+    switch(NA_TYPE(na)) {
+    case NARRAY_DATA_T:
+        ptr = NA_DATA_PTR(na);
+        if (ptr != NULL) {
+            NA_DATA_PTR(na) = NULL;
+            xfree(ptr);
+        }
+        break;
+    case NARRAY_VIEW_T:
+        break;
+    case NARRAY_FILEMAP_T:
+    default:
+        rb_bug("invalid narray type : %d",NA_TYPE(na));
+    }
+    return self;
+}
+
+
 /* method: shape() -- returns shape, array of the size of dimensions */
 static VALUE
  na_shape(VALUE self)
@@ -1867,6 +1899,7 @@ Init_narray()
     rb_define_method(cNArray, "ndim", na_ndim,0);
     rb_define_alias (cNArray, "rank","ndim");
     rb_define_method(cNArray, "empty?", na_empty_p, 0);
+    rb_define_method(cNArray, "free", na_free, 0);
 
     rb_define_method(cNArray, "debug_info", nary_debug_info, 0);
 
