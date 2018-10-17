@@ -1,8 +1,8 @@
 begin
-  major, minor, _ = RUBY_VERSION.split(/\./)
+  major, minor, = RUBY_VERSION.split(/\./)
   require "#{major}.#{minor}/numo/narray.so"
 rescue LoadError
-  require "numo/narray.so"
+  require 'numo/narray.so'
 end
 
-require "numo/narray/extra"
+require 'numo/narray/extra'

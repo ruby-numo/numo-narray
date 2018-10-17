@@ -1,0 +1,26 @@
+AllCops:
+  Exclude:
+    - 'numo-narray.gemspec'
+    - 'setup.rb'
+    - 'Rakefile'
+    - 'ext/**'
+    - 'ext/numo/narray/**'
+    - 'ext/numo/narray/gen/**'
+    - 'ext/numo/narray/gen/def/**'
+    - 'fft/**'
+    - 'test/**'
+
+
+Metrics/ClassLength:
+  Exclude:
+    - 'lib/numo/narray/**'
+
+Metrics/LineLength:
+  Max: 120
+
+Metrics/MethodLength:
+  Max: 15
+
+Naming/UncommunicativeMethodParamName:
+  Exclude:
+    - 'lib/numo/narray/**'
