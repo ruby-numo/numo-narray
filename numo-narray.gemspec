@@ -29,7 +29,11 @@ Gem::Specification.new do |spec|
   spec.extensions    = ["ext/numo/narray/extconf.rb"]
 
   spec.add_development_dependency "bundler", "~> 1.3"
-  spec.add_development_dependency "rake", "~> 0"
+  if RUBY_VERSION <'2.2' # Ruby 2.1.x
+    spec.add_development_dependency "rake", "<= 10.5", ">=10.1.1"
+  else
+    spec.add_development_dependency "rake"
+  end
   spec.add_development_dependency "test-unit"
   spec.add_development_dependency 'rake-compiler', "~> 1.0", ">= 1.0.1"
   spec.add_development_dependency "rake-compiler-dock", "~> 0"

@@ -24,3 +24,5 @@ before_install:
 script:
   - gem build numo-narray.gemspec
   - gem install numo-narray-*.gem
+  - bundle install
+  - rake test
