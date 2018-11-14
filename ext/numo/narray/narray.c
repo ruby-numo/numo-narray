@@ -922,6 +922,50 @@ na_check_contiguous(VALUE self)
     return Qfalse;
 }
 
+VALUE
+na_check_transpose(VALUE self)
+{
+    narray_t *na;
+    GetNArray(self,na);
+    int i;
+    ssize_t st0, st1;
+
+    switch(na->type) {
+    case NARRAY_DATA_T:
+    case NARRAY_FILEMAP_T:
+        return Qfalse;
+    case NARRAY_VIEW_T:
+        if (NA_NDIM(na) < 2) {
+            return Qfalse;
+        }
+
+        // not transposed if it has offset
+        if (NA_VIEW_OFFSET(na))
+            return Qfalse;
+
+        st0 = nary_element_stride(self); // elmsz
+        if (st0 != NA_STRIDE_AT(na,0)) {
+            return Qfalse;
+        }
+
+        // not transposed if it has index
+        for (i=0; i<NA_NDIM(na); i++) {
+            if (NA_IS_INDEX_AT(na,i))
+                return Qfalse;
+        }
+
+        // check stride
+        for (i=1; i<NA_NDIM(na); i++) {
+            st1 = NA_STRIDE_AT(na,i);
+            if (st1 != (ssize_t)(st0 * NA_SHAPE(na)[i-1])) {
+                return Qfalse;
+            }
+            st0 = st1;
+        }
+    }
+    return Qtrue;
+}
+
 //----------------------------------------------------------------------
 
 /*
@@ -1904,6 +1948,7 @@ Init_narray()
     rb_define_method(cNArray, "debug_info", nary_debug_info, 0);
 
     rb_define_method(cNArray, "contiguous?", na_check_contiguous, 0);
+    rb_define_method(cNArray, "transpose?", na_check_transpose, 0);
 
     rb_define_method(cNArray, "view", na_make_view, 0);
     rb_define_method(cNArray, "expand_dims", na_expand_dims, 1);
