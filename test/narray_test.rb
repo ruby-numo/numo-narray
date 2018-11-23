@@ -168,13 +168,13 @@ class NArrayTest < Test::Unit::TestCase
         assert { a.reshape(3,2).contiguous? }
         assert { a[true,1..2].contiguous? == false }
         assert { a.transpose.contiguous? == false }
-        assert { a.f_contiguous? == false }
-        assert { a.transpose.f_contiguous? }
-        assert { a.transpose.transpose.f_contiguous? == false }
-        assert { a.reshape(3,2).f_contiguous? == false }
-        assert { a.reshape(3,2).transpose.f_contiguous? }
-        assert { a[true,1..2].f_contiguous? == false }
-        assert { a[true,1..2].transpose.f_contiguous? == false }
+        assert { a.fortran_contiguous? == false }
+        assert { a.transpose.fortran_contiguous? }
+        assert { a.transpose.transpose.fortran_contiguous? == false }
+        assert { a.reshape(3,2).fortran_contiguous? == false }
+        assert { a.reshape(3,2).transpose.fortran_contiguous? }
+        assert { a[true,1..2].fortran_contiguous? == false }
+        assert { a[true,1..2].transpose.fortran_contiguous? == false }
 
         if dtype == Numo::DComplex || dtype == Numo::SComplex
           assert { a.real == src }
@@ -236,12 +236,12 @@ class NArrayTest < Test::Unit::TestCase
 
       assert { a.contiguous? }
       assert { a.transpose.contiguous? == false }
-      assert { a.f_contiguous? == false }
-      assert { a.transpose.f_contiguous? }
-      assert { a.transpose.transpose.f_contiguous? == false }
-      assert { a.transpose(0,2,1).f_contiguous? == false }
-      assert { a.reshape(2,4).f_contiguous? == false }
-      assert { a.reshape(2,4).transpose.f_contiguous? }
+      assert { a.fortran_contiguous? == false }
+      assert { a.transpose.fortran_contiguous? }
+      assert { a.transpose.transpose.fortran_contiguous? == false }
+      assert { a.transpose(0,2,1).fortran_contiguous? == false }
+      assert { a.reshape(2,4).fortran_contiguous? == false }
+      assert { a.reshape(2,4).transpose.fortran_contiguous? }
     end
 
     sub_test_case "#{dtype}, #dot" do

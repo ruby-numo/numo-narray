@@ -923,7 +923,7 @@ na_check_contiguous(VALUE self)
 }
 
 VALUE
-na_check_f_contiguous(VALUE self)
+na_check_fortran_contiguous(VALUE self)
 {
     int i;
     ssize_t st0;
@@ -1937,7 +1937,7 @@ Init_narray()
     rb_define_method(cNArray, "debug_info", nary_debug_info, 0);
 
     rb_define_method(cNArray, "contiguous?", na_check_contiguous, 0);
-    rb_define_method(cNArray, "f_contiguous?", na_check_f_contiguous, 0);
+    rb_define_method(cNArray, "fortran_contiguous?", na_check_fortran_contiguous, 0);
 
     rb_define_method(cNArray, "view", na_make_view, 0);
     rb_define_method(cNArray, "expand_dims", na_expand_dims, 1);
