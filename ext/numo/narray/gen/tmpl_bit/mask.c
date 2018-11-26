@@ -75,6 +75,10 @@ static void
 #define cIndex numo_cInt32
 #endif
 
+static void shape_error() {
+    rb_raise(nary_eShapeError,"mask and masked arrays must have the same shape");
+}
+
 /*
   Return subarray of argument masked with self bit array.
   @overload <%=op_map%>(array)
@@ -84,16 +88,32 @@ static void
 static VALUE
 <%=c_func(1)%>(VALUE mask, VALUE val)
 {
-    volatile VALUE idx_1, view;
+    int i;
+    VALUE idx_1, view;
     narray_data_t *nidx;
-    narray_view_t *nv;
-    narray_t      *na;
-    narray_view_t *na1;
+    narray_view_t *nv, *nv_val;
+    narray_t      *na, *na_mask;
     stridx_t stridx0;
     size_t n_1;
     where_opt_t g;
     ndfunc_arg_in_t ain[2] = {{cT,0},{Qnil,0}};
     ndfunc_t ndf = {<%=c_iter%>, FULL_LOOP, 2, 0, ain, 0};
+
+    // cast val to NArray
+    if (!rb_obj_is_kind_of(val, numo_cNArray)) {
+        val = rb_funcall(numo_cNArray, id_cast, 1, val);
+    }
+    // shapes of mask and val must be same
+    GetNArray(val, na);
+    GetNArray(mask, na_mask);
+    if (na_mask->ndim != na->ndim) {
+        shape_error();
+    }
+    for (i=0; i<na->ndim; i++) {
+        if (na_mask->shape[i] != na->shape[i]) {
+            shape_error();
+        }
+    }
 
     n_1 = NUM2SIZET(<%=find_tmpl("count_true").c_func%>(0, NULL, mask));
     idx_1 = nary_new(cIndex, 1, &n_1);
@@ -110,19 +130,19 @@ static VALUE
     GetNArrayData(idx_1,nidx);
     SDX_SET_INDEX(stridx0,(size_t*)nidx->ptr);
     nidx->ptr = NULL;
+    RB_GC_GUARD(idx_1);
 
     nv->stridx = ALLOC_N(stridx_t,1);
     nv->stridx[0] = stridx0;
     nv->offset = 0;
 
-    GetNArray(val, na);
     switch(NA_TYPE(na)) {
     case NARRAY_DATA_T:
         nv->data = val;
         break;
     case NARRAY_VIEW_T:
-        GetNArrayView(val, na1);
-        nv->data = na1->data;
+        GetNArrayView(val, nv_val);
+        nv->data = nv_val->data;
         break;
     default:
         rb_raise(rb_eRuntimeError,"invalid NA_TYPE: %d",NA_TYPE(na));
