@@ -922,6 +922,39 @@ na_check_contiguous(VALUE self)
     return Qfalse;
 }
 
+VALUE
+na_check_fortran_contiguous(VALUE self)
+{
+    int i;
+    ssize_t st0;
+    narray_t *na;
+
+    switch(RNARRAY_TYPE(self)) {
+    case NARRAY_DATA_T:
+    case NARRAY_FILEMAP_T:
+        return Qfalse;
+    case NARRAY_VIEW_T:
+        GetNArray(self,na);
+
+        // not contiguous if it has index
+        for (i=0; i < NA_NDIM(na); i++) {
+            if (NA_IS_INDEX_AT(na,i))
+                return Qfalse;
+        }
+
+        // check f-contiguous
+        st0 = nary_element_stride(self); // elmsz
+        for (i=0; i < NA_NDIM(na); i++) {
+            if (NA_SHAPE(na)[i] == 1)
+                continue;
+            if (NA_STRIDE_AT(na, i) != st0)
+                return Qfalse;
+            st0 *= NA_SHAPE(na)[i];
+        }
+    }
+    return Qtrue;
+}
+
 //----------------------------------------------------------------------
 
 /*
@@ -1904,6 +1937,7 @@ Init_narray()
     rb_define_method(cNArray, "debug_info", nary_debug_info, 0);
 
     rb_define_method(cNArray, "contiguous?", na_check_contiguous, 0);
+    rb_define_method(cNArray, "fortran_contiguous?", na_check_fortran_contiguous, 0);
 
     rb_define_method(cNArray, "view", na_make_view, 0);
     rb_define_method(cNArray, "expand_dims", na_expand_dims, 1);

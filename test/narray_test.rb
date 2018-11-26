@@ -73,6 +73,10 @@ class NArrayTest < Test::Unit::TestCase
         assert { (-a) == [-1,-2,-3,-5,-7,-11] }
         assert { (a ** 2) == [1,4,9,25,49,121] }
         assert { a.swap_byte.swap_byte == [1,2,3,5,7,11] }
+
+        assert { a.contiguous? }
+        assert { a.transpose.contiguous? }
+
         if dtype == Numo::DComplex || dtype == Numo::SComplex
           assert { a.real == src }
           assert { a.imag == [0]*6 }
@@ -159,6 +163,19 @@ class NArrayTest < Test::Unit::TestCase
           assert { a.mean(0) == [3, 4.5, 7] }
           assert { a.mean(1) == [2, 23.0/3] }
         end
+
+        assert { a.contiguous? }
+        assert { a.reshape(3,2).contiguous? }
+        assert { a[true,1..2].contiguous? == false }
+        assert { a.transpose.contiguous? == false }
+        assert { a.fortran_contiguous? == false }
+        assert { a.transpose.fortran_contiguous? }
+        assert { a.transpose.transpose.fortran_contiguous? == false }
+        assert { a.reshape(3,2).fortran_contiguous? == false }
+        assert { a.reshape(3,2).transpose.fortran_contiguous? }
+        assert { a[true,1..2].fortran_contiguous? == false }
+        assert { a[true,1..2].transpose.fortran_contiguous? == false }
+
         if dtype == Numo::DComplex || dtype == Numo::SComplex
           assert { a.real == src }
           assert { a.imag == [[0]*3]*2 }
@@ -212,6 +229,19 @@ class NArrayTest < Test::Unit::TestCase
       assert_raise(IndexError) { a[1, 1, 1, 1, :rest] }
       assert_raise(IndexError) { a[1, 1, 1, :rest, 1] }
       assert_raise(IndexError) { a[:rest, 1, :rest, 0] }
+
+      assert { a.transpose == [[[1,5],[3,7]],[[2,6],[4,8]]] }
+      assert { a.transpose(2,1,0) == [[[1,5],[3,7]],[[2,6],[4,8]]] }
+      assert { a.transpose(0,2,1) == [[[1,3],[2,4]],[[5,7],[6,8]]] }
+
+      assert { a.contiguous? }
+      assert { a.transpose.contiguous? == false }
+      assert { a.fortran_contiguous? == false }
+      assert { a.transpose.fortran_contiguous? }
+      assert { a.transpose.transpose.fortran_contiguous? == false }
+      assert { a.transpose(0,2,1).fortran_contiguous? == false }
+      assert { a.reshape(2,4).fortran_contiguous? == false }
+      assert { a.reshape(2,4).transpose.fortran_contiguous? }
     end
 
     sub_test_case "#{dtype}, #dot" do
