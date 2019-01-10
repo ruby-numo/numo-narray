@@ -75,7 +75,7 @@ require 'rake/testtask'
 Rake::TestTask.new(:test) do |t|
   t.libs << "test"
   t.libs << "lib"
-  t.verbose = true
+  t.verbose = false
+  t.warning = false
   t.test_files = FileList['test/**/*_test.rb']
 end
-
