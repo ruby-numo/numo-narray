@@ -393,6 +393,10 @@ na_reshape_bang(int argc, VALUE *argv, VALUE self)
 {
     size_t *shape;
     narray_t *na;
+    narray_view_t *na2;
+    ssize_t stride;
+    stridx_t *stridx;
+    int i;
 
     if (na_check_contiguous(self)==Qfalse) {
         rb_raise(rb_eStandardError, "cannot change shape of non-contiguous NArray");
@@ -401,6 +405,23 @@ na_reshape_bang(int argc, VALUE *argv, VALUE self)
     na_check_reshape(argc, argv, self, shape);
 
     GetNArray(self, na);
+    if (na->type == NARRAY_VIEW_T) {
+        GetNArrayView(self, na2);
+        if (na->ndim < argc) {
+            stridx = ALLOC_N(stridx_t,argc);
+        } else {
+            stridx = na2->stridx;
+        }
+        stride = SDX_GET_STRIDE(na2->stridx[na->ndim-1]);
+        for (i=argc; i--;) {
+            SDX_SET_STRIDE(stridx[i],stride);
+            stride *= shape[i];
+        }
+        if (stridx != na2->stridx) {
+            xfree(na2->stridx);
+            na2->stridx = stridx;
+        }
+    }
     na_setup_shape(na, argc, shape);
     return self;
 }
