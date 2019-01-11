@@ -28,8 +28,12 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
   spec.extensions    = ["ext/numo/narray/extconf.rb"]
 
-  spec.add_development_dependency "bundler", "~> 1.3"
-  if RUBY_VERSION <'2.2' # Ruby 2.1.x
+  if RUBY_VERSION < '2.3' # Ruby 2.2.x
+    spec.add_development_dependency "bundler", "~> 1.3"
+  else
+    spec.add_development_dependency "bundler", "~> 2.0"
+  end
+  if RUBY_VERSION < '2.2' # Ruby 2.1.x
     spec.add_development_dependency "rake", "<= 10.5", ">=10.1.1"
   else
     spec.add_development_dependency "rake", "~> 10.0"
