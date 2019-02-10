@@ -57,7 +57,31 @@ class NArrayTest < Test::Unit::TestCase
         assert { a[3..4] == [5,7] }
         assert { a[5] == 11 }
         assert { a[-1] == 11 }
-        assert { a[[4,3,0,1,5,2]] == [7,5,1,2,11,3] }
+        assert { a[(0..-1).each] == [1,2,3,5,7,11] }
+        assert { a[(0...-1).each] == [1,2,3,5,7] }
+
+        if Enumerator.const_defined?(:ArithmeticSequence)
+          assert { a[0.step(-1)] == [1,2,3,5,7,11] }
+          assert { a[0.step(4)] == [1,2,3,5,7] }
+          assert { a[-5.step(-1)] == [2,3,5,7,11] }
+          assert { a[0.step(-1,2)] == [1,3,7] }
+          assert { a[0.step(4,2)] == [1,3,7] }
+          assert { a[-5.step(-1,2)] == [2,5,11] }
+        end
+
+        assert { a[(0..-1).step(2)] == [1,3,7] }
+        assert { a[(0...-1).step(2)] == [1,3,7] }
+        assert { a[(0..4).step(2)] == [1,3,7] }
+        assert { a[(0...4).step(2)] == [1,3] }
+        assert { a[(-5..-1).step(2)] == [2,5,11] }
+        assert { a[(-5...-1).step(2)] == [2,5] }
+        assert { a[(0..-1) % 2] == [1,3,7] }
+        assert { a[(0...-1) % 2] == [1,3,7] }
+        assert { a[(0..4) % 2] == [1,3,7] }
+        assert { a[(0...4) % 2] == [1,3] }
+        assert { a[(-5..-1) % 2] == [2,5,11] }
+        assert { a[(-5...-1) % 2] == [2,5] }
+        assert { a[[4,3,0,1,5,2]] == [7,5,1,2,11,3] } #  Numo::NArray::CastError: cannot convert to NArray
         assert { a.sum == 29 }
         if float_types.include?(dtype)
           assert { a.mean == 29.0/6 }
@@ -105,6 +129,40 @@ class NArrayTest < Test::Unit::TestCase
 
     test "#{dtype},[1..4]" do
       assert { dtype[1..4] == [1,2,3,4] }
+    end
+
+    test "#{dtype},[-4..-1]" do
+      assert { dtype[-4..-1] == [-4,-3,-2,-1] }
+    end
+
+    if Enumerator.const_defined?(:ArithmeticSequence)
+      test "#{dtype},[1.step(4)]" do
+        assert { dtype[1.step(4)] == [1,2,3,4] }
+      end
+
+      test "#{dtype},[-4.step(-1)]" do
+        assert { dtype[-4.step(-1)] == [-4,-3,-2,-1] }
+      end
+
+      test "#{dtype},[1.step(4, 2)]" do
+        assert { dtype[1.step(4, 2)] == [1,3] }
+      end
+
+      test "#{dtype},[-4.step(-1, 2)]" do
+        assert { dtype[-4.step(-1, 2)] == [-4,-2] }
+      end
+
+      test "#{dtype},[(-4..-1).step(2)]" do
+        assert { dtype[(-4..-1).step(2)] == [-4,-2] }
+      end
+    end
+
+    test "#{dtype},[(1..4) % 2]" do
+      assert { dtype[(1..4) % 2] == [1,3] }
+    end
+
+    test "#{dtype},[(-4..-1) % 2]" do
+      assert { dtype[(-4..-1) % 2] == [-4,-2] }
     end
 
     #test "#{dtype}.seq(5)" do

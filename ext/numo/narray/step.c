@@ -29,6 +29,7 @@ static ID id_beg, id_end, id_len, id_step, id_excl;
 //#define EXCL(r) RTEST(rb_ivar_get((r), id_excl))
 #define EXCL(r) RTEST(rb_funcall((r), rb_intern("exclude_end?"), 0))
 
+#ifndef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
 #define SET_EXCL(r,v) rb_ivar_set((r), id_excl, (v) ? Qtrue : Qfalse)
 
 static void
@@ -181,6 +182,7 @@ step_exclude_end_p(VALUE self)
 {
     return RTEST(rb_ivar_get(self, id_excl)) ? Qtrue : Qfalse;
 }
+#endif
 
 
 /*
@@ -335,15 +337,30 @@ nary_step_sequence( VALUE self, size_t *plen, double *pbeg, double *pstep )
     double dbeg, dend, dstep=1, dsize, err;
     size_t size, n;
 
+#ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
+    rb_arithmetic_sequence_components_t x;
+    rb_arithmetic_sequence_extract(self, &x);
+
+    vbeg = x.begin;
+#else
     //vbeg = rb_ivar_get(self, id_beg);
     vbeg = rb_funcall(self, id_beg, 0);
+#endif
     dbeg = NUM2DBL(vbeg);
 
+#ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
+    vend = x.end;
+#else
     //vend = rb_ivar_get(self, id_end);
     vend = rb_funcall(self, id_end, 0);
+#endif
 
     vlen = rb_ivar_get(self, id_len);
+#ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
+    vstep = x.step;
+#else
     vstep = rb_ivar_get(self, id_step);
+#endif
     //vlen  = rb_funcall(self, id_len ,0);
     //vstep = rb_funcall(self, id_step,0);
 
@@ -398,6 +415,7 @@ nary_step_sequence( VALUE self, size_t *plen, double *pbeg, double *pstep )
     if (pstep) *pstep = dstep;
 }
 
+#ifndef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
 /*
 static VALUE
 step_each( VALUE self )
@@ -472,3 +490,4 @@ Init_nary_step()
     id_step = rb_intern("step");
     id_excl = rb_intern("excl");
 }
+#endif

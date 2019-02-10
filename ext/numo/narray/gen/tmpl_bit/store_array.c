@@ -12,6 +12,9 @@ static void
     BIT_DIGIT z;
     size_t len, c;
     double beg, step;
+#ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
+    VALUE rb_cArithSeq = rb_path2class("Enumerator::ArithmeticSequence");
+#endif
 
     INIT_COUNTER(lp, n);
     INIT_PTR_BIT_IDX(lp, 0, a1, p1, s1, idx1);
@@ -48,7 +51,11 @@ static void
     if (idx1) {
         for (i=i1=0; i1<n1 && i<n; i++,i1++) {
             x = ptr[i1];
+#ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
+            if (rb_obj_is_kind_of(x, rb_cRange) || rb_obj_is_kind_of(x, rb_cArithSeq)) {
+#else
             if (rb_obj_is_kind_of(x, rb_cRange) || rb_obj_is_kind_of(x, na_cStep)) {
+#endif
                 nary_step_sequence(x,&len,&beg,&step);
                 for (c=0; c<len && i<n; c++,i++) {
                     y = beg + step * c;
@@ -65,7 +72,11 @@ static void
     } else {
         for (i=i1=0; i1<n1 && i<n; i++,i1++) {
             x = ptr[i1];
+#ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
+            if (rb_obj_is_kind_of(x, rb_cRange) || rb_obj_is_kind_of(x, rb_cArithSeq)) {
+#else
             if (rb_obj_is_kind_of(x, rb_cRange) || rb_obj_is_kind_of(x, na_cStep)) {
+#endif
                 nary_step_sequence(x,&len,&beg,&step);
                 for (c=0; c<len && i<n; c++,i++) {
                     y = beg + step * c;

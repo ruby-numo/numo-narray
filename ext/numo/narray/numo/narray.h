@@ -165,7 +165,9 @@ extern VALUE numo_cUInt32;
 extern VALUE numo_cUInt16;
 extern VALUE numo_cUInt8;
 extern VALUE numo_cRObject;
+#ifndef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
 extern VALUE na_cStep;
+#endif
 #ifndef HAVE_RB_CCOMPLEX
 extern VALUE rb_cComplex;
 #endif

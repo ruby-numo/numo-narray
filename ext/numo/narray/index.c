@@ -177,15 +177,31 @@ na_parse_range(VALUE range, ssize_t step, int orig_dim, ssize_t size, na_index_a
     ssize_t beg, end, beg_orig, end_orig;
     const char *dot = "..", *edot = "...";
 
+#ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
+    rb_arithmetic_sequence_components_t x;
+    rb_arithmetic_sequence_extract(range, &x);
+    step = NUM2SSIZET(x.step);
+
+    beg = beg_orig = NUM2SSIZET(x.begin);
+#else
     beg = beg_orig = NUM2SSIZET(rb_funcall(range,id_beg,0));
+#endif
     if (beg < 0) {
         beg += size;
     }
+#ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
+    end = end_orig = NUM2SSIZET(x.end);
+#else
     end = end_orig = NUM2SSIZET(rb_funcall(range,id_end,0));
+#endif
     if (end < 0) {
         end += size;
     }
+#ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
+    excl_end = x.exclude_end;
+#else
     excl_end = rb_funcall(range,id_exclude_end,0);
+#endif
     if (RTEST(excl_end)) {
         end--;
         dot = edot;
@@ -244,6 +260,9 @@ na_parse_enumerator(VALUE enum_obj, int orig_dim, ssize_t size, na_index_arg_t *
 static void
 na_index_parse_each(volatile VALUE a, ssize_t size, int i, na_index_arg_t *q)
 {
+#ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
+    VALUE rb_cArithSeq = rb_path2class("Enumerator::ArithmeticSequence");
+#endif
     switch(TYPE(a)) {
 
     case T_FIXNUM:
@@ -289,14 +308,22 @@ na_index_parse_each(volatile VALUE a, ssize_t size, int i, na_index_arg_t *q)
         if (rb_obj_is_kind_of(a, rb_cRange)) {
             na_parse_range(a, 1, i, size, q);
         }
+#ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
+        else if (rb_obj_is_kind_of(a, rb_cArithSeq)) {
+            //na_parse_arith_seq(a, i, size, q);
+            na_parse_range(a, 1, i, size, q);
+        }
+#endif
         else if (rb_obj_is_kind_of(a, rb_cEnumerator)) {
             na_parse_enumerator(a, i, size, q);
         }
+#ifndef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
         else if (rb_obj_is_kind_of(a, na_cStep)) {
             ssize_t beg, step, n;
             nary_step_array_index(a, size, (size_t*)(&n), &beg, &step);
             na_index_set_step(q,i,n,beg,step);
         }
+#endif
         // NArray index
         else if (NA_IsNArray(a)) {
             na_parse_narray_index(a, i, size, q);
