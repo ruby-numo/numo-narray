@@ -169,6 +169,7 @@ na_parse_narray_index(VALUE a, int orig_dim, ssize_t size, na_index_arg_t *q)
     q->orig_dim = orig_dim;
 }
 
+#ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
 static void
 na_parse_range(VALUE range, ssize_t step, int orig_dim, ssize_t size, na_index_arg_t *q)
 {
@@ -177,31 +178,64 @@ na_parse_range(VALUE range, ssize_t step, int orig_dim, ssize_t size, na_index_a
     ssize_t beg, end, beg_orig, end_orig;
     const char *dot = "..", *edot = "...";
 
-#ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
     rb_arithmetic_sequence_components_t x;
     rb_arithmetic_sequence_extract(range, &x);
     step = NUM2SSIZET(x.step);
 
     beg = beg_orig = NUM2SSIZET(x.begin);
-#else
-    beg = beg_orig = NUM2SSIZET(rb_funcall(range,id_beg,0));
-#endif
     if (beg < 0) {
         beg += size;
     }
-#ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
-    end = end_orig = NUM2SSIZET(x.end);
+    if (T_NIL == TYPE(x.end)) { // endless range
+        end = size -1;
+        if (RTEST(x.exclude_end)) {
+            dot = edot;
+        }
+    } else {
+        end = end_orig = NUM2SSIZET(x.end);
+        if (end < 0) {
+            end += size;
+        }
+        if (RTEST(x.exclude_end)) {
+            end--;
+            dot = edot;
+        }
+    }
+    if (beg < 0 || beg >= size || end < 0 || end >= size) {
+        if (T_NIL == TYPE(x.end)) { // endless range
+            rb_raise(rb_eRangeError,
+                     "%"SZF"d%s is out of range for size=%"SZF"d",
+                     beg_orig, dot, size);
+        } else {
+            rb_raise(rb_eRangeError,
+                     "%"SZF"d%s%"SZF"d is out of range for size=%"SZF"d",
+                     beg_orig, dot, end_orig, size);
+        }
+    }
+    n = (end-beg)/step+1;
+    if (n<0) n=0;
+    na_index_set_step(q,orig_dim,n,beg,step);
+
+}
 #else
+
+static void
+na_parse_range(VALUE range, ssize_t step, int orig_dim, ssize_t size, na_index_arg_t *q)
+{
+    int n;
+    VALUE excl_end;
+    ssize_t beg, end, beg_orig, end_orig;
+    const char *dot = "..", *edot = "...";
+
+    beg = beg_orig = NUM2SSIZET(rb_funcall(range,id_beg,0));
+    if (beg < 0) {
+        beg += size;
+    }
     end = end_orig = NUM2SSIZET(rb_funcall(range,id_end,0));
-#endif
     if (end < 0) {
         end += size;
     }
-#ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
-    excl_end = x.exclude_end;
-#else
     excl_end = rb_funcall(range,id_exclude_end,0);
-#endif
     if (RTEST(excl_end)) {
         end--;
         dot = edot;
@@ -216,6 +250,7 @@ na_parse_range(VALUE range, ssize_t step, int orig_dim, ssize_t size, na_index_a
     na_index_set_step(q,orig_dim,n,beg,step);
 
 }
+#endif
 
 static void
 na_parse_enumerator(VALUE enum_obj, int orig_dim, ssize_t size, na_index_arg_t *q)

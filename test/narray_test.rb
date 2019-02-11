@@ -67,6 +67,17 @@ class NArrayTest < Test::Unit::TestCase
           assert { a[0.step(-1,2)] == [1,3,7] }
           assert { a[0.step(4,2)] == [1,3,7] }
           assert { a[-5.step(-1,2)] == [2,5,11] }
+
+          assert { a[0.step] == [1,2,3,5,7,11] }
+          assert { a[-5.step] == [2,3,5,7,11] }
+          assert { eval('a[(0..).step(2)]') == [1,3,7] }
+          assert { eval('a[(0...).step(2)]') == [1,3,7] }
+          assert { eval('a[(-5..).step(2)]') == [2,5,11] }
+          assert { eval('a[(-5...).step(2)]') == [2,5,11] }
+          assert { eval('a[(0..) % 2]') == [1,3,7] }
+          assert { eval('a[(0...) % 2]') == [1,3,7] }
+          assert { eval('a[(-5..) % 2]') == [2,5,11] }
+          assert { eval('a[(-5...) % 2]') == [2,5,11] }
         end
 
         assert { a[(0..-1).step(2)] == [1,3,7] }
