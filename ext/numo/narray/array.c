@@ -128,12 +128,10 @@ VALUE rb_cArithSeq = rb_path2class("Enumerator::ArithmeticSequence");
         MDAI_ATTR_TYPE(type,v,end);
 #ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
     } else if (rb_obj_is_kind_of(v, rb_cArithSeq)) {
-#else
-    } else if (rb_obj_is_kind_of(v, na_cStep)) {
-#endif
         MDAI_ATTR_TYPE(type,v,begin);
         MDAI_ATTR_TYPE(type,v,end);
         MDAI_ATTR_TYPE(type,v,step);
+#endif
     } else {
         type = na_object_type(type,v);
     }
@@ -224,7 +222,7 @@ na_mdai_investigate(na_mdai_t *mdai, int ndim)
 #ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
         if (rb_obj_is_kind_of(v, rb_cRange) || rb_obj_is_kind_of(v, rb_cArithSeq)) {
 #else
-        if (rb_obj_is_kind_of(v, rb_cRange) || rb_obj_is_kind_of(v, na_cStep)) {
+        if (rb_obj_is_kind_of(v, rb_cRange) || rb_obj_is_kind_of(v, rb_cEnumerator)) {
 #endif
             nary_step_sequence(v,&length,&dbeg,&dstep);
             len += length-1;

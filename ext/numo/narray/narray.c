@@ -42,9 +42,6 @@ VALUE sym_option;
 VALUE sym_loop_opt;
 VALUE sym_init;
 
-#ifndef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
-VALUE na_cStep;
-#endif
 #ifndef HAVE_RB_CCOMPLEX
 VALUE rb_cComplex;
 #endif
@@ -1594,7 +1591,7 @@ na_get_reduce_flag_from_axes(VALUE na_obj, VALUE axes)
 #ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
                    rb_obj_is_kind_of(v,rb_cArithSeq)) {
 #else
-                   rb_obj_is_kind_of(v,na_cStep)) {
+                   rb_obj_is_kind_of(v,rb_cEnumerator)) {
 #endif
             nary_step_array_index( v, ndim, &len, &beg, &step );
         } else {

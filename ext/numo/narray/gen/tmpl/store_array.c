@@ -53,7 +53,7 @@ static void
 #ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
             if (rb_obj_is_kind_of(x, rb_cRange) || rb_obj_is_kind_of(x, rb_cArithSeq)) {
 #else
-            if (rb_obj_is_kind_of(x, rb_cRange) || rb_obj_is_kind_of(x, na_cStep)) {
+            if (rb_obj_is_kind_of(x, rb_cRange) || rb_obj_is_kind_of(x, rb_cEnumerator)) {
 #endif
                 nary_step_sequence(x,&len,&beg,&step);
                 for (c=0; c<len && i<n; c++,i++) {
@@ -73,7 +73,7 @@ static void
 #ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
             if (rb_obj_is_kind_of(x, rb_cRange) || rb_obj_is_kind_of(x, rb_cArithSeq)) {
 #else
-            if (rb_obj_is_kind_of(x, rb_cRange) || rb_obj_is_kind_of(x, na_cStep)) {
+            if (rb_obj_is_kind_of(x, rb_cRange) || rb_obj_is_kind_of(x, rb_cEnumerator)) {
 #endif
                 nary_step_sequence(x,&len,&beg,&step);
                 for (c=0; c<len && i<n; c++,i++) {
