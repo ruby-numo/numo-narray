@@ -218,7 +218,7 @@ nary_step_sequence( VALUE obj, size_t *plen, double *pbeg, double *pstep )
     vlen = rb_ivar_get(obj, id_len);
 
     if (RTEST(vlen)) {
-        size = NUM2SIZET(vlen); //
+        size = NUM2SIZET(vlen);
 
         if (!RTEST(vstep)) {
             if (RTEST(vend)) {
@@ -257,7 +257,7 @@ nary_step_sequence( VALUE obj, size_t *plen, double *pbeg, double *pstep )
             if (isinf(dsize) || isnan(dsize)) {
                 rb_raise(rb_eArgError, "not finite size");
             }
-            size = dsize; //
+            size = dsize;
         } else {
             rb_raise(rb_eArgError, "cannot determine length argument");
         }

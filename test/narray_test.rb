@@ -314,7 +314,6 @@ class NArrayTest < Test::Unit::TestCase
       assert { a.reverse(-3,-2,-1) == [[[8,7],[6,5]],[[4,3],[2,1]]] }
       assert { a.reverse(0..2)     == [[[8,7],[6,5]],[[4,3],[2,1]]] }
       assert { a.reverse(-3..-1)   == [[[8,7],[6,5]],[[4,3],[2,1]]] }
-#      assert { a.reverse(-3...0)   == [[[8,7],[6,5]],[[4,3],[2,1]]] } # not support yet
       assert { a.reverse(0...3)    == [[[8,7],[6,5]],[[4,3],[2,1]]] }
       assert { a.reverse(0)        == [[[5,6],[7,8]],[[1,2],[3,4]]] }
       assert { a.reverse(1)        == [[[3,4],[1,2]],[[7,8],[5,6]]] }
