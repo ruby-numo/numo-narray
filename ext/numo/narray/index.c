@@ -277,9 +277,6 @@ na_parse_enumerator(VALUE enum_obj, int orig_dim, ssize_t size, na_index_arg_t *
 static void
 na_index_parse_each(volatile VALUE a, ssize_t size, int i, na_index_arg_t *q)
 {
-#ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
-    VALUE rb_cArithSeq = rb_path2class("Enumerator::ArithmeticSequence");
-#endif
     switch(TYPE(a)) {
 
     case T_FIXNUM:

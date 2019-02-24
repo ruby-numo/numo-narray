@@ -45,6 +45,9 @@ VALUE sym_init;
 #ifndef HAVE_RB_CCOMPLEX
 VALUE rb_cComplex;
 #endif
+#ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
+VALUE rb_cArithSeq;
+#endif
 
 int numo_na_inspect_rows=20;
 int numo_na_inspect_cols=80;
@@ -1564,9 +1567,6 @@ na_get_reduce_flag_from_axes(VALUE na_obj, VALUE axes)
     size_t m;
     VALUE reduce;
     narray_t *na;
-#ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
-    VALUE rb_cArithSeq = rb_path2class("Enumerator::ArithmeticSequence");
-#endif
 
     GetNArray(na_obj,na);
     ndim = na->ndim;
@@ -1903,6 +1903,9 @@ Init_narray()
 #ifndef HAVE_RB_CCOMPLEX
     rb_require("complex");
     rb_cComplex = rb_const_get(rb_cObject, rb_intern("Complex"));
+#endif
+#ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
+    rb_cArithSeq = rb_path2class("Enumerator::ArithmeticSequence");
 #endif
 
     rb_define_const(cNArray, "VERSION", rb_str_new2(NARRAY_VERSION));

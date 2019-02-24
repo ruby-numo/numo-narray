@@ -119,10 +119,6 @@ static VALUE
 
 static int na_mdai_object_type(int type, VALUE v)
 {
-#ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
-VALUE rb_cArithSeq = rb_path2class("Enumerator::ArithmeticSequence");
-#endif
-
     if (rb_obj_is_kind_of(v, rb_cRange)) {
         MDAI_ATTR_TYPE(type,v,begin);
         MDAI_ATTR_TYPE(type,v,end);
@@ -193,9 +189,6 @@ na_mdai_investigate(na_mdai_t *mdai, int ndim)
     double dbeg, dstep;
     VALUE  v;
     VALUE  val;
-#ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
-    VALUE rb_cArithSeq = rb_path2class("Enumerator::ArithmeticSequence");
-#endif
 
     val = mdai->item[ndim-1].val;
     len = RARRAY_LEN(val);

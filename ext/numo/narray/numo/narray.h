@@ -168,6 +168,9 @@ extern VALUE numo_cRObject;
 #ifndef HAVE_RB_CCOMPLEX
 extern VALUE rb_cComplex;
 #endif
+#ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
+VALUE rb_cArithSeq;
+#endif
 
 extern VALUE sym_reduce;
 extern VALUE sym_option;

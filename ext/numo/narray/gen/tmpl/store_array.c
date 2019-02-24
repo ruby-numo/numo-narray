@@ -11,9 +11,6 @@ static void
     dtype  z;
     size_t len, c;
     double beg, step;
-#ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
-    VALUE rb_cArithSeq = rb_path2class("Enumerator::ArithmeticSequence");
-#endif
 
     INIT_COUNTER(lp, n);
     INIT_PTR_IDX(lp, 0, p1, s1, idx1);
