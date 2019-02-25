@@ -99,6 +99,7 @@ bool nary_test_reduce(VALUE reduce, int dim);
 
 void nary_step_array_index(VALUE self, size_t ary_size, size_t *plen, ssize_t *pbeg, ssize_t *pstep);
 void nary_step_sequence(VALUE self, size_t *plen, double *pbeg, double *pstep);
+void na_parse_enumerator_step(VALUE enum_obj, VALUE *pstep );
 
 // used in aref, aset
 #define na_get_result_dimension nary_get_result_dimension

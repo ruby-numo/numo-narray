@@ -165,9 +165,11 @@ extern VALUE numo_cUInt32;
 extern VALUE numo_cUInt16;
 extern VALUE numo_cUInt8;
 extern VALUE numo_cRObject;
-extern VALUE na_cStep;
 #ifndef HAVE_RB_CCOMPLEX
 extern VALUE rb_cComplex;
+#endif
+#ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
+VALUE rb_cArithSeq;
 #endif
 
 extern VALUE sym_reduce;
@@ -234,6 +236,23 @@ typedef struct {
     unsigned int element_stride;
 } narray_type_info_t;
 
+// from ruby/enumerator.c
+struct enumerator {
+    VALUE obj;
+    ID    meth;
+    VALUE args;
+    // use only above in this source
+    VALUE fib;
+    VALUE dst;
+    VALUE lookahead;
+    VALUE feedvalue;
+    VALUE stop_exc;
+    VALUE size;
+    // incompatible below depending on ruby version
+    //VALUE procs;                      // ruby 2.4
+    //rb_enumerator_size_func *size_fn; // ruby 2.1-2.4
+    //VALUE (*size_fn)(ANYARGS);        // ruby 2.0
+};
 
 static inline narray_t *
 na_get_narray_t(VALUE obj)

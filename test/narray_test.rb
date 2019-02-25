@@ -57,7 +57,43 @@ class NArrayTest < Test::Unit::TestCase
         assert { a[3..4] == [5,7] }
         assert { a[5] == 11 }
         assert { a[-1] == 11 }
-        assert { a[[4,3,0,1,5,2]] == [7,5,1,2,11,3] }
+        assert { a[(0..-1).each] == [1,2,3,5,7,11] }
+        assert { a[(0...-1).each] == [1,2,3,5,7] }
+
+        if Enumerator.const_defined?(:ArithmeticSequence)
+          assert { a[0.step(-1)] == [1,2,3,5,7,11] }
+          assert { a[0.step(4)] == [1,2,3,5,7] }
+          assert { a[-5.step(-1)] == [2,3,5,7,11] }
+          assert { a[0.step(-1,2)] == [1,3,7] }
+          assert { a[0.step(4,2)] == [1,3,7] }
+          assert { a[-5.step(-1,2)] == [2,5,11] }
+
+          assert { a[0.step] == [1,2,3,5,7,11] }
+          assert { a[-5.step] == [2,3,5,7,11] }
+          assert { eval('a[(0..).step(2)]') == [1,3,7] }
+          assert { eval('a[(0...).step(2)]') == [1,3,7] }
+          assert { eval('a[(-5..).step(2)]') == [2,5,11] }
+          assert { eval('a[(-5...).step(2)]') == [2,5,11] }
+          assert { eval('a[(0..) % 2]') == [1,3,7] }
+          assert { eval('a[(0...) % 2]') == [1,3,7] }
+          assert { eval('a[(-5..) % 2]') == [2,5,11] }
+          assert { eval('a[(-5...) % 2]') == [2,5,11] }
+        end
+
+        assert { a[(0..-1).step(2)] == [1,3,7] }
+        assert { a[(0...-1).step(2)] == [1,3,7] }
+        assert { a[(0..4).step(2)] == [1,3,7] }
+        assert { a[(0...4).step(2)] == [1,3] }
+        assert { a[(-5..-1).step(2)] == [2,5,11] }
+        assert { a[(-5...-1).step(2)] == [2,5] }
+        assert { a[(0..-1) % 2] == [1,3,7] }
+        assert { a[(0...-1) % 2] == [1,3,7] }
+        assert { a[(0..4) % 2] == [1,3,7] }
+        assert { a[(0...4) % 2] == [1,3] }
+        assert { a[(-5..-1) % 2] == [2,5,11] }
+        assert { a[(-5...-1) % 2] == [2,5] }
+        assert { a[[4,3,0,1,5,2]] == [7,5,1,2,11,3] } #  Numo::NArray::CastError: cannot convert to NArray
+        assert { a.reverse == [11,7,5,3,2,1] }
         assert { a.sum == 29 }
         if float_types.include?(dtype)
           assert { a.mean == 29.0/6 }
@@ -107,6 +143,40 @@ class NArrayTest < Test::Unit::TestCase
       assert { dtype[1..4] == [1,2,3,4] }
     end
 
+    test "#{dtype},[-4..-1]" do
+      assert { dtype[-4..-1] == [-4,-3,-2,-1] }
+    end
+
+    if Enumerator.const_defined?(:ArithmeticSequence)
+      test "#{dtype},[1.step(4)]" do
+        assert { dtype[1.step(4)] == [1,2,3,4] }
+      end
+
+      test "#{dtype},[-4.step(-1)]" do
+        assert { dtype[-4.step(-1)] == [-4,-3,-2,-1] }
+      end
+
+      test "#{dtype},[1.step(4, 2)]" do
+        assert { dtype[1.step(4, 2)] == [1,3] }
+      end
+
+      test "#{dtype},[-4.step(-1, 2)]" do
+        assert { dtype[-4.step(-1, 2)] == [-4,-2] }
+      end
+
+      test "#{dtype},[(-4..-1).step(2)]" do
+        assert { dtype[(-4..-1).step(2)] == [-4,-2] }
+      end
+    end
+
+    test "#{dtype},[(1..4) % 2]" do
+      assert { dtype[(1..4) % 2] == [1,3] }
+    end
+
+    test "#{dtype},[(-4..-1) % 2]" do
+      assert { dtype[(-4..-1) % 2] == [-4,-2] }
+    end
+
     #test "#{dtype}.seq(5)" do
     #  assert { dtype.seq(5) == [0,1,2,3,4] }
     #end
@@ -154,6 +224,11 @@ class NArrayTest < Test::Unit::TestCase
         assert { a.transpose(1,0) == [[1,5],[2,7],[3,11]] }
         assert { a.triu == [[1,2,3],[0,7,11]] }
         assert { a.tril == [[1,0,0],[5,7,0]] }
+        assert { a.reverse == [[11,7,5],[3,2,1]] }
+        assert { a.reverse(0,1) == [[11,7,5],[3,2,1]] }
+        assert { a.reverse(1,0) == [[11,7,5],[3,2,1]] }
+        assert { a.reverse(0) == [[5,7,11],[1,2,3]] }
+        assert { a.reverse(1) == [[3,2,1],[11,7,5]] }
 
         assert { a.sum == 29 }
         assert { a.sum(0) == [6, 9, 14] }
@@ -233,6 +308,22 @@ class NArrayTest < Test::Unit::TestCase
       assert { a.transpose == [[[1,5],[3,7]],[[2,6],[4,8]]] }
       assert { a.transpose(2,1,0) == [[[1,5],[3,7]],[[2,6],[4,8]]] }
       assert { a.transpose(0,2,1) == [[[1,3],[2,4]],[[5,7],[6,8]]] }
+
+      assert { a.reverse           == [[[8,7],[6,5]],[[4,3],[2,1]]] }
+      assert { a.reverse(0,1,2)    == [[[8,7],[6,5]],[[4,3],[2,1]]] }
+      assert { a.reverse(-3,-2,-1) == [[[8,7],[6,5]],[[4,3],[2,1]]] }
+      assert { a.reverse(0..2)     == [[[8,7],[6,5]],[[4,3],[2,1]]] }
+      assert { a.reverse(-3..-1)   == [[[8,7],[6,5]],[[4,3],[2,1]]] }
+      assert { a.reverse(0...3)    == [[[8,7],[6,5]],[[4,3],[2,1]]] }
+      assert { a.reverse(0)        == [[[5,6],[7,8]],[[1,2],[3,4]]] }
+      assert { a.reverse(1)        == [[[3,4],[1,2]],[[7,8],[5,6]]] }
+      assert { a.reverse(2)        == [[[2,1],[4,3]],[[6,5],[8,7]]] }
+      assert { a.reverse(0,1)      == [[[7,8],[5,6]],[[3,4],[1,2]]] }
+      assert { a.reverse(0..1)     == [[[7,8],[5,6]],[[3,4],[1,2]]] }
+      assert { a.reverse(0...2)    == [[[7,8],[5,6]],[[3,4],[1,2]]] }
+      assert { a.reverse(0,2)      == [[[6,5],[8,7]],[[2,1],[4,3]]] }
+      assert { a.reverse((0..2) % 2) == [[[6,5],[8,7]],[[2,1],[4,3]]] }
+      assert { a.reverse((0..2).step(2)) == [[[6,5],[8,7]],[[2,1],[4,3]]] }
 
       assert { a.contiguous? }
       assert { a.transpose.contiguous? == false }

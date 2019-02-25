@@ -16,24 +16,6 @@
 #define cIndex numo_cInt32
 #endif
 
-// from ruby/enumerator.c
-struct enumerator {
-    VALUE obj;
-    ID    meth;
-    VALUE args;
-    // use only above in this source
-    VALUE fib;
-    VALUE dst;
-    VALUE lookahead;
-    VALUE feedvalue;
-    VALUE stop_exc;
-    VALUE size;
-    // incompatible below depending on ruby version
-    //VALUE procs;                      // ruby 2.4
-    //rb_enumerator_size_func *size_fn; // ruby 2.1-2.4
-    //VALUE (*size_fn)(ANYARGS);        // ruby 2.0
-};
-
 // note: the memory refed by this pointer is not freed and causes memroy leak.
 typedef struct {
     size_t  n; // the number of elements of the dimesnion
@@ -177,6 +159,42 @@ na_parse_range(VALUE range, ssize_t step, int orig_dim, ssize_t size, na_index_a
     ssize_t beg, end, beg_orig, end_orig;
     const char *dot = "..", *edot = "...";
 
+#ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
+    rb_arithmetic_sequence_components_t x;
+    rb_arithmetic_sequence_extract(range, &x);
+    step = NUM2SSIZET(x.step);
+
+    beg = beg_orig = NUM2SSIZET(x.begin);
+    if (beg < 0) {
+        beg += size;
+    }
+    if (T_NIL == TYPE(x.end)) { // endless range
+        end = size -1;
+        if (RTEST(x.exclude_end)) {
+            dot = edot;
+        }
+    } else {
+        end = end_orig = NUM2SSIZET(x.end);
+        if (end < 0) {
+            end += size;
+        }
+        if (RTEST(x.exclude_end)) {
+            end--;
+            dot = edot;
+        }
+    }
+    if (beg < 0 || beg >= size || end < 0 || end >= size) {
+        if (T_NIL == TYPE(x.end)) { // endless range
+            rb_raise(rb_eRangeError,
+                     "%"SZF"d%s is out of range for size=%"SZF"d",
+                     beg_orig, dot, size);
+        } else {
+            rb_raise(rb_eRangeError,
+                     "%"SZF"d%s%"SZF"d is out of range for size=%"SZF"d",
+                     beg_orig, dot, end_orig, size);
+        }
+    }
+#else
     beg = beg_orig = NUM2SSIZET(rb_funcall(range,id_beg,0));
     if (beg < 0) {
         beg += size;
@@ -195,17 +213,18 @@ na_parse_range(VALUE range, ssize_t step, int orig_dim, ssize_t size, na_index_a
                  "%"SZF"d%s%"SZF"d is out of range for size=%"SZF"d",
                  beg_orig, dot, end_orig, size);
     }
+#endif
     n = (end-beg)/step+1;
     if (n<0) n=0;
     na_index_set_step(q,orig_dim,n,beg,step);
 
 }
 
-static void
-na_parse_enumerator(VALUE enum_obj, int orig_dim, ssize_t size, na_index_arg_t *q)
+void
+na_parse_enumerator_step(VALUE enum_obj, VALUE *pstep )
 {
     int len;
-    ssize_t step;
+    VALUE step;
     struct enumerator *e;
 
     if (!RB_TYPE_P(enum_obj, T_DATA)) {
@@ -213,26 +232,40 @@ na_parse_enumerator(VALUE enum_obj, int orig_dim, ssize_t size, na_index_arg_t *
     }
     e = (struct enumerator *)DATA_PTR(enum_obj);
 
-    if (rb_obj_is_kind_of(e->obj, rb_cRange)) {
-        if (e->meth == id_each) {
-            na_parse_range(e->obj, 1, orig_dim, size, q);
-        }
-        else if (e->meth == id_step) {
-            if (TYPE(e->args) != T_ARRAY) {
-                rb_raise(rb_eArgError,"no argument for step");
-            }
-            len = RARRAY_LEN(e->args);
-            if (len != 1) {
-                rb_raise(rb_eArgError,"invalid number of step argument (1 for %d)",len);
-            }
-            step = NUM2SSIZET(RARRAY_AREF(e->args,0));
-            na_parse_range(e->obj, step, orig_dim, size, q);
-        } else {
-            rb_raise(rb_eTypeError,"unknown Range method: %s",rb_id2name(e->meth));
-        }
-    } else {
+    if (!rb_obj_is_kind_of(e->obj, rb_cRange)) {
         rb_raise(rb_eTypeError,"not Range object");
     }
+
+    if (e->meth == id_each) {
+        step = INT2NUM(1);
+    }
+    else if (e->meth == id_step) {
+        if (TYPE(e->args) != T_ARRAY) {
+            rb_raise(rb_eArgError,"no argument for step");
+        }
+        len = RARRAY_LEN(e->args);
+        if (len != 1) {
+            rb_raise(rb_eArgError,"invalid number of step argument (1 for %d)",len);
+        }
+        step = RARRAY_AREF(e->args,0);
+    } else {
+        rb_raise(rb_eTypeError,"unknown Range method: %s",rb_id2name(e->meth));
+    }
+    if (pstep) *pstep = step;
+}
+
+static void
+na_parse_enumerator(VALUE enum_obj, int orig_dim, ssize_t size, na_index_arg_t *q)
+{
+    VALUE step;
+    struct enumerator *e;
+
+    if (!RB_TYPE_P(enum_obj, T_DATA)) {
+        rb_raise(rb_eTypeError,"wrong argument type (not T_DATA)");
+    }
+    na_parse_enumerator_step(enum_obj, &step);
+    e = (struct enumerator *)DATA_PTR(enum_obj);
+    na_parse_range(e->obj, NUM2SSIZET(step), orig_dim, size, q); // e->obj : Range Object
 }
 
 // Analyze *a* which is *i*-th index object and store the information to q
@@ -289,13 +322,14 @@ na_index_parse_each(volatile VALUE a, ssize_t size, int i, na_index_arg_t *q)
         if (rb_obj_is_kind_of(a, rb_cRange)) {
             na_parse_range(a, 1, i, size, q);
         }
+#ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
+        else if (rb_obj_is_kind_of(a, rb_cArithSeq)) {
+            //na_parse_arith_seq(a, i, size, q);
+            na_parse_range(a, 1, i, size, q);
+        }
+#endif
         else if (rb_obj_is_kind_of(a, rb_cEnumerator)) {
             na_parse_enumerator(a, i, size, q);
-        }
-        else if (rb_obj_is_kind_of(a, na_cStep)) {
-            ssize_t beg, step, n;
-            nary_step_array_index(a, size, (size_t*)(&n), &beg, &step);
-            na_index_set_step(q,i,n,beg,step);
         }
         // NArray index
         else if (NA_IsNArray(a)) {

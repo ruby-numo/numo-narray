@@ -52,8 +52,6 @@
 
 * write barrier?
 
-* delete Numo::Step class.
-
 * move "reduce" field from RNArray to RNArrayView?
 
 * unify RNArrayBase and RNArrayView structure??

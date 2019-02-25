@@ -42,9 +42,11 @@ VALUE sym_option;
 VALUE sym_loop_opt;
 VALUE sym_init;
 
-VALUE na_cStep;
 #ifndef HAVE_RB_CCOMPLEX
 VALUE rb_cComplex;
+#endif
+#ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
+VALUE rb_cArithSeq;
 #endif
 
 int numo_na_inspect_rows=20;
@@ -52,7 +54,9 @@ int numo_na_inspect_cols=80;
 
 void Init_nary_data();
 void Init_nary_ndloop();
+#ifndef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
 void Init_nary_step();
+#endif
 void Init_nary_index();
 void Init_numo_bit();
 void Init_numo_int8();
@@ -1584,7 +1588,11 @@ na_get_reduce_flag_from_axes(VALUE na_obj, VALUE axes)
             step = 0;
             //printf("beg=%d step=%d len=%d\n",beg,step,len);
         } else if (rb_obj_is_kind_of(v,rb_cRange) ||
-                   rb_obj_is_kind_of(v,na_cStep)) {
+#ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
+                   rb_obj_is_kind_of(v,rb_cArithSeq)) {
+#else
+                   rb_obj_is_kind_of(v,rb_cEnumerator)) {
+#endif
             nary_step_array_index( v, ndim, &len, &beg, &step );
         } else {
             rb_raise(nary_eDimensionError, "invalid dimension argument %s",
@@ -1896,6 +1904,9 @@ Init_narray()
     rb_require("complex");
     rb_cComplex = rb_const_get(rb_cObject, rb_intern("Complex"));
 #endif
+#ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
+    rb_cArithSeq = rb_path2class("Enumerator::ArithmeticSequence");
+#endif
 
     rb_define_const(cNArray, "VERSION", rb_str_new2(NARRAY_VERSION));
 
@@ -1999,7 +2010,9 @@ Init_narray()
     sym_loop_opt = ID2SYM(rb_intern("loop_opt"));
     sym_init     = ID2SYM(rb_intern("init"));
 
+#ifndef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
     Init_nary_step();
+#endif
     Init_nary_index();
 
     Init_nary_data();
