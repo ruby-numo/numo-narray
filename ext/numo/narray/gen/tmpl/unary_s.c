@@ -44,6 +44,11 @@ static void
                 SET_DATA_INDEX(p2,idx2,dtype,x);
             }
         } else {
+            //<% if need_align %>
+            if (is_aligned(p1,sizeof(dtype)) &&
+                is_aligned(p2,sizeof(dtype)) ) {
+                if (s1 == sizeof(dtype) &&
+                    s2 == sizeof(dtype) ) {
 <% if is_simd and !is_complex and %w[sqrt].include? name %>
             // Check number of elements. & Check same alignment.
             if ((n >= num_pack) && is_same_aligned2(&((dtype*)p1)[i], &((dtype*)p2)[i], SIMD_ALIGNMENT_SIZE)){
@@ -82,6 +87,25 @@ static void
             }
 <% end %>
             return;
+                }
+                if (is_aligned_step(s1,sizeof(dtype)) &&
+                    is_aligned_step(s2,sizeof(dtype)) ) {
+                    //<% end %>
+                    for (i=0; i<n; i++) {
+                        *(dtype*)p2 = m_<%=name%>(*(dtype*)p1);
+                        p1 += s1;
+                        p2 += s2;
+                    }
+                    return;
+                    //<% if need_align %>
+                }
+            }
+            for (i=0; i<n; i++) {
+                GET_DATA_STRIDE(p1,s1,dtype,x);
+                x = m_<%=name%>(x);
+                SET_DATA_STRIDE(p2,s2,dtype,x);
+            }
+            //<% end %>
         }
     }
 }

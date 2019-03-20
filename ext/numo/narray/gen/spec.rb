@@ -366,6 +366,7 @@ cn = get(:class_name)
 nm = get(:name)
 st = get(:simd_type)
 dp = get(:is_double_precision)
+algn = get(:need_align)
 is_c = is_complex
 
 def_module do
@@ -377,8 +378,9 @@ def_module do
   set module_name: "Math"
   set module_var: "mTM"
   set simd_type: st
-  set is_double_precision: dp 
+  set is_double_precision: dp
   set is_complex: is_c
+  set need_align: algn
 
   math "sqrt"
   math "cbrt"
