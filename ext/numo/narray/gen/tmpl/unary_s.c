@@ -49,44 +49,44 @@ static void
                 is_aligned(p2,sizeof(dtype)) ) {
                 if (s1 == sizeof(dtype) &&
                     s2 == sizeof(dtype) ) {
-<% if is_simd and !is_complex and %w[sqrt].include? name %>
-            // Check number of elements. & Check same alignment.
-            if ((n >= num_pack) && is_same_aligned2(&((dtype*)p1)[i], &((dtype*)p2)[i], SIMD_ALIGNMENT_SIZE)){
-                // Calculate up to the position just before the start of SIMD computation.
-                cnt = get_count_of_elements_not_aligned_to_simd_size(&((dtype*)p1)[i], SIMD_ALIGNMENT_SIZE, sizeof(dtype));
-                for (i=0; i < cnt; i++) {
-                    ((dtype*)p2)[i] = m_<%=name%>(((dtype*)p1)[i]);
-                }
+                    //<% if is_simd and !is_complex and %w[sqrt].include? name %>
+                    // Check number of elements. & Check same alignment.
+                    if ((n >= num_pack) && is_same_aligned2(&((dtype*)p1)[i], &((dtype*)p2)[i], SIMD_ALIGNMENT_SIZE)){
+                        // Calculate up to the position just before the start of SIMD computation.
+                        cnt = get_count_of_elements_not_aligned_to_simd_size(&((dtype*)p1)[i], SIMD_ALIGNMENT_SIZE, sizeof(dtype));
+                        for (i=0; i < cnt; i++) {
+                            ((dtype*)p2)[i] = m_<%=name%>(((dtype*)p1)[i]);
+                        }
 
-                // Get the count of SIMD computation loops.
-                cnt_simd_loop = (n - i) % num_pack;
+                        // Get the count of SIMD computation loops.
+                        cnt_simd_loop = (n - i) % num_pack;
 
-                // SIMD computation.
-                if (p1 == p2) { // inplace case
-                    for(; i < n - cnt_simd_loop; i += num_pack){
-                        a = _mm_load_<%=simd_type%>(&((dtype*)p1)[i]);
-                        a = _mm_<%=name%>_<%=simd_type%>(a);
-                        _mm_store_<%=simd_type%>(&((dtype*)p1)[i], a);
+                        // SIMD computation.
+                        if (p1 == p2) { // inplace case
+                            for(; i < n - cnt_simd_loop; i += num_pack){
+                                a = _mm_load_<%=simd_type%>(&((dtype*)p1)[i]);
+                                a = _mm_<%=name%>_<%=simd_type%>(a);
+                                _mm_store_<%=simd_type%>(&((dtype*)p1)[i], a);
+                            }
+                        } else {
+                            for(; i < n - cnt_simd_loop; i += num_pack){
+                                a = _mm_load_<%=simd_type%>(&((dtype*)p1)[i]);
+                                a = _mm_<%=name%>_<%=simd_type%>(a);
+                                _mm_stream_<%=simd_type%>(&((dtype*)p2)[i], a);
+                            }
+                        }
+
                     }
-                } else {
-                    for(; i < n - cnt_simd_loop; i += num_pack){
-                        a = _mm_load_<%=simd_type%>(&((dtype*)p1)[i]);
-                        a = _mm_<%=name%>_<%=simd_type%>(a);
-                        _mm_stream_<%=simd_type%>(&((dtype*)p2)[i], a);
+                    // Compute the remainder of the SIMD operation.
+                    if (cnt_simd_loop != 0){
+                        //<% end %>
+                        for (; i<n; i++) {
+                            ((dtype*)p2)[i] = m_<%=name%>(((dtype*)p1)[i]);
+                        }
+                        //<% if is_simd and !is_complex and %w[sqrt].include? name %>
                     }
-                }
-
-            }
-            // Compute the remainder of the SIMD operation.
-            if (cnt_simd_loop != 0){
-<% end %>
-                for (; i<n; i++) {
-                    ((dtype*)p2)[i] = m_<%=name%>(((dtype*)p1)[i]);
-                }
-<% if is_simd and !is_complex and %w[sqrt].include? name %>
-            }
-<% end %>
-            return;
+                    //<% end %>
+                    return;
                 }
                 if (is_aligned_step(s1,sizeof(dtype)) &&
                     is_aligned_step(s2,sizeof(dtype)) ) {
