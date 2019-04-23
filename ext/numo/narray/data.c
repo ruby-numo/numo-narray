@@ -457,7 +457,7 @@ VALUE
 na_flatten_dim(VALUE self, int sd)
 {
     int i, nd, fd;
-    size_t j;
+    size_t j, ofs;
     size_t *c, *pos, *idx1, *idx2;
     size_t stride;
     size_t  *shape, size;
@@ -469,7 +469,7 @@ na_flatten_dim(VALUE self, int sd)
     GetNArray(self,na);
     nd = na->ndim;
 
-    if (nd==0 || na->size==0) {
+    if (nd==0) {
         return na_make_view(self);
     }
     if (sd<0 || sd>=nd) {
@@ -528,23 +528,28 @@ na_flatten_dim(VALUE self, int sd)
             na2->stridx[sd] = na1->stridx[nd-1];
         } else {
             // set index
-            idx2 = ALLOC_N(size_t, shape[sd]);
+            idx2 = ALLOC_N(size_t, (shape[sd]==0) ? 1 : shape[sd]);
             SDX_SET_INDEX(na2->stridx[sd],idx2);
             // init for md-loop
             fd = nd-sd;
-            c = ALLOC_N(size_t, fd);
+            c = ALLOCA_N(size_t, fd);
             for (i=0; i<fd; i++) c[i]=0;
-            pos = ALLOC_N(size_t, fd+1);
+            pos = ALLOCA_N(size_t, fd+1);
             pos[0] = 0;
             // md-loop
             for (i=j=0;;) {
                 for (; i<fd; i++) {
                     sdx = na1->stridx[i+sd];
                     if (SDX_IS_INDEX(sdx)) {
-                        pos[i+1] = pos[i] + SDX_GET_INDEX(sdx)[c[i]];
+                        if (SDX_GET_INDEX(sdx)) {
+                            ofs = SDX_GET_INDEX(sdx)[c[i]];
+                        } else {
+                            ofs = 0;
+                        }
                     } else {
-                        pos[i+1] = pos[i] + SDX_GET_STRIDE(sdx)*c[i];
+                        ofs = SDX_GET_STRIDE(sdx)*c[i];
                     }
+                    pos[i+1] = pos[i] + ofs;
                 }
                 idx2[j++] = pos[i];
                 for (;;) {
@@ -556,8 +561,7 @@ na_flatten_dim(VALUE self, int sd)
                 }
             }
         loop_end:
-            xfree(pos);
-            xfree(c);
+            ;
         }
         break;
     }
