@@ -501,7 +501,6 @@ na_flatten_dim(VALUE self, int sd)
     case NARRAY_FILEMAP_T:
         stride = nary_element_stride(self);
         for (i=sd+1; i--; ) {
-            //printf("data: i=%d shpae[i]=%ld stride=%ld\n",i,shape[i],stride);
             SDX_SET_STRIDE(na2->stridx[i],stride);
             stride *= shape[i];
         }
@@ -522,12 +521,10 @@ na_flatten_dim(VALUE self, int sd)
                 SDX_SET_INDEX(na2->stridx[i],idx2);
             } else {
                 na2->stridx[i] = na1->stridx[i];
-                //printf("view: i=%d stridx=%d\n",i,SDX_GET_STRIDE(sdx));
             }
         }
         // flat dimenion == last dimension
         if (RTEST(na_check_ladder(self,sd))) {
-        //if (0) {
             na2->stridx[sd] = na1->stridx[nd-1];
         } else {
             // set index
