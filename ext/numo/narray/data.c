@@ -469,7 +469,7 @@ na_flatten_dim(VALUE self, int sd)
     GetNArray(self,na);
     nd = na->ndim;
 
-    if (nd==0) {
+    if (nd==0 || na->size==0) {
         return na_make_view(self);
     }
     if (sd<0 || sd>=nd) {
