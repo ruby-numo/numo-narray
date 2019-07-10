@@ -107,10 +107,15 @@ static VALUE
 <%=c_func(-1)%>(int argc, VALUE *argv, VALUE self)
 {
     VALUE v, reduce;
+    narray_t *na;
     ndfunc_arg_in_t ain[3] = {{cT,0},{sym_reduce,0},{sym_init,0}};
     ndfunc_arg_out_t aout[1] = {{numo_cBit,0}};
     ndfunc_t ndf = {<%=c_iter%>, FULL_LOOP_NIP, 3,1, ain,aout};
 
+    GetNArray(self,na);
+    if (NA_SIZE(na)==0) {
+        return Qfalse;
+    }
     reduce = na_reduce_dimension(argc, argv, 1, &self, &ndf, 0);
     v = na_ndloop(&ndf, 3, self, reduce, INT2FIX(<%=init_bit%>));
     if (argc > 0) {
