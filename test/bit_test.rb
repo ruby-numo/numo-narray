@@ -81,8 +81,6 @@ class BitTest < Test::Unit::TestCase
       src = []
       n = src.size
       a = init.call(dtype, src)
-      assert { a.count_true == 0 }
-      assert { a.count_false == 0 }
 
       assert { a == src }
       assert { (a & 0) == [0] * n }
