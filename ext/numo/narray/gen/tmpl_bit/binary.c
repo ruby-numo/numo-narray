@@ -21,10 +21,8 @@ static void
             STORE_BIT_STEP(a3, p3, s3, idx3, x);
         }
     } else {
-        o1 =  p1 % NB;
-        o1 -= p3;
-        o2 =  p2 % NB;
-        o2 -= p3;
+        o1 =  p1-p3;
+        o2 =  p2-p3;
         l1 =  NB+o1;
         r1 =  NB-o1;
         l2 =  NB+o2;
@@ -54,23 +52,53 @@ static void
             }
         } else {
             for (; n>=NB; n-=NB) {
-                x = *a1>>o1;
-                if (o1<0)  x |= *(a1-1)>>l1;
-                if (o1>0)  x |= *(a1+1)<<r1;
+                if (o1==0) {
+                    x = *a1;
+                } else if (o1>0) {
+                    x = *a1>>o1  | *(a1+1)<<r1;
+                } else {
+                    x = *a1<<-o1 | *(a1-1)>>l1;
+                }
                 a1++;
-                y = *a2>>o2;
-                if (o2<0)  y |= *(a2-1)>>l2;
-                if (o2>0)  y |= *(a2+1)<<r2;
+                if (o2==0) {
+                    y = *a2;
+                } else if (o2>0) {
+                    y = *a2>>o2  | *(a2+1)<<r2;
+                } else {
+                    y = *a2<<-o2 | *(a2-1)>>l2;
+                }
                 a2++;
                 x = m_<%=name%>(x,y);
                 *(a3++) = x;
             }
         }
         if (n>0) {
-            x = *a1>>o1;
-            if (o1<0)  x |= *(a1-1)>>l1;
-            y = *a2>>o2;
-            if (o2<0)  y |= *(a2-1)>>l2;
+            if (o1==0) {
+                x = *a1;
+            } else if (o1>0) {
+                x = *a1>>o1;
+                if ((int)n>r1) {
+                    x |= *(a1+1)<<r1;
+                }
+            } else {
+                x = *(a1-1)>>l1;
+                if ((int)n>-o1) {
+                    x |= *a1<<-o1;
+                }
+            }
+            if (o2==0) {
+                y = *a2;
+            } else if (o2>0) {
+                y = *a2>>o2;
+                if ((int)n>r2) {
+                    y |= *(a2+1)<<r2;
+                }
+            } else {
+                y = *(a2-1)>>l2;
+                if ((int)n>-o2) {
+                    y |= *a2<<-o2;
+                }
+            }
             x = m_<%=name%>(x,y);
             *a3 = (x & SLB(n)) | (*a3 & BALL<<n);
         }
