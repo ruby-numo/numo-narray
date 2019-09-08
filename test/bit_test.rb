@@ -102,4 +102,20 @@ class BitTest < Test::Unit::TestCase
     end
 
   end
+
+  test "store to view" do
+    n=14
+    x = Numo::Bit.zeros(n+2,n+2,3)
+    ~(x[1..-2, 1..-2, 0].inplace)
+    assert { x.where.size == n*n}
+
+    x1 = Numo::Bit.ones(n,n)
+    x0 = Numo::Bit.zeros(n,n)
+    y0 = Numo::Bit.zeros(n+2,n+2)
+    x = Numo::NArray.dstack([x1, x0, x0])
+    y = Numo::NArray.dstack([y0, y0, y0])
+    y[1..-2, 1..-2, true] = x
+    assert { (~y[1..-2, 1..-2, 0]).where.size == 0}
+    assert { y[true,true,1].where.size == 0 }
+  end
 end
