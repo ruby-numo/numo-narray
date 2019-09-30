@@ -546,8 +546,9 @@ static void
 na_index_at_nadata(narray_data_t *na1, narray_view_t *na2,
                      na_index_arg_t *q, ssize_t elmsz, int ndim, int keep_dim)
 {
-    int i, j;
-    ssize_t size = q[i].n;
+    int i;
+    size_t j;
+    size_t size = q[0].n;
     ssize_t stride1;
     ssize_t *strides_na1;
     size_t  *index;
@@ -609,9 +610,10 @@ static void
 na_index_at_naview(narray_view_t *na1, narray_view_t *na2,
                      na_index_arg_t *q, ssize_t elmsz, int ndim, int keep_dim)
 {
-    int i, j;
-    size_t  *index;
-    ssize_t size = q[ndim-1].n;
+    int i;
+    size_t j;
+    size_t *index;
+    size_t size = q[ndim-1].n;
 
     if (q[ndim-1].idx != NULL) {
         index = q[ndim-1].idx;
