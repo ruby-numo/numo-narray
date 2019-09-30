@@ -128,6 +128,7 @@ def_singleton_method "cast"
 
 def_method "aref", op:"[]"
 def_method "aset", op:"[]="
+def_method "at"
 
 def_method "coerce_cast"
 def_method "to_a"
