@@ -581,12 +581,12 @@ na_index_at_nadata(narray_data_t *na1, narray_view_t *na2,
                 for (j=0; j<size; j++) {
                     index[j] = index[j] * stride1;
                 }
+                q[i].idx = NULL;
             } else {
                 for (j=0; j<size; j++) {
                     index[j] += q[i].idx[j] * stride1;
                 }
             }
-            q[i].idx = NULL;
         } else {
             beg  = q[i].beg;
             step = q[i].step;
@@ -640,12 +640,12 @@ na_index_at_naview(narray_view_t *na1, narray_view_t *na2,
                 for (j=0; j<size; j++) {
                     index[j] = SDX_GET_INDEX(sdx1)[index[j]];
                 }
+                q[i].idx = NULL;
             } else {
                 for (j=0; j<size; j++) {
                     index[j] += SDX_GET_INDEX(sdx1)[q[i].idx[j]];
                 }
             }
-            q[i].idx = NULL;
         }
         else if (q[i].idx == NULL && SDX_IS_INDEX(sdx1)) {
             // step <- index
@@ -676,6 +676,7 @@ na_index_at_naview(narray_view_t *na1, narray_view_t *na2,
                     for (j=0; j<size; j++) {
                         index[j] = (last - index[j]) * stride1;
                     }
+                    q[i].idx = NULL;
                 } else {
                     for (j=0; j<size; j++) {
                         index[j] += (last - q[i].idx[j]) * stride1;
@@ -686,13 +687,13 @@ na_index_at_naview(narray_view_t *na1, narray_view_t *na2,
                     for (j=0; j<size; j++) {
                         index[j] = index[j] * stride1;
                     }
+                    q[i].idx = NULL;
                 } else {
                     for (j=0; j<size; j++) {
                         index[j] += q[i].idx[j] * stride1;
                     }
                 }
             }
-            q[i].idx = NULL;
         }
         else if (q[i].idx == NULL && SDX_IS_STRIDE(sdx1)) {
             // step <- step
