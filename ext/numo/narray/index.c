@@ -704,7 +704,7 @@ VALUE na_aref_md_protected(VALUE data_value)
 
     na_alloc_shape((narray_t*)na2, ndim_new);
 
-    na2->stridx = ALLOC_N(stridx_t,ndim_new);
+    na2->stridx = ZALLOC_N(stridx_t,ndim_new);
 
     elmsz = nary_element_stride(self);
 
