@@ -106,7 +106,6 @@ void na_parse_enumerator_step(VALUE enum_obj, VALUE *pstep );
 int nary_get_result_dimension(VALUE self, int argc, VALUE *argv, ssize_t stride, size_t *pos_idx);
 #define na_aref_main nary_aref_main
 VALUE nary_aref_main(int nidx, VALUE *idx, VALUE self, int keep_dim, int nd);
-VALUE na_at_main(int nidx, VALUE *idx, VALUE self, int keep_dim, int nd);
 
 #include "ruby/version.h"
 
