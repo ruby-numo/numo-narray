@@ -62,6 +62,7 @@ static ID id_dup;
 static ID id_bracket;
 static ID id_shift_left;
 static ID id_mask;
+static ID id_where;
 
 
 static void
@@ -124,25 +125,66 @@ na_parse_array(VALUE ary, int orig_dim, ssize_t size, na_index_arg_t *q)
 static void
 na_parse_narray_index(VALUE a, int orig_dim, ssize_t size, na_index_arg_t *q)
 {
-    VALUE idx;
-    narray_t *na;
-    narray_data_t *nidx;
+    VALUE idx, cls;
+    narray_t *na, *nidx;
     size_t k, n;
-    ssize_t *nidxp;
 
     GetNArray(a,na);
     if (NA_NDIM(na) != 1) {
         rb_raise(rb_eIndexError, "should be 1-d NArray");
     }
-    n = NA_SIZE(na);
-    idx = nary_new(cIndex,1,&n);
-    na_store(idx,a);
-
-    GetNArrayData(idx,nidx);
-    nidxp   = (ssize_t*)nidx->ptr;
-    q->idx  = ALLOC_N(size_t, n);
-    for (k=0; k<n; k++) {
-        q->idx[k] = na_range_check(nidxp[k], size, orig_dim);
+    cls = rb_obj_class(a);
+    if (cls==numo_cBit) {
+        if (NA_SIZE(na) != (size_t)size) {
+            rb_raise(rb_eIndexError, "Bit-NArray size mismatch");
+        }
+        idx = rb_funcall(a,id_where,0);
+        GetNArray(idx,nidx);
+        n = NA_SIZE(nidx);
+        q->idx = ALLOC_N(size_t, n);
+        if (na->type!=NARRAY_DATA_T) {
+            rb_bug("NArray#where returned wrong type of NArray");
+        }
+        if (rb_obj_class(idx)==numo_cInt32) {
+            int32_t *p = (int32_t*)NA_DATA_PTR(nidx);
+            for (k=0; k<n; k++) {
+                q->idx[k] = (size_t)p[k];
+            }
+        } else
+        if (rb_obj_class(idx)==numo_cInt64) {
+            int64_t *p = (int64_t*)NA_DATA_PTR(nidx);
+            for (k=0; k<n; k++) {
+                q->idx[k] = (size_t)p[k];
+            }
+        } else {
+            rb_bug("NArray#where should return Int32 or Int64");
+        }
+        RB_GC_GUARD(idx);
+    } else {
+        n = NA_SIZE(na);
+        q->idx = ALLOC_N(size_t, n);
+        if (cls==numo_cInt32 && na->type==NARRAY_DATA_T) {
+            int32_t *p = (int32_t*)NA_DATA_PTR(na);
+            for (k=0; k<n; k++) {
+                q->idx[k] = na_range_check(p[k], size, orig_dim);
+            }
+        } else
+        if (cls==numo_cInt64 && na->type==NARRAY_DATA_T) {
+            int64_t *p = (int64_t*)NA_DATA_PTR(na);
+            for (k=0; k<n; k++) {
+                q->idx[k] = na_range_check(p[k], size, orig_dim);
+            }
+        } else {
+            ssize_t *p;
+            idx = nary_new(cIndex,1,&n);
+            na_store(idx,a);
+            GetNArray(idx,nidx);
+            p = (ssize_t*)NA_DATA_PTR(nidx);
+            for (k=0; k<n; k++) {
+                q->idx[k] = na_range_check(p[k], size, orig_dim);
+            }
+            RB_GC_GUARD(idx);
+        }
     }
     q->n    = n;
     q->beg  = 0;
@@ -1044,4 +1086,5 @@ Init_nary_index()
     id_bracket     = rb_intern("[]");
     id_shift_left  = rb_intern("<<");
     id_mask        = rb_intern("mask");
+    id_where       = rb_intern("where");
 }

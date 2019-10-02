@@ -327,6 +327,10 @@ class NArrayTest < Test::Unit::TestCase
           assert { (a <= 3) == [[1,1,1],[0,0,0]] }
           assert { (a <  3) == [[1,1,0],[0,0,0]] }
           assert { (a.eq 3) == [[0,0,1],[0,0,0]] }
+          assert { a[a.ne 3] == [1,2,5,7,11] }
+          assert { a[a[true,2] < 5, true] == [[1,2,3]] }
+          assert { a[true, a[1,true] > 5] == [[2,3],[7,11]] }
+          assert { a[:*,(a[0,:*]%2).eq(1)] == [[1,3],[5,11]] }
           assert { a.sort == src }
           assert { a.sort_index == [[0,1,2],[3,4,5]] }
         end
