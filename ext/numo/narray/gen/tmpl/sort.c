@@ -30,7 +30,7 @@ static VALUE
 {
     VALUE reduce;
     ndfunc_arg_in_t ain[2] = {{OVERWRITE,0},{sym_reduce,0}};
-    ndfunc_t ndf = {0, STRIDE_LOOP|NDF_FLAT_REDUCE, 2,0, ain,0};
+    ndfunc_t ndf = {0, NDF_HAS_LOOP|NDF_FLAT_REDUCE, 2,0, ain,0};
 
     if (!TEST_INPLACE(self)) {
         self = na_copy(self);
