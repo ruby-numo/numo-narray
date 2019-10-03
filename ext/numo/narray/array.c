@@ -212,11 +212,13 @@ na_mdai_investigate(na_mdai_t *mdai, int ndim)
             }
         }
         else
+        if (rb_obj_is_kind_of(v, rb_cRange)
 #ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
-        if (rb_obj_is_kind_of(v, rb_cRange) || rb_obj_is_kind_of(v, rb_cArithSeq)) {
+            || rb_obj_is_kind_of(v, rb_cArithSeq)
 #else
-        if (rb_obj_is_kind_of(v, rb_cRange) || rb_obj_is_kind_of(v, rb_cEnumerator)) {
+            || rb_obj_is_kind_of(v, rb_cEnumerator)
 #endif
+            ) {
             nary_step_sequence(v,&length,&dbeg,&dstep);
             len += length-1;
             mdai->type = na_mdai_object_type(mdai->type, v);

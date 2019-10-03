@@ -1587,12 +1587,13 @@ na_get_reduce_flag_from_axes(VALUE na_obj, VALUE axes)
             len = 1;
             step = 0;
             //printf("beg=%d step=%d len=%d\n",beg,step,len);
-        } else if (rb_obj_is_kind_of(v,rb_cRange) ||
+        } else if (rb_obj_is_kind_of(v,rb_cRange)
 #ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
-                   rb_obj_is_kind_of(v,rb_cArithSeq)) {
+                   || rb_obj_is_kind_of(v,rb_cArithSeq)
 #else
-                   rb_obj_is_kind_of(v,rb_cEnumerator)) {
+                   || rb_obj_is_kind_of(v,rb_cEnumerator)
 #endif
+                   ) {
             nary_step_array_index( v, ndim, &len, &beg, &step );
         } else {
             rb_raise(nary_eDimensionError, "invalid dimension argument %s",
