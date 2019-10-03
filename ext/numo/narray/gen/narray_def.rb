@@ -57,6 +57,10 @@ module NArrayMethod
     def_method(meth, "accum_index")
   end
 
+  def accum_arg(meth)
+    def_method(meth, "accum_arg")
+  end
+
   def cum(meth, cmacro)
     def_method(meth, "cum", cmacro:cmacro)
   end

@@ -21,26 +21,32 @@ static void
 <% end;end %>
 
 /*
-  <%=name%>. Return an index of result.
+  <%=name%>. Returns an index of the <%=name[0..2]%>imum value. See also `<%=name[0..2]%>_arg`.
 <% if is_float %>
   @overload <%=name%>(axis:nil, nan:false)
   @param [TrueClass] nan  If true, apply NaN-aware algorithm (return NaN posision if exist).
 <% else %>
   @overload <%=name%>(axis:nil)
 <% end %>
-  @param [Numeric,Array,Range] axis  Affected dimensions.
-  @return [Integer,Numo::Int] returns result index of <%=name%>.
+  @param [Numeric,Array,Range] axis  Finds <%=name[0..2]%>imum values along the axis and returns flat 1-d indices.
+  @return [Integer,Numo::Int] returns result indices.
   @example
   <% if name == 'min_index' %>
-      Numo::NArray[3,4,1,2].min_index => 2
-      Numo::NArray[[3,4,1],[2,0,5]].min_index => 4
-      Numo::NArray[[3,4,1],[2,0,5]].min_index(axis: 1) => [2, 4]
-      Numo::NArray[[3,4,1],[2,0,5]].min_index(axis: 0) => [3, 4, 2]
-  <% else %>
-      Numo::NArray[3,4,1,2].max_index => 1
-      Numo::NArray[[3,4,1],[2,0,5]].max_index => 5
-      Numo::NArray[[3,4,1],[2,0,5]].max_index(axis: 1) => [1, 5]
-      Numo::NArray[[3,4,1],[2,0,5]].max_index(axis: 0) => [0, 1, 5]
+      a = Numo::NArray[3,4,1,2]
+      a.min_index => 2
+      b = Numo::NArray[[3,4,1],[2,0,5]]
+      b.min_index => 4
+      b.min_index(axis: 1) => [2, 4]
+      b.min_index(axis: 0) => [3, 4, 2]
+      b[b.min_index(axis: 0)] => [2, 0, 1]
+  <% elsif name == 'max_index' %>
+      a = Numo::NArray[3,4,1,2]
+      a.max_index => 1
+      b = Numo::NArray[[3,4,1],[2,0,5]]
+      b.max_index => 5
+      b.max_index(axis: 1) => [1, 5]
+      b.max_index(axis: 0) => [0, 1, 5]
+      b[b.max_index(axis: 0)] => [3, 4, 5]
   <% end %>
  */
 static VALUE
