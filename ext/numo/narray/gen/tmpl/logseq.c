@@ -42,7 +42,7 @@ static void
 
 /*
   Set logarithmic sequence of numbers to self. The sequence is obtained from
-     base**(beg+i*step)
+     `base**(beg+i*step)`
   where i is 1-dimensional index.
   Applicable classes: DFloat, SFloat, DComplex, SCopmplex.
 
