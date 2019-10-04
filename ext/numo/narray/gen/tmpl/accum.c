@@ -22,8 +22,8 @@ static void
 <% else %>
   @overload <%=name%>(axis:nil, keepdims:false)
 <% end %>
-  @param [Numeric,Array,Range] axis (keyword) Affected dimensions.
-  @param [TrueClass] keepdims (keyword) If true, the reduced axes are left in the result array as dimensions with size one.
+  @param [Numeric,Array,Range] axis  Performs <%=name%> along the axis.
+  @param [TrueClass] keepdims  If true, the reduced axes are left in the result array as dimensions with size one.
   @return [Numo::<%=class_name%>] returns result of <%=name%>.
 */
 static VALUE

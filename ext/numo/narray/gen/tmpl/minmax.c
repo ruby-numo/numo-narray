@@ -25,7 +25,7 @@ static void
 <% else %>
   @overload <%=name%>(axis:nil, keepdims:false)
 <% end %>
-  @param [Numeric,Array,Range] axis (keyword) Affected dimensions.
+  @param [Numeric,Array,Range] axis  Finds min-max along the axis.
   @param [TrueClass] keepdims (keyword) If true, the reduced axes are left in the result array as dimensions with size one.
   @return [Numo::<%=class_name%>,Numo::<%=class_name%>] min and max of self.
 */

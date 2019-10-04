@@ -20,7 +20,7 @@ static void
 <% else %>
   @overload <%=name%>(axis:nil)
 <% end %>
-  @param [Numeric,Array,Range] axis  Affected dimensions.
+  @param [Numeric,Array,Range] axis  Performs <%=name%> along the axis.
   @return [Numo::<%=class_name%>] returns result of <%=name%>.
   @example
       Numo::DFloat[3,4,1,2].sort => Numo::DFloat[1,2,3,4]

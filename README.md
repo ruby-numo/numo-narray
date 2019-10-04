@@ -12,6 +12,7 @@ similar to numpy.ndaray.
 This project is the successor to [Ruby/NArray](http://masa16.github.io/narray/).
 
 ## Documentation
+
 All documents are primitive.
 
 * [Numo::NArray API Doc](http://ruby-numo.github.io/narray/narray/frames.html)
@@ -20,6 +21,7 @@ All documents are primitive.
 * [Numo::NArray Overview](https://github.com/ruby-numo/numo-narray/wiki/Numo::NArray%E6%A6%82%E8%A6%81) (in Japanese)
 
 ## Related Projects
+
 * [Numo::Linalg](https://github.com/ruby-numo/numo-linalg) - Linear Algebra library with [LAPACK](http://www.netlib.org/lapack/).
 * [Numo::GSL](https://github.com/ruby-numo/numo-gsl) - Ruby interface for [GSL (GNU Scientific Library)](http://www.gnu.org/software/gsl/).
 * [Numo::FFTW](https://github.com/ruby-numo/numo-fftw) - Ruby/Numo interface to [FFTW (A Discrete Fourier Transform library](http://www.fftw.org/).
@@ -27,10 +29,13 @@ All documents are primitive.
 * [Numo::Gnuplot](https://github.com/ruby-numo/numo-gnuplot) - Simple and easy-to-use Gnuplot interface.
 
 ## Installation
+
 ### Requirement
+
 Ruby ver 2.1 and later.
 
 ### Ubuntu, Debian, Bash on Windows
+
 ```shell
 apt install -y git ruby gcc ruby-dev rake make
 gem install specific_install
@@ -38,7 +43,9 @@ gem specific_install https://github.com/ruby-numo/numo-narray.git
 ```
 
 ## Quick start
+
 An example
+
 ```ruby
 [1] pry(main)> require "numo/narray"
 => true
@@ -56,6 +63,7 @@ An example
 [6] pry(main)> a.size
 => 15
 ```
+
 For more examples, check out this [narray version of 100 numpy exercises](https://github.com/ruby-numo/numo-narray/wiki/100-narray-exercises) (and the [IRuby Notebook](https://github.com/ruby-numo/numo-narray/blob/master/100-narray-exercises.ipynb)).
 
 ## Development

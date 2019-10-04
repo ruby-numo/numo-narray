@@ -75,14 +75,13 @@ static void
   passing that element and indices along each axis as parameters.
   Creates a new NArray containing the values returned by the block.
   Inplace option is allowed, i.e., `nary.inplace.map` overwrites `nary`.
-
   @overload <%=name%>
-
-  For a block {|x,i,j,...| ... }
-  @yield [x,i,j,...]  x is an element, i,j,... are multidimensional indices.
-
+  For a block `{|x,i,j,...| ... }`,
+  @yieldparam [Numeric] x  an element
+  @yieldparam [Integer] i,j,...  multitimensional indices
   @return [Numo::NArray] mapped array
-
+  @see #map
+  @see #each_with_index
 */
 static VALUE
 <%=c_func(0)%>(VALUE self)

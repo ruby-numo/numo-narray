@@ -29,8 +29,10 @@ static void
   passing that element as a parameter.
   @overload <%=name%>
   @return [Numo::NArray] self
-  For a block {|x| ... }
-  @yield [x]  x is element of NArray.
+  For a block `{|x| ... }`,
+  @yieldparam [Numeric] x  an element of NArray.
+  @see #each_with_index
+  @see #map
 */
 static VALUE
 <%=c_func(0)%>(VALUE self)

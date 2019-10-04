@@ -17,10 +17,10 @@ static void
 }
 
 /*
-  Polynomial.: a0 + a1*x + a2*x**2 + a3*x**3 + ... + an*x**n
-  @overload <%=name%> a0, a1, ...
-  @param [Numo::NArray,Numeric] a0
-  @param [Numo::NArray,Numeric] a1 , ...
+  Calculate polynomial.
+    `x.poly(a0,a1,a2,...,an) = a0 + a1*x + a2*x**2 + ... + an*x**n`
+  @overload <%=name%> a0, a1, ..., an
+  @param [Numo::NArray,Numeric] a0,a1,...,an
   @return [Numo::<%=class_name%>]
 */
 static VALUE

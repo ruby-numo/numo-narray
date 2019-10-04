@@ -50,9 +50,12 @@ static void
   Invokes the given block once for each element of self,
   passing that element and indices along each axis as parameters.
   @overload <%=name%>
+  For a block `{|x,i,j,...| ... }`,
+  @yieldparam [Numeric] x  an element
+  @yieldparam [Integer] i,j,...  multitimensional indices
   @return [Numo::NArray] self
-  For a block {|x,i,j,...| ... }
-  @yield [x,i,j,...]  x is an element, i,j,... are multidimensional indices.
+  @see #each
+  @see #map_with_index
 */
 static VALUE
 <%=c_func(0)%>(VALUE self)

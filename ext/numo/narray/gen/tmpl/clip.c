@@ -69,28 +69,24 @@ static void
 
   @example
       a = Numo::Int32.new(10).seq
-      p a.clip(1,8)
-      # Numo::Int32#shape=[10]
+      # => Numo::Int32#shape=[10]
+      # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+      a.clip(1,8)
+      # => Numo::Int32#shape=[10]
       # [1, 1, 2, 3, 4, 5, 6, 7, 8, 8]
 
-      p a
-      # Numo::Int32#shape=[10]
-      # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-
-      p a.inplace.clip(3,6)
-      # Numo::Int32(view)#shape=[10]
+      a.inplace.clip(3,6)
+      a
+      # => Numo::Int32#shape=[10]
       # [3, 3, 3, 3, 4, 5, 6, 6, 6, 6]
 
-      p a
-      # Numo::Int32#shape=[10]
-      # [3, 3, 3, 3, 4, 5, 6, 6, 6, 6]
-
-      p a = Numo::Int32.new(10).seq
-      # Numo::Int32#shape=[10]
+      b = Numo::Int32.new(10).seq
+      # => Numo::Int32#shape=[10]
       # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
-      p a.clip([3,4,1,1,1,4,4,4,4,4], 8)
-      # Numo::Int32#shape=[10]
+      b.clip([3,4,1,1,1,4,4,4,4,4], 8)
+      # => Numo::Int32#shape=[10]
       # [3, 4, 2, 3, 4, 5, 6, 7, 8, 8]
 */
 static VALUE
