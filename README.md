@@ -15,7 +15,7 @@ This project is the successor to [Ruby/NArray](http://masa16.github.io/narray/).
 
 All documents are primitive.
 
-* [Numo::NArray API Doc](http://ruby-numo.github.io/narray/narray/frames.html)
+* [Numo::NArray API Doc](http://ruby-numo.github.io/numo-narray/api/index.html)
 * [Numo::NArray vs numpy](https://github.com/ruby-numo/numo-narray/wiki/Numo-vs-numpy)
 * [Numo::NArray vs ndarray](https://github.com/ruby-numo/numo-narray/wiki/Numo-vs-ndarray)
 * [Numo::NArray Overview](https://github.com/ruby-numo/numo-narray/wiki/Numo::NArray%E6%A6%82%E8%A6%81) (in Japanese)

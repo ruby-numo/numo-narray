@@ -7,7 +7,7 @@ task :doc do
     map{|s| File.join(dir,s)} +
     [File.join(dir,"types/*.c"), "lib/numo/narray/extra.rb"]
   sh "cd ext/numo/narray; ruby extconf.rb; make src"
-  sh "rm -rf yard .yardoc; yard doc -o yard -m markdown -r README.md #{src.join(' ')}"
+  sh "rm -rf api .yardoc; yard doc -o api -m markdown -r README.md #{src.join(' ')}"
 end
 
 require "rake/extensiontask"
