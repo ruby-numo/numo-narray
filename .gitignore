@@ -4,6 +4,7 @@
 .config
 .yardoc
 yard
+api
 Gemfile.lock
 InstalledFiles
 _yardoc
