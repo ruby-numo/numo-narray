@@ -21,33 +21,38 @@ static void
 <% end;end %>
 
 /*
-  <%=name%>. Returns an index of the <%=name[0..2]%>imum value. See also `<%=name[0..2]%>_arg`.
+  Index of the <%=name[0..2]%>imum value.
 <% if is_float %>
   @overload <%=name%>(axis:nil, nan:false)
   @param [TrueClass] nan  If true, apply NaN-aware algorithm (return NaN posision if exist).
 <% else %>
   @overload <%=name%>(axis:nil)
 <% end %>
-  @param [Numeric,Array,Range] axis  Finds <%=name[0..2]%>imum values along the axis and returns flat 1-d indices.
+  @param [Numeric,Array,Range] axis  Finds <%=name[0..2]%>imum values along the axis and returns **flat 1-d indices**.
   @return [Integer,Numo::Int] returns result indices.
+  @see #arg<%=name[0..2]%>
+  @see #<%=name[0..2]%>
+
   @example
-  <% if name == 'min_index' %>
+<% case name; when /min/ %>
       a = Numo::NArray[3,4,1,2]
-      a.min_index => 2
+      a.min_index  #=> 2
+
       b = Numo::NArray[[3,4,1],[2,0,5]]
-      b.min_index => 4
-      b.min_index(axis: 1) => [2, 4]
-      b.min_index(axis: 0) => [3, 4, 2]
-      b[b.min_index(axis: 0)] => [2, 0, 1]
-  <% elsif name == 'max_index' %>
+      b.min_index             #=> 4
+      b.min_index(axis:1)     #=> [2, 4]
+      b.min_index(axis:0)     #=> [3, 4, 2]
+      b[b.min_index(axis:0)]  #=> [2, 0, 1]
+<% when /max/ %>
       a = Numo::NArray[3,4,1,2]
-      a.max_index => 1
+      a.max_index  #=> 1
+
       b = Numo::NArray[[3,4,1],[2,0,5]]
-      b.max_index => 5
-      b.max_index(axis: 1) => [1, 5]
-      b.max_index(axis: 0) => [0, 1, 5]
-      b[b.max_index(axis: 0)] => [3, 4, 5]
-  <% end %>
+      b.max_index             #=> 5
+      b.max_index(axis:1)     #=> [1, 5]
+      b.max_index(axis:0)     #=> [0, 1, 5]
+      b[b.max_index(axis:0)]  #=> [3, 4, 5]
+<% end %>
  */
 static VALUE
 <%=c_func(-1)%>(int argc, VALUE *argv, VALUE self)

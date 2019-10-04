@@ -11,7 +11,7 @@ static void
     INIT_COUNTER(lp, n);
     INIT_PTR(lp, 0, d_ptr, d_step);
 
-    idx = f_<%=name.sub(/_arg/,'_index')%><%=j%>(n,d_ptr,d_step);
+    idx = f_<%=name[3..5]%>_index<%=j%>(n,d_ptr,d_step);
 
     o_ptr = NDL_PTR(lp,1);
     *(idx_t*)o_ptr = (idx_t)idx;
@@ -20,33 +20,38 @@ static void
 <% end;end %>
 
 /*
-  <%=name%>. Returns an index of the <%=name[0..2]%>imum value. See also `<%=name[0..2]%>_index`.
+  Index of the <%=name[3..5]%>imum value.
 <% if is_float %>
   @overload <%=name%>(axis:nil, nan:false)
   @param [TrueClass] nan  If true, apply NaN-aware algorithm (return NaN posision if exist).
 <% else %>
   @overload <%=name%>(axis:nil)
 <% end %>
-  @param [Numeric,Array,Range] axis  Finds <%=name[0..2]%>imum values along the axis and returns indices along the axis.
-  @return [Integer,Numo::Int] returns result indices.
+  @param [Numeric,Array,Range] axis  Finds <%=name[3..5]%>imum values along the axis and returns **indices along the axis**.
+  @return [Integer,Numo::Int] returns the result indices.
+  @see #<%=name[3..5]%>_index
+  @see #<%=name[3..5]%>
+
   @example
-  <% if name == 'min_arg' %>
+<% case name; when /min/ %>
       a = Numo::NArray[3,4,1,2]
-      a.min_arg => 2
+      a.argmin  #=> 2
+
       b = Numo::NArray[[3,4,1],[2,0,5]]
-      b.min_arg => 4
-      b.min_arg(axis: 1) => [2, 1]
-      b.min_arg(axis: 0) => [1, 1, 0]
-      b.at(b.min_arg(axis:0), 0..-1) => [2, 0, 1]
-  <% elsif name == 'max_arg' %>
+      b.argmin                       #=> 4
+      b.argmin(axis:1)               #=> [2, 1]
+      b.argmin(axis:0)               #=> [1, 1, 0]
+      b.at(b.argmin(axis:0), 0..-1)  #=> [2, 0, 1]
+<% when /max/ %>
       a = Numo::NArray[3,4,1,2]
-      a.max_arg => 1
+      a.argmax  #=> 1
+
       b = Numo::NArray[[3,4,1],[2,0,5]]
-      b.max_arg => 5
-      b.max_arg(axis: 1) => [1, 2]
-      b.max_arg(axis: 0) => [0, 0, 1]
-      b.at(b.max_arg(axis:0), 0..-1) => [3, 4, 5]
-  <% end %>
+      b.argmax                       #=> 5
+      b.argmax(axis:1)               #=> [1, 2]
+      b.argmax(axis:0)               #=> [0, 0, 1]
+      b.at(b.argmax(axis:0), 0..-1)  #=> [3, 4, 5]
+<% end %>
  */
 static VALUE
 <%=c_func(-1)%>(int argc, VALUE *argv, VALUE self)
