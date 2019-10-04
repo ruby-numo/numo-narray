@@ -6,7 +6,7 @@
 <title>
   Module: Numo::NMath
   
-    &mdash; Documentation by YARD 0.9.9
+    &mdash; Documentation by YARD 0.9.20
   
 </title>
 
@@ -84,15 +84,21 @@
 </div>
 
 
-  <h2>Constant Summary</h2>
-  <dl class="constants">
-    
-      <dt id="DISPATCH-constant" class="">DISPATCH =
-        
-      </dt>
-      <dd><pre class="code"><span class='id identifier rubyid_hCast'>hCast</span></pre></dd>
-    
-  </dl>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="DISPATCH-constant" class="">DISPATCH =
+          
+        </dt>
+        <dd><pre class="code"><span class='id identifier rubyid_hCast'>hCast</span></pre></dd>
+      
+    </dl>
+  
 
 
 
@@ -125,8 +131,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Dispatches method to Math module of upcasted type, eg, Numo::DFloat::Math.</p>
+    <span class="summary_desc"><div class='inline'><p>Dispatches method to Math module of upcasted type, eg, Numo::DFloat::Math.</p>
 </div></span>
   
 </li>
@@ -152,8 +157,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Dispatches method to Math module of upcasted type, eg, Numo::DFloat::Math.</p>
+    <p>Dispatches method to Math module of upcasted type,
+eg, Numo::DFloat::Math.</p>
 
 
   </div>
@@ -174,8 +179,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>method name.</p>
+        <div class='inline'><p>method name.</p>
 </div>
       
     </li>
@@ -190,8 +194,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>input array.</p>
+        <div class='inline'><p>input array.</p>
 </div>
       
     </li>
@@ -209,8 +212,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>result.</p>
+        <div class='inline'><p>result.</p>
 </div>
       
     </li>
@@ -251,7 +253,7 @@
     <td>
       <pre class="code"><span class="info file"># File 'ext/numo/narray/math.c', line 85</span>
 
-VALUE nary_math_method_missing(int argc, VALUE *argv, VALUE mod)
+static VALUE nary_math_method_missing(int argc, VALUE *argv, VALUE mod)
 {
     VALUE type, ans, typemod, hash;
     if (argc&gt;1) {
@@ -285,9 +287,9 @@ VALUE nary_math_method_missing(int argc, VALUE *argv, VALUE mod)
 </div>
 
       <div id="footer">
-  Generated on Sun May 28 06:38:17 2017 by
+  Generated on Fri Oct  4 21:04:21 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.9 (ruby-2.4.1).
+  0.9.20 (ruby-2.6.5).
 </div>
 
     </div>
