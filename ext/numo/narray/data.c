@@ -186,21 +186,21 @@ check_axis(int axis, int ndim)
   @example
     x = Numo::Int32[[1,2,3]]
 
-    p x.swapaxes(0,1)
-    # Numo::Int32(view)#shape=[3,1]
+    x.swapaxes(0,1)
+    # => Numo::Int32(view)#shape=[3,1]
     # [[1],
     #  [2],
     #  [3]]
 
-    p x = Numo::Int32[[[0,1],[2,3]],[[4,5],[6,7]]]
-    # Numo::Int32#shape=[2,2,2]
+    x = Numo::Int32[[[0,1],[2,3]],[[4,5],[6,7]]]
+    # => Numo::Int32#shape=[2,2,2]
     # [[[0, 1],
     #   [2, 3]],
     #  [[4, 5],
     #   [6, 7]]]
 
-    p x.swapaxes(0,2)
-    # Numo::Int32(view)#shape=[2,2,2]
+    x.swapaxes(0,2)
+    # => Numo::Int32(view)#shape=[2,2,2]
     # [[[0, 4],
     #   [2, 6]],
     #  [[1, 5],
@@ -590,28 +590,30 @@ na_flatten(VALUE self)
   @return [Numo::NArray]  diagonal view of NArray.
   @example
     a = Numo::DFloat.new(4,5).seq
-    => Numo::DFloat#shape=[4,5]
-    [[0, 1, 2, 3, 4],
-     [5, 6, 7, 8, 9],
-     [10, 11, 12, 13, 14],
-     [15, 16, 17, 18, 19]]
+    # => Numo::DFloat#shape=[4,5]
+    # [[0, 1, 2, 3, 4],
+    #  [5, 6, 7, 8, 9],
+    #  [10, 11, 12, 13, 14],
+    #  [15, 16, 17, 18, 19]]
     b = a.diagonal(1)
-    => Numo::DFloat(view)#shape=[4]
-    [1, 7, 13, 19]
+    # => Numo::DFloat(view)#shape=[4]
+    # [1, 7, 13, 19]
+
     b.store(0)
     a
-    => Numo::DFloat#shape=[4,5]
-    [[0, 0, 2, 3, 4],
-     [5, 6, 0, 8, 9],
-     [10, 11, 12, 0, 14],
-     [15, 16, 17, 18, 0]]
+    # => Numo::DFloat#shape=[4,5]
+    # [[0, 0, 2, 3, 4],
+    #  [5, 6, 0, 8, 9],
+    #  [10, 11, 12, 0, 14],
+    #  [15, 16, 17, 18, 0]]
+
     b.store([1,2,3,4])
     a
-    => Numo::DFloat#shape=[4,5]
-    [[0, 1, 2, 3, 4],
-     [5, 6, 2, 8, 9],
-     [10, 11, 12, 3, 14],
-     [15, 16, 17, 18, 4]]
+    # => Numo::DFloat#shape=[4,5]
+    # [[0, 1, 2, 3, 4],
+    #  [5, 6, 2, 8, 9],
+    #  [10, 11, 12, 3, 14],
+    #  [15, 16, 17, 18, 4]]
  */
 static VALUE
 na_diagonal(int argc, VALUE *argv, VALUE self)

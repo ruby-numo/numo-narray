@@ -473,11 +473,13 @@ na_s_array_shape(VALUE mod, VALUE ary)
   @return [Numo::NArray]
   @example
     Numo::NArray.new_like([[1,2,3],[4,5,6]])
-    => Numo::Int32#shape=[2,3](empty)
+    # => Numo::Int32#shape=[2,3](empty)
+
     Numo::DFloat.new_like([[1,2],[3,4]])
-    => Numo::DFloat#shape=[2,2](empty)
+    # => Numo::DFloat#shape=[2,2](empty)
+
     Numo::NArray.new_like([1,2i,3])
-    => Numo::DComplex#shape=[3](empty)
+    # => Numo::DComplex#shape=[3](empty)
 */
 VALUE
 na_s_new_like(VALUE type, VALUE obj)

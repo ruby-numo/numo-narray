@@ -23,7 +23,7 @@ static void
   @param [Numeric,Array,Range] axis  Performs <%=name%> along the axis.
   @return [Numo::<%=class_name%>] returns result of <%=name%>.
   @example
-      Numo::DFloat[3,4,1,2].sort => Numo::DFloat[1,2,3,4]
+      Numo::DFloat[3,4,1,2].sort #=> Numo::DFloat[1,2,3,4]
 */
 static VALUE
 <%=c_func(-1)%>(int argc, VALUE *argv, VALUE self)

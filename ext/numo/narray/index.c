@@ -1024,19 +1024,20 @@ static VALUE na_slice(int argc, VALUE *argv, VALUE self)
   @return [Numo::NArray::<%=class_name%>] one-dimensional NArray view.
   @example
       x = Numo::DFloat.new(3,3,3).seq
-      => Numo::DFloat#shape=[3,3,3]
-       [[[0, 1, 2],
-         [3, 4, 5],
-         [6, 7, 8]],
-        [[9, 10, 11],
-         [12, 13, 14],
-         [15, 16, 17]],
-        [[18, 19, 20],
-         [21, 22, 23],
-         [24, 25, 26]]]
+      # => Numo::DFloat#shape=[3,3,3]
+      #  [[[0, 1, 2],
+      #    [3, 4, 5],
+      #    [6, 7, 8]],
+      #   [[9, 10, 11],
+      #    [12, 13, 14],
+      #    [15, 16, 17]],
+      #   [[18, 19, 20],
+      #    [21, 22, 23],
+      #    [24, 25, 26]]]
+
       x.at([0,1,2],[0,1,2],[-1,-2,-3])
-      => Numo::DFloat(view)#shape=[3]
-       [2, 13, 24]
+      # => Numo::DFloat(view)#shape=[3]
+      #  [2, 13, 24]
  */
 static VALUE na_at(int argc, VALUE *argv, VALUE self)
 {

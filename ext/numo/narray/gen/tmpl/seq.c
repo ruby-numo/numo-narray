@@ -60,11 +60,12 @@ static void
   @return [Numo::<%=class_name%>] self.
   @example
     Numo::DFloat.new(6).seq(1,-0.2)
-    => Numo::DFloat#shape=[6]
-       [1, 0.8, 0.6, 0.4, 0.2, 0]
+    # => Numo::DFloat#shape=[6]
+    # [1, 0.8, 0.6, 0.4, 0.2, 0]
+
     Numo::DComplex.new(6).seq(1,-0.2+0.2i)
-    => Numo::DComplex#shape=[6]
-       [1+0i, 0.8+0.2i, 0.6+0.4i, 0.4+0.6i, 0.2+0.8i, 0+1i]
+    # => Numo::DComplex#shape=[6]
+    # [1+0i, 0.8+0.2i, 0.6+0.4i, 0.4+0.6i, 0.2+0.8i, 0+1i]
 */
 static VALUE
 <%=c_func(-1)%>(int argc, VALUE *args, VALUE self)

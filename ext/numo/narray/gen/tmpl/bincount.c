@@ -115,22 +115,22 @@ static VALUE
     otherwise returns UInt32 or UInt64 depending on the size along last axis.
   @example
     Numo::Int32[0..4].bincount
-    => Numo::UInt32#shape=[5]
-       [1, 1, 1, 1, 1]
+    # => Numo::UInt32#shape=[5]
+    # [1, 1, 1, 1, 1]
 
     Numo::Int32[0, 1, 1, 3, 2, 1, 7].bincount
-    => Numo::UInt32#shape=[8]
-       [1, 3, 1, 1, 0, 0, 0, 1]
+    # => Numo::UInt32#shape=[8]
+    # [1, 3, 1, 1, 0, 0, 0, 1]
 
     x = Numo::Int32[0, 1, 1, 3, 2, 1, 7, 23]
     x.bincount.size == x.max+1
-    => true
+    # => true
 
     w = Numo::DFloat[0.3, 0.5, 0.2, 0.7, 1.0, -0.6]
     x = Numo::Int32[0, 1, 1, 2, 2, 2]
     x.bincount(w)
-    => Numo::DFloat#shape=[3]
-       [0.3, 0.7, 1.1]
+    # => Numo::DFloat#shape=[3]
+    # [0.3, 0.7, 1.1]
 
 */
 static VALUE

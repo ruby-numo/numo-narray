@@ -352,19 +352,19 @@ na_setup(VALUE self, int ndim, size_t *shape)
 
   @example
     i = Numo::Int64.new([2,4,3])
-    #=> Numo::Int64#shape=[2,4,3](empty)
+    # => Numo::Int64#shape=[2,4,3](empty)
 
     f = Numo::DFloat.new(3,4)
-    #=> Numo::DFloat#shape=[3,4](empty)
+    # => Numo::DFloat#shape=[3,4](empty)
 
     f.fill(2)
-    #=> Numo::DFloat#shape=[3,4]
+    # => Numo::DFloat#shape=[3,4]
     # [[2, 2, 2, 2],
     #  [2, 2, 2, 2],
     #  [2, 2, 2, 2]]
 
     x = Numo::NArray.new(5)
-    #=> in `new': allocator undefined for Numo::NArray (TypeError)
+    # => in `new': allocator undefined for Numo::NArray (TypeError)
     #   	from t.rb:9:in `<main>'
 
 */
@@ -448,10 +448,10 @@ na_initialize_copy(VALUE self, VALUE orig)
  *  but for typed NArray subclasses, e.g., DFloat, Int64.
  *  @example
  *    a = Numo::DFloat.zeros(3,5)
- *    => Numo::DFloat#shape=[3,5]
- *    [[0, 0, 0, 0, 0],
- *     [0, 0, 0, 0, 0],
- *     [0, 0, 0, 0, 0]]
+ *    # => Numo::DFloat#shape=[3,5]
+ *    # [[0, 0, 0, 0, 0],
+ *    #  [0, 0, 0, 0, 0],
+ *    #  [0, 0, 0, 0, 0]]
  */
 static VALUE
 na_s_zeros(int argc, VALUE *argv, VALUE klass)
@@ -472,10 +472,10 @@ na_s_zeros(int argc, VALUE *argv, VALUE klass)
  *  but for typed NArray subclasses, e.g., DFloat, Int64.
  *  @example
  *    a = Numo::DFloat.ones(3,5)
- *    => Numo::DFloat#shape=[3,5]
- *    [[1, 1, 1, 1, 1],
- *     [1, 1, 1, 1, 1],
- *     [1, 1, 1, 1, 1]]
+ *    # => Numo::DFloat#shape=[3,5]
+ *    # [[1, 1, 1, 1, 1],
+ *    #  [1, 1, 1, 1, 1],
+ *    #  [1, 1, 1, 1, 1]]
  */
 static VALUE
 na_s_ones(int argc, VALUE *argv, VALUE klass)
@@ -499,8 +499,8 @@ na_s_ones(int argc, VALUE *argv, VALUE klass)
 
   @example
     a = Numo::DFloat.linspace(-5,5,7)
-    => Numo::DFloat#shape=[7]
-    [-5, -3.33333, -1.66667, 0, 1.66667, 3.33333, 5]
+    # => Numo::DFloat#shape=[7]
+    # [-5, -3.33333, -1.66667, 0, 1.66667, 3.33333, 5]
  */
 static VALUE
 na_s_linspace(int argc, VALUE *argv, VALUE klass)
@@ -538,11 +538,12 @@ na_s_linspace(int argc, VALUE *argv, VALUE klass)
 
   @example
     Numo::DFloat.logspace(4,0,5,2)
-    => Numo::DFloat#shape=[5]
-       [16, 8, 4, 2, 1]
+    # => Numo::DFloat#shape=[5]
+    # [16, 8, 4, 2, 1]
+
     Numo::DComplex.logspace(0,1i*Math::PI,5,Math::E)
-    => Numo::DComplex#shape=[5]
-       [1+4.44659e-323i, 0.707107+0.707107i, 6.12323e-17+1i, -0.707107+0.707107i, ...]
+    # => Numo::DComplex#shape=[5]
+    # [1+4.44659e-323i, 0.707107+0.707107i, 6.12323e-17+1i, -0.707107+0.707107i, ...]
  */
 static VALUE
 na_s_logspace(int argc, VALUE *argv, VALUE klass)
@@ -576,10 +577,10 @@ na_s_logspace(int argc, VALUE *argv, VALUE klass)
   @return [Numo::NArray]  created NArray.
   @example
     a = Numo::DFloat.eye(3)
-    => Numo::DFloat#shape=[3,3]
-    [[1, 0, 0],
-     [0, 1, 0],
-     [0, 0, 1]]
+    # => Numo::DFloat#shape=[3,3]
+    # [[1, 0, 0],
+    #  [0, 1, 0],
+    #  [0, 0, 1]]
 */
 static VALUE
 na_s_eye(int argc, VALUE *argv, VALUE klass)
