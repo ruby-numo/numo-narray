@@ -1,41 +1,29 @@
 /*
-  Array element(s) set.
+  Array element(s) assignment.
   @overload []=(dim0,..,dimL,val)
-  @param [Numeric,Range,etc] dim0,..,dimL  Multi-dimensional Index.
+  @param [Numeric,Range,Array,Numo::Bit,Numo::Int32,Numo::Int64] dim0,..,dimL  Multi-dimensional Index.
   @param [Numeric,Numo::NArray,etc] val  Value(s) to be set to self.
-  @return [Numeric] returns val (last argument).
+  @return [Numeric] returns `val` (last argument).
 
-  --- Replace element(s) at +dim0+, +dim1+, ... (index/range/array/true
-  for each dimention). Broadcasting mechanism is applied.
+  Replaces element(s) at `dim0`, `dim1`, ... . Broadcasting mechanism is applied.
+
+  @see #[]
 
   @example
-      a = Numo::DFloat.new(3,4).seq
-      => Numo::DFloat#shape=[3,4]
-      [[0, 1, 2, 3],
-       [4, 5, 6, 7],
-       [8, 9, 10, 11]]
+      a = Numo::Bit.new(4,5).fill(0)
+      # => Numo::Bit#shape=[4,5]
+      # [[0, 0, 0, 0, 0],
+      #  [0, 0, 0, 0, 0],
+      #  [0, 0, 0, 0, 0],
+      #  [0, 0, 0, 0, 0]]
 
-      a[1,2]=99
+      a[(0..-1)%2,(1..-1)%2] = 1
       a
-      => Numo::DFloat#shape=[3,4]
-      [[0, 1, 2, 3],
-       [4, 5, 99, 7],
-       [8, 9, 10, 11]]
-
-      a[1,[0,2]] = [101,102]
-      a
-      => Numo::DFloat#shape=[3,4]
-      [[0, 1, 2, 3],
-       [101, 5, 102, 7],
-       [8, 9, 10, 11]]
-
-      a[1,true]=99
-      a
-      => Numo::DFloat#shape=[3,4]
-      [[0, 1, 2, 3],
-       [99, 99, 99, 99],
-       [8, 9, 10, 11]]
-
+      # => Numo::Bit#shape=[4,5]
+      # [[0, 1, 0, 1, 0],
+      #  [0, 0, 0, 0, 0],
+      #  [0, 1, 0, 1, 0],
+      #  [0, 0, 0, 0, 0]]
 */
 static VALUE
 <%=c_func(-1)%>(int argc, VALUE *argv, VALUE self)
