@@ -1014,14 +1014,101 @@ static VALUE na_slice(int argc, VALUE *argv, VALUE self)
     return na_aref_main(argc, argv, self, 1, nd);
 }
 
+/*
+  Multi-dimensional element reference.
+  Returns an element at `dim0`, `dim1`, ... are Numeric indices for each dimension, or returns a NArray View as a sliced array if `dim0`, `dim1`, ... includes other than Numeric index, e.g., Range or Array or true.
+  @overload [](dim0,...,dimL)
+  @param [Numeric,Range,Array,Numo::Int32,Numo::Int64,Numo::Bit,TrueClass,FalseClass,Symbol] dim0,...,dimL  multi-dimensional indices.
+  @return [Numeric,Numo::NArray] an element or NArray view.
+  @see #[]=
+  @see #at
+
+  @example
+      a = Numo::DFloat.new(4,5).seq
+      # => Numo::DFloat#shape=[4,5]
+      # [[0, 1, 2, 3, 4],
+      #  [5, 6, 7, 8, 9],
+      #  [10, 11, 12, 13, 14],
+      #  [15, 16, 17, 18, 19]]
+
+      a[1,1]
+      # => 6.0
+
+      a[1..3,1]
+      # => Numo::DFloat#shape=[3]
+      # [6, 11, 16]
+
+      a[1,[1,3,4]]
+      # => Numo::DFloat#shape=[3]
+      # [6, 8, 9]
+
+      a[true,2].fill(99)
+      a
+      # => Numo::DFloat#shape=[4,5]
+      # [[0, 1, 99, 3, 4],
+      #  [5, 6, 99, 8, 9],
+      #  [10, 11, 99, 13, 14],
+      #  [15, 16, 99, 18, 19]]
+ */
+static VALUE na_aref(int argc, VALUE *argv, VALUE self)
+{
+    // implemented in subclasses
+    return rb_f_notimplement(argc,argv,self);
+}
+
+/*
+  Multi-dimensional element assignment.
+  Replace element(s) at `dim0`, `dim1`, ... .
+  Broadcasting mechanism is applied.
+  @overload []=(dim0,...,dimL,val)
+  @param [Numeric,Range,Array,Numo::Int32,Numo::Int64,Numo::Bit,TrueClass,FalseClass,Symbol] dim0,...,dimL  multi-dimensional indices.
+  @param [Numeric,Numo::NArray,Array] val  Value(s) to be set to self.
+  @return [Numeric,Numo::NArray,Array] returns `val` (last argument).
+  @see #[]
+  @example
+      a = Numo::DFloat.new(3,4).seq
+      # => Numo::DFloat#shape=[3,4]
+      # [[0, 1, 2, 3],
+      #  [4, 5, 6, 7],
+      #  [8, 9, 10, 11]]
+
+      a[1,2]=99
+      a
+      # => Numo::DFloat#shape=[3,4]
+      # [[0, 1, 2, 3],
+      #  [4, 5, 99, 7],
+      #  [8, 9, 10, 11]]
+
+      a[1,[0,2]] = [101,102]
+      a
+      # => Numo::DFloat#shape=[3,4]
+      # [[0, 1, 2, 3],
+      #  [101, 5, 102, 7],
+      #  [8, 9, 10, 11]]
+
+      a[1,true]=99
+      a
+      # => Numo::DFloat#shape=[3,4]
+      # [[0, 1, 2, 3],
+      #  [99, 99, 99, 99],
+      #  [8, 9, 10, 11]]
+
+*/
+static VALUE na_aset(int argc, VALUE *argv, VALUE self)
+{
+    // implemented in subclasses
+    return rb_f_notimplement(argc,argv,self);
+}
 
 /*
   Multi-dimensional array indexing.
-  Same as [] for one-dimensional NArray.
   Similar to numpy's tuple indexing, i.e., `a[[1,2,..],[3,4,..]]`
-  @overload at(*indices)
-  @param [Numeric,Range,etc] *indices  Multi-dimensional Index Arrays.
-  @return [Numo::NArray::<%=class_name%>] one-dimensional NArray view.
+  Same as Numo::NArray#[] for one-dimensional NArray.
+  @overload at(dim0,...,dimL)
+  @param [Range,Array,Numo::Int32,Numo::Int64] dim0,...,dimL  multi-dimensional index arrays.
+  @return [Numo::NArray] one-dimensional NArray view.
+  @see #[]
+
   @example
       x = Numo::DFloat.new(3,3,3).seq
       # => Numo::DFloat#shape=[3,3,3]
@@ -1066,6 +1153,8 @@ void
 Init_nary_index()
 {
     rb_define_method(cNArray, "slice", na_slice, -1);
+    rb_define_method(cNArray, "[]", na_aref, -1);
+    rb_define_method(cNArray, "[]=", na_aset, -1);
     rb_define_method(cNArray, "at", na_at, -1);
 
     sym_ast        = ID2SYM(rb_intern("*"));

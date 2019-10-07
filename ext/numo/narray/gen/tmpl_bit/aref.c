@@ -1,11 +1,9 @@
 /*
-  Array indexing.
+  Multi-dimensional element reference.
   @overload [](dim0,...,dimL)
-  @param [Numeric,Range,Array,Numo::Bit,Numo::Int32,Numo::Int64] dim0,...,dimL  Multi-dimensional Index.
-  @return [Numo::Bit,Numeric] Element value or NArray view.
-
-  --- Returns an element at `dim0`, `dim1`, ... are Numeric indices for each dimension, or returns a NArray View as a sliced array if `dim0`, `dim1`, ... includes other than Numeric index, e.g., Range or Array or true.
-
+  @param [Numeric,Range,Array,Numo::Int32,Numo::Int64,Numo::Bit,TrueClass,FalseClass,Symbol] dim0,...,dimL  multi-dimensional indices.
+  @return [Numeric,Numo::Bit] an element or NArray view.
+  @see Numo::NArray#[]
   @see #[]=
 
   @example

@@ -1,12 +1,10 @@
 /*
-  Array element(s) assignment.
-  @overload []=(dim0,..,dimL,val)
-  @param [Numeric,Range,Array,Numo::Bit,Numo::Int32,Numo::Int64] dim0,..,dimL  Multi-dimensional Index.
-  @param [Numeric,Numo::NArray,etc] val  Value(s) to be set to self.
-  @return [Numeric] returns `val` (last argument).
-
-  Replaces element(s) at `dim0`, `dim1`, ... . Broadcasting mechanism is applied.
-
+  Multi-dimensional element assignment.
+  @overload []=(dim0,...,dimL,val)
+  @param [Numeric,Range,Array,Numo::Int32,Numo::Int64,Numo::Bit,TrueClass,FalseClass,Symbol] dim0,...,dimL  multi-dimensional indices.
+  @param [Numeric,Numo::NArray,Array] val  Value(s) to be set to self.
+  @return [Numeric,Numo::NArray,Array] returns `val` (last argument).
+  @see Numo::NArray#[]=
   @see #[]
 
   @example

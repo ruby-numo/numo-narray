@@ -1,41 +1,11 @@
 /*
-  Array element(s) set.
-  @overload []=(dim0,..,dimL,val)
-  @param [Numeric,Range,etc] dim0,..,dimL  Multi-dimensional Index.
-  @param [Numeric,Numo::NArray,etc] val  Value(s) to be set to self.
-  @return [Numeric] returns val (last argument).
-
-  --- Replace element(s) at +dim0+, +dim1+, ... (index/range/array/true
-  for each dimention). Broadcasting mechanism is applied.
-
-  @example
-      a = Numo::DFloat.new(3,4).seq
-      # => Numo::DFloat#shape=[3,4]
-      # [[0, 1, 2, 3],
-      #  [4, 5, 6, 7],
-      #  [8, 9, 10, 11]]
-
-      a[1,2]=99
-      a
-      # => Numo::DFloat#shape=[3,4]
-      # [[0, 1, 2, 3],
-      #  [4, 5, 99, 7],
-      #  [8, 9, 10, 11]]
-
-      a[1,[0,2]] = [101,102]
-      a
-      # => Numo::DFloat#shape=[3,4]
-      # [[0, 1, 2, 3],
-      #  [101, 5, 102, 7],
-      #  [8, 9, 10, 11]]
-
-      a[1,true]=99
-      a
-      # => Numo::DFloat#shape=[3,4]
-      # [[0, 1, 2, 3],
-      #  [99, 99, 99, 99],
-      #  [8, 9, 10, 11]]
-
+  Multi-dimensional element assignment.
+  @overload []=(dim0,...,dimL,val)
+  @param [Numeric,Range,Array,Numo::Int32,Numo::Int64,Numo::Bit,TrueClass,FalseClass,Symbol] dim0,...,dimL  multi-dimensional indices.
+  @param [Numeric,Numo::NArray,Array] val  Value(s) to be set to self.
+  @return [Numeric,Numo::NArray,Array] returns `val` (last argument).
+  @see Numo::NArray#[]=
+  @see #[]
 */
 static VALUE
 <%=c_func(-1)%>(int argc, VALUE *argv, VALUE self)
