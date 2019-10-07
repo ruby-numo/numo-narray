@@ -3974,23 +3974,23 @@ Only Integer-types has this method.</p>
     <p class="tag_title">Examples:</p>
     
       
-      <pre class="example code"><code>Numo::Int32[0..4].bincount
-=&gt; Numo::UInt32#shape=[5]
-   [1, 1, 1, 1, 1]
-
-Numo::Int32[0, 1, 1, 3, 2, 1, 7].bincount
-=&gt; Numo::UInt32#shape=[8]
-   [1, 3, 1, 1, 0, 0, 0, 1]
-
-x = Numo::Int32[0, 1, 1, 3, 2, 1, 7, 23]
-x.bincount.size == x.max+1
-=&gt; true
-
-w = Numo::DFloat[0.3, 0.5, 0.2, 0.7, 1.0, -0.6]
-x = Numo::Int32[0, 1, 1, 2, 2, 2]
-x.bincount(w)
-=&gt; Numo::DFloat#shape=[3]
-   [0.3, 0.7, 1.1]</code></pre>
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Numo::Int32 (class)">Int32</a></span></span><span class='lbracket'>[</span><span class='int'>0</span><span class='op'>..</span><span class='int'>4</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_bincount'>bincount</span>
+<span class='comment'># =&gt; Numo::UInt32#shape=[5]
+</span><span class='comment'># [1, 1, 1, 1, 1]
+</span>
+<span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Numo::Int32 (class)">Int32</a></span></span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>1</span><span class='comma'>,</span> <span class='int'>1</span><span class='comma'>,</span> <span class='int'>3</span><span class='comma'>,</span> <span class='int'>2</span><span class='comma'>,</span> <span class='int'>1</span><span class='comma'>,</span> <span class='int'>7</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_bincount'>bincount</span>
+<span class='comment'># =&gt; Numo::UInt32#shape=[8]
+</span><span class='comment'># [1, 3, 1, 1, 0, 0, 0, 1]
+</span>
+<span class='id identifier rubyid_x'>x</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Numo::Int32 (class)">Int32</a></span></span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>1</span><span class='comma'>,</span> <span class='int'>1</span><span class='comma'>,</span> <span class='int'>3</span><span class='comma'>,</span> <span class='int'>2</span><span class='comma'>,</span> <span class='int'>1</span><span class='comma'>,</span> <span class='int'>7</span><span class='comma'>,</span> <span class='int'>23</span><span class='rbracket'>]</span>
+<span class='id identifier rubyid_x'>x</span><span class='period'>.</span><span class='id identifier rubyid_bincount'>bincount</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>==</span> <span class='id identifier rubyid_x'>x</span><span class='period'>.</span><span class='id identifier rubyid_max'>max</span><span class='op'>+</span><span class='int'>1</span>
+<span class='comment'># =&gt; true
+</span>
+<span class='id identifier rubyid_w'>w</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DFloat.html" title="Numo::DFloat (class)">DFloat</a></span></span><span class='lbracket'>[</span><span class='float'>0.3</span><span class='comma'>,</span> <span class='float'>0.5</span><span class='comma'>,</span> <span class='float'>0.2</span><span class='comma'>,</span> <span class='float'>0.7</span><span class='comma'>,</span> <span class='float'>1.0</span><span class='comma'>,</span> <span class='op'>-</span><span class='float'>0.6</span><span class='rbracket'>]</span>
+<span class='id identifier rubyid_x'>x</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Numo::Int32 (class)">Int32</a></span></span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>1</span><span class='comma'>,</span> <span class='int'>1</span><span class='comma'>,</span> <span class='int'>2</span><span class='comma'>,</span> <span class='int'>2</span><span class='comma'>,</span> <span class='int'>2</span><span class='rbracket'>]</span>
+<span class='id identifier rubyid_x'>x</span><span class='period'>.</span><span class='id identifier rubyid_bincount'>bincount</span><span class='lparen'>(</span><span class='id identifier rubyid_w'>w</span><span class='rparen'>)</span>
+<span class='comment'># =&gt; Numo::DFloat#shape=[3]
+</span><span class='comment'># [0.3, 0.7, 1.1]</span></code></pre>
     
   </div>
 
@@ -5180,7 +5180,6 @@ for diagonals below the main diagonal.</p>
       <pre class="lines">
 
 
-5790
 5791
 5792
 5793
@@ -5230,10 +5229,11 @@ for diagonals below the main diagonal.</p>
 5837
 5838
 5839
-5840</pre>
+5840
+5841</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 5790</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 5791</span>
 
 static VALUE
 int32_eye(int argc, VALUE *argv, VALUE self)
@@ -6580,9 +6580,6 @@ int32_max_index(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-6666
-6667
-6668
 6669
 6670
 6671
@@ -6596,10 +6593,13 @@ int32_max_index(int argc, VALUE *argv, VALUE self)
 6679
 6680
 6681
-6682</pre>
+6682
+6683
+6684
+6685</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 6666</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 6669</span>
 
 static VALUE
 int32_median(int argc, VALUE *argv, VALUE self)
@@ -7317,9 +7317,6 @@ int32_ne(VALUE self, VALUE other)
       <pre class="lines">
 
 
-5997
-5998
-5999
 6000
 6001
 6002
@@ -7340,10 +7337,13 @@ int32_ne(VALUE self, VALUE other)
 6017
 6018
 6019
-6020</pre>
+6020
+6021
+6022
+6023</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 5997</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 6000</span>
 
 static VALUE
 int32_poly(VALUE self, VALUE args)
@@ -7642,15 +7642,17 @@ int32_ptp(int argc, VALUE *argv, VALUE self)
     <p class="tag_title">Examples:</p>
     
       
-      <pre class="example code"><code>Numo::DFloat.new(6).rand
-=&gt; Numo::DFloat#shape=[6]
-   [0.0617545, 0.373067, 0.794815, 0.201042, 0.116041, 0.344032]
-Numo::DComplex.new(6).rand(5+5i)
-=&gt; Numo::DComplex#shape=[6]
-   [2.69974+3.68908i, 0.825443+0.254414i, 0.540323+0.34354i, 4.52061+2.39322i, ...]
-Numo::Int32.new(6).rand(2,5)
-=&gt; Numo::Int32#shape=[6]
-   [4, 3, 3, 2, 4, 2]</code></pre>
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DFloat.html" title="Numo::DFloat (class)">DFloat</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="NArray.html#initialize-instance_method" title="Numo::NArray#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>6</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_rand'>rand</span>
+<span class='comment'># =&gt; Numo::DFloat#shape=[6]
+</span><span class='comment'># [0.0617545, 0.373067, 0.794815, 0.201042, 0.116041, 0.344032]
+</span>
+<span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DComplex.html" title="Numo::DComplex (class)">DComplex</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="NArray.html#initialize-instance_method" title="Numo::NArray#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>6</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_rand'>rand</span><span class='lparen'>(</span><span class='int'>5</span><span class='op'>+</span><span class='imaginary'>5i</span><span class='rparen'>)</span>
+<span class='comment'># =&gt; Numo::DComplex#shape=[6]
+</span><span class='comment'># [2.69974+3.68908i, 0.825443+0.254414i, 0.540323+0.34354i, 4.52061+2.39322i, ...]
+</span>
+<span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Numo::Int32 (class)">Int32</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="NArray.html#initialize-instance_method" title="Numo::NArray#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>6</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_rand'>rand</span><span class='lparen'>(</span><span class='int'>2</span><span class='comma'>,</span><span class='int'>5</span><span class='rparen'>)</span>
+<span class='comment'># =&gt; Numo::Int32#shape=[6]
+</span><span class='comment'># [4, 3, 3, 2, 4, 2]</span></code></pre>
     
   </div>
 
@@ -7714,9 +7716,6 @@ Numo::Int32.new(6).rand(2,5)
       <pre class="lines">
 
 
-5940
-5941
-5942
 5943
 5944
 5945
@@ -7742,10 +7741,13 @@ Numo::Int32.new(6).rand(2,5)
 5965
 5966
 5967
-5968</pre>
+5968
+5969
+5970
+5971</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 5940</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 5943</span>
 
 static VALUE
 int32_rand(int argc, VALUE *args, VALUE self)
@@ -7762,7 +7764,7 @@ int32_rand(int argc, VALUE *args, VALUE self)
         g.low = m_zero;
         g.max = high = m_num_to_data(v1);
     
-#line 153 &quot;/home/masa/numo/numo-narray/ext/numo/narray/gen/tmpl/rand.c&quot;
+#line 155 &quot;/home/masa/numo/numo-narray/ext/numo/narray/gen/tmpl/rand.c&quot;
     } else {
         g.low = m_num_to_data(v1);
         high = m_num_to_data(v2);
@@ -7880,12 +7882,13 @@ where i is 1-dimensional index.</p>
     <p class="tag_title">Examples:</p>
     
       
-      <pre class="example code"><code>Numo::DFloat.new(6).seq(1,-0.2)
-=&gt; Numo::DFloat#shape=[6]
-   [1, 0.8, 0.6, 0.4, 0.2, 0]
-Numo::DComplex.new(6).seq(1,-0.2+0.2i)
-=&gt; Numo::DComplex#shape=[6]
-   [1+0i, 0.8+0.2i, 0.6+0.4i, 0.4+0.6i, 0.2+0.8i, 0+1i]</code></pre>
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DFloat.html" title="Numo::DFloat (class)">DFloat</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="NArray.html#initialize-instance_method" title="Numo::NArray#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>6</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_seq'>seq</span><span class='lparen'>(</span><span class='int'>1</span><span class='comma'>,</span><span class='op'>-</span><span class='float'>0.2</span><span class='rparen'>)</span>
+<span class='comment'># =&gt; Numo::DFloat#shape=[6]
+</span><span class='comment'># [1, 0.8, 0.6, 0.4, 0.2, 0]
+</span>
+<span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DComplex.html" title="Numo::DComplex (class)">DComplex</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="NArray.html#initialize-instance_method" title="Numo::NArray#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>6</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_seq'>seq</span><span class='lparen'>(</span><span class='int'>1</span><span class='comma'>,</span><span class='op'>-</span><span class='float'>0.2</span><span class='op'>+</span><span class='imaginary'>0.2i</span><span class='rparen'>)</span>
+<span class='comment'># =&gt; Numo::DComplex#shape=[6]
+</span><span class='comment'># [1+0i, 0.8+0.2i, 0.6+0.4i, 0.4+0.6i, 0.2+0.8i, 0+1i]</span></code></pre>
     
   </div>
 
@@ -7949,7 +7952,6 @@ Numo::DComplex.new(6).seq(1,-0.2+0.2i)
       <pre class="lines">
 
 
-5726
 5727
 5728
 5729
@@ -7969,10 +7971,11 @@ Numo::DComplex.new(6).seq(1,-0.2+0.2i)
 5743
 5744
 5745
-5746</pre>
+5746
+5747</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 5726</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 5727</span>
 
 static VALUE
 int32_seq(int argc, VALUE *args, VALUE self)
@@ -7987,11 +7990,11 @@ int32_seq(int argc, VALUE *args, VALUE self)
     g-&gt;step = m_one;
     g-&gt;count = 0;
     rb_scan_args(argc, args, &quot;02&quot;, &amp;vbeg, &amp;vstep);
-#line 83 &quot;/home/masa/numo/numo-narray/ext/numo/narray/gen/tmpl/seq.c&quot;
+#line 84 &quot;/home/masa/numo/numo-narray/ext/numo/narray/gen/tmpl/seq.c&quot;
     if (vbeg!=Qnil) {g-&gt;beg = NUM2DBL(vbeg);}
     if (vstep!=Qnil) {g-&gt;step = NUM2DBL(vstep);}
 
-#line 90 &quot;/home/masa/numo/numo-narray/ext/numo/narray/gen/tmpl/seq.c&quot;
+#line 91 &quot;/home/masa/numo/numo-narray/ext/numo/narray/gen/tmpl/seq.c&quot;
     na_ndloop3(&amp;ndf, g, 1, self);
     return self;
 }</pre>
@@ -8093,7 +8096,7 @@ int32_sign(VALUE self)
     <p class="tag_title">Examples:</p>
     
       
-      <pre class="example code"><code>Numo::DFloat[3,4,1,2].sort =&gt; Numo::DFloat[1,2,3,4]</code></pre>
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DFloat.html" title="Numo::DFloat (class)">DFloat</a></span></span><span class='lbracket'>[</span><span class='int'>3</span><span class='comma'>,</span><span class='int'>4</span><span class='comma'>,</span><span class='int'>1</span><span class='comma'>,</span><span class='int'>2</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_sort'>sort</span> <span class='comment'>#=&gt; Numo::DFloat[1,2,3,4]</span></code></pre>
     
   </div>
 
@@ -8142,9 +8145,6 @@ int32_sign(VALUE self)
       <pre class="lines">
 
 
-6255
-6256
-6257
 6258
 6259
 6260
@@ -8159,10 +8159,13 @@ int32_sign(VALUE self)
 6269
 6270
 6271
-6272</pre>
+6272
+6273
+6274
+6275</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 6255</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 6258</span>
 
 static VALUE
 int32_sort(int argc, VALUE *argv, VALUE self)
@@ -8209,7 +8212,7 @@ int32_sort(int argc, VALUE *argv, VALUE self)
     <p class="tag_title">Examples:</p>
     
       
-      <pre class="example code"><code>Numo::NArray[3,4,1,2].sort_index =&gt; Numo::Int32[2,3,0,1]</code></pre>
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NArray.html" title="Numo::NArray (class)">NArray</a></span></span><span class='lbracket'>[</span><span class='int'>3</span><span class='comma'>,</span><span class='int'>4</span><span class='comma'>,</span><span class='int'>1</span><span class='comma'>,</span><span class='int'>2</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_sort_index'>sort_index</span> <span class='comment'>#=&gt; Numo::Int32[2,3,0,1]</span></code></pre>
     
   </div>
 
@@ -8258,9 +8261,6 @@ int32_sort(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-6583
-6584
-6585
 6586
 6587
 6588
@@ -8299,10 +8299,13 @@ int32_sort(int argc, VALUE *argv, VALUE self)
 6621
 6622
 6623
-6624</pre>
+6624
+6625
+6626
+6627</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 6583</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 6586</span>
 
 static VALUE
 int32_sort_index(int argc, VALUE *argv, VALUE self)
@@ -9077,7 +9080,7 @@ int32_bit_not(VALUE self)
 </div>
 
       <div id="footer">
-  Generated on Fri Oct  4 21:25:11 2019 by
+  Generated on Mon Oct  7 16:22:21 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.6.5).
 </div>
