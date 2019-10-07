@@ -374,7 +374,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#[]-instance_method" title="#[] (instance method)">#<strong>[]</strong>(dim0, ..., dimL)  &#x21d2; Numeric, NArray::DComplex </a>
+      <a href="#[]-instance_method" title="#[] (instance method)">#<strong>[]</strong>(dim0, ..., dimL)  &#x21d2; Numeric, Numo::DComplex </a>
     
 
     
@@ -388,7 +388,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Array element referenece or slice view.</p>
+    <span class="summary_desc"><div class='inline'><p>Multi-dimensional element reference.</p>
 </div></span>
   
 </li>
@@ -397,7 +397,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#[]=-instance_method" title="#[]= (instance method)">#<strong>[]=</strong>(dim0, .., dimL, val)  &#x21d2; Numeric </a>
+      <a href="#[]=-instance_method" title="#[]= (instance method)">#<strong>[]=</strong>(dim0, ..., dimL, val)  &#x21d2; Numeric, ... </a>
     
 
     
@@ -411,7 +411,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Array element(s) set.</p>
+    <span class="summary_desc"><div class='inline'><p>Multi-dimensional element assignment.</p>
 </div></span>
   
 </li>
@@ -2040,25 +2040,25 @@ dcomplex_s_cast(VALUE type, VALUE obj)
       <pre class="lines">
 
 
-2559
-2560
-2561
-2562
-2563
-2564
-2565
-2566
-2567
-2568
-2569
-2570
-2571
-2572
-2573
-2574</pre>
+2499
+2500
+2501
+2502
+2503
+2504
+2505
+2506
+2507
+2508
+2509
+2510
+2511
+2512
+2513
+2514</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 2559</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 2499</span>
 
 static VALUE
 dcomplex_mul(VALUE self, VALUE other)
@@ -2140,24 +2140,24 @@ dcomplex_mul(VALUE self, VALUE other)
       <pre class="lines">
 
 
-2779
-2780
-2781
-2782
-2783
-2784
-2785
-2786
-2787
-2788
-2789
-2790
-2791
-2792
-2793</pre>
+2719
+2720
+2721
+2722
+2723
+2724
+2725
+2726
+2727
+2728
+2729
+2730
+2731
+2732
+2733</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 2779</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 2719</span>
 
 static VALUE
 dcomplex_pow(VALUE self, VALUE other)
@@ -2238,25 +2238,25 @@ dcomplex_pow(VALUE self, VALUE other)
       <pre class="lines">
 
 
-2281
-2282
-2283
-2284
-2285
-2286
-2287
-2288
-2289
-2290
-2291
-2292
-2293
-2294
-2295
-2296</pre>
+2221
+2222
+2223
+2224
+2225
+2226
+2227
+2228
+2229
+2230
+2231
+2232
+2233
+2234
+2235
+2236</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 2281</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 2221</span>
 
 static VALUE
 dcomplex_add(VALUE self, VALUE other)
@@ -2338,25 +2338,25 @@ dcomplex_add(VALUE self, VALUE other)
       <pre class="lines">
 
 
-2420
-2421
-2422
-2423
-2424
-2425
-2426
-2427
-2428
-2429
-2430
-2431
-2432
-2433
-2434
-2435</pre>
+2360
+2361
+2362
+2363
+2364
+2365
+2366
+2367
+2368
+2369
+2370
+2371
+2372
+2373
+2374
+2375</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 2420</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 2360</span>
 
 static VALUE
 dcomplex_sub(VALUE self, VALUE other)
@@ -2423,18 +2423,18 @@ dcomplex_sub(VALUE self, VALUE other)
       <pre class="lines">
 
 
-2869
-2870
-2871
-2872
-2873
-2874
-2875
-2876
-2877</pre>
+2809
+2810
+2811
+2812
+2813
+2814
+2815
+2816
+2817</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 2869</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 2809</span>
 
 static VALUE
 dcomplex_minus(VALUE self)
@@ -2509,25 +2509,25 @@ dcomplex_minus(VALUE self)
       <pre class="lines">
 
 
-2698
-2699
-2700
-2701
-2702
-2703
-2704
-2705
-2706
-2707
-2708
-2709
-2710
-2711
-2712
-2713</pre>
+2638
+2639
+2640
+2641
+2642
+2643
+2644
+2645
+2646
+2647
+2648
+2649
+2650
+2651
+2652
+2653</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 2698</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 2638</span>
 
 static VALUE
 dcomplex_div(VALUE self, VALUE other)
@@ -2553,7 +2553,7 @@ dcomplex_div(VALUE self, VALUE other)
       <div class="method_details ">
   <h3 class="signature " id="[]-instance_method">
   
-    #<strong>[]</strong>(dim0, ..., dimL)  &#x21d2; <tt>Numeric</tt>, <tt>NArray::DComplex</tt> 
+    #<strong>[]</strong>(dim0, ..., dimL)  &#x21d2; <tt>Numeric</tt>, <tt><span class='object_link'><a href="" title="Numo::DComplex (class)">Numo::DComplex</a></span></tt> 
   
 
   
@@ -2561,49 +2561,13 @@ dcomplex_div(VALUE self, VALUE other)
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Array element referenece or slice view.
-— Returns the element at +dim0+, +dim1+, … are Numeric indices
-for each dimension, or returns a NArray View as a sliced subarray if
-+dim0+, +dim1+, … includes other than Numeric index, e.g., Range
-or Array or true.</p>
+    <p>Multi-dimensional element reference.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
-  <div class="examples">
-    <p class="tag_title">Examples:</p>
-    
-      
-      <pre class="example code"><code><span class='id identifier rubyid_a'>a</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DFloat.html" title="Numo::DFloat (class)">DFloat</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="NArray.html#initialize-instance_method" title="Numo::NArray#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>4</span><span class='comma'>,</span><span class='int'>5</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_seq'>seq</span>
-<span class='comment'># =&gt; Numo::DFloat#shape=[4,5]
-</span><span class='comment'># [[0, 1, 2, 3, 4],
-</span><span class='comment'>#  [5, 6, 7, 8, 9],
-</span><span class='comment'>#  [10, 11, 12, 13, 14],
-</span><span class='comment'>#  [15, 16, 17, 18, 19]]
-</span>
-<span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span><span class='int'>1</span><span class='rbracket'>]</span>
-<span class='comment'># =&gt; 6.0
-</span>
-<span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='int'>1</span><span class='op'>..</span><span class='int'>3</span><span class='comma'>,</span><span class='int'>1</span><span class='rbracket'>]</span>
-<span class='comment'># =&gt; Numo::DFloat#shape=[3]
-</span><span class='comment'># [6, 11, 16]
-</span>
-<span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span><span class='int'>3</span><span class='comma'>,</span><span class='int'>4</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
-<span class='comment'># =&gt; Numo::DFloat#shape=[3]
-</span><span class='comment'># [6, 8, 9]
-</span>
-<span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='kw'>true</span><span class='comma'>,</span><span class='int'>2</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_fill'>fill</span><span class='lparen'>(</span><span class='int'>99</span><span class='rparen'>)</span>
-<span class='id identifier rubyid_a'>a</span>
-<span class='comment'># =&gt; Numo::DFloat#shape=[4,5]
-</span><span class='comment'># [[0, 1, 99, 3, 4],
-</span><span class='comment'>#  [5, 6, 99, 8, 9],
-</span><span class='comment'>#  [10, 11, 99, 13, 14],
-</span><span class='comment'>#  [15, 16, 99, 18, 19]]</span></code></pre>
-    
-  </div>
-
   
 <p class="tag_title">Parameters:</p>
 <ul class="param">
@@ -2613,12 +2577,12 @@ or Array or true.</p>
         <span class='name'>dim0,...,dimL</span>
       
       
-        <span class='type'>(<tt>Numeric</tt>, <tt>Range</tt>, <tt>etc</tt>)</span>
+        <span class='type'>(<tt>Numeric</tt>, <tt>Range</tt>, <tt>Array</tt>, <tt><span class='object_link'><a href="Int32.html" title="Numo::Int32 (class)">Numo::Int32</a></span></tt>, <tt><span class='object_link'><a href="Int64.html" title="Numo::Int64 (class)">Numo::Int64</a></span></tt>, <tt><span class='object_link'><a href="Bit.html" title="Numo::Bit (class)">Numo::Bit</a></span></tt>, <tt>TrueClass</tt>, <tt>FalseClass</tt>, <tt>Symbol</tt>)</span>
       
       
       
         &mdash;
-        <div class='inline'><p>Multi-dimensional Index.</p>
+        <div class='inline'><p>multi-dimensional indices.</p>
 </div>
       
     </li>
@@ -2631,17 +2595,26 @@ or Array or true.</p>
     <li>
       
       
-        <span class='type'>(<tt>Numeric</tt>, <tt>NArray::DComplex</tt>)</span>
+        <span class='type'>(<tt>Numeric</tt>, <tt><span class='object_link'><a href="" title="Numo::DComplex (class)">Numo::DComplex</a></span></tt>)</span>
       
       
       
         &mdash;
-        <div class='inline'><p>Element object or NArray view.</p>
+        <div class='inline'><p>an element or NArray view.</p>
 </div>
       
     </li>
   
 </ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="NArray.html#[]-instance_method" title="Numo::NArray#[] (method)">NArray#[]</a></span></li>
+    
+      <li><span class='object_link'><a href="#[]=-instance_method" title="Numo::DComplex#[]= (method)">#[]=</a></span></li>
+    
+  </ul>
 
 </div><table class="source_code">
   <tr>
@@ -2649,24 +2622,24 @@ or Array or true.</p>
       <pre class="lines">
 
 
-1482
-1483
-1484
-1485
-1486
-1487
-1488
-1489
-1490
-1491
-1492
-1493
-1494
-1495
-1496</pre>
+1452
+1453
+1454
+1455
+1456
+1457
+1458
+1459
+1460
+1461
+1462
+1463
+1464
+1465
+1466</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 1482</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 1452</span>
 
 static VALUE
 dcomplex_aref(int argc, VALUE *argv, VALUE self)
@@ -2691,7 +2664,7 @@ dcomplex_aref(int argc, VALUE *argv, VALUE self)
       <div class="method_details ">
   <h3 class="signature " id="[]=-instance_method">
   
-    #<strong>[]=</strong>(dim0, .., dimL, val)  &#x21d2; <tt>Numeric</tt> 
+    #<strong>[]=</strong>(dim0, ..., dimL, val)  &#x21d2; <tt>Numeric</tt>, ... 
   
 
   
@@ -2699,63 +2672,28 @@ dcomplex_aref(int argc, VALUE *argv, VALUE self)
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Array element(s) set.
-— Replace element(s) at +dim0+, +dim1+, … (index/range/array/true
-for each dimention). Broadcasting mechanism is applied.</p>
+    <p>Multi-dimensional element assignment.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
-  <div class="examples">
-    <p class="tag_title">Examples:</p>
-    
-      
-      <pre class="example code"><code><span class='id identifier rubyid_a'>a</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DFloat.html" title="Numo::DFloat (class)">DFloat</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="NArray.html#initialize-instance_method" title="Numo::NArray#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>3</span><span class='comma'>,</span><span class='int'>4</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_seq'>seq</span>
-<span class='comment'># =&gt; Numo::DFloat#shape=[3,4]
-</span><span class='comment'># [[0, 1, 2, 3],
-</span><span class='comment'>#  [4, 5, 6, 7],
-</span><span class='comment'>#  [8, 9, 10, 11]]
-</span>
-<span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span><span class='int'>2</span><span class='rbracket'>]</span><span class='op'>=</span><span class='int'>99</span>
-<span class='id identifier rubyid_a'>a</span>
-<span class='comment'># =&gt; Numo::DFloat#shape=[3,4]
-</span><span class='comment'># [[0, 1, 2, 3],
-</span><span class='comment'>#  [4, 5, 99, 7],
-</span><span class='comment'>#  [8, 9, 10, 11]]
-</span>
-<span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>2</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='int'>101</span><span class='comma'>,</span><span class='int'>102</span><span class='rbracket'>]</span>
-<span class='id identifier rubyid_a'>a</span>
-<span class='comment'># =&gt; Numo::DFloat#shape=[3,4]
-</span><span class='comment'># [[0, 1, 2, 3],
-</span><span class='comment'>#  [101, 5, 102, 7],
-</span><span class='comment'>#  [8, 9, 10, 11]]
-</span>
-<span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span><span class='kw'>true</span><span class='rbracket'>]</span><span class='op'>=</span><span class='int'>99</span>
-<span class='id identifier rubyid_a'>a</span>
-<span class='comment'># =&gt; Numo::DFloat#shape=[3,4]
-</span><span class='comment'># [[0, 1, 2, 3],
-</span><span class='comment'>#  [99, 99, 99, 99],
-</span><span class='comment'>#  [8, 9, 10, 11]]</span></code></pre>
-    
-  </div>
-
   
 <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
       
-        <span class='name'>dim0,..,dimL</span>
+        <span class='name'>dim0,...,dimL</span>
       
       
-        <span class='type'>(<tt>Numeric</tt>, <tt>Range</tt>, <tt>etc</tt>)</span>
+        <span class='type'>(<tt>Numeric</tt>, <tt>Range</tt>, <tt>Array</tt>, <tt><span class='object_link'><a href="Int32.html" title="Numo::Int32 (class)">Numo::Int32</a></span></tt>, <tt><span class='object_link'><a href="Int64.html" title="Numo::Int64 (class)">Numo::Int64</a></span></tt>, <tt><span class='object_link'><a href="Bit.html" title="Numo::Bit (class)">Numo::Bit</a></span></tt>, <tt>TrueClass</tt>, <tt>FalseClass</tt>, <tt>Symbol</tt>)</span>
       
       
       
         &mdash;
-        <div class='inline'><p>Multi-dimensional Index.</p>
+        <div class='inline'><p>multi-dimensional indices.</p>
 </div>
       
     </li>
@@ -2765,7 +2703,7 @@ for each dimention). Broadcasting mechanism is applied.</p>
         <span class='name'>val</span>
       
       
-        <span class='type'>(<tt>Numeric</tt>, <tt><span class='object_link'><a href="NArray.html" title="Numo::NArray (class)">Numo::NArray</a></span></tt>, <tt>etc</tt>)</span>
+        <span class='type'>(<tt>Numeric</tt>, <tt><span class='object_link'><a href="NArray.html" title="Numo::NArray (class)">Numo::NArray</a></span></tt>, <tt>Array</tt>)</span>
       
       
       
@@ -2783,17 +2721,26 @@ for each dimention). Broadcasting mechanism is applied.</p>
     <li>
       
       
-        <span class='type'>(<tt>Numeric</tt>)</span>
+        <span class='type'>(<tt>Numeric</tt>, <tt><span class='object_link'><a href="NArray.html" title="Numo::NArray (class)">Numo::NArray</a></span></tt>, <tt>Array</tt>)</span>
       
       
       
         &mdash;
-        <div class='inline'><p>returns val (last argument).</p>
+        <div class='inline'><p>returns <code>val</code> (last argument).</p>
 </div>
       
     </li>
   
 </ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="NArray.html#[]=-instance_method" title="Numo::NArray#[]= (method)">NArray#[]=</a></span></li>
+    
+      <li><span class='object_link'><a href="#[]-instance_method" title="Numo::DComplex#[] (method)">#[]</a></span></li>
+    
+  </ul>
 
 </div><table class="source_code">
   <tr>
@@ -2801,35 +2748,35 @@ for each dimention). Broadcasting mechanism is applied.</p>
       <pre class="lines">
 
 
-1539
-1540
-1541
-1542
-1543
-1544
-1545
-1546
-1547
-1548
-1549
-1550
-1551
-1552
-1553
-1554
-1555
-1556
-1557
-1558
-1559
-1560
-1561
-1562
-1563
-1564</pre>
+1479
+1480
+1481
+1482
+1483
+1484
+1485
+1486
+1487
+1488
+1489
+1490
+1491
+1492
+1493
+1494
+1495
+1496
+1497
+1498
+1499
+1500
+1501
+1502
+1503
+1504</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 1539</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 1479</span>
 
 static VALUE
 dcomplex_aset(int argc, VALUE *argv, VALUE self)
@@ -2906,18 +2853,18 @@ dcomplex_aset(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-2149
-2150
-2151
-2152
-2153
-2154
-2155
-2156
-2157</pre>
+2089
+2090
+2091
+2092
+2093
+2094
+2095
+2096
+2097</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 2149</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 2089</span>
 
 static VALUE
 dcomplex_abs(VALUE self)
@@ -3063,18 +3010,18 @@ dcomplex_allocate(VALUE self)
       <pre class="lines">
 
 
-3472
-3473
-3474
-3475
-3476
-3477
-3478
-3479
-3480</pre>
+3412
+3413
+3414
+3415
+3416
+3417
+3418
+3419
+3420</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 3472</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 3412</span>
 
 static VALUE
 dcomplex_arg(VALUE self)
@@ -3134,18 +3081,18 @@ dcomplex_arg(VALUE self)
       <pre class="lines">
 
 
-4018
-4019
-4020
-4021
-4022
-4023
-4024
-4025
-4026</pre>
+3958
+3959
+3960
+3961
+3962
+3963
+3964
+3965
+3966</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 4018</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 3958</span>
 
 static VALUE
 dcomplex_ceil(VALUE self)
@@ -3201,14 +3148,14 @@ dcomplex_ceil(VALUE self)
       <pre class="lines">
 
 
-1573
-1574
-1575
-1576
-1577</pre>
+1513
+1514
+1515
+1516
+1517</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 1573</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 1513</span>
 
 static VALUE
 dcomplex_coerce_cast(VALUE self, VALUE type)
@@ -3268,18 +3215,18 @@ dcomplex_coerce_cast(VALUE self, VALUE type)
       <pre class="lines">
 
 
-3205
-3206
-3207
-3208
-3209
-3210
-3211
-3212
-3213</pre>
+3145
+3146
+3147
+3148
+3149
+3150
+3151
+3152
+3153</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 3205</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 3145</span>
 
 static VALUE
 dcomplex_conj(VALUE self)
@@ -3354,25 +3301,25 @@ dcomplex_conj(VALUE self)
       <pre class="lines">
 
 
-4318
-4319
-4320
-4321
-4322
-4323
-4324
-4325
-4326
-4327
-4328
-4329
-4330
-4331
-4332
-4333</pre>
+4258
+4259
+4260
+4261
+4262
+4263
+4264
+4265
+4266
+4267
+4268
+4269
+4270
+4271
+4272
+4273</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 4318</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 4258</span>
 
 static VALUE
 dcomplex_copysign(VALUE self, VALUE other)
@@ -3473,24 +3420,24 @@ dcomplex_copysign(VALUE self, VALUE other)
       <pre class="lines">
 
 
-5122
-5123
-5124
-5125
-5126
-5127
-5128
-5129
-5130
-5131
-5132
-5133
-5134
-5135
-5136</pre>
+5062
+5063
+5064
+5065
+5066
+5067
+5068
+5069
+5070
+5071
+5072
+5073
+5074
+5075
+5076</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 5122</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 5062</span>
 
 static VALUE
 dcomplex_cumprod(int argc, VALUE *argv, VALUE self)
@@ -3590,24 +3537,24 @@ dcomplex_cumprod(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-5047
-5048
-5049
-5050
-5051
-5052
-5053
-5054
-5055
-5056
-5057
-5058
-5059
-5060
-5061</pre>
+4987
+4988
+4989
+4990
+4991
+4992
+4993
+4994
+4995
+4996
+4997
+4998
+4999
+5000
+5001</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 5047</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 4987</span>
 
 static VALUE
 dcomplex_cumsum(int argc, VALUE *argv, VALUE self)
@@ -3703,18 +3650,18 @@ For a block <code>{|x| ... }</code>,</p>
       <pre class="lines">
 
 
-1836
-1837
-1838
-1839
-1840
-1841
-1842
-1843
-1844</pre>
+1776
+1777
+1778
+1779
+1780
+1781
+1782
+1783
+1784</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 1836</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 1776</span>
 
 static VALUE
 dcomplex_each(VALUE self)
@@ -3819,18 +3766,18 @@ For a block <code>{|x,i,j,...| ... }</code>,</p>
       <pre class="lines">
 
 
-1991
-1992
-1993
-1994
-1995
-1996
-1997
-1998
-1999</pre>
+1931
+1932
+1933
+1934
+1935
+1936
+1937
+1938
+1939</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 1991</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 1931</span>
 
 static VALUE
 dcomplex_each_with_index(VALUE self)
@@ -3905,24 +3852,24 @@ dcomplex_each_with_index(VALUE self)
       <pre class="lines">
 
 
-3645
-3646
-3647
-3648
-3649
-3650
-3651
-3652
-3653
-3654
-3655
-3656
-3657
-3658
-3659</pre>
+3585
+3586
+3587
+3588
+3589
+3590
+3591
+3592
+3593
+3594
+3595
+3596
+3597
+3598
+3599</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 3645</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 3585</span>
 
 static VALUE
 dcomplex_eq(VALUE self, VALUE other)
@@ -4107,60 +4054,60 @@ for diagonals below the main diagonal.</p>
       <pre class="lines">
 
 
-5486
-5487
-5488
-5489
-5490
-5491
-5492
-5493
-5494
-5495
-5496
-5497
-5498
-5499
-5500
-5501
-5502
-5503
-5504
-5505
-5506
-5507
-5508
-5509
-5510
-5511
-5512
-5513
-5514
-5515
-5516
-5517
-5518
-5519
-5520
-5521
-5522
-5523
-5524
-5525
-5526
-5527
-5528
-5529
-5530
-5531
-5532
-5533
-5534
-5535
-5536</pre>
+5426
+5427
+5428
+5429
+5430
+5431
+5432
+5433
+5434
+5435
+5436
+5437
+5438
+5439
+5440
+5441
+5442
+5443
+5444
+5445
+5446
+5447
+5448
+5449
+5450
+5451
+5452
+5453
+5454
+5455
+5456
+5457
+5458
+5459
+5460
+5461
+5462
+5463
+5464
+5465
+5466
+5467
+5468
+5469
+5470
+5471
+5472
+5473
+5474
+5475
+5476</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 5486</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 5426</span>
 
 static VALUE
 dcomplex_eye(int argc, VALUE *argv, VALUE self)
@@ -4277,18 +4224,18 @@ dcomplex_eye(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-1654
-1655
-1656
-1657
-1658
-1659
-1660
-1661
-1662</pre>
+1594
+1595
+1596
+1597
+1598
+1599
+1600
+1601
+1602</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 1654</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 1594</span>
 
 static VALUE
 dcomplex_fill(VALUE self, VALUE val)
@@ -4348,18 +4295,18 @@ dcomplex_fill(VALUE self, VALUE val)
       <pre class="lines">
 
 
-3850
-3851
-3852
-3853
-3854
-3855
-3856
-3857
-3858</pre>
+3790
+3791
+3792
+3793
+3794
+3795
+3796
+3797
+3798</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 3850</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 3790</span>
 
 static VALUE
 dcomplex_floor(VALUE self)
@@ -4434,21 +4381,21 @@ dcomplex_floor(VALUE self)
       <pre class="lines">
 
 
-1714
-1715
-1716
-1717
-1718
-1719
-1720
-1721
-1722
-1723
-1724
-1725</pre>
+1654
+1655
+1656
+1657
+1658
+1659
+1660
+1661
+1662
+1663
+1664
+1665</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 1714</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 1654</span>
 
 static VALUE
 dcomplex_format(int argc, VALUE *argv, VALUE self)
@@ -4526,20 +4473,20 @@ dcomplex_format(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-1765
-1766
-1767
-1768
-1769
-1770
-1771
-1772
-1773
-1774
-1775</pre>
+1705
+1706
+1707
+1708
+1709
+1710
+1711
+1712
+1713
+1714
+1715</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 1765</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 1705</span>
 
 static VALUE
 dcomplex_format_to_a(int argc, VALUE *argv, VALUE self)
@@ -4601,18 +4548,18 @@ dcomplex_format_to_a(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-3289
-3290
-3291
-3292
-3293
-3294
-3295
-3296
-3297</pre>
+3229
+3230
+3231
+3232
+3233
+3234
+3235
+3236
+3237</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 3289</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 3229</span>
 
 static VALUE
 dcomplex_im(VALUE self)
@@ -4672,18 +4619,18 @@ dcomplex_im(VALUE self)
       <pre class="lines">
 
 
-3411
-3412
-3413
-3414
-3415
-3416
-3417
-3418
-3419</pre>
+3351
+3352
+3353
+3354
+3355
+3356
+3357
+3358
+3359</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 3411</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 3351</span>
 
 static VALUE
 dcomplex_imag(VALUE self)
@@ -4739,14 +4686,14 @@ dcomplex_imag(VALUE self)
       <pre class="lines">
 
 
-1792
-1793
-1794
-1795
-1796</pre>
+1732
+1733
+1734
+1735
+1736</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 1792</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 1732</span>
 
 static VALUE
 dcomplex_inspect(VALUE ary)
@@ -4802,18 +4749,18 @@ dcomplex_inspect(VALUE ary)
       <pre class="lines">
 
 
-4565
-4566
-4567
-4568
-4569
-4570
-4571
-4572
-4573</pre>
+4505
+4506
+4507
+4508
+4509
+4510
+4511
+4512
+4513</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 4565</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 4505</span>
 
 static VALUE
 dcomplex_isfinite(VALUE self)
@@ -4873,18 +4820,18 @@ dcomplex_isfinite(VALUE self)
       <pre class="lines">
 
 
-4421
-4422
-4423
-4424
-4425
-4426
-4427
-4428
-4429</pre>
+4361
+4362
+4363
+4364
+4365
+4366
+4367
+4368
+4369</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 4421</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 4361</span>
 
 static VALUE
 dcomplex_isinf(VALUE self)
@@ -4944,18 +4891,18 @@ dcomplex_isinf(VALUE self)
       <pre class="lines">
 
 
-4373
-4374
-4375
-4376
-4377
-4378
-4379
-4380
-4381</pre>
+4313
+4314
+4315
+4316
+4317
+4318
+4319
+4320
+4321</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 4373</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 4313</span>
 
 static VALUE
 dcomplex_isnan(VALUE self)
@@ -5015,18 +4962,18 @@ dcomplex_isnan(VALUE self)
       <pre class="lines">
 
 
-4517
-4518
-4519
-4520
-4521
-4522
-4523
-4524
-4525</pre>
+4457
+4458
+4459
+4460
+4461
+4462
+4463
+4464
+4465</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 4517</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 4457</span>
 
 static VALUE
 dcomplex_isneginf(VALUE self)
@@ -5086,18 +5033,18 @@ dcomplex_isneginf(VALUE self)
       <pre class="lines">
 
 
-4469
-4470
-4471
-4472
-4473
-4474
-4475
-4476
-4477</pre>
+4409
+4410
+4411
+4412
+4413
+4414
+4415
+4416
+4417</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 4469</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 4409</span>
 
 static VALUE
 dcomplex_isposinf(VALUE self)
@@ -5206,27 +5153,27 @@ dcomplex_isposinf(VALUE self)
       <pre class="lines">
 
 
-4733
-4734
-4735
-4736
-4737
-4738
-4739
-4740
-4741
-4742
-4743
-4744
-4745
-4746
-4747
-4748
-4749
-4750</pre>
+4673
+4674
+4675
+4676
+4677
+4678
+4679
+4680
+4681
+4682
+4683
+4684
+4685
+4686
+4687
+4688
+4689
+4690</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 4733</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 4673</span>
 
 static VALUE
 dcomplex_kahan_sum(int argc, VALUE *argv, VALUE self)
@@ -5361,29 +5308,29 @@ Applicable classes: DFloat, SFloat, DComplex, SCopmplex.</p>
       <pre class="lines">
 
 
-5423
-5424
-5425
-5426
-5427
-5428
-5429
-5430
-5431
-5432
-5433
-5434
-5435
-5436
-5437
-5438
-5439
-5440
-5441
-5442</pre>
+5363
+5364
+5365
+5366
+5367
+5368
+5369
+5370
+5371
+5372
+5373
+5374
+5375
+5376
+5377
+5378
+5379
+5380
+5381
+5382</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 5423</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 5363</span>
 
 static VALUE
 dcomplex_logseq(int argc, VALUE *args, VALUE self)
@@ -5454,18 +5401,18 @@ dcomplex_logseq(int argc, VALUE *args, VALUE self)
       <pre class="lines">
 
 
-1920
-1921
-1922
-1923
-1924
-1925
-1926
-1927
-1928</pre>
+1860
+1861
+1862
+1863
+1864
+1865
+1866
+1867
+1868</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 1920</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 1860</span>
 
 static VALUE
 dcomplex_map(VALUE self)
@@ -5572,18 +5519,18 @@ For a block <code>{|x,i,j,...| ... }</code>,</p>
       <pre class="lines">
 
 
-2088
-2089
-2090
-2091
-2092
-2093
-2094
-2095
-2096</pre>
+2028
+2029
+2030
+2031
+2032
+2033
+2034
+2035
+2036</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 2088</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 2028</span>
 
 static VALUE
 dcomplex_map_with_index(VALUE self)
@@ -5692,27 +5639,27 @@ dcomplex_map_with_index(VALUE self)
       <pre class="lines">
 
 
-4792
-4793
-4794
-4795
-4796
-4797
-4798
-4799
-4800
-4801
-4802
-4803
-4804
-4805
-4806
-4807
-4808
-4809</pre>
+4732
+4733
+4734
+4735
+4736
+4737
+4738
+4739
+4740
+4741
+4742
+4743
+4744
+4745
+4746
+4747
+4748
+4749</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 4792</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 4732</span>
 
 static VALUE
 dcomplex_mean(int argc, VALUE *argv, VALUE self)
@@ -5841,29 +5788,29 @@ dcomplex_mean(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-5249
-5250
-5251
-5252
-5253
-5254
-5255
-5256
-5257
-5258
-5259
-5260
-5261
-5262
-5263
-5264
-5265
-5266
-5267
-5268</pre>
+5189
+5190
+5191
+5192
+5193
+5194
+5195
+5196
+5197
+5198
+5199
+5200
+5201
+5202
+5203
+5204
+5205
+5206
+5207
+5208</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 5249</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 5189</span>
 
 static VALUE
 dcomplex_mulsum(int argc, VALUE *argv, VALUE self)
@@ -5949,24 +5896,24 @@ dcomplex_mulsum(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-3702
-3703
-3704
-3705
-3706
-3707
-3708
-3709
-3710
-3711
-3712
-3713
-3714
-3715
-3716</pre>
+3642
+3643
+3644
+3645
+3646
+3647
+3648
+3649
+3650
+3651
+3652
+3653
+3654
+3655
+3656</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 3702</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 3642</span>
 
 static VALUE
 dcomplex_ne(VALUE self, VALUE other)
@@ -6051,24 +5998,24 @@ dcomplex_ne(VALUE self, VALUE other)
       <pre class="lines">
 
 
-3759
-3760
-3761
-3762
-3763
-3764
-3765
-3766
-3767
-3768
-3769
-3770
-3771
-3772
-3773</pre>
+3699
+3700
+3701
+3702
+3703
+3704
+3705
+3706
+3707
+3708
+3709
+3710
+3711
+3712
+3713</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 3759</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 3699</span>
 
 static VALUE
 dcomplex_nearly_eq(VALUE self, VALUE other)
@@ -6146,33 +6093,33 @@ dcomplex_nearly_eq(VALUE self, VALUE other)
       <pre class="lines">
 
 
-5766
-5767
-5768
-5769
-5770
-5771
-5772
-5773
-5774
-5775
-5776
-5777
-5778
-5779
-5780
-5781
-5782
-5783
-5784
-5785
-5786
-5787
-5788
-5789</pre>
+5706
+5707
+5708
+5709
+5710
+5711
+5712
+5713
+5714
+5715
+5716
+5717
+5718
+5719
+5720
+5721
+5722
+5723
+5724
+5725
+5726
+5727
+5728
+5729</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 5766</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 5706</span>
 
 static VALUE
 dcomplex_poly(VALUE self, VALUE args)
@@ -6296,27 +6243,27 @@ dcomplex_poly(VALUE self, VALUE args)
       <pre class="lines">
 
 
-4674
-4675
-4676
-4677
-4678
-4679
-4680
-4681
-4682
-4683
-4684
-4685
-4686
-4687
-4688
-4689
-4690
-4691</pre>
+4614
+4615
+4616
+4617
+4618
+4619
+4620
+4621
+4622
+4623
+4624
+4625
+4626
+4627
+4628
+4629
+4630
+4631</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 4674</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 4614</span>
 
 static VALUE
 dcomplex_prod(int argc, VALUE *argv, VALUE self)
@@ -6437,42 +6384,42 @@ dcomplex_prod(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-5602
-5603
-5604
-5605
-5606
-5607
-5608
-5609
-5610
-5611
-5612
-5613
-5614
-5615
-5616
-5617
-5618
-5619
-5620
-5621
-5622
-5623
-5624
-5625
-5626
-5627
-5628
-5629
-5630
-5631
-5632
-5633
-5634</pre>
+5542
+5543
+5544
+5545
+5546
+5547
+5548
+5549
+5550
+5551
+5552
+5553
+5554
+5555
+5556
+5557
+5558
+5559
+5560
+5561
+5562
+5563
+5564
+5565
+5566
+5567
+5568
+5569
+5570
+5571
+5572
+5573
+5574</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 5602</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 5542</span>
 
 static VALUE
 dcomplex_rand(int argc, VALUE *args, VALUE self)
@@ -6619,32 +6566,32 @@ using Box-Muller Transformation.</p>
       <pre class="lines">
 
 
-5715
-5716
-5717
-5718
-5719
-5720
-5721
-5722
-5723
-5724
-5725
-5726
-5727
-5728
-5729
-5730
-5731
-5732
-5733
-5734
-5735
-5736
-5737</pre>
+5655
+5656
+5657
+5658
+5659
+5660
+5661
+5662
+5663
+5664
+5665
+5666
+5667
+5668
+5669
+5670
+5671
+5672
+5673
+5674
+5675
+5676
+5677</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 5715</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 5655</span>
 
 static VALUE
 dcomplex_rand_norm(int argc, VALUE *args, VALUE self)
@@ -6718,18 +6665,18 @@ dcomplex_rand_norm(int argc, VALUE *args, VALUE self)
       <pre class="lines">
 
 
-3350
-3351
-3352
-3353
-3354
-3355
-3356
-3357
-3358</pre>
+3290
+3291
+3292
+3293
+3294
+3295
+3296
+3297
+3298</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 3350</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 3290</span>
 
 static VALUE
 dcomplex_real(VALUE self)
@@ -6789,18 +6736,18 @@ dcomplex_real(VALUE self)
       <pre class="lines">
 
 
-2953
-2954
-2955
-2956
-2957
-2958
-2959
-2960
-2961</pre>
+2893
+2894
+2895
+2896
+2897
+2898
+2899
+2900
+2901</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 2953</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 2893</span>
 
 static VALUE
 dcomplex_reciprocal(VALUE self)
@@ -6860,18 +6807,18 @@ dcomplex_reciprocal(VALUE self)
       <pre class="lines">
 
 
-4186
-4187
-4188
-4189
-4190
-4191
-4192
-4193
-4194</pre>
+4126
+4127
+4128
+4129
+4130
+4131
+4132
+4133
+4134</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 4186</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 4126</span>
 
 static VALUE
 dcomplex_rint(VALUE self)
@@ -6980,27 +6927,27 @@ dcomplex_rint(VALUE self)
       <pre class="lines">
 
 
-4969
-4970
-4971
-4972
-4973
-4974
-4975
-4976
-4977
-4978
-4979
-4980
-4981
-4982
-4983
-4984
-4985
-4986</pre>
+4909
+4910
+4911
+4912
+4913
+4914
+4915
+4916
+4917
+4918
+4919
+4920
+4921
+4922
+4923
+4924
+4925
+4926</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 4969</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 4909</span>
 
 static VALUE
 dcomplex_rms(int argc, VALUE *argv, VALUE self)
@@ -7069,18 +7016,18 @@ dcomplex_rms(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-3934
-3935
-3936
-3937
-3938
-3939
-3940
-3941
-3942</pre>
+3874
+3875
+3876
+3877
+3878
+3879
+3880
+3881
+3882</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 3934</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 3874</span>
 
 static VALUE
 dcomplex_round(VALUE self)
@@ -7194,30 +7141,30 @@ where i is 1-dimensional index.</p>
       <pre class="lines">
 
 
-5336
-5337
-5338
-5339
-5340
-5341
-5342
-5343
-5344
-5345
-5346
-5347
-5348
-5349
-5350
-5351
-5352
-5353
-5354
-5355
-5356</pre>
+5276
+5277
+5278
+5279
+5280
+5281
+5282
+5283
+5284
+5285
+5286
+5287
+5288
+5289
+5290
+5291
+5292
+5293
+5294
+5295
+5296</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 5336</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 5276</span>
 
 static VALUE
 dcomplex_seq(int argc, VALUE *args, VALUE self)
@@ -7264,18 +7211,18 @@ dcomplex_seq(int argc, VALUE *args, VALUE self)
       <pre class="lines">
 
 
-3532
-3533
-3534
-3535
-3536
-3537
-3538
-3539
-3540</pre>
+3472
+3473
+3474
+3475
+3476
+3477
+3478
+3479
+3480</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 3532</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 3472</span>
 
 static VALUE
 dcomplex_set_imag(VALUE self, VALUE a1)
@@ -7310,18 +7257,18 @@ dcomplex_set_imag(VALUE self, VALUE a1)
       <pre class="lines">
 
 
-3591
-3592
-3593
-3594
-3595
-3596
-3597
-3598
-3599</pre>
+3531
+3532
+3533
+3534
+3535
+3536
+3537
+3538
+3539</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 3591</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 3531</span>
 
 static VALUE
 dcomplex_set_real(VALUE self, VALUE a1)
@@ -7381,18 +7328,18 @@ dcomplex_set_real(VALUE self, VALUE a1)
       <pre class="lines">
 
 
-3037
-3038
-3039
-3040
-3041
-3042
-3043
-3044
-3045</pre>
+2977
+2978
+2979
+2980
+2981
+2982
+2983
+2984
+2985</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 3037</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 2977</span>
 
 static VALUE
 dcomplex_sign(VALUE self)
@@ -7452,18 +7399,18 @@ dcomplex_sign(VALUE self)
       <pre class="lines">
 
 
-3121
-3122
-3123
-3124
-3125
-3126
-3127
-3128
-3129</pre>
+3061
+3062
+3063
+3064
+3065
+3066
+3067
+3068
+3069</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 3121</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 3061</span>
 
 static VALUE
 dcomplex_square(VALUE self)
@@ -7572,27 +7519,27 @@ dcomplex_square(VALUE self)
       <pre class="lines">
 
 
-4851
-4852
-4853
-4854
-4855
-4856
-4857
-4858
-4859
-4860
-4861
-4862
-4863
-4864
-4865
-4866
-4867
-4868</pre>
+4791
+4792
+4793
+4794
+4795
+4796
+4797
+4798
+4799
+4800
+4801
+4802
+4803
+4804
+4805
+4806
+4807
+4808</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 4851</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 4791</span>
 
 static VALUE
 dcomplex_stddev(int argc, VALUE *argv, VALUE self)
@@ -8018,27 +7965,27 @@ dcomplex_store(VALUE self, VALUE obj)
       <pre class="lines">
 
 
-4615
-4616
-4617
-4618
-4619
-4620
-4621
-4622
-4623
-4624
-4625
-4626
-4627
-4628
-4629
-4630
-4631
-4632</pre>
+4555
+4556
+4557
+4558
+4559
+4560
+4561
+4562
+4563
+4564
+4565
+4566
+4567
+4568
+4569
+4570
+4571
+4572</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 4615</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 4555</span>
 
 static VALUE
 dcomplex_sum(int argc, VALUE *argv, VALUE self)
@@ -8103,17 +8050,17 @@ dcomplex_sum(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-1614
-1615
-1616
-1617
-1618
-1619
-1620
-1621</pre>
+1554
+1555
+1556
+1557
+1558
+1559
+1560
+1561</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 1614</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 1554</span>
 
 static VALUE
 dcomplex_to_a(VALUE self)
@@ -8172,18 +8119,18 @@ dcomplex_to_a(VALUE self)
       <pre class="lines">
 
 
-4102
-4103
-4104
-4105
-4106
-4107
-4108
-4109
-4110</pre>
+4042
+4043
+4044
+4045
+4046
+4047
+4048
+4049
+4050</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 4102</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 4042</span>
 
 static VALUE
 dcomplex_trunc(VALUE self)
@@ -8292,27 +8239,27 @@ dcomplex_trunc(VALUE self)
       <pre class="lines">
 
 
-4910
-4911
-4912
-4913
-4914
-4915
-4916
-4917
-4918
-4919
-4920
-4921
-4922
-4923
-4924
-4925
-4926
-4927</pre>
+4850
+4851
+4852
+4853
+4854
+4855
+4856
+4857
+4858
+4859
+4860
+4861
+4862
+4863
+4864
+4865
+4866
+4867</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 4910</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/dcomplex.c', line 4850</span>
 
 static VALUE
 dcomplex_var(int argc, VALUE *argv, VALUE self)
@@ -8342,7 +8289,7 @@ dcomplex_var(int argc, VALUE *argv, VALUE self)
 </div>
 
       <div id="footer">
-  Generated on Mon Oct  7 16:22:14 2019 by
+  Generated on Mon Oct  7 18:20:11 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.6.5).
 </div>

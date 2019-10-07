@@ -497,7 +497,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#[]-instance_method" title="#[] (instance method)">#<strong>[]</strong>(dim0, ..., dimL)  &#x21d2; Numeric, NArray::Int8 </a>
+      <a href="#[]-instance_method" title="#[] (instance method)">#<strong>[]</strong>(dim0, ..., dimL)  &#x21d2; Numeric, Numo::Int8 </a>
     
 
     
@@ -511,7 +511,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Array element referenece or slice view.</p>
+    <span class="summary_desc"><div class='inline'><p>Multi-dimensional element reference.</p>
 </div></span>
   
 </li>
@@ -520,7 +520,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#[]=-instance_method" title="#[]= (instance method)">#<strong>[]=</strong>(dim0, .., dimL, val)  &#x21d2; Numeric </a>
+      <a href="#[]=-instance_method" title="#[]= (instance method)">#<strong>[]=</strong>(dim0, ..., dimL, val)  &#x21d2; Numeric, ... </a>
     
 
     
@@ -534,7 +534,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Array element(s) set.</p>
+    <span class="summary_desc"><div class='inline'><p>Multi-dimensional element assignment.</p>
 </div></span>
   
 </li>
@@ -1998,25 +1998,25 @@ int8_s_cast(VALUE type, VALUE obj)
       <pre class="lines">
 
 
-4666
-4667
-4668
-4669
-4670
-4671
-4672
-4673
-4674
-4675
-4676
-4677
-4678
-4679
-4680
-4681</pre>
+4606
+4607
+4608
+4609
+4610
+4611
+4612
+4613
+4614
+4615
+4616
+4617
+4618
+4619
+4620
+4621</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 4666</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 4606</span>
 
 static VALUE
 int8_s_maximum(int argc, VALUE *argv, VALUE mod)
@@ -2054,25 +2054,25 @@ int8_s_maximum(int argc, VALUE *argv, VALUE mod)
       <pre class="lines">
 
 
-4717
-4718
-4719
-4720
-4721
-4722
-4723
-4724
-4725
-4726
-4727
-4728
-4729
-4730
-4731
-4732</pre>
+4657
+4658
+4659
+4660
+4661
+4662
+4663
+4664
+4665
+4666
+4667
+4668
+4669
+4670
+4671
+4672</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 4717</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 4657</span>
 
 static VALUE
 int8_s_minimum(int argc, VALUE *argv, VALUE mod)
@@ -2160,25 +2160,25 @@ int8_s_minimum(int argc, VALUE *argv, VALUE mod)
       <pre class="lines">
 
 
-2515
-2516
-2517
-2518
-2519
-2520
-2521
-2522
-2523
-2524
-2525
-2526
-2527
-2528
-2529
-2530</pre>
+2455
+2456
+2457
+2458
+2459
+2460
+2461
+2462
+2463
+2464
+2465
+2466
+2467
+2468
+2469
+2470</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 2515</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 2455</span>
 
 static VALUE
 int8_mod(VALUE self, VALUE other)
@@ -2260,25 +2260,25 @@ int8_mod(VALUE self, VALUE other)
       <pre class="lines">
 
 
-3142
-3143
-3144
-3145
-3146
-3147
-3148
-3149
-3150
-3151
-3152
-3153
-3154
-3155
-3156
-3157</pre>
+3082
+3083
+3084
+3085
+3086
+3087
+3088
+3089
+3090
+3091
+3092
+3093
+3094
+3095
+3096
+3097</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 3142</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 3082</span>
 
 static VALUE
 int8_bit_and(VALUE self, VALUE other)
@@ -2360,25 +2360,25 @@ int8_bit_and(VALUE self, VALUE other)
       <pre class="lines">
 
 
-2301
-2302
-2303
-2304
-2305
-2306
-2307
-2308
-2309
-2310
-2311
-2312
-2313
-2314
-2315
-2316</pre>
+2241
+2242
+2243
+2244
+2245
+2246
+2247
+2248
+2249
+2250
+2251
+2252
+2253
+2254
+2255
+2256</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 2301</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 2241</span>
 
 static VALUE
 int8_mul(VALUE self, VALUE other)
@@ -2460,24 +2460,24 @@ int8_mul(VALUE self, VALUE other)
       <pre class="lines">
 
 
-2657
-2658
-2659
-2660
-2661
-2662
-2663
-2664
-2665
-2666
-2667
-2668
-2669
-2670
-2671</pre>
+2597
+2598
+2599
+2600
+2601
+2602
+2603
+2604
+2605
+2606
+2607
+2608
+2609
+2610
+2611</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 2657</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 2597</span>
 
 static VALUE
 int8_pow(VALUE self, VALUE other)
@@ -2558,25 +2558,25 @@ int8_pow(VALUE self, VALUE other)
       <pre class="lines">
 
 
-2095
-2096
-2097
-2098
-2099
-2100
-2101
-2102
-2103
-2104
-2105
-2106
-2107
-2108
-2109
-2110</pre>
+2035
+2036
+2037
+2038
+2039
+2040
+2041
+2042
+2043
+2044
+2045
+2046
+2047
+2048
+2049
+2050</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 2095</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 2035</span>
 
 static VALUE
 int8_add(VALUE self, VALUE other)
@@ -2658,25 +2658,25 @@ int8_add(VALUE self, VALUE other)
       <pre class="lines">
 
 
-2198
-2199
-2200
-2201
-2202
-2203
-2204
-2205
-2206
-2207
-2208
-2209
-2210
-2211
-2212
-2213</pre>
+2138
+2139
+2140
+2141
+2142
+2143
+2144
+2145
+2146
+2147
+2148
+2149
+2150
+2151
+2152
+2153</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 2198</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 2138</span>
 
 static VALUE
 int8_sub(VALUE self, VALUE other)
@@ -2743,18 +2743,18 @@ int8_sub(VALUE self, VALUE other)
       <pre class="lines">
 
 
-2729
-2730
-2731
-2732
-2733
-2734
-2735
-2736
-2737</pre>
+2669
+2670
+2671
+2672
+2673
+2674
+2675
+2676
+2677</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 2729</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 2669</span>
 
 static VALUE
 int8_minus(VALUE self)
@@ -2829,25 +2829,25 @@ int8_minus(VALUE self)
       <pre class="lines">
 
 
-2408
-2409
-2410
-2411
-2412
-2413
-2414
-2415
-2416
-2417
-2418
-2419
-2420
-2421
-2422
-2423</pre>
+2348
+2349
+2350
+2351
+2352
+2353
+2354
+2355
+2356
+2357
+2358
+2359
+2360
+2361
+2362
+2363</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 2408</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 2348</span>
 
 static VALUE
 int8_div(VALUE self, VALUE other)
@@ -2929,25 +2929,25 @@ int8_div(VALUE self, VALUE other)
       <pre class="lines">
 
 
-3517
-3518
-3519
-3520
-3521
-3522
-3523
-3524
-3525
-3526
-3527
-3528
-3529
-3530
-3531
-3532</pre>
+3457
+3458
+3459
+3460
+3461
+3462
+3463
+3464
+3465
+3466
+3467
+3468
+3469
+3470
+3471
+3472</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 3517</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 3457</span>
 
 static VALUE
 int8_left_shift(VALUE self, VALUE other)
@@ -3029,25 +3029,25 @@ int8_left_shift(VALUE self, VALUE other)
       <pre class="lines">
 
 
-3620
-3621
-3622
-3623
-3624
-3625
-3626
-3627
-3628
-3629
-3630
-3631
-3632
-3633
-3634
-3635</pre>
+3560
+3561
+3562
+3563
+3564
+3565
+3566
+3567
+3568
+3569
+3570
+3571
+3572
+3573
+3574
+3575</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 3620</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 3560</span>
 
 static VALUE
 int8_right_shift(VALUE self, VALUE other)
@@ -3073,7 +3073,7 @@ int8_right_shift(VALUE self, VALUE other)
       <div class="method_details ">
   <h3 class="signature " id="[]-instance_method">
   
-    #<strong>[]</strong>(dim0, ..., dimL)  &#x21d2; <tt>Numeric</tt>, <tt>NArray::Int8</tt> 
+    #<strong>[]</strong>(dim0, ..., dimL)  &#x21d2; <tt>Numeric</tt>, <tt><span class='object_link'><a href="" title="Numo::Int8 (class)">Numo::Int8</a></span></tt> 
   
 
   
@@ -3081,49 +3081,13 @@ int8_right_shift(VALUE self, VALUE other)
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Array element referenece or slice view.
-— Returns the element at +dim0+, +dim1+, … are Numeric indices
-for each dimension, or returns a NArray View as a sliced subarray if
-+dim0+, +dim1+, … includes other than Numeric index, e.g., Range
-or Array or true.</p>
+    <p>Multi-dimensional element reference.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
-  <div class="examples">
-    <p class="tag_title">Examples:</p>
-    
-      
-      <pre class="example code"><code><span class='id identifier rubyid_a'>a</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DFloat.html" title="Numo::DFloat (class)">DFloat</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="NArray.html#initialize-instance_method" title="Numo::NArray#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>4</span><span class='comma'>,</span><span class='int'>5</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_seq'>seq</span>
-<span class='comment'># =&gt; Numo::DFloat#shape=[4,5]
-</span><span class='comment'># [[0, 1, 2, 3, 4],
-</span><span class='comment'>#  [5, 6, 7, 8, 9],
-</span><span class='comment'>#  [10, 11, 12, 13, 14],
-</span><span class='comment'>#  [15, 16, 17, 18, 19]]
-</span>
-<span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span><span class='int'>1</span><span class='rbracket'>]</span>
-<span class='comment'># =&gt; 6.0
-</span>
-<span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='int'>1</span><span class='op'>..</span><span class='int'>3</span><span class='comma'>,</span><span class='int'>1</span><span class='rbracket'>]</span>
-<span class='comment'># =&gt; Numo::DFloat#shape=[3]
-</span><span class='comment'># [6, 11, 16]
-</span>
-<span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span><span class='int'>3</span><span class='comma'>,</span><span class='int'>4</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
-<span class='comment'># =&gt; Numo::DFloat#shape=[3]
-</span><span class='comment'># [6, 8, 9]
-</span>
-<span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='kw'>true</span><span class='comma'>,</span><span class='int'>2</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_fill'>fill</span><span class='lparen'>(</span><span class='int'>99</span><span class='rparen'>)</span>
-<span class='id identifier rubyid_a'>a</span>
-<span class='comment'># =&gt; Numo::DFloat#shape=[4,5]
-</span><span class='comment'># [[0, 1, 99, 3, 4],
-</span><span class='comment'>#  [5, 6, 99, 8, 9],
-</span><span class='comment'>#  [10, 11, 99, 13, 14],
-</span><span class='comment'>#  [15, 16, 99, 18, 19]]</span></code></pre>
-    
-  </div>
-
   
 <p class="tag_title">Parameters:</p>
 <ul class="param">
@@ -3133,12 +3097,12 @@ or Array or true.</p>
         <span class='name'>dim0,...,dimL</span>
       
       
-        <span class='type'>(<tt>Numeric</tt>, <tt>Range</tt>, <tt>etc</tt>)</span>
+        <span class='type'>(<tt>Numeric</tt>, <tt>Range</tt>, <tt>Array</tt>, <tt><span class='object_link'><a href="Int32.html" title="Numo::Int32 (class)">Numo::Int32</a></span></tt>, <tt><span class='object_link'><a href="Int64.html" title="Numo::Int64 (class)">Numo::Int64</a></span></tt>, <tt><span class='object_link'><a href="Bit.html" title="Numo::Bit (class)">Numo::Bit</a></span></tt>, <tt>TrueClass</tt>, <tt>FalseClass</tt>, <tt>Symbol</tt>)</span>
       
       
       
         &mdash;
-        <div class='inline'><p>Multi-dimensional Index.</p>
+        <div class='inline'><p>multi-dimensional indices.</p>
 </div>
       
     </li>
@@ -3151,17 +3115,26 @@ or Array or true.</p>
     <li>
       
       
-        <span class='type'>(<tt>Numeric</tt>, <tt>NArray::Int8</tt>)</span>
+        <span class='type'>(<tt>Numeric</tt>, <tt><span class='object_link'><a href="" title="Numo::Int8 (class)">Numo::Int8</a></span></tt>)</span>
       
       
       
         &mdash;
-        <div class='inline'><p>Element object or NArray view.</p>
+        <div class='inline'><p>an element or NArray view.</p>
 </div>
       
     </li>
   
 </ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="NArray.html#[]-instance_method" title="Numo::NArray#[] (method)">NArray#[]</a></span></li>
+    
+      <li><span class='object_link'><a href="#[]=-instance_method" title="Numo::Int8#[]= (method)">#[]=</a></span></li>
+    
+  </ul>
 
 </div><table class="source_code">
   <tr>
@@ -3169,24 +3142,24 @@ or Array or true.</p>
       <pre class="lines">
 
 
-1350
-1351
-1352
-1353
-1354
-1355
-1356
-1357
-1358
-1359
-1360
-1361
-1362
-1363
-1364</pre>
+1320
+1321
+1322
+1323
+1324
+1325
+1326
+1327
+1328
+1329
+1330
+1331
+1332
+1333
+1334</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 1350</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 1320</span>
 
 static VALUE
 int8_aref(int argc, VALUE *argv, VALUE self)
@@ -3211,7 +3184,7 @@ int8_aref(int argc, VALUE *argv, VALUE self)
       <div class="method_details ">
   <h3 class="signature " id="[]=-instance_method">
   
-    #<strong>[]=</strong>(dim0, .., dimL, val)  &#x21d2; <tt>Numeric</tt> 
+    #<strong>[]=</strong>(dim0, ..., dimL, val)  &#x21d2; <tt>Numeric</tt>, ... 
   
 
   
@@ -3219,63 +3192,28 @@ int8_aref(int argc, VALUE *argv, VALUE self)
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Array element(s) set.
-— Replace element(s) at +dim0+, +dim1+, … (index/range/array/true
-for each dimention). Broadcasting mechanism is applied.</p>
+    <p>Multi-dimensional element assignment.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
-  <div class="examples">
-    <p class="tag_title">Examples:</p>
-    
-      
-      <pre class="example code"><code><span class='id identifier rubyid_a'>a</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DFloat.html" title="Numo::DFloat (class)">DFloat</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="NArray.html#initialize-instance_method" title="Numo::NArray#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>3</span><span class='comma'>,</span><span class='int'>4</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_seq'>seq</span>
-<span class='comment'># =&gt; Numo::DFloat#shape=[3,4]
-</span><span class='comment'># [[0, 1, 2, 3],
-</span><span class='comment'>#  [4, 5, 6, 7],
-</span><span class='comment'>#  [8, 9, 10, 11]]
-</span>
-<span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span><span class='int'>2</span><span class='rbracket'>]</span><span class='op'>=</span><span class='int'>99</span>
-<span class='id identifier rubyid_a'>a</span>
-<span class='comment'># =&gt; Numo::DFloat#shape=[3,4]
-</span><span class='comment'># [[0, 1, 2, 3],
-</span><span class='comment'>#  [4, 5, 99, 7],
-</span><span class='comment'>#  [8, 9, 10, 11]]
-</span>
-<span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>2</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='int'>101</span><span class='comma'>,</span><span class='int'>102</span><span class='rbracket'>]</span>
-<span class='id identifier rubyid_a'>a</span>
-<span class='comment'># =&gt; Numo::DFloat#shape=[3,4]
-</span><span class='comment'># [[0, 1, 2, 3],
-</span><span class='comment'>#  [101, 5, 102, 7],
-</span><span class='comment'>#  [8, 9, 10, 11]]
-</span>
-<span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span><span class='kw'>true</span><span class='rbracket'>]</span><span class='op'>=</span><span class='int'>99</span>
-<span class='id identifier rubyid_a'>a</span>
-<span class='comment'># =&gt; Numo::DFloat#shape=[3,4]
-</span><span class='comment'># [[0, 1, 2, 3],
-</span><span class='comment'>#  [99, 99, 99, 99],
-</span><span class='comment'>#  [8, 9, 10, 11]]</span></code></pre>
-    
-  </div>
-
   
 <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
       
-        <span class='name'>dim0,..,dimL</span>
+        <span class='name'>dim0,...,dimL</span>
       
       
-        <span class='type'>(<tt>Numeric</tt>, <tt>Range</tt>, <tt>etc</tt>)</span>
+        <span class='type'>(<tt>Numeric</tt>, <tt>Range</tt>, <tt>Array</tt>, <tt><span class='object_link'><a href="Int32.html" title="Numo::Int32 (class)">Numo::Int32</a></span></tt>, <tt><span class='object_link'><a href="Int64.html" title="Numo::Int64 (class)">Numo::Int64</a></span></tt>, <tt><span class='object_link'><a href="Bit.html" title="Numo::Bit (class)">Numo::Bit</a></span></tt>, <tt>TrueClass</tt>, <tt>FalseClass</tt>, <tt>Symbol</tt>)</span>
       
       
       
         &mdash;
-        <div class='inline'><p>Multi-dimensional Index.</p>
+        <div class='inline'><p>multi-dimensional indices.</p>
 </div>
       
     </li>
@@ -3285,7 +3223,7 @@ for each dimention). Broadcasting mechanism is applied.</p>
         <span class='name'>val</span>
       
       
-        <span class='type'>(<tt>Numeric</tt>, <tt><span class='object_link'><a href="NArray.html" title="Numo::NArray (class)">Numo::NArray</a></span></tt>, <tt>etc</tt>)</span>
+        <span class='type'>(<tt>Numeric</tt>, <tt><span class='object_link'><a href="NArray.html" title="Numo::NArray (class)">Numo::NArray</a></span></tt>, <tt>Array</tt>)</span>
       
       
       
@@ -3303,17 +3241,26 @@ for each dimention). Broadcasting mechanism is applied.</p>
     <li>
       
       
-        <span class='type'>(<tt>Numeric</tt>)</span>
+        <span class='type'>(<tt>Numeric</tt>, <tt><span class='object_link'><a href="NArray.html" title="Numo::NArray (class)">Numo::NArray</a></span></tt>, <tt>Array</tt>)</span>
       
       
       
         &mdash;
-        <div class='inline'><p>returns val (last argument).</p>
+        <div class='inline'><p>returns <code>val</code> (last argument).</p>
 </div>
       
     </li>
   
 </ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="NArray.html#[]=-instance_method" title="Numo::NArray#[]= (method)">NArray#[]=</a></span></li>
+    
+      <li><span class='object_link'><a href="#[]-instance_method" title="Numo::Int8#[] (method)">#[]</a></span></li>
+    
+  </ul>
 
 </div><table class="source_code">
   <tr>
@@ -3321,35 +3268,35 @@ for each dimention). Broadcasting mechanism is applied.</p>
       <pre class="lines">
 
 
-1407
-1408
-1409
-1410
-1411
-1412
-1413
-1414
-1415
-1416
-1417
-1418
-1419
-1420
-1421
-1422
-1423
-1424
-1425
-1426
-1427
-1428
-1429
-1430
-1431
-1432</pre>
+1347
+1348
+1349
+1350
+1351
+1352
+1353
+1354
+1355
+1356
+1357
+1358
+1359
+1360
+1361
+1362
+1363
+1364
+1365
+1366
+1367
+1368
+1369
+1370
+1371
+1372</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 1407</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 1347</span>
 
 static VALUE
 int8_aset(int argc, VALUE *argv, VALUE self)
@@ -3441,25 +3388,25 @@ int8_aset(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-3348
-3349
-3350
-3351
-3352
-3353
-3354
-3355
-3356
-3357
-3358
-3359
-3360
-3361
-3362
-3363</pre>
+3288
+3289
+3290
+3291
+3292
+3293
+3294
+3295
+3296
+3297
+3298
+3299
+3300
+3301
+3302
+3303</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 3348</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 3288</span>
 
 static VALUE
 int8_bit_xor(VALUE self, VALUE other)
@@ -3526,18 +3473,18 @@ int8_bit_xor(VALUE self, VALUE other)
       <pre class="lines">
 
 
-1999
-2000
-2001
-2002
-2003
-2004
-2005
-2006
-2007</pre>
+1939
+1940
+1941
+1942
+1943
+1944
+1945
+1946
+1947</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 1999</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 1939</span>
 
 static VALUE
 int8_abs(VALUE self)
@@ -3722,40 +3669,40 @@ int8_allocate(VALUE self)
       <pre class="lines">
 
 
-4465
-4466
-4467
-4468
-4469
-4470
-4471
-4472
-4473
-4474
-4475
-4476
-4477
-4478
-4479
-4480
-4481
-4482
-4483
-4484
-4485
-4486
-4487
-4488
-4489
-4490
-4491
-4492
-4493
-4494
-4495</pre>
+4405
+4406
+4407
+4408
+4409
+4410
+4411
+4412
+4413
+4414
+4415
+4416
+4417
+4418
+4419
+4420
+4421
+4422
+4423
+4424
+4425
+4426
+4427
+4428
+4429
+4430
+4431
+4432
+4433
+4434
+4435</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 4465</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 4405</span>
 
 static VALUE
 int8_argmax(int argc, VALUE *argv, VALUE self)
@@ -3880,40 +3827,40 @@ int8_argmax(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-4557
-4558
-4559
-4560
-4561
-4562
-4563
-4564
-4565
-4566
-4567
-4568
-4569
-4570
-4571
-4572
-4573
-4574
-4575
-4576
-4577
-4578
-4579
-4580
-4581
-4582
-4583
-4584
-4585
-4586
-4587</pre>
+4497
+4498
+4499
+4500
+4501
+4502
+4503
+4504
+4505
+4506
+4507
+4508
+4509
+4510
+4511
+4512
+4513
+4514
+4515
+4516
+4517
+4518
+4519
+4520
+4521
+4522
+4523
+4524
+4525
+4526
+4527</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 4557</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 4497</span>
 
 static VALUE
 int8_argmin(int argc, VALUE *argv, VALUE self)
@@ -4057,53 +4004,53 @@ otherwise returns UInt32 or UInt64 depending on the size along last axis.</p>
       <pre class="lines">
 
 
-4952
-4953
-4954
-4955
-4956
-4957
-4958
-4959
-4960
-4961
-4962
-4963
-4964
-4965
-4966
-4967
-4968
-4969
-4970
-4971
-4972
-4973
-4974
-4975
-4976
-4977
-4978
-4979
-4980
-4981
-4982
-4983
-4984
-4985
-4986
-4987
-4988
-4989
-4990
-4991
-4992
-4993
-4994
-4995</pre>
+4892
+4893
+4894
+4895
+4896
+4897
+4898
+4899
+4900
+4901
+4902
+4903
+4904
+4905
+4906
+4907
+4908
+4909
+4910
+4911
+4912
+4913
+4914
+4915
+4916
+4917
+4918
+4919
+4920
+4921
+4922
+4923
+4924
+4925
+4926
+4927
+4928
+4929
+4930
+4931
+4932
+4933
+4934
+4935</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 4952</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 4892</span>
 
 static VALUE
 int8_bincount(int argc, VALUE *argv, VALUE self)
@@ -4252,32 +4199,32 @@ If either of min or max is nil, one side is clipped.</p>
       <pre class="lines">
 
 
-3967
-3968
-3969
-3970
-3971
-3972
-3973
-3974
-3975
-3976
-3977
-3978
-3979
-3980
-3981
-3982
-3983
-3984
-3985
-3986
-3987
-3988
-3989</pre>
+3907
+3908
+3909
+3910
+3911
+3912
+3913
+3914
+3915
+3916
+3917
+3918
+3919
+3920
+3921
+3922
+3923
+3924
+3925
+3926
+3927
+3928
+3929</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 3967</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 3907</span>
 
 static VALUE
 int8_clip(VALUE self, VALUE min, VALUE max)
@@ -4347,14 +4294,14 @@ int8_clip(VALUE self, VALUE min, VALUE max)
       <pre class="lines">
 
 
-1441
-1442
-1443
-1444
-1445</pre>
+1381
+1382
+1383
+1384
+1385</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 1441</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 1381</span>
 
 static VALUE
 int8_coerce_cast(VALUE self, VALUE type)
@@ -4444,24 +4391,24 @@ int8_coerce_cast(VALUE self, VALUE type)
       <pre class="lines">
 
 
-5083
-5084
-5085
-5086
-5087
-5088
-5089
-5090
-5091
-5092
-5093
-5094
-5095
-5096
-5097</pre>
+5023
+5024
+5025
+5026
+5027
+5028
+5029
+5030
+5031
+5032
+5033
+5034
+5035
+5036
+5037</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 5083</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 5023</span>
 
 static VALUE
 int8_cumprod(int argc, VALUE *argv, VALUE self)
@@ -4561,24 +4508,24 @@ int8_cumprod(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-5032
-5033
-5034
-5035
-5036
-5037
-5038
-5039
-5040
-5041
-5042
-5043
-5044
-5045
-5046</pre>
+4972
+4973
+4974
+4975
+4976
+4977
+4978
+4979
+4980
+4981
+4982
+4983
+4984
+4985
+4986</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 5032</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 4972</span>
 
 static VALUE
 int8_cumsum(int argc, VALUE *argv, VALUE self)
@@ -4659,24 +4606,24 @@ int8_cumsum(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-2577
-2578
-2579
-2580
-2581
-2582
-2583
-2584
-2585
-2586
-2587
-2588
-2589
-2590
-2591</pre>
+2517
+2518
+2519
+2520
+2521
+2522
+2523
+2524
+2525
+2526
+2527
+2528
+2529
+2530
+2531</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 2577</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 2517</span>
 
 static VALUE
 int8_divmod(VALUE self, VALUE other)
@@ -4772,18 +4719,18 @@ For a block <code>{|x| ... }</code>,</p>
       <pre class="lines">
 
 
-1704
-1705
-1706
-1707
-1708
-1709
-1710
-1711
-1712</pre>
+1644
+1645
+1646
+1647
+1648
+1649
+1650
+1651
+1652</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 1704</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 1644</span>
 
 static VALUE
 int8_each(VALUE self)
@@ -4888,18 +4835,18 @@ For a block <code>{|x,i,j,...| ... }</code>,</p>
       <pre class="lines">
 
 
-1841
-1842
-1843
-1844
-1845
-1846
-1847
-1848
-1849</pre>
+1781
+1782
+1783
+1784
+1785
+1786
+1787
+1788
+1789</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 1841</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 1781</span>
 
 static VALUE
 int8_each_with_index(VALUE self)
@@ -4978,24 +4925,24 @@ int8_each_with_index(VALUE self)
       <pre class="lines">
 
 
-2981
-2982
-2983
-2984
-2985
-2986
-2987
-2988
-2989
-2990
-2991
-2992
-2993
-2994
-2995</pre>
+2921
+2922
+2923
+2924
+2925
+2926
+2927
+2928
+2929
+2930
+2931
+2932
+2933
+2934
+2935</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 2981</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 2921</span>
 
 static VALUE
 int8_eq(VALUE self, VALUE other)
@@ -5180,60 +5127,60 @@ for diagonals below the main diagonal.</p>
       <pre class="lines">
 
 
-5323
-5324
-5325
-5326
-5327
-5328
-5329
-5330
-5331
-5332
-5333
-5334
-5335
-5336
-5337
-5338
-5339
-5340
-5341
-5342
-5343
-5344
-5345
-5346
-5347
-5348
-5349
-5350
-5351
-5352
-5353
-5354
-5355
-5356
-5357
-5358
-5359
-5360
-5361
-5362
-5363
-5364
-5365
-5366
-5367
-5368
-5369
-5370
-5371
-5372
-5373</pre>
+5263
+5264
+5265
+5266
+5267
+5268
+5269
+5270
+5271
+5272
+5273
+5274
+5275
+5276
+5277
+5278
+5279
+5280
+5281
+5282
+5283
+5284
+5285
+5286
+5287
+5288
+5289
+5290
+5291
+5292
+5293
+5294
+5295
+5296
+5297
+5298
+5299
+5300
+5301
+5302
+5303
+5304
+5305
+5306
+5307
+5308
+5309
+5310
+5311
+5312
+5313</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 5323</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 5263</span>
 
 static VALUE
 int8_eye(int argc, VALUE *argv, VALUE self)
@@ -5350,18 +5297,18 @@ int8_eye(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-1522
-1523
-1524
-1525
-1526
-1527
-1528
-1529
-1530</pre>
+1462
+1463
+1464
+1465
+1466
+1467
+1468
+1469
+1470</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 1522</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 1462</span>
 
 static VALUE
 int8_fill(VALUE self, VALUE val)
@@ -5436,21 +5383,21 @@ int8_fill(VALUE self, VALUE val)
       <pre class="lines">
 
 
-1582
-1583
-1584
-1585
-1586
-1587
-1588
-1589
-1590
-1591
-1592
-1593</pre>
+1522
+1523
+1524
+1525
+1526
+1527
+1528
+1529
+1530
+1531
+1532
+1533</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 1582</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 1522</span>
 
 static VALUE
 int8_format(int argc, VALUE *argv, VALUE self)
@@ -5528,20 +5475,20 @@ int8_format(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-1633
-1634
-1635
-1636
-1637
-1638
-1639
-1640
-1641
-1642
-1643</pre>
+1573
+1574
+1575
+1576
+1577
+1578
+1579
+1580
+1581
+1582
+1583</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 1633</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 1573</span>
 
 static VALUE
 int8_format_to_a(int argc, VALUE *argv, VALUE self)
@@ -5622,24 +5569,24 @@ int8_format_to_a(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-3740
-3741
-3742
-3743
-3744
-3745
-3746
-3747
-3748
-3749
-3750
-3751
-3752
-3753
-3754</pre>
+3680
+3681
+3682
+3683
+3684
+3685
+3686
+3687
+3688
+3689
+3690
+3691
+3692
+3693
+3694</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 3740</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 3680</span>
 
 static VALUE
 int8_ge(VALUE self, VALUE other)
@@ -5724,24 +5671,24 @@ int8_ge(VALUE self, VALUE other)
       <pre class="lines">
 
 
-3683
-3684
-3685
-3686
-3687
-3688
-3689
-3690
-3691
-3692
-3693
-3694
-3695
-3696
-3697</pre>
+3623
+3624
+3625
+3626
+3627
+3628
+3629
+3630
+3631
+3632
+3633
+3634
+3635
+3636
+3637</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 3683</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 3623</span>
 
 static VALUE
 int8_gt(VALUE self, VALUE other)
@@ -5803,14 +5750,14 @@ int8_gt(VALUE self, VALUE other)
       <pre class="lines">
 
 
-1660
-1661
-1662
-1663
-1664</pre>
+1600
+1601
+1602
+1603
+1604</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 1660</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 1600</span>
 
 static VALUE
 int8_inspect(VALUE ary)
@@ -5885,24 +5832,24 @@ int8_inspect(VALUE ary)
       <pre class="lines">
 
 
-3854
-3855
-3856
-3857
-3858
-3859
-3860
-3861
-3862
-3863
-3864
-3865
-3866
-3867
-3868</pre>
+3794
+3795
+3796
+3797
+3798
+3799
+3800
+3801
+3802
+3803
+3804
+3805
+3806
+3807
+3808</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 3854</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 3794</span>
 
 static VALUE
 int8_le(VALUE self, VALUE other)
@@ -5987,24 +5934,24 @@ int8_le(VALUE self, VALUE other)
       <pre class="lines">
 
 
-3797
-3798
-3799
-3800
-3801
-3802
-3803
-3804
-3805
-3806
-3807
-3808
-3809
-3810
-3811</pre>
+3737
+3738
+3739
+3740
+3741
+3742
+3743
+3744
+3745
+3746
+3747
+3748
+3749
+3750
+3751</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 3797</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 3737</span>
 
 static VALUE
 int8_lt(VALUE self, VALUE other)
@@ -6070,18 +6017,18 @@ int8_lt(VALUE self, VALUE other)
       <pre class="lines">
 
 
-1770
-1771
-1772
-1773
-1774
-1775
-1776
-1777
-1778</pre>
+1710
+1711
+1712
+1713
+1714
+1715
+1716
+1717
+1718</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 1770</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 1710</span>
 
 static VALUE
 int8_map(VALUE self)
@@ -6188,18 +6135,18 @@ For a block <code>{|x,i,j,...| ... }</code>,</p>
       <pre class="lines">
 
 
-1938
-1939
-1940
-1941
-1942
-1943
-1944
-1945
-1946</pre>
+1878
+1879
+1880
+1881
+1882
+1883
+1884
+1885
+1886</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 1938</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 1878</span>
 
 static VALUE
 int8_map_with_index(VALUE self)
@@ -6293,27 +6240,27 @@ int8_map_with_index(VALUE self)
       <pre class="lines">
 
 
-4148
-4149
-4150
-4151
-4152
-4153
-4154
-4155
-4156
-4157
-4158
-4159
-4160
-4161
-4162
-4163
-4164
-4165</pre>
+4088
+4089
+4090
+4091
+4092
+4093
+4094
+4095
+4096
+4097
+4098
+4099
+4100
+4101
+4102
+4103
+4104
+4105</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 4148</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 4088</span>
 
 static VALUE
 int8_max(int argc, VALUE *argv, VALUE self)
@@ -6425,43 +6372,43 @@ int8_max(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-4273
-4274
-4275
-4276
-4277
-4278
-4279
-4280
-4281
-4282
-4283
-4284
-4285
-4286
-4287
-4288
-4289
-4290
-4291
-4292
-4293
-4294
-4295
-4296
-4297
-4298
-4299
-4300
-4301
-4302
-4303
-4304
-4305
-4306</pre>
+4213
+4214
+4215
+4216
+4217
+4218
+4219
+4220
+4221
+4222
+4223
+4224
+4225
+4226
+4227
+4228
+4229
+4230
+4231
+4232
+4233
+4234
+4235
+4236
+4237
+4238
+4239
+4240
+4241
+4242
+4243
+4244
+4245
+4246</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 4273</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 4213</span>
 
 static VALUE
 int8_max_index(int argc, VALUE *argv, VALUE self)
@@ -6580,26 +6527,26 @@ int8_max_index(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-6201
-6202
-6203
-6204
-6205
-6206
-6207
-6208
-6209
-6210
-6211
-6212
-6213
-6214
-6215
-6216
-6217</pre>
+6141
+6142
+6143
+6144
+6145
+6146
+6147
+6148
+6149
+6150
+6151
+6152
+6153
+6154
+6155
+6156
+6157</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 6201</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 6141</span>
 
 static VALUE
 int8_median(int argc, VALUE *argv, VALUE self)
@@ -6701,27 +6648,27 @@ int8_median(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-4104
-4105
-4106
-4107
-4108
-4109
-4110
-4111
-4112
-4113
-4114
-4115
-4116
-4117
-4118
-4119
-4120
-4121</pre>
+4044
+4045
+4046
+4047
+4048
+4049
+4050
+4051
+4052
+4053
+4054
+4055
+4056
+4057
+4058
+4059
+4060
+4061</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 4104</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 4044</span>
 
 static VALUE
 int8_min(int argc, VALUE *argv, VALUE self)
@@ -6833,43 +6780,43 @@ int8_min(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-4370
-4371
-4372
-4373
-4374
-4375
-4376
-4377
-4378
-4379
-4380
-4381
-4382
-4383
-4384
-4385
-4386
-4387
-4388
-4389
-4390
-4391
-4392
-4393
-4394
-4395
-4396
-4397
-4398
-4399
-4400
-4401
-4402
-4403</pre>
+4310
+4311
+4312
+4313
+4314
+4315
+4316
+4317
+4318
+4319
+4320
+4321
+4322
+4323
+4324
+4325
+4326
+4327
+4328
+4329
+4330
+4331
+4332
+4333
+4334
+4335
+4336
+4337
+4338
+4339
+4340
+4341
+4342
+4343</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 4370</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 4310</span>
 
 static VALUE
 int8_min_index(int argc, VALUE *argv, VALUE self)
@@ -6988,23 +6935,23 @@ int8_min_index(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-4617
-4618
-4619
-4620
-4621
-4622
-4623
-4624
-4625
-4626
-4627
-4628
-4629
-4630</pre>
+4557
+4558
+4559
+4560
+4561
+4562
+4563
+4564
+4565
+4566
+4567
+4568
+4569
+4570</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 4617</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 4557</span>
 
 static VALUE
 int8_minmax(int argc, VALUE *argv, VALUE self)
@@ -7114,29 +7061,29 @@ int8_minmax(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-5172
-5173
-5174
-5175
-5176
-5177
-5178
-5179
-5180
-5181
-5182
-5183
-5184
-5185
-5186
-5187
-5188
-5189
-5190
-5191</pre>
+5112
+5113
+5114
+5115
+5116
+5117
+5118
+5119
+5120
+5121
+5122
+5123
+5124
+5125
+5126
+5127
+5128
+5129
+5130
+5131</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 5172</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 5112</span>
 
 static VALUE
 int8_mulsum(int argc, VALUE *argv, VALUE self)
@@ -7222,24 +7169,24 @@ int8_mulsum(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-3038
-3039
-3040
-3041
-3042
-3043
-3044
-3045
-3046
-3047
-3048
-3049
-3050
-3051
-3052</pre>
+2978
+2979
+2980
+2981
+2982
+2983
+2984
+2985
+2986
+2987
+2988
+2989
+2990
+2991
+2992</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 3038</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 2978</span>
 
 static VALUE
 int8_ne(VALUE self, VALUE other)
@@ -7317,33 +7264,33 @@ int8_ne(VALUE self, VALUE other)
       <pre class="lines">
 
 
-5532
-5533
-5534
-5535
-5536
-5537
-5538
-5539
-5540
-5541
-5542
-5543
-5544
-5545
-5546
-5547
-5548
-5549
-5550
-5551
-5552
-5553
-5554
-5555</pre>
+5472
+5473
+5474
+5475
+5476
+5477
+5478
+5479
+5480
+5481
+5482
+5483
+5484
+5485
+5486
+5487
+5488
+5489
+5490
+5491
+5492
+5493
+5494
+5495</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 5532</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 5472</span>
 
 static VALUE
 int8_poly(VALUE self, VALUE args)
@@ -7452,27 +7399,27 @@ int8_poly(VALUE self, VALUE args)
       <pre class="lines">
 
 
-4060
-4061
-4062
-4063
-4064
-4065
-4066
-4067
-4068
-4069
-4070
-4071
-4072
-4073
-4074
-4075
-4076
-4077</pre>
+4000
+4001
+4002
+4003
+4004
+4005
+4006
+4007
+4008
+4009
+4010
+4011
+4012
+4013
+4014
+4015
+4016
+4017</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 4060</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 4000</span>
 
 static VALUE
 int8_prod(int argc, VALUE *argv, VALUE self)
@@ -7575,27 +7522,27 @@ int8_prod(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-4192
-4193
-4194
-4195
-4196
-4197
-4198
-4199
-4200
-4201
-4202
-4203
-4204
-4205
-4206
-4207
-4208
-4209</pre>
+4132
+4133
+4134
+4135
+4136
+4137
+4138
+4139
+4140
+4141
+4142
+4143
+4144
+4145
+4146
+4147
+4148
+4149</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 4192</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 4132</span>
 
 static VALUE
 int8_ptp(int argc, VALUE *argv, VALUE self)
@@ -7716,38 +7663,38 @@ int8_ptp(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-5475
-5476
-5477
-5478
-5479
-5480
-5481
-5482
-5483
-5484
-5485
-5486
-5487
-5488
-5489
-5490
-5491
-5492
-5493
-5494
-5495
-5496
-5497
-5498
-5499
-5500
-5501
-5502
-5503</pre>
+5415
+5416
+5417
+5418
+5419
+5420
+5421
+5422
+5423
+5424
+5425
+5426
+5427
+5428
+5429
+5430
+5431
+5432
+5433
+5434
+5435
+5436
+5437
+5438
+5439
+5440
+5441
+5442
+5443</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 5475</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 5415</span>
 
 static VALUE
 int8_rand(int argc, VALUE *args, VALUE self)
@@ -7827,18 +7774,18 @@ int8_rand(int argc, VALUE *args, VALUE self)
       <pre class="lines">
 
 
-2795
-2796
-2797
-2798
-2799
-2800
-2801
-2802
-2803</pre>
+2735
+2736
+2737
+2738
+2739
+2740
+2741
+2742
+2743</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 2795</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 2735</span>
 
 static VALUE
 int8_reciprocal(VALUE self)
@@ -7952,30 +7899,30 @@ where i is 1-dimensional index.</p>
       <pre class="lines">
 
 
-5259
-5260
-5261
-5262
-5263
-5264
-5265
-5266
-5267
-5268
-5269
-5270
-5271
-5272
-5273
-5274
-5275
-5276
-5277
-5278
-5279</pre>
+5199
+5200
+5201
+5202
+5203
+5204
+5205
+5206
+5207
+5208
+5209
+5210
+5211
+5212
+5213
+5214
+5215
+5216
+5217
+5218
+5219</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 5259</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 5199</span>
 
 static VALUE
 int8_seq(int argc, VALUE *args, VALUE self)
@@ -8047,18 +7994,18 @@ int8_seq(int argc, VALUE *args, VALUE self)
       <pre class="lines">
 
 
-2861
-2862
-2863
-2864
-2865
-2866
-2867
-2868
-2869</pre>
+2801
+2802
+2803
+2804
+2805
+2806
+2807
+2808
+2809</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 2861</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 2801</span>
 
 static VALUE
 int8_sign(VALUE self)
@@ -8145,27 +8092,27 @@ int8_sign(VALUE self)
       <pre class="lines">
 
 
-5790
-5791
-5792
-5793
-5794
-5795
-5796
-5797
-5798
-5799
-5800
-5801
-5802
-5803
-5804
-5805
-5806
-5807</pre>
+5730
+5731
+5732
+5733
+5734
+5735
+5736
+5737
+5738
+5739
+5740
+5741
+5742
+5743
+5744
+5745
+5746
+5747</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 5790</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 5730</span>
 
 static VALUE
 int8_sort(int argc, VALUE *argv, VALUE self)
@@ -8261,51 +8208,51 @@ int8_sort(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-6118
-6119
-6120
-6121
-6122
-6123
-6124
-6125
-6126
-6127
-6128
-6129
-6130
-6131
-6132
-6133
-6134
-6135
-6136
-6137
-6138
-6139
-6140
-6141
-6142
-6143
-6144
-6145
-6146
-6147
-6148
-6149
-6150
-6151
-6152
-6153
-6154
-6155
-6156
-6157
-6158
-6159</pre>
+6058
+6059
+6060
+6061
+6062
+6063
+6064
+6065
+6066
+6067
+6068
+6069
+6070
+6071
+6072
+6073
+6074
+6075
+6076
+6077
+6078
+6079
+6080
+6081
+6082
+6083
+6084
+6085
+6086
+6087
+6088
+6089
+6090
+6091
+6092
+6093
+6094
+6095
+6096
+6097
+6098
+6099</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 6118</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 6058</span>
 
 static VALUE
 int8_sort_index(int argc, VALUE *argv, VALUE self)
@@ -8398,18 +8345,18 @@ int8_sort_index(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-2927
-2928
-2929
-2930
-2931
-2932
-2933
-2934
-2935</pre>
+2867
+2868
+2869
+2870
+2871
+2872
+2873
+2874
+2875</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 2927</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 2867</span>
 
 static VALUE
 int8_square(VALUE self)
@@ -8787,27 +8734,27 @@ int8_store(VALUE self, VALUE obj)
       <pre class="lines">
 
 
-4016
-4017
-4018
-4019
-4020
-4021
-4022
-4023
-4024
-4025
-4026
-4027
-4028
-4029
-4030
-4031
-4032
-4033</pre>
+3956
+3957
+3958
+3959
+3960
+3961
+3962
+3963
+3964
+3965
+3966
+3967
+3968
+3969
+3970
+3971
+3972
+3973</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 4016</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 3956</span>
 
 static VALUE
 int8_sum(int argc, VALUE *argv, VALUE self)
@@ -8872,17 +8819,17 @@ int8_sum(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-1482
-1483
-1484
-1485
-1486
-1487
-1488
-1489</pre>
+1422
+1423
+1424
+1425
+1426
+1427
+1428
+1429</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 1482</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 1422</span>
 
 static VALUE
 int8_to_a(VALUE self)
@@ -8963,25 +8910,25 @@ int8_to_a(VALUE self)
       <pre class="lines">
 
 
-3245
-3246
-3247
-3248
-3249
-3250
-3251
-3252
-3253
-3254
-3255
-3256
-3257
-3258
-3259
-3260</pre>
+3185
+3186
+3187
+3188
+3189
+3190
+3191
+3192
+3193
+3194
+3195
+3196
+3197
+3198
+3199
+3200</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 3245</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 3185</span>
 
 static VALUE
 int8_bit_or(VALUE self, VALUE other)
@@ -9048,18 +8995,18 @@ int8_bit_or(VALUE self, VALUE other)
       <pre class="lines">
 
 
-3421
-3422
-3423
-3424
-3425
-3426
-3427
-3428
-3429</pre>
+3361
+3362
+3363
+3364
+3365
+3366
+3367
+3368
+3369</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 3421</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int8.c', line 3361</span>
 
 static VALUE
 int8_bit_not(VALUE self)
@@ -9080,7 +9027,7 @@ int8_bit_not(VALUE self)
 </div>
 
       <div id="footer">
-  Generated on Mon Oct  7 16:22:26 2019 by
+  Generated on Mon Oct  7 18:20:21 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.6.5).
 </div>

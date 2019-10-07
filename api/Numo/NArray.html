@@ -889,6 +889,52 @@ to create data array instances.</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#[]-instance_method" title="#[] (instance method)">#<strong>[]</strong>(dim0, ..., dimL)  &#x21d2; Numeric, Numo::NArray </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Multi-dimensional element reference.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#[]=-instance_method" title="#[]= (instance method)">#<strong>[]=</strong>(dim0, ..., dimL, val)  &#x21d2; Numeric, ... </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Multi-dimensional element assignment.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#append-instance_method" title="#append (instance method)">#<strong>append</strong>(other, axis: nil)  &#x21d2; Object </a>
     
 
@@ -912,7 +958,7 @@ to create data array instances.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#at-instance_method" title="#at (instance method)">#<strong>at</strong>(*indices)  &#x21d2; Numo::NArray::&lt;%=class_name%&gt; </a>
+      <a href="#at-instance_method" title="#at (instance method)">#<strong>at</strong>(dim0, ..., dimL)  &#x21d2; Numo::NArray </a>
     
 
     
@@ -5391,6 +5437,265 @@ na_equal(VALUE self, volatile VALUE other)
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="[]-instance_method">
+  
+    #<strong>[]</strong>(dim0, ..., dimL)  &#x21d2; <tt>Numeric</tt>, <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Multi-dimensional element reference.
+Returns an element at <code>dim0</code>, <code>dim1</code>, … are Numeric indices for each dimension, or returns a NArray View as a sliced array if <code>dim0</code>, <code>dim1</code>, … includes other than Numeric index, e.g., Range or Array or true.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_a'>a</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DFloat.html" title="Numo::DFloat (class)">DFloat</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Numo::NArray#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>4</span><span class='comma'>,</span><span class='int'>5</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_seq'>seq</span>
+<span class='comment'># =&gt; Numo::DFloat#shape=[4,5]
+</span><span class='comment'># [[0, 1, 2, 3, 4],
+</span><span class='comment'>#  [5, 6, 7, 8, 9],
+</span><span class='comment'>#  [10, 11, 12, 13, 14],
+</span><span class='comment'>#  [15, 16, 17, 18, 19]]
+</span>
+<span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span><span class='int'>1</span><span class='rbracket'>]</span>
+<span class='comment'># =&gt; 6.0
+</span>
+<span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='int'>1</span><span class='op'>..</span><span class='int'>3</span><span class='comma'>,</span><span class='int'>1</span><span class='rbracket'>]</span>
+<span class='comment'># =&gt; Numo::DFloat#shape=[3]
+</span><span class='comment'># [6, 11, 16]
+</span>
+<span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span><span class='int'>3</span><span class='comma'>,</span><span class='int'>4</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
+<span class='comment'># =&gt; Numo::DFloat#shape=[3]
+</span><span class='comment'># [6, 8, 9]
+</span>
+<span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='kw'>true</span><span class='comma'>,</span><span class='int'>2</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_fill'>fill</span><span class='lparen'>(</span><span class='int'>99</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_a'>a</span>
+<span class='comment'># =&gt; Numo::DFloat#shape=[4,5]
+</span><span class='comment'># [[0, 1, 99, 3, 4],
+</span><span class='comment'>#  [5, 6, 99, 8, 9],
+</span><span class='comment'>#  [10, 11, 99, 13, 14],
+</span><span class='comment'>#  [15, 16, 99, 18, 19]]</span></code></pre>
+    
+  </div>
+
+  
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>dim0,...,dimL</span>
+      
+      
+        <span class='type'>(<tt>Numeric</tt>, <tt>Range</tt>, <tt>Array</tt>, <tt><span class='object_link'><a href="Int32.html" title="Numo::Int32 (class)">Numo::Int32</a></span></tt>, <tt><span class='object_link'><a href="Int64.html" title="Numo::Int64 (class)">Numo::Int64</a></span></tt>, <tt><span class='object_link'><a href="Bit.html" title="Numo::Bit (class)">Numo::Bit</a></span></tt>, <tt>TrueClass</tt>, <tt>FalseClass</tt>, <tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>multi-dimensional index.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Numeric</tt>, <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>an element or NArray view.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#[]=-instance_method" title="Numo::NArray#[]= (method)">#[]=</a></span></li>
+    
+      <li><span class='object_link'><a href="#at-instance_method" title="Numo::NArray#at (method)">#at</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1053
+1054
+1055
+1056</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/index.c', line 1053</span>
+
+static VALUE na_aref(int argc, VALUE *argv, VALUE self)
+{
+    return rb_f_notimplement(argc,argv,self);
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="[]=-instance_method">
+  
+    #<strong>[]=</strong>(dim0, ..., dimL, val)  &#x21d2; <tt>Numeric</tt>, ... 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Multi-dimensional element assignment.
+Replace element(s) at <code>dim0</code>, <code>dim1</code>, … .
+Broadcasting mechanism is applied.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_a'>a</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DFloat.html" title="Numo::DFloat (class)">DFloat</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Numo::NArray#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>3</span><span class='comma'>,</span><span class='int'>4</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_seq'>seq</span>
+<span class='comment'># =&gt; Numo::DFloat#shape=[3,4]
+</span><span class='comment'># [[0, 1, 2, 3],
+</span><span class='comment'>#  [4, 5, 6, 7],
+</span><span class='comment'>#  [8, 9, 10, 11]]
+</span>
+<span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span><span class='int'>2</span><span class='rbracket'>]</span><span class='op'>=</span><span class='int'>99</span>
+<span class='id identifier rubyid_a'>a</span>
+<span class='comment'># =&gt; Numo::DFloat#shape=[3,4]
+</span><span class='comment'># [[0, 1, 2, 3],
+</span><span class='comment'>#  [4, 5, 99, 7],
+</span><span class='comment'>#  [8, 9, 10, 11]]
+</span>
+<span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>2</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='int'>101</span><span class='comma'>,</span><span class='int'>102</span><span class='rbracket'>]</span>
+<span class='id identifier rubyid_a'>a</span>
+<span class='comment'># =&gt; Numo::DFloat#shape=[3,4]
+</span><span class='comment'># [[0, 1, 2, 3],
+</span><span class='comment'>#  [101, 5, 102, 7],
+</span><span class='comment'>#  [8, 9, 10, 11]]
+</span>
+<span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span><span class='kw'>true</span><span class='rbracket'>]</span><span class='op'>=</span><span class='int'>99</span>
+<span class='id identifier rubyid_a'>a</span>
+<span class='comment'># =&gt; Numo::DFloat#shape=[3,4]
+</span><span class='comment'># [[0, 1, 2, 3],
+</span><span class='comment'>#  [99, 99, 99, 99],
+</span><span class='comment'>#  [8, 9, 10, 11]]</span></code></pre>
+    
+  </div>
+
+  
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>dim0,...,dimL</span>
+      
+      
+        <span class='type'>(<tt>Numeric</tt>, <tt>Range</tt>, <tt>Array</tt>, <tt><span class='object_link'><a href="Int32.html" title="Numo::Int32 (class)">Numo::Int32</a></span></tt>, <tt><span class='object_link'><a href="Int64.html" title="Numo::Int64 (class)">Numo::Int64</a></span></tt>, <tt><span class='object_link'><a href="Bit.html" title="Numo::Bit (class)">Numo::Bit</a></span></tt>, <tt>TrueClass</tt>, <tt>FalseClass</tt>, <tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>multi-dimensional indices.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>val</span>
+      
+      
+        <span class='type'>(<tt>Numeric</tt>, <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>, <tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Value(s) to be set to self.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Numeric</tt>, <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>, <tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>returns <code>val</code> (last argument).</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#[]-instance_method" title="Numo::NArray#[] (method)">#[]</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1096
+1097
+1098
+1099</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/index.c', line 1096</span>
+
+static VALUE na_aset(int argc, VALUE *argv, VALUE self)
+{
+    return rb_f_notimplement(argc,argv,self);
+}</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="append-instance_method">
   
     #<strong>append</strong>(other, axis: nil)  &#x21d2; <tt>Object</tt> 
@@ -5477,7 +5782,7 @@ na_equal(VALUE self, volatile VALUE other)
       <div class="method_details ">
   <h3 class="signature " id="at-instance_method">
   
-    #<strong>at</strong>(*indices)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray::</a></span>&lt;%=class_name%&gt;</tt> 
+    #<strong>at</strong>(dim0, ..., dimL)  &#x21d2; <tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt> 
   
 
   
@@ -5486,8 +5791,8 @@ na_equal(VALUE self, volatile VALUE other)
 </h3><div class="docstring">
   <div class="discussion">
     <p>Multi-dimensional array indexing.
-Same as [] for one-dimensional NArray.
-Similar to numpy’s tuple indexing, i.e., <code>a[[1,2,..],[3,4,..]]</code></p>
+Similar to numpy’s tuple indexing, i.e., <code>a[[1,2,..],[3,4,..]]</code>
+Same as Numo::NArray#[] for one-dimensional NArray.</p>
 
 
   </div>
@@ -5522,15 +5827,15 @@ Similar to numpy’s tuple indexing, i.e., <code>a[[1,2,..],[3,4,..]]</code></p>
   
     <li>
       
-        <span class='name'>*indices</span>
+        <span class='name'>dim0,...,dimL</span>
       
       
-        <span class='type'>(<tt>Numeric</tt>, <tt>Range</tt>, <tt>etc</tt>)</span>
+        <span class='type'>(<tt>Range</tt>, <tt>Array</tt>, <tt><span class='object_link'><a href="Int32.html" title="Numo::Int32 (class)">Numo::Int32</a></span></tt>, <tt><span class='object_link'><a href="Int64.html" title="Numo::Int64 (class)">Numo::Int64</a></span></tt>)</span>
       
       
       
         &mdash;
-        <div class='inline'><p>Multi-dimensional Index Arrays.</p>
+        <div class='inline'><p>multi-dimensional index arrays.</p>
 </div>
       
     </li>
@@ -5543,7 +5848,7 @@ Similar to numpy’s tuple indexing, i.e., <code>a[[1,2,..],[3,4,..]]</code></p>
     <li>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray::</a></span>&lt;%=class_name%&gt;</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Numo::NArray (class)">Numo::NArray</a></span></tt>)</span>
       
       
       
@@ -5555,37 +5860,44 @@ Similar to numpy’s tuple indexing, i.e., <code>a[[1,2,..],[3,4,..]]</code></p>
   
 </ul>
 
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#[]-instance_method" title="Numo::NArray#[] (method)">#[]</a></span></li>
+    
+  </ul>
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-1042
-1043
-1044
-1045
-1046
-1047
-1048
-1049
-1050
-1051
-1052
-1053
-1054
-1055
-1056
-1057
-1058
-1059
-1060
-1061
-1062
-1063</pre>
+1127
+1128
+1129
+1130
+1131
+1132
+1133
+1134
+1135
+1136
+1137
+1138
+1139
+1140
+1141
+1142
+1143
+1144
+1145
+1146
+1147
+1148</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/index.c', line 1042</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/index.c', line 1127</span>
 
 static VALUE na_at(int argc, VALUE *argv, VALUE self)
 {
@@ -12253,7 +12565,7 @@ na_make_view(VALUE self)
 </div>
 
       <div id="footer">
-  Generated on Mon Oct  7 16:22:11 2019 by
+  Generated on Mon Oct  7 18:20:08 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.6.5).
 </div>

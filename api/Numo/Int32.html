@@ -497,7 +497,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#[]-instance_method" title="#[] (instance method)">#<strong>[]</strong>(dim0, ..., dimL)  &#x21d2; Numeric, NArray::Int32 </a>
+      <a href="#[]-instance_method" title="#[] (instance method)">#<strong>[]</strong>(dim0, ..., dimL)  &#x21d2; Numeric, Numo::Int32 </a>
     
 
     
@@ -511,7 +511,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Array element referenece or slice view.</p>
+    <span class="summary_desc"><div class='inline'><p>Multi-dimensional element reference.</p>
 </div></span>
   
 </li>
@@ -520,7 +520,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#[]=-instance_method" title="#[]= (instance method)">#<strong>[]=</strong>(dim0, .., dimL, val)  &#x21d2; Numeric </a>
+      <a href="#[]=-instance_method" title="#[]= (instance method)">#<strong>[]=</strong>(dim0, ..., dimL, val)  &#x21d2; Numeric, ... </a>
     
 
     
@@ -534,7 +534,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Array element(s) set.</p>
+    <span class="summary_desc"><div class='inline'><p>Multi-dimensional element assignment.</p>
 </div></span>
   
 </li>
@@ -1998,25 +1998,25 @@ int32_s_cast(VALUE type, VALUE obj)
       <pre class="lines">
 
 
-5134
-5135
-5136
-5137
-5138
-5139
-5140
-5141
-5142
-5143
-5144
-5145
-5146
-5147
-5148
-5149</pre>
+5074
+5075
+5076
+5077
+5078
+5079
+5080
+5081
+5082
+5083
+5084
+5085
+5086
+5087
+5088
+5089</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 5134</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 5074</span>
 
 static VALUE
 int32_s_maximum(int argc, VALUE *argv, VALUE mod)
@@ -2054,25 +2054,25 @@ int32_s_maximum(int argc, VALUE *argv, VALUE mod)
       <pre class="lines">
 
 
-5185
-5186
-5187
-5188
-5189
-5190
-5191
-5192
-5193
-5194
-5195
-5196
-5197
-5198
-5199
-5200</pre>
+5125
+5126
+5127
+5128
+5129
+5130
+5131
+5132
+5133
+5134
+5135
+5136
+5137
+5138
+5139
+5140</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 5185</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 5125</span>
 
 static VALUE
 int32_s_minimum(int argc, VALUE *argv, VALUE mod)
@@ -2160,25 +2160,25 @@ int32_s_minimum(int argc, VALUE *argv, VALUE mod)
       <pre class="lines">
 
 
-2713
-2714
-2715
-2716
-2717
-2718
-2719
-2720
-2721
-2722
-2723
-2724
-2725
-2726
-2727
-2728</pre>
+2653
+2654
+2655
+2656
+2657
+2658
+2659
+2660
+2661
+2662
+2663
+2664
+2665
+2666
+2667
+2668</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 2713</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 2653</span>
 
 static VALUE
 int32_mod(VALUE self, VALUE other)
@@ -2260,25 +2260,25 @@ int32_mod(VALUE self, VALUE other)
       <pre class="lines">
 
 
-3448
-3449
-3450
-3451
-3452
-3453
-3454
-3455
-3456
-3457
-3458
-3459
-3460
-3461
-3462
-3463</pre>
+3388
+3389
+3390
+3391
+3392
+3393
+3394
+3395
+3396
+3397
+3398
+3399
+3400
+3401
+3402
+3403</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 3448</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 3388</span>
 
 static VALUE
 int32_bit_and(VALUE self, VALUE other)
@@ -2360,25 +2360,25 @@ int32_bit_and(VALUE self, VALUE other)
       <pre class="lines">
 
 
-2427
-2428
-2429
-2430
-2431
-2432
-2433
-2434
-2435
-2436
-2437
-2438
-2439
-2440
-2441
-2442</pre>
+2367
+2368
+2369
+2370
+2371
+2372
+2373
+2374
+2375
+2376
+2377
+2378
+2379
+2380
+2381
+2382</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 2427</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 2367</span>
 
 static VALUE
 int32_mul(VALUE self, VALUE other)
@@ -2460,24 +2460,24 @@ int32_mul(VALUE self, VALUE other)
       <pre class="lines">
 
 
-2855
-2856
-2857
-2858
-2859
-2860
-2861
-2862
-2863
-2864
-2865
-2866
-2867
-2868
-2869</pre>
+2795
+2796
+2797
+2798
+2799
+2800
+2801
+2802
+2803
+2804
+2805
+2806
+2807
+2808
+2809</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 2855</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 2795</span>
 
 static VALUE
 int32_pow(VALUE self, VALUE other)
@@ -2558,25 +2558,25 @@ int32_pow(VALUE self, VALUE other)
       <pre class="lines">
 
 
-2149
-2150
-2151
-2152
-2153
-2154
-2155
-2156
-2157
-2158
-2159
-2160
-2161
-2162
-2163
-2164</pre>
+2089
+2090
+2091
+2092
+2093
+2094
+2095
+2096
+2097
+2098
+2099
+2100
+2101
+2102
+2103
+2104</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 2149</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 2089</span>
 
 static VALUE
 int32_add(VALUE self, VALUE other)
@@ -2658,25 +2658,25 @@ int32_add(VALUE self, VALUE other)
       <pre class="lines">
 
 
-2288
-2289
-2290
-2291
-2292
-2293
-2294
-2295
-2296
-2297
-2298
-2299
-2300
-2301
-2302
-2303</pre>
+2228
+2229
+2230
+2231
+2232
+2233
+2234
+2235
+2236
+2237
+2238
+2239
+2240
+2241
+2242
+2243</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 2288</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 2228</span>
 
 static VALUE
 int32_sub(VALUE self, VALUE other)
@@ -2743,18 +2743,18 @@ int32_sub(VALUE self, VALUE other)
       <pre class="lines">
 
 
-2945
-2946
-2947
-2948
-2949
-2950
-2951
-2952
-2953</pre>
+2885
+2886
+2887
+2888
+2889
+2890
+2891
+2892
+2893</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 2945</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 2885</span>
 
 static VALUE
 int32_minus(VALUE self)
@@ -2829,25 +2829,25 @@ int32_minus(VALUE self)
       <pre class="lines">
 
 
-2570
-2571
-2572
-2573
-2574
-2575
-2576
-2577
-2578
-2579
-2580
-2581
-2582
-2583
-2584
-2585</pre>
+2510
+2511
+2512
+2513
+2514
+2515
+2516
+2517
+2518
+2519
+2520
+2521
+2522
+2523
+2524
+2525</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 2570</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 2510</span>
 
 static VALUE
 int32_div(VALUE self, VALUE other)
@@ -2929,25 +2929,25 @@ int32_div(VALUE self, VALUE other)
       <pre class="lines">
 
 
-3949
-3950
-3951
-3952
-3953
-3954
-3955
-3956
-3957
-3958
-3959
-3960
-3961
-3962
-3963
-3964</pre>
+3889
+3890
+3891
+3892
+3893
+3894
+3895
+3896
+3897
+3898
+3899
+3900
+3901
+3902
+3903
+3904</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 3949</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 3889</span>
 
 static VALUE
 int32_left_shift(VALUE self, VALUE other)
@@ -3029,25 +3029,25 @@ int32_left_shift(VALUE self, VALUE other)
       <pre class="lines">
 
 
-4088
-4089
-4090
-4091
-4092
-4093
-4094
-4095
-4096
-4097
-4098
-4099
-4100
-4101
-4102
-4103</pre>
+4028
+4029
+4030
+4031
+4032
+4033
+4034
+4035
+4036
+4037
+4038
+4039
+4040
+4041
+4042
+4043</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 4088</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 4028</span>
 
 static VALUE
 int32_right_shift(VALUE self, VALUE other)
@@ -3073,7 +3073,7 @@ int32_right_shift(VALUE self, VALUE other)
       <div class="method_details ">
   <h3 class="signature " id="[]-instance_method">
   
-    #<strong>[]</strong>(dim0, ..., dimL)  &#x21d2; <tt>Numeric</tt>, <tt>NArray::Int32</tt> 
+    #<strong>[]</strong>(dim0, ..., dimL)  &#x21d2; <tt>Numeric</tt>, <tt><span class='object_link'><a href="" title="Numo::Int32 (class)">Numo::Int32</a></span></tt> 
   
 
   
@@ -3081,49 +3081,13 @@ int32_right_shift(VALUE self, VALUE other)
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Array element referenece or slice view.
-— Returns the element at +dim0+, +dim1+, … are Numeric indices
-for each dimension, or returns a NArray View as a sliced subarray if
-+dim0+, +dim1+, … includes other than Numeric index, e.g., Range
-or Array or true.</p>
+    <p>Multi-dimensional element reference.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
-  <div class="examples">
-    <p class="tag_title">Examples:</p>
-    
-      
-      <pre class="example code"><code><span class='id identifier rubyid_a'>a</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DFloat.html" title="Numo::DFloat (class)">DFloat</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="NArray.html#initialize-instance_method" title="Numo::NArray#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>4</span><span class='comma'>,</span><span class='int'>5</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_seq'>seq</span>
-<span class='comment'># =&gt; Numo::DFloat#shape=[4,5]
-</span><span class='comment'># [[0, 1, 2, 3, 4],
-</span><span class='comment'>#  [5, 6, 7, 8, 9],
-</span><span class='comment'>#  [10, 11, 12, 13, 14],
-</span><span class='comment'>#  [15, 16, 17, 18, 19]]
-</span>
-<span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span><span class='int'>1</span><span class='rbracket'>]</span>
-<span class='comment'># =&gt; 6.0
-</span>
-<span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='int'>1</span><span class='op'>..</span><span class='int'>3</span><span class='comma'>,</span><span class='int'>1</span><span class='rbracket'>]</span>
-<span class='comment'># =&gt; Numo::DFloat#shape=[3]
-</span><span class='comment'># [6, 11, 16]
-</span>
-<span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span><span class='int'>3</span><span class='comma'>,</span><span class='int'>4</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
-<span class='comment'># =&gt; Numo::DFloat#shape=[3]
-</span><span class='comment'># [6, 8, 9]
-</span>
-<span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='kw'>true</span><span class='comma'>,</span><span class='int'>2</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_fill'>fill</span><span class='lparen'>(</span><span class='int'>99</span><span class='rparen'>)</span>
-<span class='id identifier rubyid_a'>a</span>
-<span class='comment'># =&gt; Numo::DFloat#shape=[4,5]
-</span><span class='comment'># [[0, 1, 99, 3, 4],
-</span><span class='comment'>#  [5, 6, 99, 8, 9],
-</span><span class='comment'>#  [10, 11, 99, 13, 14],
-</span><span class='comment'>#  [15, 16, 99, 18, 19]]</span></code></pre>
-    
-  </div>
-
   
 <p class="tag_title">Parameters:</p>
 <ul class="param">
@@ -3133,12 +3097,12 @@ or Array or true.</p>
         <span class='name'>dim0,...,dimL</span>
       
       
-        <span class='type'>(<tt>Numeric</tt>, <tt>Range</tt>, <tt>etc</tt>)</span>
+        <span class='type'>(<tt>Numeric</tt>, <tt>Range</tt>, <tt>Array</tt>, <tt><span class='object_link'><a href="" title="Numo::Int32 (class)">Numo::Int32</a></span></tt>, <tt><span class='object_link'><a href="Int64.html" title="Numo::Int64 (class)">Numo::Int64</a></span></tt>, <tt><span class='object_link'><a href="Bit.html" title="Numo::Bit (class)">Numo::Bit</a></span></tt>, <tt>TrueClass</tt>, <tt>FalseClass</tt>, <tt>Symbol</tt>)</span>
       
       
       
         &mdash;
-        <div class='inline'><p>Multi-dimensional Index.</p>
+        <div class='inline'><p>multi-dimensional indices.</p>
 </div>
       
     </li>
@@ -3151,17 +3115,26 @@ or Array or true.</p>
     <li>
       
       
-        <span class='type'>(<tt>Numeric</tt>, <tt>NArray::Int32</tt>)</span>
+        <span class='type'>(<tt>Numeric</tt>, <tt><span class='object_link'><a href="" title="Numo::Int32 (class)">Numo::Int32</a></span></tt>)</span>
       
       
       
         &mdash;
-        <div class='inline'><p>Element object or NArray view.</p>
+        <div class='inline'><p>an element or NArray view.</p>
 </div>
       
     </li>
   
 </ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="NArray.html#[]-instance_method" title="Numo::NArray#[] (method)">NArray#[]</a></span></li>
+    
+      <li><span class='object_link'><a href="#[]=-instance_method" title="Numo::Int32#[]= (method)">#[]=</a></span></li>
+    
+  </ul>
 
 </div><table class="source_code">
   <tr>
@@ -3169,24 +3142,24 @@ or Array or true.</p>
       <pre class="lines">
 
 
-1350
-1351
-1352
-1353
-1354
-1355
-1356
-1357
-1358
-1359
-1360
-1361
-1362
-1363
-1364</pre>
+1320
+1321
+1322
+1323
+1324
+1325
+1326
+1327
+1328
+1329
+1330
+1331
+1332
+1333
+1334</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 1350</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 1320</span>
 
 static VALUE
 int32_aref(int argc, VALUE *argv, VALUE self)
@@ -3211,7 +3184,7 @@ int32_aref(int argc, VALUE *argv, VALUE self)
       <div class="method_details ">
   <h3 class="signature " id="[]=-instance_method">
   
-    #<strong>[]=</strong>(dim0, .., dimL, val)  &#x21d2; <tt>Numeric</tt> 
+    #<strong>[]=</strong>(dim0, ..., dimL, val)  &#x21d2; <tt>Numeric</tt>, ... 
   
 
   
@@ -3219,63 +3192,28 @@ int32_aref(int argc, VALUE *argv, VALUE self)
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Array element(s) set.
-— Replace element(s) at +dim0+, +dim1+, … (index/range/array/true
-for each dimention). Broadcasting mechanism is applied.</p>
+    <p>Multi-dimensional element assignment.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
-  <div class="examples">
-    <p class="tag_title">Examples:</p>
-    
-      
-      <pre class="example code"><code><span class='id identifier rubyid_a'>a</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Numo.html" title="Numo (module)">Numo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DFloat.html" title="Numo::DFloat (class)">DFloat</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="NArray.html#initialize-instance_method" title="Numo::NArray#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>3</span><span class='comma'>,</span><span class='int'>4</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_seq'>seq</span>
-<span class='comment'># =&gt; Numo::DFloat#shape=[3,4]
-</span><span class='comment'># [[0, 1, 2, 3],
-</span><span class='comment'>#  [4, 5, 6, 7],
-</span><span class='comment'>#  [8, 9, 10, 11]]
-</span>
-<span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span><span class='int'>2</span><span class='rbracket'>]</span><span class='op'>=</span><span class='int'>99</span>
-<span class='id identifier rubyid_a'>a</span>
-<span class='comment'># =&gt; Numo::DFloat#shape=[3,4]
-</span><span class='comment'># [[0, 1, 2, 3],
-</span><span class='comment'>#  [4, 5, 99, 7],
-</span><span class='comment'>#  [8, 9, 10, 11]]
-</span>
-<span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>2</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='int'>101</span><span class='comma'>,</span><span class='int'>102</span><span class='rbracket'>]</span>
-<span class='id identifier rubyid_a'>a</span>
-<span class='comment'># =&gt; Numo::DFloat#shape=[3,4]
-</span><span class='comment'># [[0, 1, 2, 3],
-</span><span class='comment'>#  [101, 5, 102, 7],
-</span><span class='comment'>#  [8, 9, 10, 11]]
-</span>
-<span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span><span class='kw'>true</span><span class='rbracket'>]</span><span class='op'>=</span><span class='int'>99</span>
-<span class='id identifier rubyid_a'>a</span>
-<span class='comment'># =&gt; Numo::DFloat#shape=[3,4]
-</span><span class='comment'># [[0, 1, 2, 3],
-</span><span class='comment'>#  [99, 99, 99, 99],
-</span><span class='comment'>#  [8, 9, 10, 11]]</span></code></pre>
-    
-  </div>
-
   
 <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
       
-        <span class='name'>dim0,..,dimL</span>
+        <span class='name'>dim0,...,dimL</span>
       
       
-        <span class='type'>(<tt>Numeric</tt>, <tt>Range</tt>, <tt>etc</tt>)</span>
+        <span class='type'>(<tt>Numeric</tt>, <tt>Range</tt>, <tt>Array</tt>, <tt><span class='object_link'><a href="" title="Numo::Int32 (class)">Numo::Int32</a></span></tt>, <tt><span class='object_link'><a href="Int64.html" title="Numo::Int64 (class)">Numo::Int64</a></span></tt>, <tt><span class='object_link'><a href="Bit.html" title="Numo::Bit (class)">Numo::Bit</a></span></tt>, <tt>TrueClass</tt>, <tt>FalseClass</tt>, <tt>Symbol</tt>)</span>
       
       
       
         &mdash;
-        <div class='inline'><p>Multi-dimensional Index.</p>
+        <div class='inline'><p>multi-dimensional indices.</p>
 </div>
       
     </li>
@@ -3285,7 +3223,7 @@ for each dimention). Broadcasting mechanism is applied.</p>
         <span class='name'>val</span>
       
       
-        <span class='type'>(<tt>Numeric</tt>, <tt><span class='object_link'><a href="NArray.html" title="Numo::NArray (class)">Numo::NArray</a></span></tt>, <tt>etc</tt>)</span>
+        <span class='type'>(<tt>Numeric</tt>, <tt><span class='object_link'><a href="NArray.html" title="Numo::NArray (class)">Numo::NArray</a></span></tt>, <tt>Array</tt>)</span>
       
       
       
@@ -3303,17 +3241,26 @@ for each dimention). Broadcasting mechanism is applied.</p>
     <li>
       
       
-        <span class='type'>(<tt>Numeric</tt>)</span>
+        <span class='type'>(<tt>Numeric</tt>, <tt><span class='object_link'><a href="NArray.html" title="Numo::NArray (class)">Numo::NArray</a></span></tt>, <tt>Array</tt>)</span>
       
       
       
         &mdash;
-        <div class='inline'><p>returns val (last argument).</p>
+        <div class='inline'><p>returns <code>val</code> (last argument).</p>
 </div>
       
     </li>
   
 </ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="NArray.html#[]=-instance_method" title="Numo::NArray#[]= (method)">NArray#[]=</a></span></li>
+    
+      <li><span class='object_link'><a href="#[]-instance_method" title="Numo::Int32#[] (method)">#[]</a></span></li>
+    
+  </ul>
 
 </div><table class="source_code">
   <tr>
@@ -3321,35 +3268,35 @@ for each dimention). Broadcasting mechanism is applied.</p>
       <pre class="lines">
 
 
-1407
-1408
-1409
-1410
-1411
-1412
-1413
-1414
-1415
-1416
-1417
-1418
-1419
-1420
-1421
-1422
-1423
-1424
-1425
-1426
-1427
-1428
-1429
-1430
-1431
-1432</pre>
+1347
+1348
+1349
+1350
+1351
+1352
+1353
+1354
+1355
+1356
+1357
+1358
+1359
+1360
+1361
+1362
+1363
+1364
+1365
+1366
+1367
+1368
+1369
+1370
+1371
+1372</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 1407</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 1347</span>
 
 static VALUE
 int32_aset(int argc, VALUE *argv, VALUE self)
@@ -3441,25 +3388,25 @@ int32_aset(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-3726
-3727
-3728
-3729
-3730
-3731
-3732
-3733
-3734
-3735
-3736
-3737
-3738
-3739
-3740
-3741</pre>
+3666
+3667
+3668
+3669
+3670
+3671
+3672
+3673
+3674
+3675
+3676
+3677
+3678
+3679
+3680
+3681</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 3726</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 3666</span>
 
 static VALUE
 int32_bit_xor(VALUE self, VALUE other)
@@ -3526,18 +3473,18 @@ int32_bit_xor(VALUE self, VALUE other)
       <pre class="lines">
 
 
-2017
-2018
-2019
-2020
-2021
-2022
-2023
-2024
-2025</pre>
+1957
+1958
+1959
+1960
+1961
+1962
+1963
+1964
+1965</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 2017</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 1957</span>
 
 static VALUE
 int32_abs(VALUE self)
@@ -3722,40 +3669,40 @@ int32_allocate(VALUE self)
       <pre class="lines">
 
 
-4933
-4934
-4935
-4936
-4937
-4938
-4939
-4940
-4941
-4942
-4943
-4944
-4945
-4946
-4947
-4948
-4949
-4950
-4951
-4952
-4953
-4954
-4955
-4956
-4957
-4958
-4959
-4960
-4961
-4962
-4963</pre>
+4873
+4874
+4875
+4876
+4877
+4878
+4879
+4880
+4881
+4882
+4883
+4884
+4885
+4886
+4887
+4888
+4889
+4890
+4891
+4892
+4893
+4894
+4895
+4896
+4897
+4898
+4899
+4900
+4901
+4902
+4903</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 4933</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 4873</span>
 
 static VALUE
 int32_argmax(int argc, VALUE *argv, VALUE self)
@@ -3880,40 +3827,40 @@ int32_argmax(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-5025
-5026
-5027
-5028
-5029
-5030
-5031
-5032
-5033
-5034
-5035
-5036
-5037
-5038
-5039
-5040
-5041
-5042
-5043
-5044
-5045
-5046
-5047
-5048
-5049
-5050
-5051
-5052
-5053
-5054
-5055</pre>
+4965
+4966
+4967
+4968
+4969
+4970
+4971
+4972
+4973
+4974
+4975
+4976
+4977
+4978
+4979
+4980
+4981
+4982
+4983
+4984
+4985
+4986
+4987
+4988
+4989
+4990
+4991
+4992
+4993
+4994
+4995</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 5025</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 4965</span>
 
 static VALUE
 int32_argmin(int argc, VALUE *argv, VALUE self)
@@ -4057,53 +4004,53 @@ otherwise returns UInt32 or UInt64 depending on the size along last axis.</p>
       <pre class="lines">
 
 
-5420
-5421
-5422
-5423
-5424
-5425
-5426
-5427
-5428
-5429
-5430
-5431
-5432
-5433
-5434
-5435
-5436
-5437
-5438
-5439
-5440
-5441
-5442
-5443
-5444
-5445
-5446
-5447
-5448
-5449
-5450
-5451
-5452
-5453
-5454
-5455
-5456
-5457
-5458
-5459
-5460
-5461
-5462
-5463</pre>
+5360
+5361
+5362
+5363
+5364
+5365
+5366
+5367
+5368
+5369
+5370
+5371
+5372
+5373
+5374
+5375
+5376
+5377
+5378
+5379
+5380
+5381
+5382
+5383
+5384
+5385
+5386
+5387
+5388
+5389
+5390
+5391
+5392
+5393
+5394
+5395
+5396
+5397
+5398
+5399
+5400
+5401
+5402
+5403</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 5420</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 5360</span>
 
 static VALUE
 int32_bincount(int argc, VALUE *argv, VALUE self)
@@ -4252,32 +4199,32 @@ If either of min or max is nil, one side is clipped.</p>
       <pre class="lines">
 
 
-4435
-4436
-4437
-4438
-4439
-4440
-4441
-4442
-4443
-4444
-4445
-4446
-4447
-4448
-4449
-4450
-4451
-4452
-4453
-4454
-4455
-4456
-4457</pre>
+4375
+4376
+4377
+4378
+4379
+4380
+4381
+4382
+4383
+4384
+4385
+4386
+4387
+4388
+4389
+4390
+4391
+4392
+4393
+4394
+4395
+4396
+4397</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 4435</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 4375</span>
 
 static VALUE
 int32_clip(VALUE self, VALUE min, VALUE max)
@@ -4347,14 +4294,14 @@ int32_clip(VALUE self, VALUE min, VALUE max)
       <pre class="lines">
 
 
-1441
-1442
-1443
-1444
-1445</pre>
+1381
+1382
+1383
+1384
+1385</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 1441</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 1381</span>
 
 static VALUE
 int32_coerce_cast(VALUE self, VALUE type)
@@ -4444,24 +4391,24 @@ int32_coerce_cast(VALUE self, VALUE type)
       <pre class="lines">
 
 
-5551
-5552
-5553
-5554
-5555
-5556
-5557
-5558
-5559
-5560
-5561
-5562
-5563
-5564
-5565</pre>
+5491
+5492
+5493
+5494
+5495
+5496
+5497
+5498
+5499
+5500
+5501
+5502
+5503
+5504
+5505</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 5551</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 5491</span>
 
 static VALUE
 int32_cumprod(int argc, VALUE *argv, VALUE self)
@@ -4561,24 +4508,24 @@ int32_cumprod(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-5500
-5501
-5502
-5503
-5504
-5505
-5506
-5507
-5508
-5509
-5510
-5511
-5512
-5513
-5514</pre>
+5440
+5441
+5442
+5443
+5444
+5445
+5446
+5447
+5448
+5449
+5450
+5451
+5452
+5453
+5454</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 5500</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 5440</span>
 
 static VALUE
 int32_cumsum(int argc, VALUE *argv, VALUE self)
@@ -4659,24 +4606,24 @@ int32_cumsum(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-2775
-2776
-2777
-2778
-2779
-2780
-2781
-2782
-2783
-2784
-2785
-2786
-2787
-2788
-2789</pre>
+2715
+2716
+2717
+2718
+2719
+2720
+2721
+2722
+2723
+2724
+2725
+2726
+2727
+2728
+2729</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 2775</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 2715</span>
 
 static VALUE
 int32_divmod(VALUE self, VALUE other)
@@ -4772,18 +4719,18 @@ For a block <code>{|x| ... }</code>,</p>
       <pre class="lines">
 
 
-1704
-1705
-1706
-1707
-1708
-1709
-1710
-1711
-1712</pre>
+1644
+1645
+1646
+1647
+1648
+1649
+1650
+1651
+1652</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 1704</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 1644</span>
 
 static VALUE
 int32_each(VALUE self)
@@ -4888,18 +4835,18 @@ For a block <code>{|x,i,j,...| ... }</code>,</p>
       <pre class="lines">
 
 
-1859
-1860
-1861
-1862
-1863
-1864
-1865
-1866
-1867</pre>
+1799
+1800
+1801
+1802
+1803
+1804
+1805
+1806
+1807</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 1859</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 1799</span>
 
 static VALUE
 int32_each_with_index(VALUE self)
@@ -4978,24 +4925,24 @@ int32_each_with_index(VALUE self)
       <pre class="lines">
 
 
-3251
-3252
-3253
-3254
-3255
-3256
-3257
-3258
-3259
-3260
-3261
-3262
-3263
-3264
-3265</pre>
+3191
+3192
+3193
+3194
+3195
+3196
+3197
+3198
+3199
+3200
+3201
+3202
+3203
+3204
+3205</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 3251</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 3191</span>
 
 static VALUE
 int32_eq(VALUE self, VALUE other)
@@ -5180,60 +5127,60 @@ for diagonals below the main diagonal.</p>
       <pre class="lines">
 
 
-5791
-5792
-5793
-5794
-5795
-5796
-5797
-5798
-5799
-5800
-5801
-5802
-5803
-5804
-5805
-5806
-5807
-5808
-5809
-5810
-5811
-5812
-5813
-5814
-5815
-5816
-5817
-5818
-5819
-5820
-5821
-5822
-5823
-5824
-5825
-5826
-5827
-5828
-5829
-5830
-5831
-5832
-5833
-5834
-5835
-5836
-5837
-5838
-5839
-5840
-5841</pre>
+5731
+5732
+5733
+5734
+5735
+5736
+5737
+5738
+5739
+5740
+5741
+5742
+5743
+5744
+5745
+5746
+5747
+5748
+5749
+5750
+5751
+5752
+5753
+5754
+5755
+5756
+5757
+5758
+5759
+5760
+5761
+5762
+5763
+5764
+5765
+5766
+5767
+5768
+5769
+5770
+5771
+5772
+5773
+5774
+5775
+5776
+5777
+5778
+5779
+5780
+5781</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 5791</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 5731</span>
 
 static VALUE
 int32_eye(int argc, VALUE *argv, VALUE self)
@@ -5350,18 +5297,18 @@ int32_eye(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-1522
-1523
-1524
-1525
-1526
-1527
-1528
-1529
-1530</pre>
+1462
+1463
+1464
+1465
+1466
+1467
+1468
+1469
+1470</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 1522</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 1462</span>
 
 static VALUE
 int32_fill(VALUE self, VALUE val)
@@ -5436,21 +5383,21 @@ int32_fill(VALUE self, VALUE val)
       <pre class="lines">
 
 
-1582
-1583
-1584
-1585
-1586
-1587
-1588
-1589
-1590
-1591
-1592
-1593</pre>
+1522
+1523
+1524
+1525
+1526
+1527
+1528
+1529
+1530
+1531
+1532
+1533</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 1582</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 1522</span>
 
 static VALUE
 int32_format(int argc, VALUE *argv, VALUE self)
@@ -5528,20 +5475,20 @@ int32_format(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-1633
-1634
-1635
-1636
-1637
-1638
-1639
-1640
-1641
-1642
-1643</pre>
+1573
+1574
+1575
+1576
+1577
+1578
+1579
+1580
+1581
+1582
+1583</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 1633</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 1573</span>
 
 static VALUE
 int32_format_to_a(int argc, VALUE *argv, VALUE self)
@@ -5622,24 +5569,24 @@ int32_format_to_a(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-4208
-4209
-4210
-4211
-4212
-4213
-4214
-4215
-4216
-4217
-4218
-4219
-4220
-4221
-4222</pre>
+4148
+4149
+4150
+4151
+4152
+4153
+4154
+4155
+4156
+4157
+4158
+4159
+4160
+4161
+4162</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 4208</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 4148</span>
 
 static VALUE
 int32_ge(VALUE self, VALUE other)
@@ -5724,24 +5671,24 @@ int32_ge(VALUE self, VALUE other)
       <pre class="lines">
 
 
-4151
-4152
-4153
-4154
-4155
-4156
-4157
-4158
-4159
-4160
-4161
-4162
-4163
-4164
-4165</pre>
+4091
+4092
+4093
+4094
+4095
+4096
+4097
+4098
+4099
+4100
+4101
+4102
+4103
+4104
+4105</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 4151</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 4091</span>
 
 static VALUE
 int32_gt(VALUE self, VALUE other)
@@ -5803,14 +5750,14 @@ int32_gt(VALUE self, VALUE other)
       <pre class="lines">
 
 
-1660
-1661
-1662
-1663
-1664</pre>
+1600
+1601
+1602
+1603
+1604</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 1660</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 1600</span>
 
 static VALUE
 int32_inspect(VALUE ary)
@@ -5885,24 +5832,24 @@ int32_inspect(VALUE ary)
       <pre class="lines">
 
 
-4322
-4323
-4324
-4325
-4326
-4327
-4328
-4329
-4330
-4331
-4332
-4333
-4334
-4335
-4336</pre>
+4262
+4263
+4264
+4265
+4266
+4267
+4268
+4269
+4270
+4271
+4272
+4273
+4274
+4275
+4276</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 4322</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 4262</span>
 
 static VALUE
 int32_le(VALUE self, VALUE other)
@@ -5987,24 +5934,24 @@ int32_le(VALUE self, VALUE other)
       <pre class="lines">
 
 
-4265
-4266
-4267
-4268
-4269
-4270
-4271
-4272
-4273
-4274
-4275
-4276
-4277
-4278
-4279</pre>
+4205
+4206
+4207
+4208
+4209
+4210
+4211
+4212
+4213
+4214
+4215
+4216
+4217
+4218
+4219</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 4265</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 4205</span>
 
 static VALUE
 int32_lt(VALUE self, VALUE other)
@@ -6070,18 +6017,18 @@ int32_lt(VALUE self, VALUE other)
       <pre class="lines">
 
 
-1788
-1789
-1790
-1791
-1792
-1793
-1794
-1795
-1796</pre>
+1728
+1729
+1730
+1731
+1732
+1733
+1734
+1735
+1736</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 1788</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 1728</span>
 
 static VALUE
 int32_map(VALUE self)
@@ -6188,18 +6135,18 @@ For a block <code>{|x,i,j,...| ... }</code>,</p>
       <pre class="lines">
 
 
-1956
-1957
-1958
-1959
-1960
-1961
-1962
-1963
-1964</pre>
+1896
+1897
+1898
+1899
+1900
+1901
+1902
+1903
+1904</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 1956</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 1896</span>
 
 static VALUE
 int32_map_with_index(VALUE self)
@@ -6293,27 +6240,27 @@ int32_map_with_index(VALUE self)
       <pre class="lines">
 
 
-4616
-4617
-4618
-4619
-4620
-4621
-4622
-4623
-4624
-4625
-4626
-4627
-4628
-4629
-4630
-4631
-4632
-4633</pre>
+4556
+4557
+4558
+4559
+4560
+4561
+4562
+4563
+4564
+4565
+4566
+4567
+4568
+4569
+4570
+4571
+4572
+4573</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 4616</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 4556</span>
 
 static VALUE
 int32_max(int argc, VALUE *argv, VALUE self)
@@ -6425,43 +6372,43 @@ int32_max(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-4741
-4742
-4743
-4744
-4745
-4746
-4747
-4748
-4749
-4750
-4751
-4752
-4753
-4754
-4755
-4756
-4757
-4758
-4759
-4760
-4761
-4762
-4763
-4764
-4765
-4766
-4767
-4768
-4769
-4770
-4771
-4772
-4773
-4774</pre>
+4681
+4682
+4683
+4684
+4685
+4686
+4687
+4688
+4689
+4690
+4691
+4692
+4693
+4694
+4695
+4696
+4697
+4698
+4699
+4700
+4701
+4702
+4703
+4704
+4705
+4706
+4707
+4708
+4709
+4710
+4711
+4712
+4713
+4714</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 4741</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 4681</span>
 
 static VALUE
 int32_max_index(int argc, VALUE *argv, VALUE self)
@@ -6580,26 +6527,26 @@ int32_max_index(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-6669
-6670
-6671
-6672
-6673
-6674
-6675
-6676
-6677
-6678
-6679
-6680
-6681
-6682
-6683
-6684
-6685</pre>
+6609
+6610
+6611
+6612
+6613
+6614
+6615
+6616
+6617
+6618
+6619
+6620
+6621
+6622
+6623
+6624
+6625</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 6669</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 6609</span>
 
 static VALUE
 int32_median(int argc, VALUE *argv, VALUE self)
@@ -6701,27 +6648,27 @@ int32_median(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-4572
-4573
-4574
-4575
-4576
-4577
-4578
-4579
-4580
-4581
-4582
-4583
-4584
-4585
-4586
-4587
-4588
-4589</pre>
+4512
+4513
+4514
+4515
+4516
+4517
+4518
+4519
+4520
+4521
+4522
+4523
+4524
+4525
+4526
+4527
+4528
+4529</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 4572</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 4512</span>
 
 static VALUE
 int32_min(int argc, VALUE *argv, VALUE self)
@@ -6833,43 +6780,43 @@ int32_min(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-4838
-4839
-4840
-4841
-4842
-4843
-4844
-4845
-4846
-4847
-4848
-4849
-4850
-4851
-4852
-4853
-4854
-4855
-4856
-4857
-4858
-4859
-4860
-4861
-4862
-4863
-4864
-4865
-4866
-4867
-4868
-4869
-4870
-4871</pre>
+4778
+4779
+4780
+4781
+4782
+4783
+4784
+4785
+4786
+4787
+4788
+4789
+4790
+4791
+4792
+4793
+4794
+4795
+4796
+4797
+4798
+4799
+4800
+4801
+4802
+4803
+4804
+4805
+4806
+4807
+4808
+4809
+4810
+4811</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 4838</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 4778</span>
 
 static VALUE
 int32_min_index(int argc, VALUE *argv, VALUE self)
@@ -6988,23 +6935,23 @@ int32_min_index(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-5085
-5086
-5087
-5088
-5089
-5090
-5091
-5092
-5093
-5094
-5095
-5096
-5097
-5098</pre>
+5025
+5026
+5027
+5028
+5029
+5030
+5031
+5032
+5033
+5034
+5035
+5036
+5037
+5038</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 5085</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 5025</span>
 
 static VALUE
 int32_minmax(int argc, VALUE *argv, VALUE self)
@@ -7114,29 +7061,29 @@ int32_minmax(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-5640
-5641
-5642
-5643
-5644
-5645
-5646
-5647
-5648
-5649
-5650
-5651
-5652
-5653
-5654
-5655
-5656
-5657
-5658
-5659</pre>
+5580
+5581
+5582
+5583
+5584
+5585
+5586
+5587
+5588
+5589
+5590
+5591
+5592
+5593
+5594
+5595
+5596
+5597
+5598
+5599</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 5640</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 5580</span>
 
 static VALUE
 int32_mulsum(int argc, VALUE *argv, VALUE self)
@@ -7222,24 +7169,24 @@ int32_mulsum(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-3308
-3309
-3310
-3311
-3312
-3313
-3314
-3315
-3316
-3317
-3318
-3319
-3320
-3321
-3322</pre>
+3248
+3249
+3250
+3251
+3252
+3253
+3254
+3255
+3256
+3257
+3258
+3259
+3260
+3261
+3262</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 3308</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 3248</span>
 
 static VALUE
 int32_ne(VALUE self, VALUE other)
@@ -7317,33 +7264,33 @@ int32_ne(VALUE self, VALUE other)
       <pre class="lines">
 
 
-6000
-6001
-6002
-6003
-6004
-6005
-6006
-6007
-6008
-6009
-6010
-6011
-6012
-6013
-6014
-6015
-6016
-6017
-6018
-6019
-6020
-6021
-6022
-6023</pre>
+5940
+5941
+5942
+5943
+5944
+5945
+5946
+5947
+5948
+5949
+5950
+5951
+5952
+5953
+5954
+5955
+5956
+5957
+5958
+5959
+5960
+5961
+5962
+5963</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 6000</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 5940</span>
 
 static VALUE
 int32_poly(VALUE self, VALUE args)
@@ -7452,27 +7399,27 @@ int32_poly(VALUE self, VALUE args)
       <pre class="lines">
 
 
-4528
-4529
-4530
-4531
-4532
-4533
-4534
-4535
-4536
-4537
-4538
-4539
-4540
-4541
-4542
-4543
-4544
-4545</pre>
+4468
+4469
+4470
+4471
+4472
+4473
+4474
+4475
+4476
+4477
+4478
+4479
+4480
+4481
+4482
+4483
+4484
+4485</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 4528</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 4468</span>
 
 static VALUE
 int32_prod(int argc, VALUE *argv, VALUE self)
@@ -7575,27 +7522,27 @@ int32_prod(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-4660
-4661
-4662
-4663
-4664
-4665
-4666
-4667
-4668
-4669
-4670
-4671
-4672
-4673
-4674
-4675
-4676
-4677</pre>
+4600
+4601
+4602
+4603
+4604
+4605
+4606
+4607
+4608
+4609
+4610
+4611
+4612
+4613
+4614
+4615
+4616
+4617</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 4660</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 4600</span>
 
 static VALUE
 int32_ptp(int argc, VALUE *argv, VALUE self)
@@ -7716,38 +7663,38 @@ int32_ptp(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-5943
-5944
-5945
-5946
-5947
-5948
-5949
-5950
-5951
-5952
-5953
-5954
-5955
-5956
-5957
-5958
-5959
-5960
-5961
-5962
-5963
-5964
-5965
-5966
-5967
-5968
-5969
-5970
-5971</pre>
+5883
+5884
+5885
+5886
+5887
+5888
+5889
+5890
+5891
+5892
+5893
+5894
+5895
+5896
+5897
+5898
+5899
+5900
+5901
+5902
+5903
+5904
+5905
+5906
+5907
+5908
+5909
+5910
+5911</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 5943</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 5883</span>
 
 static VALUE
 int32_rand(int argc, VALUE *args, VALUE self)
@@ -7827,18 +7774,18 @@ int32_rand(int argc, VALUE *args, VALUE self)
       <pre class="lines">
 
 
-3029
-3030
-3031
-3032
-3033
-3034
-3035
-3036
-3037</pre>
+2969
+2970
+2971
+2972
+2973
+2974
+2975
+2976
+2977</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 3029</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 2969</span>
 
 static VALUE
 int32_reciprocal(VALUE self)
@@ -7952,30 +7899,30 @@ where i is 1-dimensional index.</p>
       <pre class="lines">
 
 
-5727
-5728
-5729
-5730
-5731
-5732
-5733
-5734
-5735
-5736
-5737
-5738
-5739
-5740
-5741
-5742
-5743
-5744
-5745
-5746
-5747</pre>
+5667
+5668
+5669
+5670
+5671
+5672
+5673
+5674
+5675
+5676
+5677
+5678
+5679
+5680
+5681
+5682
+5683
+5684
+5685
+5686
+5687</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 5727</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 5667</span>
 
 static VALUE
 int32_seq(int argc, VALUE *args, VALUE self)
@@ -8047,18 +7994,18 @@ int32_seq(int argc, VALUE *args, VALUE self)
       <pre class="lines">
 
 
-3113
-3114
-3115
-3116
-3117
-3118
-3119
-3120
-3121</pre>
+3053
+3054
+3055
+3056
+3057
+3058
+3059
+3060
+3061</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 3113</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 3053</span>
 
 static VALUE
 int32_sign(VALUE self)
@@ -8145,27 +8092,27 @@ int32_sign(VALUE self)
       <pre class="lines">
 
 
-6258
-6259
-6260
-6261
-6262
-6263
-6264
-6265
-6266
-6267
-6268
-6269
-6270
-6271
-6272
-6273
-6274
-6275</pre>
+6198
+6199
+6200
+6201
+6202
+6203
+6204
+6205
+6206
+6207
+6208
+6209
+6210
+6211
+6212
+6213
+6214
+6215</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 6258</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 6198</span>
 
 static VALUE
 int32_sort(int argc, VALUE *argv, VALUE self)
@@ -8261,51 +8208,51 @@ int32_sort(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-6586
-6587
-6588
-6589
-6590
-6591
-6592
-6593
-6594
-6595
-6596
-6597
-6598
-6599
-6600
-6601
-6602
-6603
-6604
-6605
-6606
-6607
-6608
-6609
-6610
-6611
-6612
-6613
-6614
-6615
-6616
-6617
-6618
-6619
-6620
-6621
-6622
-6623
-6624
-6625
-6626
-6627</pre>
+6526
+6527
+6528
+6529
+6530
+6531
+6532
+6533
+6534
+6535
+6536
+6537
+6538
+6539
+6540
+6541
+6542
+6543
+6544
+6545
+6546
+6547
+6548
+6549
+6550
+6551
+6552
+6553
+6554
+6555
+6556
+6557
+6558
+6559
+6560
+6561
+6562
+6563
+6564
+6565
+6566
+6567</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 6586</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 6526</span>
 
 static VALUE
 int32_sort_index(int argc, VALUE *argv, VALUE self)
@@ -8398,18 +8345,18 @@ int32_sort_index(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-3197
-3198
-3199
-3200
-3201
-3202
-3203
-3204
-3205</pre>
+3137
+3138
+3139
+3140
+3141
+3142
+3143
+3144
+3145</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 3197</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 3137</span>
 
 static VALUE
 int32_square(VALUE self)
@@ -8787,27 +8734,27 @@ int32_store(VALUE self, VALUE obj)
       <pre class="lines">
 
 
-4484
-4485
-4486
-4487
-4488
-4489
-4490
-4491
-4492
-4493
-4494
-4495
-4496
-4497
-4498
-4499
-4500
-4501</pre>
+4424
+4425
+4426
+4427
+4428
+4429
+4430
+4431
+4432
+4433
+4434
+4435
+4436
+4437
+4438
+4439
+4440
+4441</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 4484</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 4424</span>
 
 static VALUE
 int32_sum(int argc, VALUE *argv, VALUE self)
@@ -8872,17 +8819,17 @@ int32_sum(int argc, VALUE *argv, VALUE self)
       <pre class="lines">
 
 
-1482
-1483
-1484
-1485
-1486
-1487
-1488
-1489</pre>
+1422
+1423
+1424
+1425
+1426
+1427
+1428
+1429</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 1482</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 1422</span>
 
 static VALUE
 int32_to_a(VALUE self)
@@ -8963,25 +8910,25 @@ int32_to_a(VALUE self)
       <pre class="lines">
 
 
-3587
-3588
-3589
-3590
-3591
-3592
-3593
-3594
-3595
-3596
-3597
-3598
-3599
-3600
-3601
-3602</pre>
+3527
+3528
+3529
+3530
+3531
+3532
+3533
+3534
+3535
+3536
+3537
+3538
+3539
+3540
+3541
+3542</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 3587</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 3527</span>
 
 static VALUE
 int32_bit_or(VALUE self, VALUE other)
@@ -9048,18 +8995,18 @@ int32_bit_or(VALUE self, VALUE other)
       <pre class="lines">
 
 
-3817
-3818
-3819
-3820
-3821
-3822
-3823
-3824
-3825</pre>
+3757
+3758
+3759
+3760
+3761
+3762
+3763
+3764
+3765</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 3817</span>
+      <pre class="code"><span class="info file"># File 'ext/numo/narray/types/int32.c', line 3757</span>
 
 static VALUE
 int32_bit_not(VALUE self)
@@ -9080,7 +9027,7 @@ int32_bit_not(VALUE self)
 </div>
 
       <div id="footer">
-  Generated on Mon Oct  7 16:22:21 2019 by
+  Generated on Mon Oct  7 18:20:17 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.6.5).
 </div>
