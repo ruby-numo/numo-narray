@@ -1,6 +1,6 @@
 /*
   qsort.c
-  Numerical Array Extension for Ruby
+  Ruby/Numo::NArray - Numerical Array class for Ruby
     modified by Masahiro TANAKA
 */
 

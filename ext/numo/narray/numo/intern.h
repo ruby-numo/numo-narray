@@ -1,7 +1,7 @@
 /*
   intern.h
-  Numerical Array Extension for Ruby
-    (C) Copyright 1999-2017 by Masahiro TANAKA
+  Ruby/Numo::NArray - Numerical Array class for Ruby
+    Copyright (C) 1999-2019 Masahiro TANAKA
 */
 #ifndef INTERN_H
 #define INTERN_H
