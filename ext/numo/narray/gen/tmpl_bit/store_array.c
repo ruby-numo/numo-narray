@@ -71,8 +71,8 @@ static void
     } else {
         for (i=i1=0; i1<n1 && i<n; i++,i1++) {
             x = ptr[i1];
-#ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
             if (rb_obj_is_kind_of(x, rb_cRange)
+#ifdef HAVE_RB_ARITHMETIC_SEQUENCE_EXTRACT
                 || rb_obj_is_kind_of(x, rb_cArithSeq)
 #else
                 || rb_obj_is_kind_of(x, rb_cEnumerator)
