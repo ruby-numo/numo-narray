@@ -7,7 +7,11 @@ if RUBY_VERSION < "2.1.0"
   exit(1)
 end
 
-rm_f 'numo/extconf.h'
+def d(file)
+  File.join(__dir__,file)
+end
+
+rm_f d('numo/extconf.h')
 
 #$CFLAGS="-g3 -O0 -Wall"
 #$CFLAGS=" $(cflags) -O3 -m64 -msse2 -funroll-loops"
@@ -28,20 +32,20 @@ step
 index
 ndloop
 data
-types/bit
-types/int8
-types/int16
-types/int32
-types/int64
-types/uint8
-types/uint16
-types/uint32
-types/uint64
-types/sfloat
-types/dfloat
-types/scomplex
-types/dcomplex
-types/robject
+t_bit
+t_int8
+t_int16
+t_int32
+t_int64
+t_uint8
+t_uint16
+t_uint32
+t_uint64
+t_sfloat
+t_dfloat
+t_scomplex
+t_dcomplex
+t_robject
 math
 SFMT
 struct
@@ -89,14 +93,12 @@ have_var("rb_cComplex")
 
 $objs = srcs.collect{|i| i+".o"}
 
-create_header('numo/extconf.h')
+create_header d('numo/extconf.h')
 
-depend_path = File.join(__dir__, "depend")
-File.open(depend_path, "w") do |depend|
-  depend_erb_path = File.join(__dir__, "depend.erb")
-  File.open(depend_erb_path, "r") do |depend_erb|
+File.open(d('depend'), "w") do |depend|
+  File.open(d('depend.erb'), "r") do |depend_erb|
     erb = ERB.new(depend_erb.read)
-    erb.filename = depend_erb_path
+    erb.filename = d('depend.erb')
     depend.print(erb.result)
   end
 end
