@@ -1,15 +1,17 @@
 language:
   ruby
 
-rvm:
-  - '2.2'
-  - '2.3'
-  - '2.4'
-  - '2.5'
-  - '2.6'
-
 matrix:
   fast_finish: true
+  include:
+    - rvm: '2.2'
+    - rvm: '2.3'
+    - rvm: '2.4'
+    - rvm: '2.5'
+    - rvm: '2.6'
+    - name: 'master'
+      rvm: 'ruby-head'
+      before_install: true
 
 notifications:
   email: false

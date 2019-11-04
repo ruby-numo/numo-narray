@@ -1050,11 +1050,8 @@ static VALUE na_slice(int argc, VALUE *argv, VALUE self)
       #  [10, 11, 99, 13, 14],
       #  [15, 16, 99, 18, 19]]
  */
-static VALUE na_aref(int argc, VALUE *argv, VALUE self)
-{
-    // implemented in subclasses
-    return rb_f_notimplement(argc,argv,self);
-}
+// implemented in subclasses
+#define na_aref rb_f_notimplement
 
 /*
   Multi-dimensional element assignment.
@@ -1094,11 +1091,8 @@ static VALUE na_aref(int argc, VALUE *argv, VALUE self)
       #  [8, 9, 10, 11]]
 
 */
-static VALUE na_aset(int argc, VALUE *argv, VALUE self)
-{
-    // implemented in subclasses
-    return rb_f_notimplement(argc,argv,self);
-}
+// implemented in subclasses
+#define na_aset rb_f_notimplement
 
 /*
   Multi-dimensional array indexing.
