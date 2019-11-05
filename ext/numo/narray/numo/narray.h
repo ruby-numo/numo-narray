@@ -107,7 +107,7 @@ extern "C" {
 # endif
 #endif
 
-#if SIZEOF_VALUE > 4
+#if SIZEOF_LONG > 4
 # undef INT322NUM
 # undef UINT322NUM
 # define INT322NUM(x) INT2FIX(x)
