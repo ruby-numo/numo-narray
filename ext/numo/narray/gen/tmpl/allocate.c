@@ -20,6 +20,7 @@ static VALUE
             }
             <% end %>
             NA_DATA_PTR(na) = ptr;
+            NA_DATA_OWNED(na) = TRUE;
         }
         break;
     case NARRAY_VIEW_T:

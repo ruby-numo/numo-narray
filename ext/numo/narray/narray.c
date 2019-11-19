@@ -34,6 +34,7 @@ static ID id_count_false;
 static ID id_axis;
 static ID id_nan;
 static ID id_keepdims;
+static ID id_source;
 
 VALUE cPointer;
 
@@ -605,6 +606,87 @@ na_s_eye(int argc, VALUE *argv, VALUE klass)
 #define READ 1
 #define WRITE 2
 
+static void
+na_set_pointer(VALUE self, char *ptr, size_t byte_size)
+{
+    VALUE obj;
+    narray_t *na;
+
+    if (OBJ_FROZEN(self)) {
+        rb_raise(rb_eRuntimeError, "cannot write to frozen NArray.");
+    }
+
+    GetNArray(self,na);
+
+    switch(NA_TYPE(na)) {
+    case NARRAY_DATA_T:
+        if (NA_SIZE(na) > 0) {
+            if (NA_DATA_PTR(na) != NULL && NA_DATA_OWNED(na)) {
+                xfree(NA_DATA_PTR(na));
+            }
+            NA_DATA_PTR(na) = ptr;
+            NA_DATA_OWNED(na) = FALSE;
+        }
+        return;
+    case NARRAY_VIEW_T:
+        obj = NA_VIEW_DATA(na);
+        if (OBJ_FROZEN(obj)) {
+            rb_raise(rb_eRuntimeError, "cannot write to frozen NArray.");
+        }
+        GetNArray(obj,na);
+        switch(NA_TYPE(na)) {
+        case NARRAY_DATA_T:
+            if (NA_SIZE(na) > 0) {
+                if (NA_DATA_PTR(na) != NULL && NA_DATA_OWNED(na)) {
+                    xfree(NA_DATA_PTR(na));
+                }
+                NA_DATA_PTR(na) = ptr;
+                NA_DATA_OWNED(na) = FALSE;
+            }
+            return;
+        default:
+            rb_raise(rb_eRuntimeError,"invalid NA_TYPE of view: %d",NA_TYPE(na));
+        }
+    default:
+        rb_raise(rb_eRuntimeError,"invalid NA_TYPE: %d",NA_TYPE(na));
+    }
+}
+
+static void
+na_pointer_copy_on_write(VALUE self)
+{
+    narray_t *na;
+    void *ptr;
+    VALUE velmsz;
+    size_t byte_size;
+
+    GetNArray(self,na);
+    if (NA_TYPE(na) == NARRAY_VIEW_T) {
+        self = NA_VIEW_DATA(na);
+        GetNArray(self,na);
+    }
+
+    ptr = NA_DATA_PTR(na);
+    if (ptr == NULL) {
+        return;
+    }
+
+    if (NA_DATA_OWNED(na)) {
+        return;
+    }
+
+    velmsz = rb_const_get(rb_obj_class(self), id_element_byte_size);
+    if (FIXNUM_P(velmsz)) {
+        byte_size = NA_SIZE(na) * NUM2SIZET(velmsz);
+    } else {
+        byte_size = ceil(NA_SIZE(na) * NUM2DBL(velmsz));
+    }
+    NA_DATA_PTR(na) = NULL;
+    rb_funcall(self, id_allocate, 0);
+    memcpy(NA_DATA_PTR(na), ptr, byte_size);
+    rb_ivar_set(self, id_source, Qnil);
+}
+
 static char *
 na_get_pointer_for_rw(VALUE self, int flag)
 {
@@ -620,6 +702,9 @@ na_get_pointer_for_rw(VALUE self, int flag)
 
     switch(NA_TYPE(na)) {
     case NARRAY_DATA_T:
+        if (flag & WRITE) {
+            na_pointer_copy_on_write(self);
+        }
         ptr = NA_DATA_PTR(na);
         if (NA_SIZE(na) > 0 && ptr == NULL) {
             if (flag & READ) {
@@ -635,6 +720,9 @@ na_get_pointer_for_rw(VALUE self, int flag)
         obj = NA_VIEW_DATA(na);
         if ((flag & WRITE) && OBJ_FROZEN(obj)) {
             rb_raise(rb_eRuntimeError, "cannot write to frozen NArray.");
+        }
+        if (flag & WRITE) {
+            na_pointer_copy_on_write(self);
         }
         GetNArray(obj,na);
         switch(NA_TYPE(na)) {
@@ -1260,7 +1348,6 @@ nary_s_from_binary(int argc, VALUE *argv, VALUE type)
 {
     size_t len, str_len, byte_size;
     size_t *shape;
-    char *ptr;
     int   i, nd, narg;
     VALUE vstr, vshape, vna;
     VALUE velmsz;
@@ -1315,9 +1402,13 @@ nary_s_from_binary(int argc, VALUE *argv, VALUE type)
     }
 
     vna = nary_new(type, nd, shape);
-    ptr = na_get_pointer_for_write(vna);
-
-    memcpy(ptr, RSTRING_PTR(vstr), byte_size);
+    if (OBJ_FROZEN(vstr)) {
+        na_set_pointer(vna, RSTRING_PTR(vstr), byte_size);
+        rb_ivar_set(vna, id_source, vstr);
+    } else {
+        void *ptr = na_get_pointer_for_write(vna);
+        memcpy(ptr, RSTRING_PTR(vstr), byte_size);
+    }
 
     return vna;
 }
@@ -1333,7 +1424,6 @@ static VALUE
 nary_store_binary(int argc, VALUE *argv, VALUE self)
 {
     size_t size, str_len, byte_size, offset;
-    char *ptr;
     int   narg;
     VALUE vstr, voffset;
     VALUE velmsz;
@@ -1363,8 +1453,13 @@ nary_store_binary(int argc, VALUE *argv, VALUE self)
         rb_raise(rb_eArgError, "string is too short to store");
     }
 
-    ptr = na_get_pointer_for_write(self);
-    memcpy(ptr, RSTRING_PTR(vstr)+offset, byte_size);
+    if (OBJ_FROZEN(vstr)) {
+        na_set_pointer(self, RSTRING_PTR(vstr)+offset, byte_size);
+        rb_ivar_set(self, id_source, vstr);
+    } else {
+        void *ptr = na_get_pointer_for_write(self);
+        memcpy(ptr, RSTRING_PTR(vstr)+offset, byte_size);
+    }
 
     return SIZET2NUM(byte_size);
 }
@@ -1470,6 +1565,7 @@ nary_marshal_load(VALUE self, VALUE a)
         ptr = na_get_pointer_for_write(self);
         memcpy(ptr, RARRAY_PTR(v), NA_SIZE(na)*sizeof(VALUE));
     } else {
+        rb_str_freeze(v);
         nary_store_binary(1,&v,self);
         if (TEST_BYTE_SWAPPED(self)) {
             rb_funcall(na_inplace(self),id_to_host,0);
@@ -2009,6 +2105,7 @@ Init_narray()
     id_axis        = rb_intern("axis");
     id_nan         = rb_intern("nan");
     id_keepdims    = rb_intern("keepdims");
+    id_source      = rb_intern("source");
 
     sym_reduce   = ID2SYM(rb_intern("reduce"));
     sym_option   = ID2SYM(rb_intern("option"));
