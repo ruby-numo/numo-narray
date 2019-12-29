@@ -81,6 +81,8 @@ extern "C" {
 # ifndef PRIu64
 #  define PRIu64 "llu"
 # endif
+#else
+# error ---->> numo/narray requires 8-byte integer. <<----
 #endif
 
 #if   SIZEOF_LONG==4
@@ -105,6 +107,8 @@ extern "C" {
 # ifndef PRIu32
 #  define PRIu32 "u"
 # endif
+#else
+# error ---->> numo/narray requires 4-byte integer. <<----
 #endif
 
 #if SIZEOF_LONG > 4
