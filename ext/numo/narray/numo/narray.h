@@ -98,9 +98,14 @@ extern "C" {
 # endif
 #elif SIZEOF_INT==4
 # define NUM2INT32(x) NUM2INT(x)
-# define INT322NUM(x) INT2NUM(x)
 # define NUM2UINT32(x) NUM2UINT(x)
-# define UINT322NUM(x) UINT2NUM(x)
+# if SIZEOF_LONG > 4
+#  define INT322NUM(x) INT2FIX(x)
+#  define UINT322NUM(x) INT2FIX(x)
+# else
+#  define INT322NUM(x) INT2NUM(x)
+#  define UINT322NUM(x) UINT2NUM(x)
+# endif
 # ifndef PRId32
 #  define PRId32 "d"
 # endif
@@ -109,13 +114,6 @@ extern "C" {
 # endif
 #else
 # error ---->> numo/narray requires 4-byte integer. <<----
-#endif
-
-#if SIZEOF_LONG > 4
-# undef INT322NUM
-# undef UINT322NUM
-# define INT322NUM(x) INT2FIX(x)
-# define UINT322NUM(x) INT2FIX(x)
 #endif
 
 #ifndef HAVE_TYPE_BOOL
