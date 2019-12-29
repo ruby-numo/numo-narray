@@ -29,7 +29,9 @@ static void
     assert(na->base.type == NARRAY_DATA_T);
 
     if (na->ptr != NULL) {
-        xfree(na->ptr);
+        if (na->owned) {
+            xfree(na->ptr);
+        }
         na->ptr = NULL;
     }
     if (na->base.size > 0) {
@@ -103,5 +105,6 @@ static VALUE
     na->base.shape = NULL;
     na->base.reduce = INT2FIX(0);
     na->ptr = NULL;
+    na->owned = FALSE;
     return TypedData_Wrap_Struct(klass, &<%=type_name%>_data_type, (void*)na);
 }

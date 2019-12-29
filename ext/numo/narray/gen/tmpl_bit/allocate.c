@@ -12,6 +12,7 @@ static VALUE
         if (na->size > 0 && ptr == NULL) {
             ptr = xmalloc(((na->size-1)/8/sizeof(BIT_DIGIT)+1)*sizeof(BIT_DIGIT));
             NA_DATA_PTR(na) = ptr;
+            NA_DATA_OWNED(na) = TRUE;
         }
         break;
     case NARRAY_VIEW_T:

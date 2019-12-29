@@ -195,6 +195,7 @@ typedef struct RNArray {
 typedef struct RNArrayData {
     narray_t base;
     char    *ptr;
+    bool     owned;
 } narray_data_t;
 
 
@@ -323,6 +324,7 @@ _na_get_narray_t(VALUE obj, unsigned char na_type)
 #define NA_DATA(na)             ((narray_data_t*)(na))
 #define NA_VIEW(na)             ((narray_view_t*)(na))
 #define NA_DATA_PTR(na)         (NA_DATA(na)->ptr)
+#define NA_DATA_OWNED(na)       (NA_DATA(na)->owned)
 #define NA_VIEW_DATA(na)        (NA_VIEW(na)->data)
 #define NA_VIEW_OFFSET(na)      (NA_VIEW(na)->offset)
 #define NA_VIEW_STRIDX(na)      (NA_VIEW(na)->stridx)

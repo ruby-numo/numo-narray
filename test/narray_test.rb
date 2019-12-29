@@ -531,5 +531,63 @@ class NArrayTest < Test::Unit::TestCase
       at.at([0,1],[0,1]).inplace - 1
       assert { at == [[0,2,3],[4,4,6]] }
     end
+
+    sub_test_case "#{dtype}.from_binary" do
+      test "frozen string" do
+        shape = [2, 5]
+        a = dtype.new(*shape)
+        a.rand(0, 10)
+        original_data = a.to_binary
+        data = original_data.dup.freeze
+        restored_a = dtype.from_binary(data, shape)
+        assert { restored_a == a }
+        restored_a[0, 0] += 1
+        assert { restored_a != a }
+        assert { data == original_data }
+      end
+
+      test "not frozen string" do
+        shape = [2, 5]
+        a = dtype.new(*shape)
+        a.rand(0, 10)
+        original_data = a.to_binary
+        data = original_data.dup
+        restored_a = dtype.from_binary(data, shape)
+        assert { restored_a == a  }
+        restored_a[0, 0] += 1
+        assert { restored_a != a }
+        assert { data == original_data }
+      end
+    end
+
+    sub_test_case "#{dtype}#store_binary" do
+      test "frozen string" do
+        shape = [2, 5]
+        a = dtype.new(*shape)
+        a.rand(0, 10)
+        original_data = a.to_binary
+        data = original_data.dup.freeze
+        restored_a = dtype.new(*shape)
+        restored_a.store_binary(data)
+        assert { restored_a == a }
+        restored_a[0, 0] += 1
+        assert { restored_a != a }
+        assert { data == original_data }
+      end
+
+      test "not frozen string" do
+        shape = [2, 5]
+        a = dtype.new(*shape)
+        a.rand(0, 10)
+        original_data = a.to_binary
+        data = original_data.dup
+        restored_a = dtype.new(*shape)
+        restored_a.store_binary(data)
+        assert { restored_a == a }
+        restored_a[0, 0] += 1
+        assert { restored_a != a }
+        assert { data == original_data }
+      end
+    end
   end
 end
