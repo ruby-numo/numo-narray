@@ -1,6 +1,8 @@
 #define m_zero 0
 #define m_one  1
 
+#define m_extract(x)    m_data_to_num(*(dtype*)(x))
+
 #define m_from_double(x) (x)
 #define m_from_real(x) (x)
 #define m_from_sint(x) (x)

@@ -4,8 +4,11 @@ typedef int16_t rtype;
 #define cRT cT
 
 #define m_num_to_data(x) ((dtype)NUM2INT(x))
-#define m_data_to_num(x) INT2NUM((int)(x))
-#define m_extract(x)     INT2NUM((int)*(dtype*)(x))
+#if SIZEOF_INT > 2
+#define m_data_to_num(x) INT2FIX(x)
+#else
+#define m_data_to_num(x) INT2NUM(x)
+#endif
 #define m_sprintf(s,x)   sprintf(s,"%d",(int)(x))
 
 #ifndef INT16_MIN
