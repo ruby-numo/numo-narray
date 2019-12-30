@@ -27,7 +27,7 @@ module NArrayMethod
 
   def set2(meth, dtype, result_class)
     h = {dtype:dtype, result_class:result_class}
-    def_method(meth, "set2", h)
+    def_method(meth, "set2", **h)
   end
 
   def cond_binary(meth,op=nil)
