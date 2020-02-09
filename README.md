@@ -1,4 +1,4 @@
-# Numo::NArray - New NArray class library for Ruby/Numo (NUmerical MOdule)
+# Numo::NArray
 
 [![Binder](http://mybinder.org/badge.svg)](http://mybinder.org/repo/ruby-numo/numo-narray)
 [![Build Status](https://travis-ci.org/ruby-numo/numo-narray.svg?branch=master)](https://travis-ci.org/ruby-numo/numo-narray)
