@@ -333,6 +333,15 @@ class NArrayTest < Test::Unit::TestCase
           assert { a[:*,(a[0,:*]%2).eq(1)] == [[1,3],[5,11]] }
           assert { a.sort == src }
           assert { a.sort_index == [[0,1,2],[3,4,5]] }
+          assert { a.percentile(0) == 1.0 }
+          assert { a.percentile(50) == 4.0 }
+          assert { a.percentile(100) == 11.0 }
+          assert { a.percentile(0, axis: 0) == [1, 2, 3] }
+          assert { a.percentile(50, axis: 0) == [3, 4.5, 7] }
+          assert { a.percentile(100, axis: 0) == [5, 7, 11] }
+          assert { a.percentile(0, axis: 1) == [1, 5] }
+          assert { a.percentile(50, axis: 1) == [2, 7] }
+          assert { a.percentile(100, axis: 1) == [3, 11] }
         end
         assert { a.dup.fill(12) == [[12]*3]*2 }
         assert { (a + 1) == [[2,3,4],[6,8,12]] }
