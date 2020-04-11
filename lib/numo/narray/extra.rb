@@ -1177,6 +1177,8 @@ module Numo
     # @param axis [Integer] applied axis
     # @return [Numo::NArray]  return percentile
     def percentile(q, axis: nil)
+      raise ArgumentError, "q is out of range" if q < 0 || q > 100
+
       x = self
       unless axis
         axis = 0
