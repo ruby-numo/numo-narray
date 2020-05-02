@@ -66,7 +66,7 @@ code = DefLib.new do
 end.result
 
 if $output
-  open($output,"w").write(code)
+  File.write($output, code)
 else
   $stdout.write(code)
 end
