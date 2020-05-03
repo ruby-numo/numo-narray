@@ -1171,6 +1171,35 @@ module Numo
       end
     end
 
+    # Percentile
+    #
+    # @param q [Numo::NArray]
+    # @param axis [Integer] applied axis
+    # @return [Numo::NArray]  return percentile
+    def percentile(q, axis: nil)
+      raise ArgumentError, "q is out of range" if q < 0 || q > 100
+
+      x = self
+      unless axis
+        axis = 0
+        x = x.flatten
+      end
+
+      sorted = x.sort(axis: axis)
+      x = q / 100.0 * (sorted.shape[axis] - 1)
+      r = x % 1
+      i = x.floor
+      refs = [true] * sorted.ndim
+      refs[axis] = i
+      if i == sorted.shape[axis] - 1
+        sorted[*refs]
+      else
+        refs_upper = refs.dup
+        refs_upper[axis] = i + 1
+        sorted[*refs] + r * (sorted[*refs_upper] - sorted[*refs])
+      end
+    end
+
     # Kronecker product of two arrays.
     #
     #     kron(a,b)[k_0, k_1, ...] = a[i_0, i_1, ...] * b[j_0, j_1, ...]
