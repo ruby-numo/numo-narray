@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
   spec.summary       = %q{alpha release of Numo::NArray - New NArray class library in Ruby/Numo (NUmerical MOdule)}
   spec.homepage      = "https://github.com/ruby-numo/numo-narray"
   spec.license       = "BSD-3-Clause"
-  spec.required_ruby_version = '~> 2.1'
+  spec.required_ruby_version = '~> 2.2'
 
   spec.files         = `git ls-files Gemfile README.md Rakefile lib ext numo-narray.gemspec spec`.split($/)
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
@@ -33,10 +33,6 @@ Gem::Specification.new do |spec|
   else
     spec.add_development_dependency "bundler", "~> 2.0"
   end
-  if RUBY_VERSION < '2.2' # Ruby 2.1.x
-    spec.add_development_dependency "rake", "<= 10.5", ">=10.1.1"
-  else
-    spec.add_development_dependency "rake", "~> 10.0"
-  end
+  spec.add_development_dependency "rake", ">= 12.3.3"
   spec.add_development_dependency "test-unit", "~> 3.0"
 end
