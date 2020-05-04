@@ -31,15 +31,11 @@ static ID id_abs;
 static ID id_cast;
 static ID id_le;
 static ID id_Complex;
-
+static VALUE int32_max = Qnil;
 
 static VALUE
  na_object_type(int type, VALUE v)
 {
-    static VALUE int32_max = Qnil;
-    if (NIL_P(int32_max))
-        int32_max = ULONG2NUM(2147483647);
-
     switch(TYPE(v)) {
 
     case T_TRUE:
@@ -650,4 +646,7 @@ Init_nary_array()
     id_abs     = rb_intern("abs");
     id_le      = rb_intern("<=");
     id_Complex = rb_intern("Complex");
+
+    rb_global_variable(&int32_max);
+    int32_max = ULONG2NUM(2147483647);
 }
