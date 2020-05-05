@@ -30,6 +30,9 @@ static ID id_step;
 static ID id_abs;
 static ID id_cast;
 static ID id_le;
+#if SIZEOF_LONG != 8
+static ID id_ge;
+#endif
 static ID id_Complex;
 static VALUE int32_max = Qnil;
 static VALUE int32_min = Qnil;
@@ -645,6 +648,9 @@ Init_nary_array()
     id_cast    = rb_intern("cast");
     id_abs     = rb_intern("abs");
     id_le      = rb_intern("<=");
+#if SIZEOF_LONG != 8
+    id_ge      = rb_intern(">=");
+#endif
     id_Complex = rb_intern("Complex");
 
     rb_global_variable(&int32_max);
