@@ -35,6 +35,13 @@ static VALUE
         }
         return v;
     }
+    if (rb_respond_to(obj,id_to_a)) {
+        obj = rb_funcall(obj,id_to_a,0);
+        if (TYPE(obj)!=T_ARRAY) {
+            rb_raise(rb_eTypeError, "`to_a' did not return Array");
+        }
+        return <%=find_tmpl("cast_array").c_func%>(obj);
+    }
     <% if is_object %>
     return robject_new_dim0(obj);
     <% else %>

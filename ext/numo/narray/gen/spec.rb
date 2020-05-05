@@ -3,6 +3,7 @@ def_id "eq"
 def_id "ne"
 def_id "pow"
 def_id "mulsum"
+def_id "to_a"
 if is_complex
   def_id "real"
   def_id "imag"
