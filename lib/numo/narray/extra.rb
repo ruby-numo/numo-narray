@@ -106,7 +106,19 @@ module Numo
 
     # Convert the argument to an narray if not an narray.
     def self.cast(a)
-      a.kind_of?(NArray) ? a : NArray.array_type(a).cast(a)
+      case a
+      when NArray
+        a
+      when Array,Numeric
+        NArray.array_type(a).cast(a)
+      else
+        if a.respond_to?(:to_a)
+          a = a.to_a
+          NArray.array_type(a).cast(a)
+        else
+          raise TypeError,"invalid type for NArray"
+        end
+      end
     end
 
     def self.asarray(a)
