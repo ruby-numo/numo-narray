@@ -30,7 +30,7 @@ static ID id_step;
 static ID id_abs;
 static ID id_cast;
 static ID id_le;
-#if SIZEOF_LONG != 8
+#if SIZEOF_LONG <= 4
 static ID id_ge;
 #endif
 static ID id_Complex;
@@ -48,7 +48,7 @@ static VALUE
             return NA_BIT;
         return type;
 
-#if SIZEOF_LONG == 4
+#if SIZEOF_LONG <= 4
     case T_FIXNUM:
         if (type<NA_INT32)
             return NA_INT32;
@@ -64,12 +64,11 @@ static VALUE
             }
         }
         return type;
-
-#elif SIZEOF_LONG == 8
+#else
     case T_FIXNUM:
         if (type<NA_INT64) {
             long x = NUM2LONG(v);
-            if (x<=2147483647 && x>=-2147483648) {
+            if (x<=2147483647L && x>=-2147483648L) {
                 if (type<NA_INT32)
                     return NA_INT32;
             } else {
@@ -80,19 +79,6 @@ static VALUE
     case T_BIGNUM:
         if (type<NA_INT64)
             return NA_INT64;
-        return type;
-#else
-    case T_FIXNUM:
-    case T_BIGNUM:
-        if (type<NA_INT64) {
-            if (RTEST(rb_funcall(v,id_le,1,int32_max)) &&
-                RTEST(rb_funcall(v,id_ge,1,int32_min))) {
-                if (type<NA_INT32)
-                    return NA_INT32;
-            } else {
-                return NA_INT64;
-            }
-        }
         return type;
 #endif
 
@@ -648,7 +634,7 @@ Init_nary_array()
     id_cast    = rb_intern("cast");
     id_abs     = rb_intern("abs");
     id_le      = rb_intern("<=");
-#if SIZEOF_LONG != 8
+#if SIZEOF_LONG <= 4
     id_ge      = rb_intern(">=");
 #endif
     id_Complex = rb_intern("Complex");
