@@ -1,7 +1,7 @@
 /*
   ndloop.h
   Ruby/Numo::NArray - Numerical Array class for Ruby
-    Copyright (C) 1999-2019 Masahiro TANAKA
+    Copyright (C) 1999-2020 Masahiro TANAKA
 */
 #ifndef NDLOOP_H
 #define NDLOOP_H

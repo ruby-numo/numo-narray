@@ -1,7 +1,7 @@
 /*
   step.c
   Ruby/Numo::NArray - Numerical Array class for Ruby
-    Copyright (C) 2007-2019 Masahiro TANAKA
+    Copyright (C) 2007-2020 Masahiro TANAKA
 */
 #include <ruby.h>
 #include <math.h>

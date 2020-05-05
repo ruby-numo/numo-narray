@@ -1,7 +1,7 @@
 /*
   index.c
   Ruby/Numo::NArray - Numerical Array class for Ruby
-    Copyright (C) 1999-2019 Masahiro TANAKA
+    Copyright (C) 1999-2020 Masahiro TANAKA
 */
 //#define NARRAY_C
 

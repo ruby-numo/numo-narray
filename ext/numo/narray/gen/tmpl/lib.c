@@ -3,7 +3,7 @@
   Ruby/Numo::NArray - Numerical Array class for Ruby
 
   created on: 2017-03-11
-  Copyright (C) 2017-2019 Masahiro Tanaka
+  Copyright (C) 2017-2020 Masahiro Tanaka
 */
 
 #include <ruby.h>
