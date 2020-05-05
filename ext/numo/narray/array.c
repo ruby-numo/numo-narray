@@ -32,6 +32,7 @@ static ID id_cast;
 static ID id_le;
 static ID id_Complex;
 static VALUE int32_max = Qnil;
+static VALUE int32_min = Qnil;
 
 static VALUE
  na_object_type(int type, VALUE v)
@@ -51,8 +52,8 @@ static VALUE
         return type;
     case T_BIGNUM:
         if (type<NA_INT64) {
-            v = rb_funcall(v,id_abs,0);
-            if (RTEST(rb_funcall(v,id_le,1,int32_max))) {
+            if (RTEST(rb_funcall(v,id_le,1,int32_max)) &&
+                RTEST(rb_funcall(v,id_ge,1,int32_min))) {
                 if (type<NA_INT32)
                     return NA_INT32;
             } else {
@@ -65,8 +66,7 @@ static VALUE
     case T_FIXNUM:
         if (type<NA_INT64) {
             long x = NUM2LONG(v);
-            if (x<0) x=-x;
-            if (x<=2147483647) {
+            if (x<=2147483647 && x>=-2147483648) {
                 if (type<NA_INT32)
                     return NA_INT32;
             } else {
@@ -82,8 +82,8 @@ static VALUE
     case T_FIXNUM:
     case T_BIGNUM:
         if (type<NA_INT64) {
-            v = rb_funcall(v,id_abs,0);
-            if (RTEST(rb_funcall(v,id_le,1,int32_max))) {
+            if (RTEST(rb_funcall(v,id_le,1,int32_max)) &&
+                RTEST(rb_funcall(v,id_ge,1,int32_min))) {
                 if (type<NA_INT32)
                     return NA_INT32;
             } else {
@@ -648,5 +648,7 @@ Init_nary_array()
     id_Complex = rb_intern("Complex");
 
     rb_global_variable(&int32_max);
-    int32_max = ULONG2NUM(2147483647);
+    int32_max = INT2NUM(2147483647);
+    rb_global_variable(&int32_min);
+    int32_min = INT2NUM(-2147483648);
 }
