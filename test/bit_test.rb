@@ -118,4 +118,10 @@ class BitTest < Test::Unit::TestCase
     assert { (~y[1..-2, 1..-2, 0]).where.size == 0}
     assert { y[true,true,1].where.size == 0 }
   end
+
+  test "assign nil" do
+    x = Numo::RObject.cast([1, 2, 3])
+    x[Numo::Bit.cast([0, 1, 0])] = nil
+    assert { x.to_a == [1, nil, 3] }
+  end
 end
