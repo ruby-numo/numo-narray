@@ -17,3 +17,6 @@ Rake::TestTask.new(:test) do |t|
   t.warning = false
   t.test_files = FileList['test/**/*_test.rb']
 end
+
+require 'rake/extensiontask'
+Rake::ExtensionTask.new('numo/narray')

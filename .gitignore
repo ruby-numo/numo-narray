@@ -19,6 +19,7 @@ tmp
 *~
 *.o
 *.so
+*.bundle
 mkmf.log
 ext/numo/narray/t_*.c
 ext/numo/narray/numo/extconf.h
