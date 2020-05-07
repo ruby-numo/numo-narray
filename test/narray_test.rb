@@ -602,4 +602,9 @@ class NArrayTest < Test::Unit::TestCase
       end
     end
   end
+
+  test "cast any object that responds to to_a" do
+    object = Struct.new(:to_a).new([1, 2, 3])
+    assert { Numo::NArray.cast(object) == [1, 2, 3] }
+  end
 end
