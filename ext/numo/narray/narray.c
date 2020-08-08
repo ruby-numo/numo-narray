@@ -606,7 +606,7 @@ na_s_eye(int argc, VALUE *argv, VALUE klass)
 #define READ 1
 #define WRITE 2
 
-static void
+void
 na_set_pointer(VALUE self, char *ptr, size_t byte_size)
 {
     VALUE obj;

@@ -44,6 +44,8 @@ char *nary_get_pointer_for_read(VALUE);
 char *nary_get_pointer_for_read_write(VALUE);
 #define na_get_offset nary_get_offset
 size_t nary_get_offset(VALUE self);
+#define na_set_pointer nary_set_pointer
+void nary_set_pointer(VALUE self, char *ptr, size_t byte_size);
 
 #define na_copy_flags nary_copy_flags
 void nary_copy_flags(VALUE src, VALUE dst);

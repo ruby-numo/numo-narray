@@ -11,6 +11,7 @@ nary_get_pointer_for_write
 nary_get_pointer_for_read
 nary_get_pointer_for_read_write
 nary_get_offset
+nary_set_pointer
 nary_copy_flags
 nary_check_ladder
 nary_check_contiguous
