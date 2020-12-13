@@ -20,6 +20,10 @@ static void
             STORE_BIT_STEP(a3, p3, s3, idx3, y);
         }
     } else {
+        a1 += p1/NB;
+        p1 %= NB;
+        a3 += p3/NB;
+        p3 %= NB;
         o1 =  p1-p3;
         l1 =  NB+o1;
         r1 =  NB-o1;
