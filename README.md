@@ -13,8 +13,6 @@ This project is the successor to [Ruby/NArray](http://masa16.github.io/narray/).
 
 ## Documentation
 
-All documents are primitive.
-
 * [Numo::NArray API Doc](http://ruby-numo.github.io/numo-narray/yard/index.html)
 * [Numo::NArray vs numpy](https://github.com/ruby-numo/numo-narray/wiki/Numo-vs-numpy)
 * [Numo::NArray vs ndarray](https://github.com/ruby-numo/numo-narray/wiki/Numo-vs-ndarray)
