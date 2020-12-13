@@ -36,19 +36,17 @@
 
 #define INIT_PTR_BIT( lp, i, ad, ps, st )               \
     {                                                   \
-        ps = ((lp)->args[i].iter[0]).pos;                       \
-        ad = (BIT_DIGIT*)(((lp)->args[i]).ptr) + ps/NB; \
-        ps %= NB;                                       \
-        st = ((lp)->args[i].iter[0]).step;                      \
+        ps = ((lp)->args[i].iter[0]).pos;               \
+        ad = (BIT_DIGIT*)(((lp)->args[i]).ptr);         \
+        st = ((lp)->args[i].iter[0]).step;              \
     }
 
 #define INIT_PTR_BIT_IDX( lp, i, ad, ps, st, id )       \
     {                                                   \
-        ps = ((lp)->args[i].iter[0]).pos;                       \
-        ad = (BIT_DIGIT*)(((lp)->args[i]).ptr) + ps/NB; \
-        ps %= NB;                                       \
-        st = ((lp)->args[i].iter[0]).step;                      \
-        id = ((lp)->args[i].iter[0]).idx;                       \
+        ps = ((lp)->args[i].iter[0]).pos;               \
+        ad = (BIT_DIGIT*)(((lp)->args[i]).ptr);         \
+        st = ((lp)->args[i].iter[0]).step;              \
+        id = ((lp)->args[i].iter[0]).idx;               \
     }
 
 #define GET_DATA( ptr, type, val )                 \
