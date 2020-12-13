@@ -164,7 +164,7 @@ print_ndloop(na_md_loop_t *lp) {
             for (i=0; i<lp->user.ndim; i++) {
                 printf(" &user.args[%d].iter[%d] = 0x%"SZF"x\n", j,i, (size_t)&lp->user.args[j].iter[i]);
                 printf("  user.args[%d].iter[%d].pos = %"SZF"u\n", j,i, lp->user.args[j].iter[i].pos);
-                printf("  user.args[%d].iter[%d].step = %"SZF"u\n", j,i, lp->user.args[j].iter[i].step);
+                printf("  user.args[%d].iter[%d].step = %"SZF"d\n", j,i, lp->user.args[j].iter[i].step);
                 printf("  user.args[%d].iter[%d].idx = 0x%"SZF"x\n", j,i, (size_t)lp->user.args[j].iter[i].idx);
             }
         }
@@ -174,7 +174,7 @@ print_ndloop(na_md_loop_t *lp) {
         for (i=0; i<=nd; i++) {
             printf(" &xargs[%d].iter[%d] = 0x%"SZF"x\n", j,i, (size_t)&LITER(lp,i,j));
             printf("  xargs[%d].iter[%d].pos = %"SZF"u\n", j,i, LITER(lp,i,j).pos);
-            printf("  xargs[%d].iter[%d].step = %"SZF"u\n", j,i, LITER(lp,i,j).step);
+            printf("  xargs[%d].iter[%d].step = %"SZF"d\n", j,i, LITER(lp,i,j).step);
             printf("  xargs[%d].iter[%d].idx = 0x%"SZF"x\n", j,i, (size_t)LITER(lp,i,j).idx);
         }
         printf("  xargs[%d].bufcp = 0x%"SZF"x\n", j, (size_t)lp->xargs[j].bufcp);

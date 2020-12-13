@@ -2,7 +2,7 @@ static void
 <%=c_iter%>(na_loop_t *const lp)
 {
     size_t  n;
-    size_t  p1, p3;
+    ssize_t p1, p3;
     ssize_t s1, s3;
     size_t *idx1, *idx3;
     int     o1, l1, r1, len;
@@ -26,7 +26,7 @@ static void
             if ((int)n<len) len=n;
             if (o1>=0) x = *a1>>o1;
             else       x = *a1<<-o1;
-            if (p1+len>NB)  x |= *(a1+1)<<r1;
+            if (p1+len>(ssize_t)NB)  x |= *(a1+1)<<r1;
             a1++;
             *a3 = (x & (SLB(len)<<p3)) | (*a3 & ~(SLB(len)<<p3));
             a3++;
