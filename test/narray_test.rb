@@ -14,6 +14,7 @@ class NArrayTest < Test::Unit::TestCase
     Numo::UInt32,
     Numo::UInt16,
     Numo::UInt8,
+    Numo::RObject,
   ]
   float_types = [
     Numo::DFloat,
@@ -152,7 +153,9 @@ class NArrayTest < Test::Unit::TestCase
         assert { (a / 0.5) == [2,4,6,10,14,22] }
         assert { (-a) == [-1,-2,-3,-5,-7,-11] }
         assert { (a ** 2) == [1,4,9,25,49,121] }
-        assert { a.swap_byte.swap_byte == [1,2,3,5,7,11] }
+        if dtype != Numo::RObject
+          assert { a.swap_byte.swap_byte == [1,2,3,5,7,11] }
+        end
 
         assert { a.contiguous? }
         assert { a.transpose.contiguous? }
@@ -172,9 +175,11 @@ class NArrayTest < Test::Unit::TestCase
           assert { (a <= 3) == [1,1,1,0,0,0] }
           assert { (a <  3) == [1,1,0,0,0,0] }
           assert { (a.eq 3) == [0,0,1,0,0,0] }
-          assert { a.sort == src }
-          assert { a.sort_index == (0..5).to_a }
-          assert { a.median == 4 }
+          if dtype != Numo::RObject
+            assert { a.sort == src }
+            assert { a.sort_index == (0..5).to_a }
+            assert { a.median == 4 }
+          end
           assert { dtype.maximum(a, 12 - a) == [11,10,9,7,7,11] }
           assert { dtype.minimum(a, 12 - a) == [1,2,3,5,5,1] }
           assert { dtype.maximum(a, 5) == [5,5,5,5,7,11] }
@@ -331,20 +336,22 @@ class NArrayTest < Test::Unit::TestCase
           assert { a[a[true,2] < 5, true] == [[1,2,3]] }
           assert { a[true, a[1,true] > 5] == [[2,3],[7,11]] }
           assert { a[:*,(a[0,:*]%2).eq(1)] == [[1,3],[5,11]] }
-          assert { a.sort == src }
-          assert { a.sort_index == [[0,1,2],[3,4,5]] }
-          assert { a.percentile(0) == 1.0 }
-          assert { a.percentile(50) == 4.0 }
-          assert { a.percentile(90) == 9.0 }
-          assert { a.percentile(100) == 11.0 }
-          assert { a.percentile(0, axis: 0) == [1, 2, 3] }
-          assert { a.percentile(50, axis: 0) == [3, 4.5, 7] }
-          assert { a.percentile(90, axis: 0) == [4.6, 6.5, 10.2] }
-          assert { a.percentile(100, axis: 0) == [5, 7, 11] }
-          assert { a.percentile(0, axis: 1) == [1, 5] }
-          assert { a.percentile(50, axis: 1) == [2, 7] }
-          assert { a.percentile(90, axis: 1) == [2.8, 10.2] }
-          assert { a.percentile(100, axis: 1) == [3, 11] }
+          if dtype != Numo::RObject
+            assert { a.sort == src }
+            assert { a.sort_index == [[0,1,2],[3,4,5]] }
+            assert { a.percentile(0) == 1.0 }
+            assert { a.percentile(50) == 4.0 }
+            assert { a.percentile(90) == 9.0 }
+            assert { a.percentile(100) == 11.0 }
+            assert { a.percentile(0, axis: 0) == [1, 2, 3] }
+            assert { a.percentile(50, axis: 0) == [3, 4.5, 7] }
+            assert { a.percentile(90, axis: 0) == [4.6, 6.5, 10.2] }
+            assert { a.percentile(100, axis: 0) == [5, 7, 11] }
+            assert { a.percentile(0, axis: 1) == [1, 5] }
+            assert { a.percentile(50, axis: 1) == [2, 7] }
+            assert { a.percentile(90, axis: 1) == [2.8, 10.2] }
+            assert { a.percentile(100, axis: 1) == [3, 11] }
+          end
         end
         assert { a.dup.fill(12) == [[12]*3]*2 }
         assert { (a + 1) == [[2,3,4],[6,8,12]] }
@@ -357,7 +364,9 @@ class NArrayTest < Test::Unit::TestCase
         assert { (-a) == [[-1,-2,-3],[-5,-7,-11]] }
         assert { (a ** 2) == [[1,4,9],[25,49,121]] }
         assert { (dtype[[1,0],[0,1]].dot dtype[[4,1],[2,2]]) == [[4,1],[2,2]] }
-        assert { a.swap_byte.swap_byte == src }
+        if dtype != Numo::RObject
+          assert { a.swap_byte.swap_byte == src }
+        end
       end
 
     end
@@ -466,10 +475,12 @@ class NArrayTest < Test::Unit::TestCase
         assert { a / b         == [4, 2.5, 2] }
         assert { a.inplace / b == [4, 2.5, 2] }
       end
-      test "no simd sqrt" do
-        a = dtype[4,9,16]
-        assert { Numo::NMath.sqrt(a)         == [2, 3, 4] }
-        assert { Numo::NMath.sqrt(a.inplace) == [2, 3, 4] }
+      if dtype != Numo::RObject
+        test "no simd sqrt" do
+          a = dtype[4,9,16]
+          assert { Numo::NMath.sqrt(a)         == [2, 3, 4] }
+          assert { Numo::NMath.sqrt(a.inplace) == [2, 3, 4] }
+        end
       end
 
       test "simd add" do
@@ -496,10 +507,12 @@ class NArrayTest < Test::Unit::TestCase
         assert { a / b         == [5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5] }
         assert { a.inplace / b == [5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5] }
       end
-      test "simd sqrt" do
-        a = dtype[4,9,16,25,36,49,64,81,100]
-        assert { Numo::NMath.sqrt(a)         == [2, 3, 4, 5, 6, 7, 8, 9, 10] }
-        assert { Numo::NMath.sqrt(a.inplace) == [2, 3, 4, 5, 6, 7, 8, 9, 10] }
+      if dtype != Numo::RObject
+        test "simd sqrt" do
+          a = dtype[4,9,16,25,36,49,64,81,100]
+          assert { Numo::NMath.sqrt(a)         == [2, 3, 4, 5, 6, 7, 8, 9, 10] }
+          assert { Numo::NMath.sqrt(a.inplace) == [2, 3, 4, 5, 6, 7, 8, 9, 10] }
+        end
       end
 
       test "simd broadcast scalar add" do
@@ -522,10 +535,12 @@ class NArrayTest < Test::Unit::TestCase
         assert { a.inplace + b == [22, 24, 26, 28, 30, 32, 34, 36, 38] }
       end
 
-      test "simd view sqrt" do
-        a = dtype[1,4,9,16,25,36,49,64,81,100]
-        assert { Numo::NMath.sqrt(a[1..9])         == [2, 3, 4, 5, 6, 7, 8, 9, 10] }
-        assert { Numo::NMath.sqrt(a[1..9].inplace) == [2, 3, 4, 5, 6, 7, 8, 9, 10] }
+      if dtype != Numo::RObject
+        test "simd view sqrt" do
+          a = dtype[1,4,9,16,25,36,49,64,81,100]
+          assert { Numo::NMath.sqrt(a[1..9])         == [2, 3, 4, 5, 6, 7, 8, 9, 10] }
+          assert { Numo::NMath.sqrt(a[1..9].inplace) == [2, 3, 4, 5, 6, 7, 8, 9, 10] }
+        end
       end
     end
 
@@ -544,61 +559,63 @@ class NArrayTest < Test::Unit::TestCase
       assert { at == [[0,2,3],[4,4,6]] }
     end
 
-    sub_test_case "#{dtype}.from_binary" do
-      test "frozen string" do
-        shape = [2, 5]
-        a = dtype.new(*shape)
-        a.rand(0, 10)
-        original_data = a.to_binary
-        data = original_data.dup.freeze
-        restored_a = dtype.from_binary(data, shape)
-        assert { restored_a == a }
-        restored_a[0, 0] += 1
-        assert { restored_a != a }
-        assert { data == original_data }
+    if dtype != Numo::RObject
+      sub_test_case "#{dtype}.from_binary" do
+        test "frozen string" do
+          shape = [2, 5]
+          a = dtype.new(*shape)
+          a.rand(0, 10)
+          original_data = a.to_binary
+          data = original_data.dup.freeze
+          restored_a = dtype.from_binary(data, shape)
+          assert { restored_a == a }
+          restored_a[0, 0] += 1
+          assert { restored_a != a }
+          assert { data == original_data }
+        end
+
+        test "not frozen string" do
+          shape = [2, 5]
+          a = dtype.new(*shape)
+          a.rand(0, 10)
+          original_data = a.to_binary
+          data = original_data.dup
+          restored_a = dtype.from_binary(data, shape)
+          assert { restored_a == a  }
+          restored_a[0, 0] += 1
+          assert { restored_a != a }
+          assert { data == original_data }
+        end
       end
 
-      test "not frozen string" do
-        shape = [2, 5]
-        a = dtype.new(*shape)
-        a.rand(0, 10)
-        original_data = a.to_binary
-        data = original_data.dup
-        restored_a = dtype.from_binary(data, shape)
-        assert { restored_a == a  }
-        restored_a[0, 0] += 1
-        assert { restored_a != a }
-        assert { data == original_data }
-      end
-    end
+      sub_test_case "#{dtype}#store_binary" do
+        test "frozen string" do
+          shape = [2, 5]
+          a = dtype.new(*shape)
+          a.rand(0, 10)
+          original_data = a.to_binary
+          data = original_data.dup.freeze
+          restored_a = dtype.new(*shape)
+          restored_a.store_binary(data)
+          assert { restored_a == a }
+          restored_a[0, 0] += 1
+          assert { restored_a != a }
+          assert { data == original_data }
+        end
 
-    sub_test_case "#{dtype}#store_binary" do
-      test "frozen string" do
-        shape = [2, 5]
-        a = dtype.new(*shape)
-        a.rand(0, 10)
-        original_data = a.to_binary
-        data = original_data.dup.freeze
-        restored_a = dtype.new(*shape)
-        restored_a.store_binary(data)
-        assert { restored_a == a }
-        restored_a[0, 0] += 1
-        assert { restored_a != a }
-        assert { data == original_data }
-      end
-
-      test "not frozen string" do
-        shape = [2, 5]
-        a = dtype.new(*shape)
-        a.rand(0, 10)
-        original_data = a.to_binary
-        data = original_data.dup
-        restored_a = dtype.new(*shape)
-        restored_a.store_binary(data)
-        assert { restored_a == a }
-        restored_a[0, 0] += 1
-        assert { restored_a != a }
-        assert { data == original_data }
+        test "not frozen string" do
+          shape = [2, 5]
+          a = dtype.new(*shape)
+          a.rand(0, 10)
+          original_data = a.to_binary
+          data = original_data.dup
+          restored_a = dtype.new(*shape)
+          restored_a.store_binary(data)
+          assert { restored_a == a }
+          restored_a[0, 0] += 1
+          assert { restored_a != a }
+          assert { data == original_data }
+        end
       end
     end
   end
@@ -606,5 +623,15 @@ class NArrayTest < Test::Unit::TestCase
   test "cast any object that responds to to_a" do
     object = Struct.new(:to_a).new([1, 2, 3])
     assert { Numo::NArray.cast(object) == [1, 2, 3] }
+  end
+
+  test "0-dimensional binary string" do
+    x = Numo::UInt8.from_binary("\x17", [])
+    assert{ x == 0x17 }
+  end
+
+  test "RObject summation" do
+    x = Numo::RObject.cast([1.0, 2.0, 3.0]).sum
+    assert{x == 6}
   end
 end
