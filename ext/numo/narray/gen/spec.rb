@@ -274,7 +274,7 @@ if is_float
   cond_unary "isfinite"
 end
 
-if is_int
+if is_int && !is_object
   if is_unsigned
     accum "sum","u_int64_t","numo_cUInt64"
     accum "prod","u_int64_t","numo_cUInt64"
