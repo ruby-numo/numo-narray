@@ -813,7 +813,7 @@ nst_s_add_type(int argc, VALUE *argv, VALUE mod)
 
 #define NST_TYPEDEF(tpname,tpclass)                 \
 static VALUE                                        \
-nst_s_##tpname(VALUE argc, VALUE *argv, VALUE mod)  \
+nst_s_##tpname(int argc, VALUE *argv, VALUE mod)    \
 {   nstruct_add_type(tpclass,argc,argv,mod);        \
     return Qnil;                                    \
 }
