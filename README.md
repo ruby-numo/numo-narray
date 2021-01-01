@@ -1,7 +1,7 @@
 # Numo::NArray
 
 [![Binder](http://mybinder.org/badge.svg)](http://mybinder.org/repo/ruby-numo/numo-narray)
-[![Build Status](https://travis-ci.org/ruby-numo/numo-narray.svg?branch=master)](https://travis-ci.org/ruby-numo/numo-narray)
+[![Build Status](https://github.com/ruby-numo/numo-narray/workflows/build/badge.svg)](https://github.com/ruby-numo/numo-narray/actions)
 
 [GitHub](https://github.com/ruby-numo/numo-narray)
  | [RubyGems](https://rubygems.org/gems/numo-narray)
