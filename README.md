@@ -71,13 +71,15 @@ For more examples, check out this [narray version of 100 numpy exercises](https:
 ### Build
 
 ```shell
-ruby setup.rb
+git clone https://github.com/ruby-numo/numo-narray
+cd numo-narray
+bundle install
+bundle exec rake compile
 ```
 
 ### Run tests
 
 ```shell
-bundle install
 bundle exec rake test
 ```
 
