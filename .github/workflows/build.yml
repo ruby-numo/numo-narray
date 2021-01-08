@@ -3,16 +3,40 @@ name: build
 on: [push, pull_request]
 
 jobs:
-  build:
+  release-versions:
+    name: Build on ruby-${{ matrix.ruby }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        ruby: [ '2.5', '2.6', '2.7' ]
+        ruby: [ '2.5', '2.6', '2.7', '3.0' ]
     steps:
       - uses: actions/checkout@v2
       - name: Set up Ruby ${{ matrix.ruby }}
-        uses: actions/setup-ruby@v1
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+      - name: Build and Install
+        run: |
+          gem install --no-document bundler
+          gem build numo-narray.gemspec
+          gem install numo-narray-*.gem
+          bundle install
+      - name: Tests
+        run: rake test
+
+  ruby-head:
+    name: Build on ruby-head
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby: [ 'debug' ]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby ${{ matrix.ruby }}
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
       - name: Build and Install
