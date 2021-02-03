@@ -634,4 +634,14 @@ class NArrayTest < Test::Unit::TestCase
     x = Numo::RObject.cast([1.0, 2.0, 3.0]).sum
     assert{x == 6}
   end
+
+  test "#dot with different type arrays" do
+    $stderr = StringIO.new
+    a = Numo::Int32[1, 2, 3]
+    b = Numo::DFloat[[4], [5], [6]]
+    assert { a.dot(b).is_a?(Numo::DFloat) }
+    assert { a.dot(b) == [32] }
+    assert { $stderr.string == '' } # no warning message
+    $stderr = STDERR
+  end
 end
