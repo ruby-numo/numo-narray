@@ -94,7 +94,11 @@ static VALUE
         return <%=c_func%>_self(argc, argv, self);
     } else {
         v = rb_funcall(klass, id_cast, 1, self);
+        //<% if Gem::Version.create(RUBY_VERSION) < Gem::Version.create('2.7.0') %>
         return rb_funcall2(v, rb_intern("<%=name%>"), argc, argv);
+        //<% else %>
+        return rb_funcallv_kw(v, rb_intern("<%=name%>"), argc, argv, RB_PASS_CALLED_KEYWORDS);
+        //<% end %>
     }
     //<% end %>
 }
