@@ -110,7 +110,7 @@ extern double pow(double, double);
 #define m_atanh(x)   atanh(x)
 #define m_atan2(x,y) atan2(x,y)
 #define m_hypot(x,y) hypot(x,y)
-#define m_sinc(x)    (sin(x)/(x))
+#define m_sinc(x)    (((x)==0) ? 1.0:(sin(x)/(x)))
 
 #define m_erf(x)     erf(x)
 #define m_erfc(x)    erfc(x)
