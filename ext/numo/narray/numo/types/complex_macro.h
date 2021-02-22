@@ -117,7 +117,7 @@ static inline dtype c_from_dcomplex(dcomplex x) {
 #define m_acosh(x)   c_acosh(x)
 #define m_atanh(x)   c_atanh(x)
 #define m_hypot(x,y) c_hypot(x,y)
-#define m_sinc(x)    c_div(c_sin(x),x)
+#define m_sinc(x)    ((REAL(x)==0 && IMAG(x)==0) ? (c_new(1,0)):(c_div(c_sin(x),x)))
 
 #define m_sum_init INT2FIX(0)
 #define m_mulsum_init INT2FIX(0)
