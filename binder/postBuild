@@ -1,4 +1,2 @@
 gem install specific_install
 gem specific_install https://github.com/ruby-numo/numo-narray.git
-gem install --user-install iruby
-iruby register --force
