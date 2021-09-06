@@ -6,3 +6,5 @@ make
 git
 gcc
 rake
+libczmq-dev
+libzmq3-dev
