@@ -63,7 +63,9 @@ An example
 => 15
 ```
 
-For more examples, check out this [narray version of 100 numpy exercises](https://github.com/ruby-numo/numo-narray/wiki/100-narray-exercises) (and the [IRuby Notebook](https://github.com/ruby-numo/numo-narray/blob/master/100-narray-exercises.ipynb)).
+For more examples, check out the **narray version of 100 numpy exercises**.
+  - [Wiki version](https://github.com/ruby-numo/numo-narray/wiki/100-narray-exercises) of the 100 exercises
+  - [Reproducible version](https://mybinder.org/v2/gh/ruby-numo/numo-narray/HEAD?filepath=100-narray-exercises.ipynb) of the 100 exercises (With this, you can try narray without creating an environment locally.)
 
 ## Development
 
