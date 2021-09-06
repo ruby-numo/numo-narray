@@ -1,5 +1,6 @@
-gem install --user-install bundler rake rake-compiler
+gem install --user-install bundler rake rake-compiler iruby
 git clone https://github.com/ruby-numo/numo-narray
 cd numo-narray
 /home/jovyan/.gem/ruby/2.5.0/bin/bundle install
 /home/jovyan/.gem/ruby/2.5.0/bin/bundle exec rake compile
+iruby register --force
