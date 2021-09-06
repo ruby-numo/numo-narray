@@ -3,3 +3,6 @@ libffi-dev
 ruby
 ruby-dev
 make
+git
+gcc
+rake
