@@ -1,0 +1,2 @@
+gem install --user-install iruby
+iruby register --force
