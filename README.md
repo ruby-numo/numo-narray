@@ -1,6 +1,5 @@
 # Numo::NArray
-
-[![Binder](http://mybinder.org/badge.svg)](http://mybinder.org/repo/ruby-numo/numo-narray)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ruby-numo/numo-narray/HEAD?filepath=100-narray-exercises.ipynb)
 [![Build Status](https://github.com/ruby-numo/numo-narray/workflows/build/badge.svg)](https://github.com/ruby-numo/numo-narray/actions)
 
 [GitHub](https://github.com/ruby-numo/numo-narray)
