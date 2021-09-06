@@ -1,2 +1,2 @@
 gem install specific_install
-gem specific_install https://github.com/ruby-numo/numo-narray.git
+gem specific_install https://github.com/ruby-numo/numo-narray -u
