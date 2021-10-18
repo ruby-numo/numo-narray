@@ -24,7 +24,8 @@ class NArrayRactorTest < NArrayTestBase
       [ary2, ary2 * 10]
     end
     ary2, res = r.take
-    assert_same(ary1, ary2)
+    assert_equal((dtype != Numo::RObject),
+                 ary1.equal?(ary2))
     assert_equal(ary1*10, res)
   end
 
