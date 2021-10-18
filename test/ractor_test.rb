@@ -3,7 +3,7 @@ require_relative "test_helper"
 class NArrayRactorTest < NArrayTestBase
   def setup
     super
-    skip unless defined? Ractor
+    omit "Require Ractor" unless defined? Ractor
   end
 
   data(:dtype, TYPES, keep: true)
