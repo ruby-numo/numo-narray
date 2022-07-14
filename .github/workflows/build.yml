@@ -3,13 +3,16 @@ name: build
 on: [push, pull_request]
 
 jobs:
-  release-versions:
-    name: Build on ruby-${{ matrix.ruby }}
-    runs-on: ubuntu-latest
+  MRI:
+    name: ${{ matrix.os }} ruby-${{ matrix.ruby }}
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        ruby: [ '2.5', '2.6', '2.7', '3.0' ]
+        os: [ubuntu-latest, macos-11, windows-2022]
+        ruby: [ '2.5', '2.6', '2.7', '3.0', '3.1', head]
+        include:
+          - { os: windows-2022 , ruby: mswin }
     steps:
       - uses: actions/checkout@v2
       - name: Set up Ruby ${{ matrix.ruby }}
@@ -25,8 +28,8 @@ jobs:
       - name: Tests
         run: rake test
 
-  ruby-head:
-    name: Build on ruby-head
+  ruby-head-debug:
+    name: Build on ruby-head-debug
     runs-on: ubuntu-latest
     continue-on-error: true
     strategy:
