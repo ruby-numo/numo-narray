@@ -1989,6 +1989,10 @@ na_equal(VALUE self, volatile VALUE other)
 void
 Init_narray()
 {
+#ifdef HAVE_RB_EXT_RACTOR_SAFE
+    rb_ext_ractor_safe(true);
+#endif
+
     mNumo = rb_define_module("Numo");
 
     /*

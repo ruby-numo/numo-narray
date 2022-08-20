@@ -14,6 +14,7 @@
     rb_hash_aset(hCast, rb_cArray,   cT);
     <% for x in upcast %>
     <%= x %><% end %>
+    rb_obj_freeze(hCast);
 
     <% @children.each do |m| %>
     <%= m.init_def %><% end %>
