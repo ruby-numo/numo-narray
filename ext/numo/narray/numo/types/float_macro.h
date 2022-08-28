@@ -12,7 +12,7 @@ extern double pow(double, double);
 #define m_zero 0.0
 #define m_one  1.0
 
-#define m_num_to_data(x) NUM2DBL(x)
+#define m_num_to_data(x) (NIL_P(x) ? nan("") : NUM2DBL(x))
 #define m_data_to_num(x) rb_float_new(x)
 
 #define m_from_double(x) (x)
