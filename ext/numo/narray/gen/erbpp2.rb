@@ -70,7 +70,11 @@ class ErbPP
           if get(:line_number)
             erb = ERBLN.new(File.read(path), path, trim_mode)
           else
-            erb = ERB.new(File.read(path), safe_level, trim_mode)
+            if RUBY_VERSION < '2.6'
+              erb = ERB.new(File.read(path), safe_level, trim_mode)
+            else
+              erb = ERB.new(File.read(path), safe_level: safe_level, trim_mode: trim_mode)
+            end
             erb.filename = path
           end
           return erb
