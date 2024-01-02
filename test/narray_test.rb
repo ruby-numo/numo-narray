@@ -644,4 +644,9 @@ class NArrayTest < Test::Unit::TestCase
     assert { $stderr.string == '' } # no warning message
     $stderr = STDERR
   end
+
+  test "Numo::DFloat.cast(Numo::RObject[1, nil, 3])" do
+    assert_equal(Numo::DFloat[1, Float::NAN, 3].format_to_a,
+                 Numo::DFloat.cast(Numo::RObject[1, nil, 3]).format_to_a)
+  end
 end
