@@ -21,7 +21,6 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
       - name: Build and Install
         run: |
-          gem install --no-document bundler
           gem build numo-narray.gemspec
           gem install numo-narray-*.gem
           bundle install
@@ -44,7 +43,6 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
       - name: Build and Install
         run: |
-          gem install --no-document bundler
           gem build numo-narray.gemspec
           gem install numo-narray-*.gem
           bundle install
