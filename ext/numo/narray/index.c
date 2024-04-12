@@ -272,7 +272,7 @@ na_parse_enumerator_step(VALUE enum_obj, VALUE *pstep )
     if (!RB_TYPE_P(enum_obj, T_DATA)) {
         rb_raise(rb_eTypeError,"wrong argument type (not T_DATA)");
     }
-    e = (struct enumerator *)DATA_PTR(enum_obj);
+    e = RENUMERATOR_PTR(enum_obj);
 
     if (!rb_obj_is_kind_of(e->obj, rb_cRange)) {
         rb_raise(rb_eTypeError,"not Range object");
@@ -306,7 +306,7 @@ na_parse_enumerator(VALUE enum_obj, int orig_dim, ssize_t size, na_index_arg_t *
         rb_raise(rb_eTypeError,"wrong argument type (not T_DATA)");
     }
     na_parse_enumerator_step(enum_obj, &step);
-    e = (struct enumerator *)DATA_PTR(enum_obj);
+    e = RENUMERATOR_PTR(enum_obj);
     na_parse_range(e->obj, NUM2SSIZET(step), orig_dim, size, q); // e->obj : Range Object
 }
 

@@ -301,6 +301,12 @@ _na_get_narray_t(VALUE obj, unsigned char na_type)
 #define RNARRAY_VIEW(val)       ((narray_view_t*)DATA_PTR(val))
 #define RNARRAY_FILEMAP(val)    ((narray_filemap_t*)DATA_PTR(val))
 
+#ifdef HAVE_RTYPEDDATA_GET_DATA
+#define RENUMERATOR_PTR(ptr)    ((struct enumerator *)RTYPEDDATA_GET_DATA(ptr))
+#else
+#define RENUMERATOR_PTR(ptr)    ((struct enumerator *)DATA_PTR(ptr))
+#endif
+
 #define RNARRAY_NDIM(val)       (RNARRAY(val)->ndim)
 #define RNARRAY_TYPE(val)       (RNARRAY(val)->type)
 #define RNARRAY_FLAG(val)       (RNARRAY(val)->flag)
