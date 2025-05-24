@@ -60,7 +60,7 @@ nary_step_array_index(VALUE obj, size_t ary_size,
         vstep = rb_ivar_get(obj, id_step);
     } else { // Enumerator
         na_parse_enumerator_step(obj, &vstep);
-        e = (struct enumerator *)DATA_PTR(obj);
+        e = RENUMERATOR_PTR(obj);
         obj =  e->obj; // Range
     }
 
@@ -208,7 +208,7 @@ nary_step_sequence( VALUE obj, size_t *plen, double *pbeg, double *pstep )
         vstep = rb_ivar_get(obj, id_step);
     } else { // Enumerator
         na_parse_enumerator_step(obj, &vstep);
-        e = (struct enumerator *)DATA_PTR(obj);
+        e = RENUMERATOR_PTR(obj);
         obj =  e->obj; // Range
     }
 
