@@ -48,3 +48,33 @@ jobs:
           bundle install
       - name: Tests
         run: rake test
+
+  Fedora:
+    name: fedora
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Podman
+        run: |
+          sudo apt update
+          sudo apt-get -y install podman
+          podman pull fedora:rawhide
+      - name: Get source
+        uses: actions/checkout@v3
+        with:
+          path: 'numo-narray'
+      - name: Create container and run tests
+        run: |
+          {
+              echo 'FROM fedora:rawhide'
+              echo 'RUN dnf -y update'
+              echo 'RUN dnf -y install gcc-c++ git ruby-devel'
+              echo 'RUN dnf clean all'
+              echo 'COPY numo-narray numo-narray'
+              echo 'WORKDIR /numo-narray'
+              echo 'RUN gem install --no-document bundler'
+              echo 'RUN gem build numo-narray.gemspec'
+              echo 'RUN gem install numo-narray-*.gem'
+              echo 'RUN bundle install'
+              echo 'RUN bundle exec rake test'
+          } > podmanfile
+          podman build --tag fedora_test -f ./podmanfile
