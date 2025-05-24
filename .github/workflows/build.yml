@@ -57,7 +57,7 @@ jobs:
           sudo apt-get -y install podman
           podman pull fedora:rawhide
       - name: Get source
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: 'numo-narray'
       - name: Create container and run tests
@@ -73,6 +73,7 @@ jobs:
               echo 'RUN gem build numo-narray.gemspec'
               echo 'RUN gem install numo-narray-*.gem'
               echo 'RUN bundle install'
+              echo 'RUN bundle exec rake compile'
               echo 'RUN bundle exec rake test'
           } > podmanfile
           podman build --tag fedora_test -f ./podmanfile
