@@ -38,6 +38,8 @@ typedef struct NA_LOOP_XARGS {
     bool free_user_iter;   // alloc LARG(lp,j).iter=lp->xargs[j].iter
 } na_loop_xargs_t;
 
+struct NA_MD_LOOP;
+
 typedef struct NA_MD_LOOP {
     int  narg;
     int  nin;
@@ -56,7 +58,7 @@ typedef struct NA_MD_LOOP {
     VALUE  reduce;
     VALUE  loop_opt;
     ndfunc_t  *ndfunc;
-    void (*loop_func)();
+    void (*loop_func)(ndfunc_t*, struct NA_MD_LOOP*);
 } na_md_loop_t;
 
 #define LARG(lp,iarg) ((lp)->user.args[iarg])
