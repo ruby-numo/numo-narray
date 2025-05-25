@@ -3,8 +3,9 @@
 
 #define m_extract(x)    m_data_to_num(*(dtype*)(x))
 
-#define m_from_double(x) (x)
-#define m_from_real(x) (x)
+/* Handle negative values consistently across platforms for unsigned integer types */
+#define m_from_double(x) ((x) < 0 ? (dtype)((long long)(x)) : (dtype)(x))
+#define m_from_real(x) ((x) < 0 ? (dtype)((long long)(x)) : (dtype)(x))
 #define m_from_sint(x) (x)
 #define m_from_int32(x) (x)
 #define m_from_int64(x) (x)

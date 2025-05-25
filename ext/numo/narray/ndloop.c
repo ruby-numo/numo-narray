@@ -56,7 +56,7 @@ typedef struct NA_MD_LOOP {
     VALUE  reduce;
     VALUE  loop_opt;
     ndfunc_t  *ndfunc;
-    void (*loop_func)();
+    void (*loop_func)(ndfunc_t *, struct NA_MD_LOOP *);
 } na_md_loop_t;
 
 #define LARG(lp,iarg) ((lp)->user.args[iarg])
