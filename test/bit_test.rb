@@ -126,7 +126,7 @@ class BitTest < Test::Unit::TestCase
   end
 
   test "flipped matrices > 6x6" do
-    m = Numo::Int32.zeros(7,7)
+    m = Numo::Bit.zeros(7,7)
     m = m.flipud
     m[true, 1] = 1
     assert{ m == [[0, 1, 0, 0, 0, 0, 0],
