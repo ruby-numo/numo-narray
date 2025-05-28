@@ -25,5 +25,6 @@ ext/numo/narray/t_*.c
 ext/numo/narray/numo/extconf.h
 ext/numo/narray/Makefile
 ext/numo/narray/depend
+lib/numo/numo/extconf.h
 TAGS
 t.rb
