@@ -75,7 +75,7 @@ static void
 #define cIndex numo_cInt32
 #endif
 
-static void shape_error() {
+static void shape_error(void) {
     rb_raise(nary_eShapeError,"mask and masked arrays must have the same shape");
 }
 

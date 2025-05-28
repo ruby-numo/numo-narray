@@ -269,7 +269,7 @@ nary_step_sequence( VALUE obj, size_t *plen, double *pbeg, double *pstep )
 }
 
 void
-Init_nary_step()
+Init_nary_step(void)
 {
     rb_define_alias(rb_cRange, "%", "step");
 

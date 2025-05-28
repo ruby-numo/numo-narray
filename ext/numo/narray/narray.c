@@ -1987,7 +1987,7 @@ na_equal(VALUE self, volatile VALUE other)
 
 /* initialization of NArray Class */
 void
-Init_narray()
+Init_narray(void)
 {
 #ifdef HAVE_RB_EXT_RACTOR_SAFE
     rb_ext_ractor_safe(true);

@@ -47,14 +47,14 @@ static inline dtype NUM2COMP(VALUE v) {
                        (isinf(IMAG(x)) && signbit(IMAG(x))))
 #define c_isfinite(x) (isfinite(REAL(x)) && isfinite(IMAG(x)))
 
-static inline dtype c_zero() {
+static inline dtype c_zero(void) {
     dtype z;
     REAL(z) = 0;
     IMAG(z) = 0;
     return z;
 }
 
-static inline dtype c_one() {
+static inline dtype c_one(void) {
     dtype z;
     REAL(z) = 1;
     IMAG(z) = 0;

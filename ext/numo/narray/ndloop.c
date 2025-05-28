@@ -1965,7 +1965,7 @@ na_ndloop_with_index(nf, argc, va_alist)
 
 
 void
-Init_nary_ndloop()
+Init_nary_ndloop(void)
 {
     id_cast    = rb_intern("cast");
     id_extract = rb_intern("extract");
