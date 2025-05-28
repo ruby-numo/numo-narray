@@ -836,7 +836,7 @@ NST_TYPEDEF(scomplex,numo_cSComplex)
     rb_define_alias(rb_singleton_class(klass),name1,name2)
 
 void
-Init_nary_struct()
+Init_nary_struct(void)
 {
     cT = rb_define_class_under(mNumo, "Struct", numo_cNArray);
     //cNStMember = rb_define_class_under(cT, "Member", rb_cObject);

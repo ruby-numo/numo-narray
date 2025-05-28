@@ -1144,7 +1144,7 @@ static VALUE na_at(int argc, VALUE *argv, VALUE self)
 }
 
 void
-Init_nary_index()
+Init_nary_index(void)
 {
     rb_define_method(cNArray, "slice", na_slice, -1);
     rb_define_method(cNArray, "[]", na_aref, -1);

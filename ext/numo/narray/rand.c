@@ -11,7 +11,7 @@
 #endif
 
 static u_int64_t
-random_seed()
+random_seed(void)
 {
     static int n = 0;
     struct timeval tv;
@@ -39,7 +39,7 @@ nary_s_srand(int argc, VALUE *argv, VALUE obj)
 }
 
 void
-Init_nary_rand() {
+Init_nary_rand(void) {
     rb_define_singleton_method(cNArray, "srand", nary_s_srand, -1);
     init_gen_rand(0);
 }
