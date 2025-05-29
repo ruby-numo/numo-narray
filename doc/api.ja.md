@@ -1,9 +1,12 @@
 # API of Next NArray
+
 under development
 
 ## NArray演算の仕様
 
 ### NArray Types
+
+NArrayの型は、以下の3つのタイプに分類される。
 
 ```c
 #define NARRAY_DATA_T 0x1       // データを保持する。contiguousアクセスのみ可能。
@@ -12,6 +15,8 @@ under development
 ```
 
 ### Loop Rule
+
+NArrayの演算は、以下のルールに従って行われる。
 
 ```text
 method( a[nz,1,nz], b[nz,ny,1] ) => c[nz,ny,nx]
@@ -22,15 +27,19 @@ method( a[nz,1,nz], b[nz,ny,1] ) => c[nz,ny,nx]
 
 ### Inplace
 
+NArrayの演算は通常、新しい配列を生成する。`inplace`メソッドを使うと、元の配列に直接結果を保存する。
+
 ```ruby
 a.inplace + b # => a に結果が保存される
 ```
 
 ## NArrayメソッド定義の例
 
-単純なループ演算を行うイテレータ関数を定義し、
-`ndfunc_alloc` 関数で `ndfunc_t` 構造体に登録し、
-`ndfunc_do` 関数で多次元ループ処理を行う。
+ここでは、NArrayのメソッド `+` を定義する例を示す。
+
+単純なループ演算を行うイテレータ関数 `iter_dfloat_add` を定義し、
+ループの仕様を記録するための `ndfunc_t` 構造体を定義する。
+`na_ndloop` 関数で多次元ループ処理を行う。
 配列のキャスト、出力配列の準備、および多次元ループ処理については、内部で自動的に行う。
 
 ```c
@@ -61,6 +70,7 @@ nary_dfloat_add_self(VALUE self, VALUE other)
     return na_ndloop(&ndf, 2, self, other);
 }
 
+// ほかのNArray型との演算を行うためのキャストと演算を行う関数
 static VALUE
 nary_dfloat_add(VALUE self, VALUE other)
 {
@@ -177,7 +187,7 @@ VALUE na_ndloop4(ndfunc_t *nf, void *opt_ptr, VALUE args)
 配列情報を格納した `na_loop_t` 構造体へのポインタが引数として渡される。
 
 ```c
-例: iter_dfloat_add(na_loop_t *const lp)
+iter_dfloat_add(na_loop_t *const lp)
 ```
 
 ### na_loop_t 構造体
