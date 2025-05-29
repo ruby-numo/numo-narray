@@ -1,6 +1,6 @@
 
 - [x] copy to buffer if non-contiguous.gc
-- [x] contract contiguous dimesions.gc
+- [x] contract contiguous dimensions.gc
 
 - [ ] transpose and flatten reduce dimeinsion to last user dimension. -- almost done.
 

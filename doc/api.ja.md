@@ -157,7 +157,7 @@ typedef struct NDF_ARG_OUT {
 
     typedef struct NA_LOOP {
         int  narg;
-        int  ndim;             // n of user dimention
+        int  ndim;             // n of user dimension
         size_t *n;             // n of elements for each dim
         na_loop_args_t *args;  // for each arg
         VALUE  option;

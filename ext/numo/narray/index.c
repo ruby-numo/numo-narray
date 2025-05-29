@@ -16,9 +16,9 @@
 #define cIndex numo_cInt32
 #endif
 
-// note: the memory refed by this pointer is not freed and causes memroy leak.
+// note: the memory refed by this pointer is not freed and causes memory leak.
 typedef struct {
-    size_t  n; // the number of elements of the dimesnion
+    size_t  n; // the number of elements of the dimension
     size_t  beg; // the starting point in the dimension
     ssize_t step; // the step size of the dimension
     size_t *idx; // list of indices
@@ -508,7 +508,7 @@ na_index_parse_args(VALUE args, narray_t *na, na_index_arg_t *q, int ndim)
             na_index_parse_each(v, 1, k, &q[j]);
             j++;
         }
-        // other dimention
+        // other dimension
         else {
             na_index_parse_each(v, na->shape[k], k, &q[j]);
             if (q[j].n > 1) {
@@ -864,7 +864,7 @@ check_index_count(int argc, int na_ndim, int count_new, int count_rest)
                  argc,na_ndim);
         break;
     default:
-        rb_raise(rb_eIndexError,"multiple rest-dimension is not allowd");
+        rb_raise(rb_eIndexError,"multiple rest-dimension is not allowed");
     }
     return -1;
 }
