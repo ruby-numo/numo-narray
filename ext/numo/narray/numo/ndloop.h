@@ -26,7 +26,7 @@ typedef struct NA_LOOP_ARGS {
 // pass this structure to user iterator
 typedef struct NA_LOOP {
     int  narg;
-    int  ndim;             // n of user dimention  - required for each iterator.
+    int  ndim;             // n of user dimension  - required for each iterator.
     size_t *n;             // n of elements for each dim (=shape)
     na_loop_args_t *args;  // for each arg
     VALUE  option;

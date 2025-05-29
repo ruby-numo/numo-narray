@@ -41,7 +41,7 @@ typedef struct NA_LOOP_XARGS {
 typedef struct NA_MD_LOOP {
     int  narg;
     int  nin;
-    int  ndim;                // n of total dimention
+    int  ndim;                // n of total dimension
     unsigned int copy_flag;   // set i-th bit if i-th arg is cast
     void    *ptr;             // memory for n
     na_loop_iter_t *iter_ptr; // memory for iter

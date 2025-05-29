@@ -18,7 +18,7 @@
 
 // note: the memory refed by this pointer is not freed and causes memroy leak.
 typedef struct {
-    size_t  n; // the number of elements of the dimesnion
+    size_t  n; // the number of elements of the dimension
     size_t  beg; // the starting point in the dimension
     ssize_t step; // the step size of the dimension
     size_t *idx; // list of indices
@@ -508,7 +508,7 @@ na_index_parse_args(VALUE args, narray_t *na, na_index_arg_t *q, int ndim)
             na_index_parse_each(v, 1, k, &q[j]);
             j++;
         }
-        // other dimention
+        // other dimension
         else {
             na_index_parse_each(v, na->shape[k], k, &q[j]);
             if (q[j].n > 1) {
