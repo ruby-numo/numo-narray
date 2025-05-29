@@ -16,7 +16,7 @@
 #define cIndex numo_cInt32
 #endif
 
-// note: the memory refed by this pointer is not freed and causes memroy leak.
+// note: the memory refed by this pointer is not freed and causes memory leak.
 typedef struct {
     size_t  n; // the number of elements of the dimension
     size_t  beg; // the starting point in the dimension
