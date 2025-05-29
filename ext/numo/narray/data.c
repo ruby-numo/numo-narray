@@ -521,7 +521,7 @@ na_flatten_dim(VALUE self, int sd)
                 na2->stridx[i] = na1->stridx[i];
             }
         }
-        // flat dimenion == last dimension
+        // flat dimension == last dimension
         if (RTEST(na_check_ladder(self,sd))) {
             na2->stridx[sd] = na1->stridx[nd-1];
         } else {

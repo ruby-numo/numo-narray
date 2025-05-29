@@ -47,7 +47,7 @@ static void
   Applicable classes: DFloat, SFloat, DComplex, SCopmplex.
 
   @overload logseq(beg,step,[base])
-  @param [Numeric] beg  The begining of sequence.
+  @param [Numeric] beg  The beginning of sequence.
   @param [Numeric] step  The step of sequence.
   @param [Numeric] base  The base of log space. (default=10)
   @return [Numo::<%=class_name%>] self.
