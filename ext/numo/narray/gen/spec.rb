@@ -56,7 +56,7 @@ if is_int && !is_object
   def_id "minlength" # for bincount
 end
 
-# Constatnts
+# Constants
 
 if is_bit
   def_const "ELEMENT_BIT_SIZE",  "INT2FIX(1)"
