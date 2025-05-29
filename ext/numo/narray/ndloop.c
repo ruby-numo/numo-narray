@@ -1280,7 +1280,7 @@ ndloop_run(VALUE vlp)
         //}
     }
 
-    // setup objects in which resuts are stored
+    // setup objects in which results are stored
     ndfunc_set_user_loop(nf, lp);
 
     // setup buffering during loop
