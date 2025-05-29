@@ -864,7 +864,7 @@ check_index_count(int argc, int na_ndim, int count_new, int count_rest)
                  argc,na_ndim);
         break;
     default:
-        rb_raise(rb_eIndexError,"multiple rest-dimension is not allowd");
+        rb_raise(rb_eIndexError,"multiple rest-dimension is not allowed");
     }
     return -1;
 }
