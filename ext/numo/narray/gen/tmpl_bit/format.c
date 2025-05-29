@@ -45,7 +45,7 @@ static void
   Format elements into strings.
   @overload <%=name%> format
   @param [String] format
-  @return [Numo::RObject] array of formated strings.
+  @return [Numo::RObject] array of formatted strings.
 */
 static VALUE
 <%=c_func(-1)%>(int argc, VALUE *argv, VALUE self)
