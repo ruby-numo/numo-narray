@@ -1,12 +1,14 @@
 # Miscellaneous notes for Numo::NArray
 
-## Running RSpec
+## Running Tests
 
-(in advance, install gem with --development option)
+```shell
+# All tests
+bundle exec rake test
 
-  ```shell
-$ "${HOME}/.gem/ruby/2.?/bin/rspec" "${HOME}/.gem/ruby/2.?/gems/numo-narray-0.9.?.?/spec/bit_spec.rb"
-$ "${HOME}/.gem/ruby/2.?/bin/rspec" "${HOME}/.gem/ruby/2.?/gems/numo-narray-0.9.?.?/spec/narray_spec.rb"
+# Specific test
+bundle exec ruby test/narray_test.rb
+bundle exec ruby test/bit_test.rb
 ```
 
 ## YARD documents generation
